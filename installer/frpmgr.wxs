@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="FRP" Language="2052" Version="$(var.FRPMGR_VERSION)" Manufacturer="FRP" UpgradeCode="c9f7c2b3-291a-454a-9871-150d98dc2645" Codepage="936">
+
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes"/>
+
+    <Binary Id="actions.dll" SourceFile=".\\build\\actions.dll" />
+
+		<Feature Id="ProductFeature" Title="FRP" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <Property Id="DISABLEADVTSHORTCUTS" Value="yes" />
+    <Property Id="LicenseAccepted" Value="1" />
+
+    <UI>
+      <UIRef Id="WixUI_InstallDir" />
+      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">NOT Installed</Publish>
+      <ProgressText Action="KillProcesses">正在结束进程</ProgressText>
+      <ProgressText Action="EvaluateFrpServices">正在停止服务</ProgressText>
+      <ProgressText Action="RemoveConfigFiles">正在删除文件</ProgressText>
+    </UI>
+
+    <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
+    <Icon Id="ProductIcon" SourceFile="..\\icon\\app.ico" />
+    <Property Id="ARPPRODUCTICON" Value="ProductIcon" />
+  </Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="FRP" />
+			</Directory>
+      <Directory Id="ProgramMenuFolder">
+      </Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Guid="{E39EABEF-A7EB-4EAF-AD3E-A1254450BBE1}" Id="MainApplication">
+        <File Id="MainApplication" Source="..\\bin\\frpmgr.exe" KeyPath="yes">
+          <Shortcut Id="StartMenuShortcut" Name="FRP 管理器" Directory="ProgramMenuFolder" WorkingDirectory="INSTALLFOLDER" Advertise="yes"/>
+        </File>
+        <ServiceControl Id="DummyService.E3F2D6BE_38C7_4654_9C1B_C667A1F9040A" Name="DummyService.E3F2D6BE_38C7_4654_9C1B_C667A1F9040A" />
+      </Component>
+		</ComponentGroup>
+	</Fragment>
+
+  <Fragment>
+    <SetProperty Id="ARPINSTALLLOCATION" Value="[INSTALLFOLDER]" After="CostFinalize" />
+    <Property Id="WixShellExecTarget" Value="[#MainApplication]" />
+
+    <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
+
+    <CustomAction Id="EvaluateFrpServices" BinaryKey="actions.dll" DllEntry="EvaluateFrpServices" />
+    <InstallExecuteSequence>
+      <Custom Action="EvaluateFrpServices" After="InstallInitialize">REMOVE="ALL"</Custom>
+    </InstallExecuteSequence>
+
+    <CustomAction Id="KillProcesses" BinaryKey="actions.dll" DllEntry="KillProcesses" />
+    <InstallExecuteSequence>
+      <Custom Action="KillProcesses" Before="InstallInitialize">REMOVE="ALL"</Custom>
+    </InstallExecuteSequence>
+
+    <CustomAction Id="RemoveConfigFiles" BinaryKey="actions.dll" DllEntry="RemoveConfigFiles" />
+    <InstallExecuteSequence>
+      <Custom Action="RemoveConfigFiles" After="InstallInitialize">REMOVE="ALL"</Custom>
+    </InstallExecuteSequence>
+  </Fragment>
+</Wix>

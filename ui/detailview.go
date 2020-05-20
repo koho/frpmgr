@@ -1,0 +1,351 @@
+package ui
+
+import (
+	"fmt"
+	"frpmgr/config"
+	"frpmgr/services"
+	"frpmgr/utils"
+	"github.com/lxn/walk"
+	. "github.com/lxn/walk/declarative"
+	"time"
+)
+
+type DetailView struct {
+	*ConfStatusView
+	*ConfSectionView
+}
+
+func NewDetailView() *DetailView {
+	v := new(DetailView)
+	v.ConfStatusView = NewConfStatusView()
+	v.ConfSectionView = NewConfSectionView()
+	return v
+}
+
+func (t *DetailView) SetConf(conf *config.Config) {
+	if conf == nil {
+		t.ConfSectionView.SetModel(nil)
+		t.ConfStatusView.SetConf(conf)
+	} else {
+		t.ConfSectionView.SetModel(conf)
+		t.ConfStatusView.SetConf(conf)
+		if lastRunningState {
+			t.toggleService(true)
+			lastRunningState = false
+		}
+	}
+}
+
+func (t *DetailView) toggleService(restart bool) {
+	var err error
+	t.toggle.SetEnabled(false)
+	confPath, err := config.PathFromName(t.conf.Name)
+	if err != nil {
+		return
+	}
+	utils.EnsurePath(t.conf.LogFile)
+	if t.running {
+		err = services.UninstallService(config.NameFromPath(confPath))
+		if restart {
+			err = services.InstallService(confPath)
+		}
+	} else {
+		err = services.InstallService(confPath)
+	}
+	if err != nil {
+		walk.MsgBox(t.view.Form(), "错误", "操作服务失败\n\n"+err.Error(), walk.MsgBoxOK|walk.MsgBoxIconError)
+	}
+}
+
+func (t *DetailView) Initialize() {
+	t.ConfStatusView.Initialize()
+	t.toggle.Clicked().Attach(func() {
+		t.toggleService(false)
+	})
+	t.ConfSectionView.toggleService = t.toggleService
+}
+
+type ConfSectionView struct {
+	model *ConfSectionModel
+
+	sectionView   *walk.TableView
+	newAction     *walk.Action
+	rdAction      *walk.Action
+	webAction     *walk.Action
+	editAction    *walk.Action
+	deleteAction  *walk.Action
+	toggleService func(bool)
+}
+
+func NewConfSectionView() *ConfSectionView {
+	csv := new(ConfSectionView)
+	return csv
+}
+
+func (t *ConfSectionView) SetModel(conf *config.Config) {
+	if conf == nil {
+		t.model = nil
+		t.sectionView.SetModel(nil)
+	} else {
+		t.model = NewConfSectionModel(conf)
+		t.sectionView.SetModel(t.model)
+	}
+}
+
+func (t *ConfSectionView) ResetModel() {
+	t.sectionView.SetModel(t.model)
+}
+
+func (t *ConfSectionView) mustSelectConf() bool {
+	return t.model != nil && t.model.conf != nil
+}
+
+func (t *ConfSectionView) onQuickAddSection(ssd *SimpleSection) {
+	if !t.mustSelectConf() {
+		return
+	}
+	if res, _ := ssd.Run(t.sectionView.Form()); res == walk.DlgCmdOK {
+		t.model.conf.Items = append(t.model.conf.Items, ssd.sections...)
+		t.ResetModel()
+		if err := t.model.conf.Save(); err != nil {
+			walk.MsgBox(t.sectionView.Form(), "错误", "写入失败", walk.MsgBoxOK|walk.MsgBoxIconError)
+			return
+		}
+		if running, _ := services.QueryService(t.model.conf.Name); running {
+			t.toggleService(true)
+		}
+	}
+}
+
+func (t *ConfSectionView) onDeleteSection() {
+	index := t.sectionView.CurrentIndex()
+	if index < 0 {
+		return
+	}
+	if walk.MsgBox(t.sectionView.Form(), "提示", fmt.Sprintf("确定删除配置项 %s ?", t.model.conf.Items[index].Name), walk.MsgBoxOKCancel|walk.MsgBoxIconQuestion) == walk.DlgCmdCancel {
+		return
+	}
+	t.model.conf.Items = append(t.model.conf.Items[:index], t.model.conf.Items[index+1:]...)
+	t.ResetModel()
+	t.model.conf.Save()
+	if running, _ := services.QueryService(t.model.conf.Name); running {
+		t.toggleService(true)
+	}
+}
+
+func (t *ConfSectionView) onEditSection(edit bool) {
+	if !t.mustSelectConf() {
+		return
+	}
+	var ret int
+	if edit {
+		index := t.sectionView.CurrentIndex()
+		if index < 0 {
+			return
+		}
+		ret, _ = NewEditSectionDialog(t.model.conf.Items[index]).Run(t.sectionView.Form())
+	} else {
+		esd := NewEditSectionDialog(nil)
+		if ret, _ = esd.Run(t.sectionView.Form()); ret == walk.DlgCmdOK {
+			t.model.conf.Items = append(t.model.conf.Items, esd.section)
+		}
+	}
+	if ret == walk.DlgCmdOK {
+		t.ResetModel()
+		t.model.conf.Save()
+		if running, _ := services.QueryService(t.model.conf.Name); running {
+			t.toggleService(true)
+		}
+	}
+}
+
+func (t *ConfSectionView) View() Widget {
+	return Composite{
+		Layout: VBox{MarginsZero: true},
+		Children: []Widget{
+			ToolBar{
+				ButtonStyle: ToolBarButtonImageBeforeText,
+				Orientation: Horizontal,
+				Items: []MenuItem{
+					Action{
+						AssignTo: &t.newAction,
+						Text:     "添加",
+						Image:    loadSysIcon("shell32", 279, 16),
+						OnTriggered: func() {
+							t.onEditSection(false)
+						},
+					},
+					Menu{
+						Text:  "快速添加",
+						Image: loadSysIcon("imageres", 111, 16),
+						Items: []MenuItem{
+							Action{
+								AssignTo: &t.rdAction,
+								Text:     "远程桌面",
+								Image:    loadSysIcon("imageres", 20, 16),
+								OnTriggered: func() {
+									t.onQuickAddSection(NewSimpleSectionDialog("远程桌面", "rdp", []string{"tcp", "udp"}, 3389))
+								},
+							},
+							Action{
+								AssignTo: &t.webAction,
+								Text:     "网页",
+								Image:    loadSysIcon("shell32", 14, 16),
+								OnTriggered: func() {
+									t.onQuickAddSection(NewSimpleSectionDialog("网页", "web", []string{"tcp"}, 80))
+								},
+							},
+						},
+					},
+					Action{
+						AssignTo: &t.editAction,
+						Image:    loadSysIcon("shell32", 269, 16),
+						Text:     "编辑",
+						OnTriggered: func() {
+							t.onEditSection(true)
+						},
+					},
+					Action{
+						AssignTo:    &t.deleteAction,
+						Image:       loadSysIcon("shell32", 131, 16),
+						Text:        "删除",
+						OnTriggered: t.onDeleteSection,
+					},
+				},
+			},
+			TableView{
+				AssignTo: &t.sectionView,
+				Columns: []TableViewColumn{
+					{Title: "名称", DataMember: "Name"},
+					{Title: "类型", DataMember: "Type"},
+					{Title: "本地地址", DataMember: "LocalIP"},
+					{Title: "本地端口", DataMember: "LocalPort"},
+					{Title: "远程端口", DataMember: "RemotePort"},
+				},
+				ContextMenuItems: []MenuItem{
+					ActionRef{&t.editAction},
+					ActionRef{&t.newAction},
+					Menu{
+						Text:  "快速添加",
+						Image: loadSysIcon("imageres", 111, 16),
+						Items: []MenuItem{
+							ActionRef{&t.rdAction},
+							ActionRef{&t.webAction},
+						},
+					},
+					ActionRef{&t.deleteAction},
+				},
+			},
+		},
+	}
+}
+
+type ConfStatusView struct {
+	view *walk.GroupBox
+	conf *config.Config
+
+	nameChan chan string
+	running  bool
+	status   *walk.Label
+	address  *walk.Label
+	toggle   *walk.PushButton
+}
+
+func NewConfStatusView() *ConfStatusView {
+	v := new(ConfStatusView)
+	v.nameChan = make(chan string)
+	return v
+}
+
+func (t *ConfStatusView) SetConf(conf *config.Config) {
+	t.conf = conf
+	if conf == nil {
+		t.nameChan <- ""
+	} else {
+		t.nameChan <- t.conf.Name
+	}
+}
+
+func (t *ConfStatusView) queryState(name string) bool {
+	if name == "" {
+		return false
+	}
+	running, _ := services.QueryService(name)
+	return running
+}
+
+func (t *ConfStatusView) UpdateStatus(name string, running bool) {
+	t.running = running
+	if name == "" || t.conf == nil {
+		t.view.SetTitle("")
+		t.status.SetText("-")
+		t.address.SetText("-")
+		t.toggle.SetEnabled(false)
+		t.toggle.SetText("启动")
+		return
+	}
+	t.view.SetTitle(name)
+	t.address.SetText(t.conf.ServerAddress)
+	t.toggle.SetEnabled(true)
+	if running {
+		t.status.SetText("正在运行")
+		t.toggle.SetText("停止")
+	} else {
+		t.status.SetText("已停止")
+		t.toggle.SetText("启动")
+	}
+}
+
+func (t *ConfStatusView) View() Widget {
+	return GroupBox{
+		AssignTo: &t.view,
+		Title:    "",
+		Layout:   Grid{Margins: Margins{10, 5, 10, 5}, Spacing: 0},
+		Children: []Widget{
+			Composite{
+				Layout:    HBox{MarginsZero: true, SpacingZero: true},
+				Row:       0,
+				Column:    0,
+				Alignment: AlignHFarVFar,
+				Children: []Widget{
+					Label{Text: "状态:"},
+				},
+			},
+			Composite{
+				Layout:    HBox{MarginsZero: true, SpacingZero: true},
+				Row:       1,
+				Column:    0,
+				Alignment: AlignHFarVFar,
+				Children: []Widget{
+					Label{Text: "远程地址:"},
+				},
+			},
+			Label{AssignTo: &t.status, Text: "-", Row: 0, Column: 1, TextAlignment: Alignment1D(walk.AlignHNearVNear)},
+			Label{AssignTo: &t.address, Text: "-", Row: 1, Column: 1, TextAlignment: Alignment1D(walk.AlignHNearVNear)},
+			PushButton{AssignTo: &t.toggle, Text: "启动", Alignment: AlignHNearVNear,
+				MaxSize: Size{80, 0}, Row: 2, Column: 1, Enabled: false},
+		},
+	}
+}
+
+func (t *ConfStatusView) Initialize() {
+	ticker := time.NewTicker(time.Second * 1)
+	var name = ""
+	var onTick = func() {
+		state := t.queryState(name)
+		t.view.Synchronize(func() {
+			t.UpdateStatus(name, state)
+		})
+	}
+	go func() {
+		defer ticker.Stop()
+		for {
+			select {
+			case name = <-t.nameChan:
+				onTick()
+			case <-ticker.C:
+				onTick()
+			}
+		}
+	}()
+}
