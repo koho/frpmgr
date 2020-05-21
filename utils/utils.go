@@ -42,8 +42,6 @@ func CopyFile(src string, dest string) (int64, error) {
 	return io.Copy(destFile, srcFile)
 }
 
-// Find takes a slice and looks for an element in it. If found it will
-// return it's key, otherwise it will return -1 and a bool of false.
 func Find(slice []string, val string) (int, bool) {
 	for i, item := range slice {
 		if item == val {
@@ -70,7 +68,6 @@ func ReadFileLines(path string) ([]string, error) {
 	}
 	defer file.Close()
 
-	// Start reading from the file with a reader.
 	reader := bufio.NewReader(file)
 
 	var line string

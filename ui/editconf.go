@@ -7,6 +7,8 @@ import (
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"os"
+	"syscall"
+	"time"
 )
 
 var lastEditName string
@@ -27,7 +29,7 @@ func NewEditConfDialog(conf *conf2.Config, nameList []string) *EditConfDialog {
 	v.nameList = nameList
 	if conf == nil {
 		conf = new(conf2.Config)
-		conf.ServerPort = 7000
+		conf.ServerPort = "7000"
 		conf.LogLevel = "info"
 		conf.LogMaxDays = 3
 	}
@@ -79,7 +81,7 @@ func (t *EditConfDialog) View() Dialog {
 							Label{Text: "服务器地址:"},
 							LineEdit{Text: Bind("ServerAddress")},
 							Label{Text: "服务器端口:"},
-							NumberEdit{Value: Bind("ServerPort")},
+							LineEdit{Text: Bind("ServerPort", Regexp{"^\\d+$"})},
 							VSpacer{ColumnSpan: 2},
 						},
 					},
@@ -149,7 +151,7 @@ func (t *EditConfDialog) View() Dialog {
 							Label{Text: "管理地址:"},
 							LineEdit{Text: Bind("AdminAddr")},
 							Label{Text: "管理端口:"},
-							NumberEdit{Value: Bind("AdminPort")},
+							LineEdit{Text: Bind("AdminPort", Regexp{"^\\d*$"})},
 							Label{Text: "用户名:"},
 							LineEdit{Text: Bind("AdminUser")},
 							Label{Text: "密码:"},
@@ -197,15 +199,16 @@ func (t *EditConfDialog) View() Dialog {
 						lastEditName = t.conf.Name
 						lastRunningState, _ = services.QueryService(t.originalName)
 						if t.conf.Name != t.originalName && t.originalName != "" {
-							os.Remove(t.originalName + ".ini")
-							if t.originalLogFile != "" {
-								if t.conf.LogFile == "" {
-									os.Remove(t.originalLogFile)
-								} else {
-									os.Rename(t.originalLogFile, t.conf.LogFile)
-								}
-							}
 							services.UninstallService(t.originalName)
+							os.Remove(t.originalName + ".ini")
+						}
+						if t.originalName != "" && t.originalLogFile != "" && t.originalLogFile != t.conf.LogFile {
+							services.UninstallService(t.originalName)
+							if t.conf.LogFile == "" {
+								go tryAlterFile(t.originalLogFile, "", false)
+							} else {
+								tryAlterFile(t.originalLogFile, t.conf.LogFile, true)
+							}
 						}
 						t.view.Accept()
 					}},
@@ -230,5 +233,26 @@ func (t *EditConfDialog) syncAuthInfo() {
 		t.conf.OIDCAudience = t.authInfo.OIDCAudience
 		t.conf.OIDCClientSecret = t.authInfo.OIDCClientSecret
 		t.conf.OIDCTokenEndpoint = t.authInfo.OIDCTokenEndpoint
+	}
+}
+
+func tryAlterFile(f1 string, f2 string, rename bool) {
+	for i := 0; i < 5; i++ {
+		var err error
+		if rename {
+			err = os.Rename(f1, f2)
+		} else {
+			err = os.Remove(f1)
+		}
+		if err == nil {
+			break
+		}
+		if err, ok := err.(*os.LinkError); ok && err.Err == syscall.ERROR_FILE_NOT_FOUND {
+			break
+		}
+		if err, ok := err.(*os.PathError); ok && err.Err == syscall.ERROR_FILE_NOT_FOUND {
+			break
+		}
+		time.Sleep(time.Second * 1)
 	}
 }

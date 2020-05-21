@@ -22,3 +22,27 @@ type widthDllIdx struct {
 	idx   int32
 	dll   string
 }
+
+type widthAndState struct {
+	width int
+	state ServiceState
+}
+
+var cachedIconsForWidthAndState = make(map[widthAndState]*walk.Icon)
+
+func iconForState(state ServiceState, size int) (icon *walk.Icon) {
+	icon = cachedIconsForWidthAndState[widthAndState{size, state}]
+	if icon != nil {
+		return
+	}
+	switch state {
+	case StateStarted:
+		icon = loadSysIcon("imageres", 101, size)
+	case StateStopped:
+		icon = loadSysIcon("imageres", 100, size)
+	default:
+		icon = loadSysIcon("shell32", 238, size)
+	}
+	cachedIconsForWidthAndState[widthAndState{size, state}] = icon
+	return
+}

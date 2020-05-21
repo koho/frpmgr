@@ -45,11 +45,17 @@ func (t *DetailView) toggleService(restart bool) {
 	}
 	utils.EnsurePath(t.conf.LogFile)
 	if t.running {
+		t.statusImage.SetImage(iconForState(StateStopping, 14))
+		t.status.SetText("正在停止")
 		err = services.UninstallService(config.NameFromPath(confPath))
 		if restart {
+			t.statusImage.SetImage(iconForState(StateStarting, 14))
+			t.status.SetText("正在启动")
 			err = services.InstallService(confPath)
 		}
 	} else {
+		t.statusImage.SetImage(iconForState(StateStarting, 14))
+		t.status.SetText("正在启动")
 		err = services.InstallService(confPath)
 	}
 	if err != nil {
@@ -244,11 +250,12 @@ type ConfStatusView struct {
 	view *walk.GroupBox
 	conf *config.Config
 
-	nameChan chan string
-	running  bool
-	status   *walk.Label
-	address  *walk.Label
-	toggle   *walk.PushButton
+	nameChan    chan string
+	running     bool
+	status      *walk.Label
+	statusImage *walk.ImageView
+	address     *walk.Label
+	toggle      *walk.PushButton
 }
 
 func NewConfStatusView() *ConfStatusView {
@@ -282,17 +289,21 @@ func (t *ConfStatusView) UpdateStatus(name string, running bool) {
 		t.address.SetText("-")
 		t.toggle.SetEnabled(false)
 		t.toggle.SetText("启动")
+		t.statusImage.SetVisible(false)
 		return
 	}
 	t.view.SetTitle(name)
 	t.address.SetText(t.conf.ServerAddress)
 	t.toggle.SetEnabled(true)
+	t.statusImage.SetVisible(true)
 	if running {
 		t.status.SetText("正在运行")
 		t.toggle.SetText("停止")
+		t.statusImage.SetImage(iconForState(StateStarted, 14))
 	} else {
 		t.status.SetText("已停止")
 		t.toggle.SetText("启动")
+		t.statusImage.SetImage(iconForState(StateStopped, 14))
 	}
 }
 
@@ -320,7 +331,18 @@ func (t *ConfStatusView) View() Widget {
 					Label{Text: "远程地址:"},
 				},
 			},
-			Label{AssignTo: &t.status, Text: "-", Row: 0, Column: 1, TextAlignment: Alignment1D(walk.AlignHNearVNear)},
+			Composite{
+				Layout: HBox{SpacingZero: true, MarginsZero: true},
+				Row:    0, Column: 1,
+				Children: []Widget{
+					ImageView{
+						AssignTo: &t.statusImage,
+						Visible:  false,
+						Margin:   2,
+					},
+					Label{AssignTo: &t.status, Text: "-", TextAlignment: Alignment1D(walk.AlignHNearVNear)},
+				},
+			},
 			Label{AssignTo: &t.address, Text: "-", Row: 1, Column: 1, TextAlignment: Alignment1D(walk.AlignHNearVNear)},
 			PushButton{AssignTo: &t.toggle, Text: "启动", Alignment: AlignHNearVNear,
 				MaxSize: Size{80, 0}, Row: 2, Column: 1, Enabled: false},

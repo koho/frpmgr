@@ -19,13 +19,13 @@ type AuthInfo struct {
 
 type Common struct {
 	ServerAddress string `ini:"server_addr"`
-	ServerPort    uint16 `ini:"server_port"`
+	ServerPort    string `ini:"server_port"`
 	LogFile       string `ini:"log_file"`
 	LogLevel      string `ini:"log_level"`
 	LogMaxDays    uint   `ini:"log_max_days"`
 	AuthInfo      `ini:"common"`
 	AdminAddr     string `ini:"admin_addr"`
-	AdminPort     uint   `ini:"admin_port"`
+	AdminPort     string `ini:"admin_port"`
 	AdminUser     string `ini:"admin_user"`
 	AdminPwd      string `ini:"admin_pwd"`
 	PoolCount     uint   `ini:"pool_count"`
@@ -149,9 +149,6 @@ func (c *Config) Save() error {
 }
 
 func (c *Config) Delete() error {
-	//if c.LogFile != "" {
-	//os.Remove(c.LogFile)
-	//}
 	return os.Remove(c.Name + ".ini")
 }
 

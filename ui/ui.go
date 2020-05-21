@@ -29,7 +29,7 @@ func RunUI() {
 
 	mw := MainWindow{
 		AssignTo:   &fm.window,
-		Title:      "FRP Manager",
+		Title:      "FRP 管理器",
 		Persistent: true,
 		MinSize:    Size{500, 400},
 		Size:       Size{800, 525},
