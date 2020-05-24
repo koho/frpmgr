@@ -32,6 +32,7 @@ type Common struct {
 	TcpMux        bool   `ini:"tcp_mux"`
 	Protocol      string `ini:"protocol"`
 	TLSEnable     bool   `ini:"tls_enable"`
+	LoginFailExit bool   `ini:"login_fail_exit"`
 }
 
 type Section struct {
@@ -51,6 +52,7 @@ type Config struct {
 	Items []*Section
 }
 
+var notOmitEmpty = []string{"login_fail_exit"}
 var Configurations []*Config
 
 func LoadConfig() ([]*Config, error) {
@@ -122,6 +124,9 @@ func (c *Config) SaveTo(path string) error {
 	}
 	common.ReflectFrom(&c.Common)
 	for _, k := range common.Keys() {
+		if _, found := utils.Find(notOmitEmpty, k.Name()); found {
+			continue
+		}
 		if k.Value() == "" || k.Value() == "0" || k.Value() == "false" {
 			common.DeleteKey(k.Name())
 		}

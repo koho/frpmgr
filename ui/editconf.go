@@ -79,7 +79,7 @@ func (t *EditConfDialog) View() Dialog {
 								logFileView.SetText("logs" + "/" + nameView.Text())
 							}},
 							Label{Text: "服务器地址:"},
-							LineEdit{Text: Bind("ServerAddress")},
+							LineEdit{Text: Bind("ServerAddress", Regexp{".+"})},
 							Label{Text: "服务器端口:"},
 							LineEdit{Text: Bind("ServerPort", Regexp{"^\\d+$"})},
 							VSpacer{ColumnSpan: 2},
@@ -177,6 +177,8 @@ func (t *EditConfDialog) View() Dialog {
 							},
 							Label{Text: "连接池数量:"},
 							NumberEdit{Value: Bind("PoolCount")},
+							Label{Text: "其他:"},
+							CheckBox{Text: "初次登录失败后退出", Checked: Bind("LoginFailExit")},
 						},
 					},
 				},

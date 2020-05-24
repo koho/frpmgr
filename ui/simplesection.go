@@ -31,6 +31,7 @@ func (t *SimpleSection) View() Dialog {
 	var acceptPB, cancelPB *walk.PushButton
 	var remotePortEdit *walk.LineEdit
 	var localIPEdit *walk.LineEdit
+	var db *walk.DataBinder
 	return Dialog{
 		AssignTo:      &t.view,
 		Title:         "添加" + t.title,
@@ -38,14 +39,21 @@ func (t *SimpleSection) View() Dialog {
 		Font:          Font{Family: "微软雅黑", PointSize: 9},
 		DefaultButton: &acceptPB,
 		CancelButton:  &cancelPB,
+		DataBinder: DataBinder{
+			AssignTo: &db,
+			DataSource: &struct {
+				Port string
+				Addr string
+			}{"", "127.0.0.1"},
+		},
 		Children: []Widget{
 			Composite{
 				Layout: Grid{Columns: 2},
 				Children: []Widget{
 					Label{Text: "远程端口:"},
-					LineEdit{AssignTo: &remotePortEdit},
+					LineEdit{AssignTo: &remotePortEdit, Text: Bind("Port", Regexp{"^\\d+$"})},
 					Label{Text: "本地地址:"},
-					LineEdit{AssignTo: &localIPEdit, Text: "127.0.0.1"},
+					LineEdit{AssignTo: &localIPEdit, Text: Bind("Addr", Regexp{".+"})},
 				},
 			},
 			VSpacer{},

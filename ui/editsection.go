@@ -15,12 +15,14 @@ func NewEditSectionDialog(sect *config.Section) *EditSectionDialog {
 	v := new(EditSectionDialog)
 	if sect == nil {
 		sect = &config.Section{}
+		sect.Type = "tcp"
 	}
 	v.section = sect
 	return v
 }
 
 func (t *EditSectionDialog) View() Dialog {
+	var db *walk.DataBinder
 	var acceptPB, cancelPB *walk.PushButton
 	return Dialog{
 		AssignTo:      &t.view,
@@ -30,7 +32,8 @@ func (t *EditSectionDialog) View() Dialog {
 		DefaultButton: &acceptPB,
 		CancelButton:  &cancelPB,
 		DataBinder: DataBinder{
-			Name:       "common",
+			AssignTo:   &db,
+			Name:       "section",
 			DataSource: t.section,
 		},
 		Children: []Widget{
@@ -38,7 +41,7 @@ func (t *EditSectionDialog) View() Dialog {
 				Layout: Grid{Columns: 2},
 				Children: []Widget{
 					Label{Text: "名称:"},
-					LineEdit{Text: Bind("Name")},
+					LineEdit{Text: Bind("Name", Regexp{".+"})},
 					Label{Text: "类型:"},
 					ComboBox{
 						Model: []string{"tcp", "udp"},
@@ -50,8 +53,14 @@ func (t *EditSectionDialog) View() Dialog {
 					LineEdit{Text: Bind("LocalPort")},
 					Label{Text: "远程端口:"},
 					LineEdit{Text: Bind("RemotePort")},
-					CheckBox{Text: "加密传输", Checked: Bind("UseEncryption")},
-					CheckBox{Text: "压缩传输", Checked: Bind("UseCompression")},
+					Label{Text: "高级:", Alignment: AlignHNearVNear},
+					Composite{
+						Layout: VBox{MarginsZero: true, SpacingZero: true},
+						Children: []Widget{
+							CheckBox{Text: "加密传输", Checked: Bind("UseEncryption")},
+							CheckBox{Text: "压缩传输", Checked: Bind("UseCompression")},
+						},
+					},
 				},
 			},
 			VSpacer{},
@@ -60,7 +69,7 @@ func (t *EditSectionDialog) View() Dialog {
 				Children: []Widget{
 					HSpacer{},
 					PushButton{Text: "确定", AssignTo: &acceptPB, OnClicked: func() {
-						t.view.DataBinder().Submit()
+						db.Submit()
 						t.view.Accept()
 					}},
 					PushButton{Text: "取消", AssignTo: &cancelPB, OnClicked: func() { t.view.Cancel() }},
