@@ -66,7 +66,8 @@ func InstallService(configPath string) error {
 		ServiceType:  windows.SERVICE_WIN32_OWN_PROCESS,
 		StartType:    mgr.StartAutomatic,
 		ErrorControl: mgr.ErrorNormal,
-		DisplayName:  "Frpc: " + name,
+		DisplayName:  "FRP Client: " + name,
+		Description:  "FRP Client Daemon Service",
 		SidType:      windows.SERVICE_SID_TYPE_UNRESTRICTED,
 	}
 	service, err = m.CreateService(serviceName, path, conf, "/service", configPath)

@@ -1,5 +1,5 @@
 @echo off
-set FRPMGR_VERSION=1.2.2
+set FRPMGR_VERSION=1.2.3
 set BUILDDIR=%~dp0
 cd /d %BUILDDIR% || exit /b 1
 call VsDevCmd.bat

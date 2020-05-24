@@ -15,7 +15,7 @@ import (
 )
 
 func ServiceNameOfConf(name string) string {
-	return fmt.Sprintf("Frpc$%s", name)
+	return fmt.Sprintf("FRPC$%s", name)
 }
 
 type frpService struct {
