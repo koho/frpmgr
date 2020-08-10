@@ -1,5 +1,5 @@
 *.ini
 logs
-*.exe
+bin
 *.syso
 icon/*.ico

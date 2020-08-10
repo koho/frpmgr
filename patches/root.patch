@@ -1,0 +1,20 @@
+--- pkg/mod/github.com/fatedier/frp@v0.33.0/cmd/frpc/sub/root.go	2020-08-10 16:17:15.073778600 +0800
++++ patches/root.go	2020-08-10 16:29:27.994362100 +0800
+@@ -91,7 +91,7 @@
+ 		}
+ 
+ 		// Do not show command usage here.
+-		err := runClient(cfgFile)
++		err := RunClient(cfgFile)
+ 		if err != nil {
+ 			fmt.Println(err)
+ 			os.Exit(1)
+@@ -176,7 +176,7 @@
+ 	return
+ }
+ 
+-func runClient(cfgFilePath string) (err error) {
++func RunClient(cfgFilePath string) (err error) {
+ 	var content string
+ 	content, err = config.GetRenderedConfFromFile(cfgFilePath)
+ 	if err != nil {

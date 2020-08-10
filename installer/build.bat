@@ -1,7 +1,12 @@
 @echo off
-set FRPMGR_VERSION=1.2.3
+set FRPMGR_VERSION=%1
 set BUILDDIR=%~dp0
 cd /d %BUILDDIR% || exit /b 1
+if "%WIX%"=="" (
+    echo ERROR: WIX was not found.
+    exit /b 1
+)
+if not exist build md build
 call VsDevCmd.bat
 set SDK_PLATFORM=VS2017
 cl /Zc:wchar_t /D "_UNICODE" /D "UNICODE" /nologo /O2 /W3 /GL /DNDEBUG /MD "-I%WIX%sdk\%SDK_PLATFORM%\inc" actions.cpp /Fo.\build\ /link /LTCG /NOLOGO "/LIBPATH:%WIX%sdk\%SDK_PLATFORM%\lib\x86" msi.lib wcautil.lib dutil.lib kernel32.lib user32.lib advapi32.lib Version.lib shell32.lib /DLL /DEF:"actions.def" /IMPLIB:.\build\actions.lib /OUT:.\build\actions.dll || exit /b 1
