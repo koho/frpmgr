@@ -24,7 +24,9 @@ func NewEditSectionDialog(sect *config.Section) *EditSectionDialog {
 func (t *EditSectionDialog) View() Dialog {
 	var db *walk.DataBinder
 	var acceptPB, cancelPB *walk.PushButton
+	icon, _ := loadLogoIcon(32)
 	return Dialog{
+		Icon:          icon,
 		AssignTo:      &t.view,
 		Title:         "编辑项目",
 		Layout:        VBox{},

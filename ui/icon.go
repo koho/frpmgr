@@ -46,3 +46,17 @@ func iconForState(state ServiceState, size int) (icon *walk.Icon) {
 	cachedIconsForWidthAndState[widthAndState{size, state}] = icon
 	return
 }
+
+var cachedLogoIconsForWidth = make(map[int]*walk.Icon)
+
+func loadLogoIcon(size int) (icon *walk.Icon, err error) {
+	icon = cachedLogoIconsForWidth[size]
+	if icon != nil {
+		return
+	}
+	icon, err = walk.NewIconFromResourceIdWithSize(11, walk.Size{size, size})
+	if err == nil {
+		cachedLogoIconsForWidth[size] = icon
+	}
+	return
+}

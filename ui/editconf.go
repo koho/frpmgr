@@ -53,7 +53,9 @@ func (t *EditConfDialog) View() Dialog {
 		authDB.Submit()
 		authDB.Reset()
 	}
+	icon, _ := loadLogoIcon(32)
 	return Dialog{
+		Icon:          icon,
 		AssignTo:      &t.view,
 		Title:         "编辑配置",
 		MinSize:       Size{400, 300},

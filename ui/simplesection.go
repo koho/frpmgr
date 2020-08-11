@@ -32,7 +32,9 @@ func (t *SimpleSection) View() Dialog {
 	var remotePortEdit *walk.LineEdit
 	var localIPEdit *walk.LineEdit
 	var db *walk.DataBinder
+	icon, _ := loadLogoIcon(32)
 	return Dialog{
+		Icon:          icon,
 		AssignTo:      &t.view,
 		Title:         "添加" + t.title,
 		Layout:        VBox{},

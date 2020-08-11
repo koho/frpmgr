@@ -26,8 +26,9 @@ func RunUI() {
 	}
 	fm.confPage = NewConfPage()
 	fm.logPage = NewLogPage()
-
+	icon, _ := loadLogoIcon(32)
 	mw := MainWindow{
+		Icon:       icon,
 		AssignTo:   &fm.window,
 		Title:      "FRP 管理器",
 		Persistent: true,
