@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Product Id="*" Name="FRP" Language="2052" Version="$(var.FRPMGR_VERSION)" Manufacturer="FRP" UpgradeCode="c9f7c2b3-291a-454a-9871-150d98dc2645" Codepage="936">
 
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+		<Package InstallerVersion="400" Compressed="yes" InstallScope="perMachine" Platform="x64" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <MediaTemplate EmbedCab="yes"/>
@@ -28,11 +28,17 @@
     <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
     <Icon Id="ProductIcon" SourceFile="..\\icon\\app.ico" />
     <Property Id="ARPPRODUCTICON" Value="ProductIcon" />
+    <DirectoryRef Id="TARGETDIR">
+        <Merge Id="VCRedist" SourceFile="Microsoft_VC141_CRT_x64.msm" DiskId="1" Language="0"/>
+    </DirectoryRef>
+    <Feature Id="VCRedist" Title="Visual C++ 14.1 Runtime" AllowAdvertise="no" Display="hidden" Level="1">
+        <MergeRef Id="VCRedist"/>
+    </Feature>
   </Product>
 
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="ProgramFilesFolder">
+			<Directory Id="ProgramFiles64Folder">
 				<Directory Id="INSTALLFOLDER" Name="FRP" />
 			</Directory>
       <Directory Id="ProgramMenuFolder">
@@ -42,7 +48,7 @@
 
 	<Fragment>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-      <Component Guid="{E39EABEF-A7EB-4EAF-AD3E-A1254450BBE1}" Id="MainApplication">
+      <Component Guid="{E39EABEF-A7EB-4EAF-AD3E-A1254450BBE1}" Id="MainApplication" Win64="yes">
         <File Id="MainApplication" Source="..\\bin\\frpmgr.exe" KeyPath="yes">
           <Shortcut Id="StartMenuShortcut" Name="FRP 管理器" Directory="ProgramMenuFolder" WorkingDirectory="INSTALLFOLDER" Advertise="yes"/>
         </File>

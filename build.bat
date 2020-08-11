@@ -11,7 +11,7 @@ echo [+] Building resources
 rsrc -manifest frpmgr.exe.manifest -ico icon/app.ico -o rsrc.syso || exit /b 1
 echo [+] Patching files
 go mod tidy || exit /b 1
-for %%f in (patches\*) do patch -N -r - -d %GOPATH% -p0 < %%f
+for %%f in (patches\*.patch) do patch -N -r - -d %GOPATH% -p0 < %%f
 echo [+] Compiling release version
 go build -ldflags="-H windowsgui" -o bin/frpmgr.exe frpmgr || exit /b 1
 echo [+] Building installer
