@@ -1,0 +1,79 @@
+--- pkg/mod/github.com/fatedier/frp@v0.33.0/client/service.go	2020-08-17 01:42:09.121469000 +0800
++++ patches/service.go	2020-08-17 01:42:03.310190500 +0800
+@@ -17,10 +17,12 @@
+ import (
+ 	"context"
+ 	"crypto/tls"
++	"errors"
+ 	"fmt"
+ 	"io/ioutil"
+ 	"net"
+ 	"runtime"
++	"strings"
+ 	"sync"
+ 	"sync/atomic"
+ 	"time"
+@@ -33,6 +35,7 @@
+ 	frpNet "github.com/fatedier/frp/utils/net"
+ 	"github.com/fatedier/frp/utils/version"
+ 	"github.com/fatedier/frp/utils/xlog"
++	"github.com/miekg/dns"
+ 
+ 	fmux "github.com/hashicorp/yamux"
+ )
+@@ -198,6 +201,38 @@
+ 	}
+ }
+ 
++func lookupIP(addr string, server string) (string, error) {
++	if net.ParseIP(addr) != nil {
++		return addr, nil
++	}
++	c := dns.Client{}
++	m := dns.Msg{}
++	if !strings.HasSuffix(addr, ".") {
++		addr += "."
++	}
++	if !strings.Contains(server, ":") {
++		server += ":53"
++	}
++	m.SetQuestion(addr, dns.TypeA)
++	r, _, err := c.Exchange(&m, server)
++	if err != nil {
++		return "", err
++	}
++	if len(r.Answer) == 0 {
++		return "", errors.New(fmt.Sprintf("no record for host '%s' with '%s'", addr, server))
++	}
++	switch v := r.Answer[0].(type) {
++	case *dns.A:
++		return v.A.String(), nil
++	case *dns.AAAA:
++		return v.AAAA.String(), nil
++	case *dns.CNAME:
++		return lookupIP(v.Target, server)
++	default:
++		return "", errors.New(fmt.Sprintf("host '%s' lookup failed with '%s'", addr, server))
++	}
++}
++
+ // login creates a connection to frps and registers it self as a client
+ // conn: control connection
+ // session: if it's not nil, using tcp mux
+@@ -209,8 +244,15 @@
+ 			InsecureSkipVerify: true,
+ 		}
+ 	}
++	var addr = svr.cfg.ServerAddr
++	if svr.cfg.DnsServer != "" && runtime.GOOS == "windows" {
++		addr, err = lookupIP(svr.cfg.ServerAddr, svr.cfg.DnsServer)
++		if err != nil {
++			return nil, nil, err
++		}
++	}
+ 	conn, err = frpNet.ConnectServerByProxyWithTLS(svr.cfg.HttpProxy, svr.cfg.Protocol,
+-		fmt.Sprintf("%s:%d", svr.cfg.ServerAddr, svr.cfg.ServerPort), tlsConfig)
++		fmt.Sprintf("%s:%d", addr, svr.cfg.ServerPort), tlsConfig)
+ 	if err != nil {
+ 		return
+ 	}

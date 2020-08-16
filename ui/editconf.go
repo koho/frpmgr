@@ -179,6 +179,8 @@ func (t *EditConfDialog) View() Dialog {
 							},
 							Label{Text: "连接池数量:"},
 							NumberEdit{Value: Bind("PoolCount")},
+							Label{Text: "DNS:"},
+							LineEdit{Text: Bind("DNSServer")},
 							Label{Text: "其他:"},
 							CheckBox{Text: "初次登录失败后退出", Checked: Bind("LoginFailExit")},
 						},

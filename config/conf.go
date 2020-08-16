@@ -29,6 +29,7 @@ type Common struct {
 	AdminUser     string `ini:"admin_user"`
 	AdminPwd      string `ini:"admin_pwd"`
 	PoolCount     uint   `ini:"pool_count"`
+	DNSServer     string `ini:"dns_server"`
 	TcpMux        bool   `ini:"tcp_mux"`
 	Protocol      string `ini:"protocol"`
 	TLSEnable     bool   `ini:"tls_enable"`
