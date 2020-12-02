@@ -14,6 +14,7 @@ import (
 type ConfView struct {
 	*ConfListView
 	*ToolbarView
+	ConfigChanged func(int)
 }
 
 func NewConfView(parent **walk.Composite) *ConfView {
@@ -30,6 +31,9 @@ func (t *ConfView) reloadConf() {
 		return
 	}
 	config.Configurations = confList
+	if t.ConfigChanged != nil {
+		t.ConfigChanged(len(confList))
+	}
 	t.ConfListView.resetModel()
 	if idx, found := utils.Find(config.GetConfigNames(), lastEditName); found {
 		t.ConfListView.view.SetCurrentIndex(idx)
