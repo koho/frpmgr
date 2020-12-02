@@ -77,6 +77,7 @@ type ConfSectionView struct {
 	sectionView   *walk.TableView
 	newAction     *walk.Action
 	rdAction      *walk.Action
+	sshAction     *walk.Action
 	webAction     *walk.Action
 	editAction    *walk.Action
 	deleteAction  *walk.Action
@@ -194,6 +195,14 @@ func (t *ConfSectionView) View() Widget {
 								},
 							},
 							Action{
+								AssignTo: &t.sshAction,
+								Text:     "SSH",
+								Image:    loadSysIcon("imageres", 201, 16),
+								OnTriggered: func() {
+									t.onQuickAddSection(NewSimpleSectionDialog("SSH", "ssh", []string{"tcp"}, 22))
+								},
+							},
+							Action{
 								AssignTo: &t.webAction,
 								Text:     "网页",
 								Image:    loadSysIcon("shell32", 14, 16),
@@ -236,6 +245,7 @@ func (t *ConfSectionView) View() Widget {
 						Image: loadSysIcon("imageres", 111, 16),
 						Items: []MenuItem{
 							ActionRef{&t.rdAction},
+							ActionRef{&t.sshAction},
 							ActionRef{&t.webAction},
 						},
 					},
