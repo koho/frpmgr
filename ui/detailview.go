@@ -197,7 +197,7 @@ func (t *ConfSectionView) View() Widget {
 							Action{
 								AssignTo: &t.sshAction,
 								Text:     "SSH",
-								Image:    loadSysIcon("imageres", 201, 16),
+								Image:    loadSysIcon("shell32", 94, 16),
 								OnTriggered: func() {
 									t.onQuickAddSection(NewSimpleSectionDialog("SSH", "ssh", []string{"tcp"}, 22))
 								},
