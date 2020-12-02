@@ -24,6 +24,7 @@ func NewEditSectionDialog(sect *config.Section) *EditSectionDialog {
 func (t *EditSectionDialog) View() Dialog {
 	var db *walk.DataBinder
 	var acceptPB, cancelPB *walk.PushButton
+	var nameView *walk.LineEdit
 	icon, _ := loadLogoIcon(32)
 	return Dialog{
 		Icon:          icon,
@@ -43,7 +44,7 @@ func (t *EditSectionDialog) View() Dialog {
 				Layout: Grid{Columns: 2},
 				Children: []Widget{
 					Label{Text: "名称:"},
-					LineEdit{Text: Bind("Name", Regexp{".+"})},
+					LineEdit{AssignTo: &nameView, Text: Bind("Name", Regexp{".+"})},
 					Label{Text: "类型:"},
 					ComboBox{
 						Model: []string{"tcp", "udp"},
@@ -71,6 +72,9 @@ func (t *EditSectionDialog) View() Dialog {
 				Children: []Widget{
 					HSpacer{},
 					PushButton{Text: "确定", AssignTo: &acceptPB, OnClicked: func() {
+						if nameView.Text() == "" {
+							return
+						}
 						db.Submit()
 						t.view.Accept()
 					}},

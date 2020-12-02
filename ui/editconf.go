@@ -46,7 +46,7 @@ func NewEditConfDialog(conf *conf2.Config, nameList []string) *EditConfDialog {
 func (t *EditConfDialog) View() Dialog {
 	var acceptPB, cancelPB *walk.PushButton
 	var logFileView *walk.LineEdit
-	var nameView *walk.LineEdit
+	var nameView, serverAddrView, serverPortView *walk.LineEdit
 	var db *walk.DataBinder
 	var authDB *walk.DataBinder
 	changeAuthMethod := func() {
@@ -81,9 +81,9 @@ func (t *EditConfDialog) View() Dialog {
 								logFileView.SetText("logs" + "/" + nameView.Text())
 							}},
 							Label{Text: "服务器地址:"},
-							LineEdit{Text: Bind("ServerAddress", Regexp{".+"})},
+							LineEdit{AssignTo: &serverAddrView, Text: Bind("ServerAddress", Regexp{".+"})},
 							Label{Text: "服务器端口:"},
-							LineEdit{Text: Bind("ServerPort", Regexp{"^\\d+$"})},
+							LineEdit{AssignTo: &serverPortView, Text: Bind("ServerPort", Regexp{"^\\d+$"})},
 							VSpacer{ColumnSpan: 2},
 						},
 					},
@@ -192,6 +192,9 @@ func (t *EditConfDialog) View() Dialog {
 				Children: []Widget{
 					HSpacer{},
 					PushButton{Text: "确定", AssignTo: &acceptPB, OnClicked: func() {
+						if nameView.Text() == "" || serverAddrView.Text() == "" || serverPortView.Text() == "" {
+							return
+						}
 						if _, found := utils.Find(t.nameList, nameView.Text()); found && nameView.Text() != t.originalName {
 							if walk.MsgBox(t.view.Form(), "提示", "已存在同名称的配置文件，是否覆盖？", walk.MsgBoxOKCancel|walk.MsgBoxIconQuestion) == walk.DlgCmdCancel {
 								return
@@ -253,7 +256,7 @@ func tryAlterFile(f1 string, f2 string, rename bool) {
 		if err == nil {
 			break
 		}
-		if err, ok := err.(*os.LinkError); ok && err.Err == syscall.ERROR_FILE_NOT_FOUND {
+		if err, ok := err.(*os.LinkError); ok && (err.Err == syscall.ENOTDIR || err.Err == syscall.ERROR_FILE_NOT_FOUND) {
 			break
 		}
 		if err, ok := err.(*os.PathError); ok && err.Err == syscall.ERROR_FILE_NOT_FOUND {

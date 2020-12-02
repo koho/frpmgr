@@ -38,6 +38,9 @@ func (t *ConfView) reloadConf() {
 	if idx, found := utils.Find(config.GetConfigNames(), lastEditName); found {
 		t.ConfListView.view.SetCurrentIndex(idx)
 	}
+	if t.toolbarDB != nil {
+		t.toolbarDB.Reset()
+	}
 }
 
 func (t *ConfView) onEditConf(conf *config.Config) {
@@ -159,6 +162,8 @@ type ToolbarView struct {
 	importAction  *walk.Action
 	addAction     *walk.Action
 	deleteAction  *walk.Action
+
+	toolbarDB *walk.DataBinder
 }
 
 func NewToolbarView(parent **walk.Composite) *ToolbarView {
@@ -169,6 +174,11 @@ func NewToolbarView(parent **walk.Composite) *ToolbarView {
 
 func (t *ToolbarView) View() Widget {
 	return Composite{
+		DataBinder: DataBinder{AssignTo: &t.toolbarDB, DataSource: &struct {
+			ConfSize func() int
+		}{func() int {
+			return len(config.Configurations)
+		}}, Name: "conf"},
 		Layout: HBox{MarginsZero: true, SpacingZero: true},
 		Children: []Widget{
 			ToolBar{
@@ -196,6 +206,7 @@ func (t *ToolbarView) View() Widget {
 					},
 					Separator{},
 					Action{
+						Enabled:  Bind("conf.ConfSize != 0"),
 						AssignTo: &t.deleteAction,
 						Image:    loadSysIcon("shell32", 131, 16),
 					},

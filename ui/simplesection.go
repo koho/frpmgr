@@ -64,6 +64,9 @@ func (t *SimpleSection) View() Dialog {
 				Children: []Widget{
 					HSpacer{},
 					PushButton{Text: "确定", AssignTo: &acceptPB, OnClicked: func() {
+						if remotePortEdit.Text() == "" || localIPEdit.Text() == "" {
+							return
+						}
 						for _, proto := range t.types {
 							sect := config.Section{
 								Name:       fmt.Sprintf("%s-%s-%s", t.prefix, proto, remotePortEdit.Text()),
