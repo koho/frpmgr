@@ -86,7 +86,11 @@ func (t *ConfView) onDelete() {
 		c.Delete()
 		services.UninstallService(c.Name)
 		if c.LogFile != "" {
-			os.Remove(c.LogFile)
+			related, _ := utils.FindRelatedFiles(c.LogFile, "")
+			utils.TryAlterFile(c.LogFile, "", false)
+			for _, f := range related {
+				utils.TryAlterFile(f, "", false)
+			}
 		}
 		t.reloadConf()
 		t.ConfListView.view.SetCurrentIndex(0)

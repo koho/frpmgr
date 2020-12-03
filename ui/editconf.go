@@ -7,8 +7,6 @@ import (
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"os"
-	"syscall"
-	"time"
 )
 
 var lastEditName string
@@ -78,7 +76,7 @@ func (t *EditConfDialog) View() Dialog {
 						Children: []Widget{
 							Label{Text: "名称:"},
 							LineEdit{AssignTo: &nameView, Text: Bind("Name", Regexp{".+"}), OnTextChanged: func() {
-								logFileView.SetText("logs" + "/" + nameView.Text())
+								logFileView.SetText("logs" + "/" + nameView.Text() + ".log")
 							}},
 							Label{Text: "服务器地址:"},
 							LineEdit{AssignTo: &serverAddrView, Text: Bind("ServerAddress", Regexp{".+"})},
@@ -213,10 +211,17 @@ func (t *EditConfDialog) View() Dialog {
 						}
 						if t.originalName != "" && t.originalLogFile != "" && t.originalLogFile != t.conf.LogFile {
 							services.UninstallService(t.originalName)
+							related, target := utils.FindRelatedFiles(t.originalLogFile, t.conf.LogFile)
 							if t.conf.LogFile == "" {
-								go tryAlterFile(t.originalLogFile, "", false)
+								utils.TryAlterFile(t.originalLogFile, "", false)
+								for _, file := range related {
+									utils.TryAlterFile(file, "", false)
+								}
 							} else {
-								tryAlterFile(t.originalLogFile, t.conf.LogFile, true)
+								utils.TryAlterFile(t.originalLogFile, t.conf.LogFile, true)
+								for i := 0; i < len(related); i++ {
+									utils.TryAlterFile(related[i], target[i], true)
+								}
 							}
 						}
 						t.view.Accept()
@@ -242,26 +247,5 @@ func (t *EditConfDialog) syncAuthInfo() {
 		t.conf.OIDCAudience = t.authInfo.OIDCAudience
 		t.conf.OIDCClientSecret = t.authInfo.OIDCClientSecret
 		t.conf.OIDCTokenEndpoint = t.authInfo.OIDCTokenEndpoint
-	}
-}
-
-func tryAlterFile(f1 string, f2 string, rename bool) {
-	for i := 0; i < 5; i++ {
-		var err error
-		if rename {
-			err = os.Rename(f1, f2)
-		} else {
-			err = os.Remove(f1)
-		}
-		if err == nil {
-			break
-		}
-		if err, ok := err.(*os.LinkError); ok && (err.Err == syscall.ENOTDIR || err.Err == syscall.ERROR_FILE_NOT_FOUND) {
-			break
-		}
-		if err, ok := err.(*os.PathError); ok && err.Err == syscall.ERROR_FILE_NOT_FOUND {
-			break
-		}
-		time.Sleep(time.Second * 1)
 	}
 }
