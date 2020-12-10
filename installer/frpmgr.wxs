@@ -59,6 +59,9 @@
 
   <Fragment>
     <SetProperty Id="ARPINSTALLLOCATION" Value="[INSTALLFOLDER]" After="CostFinalize" />
+    <CustomAction Id="KillProcesses.SetProperty" Return="check" Property="KillProcesses" Value="[#MainApplication]" />
+    <CustomAction Id="RemoveConfigFiles.SetProperty" Return="check" Property="RemoveConfigFiles" Value="[INSTALLFOLDER]" />
+
     <Property Id="WixShellExecTarget" Value="[#MainApplication]" />
 
     <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
@@ -68,14 +71,16 @@
       <Custom Action="EvaluateFrpServices" After="InstallInitialize">REMOVE="ALL"</Custom>
     </InstallExecuteSequence>
 
-    <CustomAction Id="KillProcesses" BinaryKey="actions.dll" DllEntry="KillProcesses" />
+    <CustomAction Id="KillProcesses" BinaryKey="actions.dll" DllEntry="KillProcesses" Impersonate="no" Execute="deferred" />
     <InstallExecuteSequence>
-      <Custom Action="KillProcesses" Before="InstallInitialize">REMOVE="ALL"</Custom>
+      <Custom Action="KillProcesses.SetProperty" After="StopServices" />
+      <Custom Action="KillProcesses" After="KillProcesses.SetProperty">REMOVE="ALL"</Custom>
     </InstallExecuteSequence>
 
-    <CustomAction Id="RemoveConfigFiles" BinaryKey="actions.dll" DllEntry="RemoveConfigFiles" />
+    <CustomAction Id="RemoveConfigFiles" BinaryKey="actions.dll" DllEntry="RemoveConfigFiles" Impersonate="no" Execute="deferred" />
     <InstallExecuteSequence>
-      <Custom Action="RemoveConfigFiles" After="InstallInitialize">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
+      <Custom Action="RemoveConfigFiles.SetProperty" After="DeleteServices" />
+      <Custom Action="RemoveConfigFiles" After="RemoveConfigFiles.SetProperty">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
     </InstallExecuteSequence>
   </Fragment>
 </Wix>

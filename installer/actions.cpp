@@ -68,7 +68,7 @@ CA UINT __stdcall KillProcesses(MSIHANDLE hInstall)
 	WCHAR binPath[MAX_PATH];
 	memset(binPath, 0, sizeof(binPath));
 	DWORD dwBinPathSize = _countof(binPath);
-	if (!GetFrpMgrPath(hInstall, binPath, &dwBinPathSize) || wcslen(binPath) == 0)
+	if (MsiGetProperty(hInstall, TEXT("CustomActionData"), binPath, &dwBinPathSize) != ERROR_SUCCESS || wcslen(binPath) == 0)
 		goto LExit;
 
 	HANDLE hSnapshot, hProcess;
@@ -296,9 +296,9 @@ CA UINT __stdcall RemoveConfigFiles(MSIHANDLE hInstall) {
 	WCHAR installPath[MAX_PATH];
 	DWORD dwBinPathSize = _countof(installPath);
 	memset(installPath, 0, sizeof(installPath));
-	if (!GetInstallPath(hInstall, installPath, &dwBinPathSize) || wcslen(installPath) == 0) {
-		goto LExit;
-	}
+	if (MsiGetProperty(hInstall, TEXT("CustomActionData"), installPath, &dwBinPathSize) != ERROR_SUCCESS || wcslen(installPath) == 0) {
+        goto LExit;
+    }
 
 	wchar_t warnText[500];
 	wsprintf(warnText, TEXT("是否删除配置文件?\n\n注意：若要重新使用配置文件，下次安装时必须安装到此目录：\n\n%s"), installPath);
