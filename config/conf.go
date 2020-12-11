@@ -49,6 +49,7 @@ type Section struct {
 type Config struct {
 	Name string `ini:"-"`
 	cfg  *ini.File
+	Path string
 	Common
 	Items []*Section
 }
@@ -90,6 +91,7 @@ func (c *Config) GetSectionNames() []string {
 
 func (c *Config) Load(source string) error {
 	c.Name = NameFromPath(source)
+	c.Path = source
 	cfg, err := ini.Load(source)
 	if err != nil {
 		return err

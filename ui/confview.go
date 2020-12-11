@@ -1,14 +1,17 @@
 package ui
 
 import (
+	"archive/zip"
 	"fmt"
 	"frpmgr/config"
 	"frpmgr/services"
 	"frpmgr/utils"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
+	"io"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 type ConfView struct {
@@ -52,7 +55,7 @@ func (t *ConfView) onEditConf(conf *config.Config) {
 
 func (t *ConfView) onImport() {
 	dlg := walk.FileDialog{
-		Filter: "配置文件 (*.ini)|*.ini|All Files (*.*)|*.*",
+		Filter: "配置文件 (*.zip, *.ini)|*.zip;*.ini|All Files (*.*)|*.*",
 		Title:  "从文件导入配置",
 	}
 
@@ -61,20 +64,75 @@ func (t *ConfView) onImport() {
 	}
 	os.Chdir(curDir)
 	for _, path := range dlg.FilePaths {
-		newPath := filepath.Base(path)
-		if _, err := os.Stat(newPath); err == nil {
-			if walk.MsgBox(t.ConfListView.view.Form(), "提示", fmt.Sprintf("文件 %s 已存在，是否覆盖？", newPath), walk.MsgBoxOKCancel|walk.MsgBoxIconQuestion) == walk.DlgCmdCancel {
+		switch strings.ToLower(filepath.Ext(path)) {
+		case ".ini":
+			newPath := filepath.Base(path)
+			if !t.askForOverride(path) {
 				continue
 			}
-		}
-		_, err := utils.CopyFile(path, newPath)
-		if err != nil {
-			walk.MsgBox(t.ConfListView.view.Form(), "错误", "复制文件时出现错误", walk.MsgBoxOK|walk.MsgBoxIconError)
-		} else {
-			lastEditName = config.NameFromPath(path)
+			_, err := utils.CopyFile(path, newPath)
+			if err != nil {
+				walk.MsgBox(t.ConfListView.view.Form(), "错误", "复制文件时出现错误", walk.MsgBoxOK|walk.MsgBoxIconError)
+			} else {
+				lastEditName = config.NameFromPath(path)
+			}
+		case ".zip":
+			t.unzipFiles(path)
 		}
 	}
 	t.reloadConf()
+}
+
+func (t *ConfView) askForOverride(path string) bool {
+	newPath := filepath.Base(path)
+	if _, err := os.Stat(newPath); err == nil {
+		if walk.MsgBox(t.ConfListView.view.Form(), "覆盖文件", fmt.Sprintf("文件 %s 已存在，是否覆盖?", newPath), walk.MsgBoxYesNo|walk.MsgBoxIconWarning) == walk.DlgCmdNo {
+			return false
+		}
+	}
+	return true
+}
+
+func (t *ConfView) unzipFiles(path string) {
+	showError := func() {
+		walk.MsgBox(t.ConfListView.view.Form(), "错误", "读取压缩文件时出现错误", walk.MsgBoxOK|walk.MsgBoxIconError)
+	}
+	unzip := func(file *zip.File) error {
+		fr, err := file.Open()
+		if err != nil {
+			return err
+		}
+		defer fr.Close()
+		if !t.askForOverride(file.Name) {
+			return nil
+		}
+		fw, err := os.OpenFile(file.Name, os.O_CREATE|os.O_RDWR|os.O_TRUNC, file.Mode())
+		if err != nil {
+			return err
+		}
+		defer fw.Close()
+		_, err = io.Copy(fw, fr)
+		if err != nil {
+			return err
+		}
+		return nil
+	}
+	zr, err := zip.OpenReader(path)
+	if err != nil {
+		showError()
+		return
+	}
+	defer zr.Close()
+	for _, file := range zr.File {
+		if file.FileInfo().IsDir() {
+			continue
+		}
+		if err := unzip(file); err != nil {
+			showError()
+		} else {
+			lastEditName = config.NameFromPath(file.Name)
+		}
+	}
 }
 
 func (t *ConfView) onDelete() {
@@ -97,6 +155,27 @@ func (t *ConfView) onDelete() {
 	}
 }
 
+func (t *ConfView) onExport() {
+	dlg := walk.FileDialog{
+		Filter: "配置文件 (*.zip)|*.zip",
+		Title:  "导出配置文件 (ZIP 压缩包)",
+	}
+
+	if ok, _ := dlg.ShowSave(t.ConfListView.view.Form()); !ok {
+		return
+	}
+
+	if !strings.HasSuffix(dlg.FilePath, ".zip") {
+		dlg.FilePath += ".zip"
+	}
+
+	allConfPath := make([]string, 0)
+	for _, conf := range config.Configurations {
+		allConfPath = append(allConfPath, conf.Path)
+	}
+	utils.ZipFiles(dlg.FilePath, allConfPath)
+}
+
 func (t *ConfView) Initialize() {
 	t.ToolbarView.Initialize()
 	t.ToolbarView.addAction.Triggered().Attach(func() {
@@ -107,6 +186,7 @@ func (t *ConfView) Initialize() {
 	})
 	t.ToolbarView.importAction.Triggered().Attach(t.onImport)
 	t.ToolbarView.deleteAction.Triggered().Attach(t.onDelete)
+	t.ToolbarView.exportAction.Triggered().Attach(t.onExport)
 	t.ConfListView.editAction.Triggered().Attach(func() {
 		t.onEditConf(t.ConfListView.CurrentConf())
 	})
@@ -169,6 +249,7 @@ type ToolbarView struct {
 	importAction  *walk.Action
 	addAction     *walk.Action
 	deleteAction  *walk.Action
+	exportAction  *walk.Action
 
 	toolbarDB *walk.DataBinder
 }
@@ -218,6 +299,12 @@ func (t *ToolbarView) View() Widget {
 						AssignTo: &t.deleteAction,
 						Image:    loadSysIcon("shell32", 131, 16),
 					},
+					Separator{},
+					Action{
+						Enabled:  Bind("conf.ConfSize != 0"),
+						AssignTo: &t.exportAction,
+						Image:    loadSysIcon("imageres", -174, 16),
+					},
 				},
 			},
 		},
@@ -227,6 +314,7 @@ func (t *ToolbarView) View() Widget {
 func (t *ToolbarView) Initialize() {
 	t.addAction.SetDefault(true)
 	t.deleteAction.SetToolTip("删除配置")
+	t.exportAction.SetToolTip("导出所有配置 (ZIP 压缩包)")
 	t.view.ApplyDPI((*t.parent).DPI())
 }
 
