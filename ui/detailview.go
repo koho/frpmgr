@@ -131,7 +131,7 @@ func (t *ConfSectionView) onDeleteSection() {
 	if index < 0 {
 		return
 	}
-	if walk.MsgBox(t.sectionView.Form(), "提示", fmt.Sprintf("删除项目 %s ?", t.model.conf.Items[index].Name), walk.MsgBoxOKCancel|walk.MsgBoxIconQuestion) == walk.DlgCmdCancel {
+	if walk.MsgBox(t.sectionView.Form(), fmt.Sprintf("删除项目「%s」", t.model.conf.Items[index].Name), fmt.Sprintf("确定要删除项目「%s」吗?", t.model.conf.Items[index].Name), walk.MsgBoxOKCancel|walk.MsgBoxIconWarning) == walk.DlgCmdCancel {
 		return
 	}
 	t.model.conf.Items = append(t.model.conf.Items[:index], t.model.conf.Items[index+1:]...)

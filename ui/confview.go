@@ -80,7 +80,7 @@ func (t *ConfView) onImport() {
 func (t *ConfView) onDelete() {
 	c := t.CurrentConf()
 	if c != nil {
-		if walk.MsgBox(t.ConfListView.view.Form(), "提示", fmt.Sprintf("确定删除配置 %s ？", c.Name), walk.MsgBoxOKCancel|walk.MsgBoxIconQuestion) == walk.DlgCmdCancel {
+		if walk.MsgBox(t.ConfListView.view.Form(), fmt.Sprintf("删除配置「%s」", c.Name), fmt.Sprintf("确定要删除配置「%s」吗? 此操作无法撤销。", c.Name), walk.MsgBoxOKCancel|walk.MsgBoxIconWarning) == walk.DlgCmdCancel {
 			return
 		}
 		c.Delete()
