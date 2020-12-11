@@ -83,6 +83,7 @@ func (t *LogPage) Initialize() {
 				t.logFileChan <- config.Configurations[i].LogFile
 			} else if len(config.Configurations) > 0 {
 				t.nameSelect.SetCurrentIndex(0)
+				t.logFileChan <- config.Configurations[0].LogFile
 			}
 		}
 	})
@@ -94,7 +95,11 @@ func (t *LogPage) Initialize() {
 			case f := <-t.logFileChan:
 				t.model = NewLogModel(f)
 				t.view.Synchronize(func() {
-					t.logView.SetModel(t.model)
+					if t.model == nil {
+						t.logView.SetModel(nil)
+					} else {
+						t.logView.SetModel(t.model)
+					}
 					t.logDB.Reset()
 					t.scrollToBottom()
 				})
