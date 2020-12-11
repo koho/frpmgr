@@ -81,6 +81,8 @@ func (t *LogPage) Initialize() {
 			if i, found := utils.Find(config.GetConfigNames(), lName); found && lName != "" && i >= 0 {
 				t.nameSelect.SetCurrentIndex(i)
 				t.logFileChan <- config.Configurations[i].LogFile
+			} else if len(config.Configurations) > 0 {
+				t.nameSelect.SetCurrentIndex(0)
 			}
 		}
 	})
