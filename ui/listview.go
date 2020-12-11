@@ -41,6 +41,7 @@ func (m *ConfSectionModel) Items() interface{} {
 type LogModel struct {
 	walk.ReflectTableModelBase
 	items []*struct{ Text string }
+	path  string
 }
 
 func NewLogModel(path string) *LogModel {
@@ -48,17 +49,25 @@ func NewLogModel(path string) *LogModel {
 		return nil
 	}
 	m := new(LogModel)
-	lines, err := utils.ReadFileLines(path)
-	if err != nil {
-		return nil
-	}
 	m.items = make([]*struct{ Text string }, 0)
-	for _, line := range lines {
-		m.items = append(m.items, &struct{ Text string }{line})
-	}
+	m.path = path
+	m.Reset()
 	return m
 }
 
 func (m *LogModel) Items() interface{} {
 	return m.items
+}
+
+func (m *LogModel) Reset() error {
+	lines, err := utils.ReadFileLines(m.path)
+	if err != nil {
+		return err
+	}
+	items := make([]*struct{ Text string }, 0)
+	for _, line := range lines {
+		items = append(items, &struct{ Text string }{line})
+	}
+	m.items = items
+	return nil
 }

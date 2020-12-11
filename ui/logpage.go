@@ -5,18 +5,25 @@ import (
 	"frpmgr/utils"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"time"
 )
 
 type LogPage struct {
-	view       *walk.TabPage
-	logView    *walk.TableView
-	nameSelect *walk.ComboBox
-	model      *LogModel
-	lastName   string
+	view        *walk.TabPage
+	logView     *walk.TableView
+	nameSelect  *walk.ComboBox
+	model       *LogModel
+	logFileChan chan string
+	logDB       *walk.DataBinder
+	lastName    string
 }
 
 func NewLogPage() *LogPage {
 	v := new(LogPage)
+	v.logFileChan = make(chan string)
 	return v
 }
 
@@ -32,17 +39,12 @@ func (t *LogPage) View() TabPage {
 				OnCurrentIndexChanged: func() {
 					index := t.nameSelect.CurrentIndex()
 					if index < 0 {
-						t.logView.SetModel(nil)
+						t.logFileChan <- ""
 						return
 					}
 					conf := config.Configurations[index]
 					t.lastName = conf.Name
-					mdl := NewLogModel(conf.LogFile)
-					if mdl == nil {
-						t.logView.SetModel(nil)
-					} else {
-						t.logView.SetModel(mdl)
-					}
+					t.logFileChan <- conf.LogFile
 				},
 			},
 			TableView{
@@ -52,6 +54,21 @@ func (t *LogPage) View() TabPage {
 				HeaderHidden:        true,
 				Columns:             []TableViewColumn{{DataMember: "Text"}},
 			},
+			Composite{
+				DataBinder: DataBinder{AssignTo: &t.logDB, DataSource: &struct {
+					LogPathValid func() bool
+				}{t.isLogPathValid}, Name: "logData"},
+				Layout: HBox{MarginsZero: true},
+				Children: []Widget{
+					HSpacer{},
+					PushButton{
+						MinSize:   Size{150, 0},
+						Enabled:   Bind("logData.LogPathValid"),
+						Text:      "打开日志文件夹",
+						OnClicked: t.openLogFolder,
+					},
+				},
+			},
 		},
 	}
 }
@@ -59,10 +76,60 @@ func (t *LogPage) View() TabPage {
 func (t *LogPage) Initialize() {
 	t.view.VisibleChanged().Attach(func() {
 		if t.view.Visible() {
+			lName := t.lastName
 			t.nameSelect.SetModel(NewConfListModel(config.Configurations))
-			if i, found := utils.Find(config.GetConfigNames(), t.lastName); found && t.lastName != "" && i >= 0 {
+			if i, found := utils.Find(config.GetConfigNames(), lName); found && lName != "" && i >= 0 {
 				t.nameSelect.SetCurrentIndex(i)
+				t.logFileChan <- config.Configurations[i].LogFile
 			}
 		}
 	})
+	ticker := time.NewTicker(time.Second * 3)
+	go func() {
+		defer ticker.Stop()
+		for {
+			select {
+			case f := <-t.logFileChan:
+				t.model = NewLogModel(f)
+				t.view.Synchronize(func() {
+					t.logView.SetModel(t.model)
+					t.logDB.Reset()
+					t.scrollToBottom()
+				})
+			case <-ticker.C:
+				t.view.Synchronize(func() {
+					if t.view.Visible() && t.model != nil {
+						t.model.Reset()
+						t.logView.SetModel(t.model)
+						t.scrollToBottom()
+					}
+				})
+			}
+		}
+	}()
+}
+
+func (t *LogPage) scrollToBottom() {
+	if t.model != nil && len(t.model.items) > 0 {
+		t.logView.EnsureItemVisible(len(t.model.items) - 1)
+	}
+}
+
+func (t *LogPage) isLogPathValid() bool {
+	if t.model != nil && t.model.path != "" {
+		if _, err := os.Stat(t.model.path); err == nil {
+			if _, err := filepath.Abs(t.model.path); err == nil {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func (t *LogPage) openLogFolder() {
+	if t.isLogPathValid() {
+		if absPath, err := filepath.Abs(t.model.path); err == nil {
+			exec.Command(`explorer`, `/select,`, absPath).Run()
+		}
+	}
 }
