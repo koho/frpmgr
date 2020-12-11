@@ -79,6 +79,9 @@ func (t *ConfPage) Initialize() {
 func (t *ConfPage) UpdateDetailView() {
 	conf := t.ConfView.ConfListView.CurrentConf()
 	t.DetailView.SetConf(conf)
+	if conf != nil {
+		lastEditName = conf.Name
+	}
 }
 
 func (t *ConfPage) SwapFiller(filler bool) {

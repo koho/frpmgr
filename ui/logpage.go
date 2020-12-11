@@ -18,7 +18,6 @@ type LogPage struct {
 	model       *LogModel
 	logFileChan chan string
 	logDB       *walk.DataBinder
-	lastName    string
 }
 
 func NewLogPage() *LogPage {
@@ -43,7 +42,6 @@ func (t *LogPage) View() TabPage {
 						return
 					}
 					conf := config.Configurations[index]
-					t.lastName = conf.Name
 					t.logFileChan <- conf.LogFile
 				},
 			},
@@ -76,9 +74,8 @@ func (t *LogPage) View() TabPage {
 func (t *LogPage) Initialize() {
 	t.view.VisibleChanged().Attach(func() {
 		if t.view.Visible() {
-			lName := t.lastName
 			t.nameSelect.SetModel(NewConfListModel(config.Configurations))
-			if i, found := utils.Find(config.GetConfigNames(), lName); found && lName != "" && i >= 0 {
+			if i, found := utils.Find(config.GetConfigNames(), lastEditName); found && lastEditName != "" && i >= 0 {
 				t.nameSelect.SetCurrentIndex(i)
 				t.logFileChan <- config.Configurations[i].LogFile
 			} else if len(config.Configurations) > 0 {
