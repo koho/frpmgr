@@ -69,11 +69,13 @@ func (t *DetailView) Initialize() {
 		t.toggleService(false)
 	})
 	t.ConfSectionView.toggleService = t.toggleService
+	t.ConfSectionView.editToolBar.ApplyDPI(t.view.DPI())
 }
 
 type ConfSectionView struct {
 	model *ConfSectionModel
 
+	editToolBar   *walk.ToolBar
 	sectionView   *walk.TableView
 	newAction     *walk.Action
 	rdAction      *walk.Action
@@ -129,7 +131,7 @@ func (t *ConfSectionView) onDeleteSection() {
 	if index < 0 {
 		return
 	}
-	if walk.MsgBox(t.sectionView.Form(), "提示", fmt.Sprintf("确定删除配置项 %s ?", t.model.conf.Items[index].Name), walk.MsgBoxOKCancel|walk.MsgBoxIconQuestion) == walk.DlgCmdCancel {
+	if walk.MsgBox(t.sectionView.Form(), "提示", fmt.Sprintf("删除项目 %s ?", t.model.conf.Items[index].Name), walk.MsgBoxOKCancel|walk.MsgBoxIconQuestion) == walk.DlgCmdCancel {
 		return
 	}
 	t.model.conf.Items = append(t.model.conf.Items[:index], t.model.conf.Items[index+1:]...)
@@ -167,10 +169,17 @@ func (t *ConfSectionView) onEditSection(edit bool) {
 }
 
 func (t *ConfSectionView) View() Widget {
+	var sectionDataBinder *walk.DataBinder
 	return Composite{
+		DataBinder: DataBinder{DataSource: &struct {
+			Selected func() bool
+		}{func() bool {
+			return t.sectionView != nil && t.sectionView.CurrentIndex() >= 0
+		}}, Name: "section", AssignTo: &sectionDataBinder},
 		Layout: VBox{MarginsZero: true},
 		Children: []Widget{
 			ToolBar{
+				AssignTo:    &t.editToolBar,
 				ButtonStyle: ToolBarButtonImageBeforeText,
 				Orientation: Horizontal,
 				Items: []MenuItem{
@@ -216,6 +225,7 @@ func (t *ConfSectionView) View() Widget {
 						AssignTo: &t.editAction,
 						Image:    loadSysIcon("shell32", 269, 16),
 						Text:     "编辑",
+						Enabled:  Bind("section.Selected"),
 						OnTriggered: func() {
 							t.onEditSection(true)
 						},
@@ -224,6 +234,7 @@ func (t *ConfSectionView) View() Widget {
 						AssignTo:    &t.deleteAction,
 						Image:       loadSysIcon("shell32", 131, 16),
 						Text:        "删除",
+						Enabled:     Bind("section.Selected"),
 						OnTriggered: t.onDeleteSection,
 					},
 				},
@@ -250,6 +261,9 @@ func (t *ConfSectionView) View() Widget {
 						},
 					},
 					ActionRef{&t.deleteAction},
+				},
+				OnCurrentIndexChanged: func() {
+					sectionDataBinder.Reset()
 				},
 			},
 		},

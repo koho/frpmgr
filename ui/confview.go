@@ -102,6 +102,9 @@ func (t *ConfView) Initialize() {
 	t.ToolbarView.addAction.Triggered().Attach(func() {
 		t.onEditConf(nil)
 	})
+	t.ToolbarView.addMenuAction.Triggered().Attach(func() {
+		t.onEditConf(nil)
+	})
 	t.ToolbarView.importAction.Triggered().Attach(t.onImport)
 	t.ToolbarView.deleteAction.Triggered().Attach(t.onDelete)
 	t.ConfListView.editAction.Triggered().Attach(func() {
@@ -137,10 +140,10 @@ func (t *ConfListView) View() Widget {
 		Columns:             []TableViewColumn{{DataMember: "Name"}},
 		Model:               t.model,
 		ContextMenuItems: []MenuItem{
-			Action{AssignTo: &t.editAction, Text: "编辑"},
-			Action{AssignTo: &t.newAction, Text: "新建配置"},
-			Action{AssignTo: &t.importAction, Text: "导入配置"},
-			Action{AssignTo: &t.deleteAction, Text: "删除"},
+			Action{AssignTo: &t.editAction, Text: "编辑配置"},
+			Action{AssignTo: &t.newAction, Text: "创建新配置"},
+			Action{AssignTo: &t.importAction, Text: "从文件导入配置"},
+			Action{AssignTo: &t.deleteAction, Text: "删除配置"},
 		},
 	}
 }
@@ -193,18 +196,19 @@ func (t *ToolbarView) View() Widget {
 				Items: []MenuItem{
 					Menu{
 						AssignActionTo: &t.addMenuAction,
-						Text:           "添加配置",
+						OnTriggered:    func() {},
+						Text:           "新建配置",
 						Image:          loadSysIcon("shell32", 149, 16),
 						Items: []MenuItem{
 							Action{
-								AssignTo: &t.importAction,
-								Text:     "导入配置",
-								Image:    loadSysIcon("imageres", 3, 16),
+								AssignTo: &t.addAction,
+								Text:     "创建新配置",
+								Image:    loadSysIcon("shell32", 205, 16),
 							},
 							Action{
-								AssignTo: &t.addAction,
-								Text:     "手动添加",
-								Image:    loadSysIcon("imageres", 2, 16),
+								AssignTo: &t.importAction,
+								Text:     "从文件导入",
+								Image:    loadSysIcon("shell32", 132, 16),
 							},
 						},
 					},
@@ -221,8 +225,9 @@ func (t *ToolbarView) View() Widget {
 }
 
 func (t *ToolbarView) Initialize() {
-	t.importAction.SetDefault(true)
+	t.addAction.SetDefault(true)
 	t.deleteAction.SetToolTip("删除配置")
+	t.view.ApplyDPI((*t.parent).DPI())
 }
 
 func (t *ToolbarView) fixWidth() {

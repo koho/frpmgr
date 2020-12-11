@@ -101,7 +101,7 @@ func TryAlterFile(f1 string, f2 string, rename bool) {
 		if err, ok := err.(*os.LinkError); ok && (err.Err == syscall.ENOTDIR || err.Err == syscall.ERROR_FILE_NOT_FOUND) {
 			break
 		}
-		if err, ok := err.(*os.PathError); ok && err.Err == syscall.ERROR_FILE_NOT_FOUND {
+		if err, ok := err.(*os.PathError); ok && (err.Err == syscall.ENOTDIR || err.Err == syscall.ERROR_FILE_NOT_FOUND) {
 			break
 		}
 		time.Sleep(time.Second * 1)

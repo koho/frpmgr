@@ -41,9 +41,10 @@ func (t *ConfPage) View() TabPage {
 					Composite{
 						StretchFactor: 10,
 						AssignTo:      &t.detailContainer,
-						Layout:        VBox{MarginsZero: true, SpacingZero: true},
+						Layout:        VBox{Margins: Margins{5, 0, 0, 0}, SpacingZero: true},
 						Children: []Widget{
 							t.DetailView.ConfStatusView.View(),
+							VSpacer{Size: 6},
 							t.DetailView.ConfSectionView.View(),
 						},
 					},
@@ -54,10 +55,10 @@ func (t *ConfPage) View() TabPage {
 						Children: []Widget{
 							HSpacer{},
 							VSpacer{},
-							PushButton{Text: "新建配置", MinSize: Size{200, 0}, MaxSize: Size{200, 0}, OnClicked: func() {
+							PushButton{Text: "创建新配置", MinSize: Size{200, 0}, MaxSize: Size{200, 0}, OnClicked: func() {
 								t.ConfView.onEditConf(nil)
 							}},
-							PushButton{Text: "导入配置", MinSize: Size{200, 0}, MaxSize: Size{200, 0}, OnClicked: t.ConfView.onImport},
+							PushButton{Text: "从文件导入配置", MinSize: Size{200, 0}, MaxSize: Size{200, 0}, OnClicked: t.ConfView.onImport},
 							VSpacer{},
 						},
 					},
