@@ -213,10 +213,10 @@ func (t *ConfSectionView) View() Widget {
 							},
 							Action{
 								AssignTo: &t.webAction,
-								Text:     "网页",
+								Text:     "Web",
 								Image:    loadSysIcon("shell32", 14, 16),
 								OnTriggered: func() {
-									t.onQuickAddSection(NewSimpleSectionDialog("网页", "web", []string{"tcp"}, 80))
+									t.onQuickAddSection(NewSimpleSectionDialog("Web", "web", []string{"tcp"}, 80))
 								},
 							},
 						},

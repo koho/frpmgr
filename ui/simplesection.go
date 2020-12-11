@@ -36,7 +36,7 @@ func (t *SimpleSection) View() Dialog {
 	return Dialog{
 		Icon:          icon,
 		AssignTo:      &t.view,
-		Title:         "添加" + t.title,
+		Title:         "添加 " + t.title,
 		Layout:        VBox{},
 		Font:          Font{Family: "微软雅黑", PointSize: 9},
 		DefaultButton: &acceptPB,
