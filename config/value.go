@@ -1,4 +1,4 @@
-package ui
+package config
 
 type ServiceState int
 

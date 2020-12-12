@@ -45,16 +45,16 @@ func (t *DetailView) toggleService(restart bool) {
 	}
 	utils.EnsurePath(t.conf.LogFile)
 	if t.running {
-		t.statusImage.SetImage(iconForState(StateStopping, 14))
+		t.statusImage.SetImage(iconForState(config.StateStopping, 14))
 		t.status.SetText("正在停止")
 		err = services.UninstallService(config.NameFromPath(confPath))
 		if restart {
-			t.statusImage.SetImage(iconForState(StateStarting, 14))
+			t.statusImage.SetImage(iconForState(config.StateStarting, 14))
 			t.status.SetText("正在启动")
 			err = services.InstallService(confPath)
 		}
 	} else {
-		t.statusImage.SetImage(iconForState(StateStarting, 14))
+		t.statusImage.SetImage(iconForState(config.StateStarting, 14))
 		t.status.SetText("正在启动")
 		err = services.InstallService(confPath)
 	}
@@ -323,11 +323,11 @@ func (t *ConfStatusView) UpdateStatus(name string, running bool) {
 	if running {
 		t.status.SetText("正在运行")
 		t.toggle.SetText("停止")
-		t.statusImage.SetImage(iconForState(StateStarted, 14))
+		t.statusImage.SetImage(iconForState(config.StateStarted, 14))
 	} else {
 		t.status.SetText("已停止")
 		t.toggle.SetText("启动")
-		t.statusImage.SetImage(iconForState(StateStopped, 14))
+		t.statusImage.SetImage(iconForState(config.StateStopped, 14))
 	}
 }
 

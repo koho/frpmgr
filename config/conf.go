@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 )
 
 type AuthInfo struct {
@@ -47,15 +48,18 @@ type Section struct {
 }
 
 type Config struct {
-	Name string `ini:"-"`
-	cfg  *ini.File
-	Path string
+	Name   string `ini:"-"`
+	cfg    *ini.File
+	Path   string
+	Status ServiceState
 	Common
 	Items []*Section
 }
 
 var notOmitEmpty = []string{"login_fail_exit"}
 var Configurations []*Config
+var ConfMutex sync.Mutex
+var StatusChan = make(chan bool)
 
 func LoadConfig() ([]*Config, error) {
 	files, err := filepath.Glob("*.ini")
@@ -92,6 +96,7 @@ func (c *Config) GetSectionNames() []string {
 func (c *Config) Load(source string) error {
 	c.Name = NameFromPath(source)
 	c.Path = source
+	c.Status = StateStopped
 	cfg, err := ini.Load(source)
 	if err != nil {
 		return err

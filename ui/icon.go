@@ -1,6 +1,9 @@
 package ui
 
-import "github.com/lxn/walk"
+import (
+	"frpmgr/config"
+	"github.com/lxn/walk"
+)
 
 var cachedSystemIconsForWidthAndDllIdx = make(map[widthDllIdx]*walk.Icon)
 
@@ -25,21 +28,21 @@ type widthDllIdx struct {
 
 type widthAndState struct {
 	width int
-	state ServiceState
+	state config.ServiceState
 }
 
 var cachedIconsForWidthAndState = make(map[widthAndState]*walk.Icon)
 
-func iconForState(state ServiceState, size int) (icon *walk.Icon) {
+func iconForState(state config.ServiceState, size int) (icon *walk.Icon) {
 	icon = cachedIconsForWidthAndState[widthAndState{size, state}]
 	if icon != nil {
 		return
 	}
 	switch state {
-	case StateStarted:
+	case config.StateStarted:
 		icon = loadSysIcon("imageres", 101, size)
-	case StateStopped:
-		icon = loadSysIcon("imageres", 100, size)
+	case config.StateStopped:
+		icon, _ = walk.NewIconFromResourceIdWithSize(21, walk.Size{size, size})
 	default:
 		icon = loadSysIcon("shell32", 238, size)
 	}

@@ -4,6 +4,7 @@ import (
 	"frpmgr/config"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
+	"time"
 )
 
 type ConfPage struct {
@@ -74,6 +75,30 @@ func (t *ConfPage) Initialize() {
 	t.DetailView.Initialize()
 	t.onConfigChanged(len(config.Configurations))
 	t.ConfView.ConfListView.view.SetCurrentIndex(0)
+	t.startQueryStatus()
+}
+
+func (t *ConfPage) startQueryStatus() {
+	ticker := time.NewTicker(time.Second * 1)
+	go func() {
+		defer ticker.Stop()
+		for {
+			select {
+			case <-config.StatusChan:
+			case <-ticker.C:
+			}
+			config.ConfMutex.Lock()
+			for _, conf := range config.Configurations {
+				if t.queryState(conf.Name) {
+					conf.Status = config.StateStarted
+				} else {
+					conf.Status = config.StateStopped
+				}
+			}
+			config.ConfMutex.Unlock()
+			t.ConfListView.view.Invalidate()
+		}
+	}()
 }
 
 func (t *ConfPage) UpdateDetailView() {

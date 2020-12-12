@@ -33,7 +33,10 @@ func (t *ConfView) reloadConf() {
 		walk.MsgBox(t.ConfListView.view.Form(), "错误", "读取配置文件失败", walk.MsgBoxOK|walk.MsgBoxIconError)
 		return
 	}
+	config.ConfMutex.Lock()
 	config.Configurations = confList
+	config.ConfMutex.Unlock()
+	config.StatusChan <- true
 	if t.ConfigChanged != nil {
 		t.ConfigChanged(len(confList))
 	}
@@ -224,6 +227,14 @@ func (t *ConfListView) View() Widget {
 			Action{AssignTo: &t.newAction, Text: "创建新配置"},
 			Action{AssignTo: &t.importAction, Text: "从文件导入配置"},
 			Action{AssignTo: &t.deleteAction, Text: "删除配置"},
+		},
+		StyleCell: func(style *walk.CellStyle) {
+			row := style.Row()
+			if row < 0 || row >= len(config.Configurations) {
+				return
+			}
+			conf := config.Configurations[row]
+			style.Image = iconForState(conf.Status, 14)
 		},
 	}
 }
