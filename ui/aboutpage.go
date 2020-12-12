@@ -57,16 +57,20 @@ func (t *AboutPage) checkUpdate(showErr bool) {
 				}
 				return
 			}
-			if tagName, ok := data["tag_name"]; ok && tagName.(string) != config.Version {
-				t.newVersionView.SetVisible(true)
-				t.newVersionTag.SetText(data["tag_name"].(string))
-				pubDate, err := time.Parse("2006-01-02T15:04:05Z", data["published_at"].(string))
-				if err == nil {
-					t.newVersionDate.SetText(pubDate.Format("2006-01-02"))
+			if tagName, ok := data["tag_name"]; ok {
+				if tagName.(string) != config.Version {
+					t.newVersionView.SetVisible(true)
+					t.newVersionTag.SetText(data["tag_name"].(string))
+					pubDate, err := time.Parse("2006-01-02T15:04:05Z", data["published_at"].(string))
+					if err == nil {
+						t.newVersionDate.SetText(pubDate.Format("2006-01-02"))
+					}
+					t.newVersionDownloadBtn.SetName(data["html_url"].(string))
+					t.view.SetTitle("新版本可用")
+					t.view.SetImage(loadSysIcon("imageres", 1, 16))
+				} else if showErr {
+					walk.MsgBox(t.checkUpdateBtn.Form(), "提示", "已是最新版本。", walk.MsgBoxOK|walk.MsgBoxIconInformation)
 				}
-				t.newVersionDownloadBtn.SetName(data["html_url"].(string))
-				t.view.SetTitle("新版本可用")
-				t.view.SetImage(loadSysIcon("imageres", 1, 16))
 			} else {
 				t.newVersionView.SetVisible(false)
 				t.view.SetTitle("关于")
