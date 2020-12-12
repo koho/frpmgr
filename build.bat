@@ -13,7 +13,8 @@ echo [+] Patching files
 go mod tidy || exit /b 1
 for %%f in (patches\*.patch) do patch -N -r - -d %GOPATH% -p0 < %%f
 echo [+] Compiling release version
-go build -ldflags="-H windowsgui" -o bin/frpmgr.exe frpmgr || exit /b 1
+for /F "tokens=2 delims=@" %%y in ('go mod graph ^| findstr frpmgr ^| findstr frp@') do (set FRP_VERSION=%%y)
+go build -ldflags="-H windowsgui -X frpmgr/config.Version=v%FRPMGR_VERSION% -X frpmgr/config.FRPVersion=%FRP_VERSION%" -o bin/frpmgr.exe frpmgr || exit /b 1
 echo [+] Building installer
 call installer/build.bat %FRPMGR_VERSION% || exit /b 1
 echo [+] Success.

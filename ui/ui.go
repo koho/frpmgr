@@ -11,8 +11,9 @@ type FRPManager struct {
 	window *walk.MainWindow
 	tabs   *walk.TabWidget
 
-	confPage *ConfPage
-	logPage  *LogPage
+	confPage  *ConfPage
+	logPage   *LogPage
+	aboutPage *AboutPage
 }
 
 var curDir string
@@ -26,6 +27,7 @@ func RunUI() {
 	}
 	fm.confPage = NewConfPage()
 	fm.logPage = NewLogPage()
+	fm.aboutPage = NewAboutPage()
 	icon, _ := loadLogoIcon(32)
 	mw := MainWindow{
 		Icon:       icon,
@@ -42,6 +44,7 @@ func RunUI() {
 				Pages: []TabPage{
 					fm.confPage.View(),
 					fm.logPage.View(),
+					fm.aboutPage.View(),
 				},
 			},
 		},
@@ -52,6 +55,7 @@ func RunUI() {
 	}
 	fm.confPage.Initialize()
 	fm.logPage.Initialize()
+	fm.aboutPage.Initialize()
 	curDir, _ = os.Getwd()
 	fm.window.Run()
 }
