@@ -194,7 +194,7 @@ func (t *EditConfDialog) View() Dialog {
 							return
 						}
 						if _, found := utils.Find(t.nameList, nameView.Text()); found && nameView.Text() != t.originalName {
-							if walk.MsgBox(t.view.Form(), "提示", "已存在同名称的配置文件，是否覆盖？", walk.MsgBoxOKCancel|walk.MsgBoxIconQuestion) == walk.DlgCmdCancel {
+							if walk.MsgBox(t.view.Form(), "覆盖文件", "已存在同名称的配置文件，继续保存将覆盖文件。", walk.MsgBoxOKCancel|walk.MsgBoxIconWarning) == walk.DlgCmdCancel {
 								return
 							}
 						}
