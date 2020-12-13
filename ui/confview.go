@@ -18,10 +18,12 @@ type ConfView struct {
 	*ConfListView
 	*ToolbarView
 	ConfigChanged func(int)
+	db            **walk.DataBinder
 }
 
-func NewConfView(parent **walk.Composite) *ConfView {
+func NewConfView(parent **walk.Composite, db **walk.DataBinder) *ConfView {
 	v := new(ConfView)
+	v.db = db
 	v.ConfListView = NewConfListView()
 	v.ToolbarView = NewToolbarView(parent)
 	return v
@@ -44,8 +46,8 @@ func (t *ConfView) reloadConf() {
 	if idx, found := utils.Find(config.GetConfigNames(), lastEditName); found {
 		t.ConfListView.view.SetCurrentIndex(idx)
 	}
-	if t.toolbarDB != nil {
-		t.toolbarDB.Reset()
+	if *(t.db) != nil {
+		(*t.db).Reset()
 	}
 }
 
@@ -193,10 +195,12 @@ func (t *ConfView) Initialize() {
 	t.ConfListView.editAction.Triggered().Attach(func() {
 		t.onEditConf(t.ConfListView.CurrentConf())
 	})
+	t.ConfListView.editAction.SetDefault(true)
 	t.ConfListView.newAction.Triggered().Attach(func() {
 		t.onEditConf(nil)
 	})
 	t.ConfListView.importAction.Triggered().Attach(t.onImport)
+	t.ConfListView.exportAction.Triggered().Attach(t.onExport)
 	t.ConfListView.deleteAction.Triggered().Attach(t.onDelete)
 }
 
@@ -206,6 +210,7 @@ type ConfListView struct {
 	editAction   *walk.Action
 	newAction    *walk.Action
 	importAction *walk.Action
+	exportAction *walk.Action
 	deleteAction *walk.Action
 }
 
@@ -225,10 +230,13 @@ func (t *ConfListView) View() Widget {
 		Columns:             []TableViewColumn{{DataMember: "Name"}},
 		Model:               t.model,
 		ContextMenuItems: []MenuItem{
-			Action{AssignTo: &t.editAction, Text: "编辑配置"},
+			Action{AssignTo: &t.editAction, Text: "编辑配置", Enabled: Bind("conf.SelectedIndex >= 0")},
+			Separator{},
 			Action{AssignTo: &t.newAction, Text: "创建新配置"},
 			Action{AssignTo: &t.importAction, Text: "从文件导入配置"},
-			Action{AssignTo: &t.deleteAction, Text: "删除配置"},
+			Action{AssignTo: &t.exportAction, Text: "导出所有配置 (ZIP 压缩包)", Enabled: Bind("conf.ConfSize > 0")},
+			Separator{},
+			Action{AssignTo: &t.deleteAction, Text: "删除配置", Enabled: Bind("conf.SelectedIndex >= 0")},
 		},
 		StyleCell: func(style *walk.CellStyle) {
 			row := style.Row()
@@ -285,8 +293,6 @@ type ToolbarView struct {
 	addAction     *walk.Action
 	deleteAction  *walk.Action
 	exportAction  *walk.Action
-
-	toolbarDB *walk.DataBinder
 }
 
 func NewToolbarView(parent **walk.Composite) *ToolbarView {
@@ -297,11 +303,6 @@ func NewToolbarView(parent **walk.Composite) *ToolbarView {
 
 func (t *ToolbarView) View() Widget {
 	return Composite{
-		DataBinder: DataBinder{AssignTo: &t.toolbarDB, DataSource: &struct {
-			ConfSize func() int
-		}{func() int {
-			return len(config.Configurations)
-		}}, Name: "conf"},
 		Layout: HBox{MarginsZero: true, SpacingZero: true},
 		Children: []Widget{
 			ToolBar{

@@ -13,11 +13,12 @@ type ConfPage struct {
 	confContainer   *walk.Composite
 	detailContainer *walk.Composite
 	fillerContainer *walk.Composite
+	confDB          *walk.DataBinder
 }
 
 func NewConfPage() *ConfPage {
 	v := new(ConfPage)
-	v.ConfView = NewConfView(&v.confContainer)
+	v.ConfView = NewConfView(&v.confContainer, &v.confDB)
 	v.ConfView.ConfigChanged = v.onConfigChanged
 	v.DetailView = NewDetailView()
 	return v
@@ -34,6 +35,14 @@ func (t *ConfPage) View() TabPage {
 						StretchFactor: 1,
 						AssignTo:      &t.confContainer,
 						Layout:        VBox{MarginsZero: true, SpacingZero: true},
+						DataBinder: DataBinder{AssignTo: &t.confDB, DataSource: &struct {
+							ConfSize      func() int
+							SelectedIndex func() int
+						}{func() int {
+							return len(config.Configurations)
+						}, func() int {
+							return t.ConfListView.view.CurrentIndex()
+						}}, Name: "conf"},
 						Children: []Widget{
 							t.ConfListView.View(),
 							t.ToolbarView.View(),
@@ -75,7 +84,7 @@ func (t *ConfPage) View() TabPage {
 
 func (t *ConfPage) Initialize() {
 	t.ConfView.Initialize()
-	t.ConfView.ConfListView.view.CurrentIndexChanged().Attach(t.UpdateDetailView)
+	t.ConfView.ConfListView.view.CurrentIndexChanged().Attach(t.UpdateView)
 	t.DetailView.Initialize()
 	t.onConfigChanged(len(config.Configurations))
 	t.ConfView.ConfListView.view.SetCurrentIndex(0)
@@ -105,11 +114,14 @@ func (t *ConfPage) startQueryStatus() {
 	}()
 }
 
-func (t *ConfPage) UpdateDetailView() {
+func (t *ConfPage) UpdateView() {
 	conf := t.ConfView.ConfListView.CurrentConf()
 	t.DetailView.SetConf(conf)
 	if conf != nil {
 		lastEditName = conf.Name
+	}
+	if *(t.db) != nil {
+		(*t.db).Reset()
 	}
 }
 
