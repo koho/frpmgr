@@ -209,6 +209,8 @@ type ConfListView struct {
 	deleteAction *walk.Action
 }
 
+var cachedListViewIconsForWidthAndState = make(map[widthAndState]*walk.Bitmap)
+
 func NewConfListView() *ConfListView {
 	clv := new(ConfListView)
 	clv.model = NewConfListModel(config.Configurations)
@@ -234,7 +236,29 @@ func (t *ConfListView) View() Widget {
 				return
 			}
 			conf := config.Configurations[row]
-			style.Image = iconForState(conf.Status, 14)
+			margin := t.view.IntFrom96DPI(1)
+			bitmapWidth := t.view.IntFrom96DPI(16)
+			cacheKey := widthAndState{bitmapWidth, conf.Status}
+			if cacheValue, ok := cachedListViewIconsForWidthAndState[cacheKey]; ok {
+				style.Image = cacheValue
+				return
+			}
+			bitmap, err := walk.NewBitmapWithTransparentPixelsForDPI(walk.Size{bitmapWidth, bitmapWidth}, t.view.DPI())
+			if err != nil {
+				return
+			}
+			canvas, err := walk.NewCanvasFromImage(bitmap)
+			if err != nil {
+				return
+			}
+			bounds := walk.Rectangle{X: margin, Y: margin, Height: bitmapWidth - 2*margin, Width: bitmapWidth - 2*margin}
+			err = canvas.DrawImageStretchedPixels(iconForState(conf.Status, 14), bounds)
+			canvas.Dispose()
+			if err != nil {
+				return
+			}
+			cachedListViewIconsForWidthAndState[cacheKey] = bitmap
+			style.Image = bitmap
 		},
 	}
 }
