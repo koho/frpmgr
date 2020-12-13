@@ -1,6 +1,6 @@
---- pkg/mod/github.com/fatedier/frp@v0.33.0/cmd/frpc/sub/root.go	2020-08-10 16:17:15.073778600 +0800
-+++ patches/root.go	2020-08-10 16:29:27.994362100 +0800
-@@ -91,7 +91,7 @@
+--- pkg/mod/github.com/fatedier/frp@v0.34.3/cmd/frpc/sub/root.go	2020-12-13 17:35:17.622646600 +0800
++++ patches/root.go	2020-12-13 17:45:36.868336200 +0800
+@@ -105,7 +105,7 @@
  		}
  
  		// Do not show command usage here.
@@ -9,7 +9,7 @@
  		if err != nil {
  			fmt.Println(err)
  			os.Exit(1)
-@@ -176,7 +176,7 @@
+@@ -191,7 +191,7 @@
  	return
  }
  
