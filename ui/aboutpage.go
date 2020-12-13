@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os/exec"
+	"syscall"
 	"time"
 )
 
@@ -143,5 +144,7 @@ func (t *AboutPage) openURL(url string) {
 	if url == "" {
 		return
 	}
-	exec.Command("cmd", "/c", "start", url).Start()
+	openCmd := exec.Command("cmd", "/c", "start", url)
+	openCmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
+	openCmd.Start()
 }
