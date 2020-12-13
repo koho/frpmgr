@@ -41,26 +41,30 @@ func (t *ConfPage) View() TabPage {
 					},
 					Composite{
 						StretchFactor: 10,
-						AssignTo:      &t.detailContainer,
-						Layout:        VBox{Margins: Margins{5, 0, 0, 0}, SpacingZero: true},
+						Layout:        HBox{MarginsZero: true, SpacingZero: true},
 						Children: []Widget{
-							t.DetailView.ConfStatusView.View(),
-							VSpacer{Size: 6},
-							t.DetailView.ConfSectionView.View(),
-						},
-					},
-					Composite{
-						StretchFactor: 10,
-						AssignTo:      &t.fillerContainer,
-						Layout:        VBox{Margins: Margins{Left: 100, Right: 100}, Spacing: 20},
-						Children: []Widget{
-							HSpacer{},
-							VSpacer{},
-							PushButton{Text: "创建新配置", MinSize: Size{200, 0}, MaxSize: Size{200, 0}, OnClicked: func() {
-								t.ConfView.onEditConf(nil)
-							}},
-							PushButton{Text: "从文件导入配置", MinSize: Size{200, 0}, MaxSize: Size{200, 0}, OnClicked: t.ConfView.onImport},
-							VSpacer{},
+							Composite{
+								AssignTo: &t.detailContainer,
+								Layout:   VBox{Margins: Margins{5, 0, 0, 0}, SpacingZero: true},
+								Children: []Widget{
+									t.DetailView.ConfStatusView.View(),
+									VSpacer{Size: 6},
+									t.DetailView.ConfSectionView.View(),
+								},
+							},
+							Composite{
+								AssignTo: &t.fillerContainer,
+								Layout:   VBox{Margins: Margins{Left: 100, Right: 100}, Spacing: 20},
+								Children: []Widget{
+									HSpacer{},
+									VSpacer{},
+									PushButton{Text: "创建新配置", MinSize: Size{200, 0}, MaxSize: Size{200, 0}, OnClicked: func() {
+										t.ConfView.onEditConf(nil)
+									}},
+									PushButton{Text: "从文件导入配置", MinSize: Size{200, 0}, MaxSize: Size{200, 0}, OnClicked: t.ConfView.onImport},
+									VSpacer{},
+								},
+							},
 						},
 					},
 				},
