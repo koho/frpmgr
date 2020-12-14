@@ -7,9 +7,9 @@ if "%WIX%"=="" (
     exit /b 1
 )
 if not exist build md build
-call vcvarsall.bat amd64
-set SDK_PLATFORM=VS2017
-cl /Zc:wchar_t /D "_UNICODE" /D "UNICODE" /nologo /O2 /W3 /GL /DNDEBUG /MD "-I%WIX%sdk\%SDK_PLATFORM%\inc" actions.cpp /Fo.\build\ /link /LTCG /NOLOGO "/LIBPATH:%WIX%sdk\%SDK_PLATFORM%\lib\x64" msi.lib wcautil.lib dutil.lib kernel32.lib user32.lib advapi32.lib Version.lib shell32.lib /DLL /DEF:"actions.def" /IMPLIB:.\build\actions.lib /OUT:.\build\actions.dll || exit /b 1
+call VsMSBuildCmd.bat
+msbuild actions/actions.sln /t:Rebuild /p:Configuration=Release /p:Platform="x64" || exit /b 1
+copy actions\actions\bin\x64\Release\actions.CA.dll build\actions.dll /y || exit /b 1
 set WIX_CANDLE_FLAGS=-nologo -dFRPMGR_VERSION=%FRPMGR_VERSION%
 set WIX_LIGHT_FLAGS=-nologo -spdb -ext "%WIX%bin\\WixUtilExtension.dll" -ext "%WIX%bin\\WixUIExtension.dll" -cultures:zh-CN
 "%WIX%bin\candle" %WIX_CANDLE_FLAGS% -out build\ -arch x64 frpmgr.wxs

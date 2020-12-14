@@ -22,18 +22,12 @@
       <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">NOT Installed</Publish>
       <ProgressText Action="KillProcesses">正在结束进程</ProgressText>
       <ProgressText Action="EvaluateFrpServices">正在停止服务</ProgressText>
-      <ProgressText Action="RemoveConfigFiles">正在删除文件</ProgressText>
+      <ProgressText Action="RemoveFrpFiles">正在删除文件</ProgressText>
     </UI>
 
     <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
     <Icon Id="ProductIcon" SourceFile="..\\icon\\app.ico" />
     <Property Id="ARPPRODUCTICON" Value="ProductIcon" />
-    <DirectoryRef Id="TARGETDIR">
-        <Merge Id="VCRedist" SourceFile="Microsoft_VC141_CRT_x64.msm" DiskId="1" Language="0"/>
-    </DirectoryRef>
-    <Feature Id="VCRedist" Title="Visual C++ 14.1 Runtime" AllowAdvertise="no" Display="hidden" Level="1">
-        <MergeRef Id="VCRedist"/>
-    </Feature>
   </Product>
 
 	<Fragment>
@@ -60,15 +54,17 @@
   <Fragment>
     <SetProperty Id="ARPINSTALLLOCATION" Value="[INSTALLFOLDER]" After="CostFinalize" />
     <CustomAction Id="KillProcesses.SetProperty" Return="check" Property="KillProcesses" Value="[#MainApplication]" />
-    <CustomAction Id="RemoveConfigFiles.SetProperty" Return="check" Property="RemoveConfigFiles" Value="[INSTALLFOLDER]" />
+    <CustomAction Id="EvaluateFrpServices.SetProperty" Return="check" Property="EvaluateFrpServices" Value="[#MainApplication]" />
+    <CustomAction Id="RemoveFrpFiles.SetProperty" Return="check" Property="RemoveFrpFiles" Value="[INSTALLFOLDER]" />
 
     <Property Id="WixShellExecTarget" Value="[#MainApplication]" />
 
     <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
 
-    <CustomAction Id="EvaluateFrpServices" BinaryKey="actions.dll" DllEntry="EvaluateFrpServices" />
+    <CustomAction Id="EvaluateFrpServices" BinaryKey="actions.dll" DllEntry="EvaluateFrpServices" Impersonate="no" Execute="deferred" />
     <InstallExecuteSequence>
-      <Custom Action="EvaluateFrpServices" After="InstallInitialize">REMOVE="ALL"</Custom>
+      <Custom Action="EvaluateFrpServices.SetProperty" After="InstallInitialize" />
+      <Custom Action="EvaluateFrpServices" After="EvaluateFrpServices.SetProperty">REMOVE="ALL"</Custom>
     </InstallExecuteSequence>
 
     <CustomAction Id="KillProcesses" BinaryKey="actions.dll" DllEntry="KillProcesses" Impersonate="no" Execute="deferred" />
@@ -77,10 +73,10 @@
       <Custom Action="KillProcesses" After="KillProcesses.SetProperty">REMOVE="ALL"</Custom>
     </InstallExecuteSequence>
 
-    <CustomAction Id="RemoveConfigFiles" BinaryKey="actions.dll" DllEntry="RemoveConfigFiles" Impersonate="no" Execute="deferred" />
+    <CustomAction Id="RemoveFrpFiles" BinaryKey="actions.dll" DllEntry="RemoveFrpFiles" Impersonate="no" Execute="deferred" />
     <InstallExecuteSequence>
-      <Custom Action="RemoveConfigFiles.SetProperty" After="DeleteServices" />
-      <Custom Action="RemoveConfigFiles" After="RemoveConfigFiles.SetProperty">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
+      <Custom Action="RemoveFrpFiles.SetProperty" After="DeleteServices" />
+      <Custom Action="RemoveFrpFiles" After="RemoveFrpFiles.SetProperty">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
     </InstallExecuteSequence>
   </Fragment>
 </Wix>

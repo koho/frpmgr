@@ -1,6 +1,0 @@
-LIBRARY "actions"
-
-EXPORTS
-	KillProcesses
-	EvaluateFrpServices
-	RemoveConfigFiles
