@@ -76,7 +76,6 @@ namespace actions
         [CustomAction]
         public static ActionResult KillProcesses(Session session)
         {
-            MessageBox(FindWindow(null, "FRP").ToInt32(), "KillProcesses", "提示", MB_OK);
             session.Log("Killing FRP processes");
             string binPath = session["CustomActionData"];
             if (string.IsNullOrEmpty(binPath))
@@ -112,7 +111,6 @@ namespace actions
         [CustomAction]
         public static ActionResult RemoveFrpFiles(Session session)
         {
-            MessageBox(FindWindow(null, "FRP").ToInt32(), "RemoveFrpFiles", "提示", MB_OK);
             session.Log("Removing files");
             string installPath = session["CustomActionData"];
             if (string.IsNullOrEmpty(installPath))
@@ -155,7 +153,6 @@ namespace actions
         [CustomAction]
         public static ActionResult EvaluateFrpServices(Session session)
         {
-            MessageBox(FindWindow(null, "FRP").ToInt32(), "EvaluateFrpServices", "提示", MB_OK);
             session.Log("Evaluate FRP Services");
             string binPath = session["CustomActionData"];
             if (string.IsNullOrEmpty(binPath))
