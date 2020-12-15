@@ -7,6 +7,7 @@ Windows 下的 [frp](https://github.com/fatedier/frp) 图形界面客户端。
 ## 编译
 **安装依赖**:
 - Visual Studio
+- [MinGW](http://www.mingw.org/)
 - [WiX Toolset](https://wixtoolset.org/)
 
 **环境配置**:

@@ -8,7 +8,7 @@ set PATH=%BUILDDIR%.deps;%PATH%
 echo [+] Rendering icons
 for %%a in ("icon\*.svg") do convert  -density 1000 -background none "%%~fa" -define icon:auto-resize="256,192,128,96,64,48,32,24,16" "%%~dpna.ico" || exit /b 1
 echo [+] Building resources
-rsrc -manifest frpmgr.exe.manifest -ico icon/app.ico,icon/dot.ico -o rsrc.syso || exit /b 1
+windres -DFRPMGR_VERSION_ARRAY=%FRPMGR_VERSION:.=,% -DFRPMGR_VERSION_STR=%FRPMGR_VERSION% -i resources.rc -o "rsrc.syso" -O coff -c 65001 || exit /b %errorlevel%
 echo [+] Patching files
 go mod tidy || exit /b 1
 for %%f in (patches\*.patch) do patch -N -r - -d %GOPATH% -p0 < %%f
