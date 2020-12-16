@@ -38,6 +38,10 @@ func (m *ConfSectionModel) Items() interface{} {
 	return m.conf.Items
 }
 
+func (m *ConfSectionModel) Count() int {
+	return len(m.conf.Items)
+}
+
 type LogModel struct {
 	walk.ReflectTableModelBase
 	items []*struct{ Text string }

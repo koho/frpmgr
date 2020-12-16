@@ -183,25 +183,24 @@ func (t *ConfView) onExport() {
 
 func (t *ConfView) Initialize() {
 	t.ToolbarView.Initialize()
-	t.ToolbarView.addAction.Triggered().Attach(func() {
+	editCB := func() {
+		t.onEditConf(t.ConfListView.CurrentConf())
+	}
+	newCB := func() {
 		t.onEditConf(nil)
-	})
-	t.ToolbarView.addMenuAction.Triggered().Attach(func() {
-		t.onEditConf(nil)
-	})
+	}
+	t.ToolbarView.addAction.Triggered().Attach(newCB)
+	t.ToolbarView.addMenuAction.Triggered().Attach(newCB)
 	t.ToolbarView.importAction.Triggered().Attach(t.onImport)
 	t.ToolbarView.deleteAction.Triggered().Attach(t.onDelete)
 	t.ToolbarView.exportAction.Triggered().Attach(t.onExport)
-	t.ConfListView.editAction.Triggered().Attach(func() {
-		t.onEditConf(t.ConfListView.CurrentConf())
-	})
+	t.ConfListView.editAction.Triggered().Attach(editCB)
 	t.ConfListView.editAction.SetDefault(true)
-	t.ConfListView.newAction.Triggered().Attach(func() {
-		t.onEditConf(nil)
-	})
+	t.ConfListView.newAction.Triggered().Attach(newCB)
 	t.ConfListView.importAction.Triggered().Attach(t.onImport)
 	t.ConfListView.exportAction.Triggered().Attach(t.onExport)
 	t.ConfListView.deleteAction.Triggered().Attach(t.onDelete)
+	t.ConfListView.view.ItemActivated().Attach(editCB)
 }
 
 type ConfListView struct {

@@ -86,6 +86,8 @@ type ConfSectionView struct {
 	toggleService func(bool)
 }
 
+var lastEditSection = -1
+
 func NewConfSectionView() *ConfSectionView {
 	csv := new(ConfSectionView)
 	return csv
@@ -103,6 +105,10 @@ func (t *ConfSectionView) SetModel(conf *config.Config) {
 
 func (t *ConfSectionView) ResetModel() {
 	t.sectionView.SetModel(t.model)
+	if lastEditSection >= 0 && t.model != nil && t.model.Count() > 0 {
+		t.sectionView.SetCurrentIndex(lastEditSection)
+		lastEditSection = -1
+	}
 }
 
 func (t *ConfSectionView) mustSelectConf() bool {
@@ -160,6 +166,9 @@ func (t *ConfSectionView) onEditSection(edit bool) {
 		}
 	}
 	if ret == walk.DlgCmdOK {
+		if edit {
+			lastEditSection = t.sectionView.CurrentIndex()
+		}
 		t.ResetModel()
 		t.model.conf.Save()
 		if running, _ := services.QueryService(t.model.conf.Name); running {
@@ -264,6 +273,9 @@ func (t *ConfSectionView) View() Widget {
 				},
 				OnCurrentIndexChanged: func() {
 					sectionDataBinder.Reset()
+				},
+				OnItemActivated: func() {
+					t.onEditSection(true)
 				},
 			},
 		},
