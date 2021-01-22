@@ -140,7 +140,10 @@ namespace actions
                 DEL_LOG:
                 try
                 {
-                    Directory.Delete(logPath, true);
+                    if (Directory.Exists(logPath))
+                    {
+                        Directory.Delete(logPath, true);
+                    }
                 } catch (Exception)
                 {
                     if (MessageBox(FindWindow(null, "FRP").ToInt32(), "ÎÞ·¨É¾³ýÄ¿Â¼ " + logPath, "´íÎó", MB_RETRYCANCEL | MB_ICONWARNING) == IDRETRY)
