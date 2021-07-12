@@ -1,30 +1,40 @@
---- pkg/mod/github.com/fatedier/frp@v0.34.3/client/service.go	2020-12-13 17:35:17.589647500 +0800
+--- pkg/mod/github.com/fatedier/frp@v0.37.0/client/service.go	2020-12-13 17:35:17.589647500 +0800
 +++ patches/service.go	2020-12-13 18:05:29.501068500 +0800
-@@ -17,10 +17,12 @@
- import (
- 	"context"
- 	"crypto/tls"
-+	"errors"
+@@ -20,12 +20,13 @@
+ 	"errors"
  	"fmt"
  	"io/ioutil"
  	"net"
  	"runtime"
+ 	"strconv"
 +	"strings"
  	"sync"
  	"sync/atomic"
  	"time"
-@@ -34,6 +36,7 @@
+
+ 	"github.com/fatedier/frp/assets"
+ 	"github.com/fatedier/frp/pkg/auth"
+@@ -33,12 +34,13 @@
+ 	"github.com/fatedier/frp/pkg/msg"
+ 	"github.com/fatedier/frp/pkg/transport"
+ 	"github.com/fatedier/frp/pkg/util/log"
  	frpNet "github.com/fatedier/frp/pkg/util/net"
  	"github.com/fatedier/frp/pkg/util/version"
  	"github.com/fatedier/frp/pkg/util/xlog"
 +	"github.com/miekg/dns"
- 
+
  	fmux "github.com/hashicorp/yamux"
  )
-@@ -198,6 +201,38 @@
+
+ // Service is a client service.
+ type Service struct {
+@@ -205,12 +207,44 @@
+ 			svr.ctlMu.Unlock()
+ 			break
+ 		}
  	}
  }
- 
+
 +func lookupIP(addr string, server string) (string, error) {
 +	if net.ParseIP(addr) != nil {
 +		return addr, nil
@@ -60,10 +70,17 @@
  // login creates a connection to frps and registers it self as a client
  // conn: control connection
  // session: if it's not nil, using tcp mux
-@@ -215,8 +250,15 @@
+ func (svr *Service) login() (conn net.Conn, session *fmux.Session, err error) {
+ 	xl := xlog.FromContextSafe(svr.ctx)
+ 	var tlsConfig *tls.Config
+@@ -228,13 +262,20 @@
+ 		if err != nil {
+ 			xl.Warn("fail to build tls configuration when service login, err: %v", err)
  			return
  		}
  	}
+
+-	address := net.JoinHostPort(svr.cfg.ServerAddr, strconv.Itoa(svr.cfg.ServerPort))
 +	var addr = svr.cfg.ServerAddr
 +	if svr.cfg.DNSServer != "" && runtime.GOOS == "windows" {
 +		addr, err = lookupIP(svr.cfg.ServerAddr, svr.cfg.DNSServer)
@@ -71,9 +88,10 @@
 +			return nil, nil, err
 +		}
 +	}
- 	conn, err = frpNet.ConnectServerByProxyWithTLS(svr.cfg.HTTPProxy, svr.cfg.Protocol,
--		fmt.Sprintf("%s:%d", svr.cfg.ServerAddr, svr.cfg.ServerPort), tlsConfig)
-+		fmt.Sprintf("%s:%d", addr, svr.cfg.ServerPort), tlsConfig)
++	address := net.JoinHostPort(addr, strconv.Itoa(svr.cfg.ServerPort))
+ 	conn, err = frpNet.ConnectServerByProxyWithTLS(svr.cfg.HTTPProxy, svr.cfg.Protocol, address, tlsConfig)
  	if err != nil {
  		return
  	}
+
+ 	defer func() {

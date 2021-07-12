@@ -1,20 +1,32 @@
---- pkg/mod/github.com/fatedier/frp@v0.34.3/cmd/frpc/sub/root.go	2020-12-13 17:35:17.622646600 +0800
+--- pkg/mod/github.com/fatedier/frp@v0.37.0/cmd/frpc/sub/root.go	2020-12-13 17:35:17.622646600 +0800
 +++ patches/root.go	2020-12-13 17:45:36.868336200 +0800
-@@ -105,7 +105,7 @@
+@@ -102,13 +102,13 @@
+ 		if showVersion {
+ 			fmt.Println(version.Full())
+ 			return nil
  		}
- 
+
  		// Do not show command usage here.
 -		err := runClient(cfgFile)
 +		err := RunClient(cfgFile)
  		if err != nil {
  			fmt.Println(err)
  			os.Exit(1)
-@@ -191,7 +191,7 @@
+ 		}
+ 		return nil
+ 	},
+@@ -162,13 +162,13 @@
+ 		err = fmt.Errorf("Parse config error: %v", err)
+ 		return
+ 	}
  	return
  }
- 
--func runClient(cfgFilePath string) (err error) {
-+func RunClient(cfgFilePath string) (err error) {
- 	var content string
- 	content, err = config.GetRenderedConfFromFile(cfgFilePath)
+
+-func runClient(cfgFilePath string) error {
++func RunClient(cfgFilePath string) error {
+ 	cfg, pxyCfgs, visitorCfgs, err := config.ParseClientConfig(cfgFilePath)
  	if err != nil {
+ 		return err
+ 	}
+ 	return startService(cfg, pxyCfgs, visitorCfgs, cfgFilePath)
+ }
