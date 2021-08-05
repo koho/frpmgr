@@ -15,8 +15,6 @@ import (
 
 type AboutPage struct {
 	view                  *walk.TabPage
-	homeLink              *walk.PushButton
-	frpLink               *walk.PushButton
 	checkUpdateBtn        *walk.PushButton
 	newVersionView        *walk.Composite
 	newVersionDownloadBtn *walk.PushButton
@@ -30,8 +28,6 @@ func NewAboutPage() *AboutPage {
 }
 
 func (t *AboutPage) Initialize() {
-	t.homeLink.SetCursor(walk.CursorHand())
-	t.frpLink.SetCursor(walk.CursorHand())
 	t.checkUpdate(false)
 }
 
@@ -103,14 +99,22 @@ func (t *AboutPage) View() TabPage {
 							}},
 							VSpacer{Size: 6},
 							Label{Text: "如有任何意见或报告错误，请访问项目地址："},
-							PushButton{AssignTo: &t.homeLink, Text: "https://github.com/koho/frpmgr", OnClicked: func() {
-								t.openURL(t.homeLink.Text())
-							}},
+							LinkLabel{
+								Alignment: AlignHNearVCenter,
+								Text:      `<a id="home" href="https://github.com/koho/frpmgr">https://github.com/koho/frpmgr</a>`,
+								OnLinkActivated: func(link *walk.LinkLabelLink) {
+									t.openURL(link.URL())
+								},
+							},
 							VSpacer{Size: 6},
 							Label{Text: "了解 FRP 软件配置文档，请访问 FRP 项目地址："},
-							PushButton{AssignTo: &t.frpLink, Text: "https://github.com/fatedier/frp", OnClicked: func() {
-								t.openURL(t.frpLink.Text())
-							}},
+							LinkLabel{
+								Alignment: AlignHNearVCenter,
+								Text:      `<a id="frp" href="https://github.com/fatedier/frp">https://github.com/fatedier/frp</a>`,
+								OnLinkActivated: func(link *walk.LinkLabelLink) {
+									t.openURL(link.URL())
+								},
+							},
 						},
 					},
 					HSpacer{},
