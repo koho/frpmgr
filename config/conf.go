@@ -55,7 +55,6 @@ type Section struct {
 
 type Config struct {
 	Name   string `ini:"-"`
-	cfg    *ini.File
 	Path   string
 	Status ServiceState
 	Common
@@ -107,7 +106,6 @@ func (c *Config) Load(source string) error {
 	if err != nil {
 		return err
 	}
-	c.cfg = cfg
 	common, err := cfg.GetSection("common")
 	if err != nil {
 		return err
@@ -135,10 +133,8 @@ func (c *Config) Load(source string) error {
 }
 
 func (c *Config) SaveTo(path string) error {
-	if c.cfg == nil {
-		c.cfg = ini.Empty()
-	}
-	common, err := c.cfg.NewSection("common")
+	cfg := ini.Empty()
+	common, err := cfg.NewSection("common")
 	if err != nil {
 		return err
 	}
@@ -152,7 +148,7 @@ func (c *Config) SaveTo(path string) error {
 		}
 	}
 	for _, item := range c.Items {
-		s, err := c.cfg.NewSection(item.Name)
+		s, err := cfg.NewSection(item.Name)
 		if err != nil {
 			return err
 		}
@@ -166,15 +162,15 @@ func (c *Config) SaveTo(path string) error {
 			s.Key(k).SetValue(v)
 		}
 	}
-	for _, sect := range c.cfg.Sections() {
+	for _, sect := range cfg.Sections() {
 		if sect.Name() == "common" || sect.Name() == "DEFAULT" {
 			continue
 		}
 		if _, found := utils.Find(c.GetSectionNames(), sect.Name()); !found {
-			c.cfg.DeleteSection(sect.Name())
+			cfg.DeleteSection(sect.Name())
 		}
 	}
-	return c.cfg.SaveTo(path)
+	return cfg.SaveTo(path)
 }
 
 func (c *Config) Save() error {
