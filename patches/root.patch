@@ -1,4 +1,4 @@
---- pkg/mod/github.com/fatedier/frp@v0.37.0/cmd/frpc/sub/root.go	2020-12-13 17:35:17.622646600 +0800
+--- pkg/mod/github.com/fatedier/frp@v0.37.1/cmd/frpc/sub/root.go	2020-12-13 17:35:17.622646600 +0800
 +++ patches/root.go	2020-12-13 17:45:36.868336200 +0800
 @@ -102,13 +102,13 @@
  		if showVersion {

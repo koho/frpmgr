@@ -1,4 +1,4 @@
---- pkg/mod/github.com/fatedier/frp@v0.37.0/client/service.go	2020-12-13 17:35:17.589647500 +0800
+--- pkg/mod/github.com/fatedier/frp@v0.37.1/client/service.go	2020-12-13 17:35:17.589647500 +0800
 +++ patches/service.go	2020-12-13 18:05:29.501068500 +0800
 @@ -20,12 +20,13 @@
  	"errors"
