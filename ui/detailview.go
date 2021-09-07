@@ -1,12 +1,14 @@
 package ui
 
 import (
+	"errors"
 	"fmt"
 	"frpmgr/config"
 	"frpmgr/services"
 	"frpmgr/utils"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
+	"golang.org/x/sys/windows"
 	"time"
 )
 
@@ -292,6 +294,7 @@ type ConfStatusView struct {
 	statusImage *walk.ImageView
 	address     *walk.Label
 	toggle      *walk.PushButton
+	svcOpen     *walk.PushButton
 }
 
 func NewConfStatusView() *ConfStatusView {
@@ -309,15 +312,14 @@ func (t *ConfStatusView) SetConf(conf *config.Config) {
 	}
 }
 
-func (t *ConfStatusView) queryState(name string) bool {
+func (t *ConfStatusView) queryState(name string) (bool, error) {
 	if name == "" {
-		return false
+		return false, nil
 	}
-	running, _ := services.QueryService(name)
-	return running
+	return services.QueryService(name)
 }
 
-func (t *ConfStatusView) UpdateStatus(name string, running bool) {
+func (t *ConfStatusView) UpdateStatus(name string, running bool, err error) {
 	t.running = running
 	if name == "" || t.conf == nil {
 		t.view.SetTitle("")
@@ -331,6 +333,7 @@ func (t *ConfStatusView) UpdateStatus(name string, running bool) {
 	t.view.SetTitle(name)
 	t.address.SetText(t.conf.ServerAddress)
 	t.toggle.SetEnabled(true)
+	t.svcOpen.SetEnabled(true)
 	t.statusImage.SetVisible(true)
 	if running {
 		t.status.SetText("正在运行")
@@ -339,6 +342,9 @@ func (t *ConfStatusView) UpdateStatus(name string, running bool) {
 	} else {
 		t.status.SetText("已停止")
 		t.toggle.SetText("启动")
+		if errors.Is(err, windows.ERROR_SERVICE_DOES_NOT_EXIST) {
+			t.svcOpen.SetEnabled(false)
+		}
 		t.statusImage.SetImage(iconForState(config.StateStopped, 14))
 	}
 }
@@ -382,6 +388,10 @@ func (t *ConfStatusView) View() Widget {
 			Label{AssignTo: &t.address, Text: "-", Row: 1, Column: 1, TextAlignment: Alignment1D(walk.AlignHNearVNear)},
 			PushButton{AssignTo: &t.toggle, Text: "启动", Alignment: AlignHNearVNear,
 				MaxSize: Size{80, 0}, Row: 2, Column: 1, Enabled: false},
+			PushButton{AssignTo: &t.svcOpen, Text: "查看服务", Alignment: AlignHNearVNear,
+				MaxSize: Size{80, 0}, Row: 2, Column: 2, Enabled: false, OnClicked: func() {
+					services.ShowPropertyDialog("FRP Client: " + t.view.Title())
+				}},
 		},
 	}
 }
@@ -390,9 +400,9 @@ func (t *ConfStatusView) Initialize() {
 	ticker := time.NewTicker(time.Second * 1)
 	var name = ""
 	var onTick = func() {
-		state := t.queryState(name)
+		state, err := t.queryState(name)
 		t.view.Synchronize(func() {
-			t.UpdateStatus(name, state)
+			t.UpdateStatus(name, state, err)
 		})
 	}
 	go func() {

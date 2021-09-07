@@ -2,6 +2,7 @@ package ui
 
 import (
 	"frpmgr/config"
+	"frpmgr/services"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"os"
@@ -57,5 +58,8 @@ func RunUI() {
 	fm.logPage.Initialize()
 	fm.aboutPage.Initialize()
 	curDir, _ = os.Getwd()
+	fm.window.Closing().Attach(func(canceled *bool, reason walk.CloseReason) {
+		services.CloseMMC()
+	})
 	fm.window.Run()
 }

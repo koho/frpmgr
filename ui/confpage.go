@@ -102,7 +102,7 @@ func (t *ConfPage) startQueryStatus() {
 			}
 			config.ConfMutex.Lock()
 			for _, conf := range config.Configurations {
-				if t.queryState(conf.Name) {
+				if s, _ := t.queryState(conf.Name); s {
 					conf.Status = config.StateStarted
 				} else {
 					conf.Status = config.StateStopped
