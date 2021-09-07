@@ -1,7 +1,7 @@
 package ui
 
 import (
-	conf2 "frpmgr/config"
+	"frpmgr/config"
 	"frpmgr/services"
 	"frpmgr/utils"
 	"github.com/lxn/walk"
@@ -15,18 +15,18 @@ var lastRunningState bool
 type EditConfDialog struct {
 	view *walk.Dialog
 
-	conf            *conf2.Config
+	conf            *config.Config
 	nameList        []string
 	originalName    string
 	originalLogFile string
-	authInfo        conf2.AuthInfo
+	authInfo        config.AuthInfo
 }
 
-func NewEditConfDialog(conf *conf2.Config, nameList []string) *EditConfDialog {
+func NewEditConfDialog(conf *config.Config, nameList []string) *EditConfDialog {
 	v := new(EditConfDialog)
 	v.nameList = nameList
 	if conf == nil {
-		conf = new(conf2.Config)
+		conf = new(config.Config)
 		conf.ServerPort = "7000"
 		conf.LogLevel = "info"
 		conf.LogMaxDays = 3
@@ -238,7 +238,7 @@ func (t *EditConfDialog) Run(owner walk.Form) (int, error) {
 }
 
 func (t *EditConfDialog) syncAuthInfo() {
-	t.conf.AuthInfo = conf2.AuthInfo{AuthMethod: t.authInfo.AuthMethod}
+	t.conf.AuthInfo = config.AuthInfo{AuthMethod: t.authInfo.AuthMethod}
 	switch t.authInfo.AuthMethod {
 	case "token":
 		t.conf.Token = t.authInfo.Token

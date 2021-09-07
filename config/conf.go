@@ -38,13 +38,19 @@ type Common struct {
 }
 
 type Section struct {
-	Name           string `ini:"-"`
-	Type           string `ini:"type"`
-	LocalIP        string `ini:"local_ip"`
-	LocalPort      string `ini:"local_port"`
-	RemotePort     string `ini:"remote_port"`
-	UseEncryption  bool   `ini:"use_encryption"`
-	UseCompression bool   `ini:"use_compression"`
+	Name           string            `ini:"-"`
+	Type           string            `ini:"type"`
+	LocalIP        string            `ini:"local_ip"`
+	LocalPort      string            `ini:"local_port"`
+	RemotePort     string            `ini:"remote_port"`
+	Role           string            `ini:"role"`
+	SK             string            `ini:"sk"`
+	ServerName     string            `ini:"server_name"`
+	BindAddr       string            `ini:"bind_addr"`
+	BindPort       string            `ini:"bind_port"`
+	UseEncryption  bool              `ini:"use_encryption"`
+	UseCompression bool              `ini:"use_compression"`
+	Custom         map[string]string `ini:"-"`
 }
 
 type Config struct {
@@ -117,6 +123,12 @@ func (c *Config) Load(source string) error {
 		}
 		s := Section{Name: section.Name()}
 		section.MapTo(&s)
+		s.Custom = make(map[string]string)
+		for _, key := range section.Keys() {
+			if utils.GetFieldName(key.Name(), "ini", Section{}) == "" {
+				s.Custom[key.Name()] = key.String()
+			}
+		}
 		c.Items = append(c.Items, &s)
 	}
 	return nil
@@ -145,6 +157,14 @@ func (c *Config) SaveTo(path string) error {
 			return err
 		}
 		s.ReflectFrom(&item)
+		for _, sk := range s.Keys() {
+			if sk.Value() == "" || sk.Value() == "0" || sk.Value() == "false" {
+				s.DeleteKey(sk.Name())
+			}
+		}
+		for k, v := range item.Custom {
+			s.Key(k).SetValue(v)
+		}
 	}
 	for _, sect := range c.cfg.Sections() {
 		if sect.Name() == "common" || sect.Name() == "DEFAULT" {

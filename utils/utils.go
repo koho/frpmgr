@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"reflect"
 	"regexp"
 	"strings"
 	"syscall"
@@ -190,4 +191,47 @@ func AddFileToZip(zipWriter *zip.Writer, filename string) error {
 	}
 	_, err = io.Copy(writer, fileToZip)
 	return err
+}
+
+func GetFieldName(tag, key string, s interface{}) string {
+	rt := reflect.TypeOf(s)
+	if rt.Kind() != reflect.Struct {
+		panic("bad type")
+	}
+	for i := 0; i < rt.NumField(); i++ {
+		f := rt.Field(i)
+		v := strings.Split(f.Tag.Get(key), ",")[0] // use split to ignore tag "options"
+		if v == tag {
+			return f.Name
+		}
+	}
+	return ""
+}
+
+func Map2String(m map[string]string) string {
+	sb := strings.Builder{}
+	for k, v := range m {
+		sb.WriteString(fmt.Sprintf("%s = %s\r\n", k, v))
+	}
+	return sb.String()
+}
+
+func String2Map(s string) map[string]string {
+	m := make(map[string]string)
+	for _, line := range strings.Split(s, "\n") {
+		key, sep, value := Partition(line, "=")
+		if sep == "" {
+			continue
+		}
+		m[strings.TrimSpace(key)] = strings.TrimSpace(value)
+	}
+	return m
+}
+
+func Partition(s string, sep string) (string, string, string) {
+	parts := strings.SplitN(s, sep, 2)
+	if len(parts) == 1 {
+		return parts[0], "", ""
+	}
+	return parts[0], sep, parts[1]
 }
