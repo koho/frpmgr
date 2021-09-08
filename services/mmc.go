@@ -16,11 +16,12 @@ type shell struct {
 
 var mmc shell
 
-var setupCmd = `$mmc = New-Object -ComObject MMC20.Application;
-$mmc.load("services.msc");
-$view = $mmc.document.ActiveView;`
+var setupCmd = `$mmc = New-Object -ComObject MMC20.Application;`
 
-var propCmd = `foreach ($x in $view.ListItems) {
+var propCmd = `$mmc.Document.Close(0);
+$mmc.load("services.msc");
+$view = $mmc.document.ActiveView;
+foreach ($x in $view.ListItems) {
   if ($x.Name -eq "%s") {
     $view.Select($x);
     $view.DisplaySelectionPropertySheet();
@@ -31,8 +32,7 @@ var propCmd = `foreach ($x in $view.ListItems) {
 
 func CloseMMC() {
 	if mmc.handle != nil {
-		fmt.Fprintln(mmc.stdin, "$mmc.Quit();exit;")
-		mmc.handle.Process.Wait()
+		fmt.Fprintln(mmc.stdin, "$mmc.Document.Close(0);sleep 2;$mmc.Quit();exit;")
 	}
 }
 
