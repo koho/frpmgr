@@ -4,8 +4,11 @@ Windows 下的 [frp](https://github.com/fatedier/frp) 图形界面客户端。
 
 ![frpmgr](/docs/frpmgr.png)
 
+系统需求：win7及以上版本
+
 ## 编译
 **安装依赖**:
+- go >=1.16
 - Visual Studio
 - [MinGW](http://www.mingw.org/)
 - [WiX Toolset](https://wixtoolset.org/)
