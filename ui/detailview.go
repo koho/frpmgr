@@ -53,12 +53,12 @@ func (t *DetailView) toggleService(restart bool) {
 		if restart {
 			t.statusImage.SetImage(iconForState(config.StateStarting, 14))
 			t.status.SetText("正在启动")
-			err = services.InstallService(confPath)
+			err = services.InstallService(confPath, t.conf.ManualStart)
 		}
 	} else {
 		t.statusImage.SetImage(iconForState(config.StateStarting, 14))
 		t.status.SetText("正在启动")
-		err = services.InstallService(confPath)
+		err = services.InstallService(confPath, t.conf.ManualStart)
 	}
 	if err != nil {
 		walk.MsgBox(t.view.Form(), "错误", "操作服务失败\n\n"+err.Error(), walk.MsgBoxOK|walk.MsgBoxIconError)

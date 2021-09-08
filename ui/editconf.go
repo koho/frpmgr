@@ -179,8 +179,14 @@ func (t *EditConfDialog) View() Dialog {
 							NumberEdit{Value: Bind("PoolCount")},
 							Label{Text: "DNS:"},
 							LineEdit{Text: Bind("DNSServer")},
-							Label{Text: "其他:"},
-							CheckBox{Text: "初次登录失败后退出", Checked: Bind("LoginFailExit")},
+							Label{Text: "其他:", Alignment: AlignHNearVNear},
+							Composite{
+								Layout: VBox{MarginsZero: true, SpacingZero: true, Alignment: AlignHNearVNear},
+								Children: []Widget{
+									CheckBox{Text: "初次登录失败后退出", Checked: Bind("LoginFailExit")},
+									CheckBox{Text: "禁用开机自启动", Checked: Bind("ManualStart")},
+								},
+							},
 						},
 					},
 				},

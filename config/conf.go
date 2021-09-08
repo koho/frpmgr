@@ -35,6 +35,7 @@ type Common struct {
 	Protocol      string `ini:"protocol"`
 	TLSEnable     bool   `ini:"tls_enable"`
 	LoginFailExit bool   `ini:"login_fail_exit"`
+	ManualStart   bool   `ini:"manual_start"`
 }
 
 type Section struct {

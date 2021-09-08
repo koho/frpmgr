@@ -24,7 +24,7 @@ func serviceManager() (*mgr.Mgr, error) {
 	return cachedServiceManager, nil
 }
 
-func InstallService(configPath string) error {
+func InstallService(configPath string, manual bool) error {
 	m, err := serviceManager()
 	if err != nil {
 		return err
@@ -69,6 +69,9 @@ func InstallService(configPath string) error {
 		DisplayName:  "FRP Client: " + name,
 		Description:  "FRP Client Daemon Service",
 		SidType:      windows.SERVICE_SID_TYPE_UNRESTRICTED,
+	}
+	if manual {
+		conf.StartType = mgr.StartManual
 	}
 	service, err = m.CreateService(serviceName, path, conf, "/service", configPath)
 	if err != nil {
