@@ -10,47 +10,47 @@ import (
 )
 
 type AuthInfo struct {
-	AuthMethod        string `ini:"authentication_method"`
-	Token             string `ini:"token"`
-	OIDCClientId      string `ini:"oidc_client_id"`
-	OIDCClientSecret  string `ini:"oidc_client_secret"`
-	OIDCAudience      string `ini:"oidc_audience"`
-	OIDCTokenEndpoint string `ini:"oidc_token_endpoint_url"`
+	AuthMethod        string `ini:"authentication_method,omitempty"`
+	Token             string `ini:"token,omitempty"`
+	OIDCClientId      string `ini:"oidc_client_id,omitempty"`
+	OIDCClientSecret  string `ini:"oidc_client_secret,omitempty"`
+	OIDCAudience      string `ini:"oidc_audience,omitempty"`
+	OIDCTokenEndpoint string `ini:"oidc_token_endpoint_url,omitempty"`
 }
 
 type Common struct {
 	ServerAddress string `ini:"server_addr"`
 	ServerPort    string `ini:"server_port"`
-	LogFile       string `ini:"log_file"`
-	LogLevel      string `ini:"log_level"`
-	LogMaxDays    uint   `ini:"log_max_days"`
+	LogFile       string `ini:"log_file,omitempty"`
+	LogLevel      string `ini:"log_level,omitempty"`
+	LogMaxDays    uint   `ini:"log_max_days,omitempty"`
 	AuthInfo      `ini:"common"`
-	AdminAddr     string `ini:"admin_addr"`
-	AdminPort     string `ini:"admin_port"`
-	AdminUser     string `ini:"admin_user"`
-	AdminPwd      string `ini:"admin_pwd"`
-	PoolCount     uint   `ini:"pool_count"`
-	DNSServer     string `ini:"dns_server"`
-	TcpMux        bool   `ini:"tcp_mux"`
-	Protocol      string `ini:"protocol"`
-	TLSEnable     bool   `ini:"tls_enable"`
+	AdminAddr     string `ini:"admin_addr,omitempty"`
+	AdminPort     string `ini:"admin_port,omitempty"`
+	AdminUser     string `ini:"admin_user,omitempty"`
+	AdminPwd      string `ini:"admin_pwd,omitempty"`
+	PoolCount     uint   `ini:"pool_count,omitempty"`
+	DNSServer     string `ini:"dns_server,omitempty"`
+	TcpMux        bool   `ini:"tcp_mux,omitempty"`
+	Protocol      string `ini:"protocol,omitempty"`
+	TLSEnable     bool   `ini:"tls_enable,omitempty"`
 	LoginFailExit bool   `ini:"login_fail_exit"`
-	ManualStart   bool   `ini:"manual_start"`
+	ManualStart   bool   `ini:"manual_start,omitempty"`
 }
 
 type Section struct {
 	Name           string            `ini:"-"`
-	Type           string            `ini:"type"`
-	LocalIP        string            `ini:"local_ip"`
-	LocalPort      string            `ini:"local_port"`
-	RemotePort     string            `ini:"remote_port"`
-	Role           string            `ini:"role"`
-	SK             string            `ini:"sk"`
-	ServerName     string            `ini:"server_name"`
-	BindAddr       string            `ini:"bind_addr"`
-	BindPort       string            `ini:"bind_port"`
-	UseEncryption  bool              `ini:"use_encryption"`
-	UseCompression bool              `ini:"use_compression"`
+	Type           string            `ini:"type,omitempty"`
+	LocalIP        string            `ini:"local_ip,omitempty"`
+	LocalPort      string            `ini:"local_port,omitempty"`
+	RemotePort     string            `ini:"remote_port,omitempty"`
+	Role           string            `ini:"role,omitempty"`
+	SK             string            `ini:"sk,omitempty"`
+	ServerName     string            `ini:"server_name,omitempty"`
+	BindAddr       string            `ini:"bind_addr,omitempty"`
+	BindPort       string            `ini:"bind_port,omitempty"`
+	UseEncryption  bool              `ini:"use_encryption,omitempty"`
+	UseCompression bool              `ini:"use_compression,omitempty"`
 	Custom         map[string]string `ini:"-"`
 }
 
@@ -62,7 +62,6 @@ type Config struct {
 	Items []*Section
 }
 
-var notOmitEmpty = []string{"login_fail_exit"}
 var Configurations []*Config
 var ConfMutex sync.Mutex
 var StatusChan = make(chan bool)
@@ -140,25 +139,12 @@ func (c *Config) SaveTo(path string) error {
 		return err
 	}
 	common.ReflectFrom(&c.Common)
-	for _, k := range common.Keys() {
-		if _, found := utils.Find(notOmitEmpty, k.Name()); found {
-			continue
-		}
-		if k.Value() == "" || k.Value() == "0" || k.Value() == "false" {
-			common.DeleteKey(k.Name())
-		}
-	}
 	for _, item := range c.Items {
 		s, err := cfg.NewSection(item.Name)
 		if err != nil {
 			return err
 		}
 		s.ReflectFrom(&item)
-		for _, sk := range s.Keys() {
-			if sk.Value() == "" || sk.Value() == "0" || sk.Value() == "false" {
-				s.DeleteKey(sk.Name())
-			}
-		}
 		for k, v := range item.Custom {
 			s.Key(k).SetValue(v)
 		}
