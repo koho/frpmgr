@@ -197,7 +197,7 @@ func (t *ConfSectionView) View() Widget {
 					Action{
 						AssignTo: &t.newAction,
 						Text:     "添加",
-						Image:    loadSysIcon("shell32", 279, 16),
+						Image:    loadSysIcon("shell32", 205, 16),
 						OnTriggered: func() {
 							t.onEditSection(false)
 						},
