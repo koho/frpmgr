@@ -1,9 +1,9 @@
---- pkg/mod/github.com/fatedier/frp@v0.37.1/client/service.go	2020-12-13 17:35:17.589647500 +0800
-+++ patches/service.go	2020-12-13 18:05:29.501068500 +0800
+--- pkg/mod/github.com/fatedier/frp@v0.38.0/client/service.go	2022-01-05 14:49:29.000000000 +0800
++++ patches/service.go	2022-01-05 15:10:43.000000000 +0800
 @@ -20,12 +20,13 @@
  	"errors"
  	"fmt"
- 	"io/ioutil"
+ 	"io"
  	"net"
  	"runtime"
  	"strconv"
@@ -28,7 +28,7 @@
 
  // Service is a client service.
  type Service struct {
-@@ -205,12 +207,44 @@
+@@ -202,12 +204,44 @@
  			svr.ctlMu.Unlock()
  			break
  		}
@@ -73,7 +73,7 @@
  func (svr *Service) login() (conn net.Conn, session *fmux.Session, err error) {
  	xl := xlog.FromContextSafe(svr.ctx)
  	var tlsConfig *tls.Config
-@@ -228,13 +262,20 @@
+@@ -225,13 +259,20 @@
  		if err != nil {
  			xl.Warn("fail to build tls configuration when service login, err: %v", err)
  			return
@@ -89,7 +89,7 @@
 +		}
 +	}
 +	address := net.JoinHostPort(addr, strconv.Itoa(svr.cfg.ServerPort))
- 	conn, err = frpNet.ConnectServerByProxyWithTLS(svr.cfg.HTTPProxy, svr.cfg.Protocol, address, tlsConfig)
+ 	conn, err = frpNet.ConnectServerByProxyWithTLS(svr.cfg.HTTPProxy, svr.cfg.Protocol, address, tlsConfig, svr.cfg.DisableCustomTLSFirstByte)
  	if err != nil {
  		return
  	}
