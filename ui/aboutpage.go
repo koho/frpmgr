@@ -64,7 +64,7 @@ func (t *AboutPage) checkUpdate(showErr bool) {
 					}
 					t.newVersionDownloadBtn.SetName(data["html_url"].(string))
 					t.view.SetTitle("新版本可用")
-					t.view.SetImage(loadSysIcon("imageres", 1, 16))
+					t.view.SetImage(loadNewVersionIcon(16))
 				} else if showErr {
 					walk.MsgBox(t.checkUpdateBtn.Form(), "提示", "已是最新版本。", walk.MsgBoxOK|walk.MsgBoxIconInformation)
 				}

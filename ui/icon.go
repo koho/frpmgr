@@ -63,3 +63,11 @@ func loadLogoIcon(size int) (icon *walk.Icon, err error) {
 	}
 	return
 }
+
+func loadNewVersionIcon(size int) (icon *walk.Icon) {
+	icon = loadSysIcon("imageres", -1028, size)
+	if icon == nil {
+		icon = loadSysIcon("imageres", 1, size)
+	}
+	return
+}
