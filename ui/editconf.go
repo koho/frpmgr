@@ -44,6 +44,7 @@ func NewEditConfDialog(conf *config.Config, nameList []string) *EditConfDialog {
 func (t *EditConfDialog) View() Dialog {
 	var acceptPB, cancelPB *walk.PushButton
 	var logFileView *walk.LineEdit
+	var customText *walk.TextEdit
 	var nameView, serverAddrView, serverPortView *walk.LineEdit
 	var db *walk.DataBinder
 	var authDB *walk.DataBinder
@@ -82,6 +83,8 @@ func (t *EditConfDialog) View() Dialog {
 							LineEdit{AssignTo: &serverAddrView, Text: Bind("ServerAddress", Regexp{".+"})},
 							Label{Text: "服务器端口:"},
 							LineEdit{AssignTo: &serverPortView, Text: Bind("ServerPort", Regexp{"^\\d+$"})},
+							Label{Text: "用户:"},
+							LineEdit{Text: Bind("User")},
 							VSpacer{ColumnSpan: 2},
 						},
 					},
@@ -189,6 +192,14 @@ func (t *EditConfDialog) View() Dialog {
 							},
 						},
 					},
+					{
+						Title:  "自定义",
+						Layout: VBox{},
+						Children: []Widget{
+							Label{Text: "*参考 FRP 配置文件的 [common] 部分"},
+							TextEdit{AssignTo: &customText, Text: utils.Map2String(t.conf.Custom), VScroll: true},
+						},
+					},
 				},
 			},
 			Composite{
@@ -207,6 +218,7 @@ func (t *EditConfDialog) View() Dialog {
 						db.Submit()
 						authDB.Submit()
 						t.syncAuthInfo()
+						t.conf.Custom = utils.String2Map(customText.Text())
 						t.conf.Save()
 
 						lastEditName = t.conf.Name
