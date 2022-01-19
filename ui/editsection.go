@@ -121,8 +121,9 @@ func (t *EditSectionDialog) View() Dialog {
 							},
 							{
 								Title:  "自定义",
-								Layout: HBox{},
+								Layout: VBox{},
 								Children: []Widget{
+									Label{Text: "*参考 FRP 支持的参数"},
 									TextEdit{AssignTo: &customText, Text: utils.Map2String(t.section.Custom), VScroll: true},
 								},
 							},
