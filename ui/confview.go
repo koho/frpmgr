@@ -140,6 +140,14 @@ func (t *ConfView) unzipFiles(path string) {
 	}
 }
 
+func (t *ConfView) onOpen() {
+	if c := t.CurrentConf(); c != nil {
+		if path, err := filepath.Abs(c.Path); err == nil {
+			openPath(path)
+		}
+	}
+}
+
 func (t *ConfView) onDelete() {
 	c := t.CurrentConf()
 	if c != nil {
@@ -196,6 +204,7 @@ func (t *ConfView) Initialize() {
 	t.ToolbarView.exportAction.Triggered().Attach(t.onExport)
 	t.ConfListView.editAction.Triggered().Attach(editCB)
 	t.ConfListView.editAction.SetDefault(true)
+	t.ConfListView.openAction.Triggered().Attach(t.onOpen)
 	t.ConfListView.newAction.Triggered().Attach(newCB)
 	t.ConfListView.importAction.Triggered().Attach(t.onImport)
 	t.ConfListView.exportAction.Triggered().Attach(t.onExport)
@@ -207,6 +216,7 @@ type ConfListView struct {
 	model        *ConfListModel
 	view         *walk.TableView
 	editAction   *walk.Action
+	openAction   *walk.Action
 	newAction    *walk.Action
 	importAction *walk.Action
 	exportAction *walk.Action
@@ -230,6 +240,7 @@ func (t *ConfListView) View() Widget {
 		Model:               t.model,
 		ContextMenuItems: []MenuItem{
 			Action{AssignTo: &t.editAction, Text: "编辑配置", Enabled: Bind("conf.SelectedIndex >= 0")},
+			Action{AssignTo: &t.openAction, Text: "打开配置文件", Enabled: Bind("conf.SelectedIndex >= 0")},
 			Separator{},
 			Action{AssignTo: &t.newAction, Text: "创建新配置"},
 			Action{AssignTo: &t.importAction, Text: "从文件导入配置"},
