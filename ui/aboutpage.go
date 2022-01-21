@@ -103,7 +103,7 @@ func (t *AboutPage) View() TabPage {
 								Alignment: AlignHNearVCenter,
 								Text:      `<a id="home" href="https://github.com/koho/frpmgr">https://github.com/koho/frpmgr</a>`,
 								OnLinkActivated: func(link *walk.LinkLabelLink) {
-									t.openURL(link.URL())
+									openPath(link.URL())
 								},
 							},
 							VSpacer{Size: 6},
@@ -112,7 +112,7 @@ func (t *AboutPage) View() TabPage {
 								Alignment: AlignHNearVCenter,
 								Text:      `<a id="frp" href="https://github.com/fatedier/frp">https://github.com/fatedier/frp</a>`,
 								OnLinkActivated: func(link *walk.LinkLabelLink) {
-									t.openURL(link.URL())
+									openPath(link.URL())
 								},
 							},
 						},
@@ -132,7 +132,7 @@ func (t *AboutPage) View() TabPage {
 							Label{AssignTo: &t.newVersionTag},
 							Label{AssignTo: &t.newVersionDate},
 							PushButton{AssignTo: &t.newVersionDownloadBtn, Text: "下载", OnClicked: func() {
-								t.openURL(t.newVersionDownloadBtn.Name())
+								openPath(t.newVersionDownloadBtn.Name())
 							}},
 							HSpacer{},
 						},
@@ -144,11 +144,11 @@ func (t *AboutPage) View() TabPage {
 	}
 }
 
-func (t *AboutPage) openURL(url string) {
-	if url == "" {
+func openPath(path string) {
+	if path == "" {
 		return
 	}
-	openCmd := exec.Command("cmd", "/c", "start", url)
+	openCmd := exec.Command("cmd", "/c", "start", path)
 	openCmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
 	openCmd.Start()
 }

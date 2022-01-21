@@ -42,7 +42,7 @@ func iconForState(state config.ServiceState, size int) (icon *walk.Icon) {
 	case config.StateStarted:
 		icon = loadSysIcon("imageres", 101, size)
 	case config.StateStopped:
-		icon, _ = walk.NewIconFromResourceIdWithSize(21, walk.Size{size, size})
+		icon = loadResourceIcon(21, size)
 	default:
 		icon = loadSysIcon("shell32", 238, size)
 	}
@@ -69,5 +69,10 @@ func loadNewVersionIcon(size int) (icon *walk.Icon) {
 	if icon == nil {
 		icon = loadSysIcon("imageres", 1, size)
 	}
+	return
+}
+
+func loadResourceIcon(id int, size int) (icon *walk.Icon) {
+	icon, _ = walk.NewIconFromResourceIdWithSize(id, walk.Size{size, size})
 	return
 }

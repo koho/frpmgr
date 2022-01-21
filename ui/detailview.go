@@ -9,6 +9,7 @@ import (
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"golang.org/x/sys/windows"
+	"path/filepath"
 	"time"
 )
 
@@ -225,7 +226,7 @@ func (t *ConfSectionView) View() Widget {
 							Action{
 								AssignTo: &t.webAction,
 								Text:     "Web",
-								Image:    loadSysIcon("shell32", 14, 16),
+								Image:    loadSysIcon("shell32", 13, 16),
 								OnTriggered: func() {
 									t.onQuickAddSection(NewSimpleSectionDialog("Web", "web", []string{"tcp"}, 80))
 								},
@@ -247,6 +248,18 @@ func (t *ConfSectionView) View() Widget {
 						Text:        "删除",
 						Enabled:     Bind("section.Selected"),
 						OnTriggered: t.onDeleteSection,
+					},
+					Action{
+						Image: loadResourceIcon(22, 16),
+						Text:  "打开配置文件",
+						OnTriggered: func() {
+							if !t.mustSelectConf() {
+								return
+							}
+							if path, err := filepath.Abs(t.model.conf.Path); err == nil {
+								openPath(path)
+							}
+						},
 					},
 				},
 			},
