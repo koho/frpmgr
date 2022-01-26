@@ -3,9 +3,9 @@ package ui
 import (
 	"archive/zip"
 	"fmt"
-	"frpmgr/config"
-	"frpmgr/services"
-	"frpmgr/utils"
+	"github.com/koho/frpmgr/config"
+	"github.com/koho/frpmgr/services"
+	"github.com/koho/frpmgr/utils"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"io"

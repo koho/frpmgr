@@ -1,8 +1,8 @@
 package ui
 
 import (
-	"frpmgr/config"
-	"frpmgr/utils"
+	"github.com/koho/frpmgr/config"
+	"github.com/koho/frpmgr/utils"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 )

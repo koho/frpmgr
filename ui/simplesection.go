@@ -2,7 +2,7 @@ package ui
 
 import (
 	"fmt"
-	"frpmgr/config"
+	"github.com/koho/frpmgr/config"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"strconv"

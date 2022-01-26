@@ -2,7 +2,7 @@ package services
 
 import (
 	"errors"
-	"frpmgr/config"
+	"github.com/koho/frpmgr/config"
 	"golang.org/x/sys/windows"
 	"golang.org/x/sys/windows/svc"
 	"golang.org/x/sys/windows/svc/mgr"

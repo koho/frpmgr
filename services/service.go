@@ -2,8 +2,8 @@ package services
 
 import (
 	"fmt"
-	"frpmgr/config"
 	"github.com/fatedier/golib/crypto"
+	"github.com/koho/frpmgr/config"
 	"log"
 	"math/rand"
 	"os"

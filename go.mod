@@ -1,4 +1,4 @@
-module frpmgr
+module github.com/koho/frpmgr
 
 go 1.16
 

@@ -1,7 +1,7 @@
 package config
 
 import (
-	"frpmgr/utils"
+	"github.com/koho/frpmgr/utils"
 	"gopkg.in/ini.v1"
 	"os"
 	"path/filepath"

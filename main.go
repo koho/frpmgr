@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"frpmgr/services"
-	"frpmgr/ui"
+	"github.com/koho/frpmgr/services"
+	"github.com/koho/frpmgr/ui"
 	"golang.org/x/sys/windows"
 	"os"
 	"strings"
