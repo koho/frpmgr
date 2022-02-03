@@ -343,8 +343,12 @@ func (t *ConfStatusView) UpdateStatus(name string, running bool, err error) {
 		t.statusImage.SetVisible(false)
 		return
 	}
-	t.view.SetTitle(name)
-	t.address.SetText(t.conf.ServerAddress)
+	if t.view.Title() != name {
+		t.view.SetTitle(name)
+	}
+	if t.address.Text() != t.conf.ServerAddress {
+		t.address.SetText(t.conf.ServerAddress)
+	}
 	t.toggle.SetEnabled(true)
 	t.svcOpen.SetEnabled(true)
 	t.statusImage.SetVisible(true)

@@ -100,16 +100,23 @@ func (t *ConfPage) startQueryStatus() {
 			case <-config.StatusChan:
 			case <-ticker.C:
 			}
+			statusChanged := false
 			config.ConfMutex.Lock()
 			for _, conf := range config.Configurations {
+				lastStatus := conf.Status
 				if s, _ := t.queryState(conf.Name); s {
 					conf.Status = config.StateStarted
 				} else {
 					conf.Status = config.StateStopped
 				}
+				if conf.Status != lastStatus {
+					statusChanged = true
+				}
 			}
 			config.ConfMutex.Unlock()
-			t.ConfListView.view.Invalidate()
+			if statusChanged {
+				t.ConfListView.view.Invalidate()
+			}
 		}
 	}()
 }
