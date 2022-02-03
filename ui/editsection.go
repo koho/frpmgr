@@ -66,7 +66,15 @@ func (t *EditSectionDialog) View() Dialog {
 						Layout: Grid{Columns: 2, SpacingZero: false, Margins: Margins{0, 4, 0, 4}},
 						Children: []Widget{
 							Label{Text: "名称:", Alignment: AlignHNearVCenter},
-							LineEdit{AssignTo: &nameView, Text: Bind("Name", Regexp{".+"})},
+							Composite{
+								Layout: HBox{MarginsZero: true},
+								Children: []Widget{
+									LineEdit{AssignTo: &nameView, Text: Bind("Name", Regexp{".+"})},
+									PushButton{Text: " 随机名称", Image: loadResourceIcon(23, 16), OnClicked: func() {
+										nameView.SetText(utils.RandomString(8))
+									}},
+								},
+							},
 							Label{Text: "类型:", Alignment: AlignHNearVCenter},
 							ComboBox{
 								AssignTo: &typeBox,

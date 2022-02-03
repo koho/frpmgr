@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -14,6 +15,8 @@ import (
 	"syscall"
 	"time"
 )
+
+const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 func CopyFile(src string, dest string) (int64, error) {
 	srcStat, err := os.Stat(src)
@@ -234,4 +237,12 @@ func Partition(s string, sep string) (string, string, string) {
 		return parts[0], "", ""
 	}
 	return parts[0], sep, parts[1]
+}
+
+func RandomString(n int) string {
+	b := make([]byte, n)
+	for i := range b {
+		b[i] = letterBytes[rand.Intn(len(letterBytes))]
+	}
+	return string(b)
 }
