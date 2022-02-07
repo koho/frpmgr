@@ -1,5 +1,5 @@
---- pkg/mod/github.com/fatedier/frp@v0.38.0/client/service.go	2022-01-05 14:49:29.000000000 +0800
-+++ patches/service.go	2022-01-05 15:10:43.000000000 +0800
+--- pkg/mod/github.com/fatedier/frp@v0.39.0/client/service.go	2022-02-07 09:18:00.000000000 +0800
++++ patches/service.go	2022-02-07 10:12:45.000000000 +0800
 @@ -20,12 +20,13 @@
  	"errors"
  	"fmt"
@@ -14,13 +14,13 @@
 
  	"github.com/fatedier/frp/assets"
  	"github.com/fatedier/frp/pkg/auth"
-@@ -33,12 +34,13 @@
- 	"github.com/fatedier/frp/pkg/msg"
+@@ -34,12 +35,13 @@
  	"github.com/fatedier/frp/pkg/transport"
  	"github.com/fatedier/frp/pkg/util/log"
  	frpNet "github.com/fatedier/frp/pkg/util/net"
  	"github.com/fatedier/frp/pkg/util/version"
  	"github.com/fatedier/frp/pkg/util/xlog"
+ 	libdial "github.com/fatedier/golib/net/dial"
 +	"github.com/miekg/dns"
 
  	fmux "github.com/hashicorp/yamux"
@@ -28,7 +28,7 @@
 
  // Service is a client service.
  type Service struct {
-@@ -202,12 +204,44 @@
+@@ -203,12 +205,50 @@
  			svr.ctlMu.Unlock()
  			break
  		}
@@ -53,7 +53,13 @@
 +		return "", err
 +	}
 +	if len(r.Answer) == 0 {
-+		return "", errors.New(fmt.Sprintf("no record for host '%s' with '%s'", addr, server))
++		m.SetQuestion(addr, dns.TypeAAAA)
++		if r, _, err = c.Exchange(&m, server); err != nil {
++			return "", err
++		}
++		if len(r.Answer) == 0 {
++			return "", errors.New(fmt.Sprintf("no record for host '%s' with '%s'", addr, server))
++		}
 +	}
 +	switch v := r.Answer[0].(type) {
 +	case *dns.A:
@@ -73,25 +79,25 @@
  func (svr *Service) login() (conn net.Conn, session *fmux.Session, err error) {
  	xl := xlog.FromContextSafe(svr.ctx)
  	var tlsConfig *tls.Config
-@@ -225,13 +259,20 @@
- 		if err != nil {
- 			xl.Warn("fail to build tls configuration when service login, err: %v", err)
- 			return
- 		}
- 	}
-
--	address := net.JoinHostPort(svr.cfg.ServerAddr, strconv.Itoa(svr.cfg.ServerPort))
-+	var addr = svr.cfg.ServerAddr
+@@ -249,14 +289,20 @@
+ 		libdial.WithProxyAuth(auth),
+ 		libdial.WithTLSConfig(tlsConfig),
+ 		libdial.WithAfterHook(libdial.AfterHook{
+ 			Hook: frpNet.DialHookCustomTLSHeadByte(tlsConfig != nil, svr.cfg.DisableCustomTLSFirstByte),
+ 		}),
+ 	)
++	var serverAddr = svr.cfg.ServerAddr
 +	if svr.cfg.DNSServer != "" && runtime.GOOS == "windows" {
-+		addr, err = lookupIP(svr.cfg.ServerAddr, svr.cfg.DNSServer)
-+		if err != nil {
++		if serverAddr, err = lookupIP(svr.cfg.ServerAddr, svr.cfg.DNSServer); err != nil {
 +			return nil, nil, err
 +		}
 +	}
-+	address := net.JoinHostPort(addr, strconv.Itoa(svr.cfg.ServerPort))
- 	conn, err = frpNet.ConnectServerByProxyWithTLS(svr.cfg.HTTPProxy, svr.cfg.Protocol, address, tlsConfig, svr.cfg.DisableCustomTLSFirstByte)
+ 	conn, err = libdial.Dial(
+-		net.JoinHostPort(svr.cfg.ServerAddr, strconv.Itoa(svr.cfg.ServerPort)),
++		net.JoinHostPort(serverAddr, strconv.Itoa(svr.cfg.ServerPort)),
+ 		dialOptions...,
+ 	)
  	if err != nil {
  		return
  	}
 
- 	defer func() {

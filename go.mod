@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/fatedier/frp v0.39.0
-	github.com/fatedier/golib v0.2.0
+	github.com/fatedier/golib v0.1.1-0.20220119075718-78e5cf8c00ee
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e // indirect
 	github.com/miekg/dns v1.1.45 // indirect
