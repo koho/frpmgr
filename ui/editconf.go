@@ -178,6 +178,8 @@ func (t *EditConfDialog) View() Dialog {
 									CheckBox{Text: "多路复用", Checked: Bind("TcpMux")},
 								},
 							},
+							Label{Text: "HTTP 代理:"},
+							LineEdit{Text: Bind("HTTPProxy")},
 							Label{Text: "使用源地址:"},
 							LineEdit{Text: Bind("ConnectServerLocalIP")},
 							Label{Text: "连接池数量:"},

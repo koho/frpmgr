@@ -23,6 +23,7 @@ type Common struct {
 	ServerAddress        string            `ini:"server_addr"`
 	ServerPort           string            `ini:"server_port"`
 	ConnectServerLocalIP string            `ini:"connect_server_local_ip,omitempty"`
+	HTTPProxy            string            `ini:"http_proxy,omitempty"`
 	LogFile              string            `ini:"log_file,omitempty"`
 	LogLevel             string            `ini:"log_level,omitempty"`
 	LogMaxDays           uint              `ini:"log_max_days,omitempty"`
