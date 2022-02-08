@@ -19,25 +19,26 @@ type AuthInfo struct {
 }
 
 type Common struct {
-	AuthInfo      `ini:"common"`
-	ServerAddress string            `ini:"server_addr"`
-	ServerPort    string            `ini:"server_port"`
-	LogFile       string            `ini:"log_file,omitempty"`
-	LogLevel      string            `ini:"log_level,omitempty"`
-	LogMaxDays    uint              `ini:"log_max_days,omitempty"`
-	AdminAddr     string            `ini:"admin_addr,omitempty"`
-	AdminPort     string            `ini:"admin_port,omitempty"`
-	AdminUser     string            `ini:"admin_user,omitempty"`
-	AdminPwd      string            `ini:"admin_pwd,omitempty"`
-	PoolCount     uint              `ini:"pool_count,omitempty"`
-	DNSServer     string            `ini:"dns_server,omitempty"`
-	TcpMux        bool              `ini:"tcp_mux,omitempty"`
-	Protocol      string            `ini:"protocol,omitempty"`
-	TLSEnable     bool              `ini:"tls_enable,omitempty"`
-	LoginFailExit bool              `ini:"login_fail_exit"`
-	User          string            `ini:"user,omitempty"`
-	ManualStart   bool              `ini:"manual_start,omitempty"`
-	Custom        map[string]string `ini:"-"`
+	AuthInfo             `ini:"common"`
+	ServerAddress        string            `ini:"server_addr"`
+	ServerPort           string            `ini:"server_port"`
+	ConnectServerLocalIP string            `ini:"connect_server_local_ip,omitempty"`
+	LogFile              string            `ini:"log_file,omitempty"`
+	LogLevel             string            `ini:"log_level,omitempty"`
+	LogMaxDays           uint              `ini:"log_max_days,omitempty"`
+	AdminAddr            string            `ini:"admin_addr,omitempty"`
+	AdminPort            string            `ini:"admin_port,omitempty"`
+	AdminUser            string            `ini:"admin_user,omitempty"`
+	AdminPwd             string            `ini:"admin_pwd,omitempty"`
+	PoolCount            uint              `ini:"pool_count,omitempty"`
+	DNSServer            string            `ini:"dns_server,omitempty"`
+	TcpMux               bool              `ini:"tcp_mux,omitempty"`
+	Protocol             string            `ini:"protocol,omitempty"`
+	TLSEnable            bool              `ini:"tls_enable,omitempty"`
+	LoginFailExit        bool              `ini:"login_fail_exit"`
+	User                 string            `ini:"user,omitempty"`
+	ManualStart          bool              `ini:"manual_start,omitempty"`
+	Custom               map[string]string `ini:"-"`
 }
 
 type Section struct {
