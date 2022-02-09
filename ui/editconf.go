@@ -170,14 +170,6 @@ func (t *EditConfDialog) View() Dialog {
 								Value: Bind("Protocol"),
 								Model: []string{"tcp", "kcp", "websocket"},
 							},
-							Label{Text: "网络:", Alignment: AlignHNearVNear},
-							Composite{
-								Layout: VBox{MarginsZero: true, SpacingZero: true},
-								Children: []Widget{
-									CheckBox{Text: "TLS", Checked: Bind("TLSEnable")},
-									CheckBox{Text: "多路复用", Checked: Bind("TcpMux")},
-								},
-							},
 							Label{Text: "HTTP 代理:"},
 							LineEdit{Text: Bind("HTTPProxy")},
 							Label{Text: "使用源地址:"},

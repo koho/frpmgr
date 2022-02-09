@@ -33,9 +33,7 @@ type Common struct {
 	AdminPwd             string            `ini:"admin_pwd,omitempty"`
 	PoolCount            uint              `ini:"pool_count,omitempty"`
 	DNSServer            string            `ini:"dns_server,omitempty"`
-	TcpMux               bool              `ini:"tcp_mux,omitempty"`
 	Protocol             string            `ini:"protocol,omitempty"`
-	TLSEnable            bool              `ini:"tls_enable,omitempty"`
 	LoginFailExit        bool              `ini:"login_fail_exit"`
 	User                 string            `ini:"user,omitempty"`
 	ManualStart          bool              `ini:"manual_start,omitempty"`
