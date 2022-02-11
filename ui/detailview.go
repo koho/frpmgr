@@ -367,6 +367,7 @@ func (t *ConfStatusView) UpdateStatus(name string, running bool, err error) {
 }
 
 func (t *ConfStatusView) View() Widget {
+	var copyImgView *walk.ImageView
 	return GroupBox{
 		AssignTo: &t.view,
 		Title:    "",
@@ -376,7 +377,7 @@ func (t *ConfStatusView) View() Widget {
 				Layout:    HBox{MarginsZero: true, SpacingZero: true},
 				Row:       0,
 				Column:    0,
-				Alignment: AlignHFarVFar,
+				Alignment: AlignHFarVCenter,
 				Children: []Widget{
 					Label{Text: "状态:"},
 				},
@@ -385,7 +386,7 @@ func (t *ConfStatusView) View() Widget {
 				Layout:    HBox{MarginsZero: true, SpacingZero: true},
 				Row:       1,
 				Column:    0,
-				Alignment: AlignHFarVFar,
+				Alignment: AlignHFarVCenter,
 				Children: []Widget{
 					Label{Text: "远程地址:"},
 				},
@@ -393,16 +394,36 @@ func (t *ConfStatusView) View() Widget {
 			Composite{
 				Layout: HBox{SpacingZero: true, MarginsZero: true},
 				Row:    0, Column: 1,
+				Alignment: AlignHNearVCenter,
 				Children: []Widget{
 					ImageView{
 						AssignTo: &t.statusImage,
 						Visible:  false,
 						Margin:   2,
 					},
-					Label{AssignTo: &t.status, Text: "-", TextAlignment: Alignment1D(walk.AlignHNearVNear)},
+					Label{AssignTo: &t.status, Text: "-", TextAlignment: Alignment1D(walk.AlignHNearVCenter)},
 				},
 			},
-			Label{AssignTo: &t.address, Text: "-", Row: 1, Column: 1, TextAlignment: Alignment1D(walk.AlignHNearVNear)},
+			Composite{
+				Layout: HBox{SpacingZero: true, MarginsZero: true},
+				Row:    1, Column: 1,
+				Alignment: AlignHNearVCenter,
+				Children: []Widget{
+					Label{AssignTo: &t.address, Text: "-"},
+					HSpacer{Size: 5},
+					ImageView{AssignTo: &copyImgView, Image: loadResourceIcon(24, 16), ToolTipText: "复制",
+						OnMouseDown: func(x, y int, button walk.MouseButton) {
+							if button == walk.LeftButton {
+								copyImgView.SetImage(loadResourceIcon(25, 16))
+							}
+						}, OnMouseUp: func(x, y int, button walk.MouseButton) {
+							if button == walk.LeftButton {
+								copyImgView.SetImage(loadResourceIcon(24, 16))
+								walk.Clipboard().SetText(t.address.Text())
+							}
+						}},
+				},
+			},
 			PushButton{AssignTo: &t.toggle, Text: "启动", Alignment: AlignHNearVNear,
 				MaxSize: Size{80, 0}, Row: 2, Column: 1, Enabled: false},
 			PushButton{AssignTo: &t.svcOpen, Text: "查看服务", Alignment: AlignHNearVNear,
