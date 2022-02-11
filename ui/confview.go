@@ -362,6 +362,7 @@ func (t *ToolbarView) Initialize() {
 	t.deleteAction.SetToolTip("删除配置")
 	t.exportAction.SetToolTip("导出所有配置 (ZIP 压缩包)")
 	t.view.ApplyDPI((*t.parent).DPI())
+	t.fixWidth()
 }
 
 func (t *ToolbarView) fixWidth() {
