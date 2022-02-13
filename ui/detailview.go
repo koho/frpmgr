@@ -424,12 +424,19 @@ func (t *ConfStatusView) View() Widget {
 						}},
 				},
 			},
-			PushButton{AssignTo: &t.toggle, Text: "启动", Alignment: AlignHNearVNear,
-				MaxSize: Size{80, 0}, Row: 2, Column: 1, Enabled: false},
-			PushButton{AssignTo: &t.svcOpen, Text: "查看服务", Alignment: AlignHNearVNear,
-				MaxSize: Size{80, 0}, Row: 2, Column: 2, Enabled: false, OnClicked: func() {
-					services.ShowPropertyDialog("FRP Client: " + t.view.Title())
-				}},
+			Composite{
+				Layout: HBox{MarginsZero: true},
+				Row:    2, Column: 1,
+				Alignment: AlignHNearVCenter,
+				Children: []Widget{
+					PushButton{AssignTo: &t.toggle, Text: "启动", MaxSize: Size{80, 0}, Enabled: false},
+					PushButton{AssignTo: &t.svcOpen, Text: "查看服务", MaxSize: Size{80, 0}, Enabled: false,
+						OnClicked: func() {
+							services.ShowPropertyDialog("FRP Client: " + t.view.Title())
+						}},
+					HSpacer{},
+				},
+			},
 		},
 	}
 }
