@@ -85,8 +85,8 @@ github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7
 github.com/evanphx/json-patch v4.9.0+incompatible/go.mod h1:50XU6AFN0ol/bzJsmQLiYLvXMP4fmwYFNcr97nuDLSk=
 github.com/fatedier/beego v0.0.0-20171024143340-6c6a4f5bd5eb h1:wCrNShQidLmvVWn/0PikGmpdP0vtQmnvyRg3ZBEhczw=
 github.com/fatedier/beego v0.0.0-20171024143340-6c6a4f5bd5eb/go.mod h1:wx3gB6dbIfBRcucp94PI9Bt3I0F2c/MyNEWuhzpWiwk=
-github.com/fatedier/frp v0.39.0 h1:ymkuIGhucootNpG3N1kvcwc9Guj7HoW4dUWDXCx4DLg=
-github.com/fatedier/frp v0.39.0/go.mod h1:FpjNieDWogfli0W8aGAfNIyA/TmIOT1f0Ixk5Zgxdew=
+github.com/fatedier/frp v0.39.1 h1:t5NiZxpjKRG1Lpr0jCS9AbTPx4Y7ThZsvpJzXvJKPN8=
+github.com/fatedier/frp v0.39.1/go.mod h1:FpjNieDWogfli0W8aGAfNIyA/TmIOT1f0Ixk5Zgxdew=
 github.com/fatedier/golib v0.1.1-0.20220119075718-78e5cf8c00ee h1:iS0wlj2uZPxh3pciAf/HTzi88Kqu7DPh1jNKgJaFhtI=
 github.com/fatedier/golib v0.1.1-0.20220119075718-78e5cf8c00ee/go.mod h1:fLV0TLwHqrnB/L3jbNl67Gn6PCLggDGHniX1wLrA2Qo=
 github.com/fatedier/kcp-go v2.0.4-0.20190803094908-fe8645b0a904+incompatible h1:ssXat9YXFvigNge/IkkZvFMn8yeYKFX+uI6wn2mLJ74=

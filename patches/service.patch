@@ -1,4 +1,4 @@
---- pkg/mod/github.com/fatedier/frp@v0.39.0/client/service.go	2022-02-07 09:18:00.000000000 +0800
+--- pkg/mod/github.com/fatedier/frp@v0.39.1/client/service.go	2022-02-07 09:18:00.000000000 +0800
 +++ patches/service.go	2022-02-07 10:12:45.000000000 +0800
 @@ -20,12 +20,13 @@
  	"errors"

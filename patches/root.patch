@@ -1,4 +1,4 @@
---- pkg/mod/github.com/fatedier/frp@v0.39.0/cmd/frpc/sub/root.go	2022-02-07 09:18:00.000000000 +0800
+--- pkg/mod/github.com/fatedier/frp@v0.39.1/cmd/frpc/sub/root.go	2022-02-07 09:18:00.000000000 +0800
 +++ patches/root.go	2022-02-07 10:12:45.000000000 +0800
 @@ -102,13 +102,13 @@
  		if showVersion {
