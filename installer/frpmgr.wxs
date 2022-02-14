@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="FRP" Language="2052" Version="$(var.FRPMGR_VERSION)" Manufacturer="FRP" UpgradeCode="c9f7c2b3-291a-454a-9871-150d98dc2645" Codepage="936">
+	<Product Id="*" Name="FRP 管理器" Language="2052" Version="$(var.FRPMGR_VERSION)" Manufacturer="FRP" UpgradeCode="c9f7c2b3-291a-454a-9871-150d98dc2645" Codepage="936">
 
 		<Package InstallerVersion="400" Compressed="yes" InstallScope="perMachine" Platform="x64" />
 
