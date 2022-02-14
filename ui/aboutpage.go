@@ -148,7 +148,7 @@ func openPath(path string) {
 	if path == "" {
 		return
 	}
-	openCmd := exec.Command("cmd", "/c", "start", path)
+	openCmd := exec.Command("cmd", "/c", "start", "", path)
 	openCmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
 	openCmd.Start()
 }
