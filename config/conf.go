@@ -118,7 +118,7 @@ func (c *Config) Load(source string) error {
 	}
 	c.Common.Custom = make(map[string]string)
 	for _, key := range common.Keys() {
-		if utils.GetFieldName(key.Name(), "ini", Common{}) == "" {
+		if utils.GetFieldName(key.Name(), "ini", Common{}) == "" && utils.GetFieldName(key.Name(), "ini", AuthInfo{}) == "" {
 			c.Common.Custom[key.Name()] = key.String()
 		}
 	}
