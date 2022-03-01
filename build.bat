@@ -1,6 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
 for /F %%i in ('git tag') do (set FRPMGR_VERSION=%%i)
+if [%FRPMGR_VERSION%]==[] set FRPMGR_VERSION=v0.0.0
 set FRPMGR_VERSION=%FRPMGR_VERSION:~1%
 echo Version: %FRPMGR_VERSION%
 set BUILDDIR=%~dp0
