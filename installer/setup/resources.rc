@@ -1,0 +1,39 @@
+#include <windows.h>
+
+#pragma code_page(65001) // UTF-8
+
+#define STRINGIZE(x) #x
+#define EXPAND(x) STRINGIZE(x)
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST manifest.xml
+10        ICON           EXPAND(APP_ICO)
+11        RCDATA         EXPAND(MSI_FILE)
+
+VS_VERSION_INFO VERSIONINFO \
+FILEVERSION    VERSION_ARRAY \
+PRODUCTVERSION VERSION_ARRAY \
+FILEOS         VOS_NT_WINDOWS32 \
+FILETYPE       VFT_APP \
+FILESUBTYPE    VFT2_UNKNOWN \
+BEGIN \
+  BLOCK "StringFileInfo" \
+  BEGIN \
+    BLOCK "040904b0" \
+    BEGIN \
+      VALUE "CompanyName", "Frpmgr Project" \
+      VALUE "FileDescription", "FRP 管理器安装程序" \
+      VALUE "FileVersion", EXPAND(VERSION_STR) \
+      VALUE "InternalName", "frpmgr-Setup" \
+      VALUE "LegalCopyright", "Copyright (c) Frpmgr Project" \
+      VALUE "OriginalFilename", EXPAND(frpmgr-VERSION_STR-Setup.exe) \
+      VALUE "ProductName", "frpmgr" \
+      VALUE "ProductVersion", EXPAND(VERSION_STR) \
+      VALUE "Comments", "https://github.com/koho/frpmgr" \
+    END \
+  END \
+  BLOCK "VarFileInfo" \
+  BEGIN \
+    VALUE "Translation", 0x0804, 1200 \
+  END \
+END
