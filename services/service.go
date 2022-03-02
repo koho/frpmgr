@@ -2,16 +2,12 @@ package services
 
 import (
 	"fmt"
-	"github.com/fatedier/golib/crypto"
 	"github.com/koho/frpmgr/config"
+	"github.com/koho/frpmgr/utils"
+	"golang.org/x/sys/windows/svc"
 	"log"
-	"math/rand"
 	"os"
 	"path/filepath"
-	"time"
-
-	frpc "github.com/fatedier/frp/cmd/frpc/sub"
-	"golang.org/x/sys/windows/svc"
 )
 
 func ServiceNameOfConf(name string) string {
@@ -31,14 +27,7 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 		log.Println("Shutting down")
 	}()
 
-	go func() {
-		crypto.DefaultSalt = "frp"
-		rand.Seed(time.Now().UnixNano())
-		err := frpc.RunClient(service.Path)
-		if err != nil {
-			os.Exit(1)
-		}
-	}()
+	go utils.RunFrpClient(service.Path)
 
 	changes <- svc.Status{State: svc.Running, Accepts: svc.AcceptStop | svc.AcceptShutdown}
 	log.Println("Startup complete")

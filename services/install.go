@@ -73,7 +73,7 @@ func InstallService(configPath string, manual bool) error {
 	if manual {
 		conf.StartType = mgr.StartManual
 	}
-	service, err = m.CreateService(serviceName, path, conf, "/service", configPath)
+	service, err = m.CreateService(serviceName, path, conf, "-c", configPath)
 	if err != nil {
 		return err
 	}
