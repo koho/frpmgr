@@ -64,7 +64,7 @@
     <CustomAction Id="EvaluateFrpServices" BinaryKey="actions.dll" DllEntry="EvaluateFrpServices" Impersonate="no" Execute="deferred" />
     <InstallExecuteSequence>
       <Custom Action="EvaluateFrpServices.SetProperty" After="InstallInitialize" />
-      <Custom Action="EvaluateFrpServices" After="EvaluateFrpServices.SetProperty">REMOVE="ALL"</Custom>
+      <Custom Action="EvaluateFrpServices" After="EvaluateFrpServices.SetProperty">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
     </InstallExecuteSequence>
 
     <CustomAction Id="KillProcesses" BinaryKey="actions.dll" DllEntry="KillProcesses" Impersonate="no" Execute="deferred" />
