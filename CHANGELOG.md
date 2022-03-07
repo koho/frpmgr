@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.1] - 2022-03-07
+### 优化
+* 安装包改用 exe 格式，避免无法关闭占用程序
+* 升级完成后自动重启之前运行的服务
+
 ## [1.6.0] - 2022-02-14
 ### 新增
 * 配置编辑支持自定义参数(#12)
@@ -94,7 +99,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * 解决某些情况下电脑重启后服务没有自动运行问题
 * 更新软件后需打开软件，选择左侧配置项后右键编辑，然后直接确定，再启动即可
 
-[Unreleased]: https://github.com/koho/frpmgr/compare/v1.6.0...HEAD
+[Unreleased]: https://github.com/koho/frpmgr/compare/v1.6.1...HEAD
+[1.6.1]: https://github.com/koho/frpmgr/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/koho/frpmgr/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/koho/frpmgr/compare/v1.4.2...v1.5.0
 [1.4.2]: https://github.com/koho/frpmgr/compare/v1.4.1...v1.4.2
