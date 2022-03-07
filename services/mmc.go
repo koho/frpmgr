@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 	"io"
+	"os"
 	"os/exec"
 	"syscall"
 )
@@ -53,6 +54,7 @@ func ShowPropertyDialog(displayName string) {
 
 func StartProcess(cmd string, args ...string) (*exec.Cmd, io.Writer, io.Reader, io.Reader, error) {
 	command := exec.Command(cmd, args...)
+	command.Dir = os.TempDir()
 	command.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
 	stdin, err := command.StdinPipe()
 	if err != nil {
