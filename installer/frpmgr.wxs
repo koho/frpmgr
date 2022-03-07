@@ -61,6 +61,11 @@
 
     <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
 
+    <CustomAction Id="KillGUIProcesses" BinaryKey="actions.dll" DllEntry="KillGUIProcesses" Impersonate="yes" Execute="immediate" />
+    <InstallExecuteSequence>
+      <Custom Action="KillGUIProcesses" Before="InstallValidate">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
+    </InstallExecuteSequence>
+
     <CustomAction Id="EvaluateFrpServices" BinaryKey="actions.dll" DllEntry="EvaluateFrpServices" Impersonate="no" Execute="deferred" />
     <InstallExecuteSequence>
       <Custom Action="EvaluateFrpServices.SetProperty" After="InstallInitialize" />

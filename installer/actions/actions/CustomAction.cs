@@ -89,8 +89,6 @@ namespace actions
             Process[] processes = Process.GetProcesses();
             foreach (Process p in processes)
             {
-                if (p.ProcessName != "frpmgr")
-                    continue;
                 try
                 {
                     if (!CalculateFileId(p.MainModule.FileName, out BY_HANDLE_FILE_INFORMATION info))
@@ -117,36 +115,36 @@ namespace actions
             {
                 return ActionResult.Failure;
             }
-            int result = MessageBox(FindWindow(null, "FRP").ToInt32(), "是否删除配置文件?\n\n注意：若要重新使用配置文件，下次安装时必须安装到此目录：\n\n" + installPath, "卸载提示", MB_YESNO | MB_ICONQUESTION);
-            if (result == IDYES)
+            if (MessageResult.Yes == session.Message(InstallMessage.User | (InstallMessage)MessageButtons.YesNo, new Record() { FormatString = "是否删除配置文件?\n\n注意：若要重新使用配置文件，下次安装时必须安装到此目录：\n\n" + installPath }))
             {
                 foreach (string file in Directory.GetFiles(installPath))
                 {
                     if (Path.GetExtension(file) == ".ini")
                     {
-                        DEL_CONF:
+                    DEL_CONF:
                         try
                         {
                             File.Delete(file);
-                        } catch (Exception)
+                        }
+                        catch (Exception)
                         {
-                            if (MessageBox(FindWindow(null, "FRP").ToInt32(), "无法删除文件 " + file, "错误", MB_RETRYCANCEL | MB_ICONWARNING) == IDRETRY)
+                            if (MessageResult.Retry == session.Message(InstallMessage.Error | (InstallMessage) MessageButtons.RetryCancel, new Record() { FormatString = "无法删除文件 " + file }))
                                 goto DEL_CONF;
                         }
-                        
                     }
                 }
                 string logPath = Path.Combine(installPath, "logs");
-                DEL_LOG:
+            DEL_LOG:
                 try
                 {
                     if (Directory.Exists(logPath))
                     {
                         Directory.Delete(logPath, true);
                     }
-                } catch (Exception)
+                }
+                catch (Exception)
                 {
-                    if (MessageBox(FindWindow(null, "FRP").ToInt32(), "无法删除目录 " + logPath, "错误", MB_RETRYCANCEL | MB_ICONWARNING) == IDRETRY)
+                    if (MessageResult.Retry == session.Message(InstallMessage.Error | (InstallMessage)MessageButtons.RetryCancel, new Record() { FormatString = "无法删除目录 " + logPath }))
                         goto DEL_LOG;
                 }
             }
@@ -193,6 +191,29 @@ namespace actions
                     }
                 }
             }
+            return ActionResult.Success;
+        }
+
+        [CustomAction]
+        public static ActionResult KillGUIProcesses(Session session)
+        {
+            session.Log("Killing FRP GUI processes");
+            string binPath = session.Format(session["WixShellExecTarget"]);
+            if (string.IsNullOrEmpty(binPath))
+            {
+                return ActionResult.Failure;
+            }
+            Process process = new Process
+            {
+                StartInfo = new ProcessStartInfo()
+            };
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            process.StartInfo.FileName = "wmic.exe";
+            process.StartInfo.Arguments = "process where (executablepath = '" + binPath.Replace(@"\", @"\\") + "' and sessionid != 0) delete";
+            process.StartInfo.UseShellExecute = true;
+            process.StartInfo.Verb = "runas";
+            process.Start();
+            process.WaitForExit();
             return ActionResult.Success;
         }
     }
