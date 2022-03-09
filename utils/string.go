@@ -4,7 +4,12 @@ import (
 	"fmt"
 	"math/rand"
 	"strings"
+	"time"
 )
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
 
 func String2Map(s string) map[string]string {
 	m := make(map[string]string)
