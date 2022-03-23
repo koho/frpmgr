@@ -2,11 +2,11 @@ package services
 
 import (
 	"errors"
-	"github.com/koho/frpmgr/config"
 	"golang.org/x/sys/windows"
 	"golang.org/x/sys/windows/svc"
 	"golang.org/x/sys/windows/svc/mgr"
 	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -24,7 +24,8 @@ func serviceManager() (*mgr.Mgr, error) {
 	return cachedServiceManager, nil
 }
 
-func InstallService(configPath string, manual bool) error {
+// InstallService runs the program as Windows service
+func InstallService(name string, configPath string, manual bool) error {
 	m, err := serviceManager()
 	if err != nil {
 		return err
@@ -33,9 +34,10 @@ func InstallService(configPath string, manual bool) error {
 	if err != nil {
 		return err
 	}
-
-	name := config.NameFromPath(configPath)
-	serviceName := ServiceNameOfConf(name)
+	if configPath, err = filepath.Abs(configPath); err != nil {
+		return err
+	}
+	serviceName := ServiceNameOfClient(name)
 	service, err := m.OpenService(serviceName)
 	if err == nil {
 		status, err := service.Query()
@@ -83,17 +85,32 @@ func InstallService(configPath string, manual bool) error {
 	return err
 }
 
-func UninstallService(name string) error {
+// UninstallService stops and removes the given service
+func UninstallService(name string, wait bool) error {
 	m, err := serviceManager()
 	if err != nil {
 		return err
 	}
-	serviceName := ServiceNameOfConf(name)
+	serviceName := ServiceNameOfClient(name)
 	service, err := m.OpenService(serviceName)
 	if err != nil {
 		return err
 	}
 	service.Control(svc.Stop)
+	if wait {
+		try := 0
+		for {
+			time.Sleep(time.Second / 3)
+			try++
+			status, err := service.Query()
+			if err != nil {
+				return err
+			}
+			if status.ProcessId == 0 || try >= 3 {
+				break
+			}
+		}
+	}
 	err = service.Delete()
 	err2 := service.Close()
 	if err != nil && err != windows.ERROR_SERVICE_MARKED_FOR_DELETE {
@@ -102,24 +119,25 @@ func UninstallService(name string) error {
 	return err2
 }
 
+// QueryService returns whether the given service is running
 func QueryService(name string) (bool, error) {
 	if name == "" {
-		return false, nil
+		return false, os.ErrInvalid
 	}
 	m, err := serviceManager()
 	if err != nil {
 		return false, err
 	}
 
-	serviceName := ServiceNameOfConf(name)
+	serviceName := ServiceNameOfClient(name)
 	service, err := m.OpenService(serviceName)
-	if err == nil {
-		defer service.Close()
-		status, err := service.Query()
-		if err != nil && err != windows.ERROR_SERVICE_MARKED_FOR_DELETE {
-			return false, err
-		}
-		return status.State != svc.Stopped && err != windows.ERROR_SERVICE_MARKED_FOR_DELETE, nil
+	if err != nil {
+		return false, err
 	}
-	return false, err
+	defer service.Close()
+	status, err := service.Query()
+	if err != nil && err != windows.ERROR_SERVICE_MARKED_FOR_DELETE {
+		return false, err
+	}
+	return status.State != svc.Stopped && err != windows.ERROR_SERVICE_MARKED_FOR_DELETE, nil
 }

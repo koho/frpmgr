@@ -2,24 +2,29 @@ package services
 
 import (
 	"fmt"
-	"github.com/koho/frpmgr/config"
-	"github.com/koho/frpmgr/utils"
+	"github.com/koho/frpmgr/pkg/util"
 	"golang.org/x/sys/windows/svc"
 	"log"
 	"os"
 	"path/filepath"
 )
 
-func ServiceNameOfConf(name string) string {
+func ServiceNameOfClient(name string) string {
 	return fmt.Sprintf("FRPC$%s", name)
 }
 
+func ServiceNameOfServer(name string) string {
+	return fmt.Sprintf("FRPS$%s", name)
+}
+
 type frpService struct {
-	Path string
+	configPath string
 }
 
 func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, changes chan<- svc.Status) (svcSpecificEC bool, exitCode uint32) {
-	os.Chdir(filepath.Dir(service.Path))
+	if err := os.Chdir(filepath.Dir(service.configPath)); err != nil {
+		return
+	}
 	changes <- svc.Status{State: svc.StartPending}
 
 	defer func() {
@@ -27,7 +32,7 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 		log.Println("Shutting down")
 	}()
 
-	go utils.RunFrpClient(service.Path)
+	go runFrpClient()
 
 	changes <- svc.Status{State: svc.Running, Accepts: svc.AcceptStop | svc.AcceptShutdown}
 	log.Println("Startup complete")
@@ -47,8 +52,8 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 	}
 }
 
-func Run(confPath string) error {
-	name := config.NameFromPath(confPath)
-	serviceName := ServiceNameOfConf(name)
-	return svc.Run(serviceName, &frpService{confPath})
+func Run(configPath string) error {
+	baseName, _ := util.SplitExt(configPath)
+	serviceName := ServiceNameOfClient(baseName)
+	return svc.Run(serviceName, &frpService{configPath})
 }

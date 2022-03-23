@@ -1,18 +1,17 @@
-package utils
+package services
 
 import (
+	_ "github.com/fatedier/frp/assets/frpc"
 	frpc "github.com/fatedier/frp/cmd/frpc/sub"
 	"github.com/fatedier/golib/crypto"
 	"math/rand"
-	"os"
 	"time"
 )
 
-func RunFrpClient(c string) {
+func runFrpClient() {
 	crypto.DefaultSalt = "frp"
 	rand.Seed(time.Now().UnixNano())
-	err := frpc.RunClient(c)
-	if err != nil {
-		os.Exit(1)
-	}
+	// Change program arguments for frpc to parse
+	// No need to change it for now
+	frpc.Execute()
 }

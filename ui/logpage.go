@@ -1,69 +1,75 @@
 package ui
 
 import (
-	"github.com/koho/frpmgr/config"
-	"github.com/koho/frpmgr/utils"
+	"github.com/koho/frpmgr/pkg/util"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
-	"os"
-	"os/exec"
-	"path/filepath"
+	"github.com/thoas/go-funk"
 	"time"
 )
 
 type LogPage struct {
-	view        *walk.TabPage
-	logView     *walk.TableView
-	nameSelect  *walk.ComboBox
-	model       *LogModel
+	*walk.TabPage
+
+	nameModel   *ListModel
+	logModel    *LogModel
+	db          *walk.DataBinder
 	logFileChan chan string
-	logDB       *walk.DataBinder
+
+	// Views
+	logView  *walk.TableView
+	nameView *walk.ComboBox
 }
 
 func NewLogPage() *LogPage {
 	v := new(LogPage)
 	v.logFileChan = make(chan string)
+	v.logModel = NewLogModel("")
 	return v
 }
 
-func (t *LogPage) View() TabPage {
+func (lp *LogPage) Page() TabPage {
 	return TabPage{
-		AssignTo: &t.view,
+		AssignTo: &lp.TabPage,
 		Title:    "日志",
 		Layout:   VBox{},
 		Children: []Widget{
 			ComboBox{
-				AssignTo:      &t.nameSelect,
-				DisplayMember: "Name",
+				AssignTo: &lp.nameView,
 				OnCurrentIndexChanged: func() {
-					index := t.nameSelect.CurrentIndex()
-					if index < 0 {
-						t.logFileChan <- ""
+					index := lp.nameView.CurrentIndex()
+					if index < 0 || lp.nameModel == nil {
+						// No config selected, the log page should be empty
+						lp.logFileChan <- ""
 						return
 					}
-					conf := config.Configurations[index]
-					t.logFileChan <- conf.LogFile
+					lp.logFileChan <- lp.nameModel.items[index].Data.GetLogFile()
 				},
 			},
 			TableView{
-				AssignTo:            &t.logView,
+				AssignTo:            &lp.logView,
 				AlternatingRowBG:    true,
 				LastColumnStretched: true,
 				HeaderHidden:        true,
 				Columns:             []TableViewColumn{{DataMember: "Text"}},
 			},
 			Composite{
-				DataBinder: DataBinder{AssignTo: &t.logDB, DataSource: &struct {
-					LogPathValid func() bool
-				}{t.isLogPathValid}, Name: "logData"},
+				DataBinder: DataBinder{
+					AssignTo: &lp.db,
+					DataSource: &struct {
+						HasLogFile func() bool
+					}{lp.hasLogFile},
+				},
 				Layout: HBox{MarginsZero: true},
 				Children: []Widget{
 					HSpacer{},
 					PushButton{
-						MinSize:   Size{150, 0},
-						Enabled:   Bind("logData.LogPathValid"),
-						Text:      "打开日志文件夹",
-						OnClicked: t.openLogFolder,
+						MinSize: Size{150, 0},
+						Enabled: Bind("HasLogFile"),
+						Text:    "打开日志文件夹",
+						OnClicked: func() {
+							openFolder(lp.logModel.path)
+						},
 					},
 				},
 			},
@@ -71,69 +77,78 @@ func (t *LogPage) View() TabPage {
 	}
 }
 
-func (t *LogPage) Initialize() {
-	t.view.VisibleChanged().Attach(func() {
-		if t.view.Visible() {
-			t.nameSelect.SetModel(NewConfListModel(config.Configurations))
-			if i, found := utils.Find(config.GetConfigNames(), lastEditName); found && lastEditName != "" && i >= 0 {
-				t.nameSelect.SetCurrentIndex(i)
-				t.logFileChan <- config.Configurations[i].LogFile
-			} else if len(config.Configurations) > 0 {
-				t.nameSelect.SetCurrentIndex(0)
-				t.logFileChan <- config.Configurations[0].LogFile
-			}
-		}
-	})
-	ticker := time.NewTicker(time.Second * 3)
+func (lp *LogPage) OnCreate() {
+	lp.VisibleChanged().Attach(lp.onVisibleChanged)
+	ticker := time.NewTicker(time.Second * 5)
 	go func() {
 		defer ticker.Stop()
 		for {
 			select {
-			case f := <-t.logFileChan:
-				t.model = NewLogModel(f)
-				t.view.Synchronize(func() {
-					if t.model == nil {
-						t.logView.SetModel(nil)
-					} else {
-						t.logView.SetModel(t.model)
-					}
-					t.logDB.Reset()
-					t.scrollToBottom()
+			case logFile := <-lp.logFileChan:
+				lp.logModel = NewLogModel(logFile)
+				lp.logModel.Reset()
+				lp.Synchronize(func() {
+					lp.db.Reset()
+					lp.logView.SetModel(lp.logModel)
+					lp.scrollToBottom()
 				})
 			case <-ticker.C:
-				t.view.Synchronize(func() {
-					if t.view.Visible() && t.model != nil {
-						t.model.Reset()
-						t.logView.SetModel(t.model)
-						t.scrollToBottom()
-					}
-				})
+				// We should only read log when the log page is visible
+				if !lp.Visible() {
+					continue
+				}
+				if err := lp.logModel.Reset(); err == nil {
+					lp.Synchronize(func() {
+						lp.logView.SetModel(lp.logModel)
+						lp.scrollToBottom()
+					})
+				}
 			}
 		}
 	}()
 }
 
-func (t *LogPage) scrollToBottom() {
-	if t.model != nil && len(t.model.items) > 0 {
-		t.logView.EnsureItemVisible(len(t.model.items) - 1)
-	}
-}
-
-func (t *LogPage) isLogPathValid() bool {
-	if t.model != nil && t.model.path != "" {
-		if _, err := os.Stat(t.model.path); err == nil {
-			if _, err := filepath.Abs(t.model.path); err == nil {
-				return true
+func (lp *LogPage) onVisibleChanged() {
+	if lp.Visible() {
+		// Remember the previous selected name
+		var preName string
+		if idx := lp.nameView.CurrentIndex(); idx >= 0 && lp.nameModel != nil && idx < len(lp.nameModel.items) {
+			preName = lp.nameModel.items[idx].Name
+		}
+		// Refresh config name list
+		lp.nameModel = NewListModel(confList)
+		lp.nameView.SetModel(lp.nameModel)
+		if len(lp.nameModel.items) == 0 {
+			return
+		}
+		// Switch to current config log first
+		if conf := getCurrentConf(); conf != nil {
+			if i := funk.IndexOf(lp.nameModel.items, func(c *Conf) bool { return c.Name == conf.Name }); i >= 0 {
+				lp.nameView.SetCurrentIndex(i)
+				return
 			}
 		}
+		// Select previous config log
+		if preName != "" {
+			if i := funk.IndexOf(lp.nameModel.items, func(c *Conf) bool { return c.Name == preName }); i >= 0 {
+				lp.nameView.SetCurrentIndex(i)
+				return
+			}
+		}
+		// Fallback to the first config log
+		lp.nameView.SetCurrentIndex(0)
 	}
-	return false
 }
 
-func (t *LogPage) openLogFolder() {
-	if t.isLogPathValid() {
-		if absPath, err := filepath.Abs(t.model.path); err == nil {
-			exec.Command(`explorer`, `/select,`, absPath).Run()
-		}
+func (lp *LogPage) scrollToBottom() {
+	if len(lp.logModel.lines) > 0 {
+		lp.logView.EnsureItemVisible(len(lp.logModel.lines) - 1)
 	}
+}
+
+func (lp *LogPage) hasLogFile() bool {
+	if lp.logModel.path != "" {
+		return util.FileExists(lp.logModel.path)
+	}
+	return false
 }

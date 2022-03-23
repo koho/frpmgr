@@ -17,8 +17,13 @@ type shell struct {
 
 var mmc shell
 
-var setupCmd = `$mmc = New-Object -ComObject MMC20.Application;`
+// Start powershell via cmd
+// The console code page must be set to UTF8 before starting powershell
+var setupCmd = `chcp 65001
+powershell
+$mmc = New-Object -ComObject MMC20.Application;`
 
+// Powershell command to find and show a service property dialog
 var propCmd = `$mmc.Document.Close(0);
 $mmc.load("services.msc");
 $view = $mmc.document.ActiveView;
@@ -33,13 +38,17 @@ foreach ($x in $view.ListItems) {
 
 func CloseMMC() {
 	if mmc.handle != nil {
+		// This line should exit the powershell
 		fmt.Fprintln(mmc.stdin, "$mmc.Document.Close(0);sleep 2;$mmc.Quit();exit;")
+		// Exit cmd
+		mmc.handle.Process.Kill()
 	}
 }
 
+// ShowPropertyDialog shows up a service property dialog with given service
 func ShowPropertyDialog(displayName string) {
 	if mmc.handle == nil {
-		handle, stdin, stdout, stderr, err := StartProcess("powershell.exe", "-NoExit", "-Command", "-")
+		handle, stdin, stdout, stderr, err := StartProcess("cmd.exe")
 		if err != nil {
 			return
 		}

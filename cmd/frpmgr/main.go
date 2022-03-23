@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/koho/frpmgr/config"
+	"github.com/koho/frpmgr/pkg/version"
 	"github.com/koho/frpmgr/services"
 	"github.com/koho/frpmgr/ui"
 	"golang.org/x/sys/windows"
@@ -43,7 +43,7 @@ func main() {
 		return
 	}
 	if showVersion {
-		info("版本信息", "程序版本: %s, FRP 版本: %s", config.Version, config.FRPVersion)
+		info("版本信息", "程序版本: %s, FRP 版本: %s, 构建日期: %s", version.Version, version.FRPVersion, version.BuildDate)
 		return
 	}
 	inService, err := svc.IsWindowsService()
@@ -58,7 +58,7 @@ func main() {
 		if err = services.Run(confPath); err != nil {
 			fatal(err)
 		}
-	} else {
-		ui.RunUI()
+	} else if err = ui.RunUI(); err != nil {
+		fatal(err)
 	}
 }

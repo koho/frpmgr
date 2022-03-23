@@ -1,265 +1,334 @@
 package ui
 
 import (
-	"github.com/koho/frpmgr/config"
+	"fmt"
+	"github.com/koho/frpmgr/pkg/config"
+	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/util"
 	"github.com/koho/frpmgr/services"
-	"github.com/koho/frpmgr/utils"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
+	"github.com/thoas/go-funk"
 	"os"
+	"path/filepath"
 )
 
-var lastEditName string
-var lastRunningState bool
+type EditClientDialog struct {
+	*walk.Dialog
 
-type EditConfDialog struct {
-	view *walk.Dialog
+	// Config data
+	Conf          *Conf
+	data          *config.ClientConfig
+	authInfo      config.ClientAuth
+	ShouldRestart bool
 
-	conf            *config.Config
-	nameList        []string
-	originalName    string
-	originalLogFile string
-	authInfo        config.AuthInfo
+	// Views
+	logFileView    *walk.LineEdit
+	customText     *walk.TextEdit
+	nameView       *walk.LineEdit
+	serverAddrView *walk.LineEdit
+	serverPortView *walk.LineEdit
+
+	// View models
+	binder *editClientBinder
+	db     *walk.DataBinder
+	authDB *walk.DataBinder
 }
 
-func NewEditConfDialog(conf *config.Config, nameList []string) *EditConfDialog {
-	v := new(EditConfDialog)
-	v.nameList = nameList
+// Data binder contains a copy of config
+type editClientBinder struct {
+	Name string
+	config.ClientCommon
+}
+
+func NewEditClientDialog(conf *Conf) *EditClientDialog {
+	v := new(EditClientDialog)
 	if conf == nil {
-		conf = new(config.Config)
-		conf.ServerPort = "7000"
-		conf.LogLevel = "info"
-		conf.LogMaxDays = 3
+		newConf := config.NewDefaultClientConfig()
+		newConf.AuthMethod = ""
+		v.Conf = &Conf{Data: newConf}
+	} else {
+		v.Conf = conf
 	}
-	if conf.Token != "" {
-		conf.AuthMethod = "token"
+	data, ok := v.Conf.Data.(*config.ClientConfig)
+	if !ok {
+		return nil
 	}
-	v.conf = conf
-	v.originalName = conf.Name
-	v.originalLogFile = conf.LogFile
-	v.authInfo = conf.Common.AuthInfo
+	v.data = data
+	v.authInfo = data.ClientAuth
+	v.binder = &editClientBinder{v.Conf.Name, v.data.ClientCommon}
 	return v
 }
 
-func (t *EditConfDialog) View() Dialog {
+func (cd *EditClientDialog) View() Dialog {
 	var acceptPB, cancelPB *walk.PushButton
-	var logFileView *walk.LineEdit
-	var customText *walk.TextEdit
-	var nameView, serverAddrView, serverPortView *walk.LineEdit
-	var db *walk.DataBinder
-	var authDB *walk.DataBinder
-	changeAuthMethod := func() {
-		authDB.Submit()
-		authDB.Reset()
-	}
-	icon, _ := loadLogoIcon(32)
 	return Dialog{
-		Icon:          icon,
-		AssignTo:      &t.view,
+		Icon:          loadLogoIcon(32),
+		AssignTo:      &cd.Dialog,
 		Title:         "编辑配置",
 		MinSize:       Size{400, 300},
 		Size:          Size{400, 400},
 		Layout:        VBox{Margins: Margins{7, 9, 7, 9}},
-		Font:          Font{Family: "微软雅黑", PointSize: 9},
+		Font:          consts.TextRegular,
 		DefaultButton: &acceptPB,
 		CancelButton:  &cancelPB,
 		DataBinder: DataBinder{
-			AssignTo:   &db,
+			AssignTo:   &cd.db,
 			Name:       "common",
-			DataSource: t.conf,
+			DataSource: cd.binder,
 		},
 		Children: []Widget{
 			TabWidget{
 				Pages: []TabPage{
-					{
-						Title:  "基本",
-						Layout: Grid{Columns: 2},
-						Children: []Widget{
-							Label{Text: "名称:"},
-							LineEdit{AssignTo: &nameView, Text: Bind("Name", Regexp{".+"}), OnTextChanged: func() {
-								logFileView.SetText("logs" + "/" + nameView.Text() + ".log")
-							}},
-							Label{Text: "服务器地址:"},
-							LineEdit{AssignTo: &serverAddrView, Text: Bind("ServerAddress", Regexp{".+"})},
-							Label{Text: "服务器端口:"},
-							LineEdit{AssignTo: &serverPortView, Text: Bind("ServerPort", Regexp{"^\\d+$"})},
-							Label{Text: "用户:"},
-							LineEdit{Text: Bind("User")},
-							VSpacer{ColumnSpan: 2},
-						},
-					},
-					{
-						Title:  "认证",
-						Layout: Grid{Columns: 2},
-						DataBinder: DataBinder{
-							AssignTo:   &authDB,
-							Name:       "auth",
-							DataSource: &t.authInfo,
-						},
-						Children: []Widget{
-							Label{Text: "认证方式:"},
-							Composite{
-								Layout: HBox{MarginsZero: true, SpacingZero: true},
-								Children: []Widget{
-									RadioButtonGroup{
-										DataMember: "AuthMethod",
-										Buttons: []RadioButton{
-											{Text: "Token", Value: "token", OnClicked: changeAuthMethod},
-											{Text: "OIDC", Value: "oidc", OnClicked: changeAuthMethod},
-											{Text: "无", Value: "", OnClicked: changeAuthMethod},
-										},
-									},
-									HSpacer{},
-								},
-							},
-							Label{Text: "令牌:", Visible: Bind("auth.AuthMethod == 'token'")},
-							LineEdit{Text: Bind("Token"), Visible: Bind("auth.AuthMethod == 'token'")},
-							Composite{
-								Visible:    Bind("auth.AuthMethod == 'oidc'"),
-								Layout:     Grid{Columns: 2, MarginsZero: true},
-								RowSpan:    4,
-								ColumnSpan: 2,
-								Children: []Widget{
-									Label{Text: "ID:"},
-									LineEdit{Text: Bind("OIDCClientId")},
-									Label{Text: "密钥:"},
-									LineEdit{Text: Bind("OIDCClientSecret")},
-									Label{Text: "接受者:"},
-									LineEdit{Text: Bind("OIDCAudience")},
-									Label{Text: "令牌地址:"},
-									LineEdit{Text: Bind("OIDCTokenEndpoint")},
-								},
-							},
-						},
-					},
-					{
-						Title:  "日志",
-						Layout: Grid{Columns: 2},
-						Children: []Widget{
-							Label{Text: "日志文件:"},
-							LineEdit{AssignTo: &logFileView, Text: Bind("LogFile")},
-							Label{Text: "级别:"},
-							ComboBox{
-								Value: Bind("LogLevel"),
-								Model: []string{"trace", "debug", "info", "warn", "error"},
-							},
-							Label{Text: "最大天数:"},
-							NumberEdit{Value: Bind("LogMaxDays")},
-						},
-					},
-					{
-						Title:  "管理",
-						Layout: Grid{Columns: 2},
-						Children: []Widget{
-							Label{Text: "管理地址:"},
-							LineEdit{Text: Bind("AdminAddr")},
-							Label{Text: "管理端口:"},
-							LineEdit{Text: Bind("AdminPort", Regexp{"^\\d*$"})},
-							Label{Text: "用户名:"},
-							LineEdit{Text: Bind("AdminUser")},
-							Label{Text: "密码:"},
-							LineEdit{Text: Bind("AdminPwd")},
-						},
-					},
-					{
-						Title:  "高级",
-						Layout: Grid{Columns: 2},
-						Children: []Widget{
-							Label{Text: "协议:"},
-							ComboBox{
-								Value: Bind("Protocol"),
-								Model: []string{"tcp", "kcp", "websocket"},
-							},
-							Label{Text: "HTTP 代理:"},
-							LineEdit{Text: Bind("HTTPProxy")},
-							Label{Text: "使用源地址:"},
-							LineEdit{Text: Bind("ConnectServerLocalIP")},
-							Label{Text: "连接池数量:"},
-							NumberEdit{Value: Bind("PoolCount")},
-							Label{Text: "DNS:"},
-							LineEdit{Text: Bind("DNSServer")},
-							Label{Text: "其他:", Alignment: AlignHNearVNear},
-							Composite{
-								Layout: VBox{MarginsZero: true, SpacingZero: true, Alignment: AlignHNearVNear},
-								Children: []Widget{
-									CheckBox{Text: "初次登录失败后退出", Checked: Bind("LoginFailExit")},
-									CheckBox{Text: "禁用开机自启动", Checked: Bind("ManualStart")},
-								},
-							},
-						},
-					},
-					{
-						Title:  "自定义",
-						Layout: VBox{},
-						Children: []Widget{
-							Label{Text: "*参考 FRP 配置文件的 [common] 部分"},
-							TextEdit{AssignTo: &customText, Text: utils.Map2String(t.conf.Custom), VScroll: true},
-						},
-					},
+					cd.baseConfPage(),
+					cd.authConfPage(),
+					cd.logConfPage(),
+					cd.adminConfPage(),
+					cd.advancedConfPage(),
+					cd.customConfPage(),
 				},
 			},
 			Composite{
 				Layout: HBox{MarginsZero: true},
 				Children: []Widget{
 					HSpacer{},
-					PushButton{Text: "确定", AssignTo: &acceptPB, OnClicked: func() {
-						if nameView.Text() == "" || serverAddrView.Text() == "" || serverPortView.Text() == "" {
-							return
-						}
-						if _, found := utils.Find(t.nameList, nameView.Text()); found && nameView.Text() != t.originalName {
-							if walk.MsgBox(t.view.Form(), "覆盖文件", "已存在同名称的配置文件，继续保存将覆盖文件。", walk.MsgBoxOKCancel|walk.MsgBoxIconWarning) == walk.DlgCmdCancel {
-								return
-							}
-						}
-						db.Submit()
-						authDB.Submit()
-						t.syncAuthInfo()
-						t.conf.Custom = utils.String2Map(customText.Text())
-						t.conf.Save()
-
-						lastEditName = t.conf.Name
-						lastRunningState, _ = services.QueryService(t.originalName)
-						if t.conf.Name != t.originalName && t.originalName != "" {
-							services.UninstallService(t.originalName)
-							os.Remove(t.originalName + ".ini")
-						}
-						if t.originalName != "" && t.originalLogFile != "" && t.originalLogFile != t.conf.LogFile {
-							services.UninstallService(t.originalName)
-							related, target := utils.FindRelatedFiles(t.originalLogFile, t.conf.LogFile)
-							if t.conf.LogFile == "" {
-								utils.TryAlterFile(t.originalLogFile, "", false)
-								for _, file := range related {
-									utils.TryAlterFile(file, "", false)
-								}
-							} else {
-								utils.TryAlterFile(t.originalLogFile, t.conf.LogFile, true)
-								for i := 0; i < len(related); i++ {
-									utils.TryAlterFile(related[i], target[i], true)
-								}
-							}
-						}
-						t.view.Accept()
-					}},
-					PushButton{Text: "取消", AssignTo: &cancelPB, OnClicked: func() { t.view.Cancel() }},
+					PushButton{Text: "确定", AssignTo: &acceptPB, OnClicked: cd.onSave},
+					PushButton{Text: "取消", AssignTo: &cancelPB, OnClicked: func() { cd.Cancel() }},
 				},
 			},
 		},
 	}
 }
 
-func (t *EditConfDialog) Run(owner walk.Form) (int, error) {
-	return t.View().Run(owner)
+func (cd *EditClientDialog) baseConfPage() TabPage {
+	return TabPage{
+		Title:  "基本",
+		Layout: Grid{Columns: 2},
+		Children: []Widget{
+			Label{Text: "名称:"},
+			LineEdit{AssignTo: &cd.nameView, Text: Bind("Name", Regexp{".+"}), OnTextChanged: func() {
+				if name := cd.nameView.Text(); name != "" {
+					cd.logFileView.SetText("logs" + "/" + name + ".log")
+				}
+			}},
+			Label{Text: "服务器地址:"},
+			LineEdit{AssignTo: &cd.serverAddrView, Text: Bind("ServerAddress", Regexp{".+"})},
+			Label{Text: "服务器端口:"},
+			LineEdit{AssignTo: &cd.serverPortView, Text: Bind("ServerPort", Regexp{"^\\d+$"})},
+			Label{Text: "用户:"},
+			LineEdit{Text: Bind("User")},
+			VSpacer{ColumnSpan: 2},
+		},
+	}
 }
 
-func (t *EditConfDialog) syncAuthInfo() {
-	t.conf.AuthInfo = config.AuthInfo{AuthMethod: t.authInfo.AuthMethod}
-	switch t.authInfo.AuthMethod {
-	case "token":
-		t.conf.Token = t.authInfo.Token
-	case "oidc":
-		t.conf.OIDCClientId = t.authInfo.OIDCClientId
-		t.conf.OIDCAudience = t.authInfo.OIDCAudience
-		t.conf.OIDCClientSecret = t.authInfo.OIDCClientSecret
-		t.conf.OIDCTokenEndpoint = t.authInfo.OIDCTokenEndpoint
+func (cd *EditClientDialog) authConfPage() TabPage {
+	changeAuthMethod := func() {
+		cd.authDB.Submit()
+		cd.authDB.Reset()
 	}
+	return TabPage{
+		Title:  "认证",
+		Layout: Grid{Columns: 2},
+		DataBinder: DataBinder{
+			AssignTo:   &cd.authDB,
+			Name:       "auth",
+			DataSource: &cd.authInfo,
+		},
+		Children: []Widget{
+			Label{Text: "认证方式:"},
+			Composite{
+				Layout: HBox{MarginsZero: true, SpacingZero: true},
+				Children: []Widget{
+					RadioButtonGroup{
+						DataMember: "AuthMethod",
+						Buttons: []RadioButton{
+							{Text: "Token", Value: "token", OnClicked: changeAuthMethod},
+							{Text: "OIDC", Value: "oidc", OnClicked: changeAuthMethod},
+							{Text: "无", Value: "", OnClicked: changeAuthMethod},
+						},
+					},
+					HSpacer{},
+				},
+			},
+			Label{Text: "令牌:", Visible: Bind("auth.AuthMethod == 'token'")},
+			LineEdit{Text: Bind("Token"), Visible: Bind("auth.AuthMethod == 'token'")},
+			Composite{
+				Visible:    Bind("auth.AuthMethod == 'oidc'"),
+				Layout:     Grid{Columns: 2, MarginsZero: true},
+				RowSpan:    4,
+				ColumnSpan: 2,
+				Children: []Widget{
+					Label{Text: "ID:"},
+					LineEdit{Text: Bind("OIDCClientId")},
+					Label{Text: "密钥:"},
+					LineEdit{Text: Bind("OIDCClientSecret")},
+					Label{Text: "接受者:"},
+					LineEdit{Text: Bind("OIDCAudience")},
+					Label{Text: "令牌地址:"},
+					LineEdit{Text: Bind("OIDCTokenEndpoint")},
+				},
+			},
+		},
+	}
+}
+
+func (cd *EditClientDialog) logConfPage() TabPage {
+	return TabPage{
+		Title:  "日志",
+		Layout: Grid{Columns: 2},
+		Children: []Widget{
+			Label{Text: "日志文件:"},
+			LineEdit{AssignTo: &cd.logFileView, Text: Bind("LogFile")},
+			Label{Text: "级别:"},
+			ComboBox{
+				Value: Bind("LogLevel"),
+				Model: []string{"trace", "debug", "info", "warn", "error"},
+			},
+			Label{Text: "最大天数:"},
+			NumberEdit{Value: Bind("LogMaxDays")},
+		},
+	}
+}
+
+func (cd *EditClientDialog) adminConfPage() TabPage {
+	return TabPage{
+		Title:  "管理",
+		Layout: Grid{Columns: 2},
+		Children: []Widget{
+			Label{Text: "管理地址:"},
+			LineEdit{Text: Bind("AdminAddr")},
+			Label{Text: "管理端口:"},
+			LineEdit{Text: Bind("AdminPort", Regexp{"^\\d*$"})},
+			Label{Text: "用户名:"},
+			LineEdit{Text: Bind("AdminUser")},
+			Label{Text: "密码:"},
+			LineEdit{Text: Bind("AdminPwd")},
+		},
+	}
+}
+
+func (cd *EditClientDialog) advancedConfPage() TabPage {
+	return TabPage{
+		Title:  "高级",
+		Layout: Grid{Columns: 2},
+		Children: []Widget{
+			Label{Text: "协议:"},
+			ComboBox{
+				Value: Bind("Protocol"),
+				Model: []string{"tcp", "kcp", "websocket"},
+			},
+			Label{Text: "HTTP 代理:"},
+			LineEdit{Text: Bind("HTTPProxy")},
+			Label{Text: "使用源地址:"},
+			LineEdit{Text: Bind("ConnectServerLocalIP")},
+			Label{Text: "连接池数量:"},
+			NumberEdit{Value: Bind("PoolCount")},
+			Label{Text: "DNS:"},
+			LineEdit{Text: Bind("DNSServer")},
+			Label{Text: "其他:", Alignment: AlignHNearVNear},
+			Composite{
+				Layout: VBox{MarginsZero: true, SpacingZero: true, Alignment: AlignHNearVNear},
+				Children: []Widget{
+					CheckBox{Text: "初次登录失败后退出", Checked: Bind("LoginFailExit")},
+					CheckBox{Text: "禁用开机自启动", Checked: Bind("ManualStart")},
+				},
+			},
+		},
+	}
+}
+
+func (cd *EditClientDialog) customConfPage() TabPage {
+	return TabPage{
+		Title:  "自定义",
+		Layout: VBox{},
+		Children: []Widget{
+			Label{Text: "*参考 FRP 配置文件的 [common] 部分，每行格式为 a = b"},
+			TextEdit{AssignTo: &cd.customText, Text: util.Map2String(cd.data.Custom), VScroll: true},
+		},
+	}
+}
+
+func (cd *EditClientDialog) shutdownService(wait bool) error {
+	if !cd.ShouldRestart {
+		cd.ShouldRestart = cd.Conf.State == consts.StateStarted
+	}
+	return services.UninstallService(cd.Conf.Name, wait)
+}
+
+func (cd *EditClientDialog) onSave() {
+	if err := cd.db.Submit(); err != nil {
+		return
+	}
+	if err := cd.authDB.Submit(); err != nil {
+		return
+	}
+	newConf := cd.binder
+	cd.ShouldRestart = false
+	// Edit existing config
+	if cd.Conf.Name != "" {
+		// Change config name
+		if newConf.Name != cd.Conf.Name {
+			if cd.hasConf(newConf.Name) {
+				return
+			}
+			// Delete old service
+			// We should start the new config if the old one is already started
+			if err := cd.shutdownService(false); err != nil && cd.ShouldRestart {
+				showError(err, cd.Form())
+				return
+			}
+			// Delete old config file
+			if err := os.Remove(cd.Conf.Path); err != nil {
+				showError(err, cd.Form())
+				return
+			}
+		}
+		// Change log files
+		if newConf.LogFile != cd.data.LogFile && !(newConf.LogFile == "console" && cd.data.LogFile == "") && !(newConf.LogFile == "" && cd.data.LogFile == "console") {
+			// Rename or remove log files
+			logs, dates, err := util.FindLogFiles(cd.data.LogFile)
+			if newConf.LogFile == "" || newConf.LogFile == "console" {
+				// Remove old log files
+				// The service should be stopped first
+				cd.shutdownService(true)
+				util.DeleteFiles(logs)
+			} else if cd.data.LogFile != "" && cd.data.LogFile != "console" && err == nil {
+				baseName, ext := util.SplitExt(newConf.LogFile)
+				// Rename old log files
+				// The service should be stopped first
+				cd.shutdownService(true)
+				util.RenameFiles(logs, funk.Map(funk.Zip(logs, dates), func(t funk.Tuple) string {
+					if t.Element2 == "" {
+						return newConf.LogFile
+					} else {
+						return filepath.Join(filepath.Dir(newConf.LogFile), baseName+"."+t.Element2.(string)+ext)
+					}
+				}).([]string))
+			}
+		}
+	} else if cd.hasConf(newConf.Name) {
+		return
+	} else {
+		// For new config
+		addConf(cd.Conf)
+	}
+	cd.Conf.Name = newConf.Name
+	// The order matters
+	cd.data.ClientCommon = newConf.ClientCommon
+	cd.data.ClientAuth = cd.authInfo
+	cd.data.Custom = util.String2Map(cd.customText.Text())
+	cd.Accept()
+}
+
+func (cd *EditClientDialog) hasConf(name string) bool {
+	if funk.Contains(confList, func(e *Conf) bool { return e.Name == name }) {
+		showWarningMessage(cd.Form(), "配置已存在", fmt.Sprintf("配置名「%s」已存在。", name))
+		return true
+	}
+	return false
+}
+
+func (cd *EditClientDialog) Run(owner walk.Form) (int, error) {
+	return cd.View().Run(owner)
 }

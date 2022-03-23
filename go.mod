@@ -8,6 +8,7 @@ require (
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e // indirect
 	github.com/miekg/dns v1.1.45 // indirect
+	github.com/thoas/go-funk v0.9.2
 	golang.org/x/crypto v0.0.0-20210817164053-32db794688a5 // indirect
 	golang.org/x/sys v0.0.0-20210906170528-6f6e22806c34
 	gopkg.in/Knetic/govaluate.v3 v3.0.0 // indirect

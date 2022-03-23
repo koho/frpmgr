@@ -1,5 +1,6 @@
-package config
+package consts
 
+// ServiceState is the state of FRP daemon service
 type ServiceState int
 
 const (
@@ -8,9 +9,4 @@ const (
 	StateStopped
 	StateStarting
 	StateStopping
-)
-
-var (
-	Version    = "v0.0.0"
-	FRPVersion = "v0.0.0"
 )

@@ -1,7 +1,7 @@
 package ui
 
 import (
-	"github.com/koho/frpmgr/config"
+	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/lxn/walk"
 )
 
@@ -28,46 +28,36 @@ type widthDllIdx struct {
 
 type widthAndState struct {
 	width int
-	state config.ServiceState
+	state consts.ServiceState
 }
 
 var cachedIconsForWidthAndState = make(map[widthAndState]*walk.Icon)
 
-func iconForState(state config.ServiceState, size int) (icon *walk.Icon) {
+func iconForState(state consts.ServiceState, size int) (icon *walk.Icon) {
 	icon = cachedIconsForWidthAndState[widthAndState{size, state}]
 	if icon != nil {
 		return
 	}
 	switch state {
-	case config.StateStarted:
-		icon = loadSysIcon("imageres", 101, size)
-	case config.StateStopped:
-		icon = loadResourceIcon(21, size)
+	case consts.StateStarted:
+		icon = loadSysIcon("imageres", consts.IconStateRunning, size)
+	case consts.StateStopped, consts.StateUnknown:
+		icon = loadResourceIcon(consts.IconStateStopped, size)
 	default:
-		icon = loadSysIcon("shell32", 238, size)
+		icon = loadSysIcon("shell32", consts.IconStateWorking, size)
 	}
 	cachedIconsForWidthAndState[widthAndState{size, state}] = icon
 	return
 }
 
-var cachedLogoIconsForWidth = make(map[int]*walk.Icon)
-
-func loadLogoIcon(size int) (icon *walk.Icon, err error) {
-	icon = cachedLogoIconsForWidth[size]
-	if icon != nil {
-		return
-	}
-	icon, err = walk.NewIconFromResourceIdWithSize(11, walk.Size{size, size})
-	if err == nil {
-		cachedLogoIconsForWidth[size] = icon
-	}
-	return
+func loadLogoIcon(size int) *walk.Icon {
+	return loadResourceIcon(consts.IconLogo, size)
 }
 
 func loadNewVersionIcon(size int) (icon *walk.Icon) {
-	icon = loadSysIcon("imageres", -1028, size)
+	icon = loadSysIcon("imageres", consts.IconNewVersion1, size)
 	if icon == nil {
-		icon = loadSysIcon("imageres", 1, size)
+		icon = loadSysIcon("imageres", consts.IconNewVersion2, size)
 	}
 	return
 }

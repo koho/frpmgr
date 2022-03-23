@@ -1,76 +1,83 @@
 package ui
 
 import (
-	"github.com/koho/frpmgr/config"
+	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/services"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"time"
 )
 
 type ConfPage struct {
-	*ConfView
-	*DetailView
-	confContainer   *walk.Composite
-	detailContainer *walk.Composite
-	fillerContainer *walk.Composite
-	confDB          *walk.DataBinder
+	*walk.TabPage
+
+	// Views
+	confView   *ConfView
+	detailView *DetailView
 }
 
 func NewConfPage() *ConfPage {
 	v := new(ConfPage)
-	v.ConfView = NewConfView(&v.confContainer, &v.confDB)
-	v.ConfView.ConfigChanged = v.onConfigChanged
-	v.DetailView = NewDetailView()
+	v.confView = NewConfView()
+	v.detailView = NewDetailView()
 	return v
 }
 
-func (t *ConfPage) View() TabPage {
+func (cp *ConfPage) Page() TabPage {
 	return TabPage{
-		Title:  "配置",
-		Layout: HBox{},
+		AssignTo: &cp.TabPage,
+		Title:    "配置",
+		Layout:   HBox{},
+		DataBinder: DataBinder{
+			AssignTo: &confDB,
+			DataSource: &ConfBinder{
+				Current: nil,
+				Commit: func(conf *Conf, forceStart bool) {
+					if conf != nil {
+						if err := conf.Save(); err != nil {
+							showError(err, cp.Form())
+							return
+						}
+						if forceStart {
+							// The service of config is stopped by other code, but it should be restarted
+						} else if conf.State == consts.StateStarted {
+							// The service is running, we should stop it and restart it later
+							if err := cp.detailView.panelView.StopService(conf); err != nil {
+								showError(err, cp.Form())
+								return
+							}
+						} else {
+							// The service is stopped all the time, there's nothing to do about it
+							return
+						}
+						if err := cp.detailView.panelView.StartService(conf); err != nil {
+							showError(err, cp.Form())
+							return
+						}
+					}
+				},
+			},
+			Name: "conf",
+		},
 		Children: []Widget{
 			HSplitter{
 				Children: []Widget{
-					Composite{
-						StretchFactor: 1,
-						AssignTo:      &t.confContainer,
-						Layout:        VBox{MarginsZero: true, SpacingZero: true},
-						DataBinder: DataBinder{AssignTo: &t.confDB, DataSource: &struct {
-							ConfSize      func() int
-							SelectedIndex func() int
-						}{func() int {
-							return len(config.Configurations)
-						}, func() int {
-							return t.ConfListView.view.CurrentIndex()
-						}}, Name: "conf"},
-						Children: []Widget{
-							t.ConfListView.View(),
-							t.ToolbarView.View(),
-						},
-					},
+					cp.confView.View(),
 					Composite{
 						StretchFactor: 10,
 						Layout:        HBox{MarginsZero: true, SpacingZero: true},
 						Children: []Widget{
+							cp.detailView.View(),
 							Composite{
-								AssignTo: &t.detailContainer,
-								Layout:   VBox{Margins: Margins{5, 0, 0, 0}, SpacingZero: true},
-								Children: []Widget{
-									t.DetailView.ConfStatusView.View(),
-									VSpacer{Size: 6},
-									t.DetailView.ConfSectionView.View(),
-								},
-							},
-							Composite{
-								AssignTo: &t.fillerContainer,
-								Layout:   VBox{Margins: Margins{Left: 100, Right: 100}, Spacing: 20},
+								Visible: Bind("!conf.Selected"),
+								Layout:  VBox{Margins: Margins{Left: 100, Right: 100}, Spacing: 20},
 								Children: []Widget{
 									HSpacer{},
 									VSpacer{},
 									PushButton{Text: "创建新配置", MinSize: Size{200, 0}, MaxSize: Size{200, 0}, OnClicked: func() {
-										t.ConfView.onEditConf(nil)
+										cp.confView.onEditConf(nil)
 									}},
-									PushButton{Text: "从文件导入配置", MinSize: Size{200, 0}, MaxSize: Size{200, 0}, OnClicked: t.ConfView.onImport},
+									PushButton{Text: "从文件导入配置", MinSize: Size{200, 0}, MaxSize: Size{200, 0}, OnClicked: cp.confView.onImport},
 									VSpacer{},
 								},
 							},
@@ -82,70 +89,54 @@ func (t *ConfPage) View() TabPage {
 	}
 }
 
-func (t *ConfPage) Initialize() {
-	t.ConfView.Initialize()
-	t.ConfView.ConfListView.view.CurrentIndexChanged().Attach(t.UpdateView)
-	t.DetailView.Initialize()
-	t.onConfigChanged(len(config.Configurations))
-	t.ConfView.ConfListView.view.SetCurrentIndex(0)
-	t.startQueryStatus()
+func (cp *ConfPage) OnCreate() {
+	// Create all child views
+	cp.confView.OnCreate()
+	cp.detailView.OnCreate()
+	// Select the first config
+	if len(confList) > 0 {
+		cp.confView.listView.SetCurrentIndex(0)
+	}
+	// Query service state of configs
+	cp.startQueryService()
 }
 
-func (t *ConfPage) startQueryStatus() {
-	ticker := time.NewTicker(time.Second * 1)
+func (cp *ConfPage) startQueryService() {
+	query := func() {
+		stateChanged := false
+		list := getConfListSafe()
+		for _, conf := range list {
+			conf.Lock()
+			lastState := conf.State
+			lastInstall := conf.Install
+			running, err := services.QueryService(conf.Name)
+			if running {
+				conf.State = consts.StateStarted
+			} else {
+				conf.State = consts.StateStopped
+			}
+			conf.Install = err == nil
+			if conf.State != lastState || conf.Install != lastInstall {
+				stateChanged = true
+			}
+			conf.Unlock()
+		}
+		// Only update views on state changes
+		if stateChanged {
+			cp.confView.listView.Invalidate()
+			cp.detailView.panelView.Invalidate()
+		}
+	}
+	ticker := time.NewTicker(time.Second)
 	go func() {
 		defer ticker.Stop()
+		// Trigger a state query first
+		query()
 		for {
 			select {
-			case <-config.StatusChan:
 			case <-ticker.C:
-			}
-			statusChanged := false
-			config.ConfMutex.Lock()
-			for _, conf := range config.Configurations {
-				lastStatus := conf.Status
-				if s, _ := t.queryState(conf.Name); s {
-					conf.Status = config.StateStarted
-				} else {
-					conf.Status = config.StateStopped
-				}
-				if conf.Status != lastStatus {
-					statusChanged = true
-				}
-			}
-			config.ConfMutex.Unlock()
-			if statusChanged {
-				t.ConfListView.view.Invalidate()
+				query()
 			}
 		}
 	}()
-}
-
-func (t *ConfPage) UpdateView() {
-	conf := t.ConfView.ConfListView.CurrentConf()
-	t.DetailView.SetConf(conf)
-	if conf != nil {
-		lastEditName = conf.Name
-	}
-	if *(t.db) != nil {
-		(*t.db).Reset()
-	}
-}
-
-func (t *ConfPage) SwapFiller(filler bool) {
-	if filler {
-		t.fillerContainer.SetVisible(true)
-		t.detailContainer.SetVisible(false)
-	} else {
-		t.fillerContainer.SetVisible(false)
-		t.detailContainer.SetVisible(true)
-	}
-}
-
-func (t *ConfPage) onConfigChanged(size int) {
-	if size > 0 {
-		t.SwapFiller(false)
-	} else {
-		t.SwapFiller(true)
-	}
 }
