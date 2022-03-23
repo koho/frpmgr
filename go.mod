@@ -3,11 +3,11 @@ module github.com/koho/frpmgr
 go 1.16
 
 require (
-	github.com/fatedier/frp v0.39.1
-	github.com/fatedier/golib v0.1.1-0.20220119075718-78e5cf8c00ee
+	github.com/fatedier/frp v0.40.0
+	github.com/fatedier/golib v0.1.1-0.20220218075713-264f72dfbfd9
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e // indirect
-	github.com/miekg/dns v1.1.45 // indirect
+	github.com/miekg/dns v1.1.47
 	github.com/thoas/go-funk v0.9.2
 	golang.org/x/crypto v0.0.0-20210817164053-32db794688a5 // indirect
 	golang.org/x/sys v0.0.0-20210906170528-6f6e22806c34

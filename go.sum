@@ -85,10 +85,10 @@ github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7
 github.com/evanphx/json-patch v4.9.0+incompatible/go.mod h1:50XU6AFN0ol/bzJsmQLiYLvXMP4fmwYFNcr97nuDLSk=
 github.com/fatedier/beego v0.0.0-20171024143340-6c6a4f5bd5eb h1:wCrNShQidLmvVWn/0PikGmpdP0vtQmnvyRg3ZBEhczw=
 github.com/fatedier/beego v0.0.0-20171024143340-6c6a4f5bd5eb/go.mod h1:wx3gB6dbIfBRcucp94PI9Bt3I0F2c/MyNEWuhzpWiwk=
-github.com/fatedier/frp v0.39.1 h1:t5NiZxpjKRG1Lpr0jCS9AbTPx4Y7ThZsvpJzXvJKPN8=
-github.com/fatedier/frp v0.39.1/go.mod h1:FpjNieDWogfli0W8aGAfNIyA/TmIOT1f0Ixk5Zgxdew=
-github.com/fatedier/golib v0.1.1-0.20220119075718-78e5cf8c00ee h1:iS0wlj2uZPxh3pciAf/HTzi88Kqu7DPh1jNKgJaFhtI=
-github.com/fatedier/golib v0.1.1-0.20220119075718-78e5cf8c00ee/go.mod h1:fLV0TLwHqrnB/L3jbNl67Gn6PCLggDGHniX1wLrA2Qo=
+github.com/fatedier/frp v0.40.0 h1:aKgI9MqJ2gCYoAFi0+oyYJ6snGEJcwycwiRf6gLXGc0=
+github.com/fatedier/frp v0.40.0/go.mod h1:JdidThze3UoIunnpcaeMgSoJhdJ4NA8s2wpiEH4llmI=
+github.com/fatedier/golib v0.1.1-0.20220218075713-264f72dfbfd9 h1:AOGf9Z1ri+3MiyGIAYXe+shEXx6/uVGJlufb6ZfnZls=
+github.com/fatedier/golib v0.1.1-0.20220218075713-264f72dfbfd9/go.mod h1:fLV0TLwHqrnB/L3jbNl67Gn6PCLggDGHniX1wLrA2Qo=
 github.com/fatedier/kcp-go v2.0.4-0.20190803094908-fe8645b0a904+incompatible h1:ssXat9YXFvigNge/IkkZvFMn8yeYKFX+uI6wn2mLJ74=
 github.com/fatedier/kcp-go v2.0.4-0.20190803094908-fe8645b0a904+incompatible/go.mod h1:YpCOaxj7vvMThhIQ9AfTOPW2sfztQR5WDfs7AflSy4s=
 github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
@@ -259,8 +259,8 @@ github.com/mattn/go-runewidth v0.0.9 h1:Lm995f3rfxdpd6TSmuVCHVb/QhupuXlYr8sCI/Qd
 github.com/mattn/go-runewidth v0.0.9/go.mod h1:H031xJmbD/WCDINGzjvQ9THkh0rPKHF+m2gUSrubnMI=
 github.com/matttproud/golang_protobuf_extensions v1.0.1/go.mod h1:D8He9yQNgCq6Z5Ld7szi9bcBfOoFv/3dc6xSMkL2PC0=
 github.com/miekg/dns v1.0.14/go.mod h1:W1PPwlIAgtquWBMBEV9nkV9Cazfe8ScdGz/Lj7v3Nrg=
-github.com/miekg/dns v1.1.45 h1:g5fRIhm9nx7g8osrAvgb16QJfmyMsyOCb+J7LSv+Qzk=
-github.com/miekg/dns v1.1.45/go.mod h1:e3IlAVfNqAllflbibAZEWOXOQ+Ynzk/dDozDxY7XnME=
+github.com/miekg/dns v1.1.47 h1:J9bWiXbqMbnZPcY8Qi2E3EWIBsIm6MZzzJB9VRg5gL8=
+github.com/miekg/dns v1.1.47/go.mod h1:e3IlAVfNqAllflbibAZEWOXOQ+Ynzk/dDozDxY7XnME=
 github.com/mitchellh/cli v1.0.0/go.mod h1:hNIlj7HEI86fIcpObd7a0FcrxTWetlwJDGcceTlRvqc=
 github.com/mitchellh/go-homedir v1.0.0/go.mod h1:SfyaCUpYCn1Vlf4IUYiD9fPX4A5wJrkLzIz1N1q0pr0=
 github.com/mitchellh/go-homedir v1.1.0/go.mod h1:SfyaCUpYCn1Vlf4IUYiD9fPX4A5wJrkLzIz1N1q0pr0=
