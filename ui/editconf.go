@@ -66,8 +66,8 @@ func (cd *EditClientDialog) View() Dialog {
 		Icon:          loadLogoIcon(32),
 		AssignTo:      &cd.Dialog,
 		Title:         "编辑配置",
-		MinSize:       Size{400, 300},
-		Size:          Size{400, 400},
+		MinSize:       Size{400, 360},
+		Size:          Size{400, 360},
 		Layout:        VBox{Margins: Margins{7, 9, 7, 9}},
 		Font:          consts.TextRegular,
 		DefaultButton: &acceptPB,
@@ -84,6 +84,7 @@ func (cd *EditClientDialog) View() Dialog {
 					cd.authConfPage(),
 					cd.logConfPage(),
 					cd.adminConfPage(),
+					cd.connectionConfPage(),
 					cd.advancedConfPage(),
 					cd.customConfPage(),
 				},
@@ -208,9 +209,9 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 	}
 }
 
-func (cd *EditClientDialog) advancedConfPage() TabPage {
+func (cd *EditClientDialog) connectionConfPage() TabPage {
 	return TabPage{
-		Title:  "高级",
+		Title:  "连接",
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
 			Label{Text: "协议:"},
@@ -224,9 +225,25 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 			LineEdit{Text: Bind("ConnectServerLocalIP")},
 			Label{Text: "连接池数量:"},
 			NumberEdit{Value: Bind("PoolCount")},
+			Label{Text: "连接超时:"},
+			NumberEdit{Value: Bind("DialServerTimeout"), Suffix: " 秒"},
+		},
+	}
+}
+
+func (cd *EditClientDialog) advancedConfPage() TabPage {
+	return TabPage{
+		Title:  "高级",
+		Layout: Grid{Columns: 2},
+		Children: []Widget{
 			Label{Text: "DNS:"},
 			LineEdit{Text: Bind("DNSServer")},
-			Label{Text: "其他:", Alignment: AlignHNearVNear},
+			Composite{
+				Layout: VBox{MarginsZero: true, SpacingZero: true},
+				Children: []Widget{
+					VSpacer{Size: 6},
+					Label{Text: "运行选项:", Alignment: AlignHNearVNear},
+				}},
 			Composite{
 				Layout: VBox{MarginsZero: true, SpacingZero: true, Alignment: AlignHNearVNear},
 				Children: []Widget{

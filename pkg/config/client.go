@@ -20,6 +20,7 @@ type ClientCommon struct {
 	ClientAuth           `ini:",extends"`
 	ServerAddress        string `ini:"server_addr"`
 	ServerPort           string `ini:"server_port"`
+	DialServerTimeout    int64  `ini:"dial_server_timeout,omitempty"`
 	ConnectServerLocalIP string `ini:"connect_server_local_ip,omitempty"`
 	HTTPProxy            string `ini:"http_proxy,omitempty"`
 	LogFile              string `ini:"log_file,omitempty"`
