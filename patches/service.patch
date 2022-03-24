@@ -1,5 +1,5 @@
---- pkg/mod/github.com/fatedier/frp@v0.40.0/client/service.go	2022-03-23 17:35:01.000000000 +0800
-+++ patches/service.go	2022-03-23 17:52:35.000000000 +0800
+--- pkg/mod/github.com/fatedier/frp@v0.41.0/client/service.go	2022-03-24 15:06:41.000000000 +0800
++++ patches/service.go	2022-03-24 15:10:43.000000000 +0800
 @@ -36,12 +36,13 @@
  	"github.com/fatedier/frp/pkg/util/util"
  	"github.com/fatedier/frp/pkg/util/version"
@@ -14,7 +14,7 @@
  type Service struct {
  	// uniq id got from frps, attach it in loginMsg
  	runID string
-@@ -247,14 +248,20 @@
+@@ -248,14 +249,20 @@
  		libdial.WithProxyAuth(auth),
  		libdial.WithTLSConfig(tlsConfig),
  		libdial.WithAfterHook(libdial.AfterHook{
