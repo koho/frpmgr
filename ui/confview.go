@@ -194,14 +194,11 @@ func (cv *ConfView) onEditConf(conf *Conf) {
 
 func (cv *ConfView) onImport() {
 	dlg := walk.FileDialog{
-		Filter: "配置文件 (*.zip, *.ini)|*.zip;*.ini|All Files (*.*)|*.*",
+		Filter: "配置文件 (*.zip, *.ini)|*.zip;*.ini|所有文件 (*.*)|*.*",
 		Title:  "从文件导入配置",
 	}
 
 	if ok, _ := dlg.ShowOpenMultiple(cv.Form()); !ok {
-		return
-	}
-	if err := os.Chdir(curDir); err != nil {
 		return
 	}
 	for _, path := range dlg.FilePaths {
@@ -211,16 +208,16 @@ func (cv *ConfView) onImport() {
 			if _, err := os.Stat(newPath); err == nil {
 				baseName, _ := util.SplitExt(newPath)
 				showWarningMessage(cv.Form(), "错误", fmt.Sprintf("无法导入配置: 另一个同名的配置「%s」已存在", baseName))
-				return
+				continue
 			}
 			if _, err := util.CopyFile(path, newPath); err != nil {
 				showErrorMessage(cv.Form(), "错误", "复制文件时出现错误")
-				return
+				continue
 			}
 			conf, err := config.UnmarshalClientConfFromIni(newPath)
 			if err != nil {
 				showError(err, cv.Form())
-				return
+				continue
 			}
 			addConf(NewConf(newPath, conf))
 		case ".zip":
