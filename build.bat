@@ -14,7 +14,6 @@ echo [+] Downloading packages
 go mod tidy || exit /b 1
 echo [+] Patching files
 for %%f in (patches\*.patch) do patch -N -r - -d %GOPATH% -p0 < %%f
-go mod tidy || exit /b 1
 echo [+] Compiling release version
 for /F "tokens=2 delims=@" %%y in ('go mod graph ^| findstr frpmgr ^| findstr frp@') do (set FRP_VERSION=%%y)
 go build -ldflags="-H windowsgui -X github.com/koho/frpmgr/pkg/version.Version=v%FRPMGR_VERSION% -X github.com/koho/frpmgr/pkg/version.FRPVersion=%FRP_VERSION% -X github.com/koho/frpmgr/pkg/version.BuildDate=%date:~0,4%%date:~5,2%%date:~8,2%" -o bin/frpmgr.exe github.com/koho/frpmgr/cmd/frpmgr || exit /b 1
