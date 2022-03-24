@@ -6,6 +6,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0] - 2022-03-24
+### 新增
+* 支持全部代理类型(本次新增`sudp`, `http`, `https`, `tcpmux`)的图形化配置
+* 新增插件编辑
+* 新增负载均衡
+* 新增健康检查
+* 新增带宽限制，代理协议版本配置
+* 代理项目表格新增了子域名，自定义域名，插件列
+* 添加连接超时时间，心跳间隔时间配置
+* 添加 pprof 开关
+
+### 修复
+* 修复在中文配置名下，打开服务按钮无反应的问题
+* 修复随机名称按钮会生成相同名称问题
+* 修复了小概率界面崩溃问题
+
+### 优化
+* 无法添加相同名称的代理
+* 无法导入相同名称的配置，当以压缩包导入时，忽略同名配置导入
+* 减少了不必要的 IO 查询
+* 代理项目表格各列宽调整，以充分利用空间
+* 手动指定日志文件后修改配置名不再自动改变日志路径配置
+* 路径配置的输入框添加浏览文件按钮
+
+### 更新
+* FRP 版本 0.41.0
+
 ## [1.6.1] - 2022-03-07
 ### 优化
 * 安装包改用 exe 格式，避免无法关闭占用程序
@@ -99,7 +126,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * 解决某些情况下电脑重启后服务没有自动运行问题
 * 更新软件后需打开软件，选择左侧配置项后右键编辑，然后直接确定，再启动即可
 
-[Unreleased]: https://github.com/koho/frpmgr/compare/v1.6.1...HEAD
+[Unreleased]: https://github.com/koho/frpmgr/compare/v1.7.0...HEAD
+[1.7.0]: https://github.com/koho/frpmgr/compare/v1.6.1...v1.7.0
 [1.6.1]: https://github.com/koho/frpmgr/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/koho/frpmgr/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/koho/frpmgr/compare/v1.4.2...v1.5.0
