@@ -11,6 +11,7 @@ import (
 	"github.com/thoas/go-funk"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 type EditClientDialog struct {
@@ -109,7 +110,11 @@ func (cd *EditClientDialog) baseConfPage() TabPage {
 			Label{Text: "名称:"},
 			LineEdit{AssignTo: &cd.nameView, Text: Bind("Name", Regexp{".+"}), OnTextChanged: func() {
 				if name := cd.nameView.Text(); name != "" {
-					cd.logFileView.SetText("logs" + "/" + name + ".log")
+					curLog := strings.TrimSpace(cd.logFileView.Text())
+					// Automatically change the log file if it's empty or using the default log directory
+					if curLog == "" || strings.HasPrefix(curLog, "logs/") {
+						cd.logFileView.SetText("logs" + "/" + name + ".log")
+					}
 				}
 			}},
 			Label{Text: "服务器地址:"},
@@ -179,8 +184,10 @@ func (cd *EditClientDialog) logConfPage() TabPage {
 		Title:  "日志",
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
+			Label{Text: "*留空则不记录日志，且删除原来的日志文件", ColumnSpan: 2},
 			Label{Text: "日志文件:"},
-			LineEdit{AssignTo: &cd.logFileView, Text: Bind("LogFile")},
+			NewBrowseLineEdit(&cd.logFileView, true, Bind("LogFile"),
+				"选择日志文件", "日志文件 (*.log, *.txt)|*.log;*.txt|", true),
 			Label{Text: "级别:"},
 			ComboBox{
 				Value: Bind("LogLevel"),
