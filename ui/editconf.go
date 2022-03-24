@@ -207,11 +207,13 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 			Label{Text: "管理地址:"},
 			LineEdit{Text: Bind("AdminAddr")},
 			Label{Text: "管理端口:"},
-			LineEdit{Text: Bind("AdminPort", Regexp{"^\\d*$"})},
+			LineEdit{Name: "adminPort", Text: Bind("AdminPort", Regexp{"^\\d*$"})},
 			Label{Text: "用户名:"},
 			LineEdit{Text: Bind("AdminUser")},
 			Label{Text: "密码:"},
 			LineEdit{Text: Bind("AdminPwd")},
+			Label{Text: "调试:"},
+			CheckBox{Text: "pprof", Checked: Bind("PprofEnable"), Enabled: Bind("adminPort.Text != ''")},
 		},
 	}
 }
@@ -228,12 +230,12 @@ func (cd *EditClientDialog) connectionConfPage() TabPage {
 			},
 			Label{Text: "HTTP 代理:"},
 			LineEdit{Text: Bind("HTTPProxy")},
-			Label{Text: "使用源地址:"},
-			LineEdit{Text: Bind("ConnectServerLocalIP")},
 			Label{Text: "连接池数量:"},
 			NumberEdit{Value: Bind("PoolCount")},
 			Label{Text: "连接超时:"},
 			NumberEdit{Value: Bind("DialServerTimeout"), Suffix: " 秒"},
+			Label{Text: "心跳间隔:"},
+			NumberEdit{Value: Bind("DialServerKeepAlive"), Suffix: " 秒"},
 		},
 	}
 }
@@ -245,12 +247,15 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 		Children: []Widget{
 			Label{Text: "DNS:"},
 			LineEdit{Text: Bind("DNSServer")},
+			Label{Text: "使用源地址:"},
+			LineEdit{Text: Bind("ConnectServerLocalIP")},
 			Composite{
 				Layout: VBox{MarginsZero: true, SpacingZero: true},
 				Children: []Widget{
 					VSpacer{Size: 6},
 					Label{Text: "运行选项:", Alignment: AlignHNearVNear},
-				}},
+				},
+			},
 			Composite{
 				Layout: VBox{MarginsZero: true, SpacingZero: true, Alignment: AlignHNearVNear},
 				Children: []Widget{

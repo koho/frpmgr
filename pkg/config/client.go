@@ -21,6 +21,7 @@ type ClientCommon struct {
 	ServerAddress        string `ini:"server_addr"`
 	ServerPort           string `ini:"server_port"`
 	DialServerTimeout    int64  `ini:"dial_server_timeout,omitempty"`
+	DialServerKeepAlive  int64  `ini:"dial_server_keepalive,omitempty"`
 	ConnectServerLocalIP string `ini:"connect_server_local_ip,omitempty"`
 	HTTPProxy            string `ini:"http_proxy,omitempty"`
 	LogFile              string `ini:"log_file,omitempty"`
@@ -30,6 +31,7 @@ type ClientCommon struct {
 	AdminPort            string `ini:"admin_port,omitempty"`
 	AdminUser            string `ini:"admin_user,omitempty"`
 	AdminPwd             string `ini:"admin_pwd,omitempty"`
+	PprofEnable          bool   `ini:"pprof_enable,omitempty"`
 	PoolCount            uint   `ini:"pool_count,omitempty"`
 	DNSServer            string `ini:"dns_server,omitempty"`
 	Protocol             string `ini:"protocol,omitempty"`
@@ -223,6 +225,9 @@ func (conf *ClientConfig) Complete() {
 		}
 	} else {
 		conf.ClientAuth = ClientAuth{}
+	}
+	if conf.AdminPort == "" {
+		conf.PprofEnable = false
 	}
 	// Proxies
 	for _, proxy := range conf.Proxies {
