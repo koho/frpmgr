@@ -4,6 +4,9 @@ for /F "delims=" %%i in (version) do (set FRPMGR_VERSION=%%i)
 if [%FRPMGR_VERSION%]==[] set FRPMGR_VERSION=v0.0.0
 set FRPMGR_VERSION=%FRPMGR_VERSION:~1%
 echo Version: %FRPMGR_VERSION%
+for /F "usebackq tokens=1,2 delims==" %%i in (`wmic os get LocalDateTime /VALUE 2^>NUL`) do if '.%%i.'=='.LocalDateTime.' set ldt=%%j
+set BUILD_DATE=%ldt:~0,4%-%ldt:~4,2%-%ldt:~6,2%
+echo Date: %BUILD_DATE%
 set BUILDDIR=%~dp0
 set PATH=%BUILDDIR%.deps;%PATH%
 echo [+] Rendering icons
@@ -16,7 +19,7 @@ echo [+] Patching files
 for %%f in (patches\*.patch) do patch -N -r - -d %GOPATH% -p0 < %%f
 echo [+] Compiling release version
 for /F "tokens=2 delims=@" %%y in ('go mod graph ^| findstr frpmgr ^| findstr frp@') do (set FRP_VERSION=%%y)
-go build -ldflags="-H windowsgui -X github.com/koho/frpmgr/pkg/version.Version=v%FRPMGR_VERSION% -X github.com/koho/frpmgr/pkg/version.FRPVersion=%FRP_VERSION% -X github.com/koho/frpmgr/pkg/version.BuildDate=%date:~0,4%%date:~5,2%%date:~8,2%" -o bin/frpmgr.exe github.com/koho/frpmgr/cmd/frpmgr || exit /b 1
+go build -ldflags="-H windowsgui -X github.com/koho/frpmgr/pkg/version.Version=v%FRPMGR_VERSION% -X github.com/koho/frpmgr/pkg/version.FRPVersion=%FRP_VERSION% -X github.com/koho/frpmgr/pkg/version.BuildDate=%BUILD_DATE%" -o bin/frpmgr.exe github.com/koho/frpmgr/cmd/frpmgr || exit /b 1
 echo [+] Building installer
 call installer/build.bat %FRPMGR_VERSION% || exit /b 1
 echo [+] Success.
