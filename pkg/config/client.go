@@ -217,6 +217,12 @@ func (conf *ClientConfig) Complete() {
 			conf.ClientAuth = auth.(ClientAuth)
 			conf.AuthMethod = authMethod
 		}
+		// Check the default auth method
+		if authMethod == "token" && conf.Token == "" {
+			conf.AuthMethod = ""
+		}
+	} else {
+		conf.ClientAuth = ClientAuth{}
 	}
 	// Proxies
 	for _, proxy := range conf.Proxies {
@@ -234,12 +240,16 @@ func (conf *ClientConfig) Complete() {
 				if pluginParams, err := util.PruneByTag(base.PluginParams, "true", base.Plugin); err == nil {
 					base.PluginParams = pluginParams.(PluginParams)
 				}
+			} else {
+				base.PluginParams = PluginParams{}
 			}
 			// Health Check
 			if base.HealthCheckType != "" {
 				if healthCheckConf, err := util.PruneByTag(base.HealthCheckConf, "true", base.HealthCheckType); err == nil {
 					base.HealthCheckConf = healthCheckConf.(HealthCheckConf)
 				}
+			} else {
+				base.HealthCheckConf = HealthCheckConf{}
 			}
 			// Proxy type
 			if p, err := util.PruneByTag(*proxy, "true", proxy.Type); err == nil {
