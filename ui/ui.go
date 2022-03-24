@@ -6,9 +6,9 @@ import (
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"math/rand"
-	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"syscall"
 	"time"
 )
@@ -38,8 +38,6 @@ type FRPManager struct {
 	logPage   *LogPage
 	aboutPage *AboutPage
 }
-
-var curDir string
 
 func RunUI() error {
 	if err := loadAllConfs(); err != nil {
@@ -72,7 +70,6 @@ func RunUI() error {
 	if err := mw.Create(); err != nil {
 		return err
 	}
-	curDir, _ = os.Getwd()
 	// Initialize child pages
 	fm.confPage.OnCreate()
 	fm.logPage.OnCreate()
@@ -122,4 +119,26 @@ func openFolder(path string) {
 	if absPath, err := filepath.Abs(path); err == nil {
 		exec.Command(`explorer`, `/select,`, absPath).Run()
 	}
+}
+
+// openFileDialog shows a file dialog to choose file or directory and sends the selected path to the LineEdit view
+func openFileDialog(receiver *walk.LineEdit, title string, filter string, file bool) error {
+	dlg := walk.FileDialog{
+		Filter: filter + "所有文件 (*.*)|*.*",
+		Title:  title,
+	}
+	var ok bool
+	var err error
+	if file {
+		ok, err = dlg.ShowOpen(receiver.Form())
+	} else {
+		ok, err = dlg.ShowBrowseFolder(receiver.Form())
+	}
+	if err != nil {
+		return err
+	}
+	if !ok {
+		return nil
+	}
+	return receiver.SetText(strings.ReplaceAll(dlg.FilePath, "\\", "/"))
 }
