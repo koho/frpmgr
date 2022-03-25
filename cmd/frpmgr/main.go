@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"github.com/koho/frpmgr/pkg/version"
@@ -10,6 +11,7 @@ import (
 	"golang.org/x/sys/windows/svc"
 	"os"
 	"strings"
+	"syscall"
 )
 
 func fatal(v ...interface{}) {
@@ -58,7 +60,15 @@ func main() {
 		if err = services.Run(confPath); err != nil {
 			fatal(err)
 		}
-	} else if err = ui.RunUI(); err != nil {
-		fatal(err)
+	} else {
+		h, err := checkSingleton()
+		defer windows.CloseHandle(h)
+		if errors.Is(err, syscall.ERROR_ALREADY_EXISTS) {
+			showMainWindow()
+			return
+		}
+		if err = ui.RunUI(); err != nil {
+			fatal(err)
+		}
 	}
 }
