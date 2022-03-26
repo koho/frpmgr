@@ -13,6 +13,7 @@ CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST manifest.xml
 23 ICON icon/refresh.ico
 24 ICON icon/copy.ico
 25 ICON icon/copy_act.ico
+26 ICON icon/shell.ico
 
 VS_VERSION_INFO VERSIONINFO \
 FILEVERSION    FRPMGR_VERSION_ARRAY \

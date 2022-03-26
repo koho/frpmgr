@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/util"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"path/filepath"
@@ -17,12 +18,20 @@ type SectionView struct {
 	table   *walk.TableView
 
 	// Actions
-	newAction    *walk.Action
-	rdAction     *walk.Action
-	sshAction    *walk.Action
-	webAction    *walk.Action
-	editAction   *walk.Action
-	deleteAction *walk.Action
+	newAction       *walk.Action
+	rdAction        *walk.Action
+	sshAction       *walk.Action
+	webAction       *walk.Action
+	vncAction       *walk.Action
+	dnsAction       *walk.Action
+	ftpAction       *walk.Action
+	httpFileAction  *walk.Action
+	httpProxyAction *walk.Action
+	socks5Action    *walk.Action
+	vpnAction       *walk.Action
+	editAction      *walk.Action
+	deleteAction    *walk.Action
+	openConfAction  *walk.Action
 }
 
 func NewSectionView() *SectionView {
@@ -30,124 +39,18 @@ func NewSectionView() *SectionView {
 }
 
 func (sv *SectionView) View() Widget {
-	var sectionDB *walk.DataBinder
 	return Composite{
 		AssignTo: &sv.Composite,
 		DataBinder: DataBinder{
-			AssignTo: &sectionDB,
-			Name:     "section",
+			Name: "section",
 			DataSource: &struct{ Selected func() bool }{
 				func() bool { return sv.table != nil && sv.table.CurrentIndex() >= 0 },
 			},
 		},
 		Layout: VBox{MarginsZero: true},
 		Children: []Widget{
-			ToolBar{
-				AssignTo:    &sv.toolbar,
-				ButtonStyle: ToolBarButtonImageBeforeText,
-				Orientation: Horizontal,
-				Items: []MenuItem{
-					Action{
-						AssignTo: &sv.newAction,
-						Text:     "添加",
-						Image:    loadSysIcon("shell32", consts.IconCreate, 16),
-						OnTriggered: func() {
-							sv.onEdit(false)
-						},
-					},
-					Menu{
-						Text:  "快速添加",
-						Image: loadSysIcon("imageres", consts.IconQuickAdd, 16),
-						Items: []MenuItem{
-							Action{
-								AssignTo: &sv.rdAction,
-								Text:     "远程桌面",
-								Image:    loadSysIcon("imageres", consts.IconRemote, 16),
-								OnTriggered: func() {
-									sv.onQuickAdd(NewSimpleProxyDialog("远程桌面", "rdp", []string{"tcp", "udp"}, 3389))
-								},
-							},
-							Action{
-								AssignTo: &sv.sshAction,
-								Text:     "SSH",
-								Image:    loadSysIcon("shell32", consts.IconComputer, 16),
-								OnTriggered: func() {
-									sv.onQuickAdd(NewSimpleProxyDialog("SSH", "ssh", []string{"tcp"}, 22))
-								},
-							},
-							Action{
-								AssignTo: &sv.webAction,
-								Text:     "Web",
-								Image:    loadSysIcon("shell32", consts.IconWeb, 16),
-								OnTriggered: func() {
-									sv.onQuickAdd(NewSimpleProxyDialog("Web", "web", []string{"tcp"}, 80))
-								},
-							},
-						},
-					},
-					Action{
-						AssignTo: &sv.editAction,
-						Image:    loadSysIcon("shell32", consts.IconEdit, 16),
-						Text:     "编辑",
-						Enabled:  Bind("section.Selected"),
-						OnTriggered: func() {
-							sv.onEdit(true)
-						},
-					},
-					Action{
-						AssignTo:    &sv.deleteAction,
-						Image:       loadSysIcon("shell32", consts.IconDelete, 16),
-						Text:        "删除",
-						Enabled:     Bind("section.Selected"),
-						OnTriggered: sv.onDelete,
-					},
-					Action{
-						Image: loadResourceIcon(consts.IconOpen, 16),
-						Text:  "打开配置文件",
-						OnTriggered: func() {
-							if sv.model == nil {
-								return
-							}
-							if path, err := filepath.Abs(sv.model.conf.Path); err == nil {
-								openPath(path)
-							}
-						},
-					},
-				},
-			},
-			TableView{
-				AssignTo: &sv.table,
-				Columns: []TableViewColumn{
-					{Title: "名称", DataMember: "Name", Width: 105},
-					{Title: "类型", DataMember: "Type", Width: 60},
-					{Title: "本地地址", DataMember: "LocalIP", Width: 110},
-					{Title: "本地端口", DataMember: "LocalPort", Width: 90},
-					{Title: "远程端口", DataMember: "RemotePort", Width: 90},
-					{Title: "子域名", DataMember: "SubDomain", Width: 90},
-					{Title: "自定义域名", DataMember: "CustomDomains", Width: 90},
-					{Title: "插件", DataMember: "Plugin", Width: 100},
-				},
-				ContextMenuItems: []MenuItem{
-					ActionRef{&sv.editAction},
-					ActionRef{&sv.newAction},
-					Menu{
-						Text:  "快速添加",
-						Image: loadSysIcon("imageres", consts.IconQuickAdd, 16),
-						Items: []MenuItem{
-							ActionRef{&sv.rdAction},
-							ActionRef{&sv.sshAction},
-							ActionRef{&sv.webAction},
-						},
-					},
-					ActionRef{&sv.deleteAction},
-				},
-				OnCurrentIndexChanged: func() {
-					sectionDB.Reset()
-				},
-				OnItemActivated: func() {
-					sv.onEdit(true)
-				},
-			},
+			sv.createToolbar(),
+			sv.createSectionTable(),
 		},
 	}
 }
@@ -163,6 +66,199 @@ func (sv *SectionView) Invalidate() {
 	} else {
 		sv.model = NewSectionModel(conf)
 		sv.table.SetModel(sv.model)
+	}
+}
+
+func (sv *SectionView) createToolbar() ToolBar {
+	return ToolBar{
+		AssignTo:    &sv.toolbar,
+		ButtonStyle: ToolBarButtonImageBeforeText,
+		Orientation: Horizontal,
+		Items: []MenuItem{
+			Action{
+				AssignTo: &sv.newAction,
+				Text:     "添加",
+				Image:    loadSysIcon("shell32", consts.IconCreate, 16),
+				OnTriggered: func() {
+					sv.onEdit(false)
+				},
+			},
+			Menu{
+				Text:  "快速添加",
+				Image: loadSysIcon("imageres", consts.IconQuickAdd, 16),
+				Items: []MenuItem{
+					Action{
+						AssignTo: &sv.rdAction,
+						Text:     "远程桌面",
+						Image:    loadSysIcon("imageres", consts.IconRemote, 16),
+						OnTriggered: func() {
+							sv.onQuickAdd(NewSimpleProxyDialog("远程桌面", loadSysIcon("imageres", consts.IconRemote, 32),
+								"rdp", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, ":3389"))
+						},
+					},
+					Action{
+						AssignTo: &sv.vncAction,
+						Text:     "VNC",
+						Image:    loadSysIcon("imageres", consts.IconVNC, 16),
+						OnTriggered: func() {
+							sv.onQuickAdd(NewSimpleProxyDialog("VNC", loadSysIcon("imageres", consts.IconVNC, 32),
+								"vnc", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, ":5900"))
+						},
+					},
+					Action{
+						AssignTo: &sv.sshAction,
+						Text:     "SSH",
+						Image:    loadResourceIcon(consts.IconSSH, 16),
+						OnTriggered: func() {
+							sv.onQuickAdd(NewSimpleProxyDialog("SSH", loadResourceIcon(consts.IconSSH, 32),
+								"ssh", []string{consts.ProxyTypeTCP}, ":22"))
+						},
+					},
+					Action{
+						AssignTo: &sv.webAction,
+						Text:     "Web",
+						Image:    loadSysIcon("shell32", consts.IconWeb, 16),
+						OnTriggered: func() {
+							sv.onQuickAdd(NewSimpleProxyDialog("Web", loadSysIcon("shell32", consts.IconWeb, 32),
+								"web", []string{consts.ProxyTypeTCP}, ":80"))
+						},
+					},
+					Action{
+						AssignTo: &sv.dnsAction,
+						Text:     "DNS",
+						Image:    loadSysIcon("imageres", consts.IconDns, 16),
+						OnTriggered: func() {
+							systemDns := util.GetSystemDnsServer()
+							if systemDns == "" {
+								systemDns = "114.114.114.114"
+							}
+							sv.onQuickAdd(NewSimpleProxyDialog("DNS", loadSysIcon("imageres", consts.IconDns, 32),
+								"dns", []string{consts.ProxyTypeUDP}, systemDns+":53"))
+						},
+					},
+					Action{
+						AssignTo: &sv.ftpAction,
+						Text:     "FTP",
+						Image:    loadSysIcon("imageres", consts.IconFtp, 16),
+						OnTriggered: func() {
+							sv.onQuickAdd(NewSimpleProxyDialog("FTP", loadSysIcon("imageres", consts.IconFtp, 32),
+								"ftp", []string{consts.ProxyTypeTCP}, ":21"))
+						},
+					},
+					Action{
+						AssignTo: &sv.httpFileAction,
+						Text:     "HTTP 文件服务",
+						Image:    loadSysIcon("imageres", consts.IconHttpFile, 16),
+						OnTriggered: func() {
+							sv.onQuickAdd(NewPluginProxyDialog("HTTP 文件服务", loadSysIcon("imageres", consts.IconHttpFile, 32),
+								consts.PluginStaticFile))
+						},
+					},
+					Action{
+						AssignTo: &sv.httpProxyAction,
+						Text:     "HTTP 代理",
+						Image:    loadSysIcon("imageres", consts.IconHttpProxy, 16),
+						OnTriggered: func() {
+							sv.onQuickAdd(NewPluginProxyDialog("HTTP 代理", loadSysIcon("imageres", consts.IconHttpProxy, 32),
+								consts.PluginHttpProxy))
+						},
+					},
+					Action{
+						AssignTo: &sv.socks5Action,
+						Text:     "SOCKS5 代理",
+						Image:    loadSysIcon("imageres", consts.IconSocks5, 16),
+						OnTriggered: func() {
+							sv.onQuickAdd(NewPluginProxyDialog("SOCKS5 代理", loadSysIcon("imageres", consts.IconSocks5, 32),
+								consts.PluginSocks5))
+						},
+					},
+					Action{
+						AssignTo: &sv.vpnAction,
+						Text:     "OpenVPN",
+						Image:    loadSysIcon("shell32", consts.IconVpn, 16),
+						OnTriggered: func() {
+							sv.onQuickAdd(NewSimpleProxyDialog("OpenVPN", loadSysIcon("shell32", consts.IconVpn, 32),
+								"openvpn", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, ":1194"))
+						},
+					},
+				},
+			},
+			Action{
+				AssignTo: &sv.editAction,
+				Image:    loadSysIcon("shell32", consts.IconEdit, 16),
+				Text:     "编辑",
+				Enabled:  Bind("section.Selected"),
+				OnTriggered: func() {
+					sv.onEdit(true)
+				},
+			},
+			Action{
+				AssignTo:    &sv.deleteAction,
+				Image:       loadSysIcon("shell32", consts.IconDelete, 16),
+				Text:        "删除",
+				Enabled:     Bind("section.Selected"),
+				OnTriggered: sv.onDelete,
+			},
+			Action{
+				AssignTo: &sv.openConfAction,
+				Image:    loadResourceIcon(consts.IconOpen, 16),
+				Text:     "打开配置文件",
+				OnTriggered: func() {
+					if sv.model == nil {
+						return
+					}
+					if path, err := filepath.Abs(sv.model.conf.Path); err == nil {
+						openPath(path)
+					}
+				},
+			},
+		},
+	}
+}
+
+func (sv *SectionView) createSectionTable() TableView {
+	return TableView{
+		AssignTo: &sv.table,
+		Columns: []TableViewColumn{
+			{Title: "名称", DataMember: "Name", Width: 105},
+			{Title: "类型", DataMember: "Type", Width: 60},
+			{Title: "本地地址", DataMember: "LocalIP", Width: 110},
+			{Title: "本地端口", DataMember: "LocalPort", Width: 90},
+			{Title: "远程端口", DataMember: "RemotePort", Width: 90},
+			{Title: "子域名", DataMember: "SubDomain", Width: 90},
+			{Title: "自定义域名", DataMember: "CustomDomains", Width: 90},
+			{Title: "插件", DataMember: "Plugin", Width: 100},
+		},
+		ContextMenuItems: []MenuItem{
+			ActionRef{&sv.editAction},
+			ActionRef{&sv.newAction},
+			Menu{
+				Text:  "快速添加",
+				Image: loadSysIcon("imageres", consts.IconQuickAdd, 16),
+				Items: []MenuItem{
+					ActionRef{&sv.rdAction},
+					ActionRef{&sv.vncAction},
+					ActionRef{&sv.sshAction},
+					ActionRef{&sv.webAction},
+					ActionRef{&sv.dnsAction},
+					ActionRef{&sv.ftpAction},
+					ActionRef{&sv.httpFileAction},
+					ActionRef{&sv.httpProxyAction},
+					ActionRef{&sv.socks5Action},
+					ActionRef{&sv.vpnAction},
+				},
+			},
+			ActionRef{&sv.openConfAction},
+			ActionRef{&sv.deleteAction},
+		},
+		OnCurrentIndexChanged: func() {
+			if db := sv.DataBinder(); db != nil {
+				db.Reset()
+			}
+		},
+		OnItemActivated: func() {
+			sv.onEdit(true)
+		},
 	}
 }
 
@@ -210,12 +306,12 @@ func (sv *SectionView) onEdit(edit bool) {
 	}
 }
 
-func (sv *SectionView) onQuickAdd(spd *SimpleProxyDialog) {
+func (sv *SectionView) onQuickAdd(qa QuickAdd) {
 	if sv.model == nil {
 		return
 	}
-	if res, _ := spd.Run(sv.Form()); res == walk.DlgCmdOK {
-		for _, proxy := range spd.Proxies {
+	if res, _ := qa.Run(sv.Form()); res == walk.DlgCmdOK {
+		for _, proxy := range qa.GetProxies() {
 			if !sv.model.conf.Data.AddItem(proxy) {
 				showWarningMessage(sv.Form(), "代理已存在", fmt.Sprintf("代理名「%s」已存在。", proxy.Name))
 			}
