@@ -195,6 +195,8 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 			LineEdit{Text: Bind("AdminUser")},
 			Label{Text: "密码:"},
 			LineEdit{Text: Bind("AdminPwd")},
+			Label{Text: "静态资源:"},
+			NewBrowseLineEdit(nil, true, Bind("AssetsDir"), "选择静态资源目录", "", false),
 			Label{Text: "调试:"},
 			CheckBox{Text: "pprof", Checked: Bind("PprofEnable"), Enabled: Bind("adminPort.Text != ''")},
 		},

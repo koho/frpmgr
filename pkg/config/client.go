@@ -31,6 +31,7 @@ type ClientCommon struct {
 	AdminPort               string `ini:"admin_port,omitempty"`
 	AdminUser               string `ini:"admin_user,omitempty"`
 	AdminPwd                string `ini:"admin_pwd,omitempty"`
+	AssetsDir               string `ini:"assets_dir,omitempty"`
 	PprofEnable             bool   `ini:"pprof_enable,omitempty"`
 	PoolCount               uint   `ini:"pool_count,omitempty"`
 	DNSServer               string `ini:"dns_server,omitempty"`
