@@ -43,9 +43,9 @@ func NewBrowseLineEdit(assignTo **walk.LineEdit, visible Property, text Property
 }
 
 // NewBasicDialog returns a dialog with given widgets and default buttons
-func NewBasicDialog(assignTo **walk.Dialog, title string, icon *walk.Icon, widget Widget, db DataBinder, yes func()) Dialog {
+func NewBasicDialog(assignTo **walk.Dialog, title string, icon *walk.Icon, db DataBinder, yes func(), widgets ...Widget) Dialog {
 	var acceptPB, cancelPB *walk.PushButton
-	return Dialog{
+	dlg := Dialog{
 		AssignTo:      assignTo,
 		Icon:          icon,
 		Title:         title,
@@ -54,19 +54,18 @@ func NewBasicDialog(assignTo **walk.Dialog, title string, icon *walk.Icon, widge
 		DefaultButton: &acceptPB,
 		CancelButton:  &cancelPB,
 		DataBinder:    db,
-		Children: []Widget{
-			widget,
-			VSpacer{},
-			Composite{
-				Layout: HBox{MarginsZero: true},
-				Children: []Widget{
-					HSpacer{},
-					PushButton{Text: "确定", AssignTo: &acceptPB, OnClicked: yes},
-					PushButton{Text: "取消", AssignTo: &cancelPB, OnClicked: func() { (*assignTo).Cancel() }},
-				},
-			},
-		},
+		Children:      make([]Widget, 0),
 	}
+	dlg.Children = append(dlg.Children, widgets...)
+	dlg.Children = append(dlg.Children, Composite{
+		Layout: HBox{MarginsZero: true},
+		Children: []Widget{
+			HSpacer{},
+			PushButton{Text: "确定", AssignTo: &acceptPB, OnClicked: yes},
+			PushButton{Text: "取消", AssignTo: &cancelPB, OnClicked: func() { (*assignTo).Cancel() }},
+		},
+	})
+	return dlg
 }
 
 // NewRadioButtonGroup returns a simple radio button group

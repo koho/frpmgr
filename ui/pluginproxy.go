@@ -48,13 +48,13 @@ func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {
 				"选择本地文件夹", "", false),
 		)
 	}
-	return NewBasicDialog(&pp.Dialog, pp.title, pp.icon, Composite{
-		Layout:   Grid{Columns: 2, MarginsZero: true},
-		Children: widgets,
-	}, DataBinder{
+	return NewBasicDialog(&pp.Dialog, pp.title, pp.icon, DataBinder{
 		AssignTo:   &pp.db,
 		DataSource: pp.binder,
-	}, pp.onSave).Run(owner)
+	}, pp.onSave, Composite{
+		Layout:   Grid{Columns: 2, MarginsZero: true},
+		Children: widgets,
+	}, VSpacer{}).Run(owner)
 }
 
 func (pp *PluginProxyDialog) GetProxies() []*config.Proxy {

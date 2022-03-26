@@ -62,44 +62,27 @@ func NewEditClientDialog(conf *Conf) *EditClientDialog {
 }
 
 func (cd *EditClientDialog) View() Dialog {
-	var acceptPB, cancelPB *walk.PushButton
-	return Dialog{
-		Icon:          loadSysIcon("imageres", consts.IconEditDialog, 32),
-		AssignTo:      &cd.Dialog,
-		Title:         "编辑配置",
-		MinSize:       Size{400, 360},
-		Size:          Size{400, 360},
-		Layout:        VBox{Margins: Margins{7, 9, 7, 9}},
-		Font:          consts.TextRegular,
-		DefaultButton: &acceptPB,
-		CancelButton:  &cancelPB,
-		DataBinder: DataBinder{
-			AssignTo:   &cd.db,
-			Name:       "common",
-			DataSource: cd.binder,
-		},
-		Children: []Widget{
-			TabWidget{
-				Pages: []TabPage{
-					cd.baseConfPage(),
-					cd.authConfPage(),
-					cd.logConfPage(),
-					cd.adminConfPage(),
-					cd.connectionConfPage(),
-					cd.advancedConfPage(),
-					cd.customConfPage(),
-				},
-			},
-			Composite{
-				Layout: HBox{MarginsZero: true},
-				Children: []Widget{
-					HSpacer{},
-					PushButton{Text: "确定", AssignTo: &acceptPB, OnClicked: cd.onSave},
-					PushButton{Text: "取消", AssignTo: &cancelPB, OnClicked: func() { cd.Cancel() }},
-				},
+	dlg := NewBasicDialog(&cd.Dialog, "编辑配置", loadSysIcon("imageres", consts.IconEditDialog, 32), DataBinder{
+		AssignTo:   &cd.db,
+		Name:       "common",
+		DataSource: cd.binder,
+	}, cd.onSave,
+		TabWidget{
+			Pages: []TabPage{
+				cd.baseConfPage(),
+				cd.authConfPage(),
+				cd.logConfPage(),
+				cd.adminConfPage(),
+				cd.connectionConfPage(),
+				cd.advancedConfPage(),
+				cd.customConfPage(),
 			},
 		},
-	}
+	)
+	dlg.Layout = VBox{Margins: Margins{7, 9, 7, 9}}
+	dlg.MinSize = Size{400, 360}
+	dlg.Size = Size{400, 360}
+	return dlg
 }
 
 func (cd *EditClientDialog) baseConfPage() TabPage {

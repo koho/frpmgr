@@ -81,80 +81,63 @@ func NewEditProxyDialog(proxy *config.Proxy) *EditProxyDialog {
 }
 
 func (pd *EditProxyDialog) View() Dialog {
-	var acceptPB, cancelPB *walk.PushButton
-	return Dialog{
-		Icon:          loadSysIcon("imageres", consts.IconEditDialog, 32),
-		AssignTo:      &pd.Dialog,
-		Title:         "编辑代理",
-		Layout:        VBox{Margins: Margins{7, 9, 7, 9}},
-		Font:          consts.TextRegular,
-		DefaultButton: &acceptPB,
-		CancelButton:  &cancelPB,
-		DataBinder: DataBinder{
-			AssignTo:   &pd.vmDB,
-			Name:       "vm",
-			DataSource: &pd.viewModel,
-		},
-		Children: []Widget{
-			Composite{
-				DataBinder: DataBinder{
-					AssignTo:   &pd.dbs[0],
-					DataSource: pd.binder,
-					OnCanSubmitChanged: func() {
-						acceptPB.SetEnabled(pd.dbs[0].CanSubmit())
-					},
-				},
-				Layout: Grid{Columns: 2, SpacingZero: false, Margins: Margins{0, 4, 0, 4}},
-				Children: []Widget{
-					Label{Text: "名称:", Alignment: AlignHNearVCenter},
-					Composite{
-						Layout: HBox{MarginsZero: true},
-						Children: []Widget{
-							LineEdit{AssignTo: &pd.nameView, Text: Bind("Name", Regexp{".+"})},
-							PushButton{Text: " 随机名称", Image: loadResourceIcon(consts.IconRefresh, 16), OnClicked: func() {
-								pd.nameView.SetText(funk.RandomString(8))
-							}},
-						},
-					},
-					Label{Text: "类型:", Alignment: AlignHNearVCenter},
-					ComboBox{
-						AssignTo:              &pd.typeView,
-						Model:                 consts.ProxyTypes,
-						Value:                 Bind("Type"),
-						OnCurrentIndexChanged: pd.switchType,
-					},
+	dlg := NewBasicDialog(&pd.Dialog, "编辑代理", loadSysIcon("imageres", consts.IconEditDialog, 32), DataBinder{
+		AssignTo:   &pd.vmDB,
+		Name:       "vm",
+		DataSource: &pd.viewModel,
+	}, pd.onSave,
+		Composite{
+			DataBinder: DataBinder{
+				AssignTo:   &pd.dbs[0],
+				DataSource: pd.binder,
+				OnCanSubmitChanged: func() {
+					pd.DefaultButton().SetEnabled(pd.dbs[0].CanSubmit())
 				},
 			},
-			Composite{
-				DataBinder: DataBinder{
-					AssignTo:   &pd.dbs[1],
-					DataSource: pd.binder,
-				},
-				Layout: VBox{MarginsZero: true, SpacingZero: true},
-				Children: []Widget{
-					TabWidget{
-						MinSize: Size{320, 240},
-						Pages: []TabPage{
-							pd.baseProxyPage(),
-							pd.advancedProxyPage(),
-							pd.pluginProxyPage(),
-							pd.loadBalanceProxyPage(),
-							pd.healthCheckProxyPage(),
-							pd.customProxyPage(),
-						},
+			Layout: Grid{Columns: 2, SpacingZero: false, Margins: Margins{0, 4, 0, 4}},
+			Children: []Widget{
+				Label{Text: "名称:", Alignment: AlignHNearVCenter},
+				Composite{
+					Layout: HBox{MarginsZero: true},
+					Children: []Widget{
+						LineEdit{AssignTo: &pd.nameView, Text: Bind("Name", Regexp{".+"})},
+						PushButton{Text: " 随机名称", Image: loadResourceIcon(consts.IconRefresh, 16), OnClicked: func() {
+							pd.nameView.SetText(funk.RandomString(8))
+						}},
 					},
 				},
-			},
-			Composite{
-				Layout: HBox{MarginsZero: true},
-				Children: []Widget{
-					HSpacer{},
-					PushButton{Text: "确定", AssignTo: &acceptPB, OnClicked: pd.onSave},
-					PushButton{Text: "取消", AssignTo: &cancelPB, OnClicked: func() { pd.Cancel() }},
+				Label{Text: "类型:", Alignment: AlignHNearVCenter},
+				ComboBox{
+					AssignTo:              &pd.typeView,
+					Model:                 consts.ProxyTypes,
+					Value:                 Bind("Type"),
+					OnCurrentIndexChanged: pd.switchType,
 				},
 			},
 		},
-	}
+		Composite{
+			DataBinder: DataBinder{
+				AssignTo:   &pd.dbs[1],
+				DataSource: pd.binder,
+			},
+			Layout: VBox{MarginsZero: true, SpacingZero: true},
+			Children: []Widget{
+				TabWidget{
+					MinSize: Size{320, 240},
+					Pages: []TabPage{
+						pd.baseProxyPage(),
+						pd.advancedProxyPage(),
+						pd.pluginProxyPage(),
+						pd.loadBalanceProxyPage(),
+						pd.healthCheckProxyPage(),
+						pd.customProxyPage(),
+					},
+				},
+			},
+		},
+	)
+	dlg.Layout = VBox{Margins: Margins{7, 9, 7, 9}}
+	return dlg
 }
 
 func (pd *EditProxyDialog) baseProxyPage() TabPage {

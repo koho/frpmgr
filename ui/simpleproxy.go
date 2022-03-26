@@ -60,14 +60,14 @@ func (sp *SimpleProxyDialog) Run(owner walk.Form) (int, error) {
 			},
 		})
 	}
-	return NewBasicDialog(&sp.Dialog, sp.title, sp.icon, Composite{
+	return NewBasicDialog(&sp.Dialog, sp.title, sp.icon, DataBinder{
+		AssignTo:   &sp.db,
+		DataSource: sp.binder,
+	}, sp.onSave, Composite{
 		Layout:   Grid{Columns: 2, MarginsZero: true},
 		MinSize:  Size{Width: 280},
 		Children: widgets,
-	}, DataBinder{
-		AssignTo:   &sp.db,
-		DataSource: sp.binder,
-	}, sp.onSave).Run(owner)
+	}, VSpacer{}).Run(owner)
 }
 
 func (sp *SimpleProxyDialog) GetProxies() []*config.Proxy {
