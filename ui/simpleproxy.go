@@ -60,7 +60,7 @@ func (sp *SimpleProxyDialog) Run(owner walk.Form) (int, error) {
 			},
 		})
 	}
-	return NewBasicDialog(&sp.Dialog, sp.title, sp.icon, DataBinder{
+	return NewBasicDialog(&sp.Dialog, "添加 "+sp.title, sp.icon, DataBinder{
 		AssignTo:   &sp.db,
 		DataSource: sp.binder,
 	}, sp.onSave, Composite{

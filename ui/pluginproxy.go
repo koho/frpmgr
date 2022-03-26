@@ -48,7 +48,7 @@ func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {
 				"选择本地文件夹", "", false),
 		)
 	}
-	return NewBasicDialog(&pp.Dialog, pp.title, pp.icon, DataBinder{
+	return NewBasicDialog(&pp.Dialog, "添加 "+pp.title, pp.icon, DataBinder{
 		AssignTo:   &pp.db,
 		DataSource: pp.binder,
 	}, pp.onSave, Composite{
