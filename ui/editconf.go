@@ -64,7 +64,7 @@ func NewEditClientDialog(conf *Conf) *EditClientDialog {
 func (cd *EditClientDialog) View() Dialog {
 	var acceptPB, cancelPB *walk.PushButton
 	return Dialog{
-		Icon:          loadLogoIcon(32),
+		Icon:          loadSysIcon("imageres", consts.IconEditDialog, 32),
 		AssignTo:      &cd.Dialog,
 		Title:         "编辑配置",
 		MinSize:       Size{400, 360},
@@ -234,7 +234,7 @@ func (cd *EditClientDialog) connectionConfPage() TabPage {
 			NumberEdit{Value: Bind("PoolCount")},
 			Label{Text: "连接超时:"},
 			NumberEdit{Value: Bind("DialServerTimeout"), Suffix: " 秒"},
-			Label{Text: "心跳间隔:"},
+			Label{Text: "TCP 心跳间隔:"},
 			NumberEdit{Value: Bind("DialServerKeepAlive"), Suffix: " 秒"},
 		},
 	}

@@ -83,7 +83,7 @@ func NewEditProxyDialog(proxy *config.Proxy) *EditProxyDialog {
 func (pd *EditProxyDialog) View() Dialog {
 	var acceptPB, cancelPB *walk.PushButton
 	return Dialog{
-		Icon:          loadLogoIcon(32),
+		Icon:          loadSysIcon("imageres", consts.IconEditDialog, 32),
 		AssignTo:      &pd.Dialog,
 		Title:         "编辑代理",
 		Layout:        VBox{Margins: Margins{7, 9, 7, 9}},
