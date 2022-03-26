@@ -12,6 +12,11 @@ import (
 	"unsafe"
 )
 
+var (
+	modIPHelp            = syscall.NewLazyDLL("iphlpapi.dll")
+	procGetNetworkParams = modIPHelp.NewProc("GetNetworkParams")
+)
+
 // LookupIP lookups the IP address of the given host name with the given dns server
 func LookupIP(addr string, server string) (string, error) {
 	if net.ParseIP(addr) != nil {
@@ -69,12 +74,11 @@ func GetSystemDnsServer() string {
 	}
 	info := &networkInfo{}
 	size := uint32(unsafe.Sizeof(info))
-	getNetworkParams := syscall.MustLoadDLL("iphlpapi.dll").MustFindProc("GetNetworkParams")
-	if r1, _, _ := getNetworkParams.Call(uintptr(unsafe.Pointer(info)), uintptr(unsafe.Pointer(&size))); syscall.Errno(r1) == windows.ERROR_BUFFER_OVERFLOW {
+	if r1, _, _ := procGetNetworkParams.Call(uintptr(unsafe.Pointer(info)), uintptr(unsafe.Pointer(&size))); syscall.Errno(r1) == windows.ERROR_BUFFER_OVERFLOW {
 		newBuffer := make([]byte, size)
 		info = (*networkInfo)(unsafe.Pointer(&newBuffer[0]))
 	}
-	if r1, _, _ := getNetworkParams.Call(uintptr(unsafe.Pointer(info)), uintptr(unsafe.Pointer(&size))); r1 == 0 {
+	if r1, _, _ := procGetNetworkParams.Call(uintptr(unsafe.Pointer(info)), uintptr(unsafe.Pointer(&size))); r1 == 0 {
 		length := bytes.IndexByte(info.dnsServerList.ipAddress[:], 0)
 		return string(info.dnsServerList.ipAddress[:length:length])
 	}
