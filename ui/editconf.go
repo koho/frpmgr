@@ -217,8 +217,12 @@ func (cd *EditClientDialog) connectionConfPage() TabPage {
 			NumberEdit{Value: Bind("PoolCount")},
 			Label{Text: "连接超时:"},
 			NumberEdit{Value: Bind("DialServerTimeout"), Suffix: " 秒"},
-			Label{Text: "TCP 心跳间隔:"},
+			Label{Text: "TCP 保活周期:"},
 			NumberEdit{Value: Bind("DialServerKeepAlive"), Suffix: " 秒"},
+			Label{Text: "心跳间隔:"},
+			NumberEdit{Value: Bind("HeartbeatInterval"), Suffix: " 秒"},
+			Label{Text: "心跳超时:"},
+			NumberEdit{Value: Bind("HeartbeatTimeout"), Suffix: " 秒"},
 		},
 	}
 }
@@ -228,6 +232,13 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 		Title:  "高级",
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
+			Label{Text: "多路复用:"},
+			NewRadioButtonGroup("TCPMux", nil, []RadioButton{
+				{Name: "muxCheck", Text: "开启", Value: true},
+				{Text: "关闭", Value: false},
+			}),
+			Label{Enabled: Bind("muxCheck.Checked"), Text: "复用器心跳:"},
+			NumberEdit{Enabled: Bind("muxCheck.Checked"), Value: Bind("TCPMuxKeepaliveInterval"), Suffix: " 秒"},
 			Label{Text: "DNS:"},
 			LineEdit{Text: Bind("DNSServer")},
 			Label{Text: "使用源地址:"},

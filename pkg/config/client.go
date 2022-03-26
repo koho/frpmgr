@@ -17,26 +17,30 @@ type ClientAuth struct {
 }
 
 type ClientCommon struct {
-	ClientAuth           `ini:",extends"`
-	ServerAddress        string `ini:"server_addr"`
-	ServerPort           string `ini:"server_port"`
-	DialServerTimeout    int64  `ini:"dial_server_timeout,omitempty"`
-	DialServerKeepAlive  int64  `ini:"dial_server_keepalive,omitempty"`
-	ConnectServerLocalIP string `ini:"connect_server_local_ip,omitempty"`
-	HTTPProxy            string `ini:"http_proxy,omitempty"`
-	LogFile              string `ini:"log_file,omitempty"`
-	LogLevel             string `ini:"log_level,omitempty"`
-	LogMaxDays           uint   `ini:"log_max_days,omitempty"`
-	AdminAddr            string `ini:"admin_addr,omitempty"`
-	AdminPort            string `ini:"admin_port,omitempty"`
-	AdminUser            string `ini:"admin_user,omitempty"`
-	AdminPwd             string `ini:"admin_pwd,omitempty"`
-	PprofEnable          bool   `ini:"pprof_enable,omitempty"`
-	PoolCount            uint   `ini:"pool_count,omitempty"`
-	DNSServer            string `ini:"dns_server,omitempty"`
-	Protocol             string `ini:"protocol,omitempty"`
-	LoginFailExit        bool   `ini:"login_fail_exit"`
-	User                 string `ini:"user,omitempty"`
+	ClientAuth              `ini:",extends"`
+	ServerAddress           string `ini:"server_addr"`
+	ServerPort              string `ini:"server_port"`
+	DialServerTimeout       int64  `ini:"dial_server_timeout,omitempty"`
+	DialServerKeepAlive     int64  `ini:"dial_server_keepalive,omitempty"`
+	ConnectServerLocalIP    string `ini:"connect_server_local_ip,omitempty"`
+	HTTPProxy               string `ini:"http_proxy,omitempty"`
+	LogFile                 string `ini:"log_file,omitempty"`
+	LogLevel                string `ini:"log_level,omitempty"`
+	LogMaxDays              uint   `ini:"log_max_days,omitempty"`
+	AdminAddr               string `ini:"admin_addr,omitempty"`
+	AdminPort               string `ini:"admin_port,omitempty"`
+	AdminUser               string `ini:"admin_user,omitempty"`
+	AdminPwd                string `ini:"admin_pwd,omitempty"`
+	PprofEnable             bool   `ini:"pprof_enable,omitempty"`
+	PoolCount               uint   `ini:"pool_count,omitempty"`
+	DNSServer               string `ini:"dns_server,omitempty"`
+	Protocol                string `ini:"protocol,omitempty"`
+	LoginFailExit           bool   `ini:"login_fail_exit"`
+	User                    string `ini:"user,omitempty"`
+	HeartbeatInterval       int64  `ini:"heartbeat_interval,omitempty"`
+	HeartbeatTimeout        int64  `ini:"heartbeat_timeout,omitempty"`
+	TCPMux                  bool   `ini:"tcp_mux"`
+	TCPMuxKeepaliveInterval int64  `ini:"tcp_mux_keepalive_interval,omitempty"`
 	// Options for this project
 	// ManualStart defines whether to start the config on system boot
 	ManualStart bool `ini:"manual_start,omitempty"`
@@ -229,6 +233,9 @@ func (conf *ClientConfig) Complete() {
 	if conf.AdminPort == "" {
 		conf.PprofEnable = false
 	}
+	if !conf.TCPMux {
+		conf.TCPMuxKeepaliveInterval = 0
+	}
 	// Proxies
 	for _, proxy := range conf.Proxies {
 		if funk.ContainsString([]string{consts.ProxyTypeXTCP, consts.ProxyTypeSTCP, consts.ProxyTypeSUDP}, proxy.Type) && proxy.Role == "visitor" {
@@ -315,6 +322,7 @@ func NewDefaultClientConfig() *ClientConfig {
 			ServerPort: "7000",
 			LogLevel:   "info",
 			LogMaxDays: 3,
+			TCPMux:     true,
 		},
 		Proxies: make([]*Proxy, 0),
 	}
