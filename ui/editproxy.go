@@ -293,21 +293,11 @@ func (pd *EditProxyDialog) healthCheckProxyPage() TabPage {
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
 			Label{Text: "检查类型:", Enabled: Bind("vm.HealthCheckEnable")},
-			Composite{
-				DataBinder: DataBinder{DataSource: pd.binder, AutoSubmit: true},
-				Layout:     HBox{MarginsZero: true, SpacingZero: true},
-				Children: []Widget{
-					RadioButtonGroup{
-						DataMember: "HealthCheckType",
-						Buttons: []RadioButton{
-							{Text: "tcp", Value: "tcp", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType},
-							{Text: "http", Value: "http", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType},
-							{Text: "无", Value: "", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType},
-						},
-					},
-					HSpacer{},
-				},
-			},
+			NewRadioButtonGroup("HealthCheckType", &DataBinder{DataSource: pd.binder, AutoSubmit: true}, []RadioButton{
+				{Text: "tcp", Value: "tcp", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType},
+				{Text: "http", Value: "http", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType},
+				{Text: "无", Value: "", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType},
+			}),
 			Label{Visible: Bind("vm.HealthCheckURLVisible"), Text: "URL:"},
 			LineEdit{Visible: Bind("vm.HealthCheckURLVisible"), Text: Bind("HealthCheckURL")},
 			Label{Visible: Bind("vm.HealthCheckVisible"), Text: "超时时间:"},
