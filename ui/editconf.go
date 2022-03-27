@@ -252,6 +252,8 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 			LineEdit{Text: Bind("DNSServer")},
 			Label{Text: "使用源地址:"},
 			LineEdit{Text: Bind("ConnectServerLocalIP")},
+			Label{Text: "UDP 包大小:"},
+			NumberEdit{Value: Bind("UDPPacketSize")},
 			Composite{
 				Layout: VBox{MarginsZero: true, SpacingZero: true},
 				Children: []Widget{

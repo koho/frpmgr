@@ -49,6 +49,7 @@ type ClientCommon struct {
 	TLSKeyFile              string `ini:"tls_key_file,omitempty"`
 	TLSTrustedCaFile        string `ini:"tls_trusted_ca_file,omitempty"`
 	TLSServerName           string `ini:"tls_server_name,omitempty"`
+	UDPPacketSize           int64  `ini:"udp_packet_size,omitempty"`
 	// Options for this project
 	// ManualStart defines whether to start the config on system boot
 	ManualStart bool `ini:"manual_start,omitempty"`
