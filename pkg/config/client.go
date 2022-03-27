@@ -8,12 +8,14 @@ import (
 )
 
 type ClientAuth struct {
-	AuthMethod        string `ini:"authentication_method,omitempty"`
-	Token             string `ini:"token,omitempty" token:"true"`
-	OIDCClientId      string `ini:"oidc_client_id,omitempty" oidc:"true"`
-	OIDCClientSecret  string `ini:"oidc_client_secret,omitempty" oidc:"true"`
-	OIDCAudience      string `ini:"oidc_audience,omitempty" oidc:"true"`
-	OIDCTokenEndpoint string `ini:"oidc_token_endpoint_url,omitempty" oidc:"true"`
+	AuthMethod               string `ini:"authentication_method,omitempty"`
+	AuthenticateHeartBeats   bool   `ini:"authenticate_heartbeats,omitempty" token:"true" oidc:"true"`
+	AuthenticateNewWorkConns bool   `ini:"authenticate_new_work_conns,omitempty" token:"true" oidc:"true"`
+	Token                    string `ini:"token,omitempty" token:"true"`
+	OIDCClientId             string `ini:"oidc_client_id,omitempty" oidc:"true"`
+	OIDCClientSecret         string `ini:"oidc_client_secret,omitempty" oidc:"true"`
+	OIDCAudience             string `ini:"oidc_audience,omitempty" oidc:"true"`
+	OIDCTokenEndpoint        string `ini:"oidc_token_endpoint_url,omitempty" oidc:"true"`
 }
 
 type ClientCommon struct {
@@ -230,7 +232,7 @@ func (conf *ClientConfig) Complete() {
 			conf.AuthMethod = authMethod
 		}
 		// Check the default auth method
-		if authMethod == "token" && conf.Token == "" {
+		if authMethod == consts.AuthToken && conf.Token == "" {
 			conf.AuthMethod = ""
 		}
 	} else {
@@ -333,7 +335,7 @@ func UnmarshalClientConfFromIni(source string) (*ClientConfig, error) {
 func NewDefaultClientConfig() *ClientConfig {
 	return &ClientConfig{
 		ClientCommon: ClientCommon{
-			ClientAuth: ClientAuth{AuthMethod: "token"},
+			ClientAuth: ClientAuth{AuthMethod: consts.AuthToken},
 			ServerPort: "7000",
 			LogLevel:   "info",
 			LogMaxDays: 3,

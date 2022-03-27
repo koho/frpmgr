@@ -33,3 +33,9 @@ var PluginTypes = []string{
 	PluginHttps2Http, PluginHttps2Https, PluginHttp2Https,
 	PluginUnixDomain,
 }
+
+// Auth methods
+const (
+	AuthToken = "token"
+	AuthOIDC  = "oidc"
+)

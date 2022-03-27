@@ -20,7 +20,6 @@ type EditClientDialog struct {
 	// Config data
 	Conf          *Conf
 	data          *config.ClientConfig
-	authInfo      config.ClientAuth
 	ShouldRestart bool
 
 	// Views
@@ -33,7 +32,6 @@ type EditClientDialog struct {
 	// View models
 	binder *editClientBinder
 	db     *walk.DataBinder
-	authDB *walk.DataBinder
 }
 
 // Data binder contains a copy of config
@@ -56,7 +54,6 @@ func NewEditClientDialog(conf *Conf) *EditClientDialog {
 		return nil
 	}
 	v.data = data
-	v.authInfo = data.ClientAuth
 	v.binder = &editClientBinder{v.Conf.Name, v.data.ClientCommon}
 	return v
 }
@@ -113,50 +110,33 @@ func (cd *EditClientDialog) baseConfPage() TabPage {
 }
 
 func (cd *EditClientDialog) authConfPage() TabPage {
-	changeAuthMethod := func() {
-		cd.authDB.Submit()
-		cd.authDB.Reset()
-	}
 	return TabPage{
 		Title:  "认证",
 		Layout: Grid{Columns: 2},
-		DataBinder: DataBinder{
-			AssignTo:   &cd.authDB,
-			Name:       "auth",
-			DataSource: &cd.authInfo,
-		},
 		Children: []Widget{
-			Label{Text: "认证方式:"},
+			Label{Text: "认证方式:", MinSize: Size{Width: 55}},
+			NewRadioButtonGroup("AuthMethod", nil, []RadioButton{
+				{Name: "tokenCheck", Text: "Token", Value: consts.AuthToken},
+				{Name: "oidcCheck", Text: "OIDC", Value: consts.AuthOIDC},
+				{Name: "noAuthCheck", Text: "无", Value: ""},
+			}),
+			Label{Visible: Bind("tokenCheck.Checked"), Text: "令牌:"},
+			LineEdit{Visible: Bind("tokenCheck.Checked"), Text: Bind("Token")},
+			Label{Visible: Bind("oidcCheck.Checked"), Text: "ID:"},
+			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCClientId")},
+			Label{Visible: Bind("oidcCheck.Checked"), Text: "密钥:"},
+			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCClientSecret")},
+			Label{Visible: Bind("oidcCheck.Checked"), Text: "接受者:"},
+			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCAudience")},
+			Label{Visible: Bind("oidcCheck.Checked"), Text: "令牌地址:"},
+			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCTokenEndpoint")},
+			Label{Visible: Bind("!noAuthCheck.Checked"), Text: "鉴权:"},
 			Composite{
-				Layout: HBox{MarginsZero: true, SpacingZero: true},
+				Visible: Bind("!noAuthCheck.Checked"),
+				Layout:  HBox{MarginsZero: true, SpacingZero: true},
 				Children: []Widget{
-					RadioButtonGroup{
-						DataMember: "AuthMethod",
-						Buttons: []RadioButton{
-							{Text: "Token", Value: "token", OnClicked: changeAuthMethod},
-							{Text: "OIDC", Value: "oidc", OnClicked: changeAuthMethod},
-							{Text: "无", Value: "", OnClicked: changeAuthMethod},
-						},
-					},
-					HSpacer{},
-				},
-			},
-			Label{Text: "令牌:", Visible: Bind("auth.AuthMethod == 'token'")},
-			LineEdit{Text: Bind("Token"), Visible: Bind("auth.AuthMethod == 'token'")},
-			Composite{
-				Visible:    Bind("auth.AuthMethod == 'oidc'"),
-				Layout:     Grid{Columns: 2, MarginsZero: true},
-				RowSpan:    4,
-				ColumnSpan: 2,
-				Children: []Widget{
-					Label{Text: "ID:"},
-					LineEdit{Text: Bind("OIDCClientId")},
-					Label{Text: "密钥:"},
-					LineEdit{Text: Bind("OIDCClientSecret")},
-					Label{Text: "接受者:"},
-					LineEdit{Text: Bind("OIDCAudience")},
-					Label{Text: "令牌地址:"},
-					LineEdit{Text: Bind("OIDCTokenEndpoint")},
+					CheckBox{Text: "心跳消息", Checked: Bind("AuthenticateHeartBeats")},
+					CheckBox{Text: "工作连接", Checked: Bind("AuthenticateNewWorkConns")},
 				},
 			},
 		},
@@ -312,9 +292,6 @@ func (cd *EditClientDialog) onSave() {
 	if err := cd.db.Submit(); err != nil {
 		return
 	}
-	if err := cd.authDB.Submit(); err != nil {
-		return
-	}
 	newConf := cd.binder
 	cd.ShouldRestart = false
 	// Edit existing config
@@ -368,7 +345,6 @@ func (cd *EditClientDialog) onSave() {
 	cd.Conf.Name = newConf.Name
 	// The order matters
 	cd.data.ClientCommon = newConf.ClientCommon
-	cd.data.ClientAuth = cd.authInfo
 	cd.data.Custom = util.String2Map(cd.customText.Text())
 	cd.Accept()
 }
