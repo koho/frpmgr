@@ -26,7 +26,7 @@ type QuickAdd interface {
 }
 
 // NewBrowseLineEdit places a tool button at the tail of a LineEdit, and opens a file dialog when the button is clicked
-func NewBrowseLineEdit(assignTo **walk.LineEdit, visible Property, text Property, title, filter string, file bool) Composite {
+func NewBrowseLineEdit(assignTo **walk.LineEdit, visible, enable, text Property, title, filter string, file bool) Composite {
 	var editView *walk.LineEdit
 	if assignTo == nil {
 		assignTo = &editView
@@ -35,8 +35,8 @@ func NewBrowseLineEdit(assignTo **walk.LineEdit, visible Property, text Property
 		Visible: visible,
 		Layout:  HBox{MarginsZero: true, SpacingZero: false, Spacing: 3},
 		Children: []Widget{
-			LineEdit{AssignTo: assignTo, Text: text},
-			ToolButton{Text: "...", MaxSize: Size{Width: 24}, OnClicked: func() {
+			LineEdit{Enabled: enable, AssignTo: assignTo, Text: text},
+			ToolButton{Enabled: enable, Text: "...", MaxSize: Size{Width: 24}, OnClicked: func() {
 				openFileDialog(*assignTo, title, filter, file)
 			}},
 		}}

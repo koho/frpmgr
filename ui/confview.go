@@ -194,7 +194,7 @@ func (cv *ConfView) onEditConf(conf *Conf) {
 
 func (cv *ConfView) onImport() {
 	dlg := walk.FileDialog{
-		Filter: "配置文件 (*.zip, *.ini)|*.zip;*.ini|所有文件 (*.*)|*.*",
+		Filter: consts.FilterConfig + consts.FilterAllFiles,
 		Title:  "从文件导入配置",
 	}
 
@@ -311,7 +311,7 @@ func (cv *ConfView) onDelete() {
 
 func (cv *ConfView) onExport() {
 	dlg := walk.FileDialog{
-		Filter: "配置文件 (*.zip)|*.zip",
+		Filter: consts.FilterZip,
 		Title:  "导出配置文件 (ZIP 压缩包)",
 	}
 

@@ -44,7 +44,7 @@ func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {
 		widgets[1] = remoteView
 		widgets = append(widgets,
 			Label{Text: "本地目录:"},
-			NewBrowseLineEdit(nil, true, Bind("Dir", Regexp{".+"}),
+			NewBrowseLineEdit(nil, true, true, Bind("Dir", Regexp{".+"}),
 				"选择本地文件夹", "", false),
 		)
 	}

@@ -49,3 +49,12 @@ var (
 	TextMiddle  = Font{Family: "微软雅黑", PointSize: 12}
 	TextLarge   = Font{Family: "微软雅黑", PointSize: 16}
 )
+
+// Filters
+const (
+	FilterAllFiles = "所有文件 (*.*)|*.*"
+	FilterConfig   = "配置文件 (*.zip, *.ini)|*.zip;*.ini|"
+	FilterZip      = "配置文件 (*.zip)|*.zip"
+	FilterCert     = "证书文件 (*.crt, *.cer)|*.crt;*.cer|"
+	FilterKey      = "密钥文件 (*.key)|*.key|"
+)

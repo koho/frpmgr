@@ -124,7 +124,7 @@ func openFolder(path string) {
 // openFileDialog shows a file dialog to choose file or directory and sends the selected path to the LineEdit view
 func openFileDialog(receiver *walk.LineEdit, title string, filter string, file bool) error {
 	dlg := walk.FileDialog{
-		Filter: filter + "所有文件 (*.*)|*.*",
+		Filter: filter + consts.FilterAllFiles,
 		Title:  title,
 	}
 	var ok bool
