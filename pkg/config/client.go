@@ -42,6 +42,11 @@ type ClientCommon struct {
 	HeartbeatTimeout        int64  `ini:"heartbeat_timeout,omitempty"`
 	TCPMux                  bool   `ini:"tcp_mux"`
 	TCPMuxKeepaliveInterval int64  `ini:"tcp_mux_keepalive_interval,omitempty"`
+	TLSEnable               bool   `ini:"tls_enable,omitempty"`
+	TLSCertFile             string `ini:"tls_cert_file,omitempty"`
+	TLSKeyFile              string `ini:"tls_key_file,omitempty"`
+	TLSTrustedCaFile        string `ini:"tls_trusted_ca_file,omitempty"`
+	TLSServerName           string `ini:"tls_server_name,omitempty"`
 	// Options for this project
 	// ManualStart defines whether to start the config on system boot
 	ManualStart bool `ini:"manual_start,omitempty"`
@@ -232,10 +237,19 @@ func (conf *ClientConfig) Complete() {
 		conf.ClientAuth = ClientAuth{}
 	}
 	if conf.AdminPort == "" {
+		conf.AdminUser = ""
+		conf.AdminPwd = ""
+		conf.AssetsDir = ""
 		conf.PprofEnable = false
 	}
 	if !conf.TCPMux {
 		conf.TCPMuxKeepaliveInterval = 0
+	}
+	if !conf.TLSEnable {
+		conf.TLSServerName = ""
+		conf.TLSCertFile = ""
+		conf.TLSKeyFile = ""
+		conf.TLSTrustedCaFile = ""
 	}
 	// Proxies
 	for _, proxy := range conf.Proxies {

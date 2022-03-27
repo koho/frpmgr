@@ -74,6 +74,7 @@ func (cd *EditClientDialog) View() Dialog {
 				cd.logConfPage(),
 				cd.adminConfPage(),
 				cd.connectionConfPage(),
+				cd.tlsConfPage(),
 				cd.advancedConfPage(),
 				cd.customConfPage(),
 			},
@@ -169,7 +170,7 @@ func (cd *EditClientDialog) logConfPage() TabPage {
 		Children: []Widget{
 			Label{Text: "*留空则不记录日志，且删除原来的日志文件", ColumnSpan: 2},
 			Label{Text: "日志文件:"},
-			NewBrowseLineEdit(&cd.logFileView, true, Bind("LogFile"),
+			NewBrowseLineEdit(&cd.logFileView, true, true, Bind("LogFile"),
 				"选择日志文件", "日志文件 (*.log, *.txt)|*.log;*.txt|", true),
 			Label{Text: "级别:"},
 			ComboBox{
@@ -226,6 +227,31 @@ func (cd *EditClientDialog) connectionConfPage() TabPage {
 			NumberEdit{Value: Bind("HeartbeatInterval"), Suffix: " 秒"},
 			Label{Text: "心跳超时:"},
 			NumberEdit{Value: Bind("HeartbeatTimeout"), Suffix: " 秒"},
+		},
+	}
+}
+
+func (cd *EditClientDialog) tlsConfPage() TabPage {
+	return TabPage{
+		Title:  "TLS",
+		Layout: Grid{Columns: 2},
+		Children: []Widget{
+			Label{Text: "TLS:", MinSize: Size{Width: 75}},
+			NewRadioButtonGroup("TLSEnable", nil, []RadioButton{
+				{Name: "tlsCheck", Text: "开启", Value: true},
+				{Text: "关闭", Value: false},
+			}),
+			Label{Visible: Bind("tlsCheck.Checked"), Text: "主机名称:"},
+			LineEdit{Visible: Bind("tlsCheck.Checked"), Text: Bind("TLSServerName")},
+			Label{Visible: Bind("tlsCheck.Checked"), Text: "证书文件:"},
+			NewBrowseLineEdit(nil, Bind("tlsCheck.Checked"), true, Bind("TLSCertFile"),
+				"选择证书文件", consts.FilterCert, true),
+			Label{Visible: Bind("tlsCheck.Checked"), Text: "密钥文件:"},
+			NewBrowseLineEdit(nil, Bind("tlsCheck.Checked"), true, Bind("TLSKeyFile"),
+				"选择密钥文件", consts.FilterKey, true),
+			Label{Visible: Bind("tlsCheck.Checked"), Text: "受信任的证书:"},
+			NewBrowseLineEdit(nil, Bind("tlsCheck.Checked"), true, Bind("TLSTrustedCaFile"),
+				"选择受信任的证书", consts.FilterCert, true),
 		},
 	}
 }
