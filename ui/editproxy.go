@@ -100,7 +100,7 @@ func (pd *EditProxyDialog) View() Dialog {
 				Composite{
 					Layout: HBox{MarginsZero: true},
 					Children: []Widget{
-						LineEdit{AssignTo: &pd.nameView, Text: Bind("Name", Regexp{".+"})},
+						LineEdit{AssignTo: &pd.nameView, Text: Bind("Name", consts.ValidateNonEmpty)},
 						PushButton{Text: " 随机名称", Image: loadResourceIcon(consts.IconRefresh, 16), OnClicked: func() {
 							pd.nameView.SetText(funk.RandomString(8))
 						}},
@@ -275,7 +275,7 @@ func (pd *EditProxyDialog) healthCheckProxyPage() TabPage {
 		Title:  "健康检查",
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Text: "检查类型:", Enabled: Bind("vm.HealthCheckEnable")},
+			Label{Text: "检查类型:", Enabled: Bind("vm.HealthCheckEnable"), MinSize: Size{Width: 55}},
 			NewRadioButtonGroup("HealthCheckType", &DataBinder{DataSource: pd.binder, AutoSubmit: true}, []RadioButton{
 				{Text: "tcp", Value: "tcp", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType},
 				{Text: "http", Value: "http", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType},

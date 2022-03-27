@@ -89,7 +89,7 @@ func (cd *EditClientDialog) baseConfPage() TabPage {
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
 			Label{Text: "名称:"},
-			LineEdit{AssignTo: &cd.nameView, Text: Bind("Name", Regexp{".+"}), OnTextChanged: func() {
+			LineEdit{AssignTo: &cd.nameView, Text: Bind("Name", consts.ValidateNonEmpty), OnTextChanged: func() {
 				if name := cd.nameView.Text(); name != "" {
 					curLog := strings.TrimSpace(cd.logFileView.Text())
 					// Automatically change the log file if it's empty or using the default log directory
@@ -99,9 +99,9 @@ func (cd *EditClientDialog) baseConfPage() TabPage {
 				}
 			}},
 			Label{Text: "服务器地址:"},
-			LineEdit{AssignTo: &cd.serverAddrView, Text: Bind("ServerAddress", Regexp{".+"})},
+			LineEdit{AssignTo: &cd.serverAddrView, Text: Bind("ServerAddress", consts.ValidateNonEmpty)},
 			Label{Text: "服务器端口:"},
-			LineEdit{AssignTo: &cd.serverPortView, Text: Bind("ServerPort", Regexp{"^\\d+$"})},
+			LineEdit{AssignTo: &cd.serverPortView, Text: Bind("ServerPort", consts.ValidateRequireInteger)},
 			Label{Text: "用户:"},
 			LineEdit{Text: Bind("User")},
 			VSpacer{ColumnSpan: 2},
@@ -171,7 +171,7 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 			Label{Text: "管理地址:"},
 			LineEdit{Text: Bind("AdminAddr")},
 			Label{Text: "管理端口:"},
-			LineEdit{Name: "adminPort", Text: Bind("AdminPort", Regexp{"^\\d*$"})},
+			LineEdit{Name: "adminPort", Text: Bind("AdminPort", consts.ValidateInteger)},
 			Label{Enabled: Bind("adminPort.Text != ''"), Text: "用户名:"},
 			LineEdit{Enabled: Bind("adminPort.Text != ''"), Text: Bind("AdminUser")},
 			Label{Enabled: Bind("adminPort.Text != ''"), Text: "密码:"},

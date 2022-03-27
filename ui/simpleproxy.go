@@ -3,6 +3,7 @@ package ui
 import (
 	"fmt"
 	"github.com/koho/frpmgr/pkg/config"
+	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
@@ -43,20 +44,20 @@ func NewSimpleProxyDialog(title string, icon *walk.Icon, service string, types [
 func (sp *SimpleProxyDialog) Run(owner walk.Form) (int, error) {
 	widgets := []Widget{
 		Label{Text: "远程端口", ColumnSpan: 2},
-		LineEdit{Text: Bind("RemotePort", Regexp{"^\\d+$"}), ColumnSpan: 2},
+		LineEdit{Text: Bind("RemotePort", consts.ValidateRequireInteger), ColumnSpan: 2},
 		Label{Text: "本地地址"},
 		Label{Text: "端口"},
-		LineEdit{Text: Bind("LocalAddr", Regexp{".+"}), StretchFactor: 2},
-		LineEdit{Text: Bind("LocalPort", Regexp{"^\\d+$"}), StretchFactor: 1},
+		LineEdit{Text: Bind("LocalAddr", consts.ValidateNonEmpty), StretchFactor: 2},
+		LineEdit{Text: Bind("LocalPort", consts.ValidateRequireInteger), StretchFactor: 1},
 	}
 	switch sp.service {
 	case "ftp":
 		widgets = append(widgets, Label{Text: "被动端口范围", ColumnSpan: 2}, Composite{
 			Layout: HBox{MarginsZero: true},
 			Children: []Widget{
-				LineEdit{Text: Bind("LocalPortMin", Regexp{"^\\d+$"})},
+				LineEdit{Text: Bind("LocalPortMin", consts.ValidateRequireInteger)},
 				Label{Text: "-"},
-				LineEdit{Text: Bind("LocalPortMax", Regexp{"^\\d+$"})},
+				LineEdit{Text: Bind("LocalPortMax", consts.ValidateRequireInteger)},
 			},
 		})
 	}

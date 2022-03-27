@@ -58,3 +58,10 @@ const (
 	FilterCert     = "证书文件 (*.crt, *.cer)|*.crt;*.cer|"
 	FilterKey      = "密钥文件 (*.key)|*.key|"
 )
+
+// Validators
+var (
+	ValidateNonEmpty       = Regexp{Pattern: ".+"}
+	ValidateRequireInteger = Regexp{Pattern: "^\\d+$"}
+	ValidateInteger        = Regexp{Pattern: "^\\d*$"}
+)
