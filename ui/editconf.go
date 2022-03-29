@@ -78,8 +78,7 @@ func (cd *EditClientDialog) View() Dialog {
 		},
 	)
 	dlg.Layout = VBox{Margins: Margins{7, 9, 7, 9}}
-	dlg.MinSize = Size{400, 360}
-	dlg.Size = Size{400, 360}
+	dlg.MinSize = Size{430, 0}
 	return dlg
 }
 
