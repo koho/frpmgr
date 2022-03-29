@@ -12,6 +12,7 @@ const (
 	IconRefresh      = 23
 	IconCopy         = 24
 	IconCopyActive   = 25
+	IconSysCopy      = 134
 	IconNewConf      = 149
 	IconCreate       = 205
 	IconImport       = 132

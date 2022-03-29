@@ -7,7 +7,9 @@ import (
 	"github.com/koho/frpmgr/pkg/util"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
+	"net"
 	"path/filepath"
+	"strings"
 )
 
 type SectionView struct {
@@ -248,6 +250,12 @@ func (sv *SectionView) createSectionTable() TableView {
 					ActionRef{&sv.vpnAction},
 				},
 			},
+			Action{
+				Enabled:     Bind("section.Selected"),
+				Text:        "复制访问地址",
+				Image:       loadSysIcon("shell32", consts.IconSysCopy, 16),
+				OnTriggered: sv.onCopyAccessAddr,
+			},
 			ActionRef{&sv.openConfAction},
 			ActionRef{&sv.deleteAction},
 		},
@@ -260,6 +268,44 @@ func (sv *SectionView) createSectionTable() TableView {
 			sv.onEdit(true)
 		},
 	}
+}
+
+func (sv *SectionView) onCopyAccessAddr() {
+	if sv.model == nil {
+		return
+	}
+	index := sv.table.CurrentIndex()
+	if index < 0 {
+		return
+	}
+	conf, ok := sv.model.conf.Data.(*config.ClientConfig)
+	if !ok {
+		return
+	}
+	var access string
+	proxy := conf.Proxies[index]
+	switch proxy.Type {
+	case consts.ProxyTypeTCP, consts.ProxyTypeUDP:
+		if proxy.RemotePort != "" {
+			access = conf.ServerAddress + ":" + strings.Split(strings.Split(proxy.RemotePort, ",")[0], "-")[0]
+		}
+	case consts.ProxyTypeXTCP, consts.ProxyTypeSTCP, consts.ProxyTypeSUDP:
+		if proxy.Role == "visitor" {
+			access = util.GetOrElse(proxy.BindAddr, "127.0.0.1") + ":" + proxy.BindPort
+		} else {
+			access = util.GetOrElse(proxy.LocalIP, "127.0.0.1") + ":" + proxy.LocalPort
+		}
+	case consts.ProxyTypeHTTP, consts.ProxyTypeHTTPS:
+		if proxy.SubDomain != "" && net.ParseIP(conf.ServerAddress) == nil {
+			// Assume subdomain_host is equal to server_address
+			access = proxy.SubDomain + "." + conf.ServerAddress
+		} else if proxy.CustomDomains != "" {
+			access = strings.Split(proxy.CustomDomains, ",")[0]
+		}
+	case consts.ProxyTypeTCPMUX:
+		access = util.GetOrElse(proxy.LocalIP, "127.0.0.1") + ":" + proxy.LocalPort
+	}
+	walk.Clipboard().SetText(access)
 }
 
 func (sv *SectionView) onDelete() {

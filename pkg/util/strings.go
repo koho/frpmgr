@@ -37,3 +37,11 @@ func Partition(s string, sep string) (string, string, string) {
 	}
 	return parts[0], sep, parts[1]
 }
+
+// GetOrElse returns the given string if it's non-empty, or returns the default string.
+func GetOrElse(s string, def string) string {
+	if strings.TrimSpace(s) != "" {
+		return s
+	}
+	return def
+}
