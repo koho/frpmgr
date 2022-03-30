@@ -5,6 +5,7 @@ import (
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
+	"github.com/koho/frpmgr/services"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"github.com/thoas/go-funk"
@@ -327,21 +328,30 @@ func (pd *EditProxyDialog) onSave() {
 	} else if pd.hasProxy(pd.binder.Name) {
 		return
 	}
-	*pd.Proxy = pd.binder.Proxy
 	// Update custom options
-	pd.Proxy.Custom = util.String2Map(pd.customText.Text())
+	pd.binder.Proxy.Custom = util.String2Map(pd.customText.Text())
 	// Update role
 	if pd.binder.Visitor {
-		pd.Proxy.Role = "visitor"
+		pd.binder.Proxy.Role = "visitor"
 	} else {
-		pd.Proxy.Role = ""
+		pd.binder.Proxy.Role = ""
 	}
 	// Update bandwidth
 	if pd.binder.BandwidthNum != "" {
-		pd.Proxy.BandwidthLimit = pd.binder.BandwidthNum + pd.binder.BandwidthUnit
+		pd.binder.Proxy.BandwidthLimit = pd.binder.BandwidthNum + pd.binder.BandwidthUnit
 	} else {
-		pd.Proxy.BandwidthLimit = ""
+		pd.binder.Proxy.BandwidthLimit = ""
 	}
+	pb, err := pd.binder.Proxy.Marshal()
+	if err != nil {
+		showError(err, pd.Form())
+		return
+	}
+	if err = services.VerifyClientProxy(pb); err != nil {
+		showError(err, pd.Form())
+		return
+	}
+	*pd.Proxy = pd.binder.Proxy
 	pd.Accept()
 }
 

@@ -1,6 +1,7 @@
 package config
 
 import (
+	"bytes"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
 	"github.com/thoas/go-funk"
@@ -160,6 +161,25 @@ type Proxy struct {
 
 func (p *Proxy) GetName() string {
 	return p.Name
+}
+
+func (p *Proxy) Marshal() ([]byte, error) {
+	cfg := ini.Empty()
+	tp, err := cfg.NewSection(p.Name)
+	if err != nil {
+		return nil, err
+	}
+	if err = tp.ReflectFrom(p); err != nil {
+		return nil, err
+	}
+	for k, v := range p.Custom {
+		tp.Key(k).SetValue(v)
+	}
+	proxyBuffer := bytes.NewBuffer(nil)
+	if _, err = cfg.WriteTo(proxyBuffer); err != nil {
+		return nil, err
+	}
+	return proxyBuffer.Bytes(), nil
 }
 
 type ClientConfig struct {

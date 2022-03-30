@@ -24,4 +24,6 @@ type Config interface {
 type Section interface {
 	// GetName returns the name of this section
 	GetName() string
+	// Marshal returns the encoded section
+	Marshal() ([]byte, error)
 }
