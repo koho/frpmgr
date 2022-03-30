@@ -74,10 +74,20 @@ func (cp *ConfPage) Page() TabPage {
 								Children: []Widget{
 									HSpacer{},
 									VSpacer{},
-									PushButton{Text: "创建新配置", MinSize: Size{200, 0}, MaxSize: Size{200, 0}, OnClicked: func() {
-										cp.confView.onEditConf(nil)
-									}},
-									PushButton{Text: "从文件导入配置", MinSize: Size{200, 0}, MaxSize: Size{200, 0}, OnClicked: cp.confView.onImport},
+									PushButton{
+										Text:    "创建新配置",
+										MinSize: Size{200, 0},
+										MaxSize: Size{200, 0},
+										OnClicked: func() {
+											cp.confView.onEditConf(nil)
+										},
+									},
+									PushButton{
+										Text:      "从文件导入配置",
+										MinSize:   Size{200, 0},
+										MaxSize:   Size{200, 0},
+										OnClicked: cp.confView.onImport,
+									},
 									VSpacer{},
 								},
 							},
