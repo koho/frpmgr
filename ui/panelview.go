@@ -134,6 +134,10 @@ func (pv *PanelView) ToggleService() {
 
 // StartService creates a daemon service of the given config, then starts it
 func (pv *PanelView) StartService(conf *Conf) error {
+	// Verify the config file
+	if err := services.VerifyClientConfig(conf.Path); err != nil {
+		return err
+	}
 	// Ensure log directory is valid
 	if logFile := conf.Data.GetLogFile(); logFile != "" && logFile != "console" {
 		if err := os.MkdirAll(filepath.Dir(logFile), os.ModePerm); err != nil {
