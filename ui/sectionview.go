@@ -43,13 +43,7 @@ func NewSectionView() *SectionView {
 func (sv *SectionView) View() Widget {
 	return Composite{
 		AssignTo: &sv.Composite,
-		DataBinder: DataBinder{
-			Name: "section",
-			DataSource: &struct{ Selected func() bool }{
-				func() bool { return sv.table != nil && sv.table.CurrentIndex() >= 0 },
-			},
-		},
-		Layout: VBox{MarginsZero: true},
+		Layout:   VBox{MarginsZero: true},
 		Children: []Widget{
 			sv.createToolbar(),
 			sv.createSectionTable(),
@@ -189,7 +183,7 @@ func (sv *SectionView) createToolbar() ToolBar {
 				AssignTo: &sv.editAction,
 				Image:    loadSysIcon("shell32", consts.IconEdit, 16),
 				Text:     "编辑",
-				Enabled:  Bind("section.Selected"),
+				Enabled:  Bind("section.CurrentIndex >= 0"),
 				OnTriggered: func() {
 					sv.onEdit(true)
 				},
@@ -198,7 +192,7 @@ func (sv *SectionView) createToolbar() ToolBar {
 				AssignTo:    &sv.deleteAction,
 				Image:       loadSysIcon("shell32", consts.IconDelete, 16),
 				Text:        "删除",
-				Enabled:     Bind("section.Selected"),
+				Enabled:     Bind("section.CurrentIndex >= 0"),
 				OnTriggered: sv.onDelete,
 			},
 			Action{
@@ -220,6 +214,7 @@ func (sv *SectionView) createToolbar() ToolBar {
 
 func (sv *SectionView) createSectionTable() TableView {
 	return TableView{
+		Name:     "section",
 		AssignTo: &sv.table,
 		Columns: []TableViewColumn{
 			{Title: "名称", DataMember: "Name", Width: 105},
@@ -251,7 +246,7 @@ func (sv *SectionView) createSectionTable() TableView {
 				},
 			},
 			Action{
-				Enabled:     Bind("section.Selected"),
+				Enabled:     Bind("section.CurrentIndex >= 0"),
 				Text:        "复制访问地址",
 				Image:       loadSysIcon("shell32", consts.IconSysCopy, 16),
 				OnTriggered: sv.onCopyAccessAddr,
@@ -344,10 +339,12 @@ func (sv *SectionView) onEdit(edit bool) {
 			sv.table.SetCurrentIndex(index)
 		}
 	} else {
-		esd := NewEditProxyDialog(nil)
-		if ret, _ = esd.Run(sv.Form()); ret == walk.DlgCmdOK {
-			sv.model.conf.Data.AddItem(esd.Proxy)
-			sv.commit()
+		ep := NewEditProxyDialog(nil)
+		if ret, _ = ep.Run(sv.Form()); ret == walk.DlgCmdOK {
+			if sv.model.conf.Data.AddItem(ep.Proxy) {
+				sv.commit()
+				sv.scrollToBottom()
+			}
 		}
 	}
 }
@@ -356,13 +353,19 @@ func (sv *SectionView) onQuickAdd(qa QuickAdd) {
 	if sv.model == nil {
 		return
 	}
+	added := false
 	if res, _ := qa.Run(sv.Form()); res == walk.DlgCmdOK {
 		for _, proxy := range qa.GetProxies() {
 			if !sv.model.conf.Data.AddItem(proxy) {
 				showWarningMessage(sv.Form(), "代理已存在", fmt.Sprintf("代理名「%s」已存在。", proxy.Name))
+			} else {
+				added = true
 			}
 		}
-		sv.commit()
+		if added {
+			sv.commit()
+			sv.scrollToBottom()
+		}
 	}
 }
 
@@ -370,4 +373,13 @@ func (sv *SectionView) onQuickAdd(qa QuickAdd) {
 func (sv *SectionView) commit() {
 	sv.Invalidate()
 	commitConf(sv.model.conf, false)
+}
+
+func (sv *SectionView) scrollToBottom() {
+	if sv.model == nil {
+		return
+	}
+	if tm := sv.table.TableModel(); tm != nil && tm.RowCount() > 0 {
+		sv.table.EnsureItemVisible(tm.RowCount() - 1)
+	}
 }
