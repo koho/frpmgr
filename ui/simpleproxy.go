@@ -90,7 +90,7 @@ func (sp *SimpleProxyDialog) onSave() {
 			RemotePort: sp.binder.RemotePort,
 		}
 		if sp.binder.LocalPortMin != "" && sp.binder.LocalPortMax != "" {
-			proxy.Name = "range:" + proxy.Name
+			proxy.Name = consts.RangePrefix + proxy.Name
 			portRange := fmt.Sprintf("%s-%s", sp.binder.LocalPortMin, sp.binder.LocalPortMax)
 			proxy.LocalPort += "," + portRange
 			proxy.RemotePort += "," + portRange

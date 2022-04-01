@@ -169,8 +169,8 @@ type Proxy struct {
 // GetAlias returns the alias of this proxy.
 // It's usually equal to the proxy name, but proxies that start with "range:" differ from it.
 func (p *Proxy) GetAlias() []string {
-	if strings.HasPrefix(p.Name, "range:") {
-		prefix := strings.TrimSpace(strings.TrimPrefix(p.Name, "range:"))
+	if strings.HasPrefix(p.Name, consts.RangePrefix) {
+		prefix := strings.TrimSpace(strings.TrimPrefix(p.Name, consts.RangePrefix))
 		localPorts, err := frputil.ParseRangeNumbers(p.LocalPort)
 		if err != nil {
 			return []string{p.Name}

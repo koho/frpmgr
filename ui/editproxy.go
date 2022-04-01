@@ -24,11 +24,13 @@ type EditProxyDialog struct {
 	viewModel proxyViewModel
 
 	// Views
-	nameView   *walk.LineEdit
-	customText *walk.TextEdit
-	typeView   *walk.ComboBox
-	roleView   *walk.CheckBox
-	pluginView *walk.ComboBox
+	nameView       *walk.LineEdit
+	localPortView  *walk.LineEdit
+	remotePortView *walk.LineEdit
+	customText     *walk.TextEdit
+	typeView       *walk.ComboBox
+	roleView       *walk.CheckBox
+	pluginView     *walk.ComboBox
 }
 
 // View model for ui logics
@@ -157,9 +159,15 @@ func (pd *EditProxyDialog) baseProxyPage() TabPage {
 			Label{Visible: Bind("vm.LocalAddrVisible"), Text: "本地地址:"},
 			LineEdit{Visible: Bind("vm.LocalAddrVisible"), Text: Bind("LocalIP")},
 			Label{Visible: Bind("vm.LocalPortVisible"), Text: "本地端口:"},
-			LineEdit{Visible: Bind("vm.LocalPortVisible"), Text: Bind("LocalPort")},
+			LineEdit{
+				AssignTo: &pd.localPortView, Visible: Bind("vm.LocalPortVisible"),
+				Text: Bind("LocalPort"), OnTextChanged: pd.watchRangePort,
+			},
 			Label{Visible: Bind("vm.RemotePortVisible"), Text: "远程端口:"},
-			LineEdit{Visible: Bind("vm.RemotePortVisible"), Text: Bind("RemotePort")},
+			LineEdit{
+				AssignTo: &pd.remotePortView, Visible: Bind("vm.RemotePortVisible"),
+				Text: Bind("RemotePort"), OnTextChanged: pd.watchRangePort,
+			},
 			Label{Visible: Bind("vm.BindAddrVisible"), Text: "绑定地址:"},
 			LineEdit{Visible: Bind("vm.BindAddrVisible"), Text: Bind("BindAddr")},
 			Label{Visible: Bind("vm.BindPortVisible"), Text: "绑定端口:"},
@@ -425,7 +433,33 @@ func (pd *EditProxyDialog) switchType() {
 			}
 		}
 	}
+	pd.watchRangePort()
 	pd.vmDB.Reset()
+}
+
+func (pd *EditProxyDialog) watchRangePort() {
+	var isRange bool
+	// The "range:" function requires both local port and remote port are set
+	if pd.viewModel.LocalPortVisible && pd.viewModel.RemotePortVisible {
+		for _, portView := range []*walk.LineEdit{pd.localPortView, pd.remotePortView} {
+			portText := portView.Text()
+			isRange = strings.Contains(portText, "-") || strings.Contains(portText, ",")
+			if isRange {
+				break
+			}
+		}
+	}
+	proxyName := pd.nameView.Text()
+	hasPrefix := strings.HasPrefix(proxyName, consts.RangePrefix)
+	if isRange {
+		if !hasPrefix {
+			pd.nameView.SetText(consts.RangePrefix + proxyName)
+		}
+	} else {
+		if hasPrefix {
+			pd.nameView.SetText(strings.TrimPrefix(proxyName, consts.RangePrefix))
+		}
+	}
 }
 
 func splitBandwidth(s string) (string, string) {

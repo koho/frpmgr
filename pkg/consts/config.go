@@ -1,5 +1,7 @@
 package consts
 
+const RangePrefix = "range:"
+
 // Proxy types
 const (
 	ProxyTypeTCP    = "tcp"
