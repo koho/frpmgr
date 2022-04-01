@@ -52,7 +52,7 @@ func RunUI() error {
 		AssignTo:   &fm.MainWindow,
 		Title:      "FRP 管理器",
 		Persistent: true,
-		MinSize:    Size{500, 400},
+		MinSize:    Size{640, 400},
 		Size:       Size{986, 525},
 		Layout:     VBox{Margins: Margins{5, 5, 5, 5}},
 		Font:       consts.TextRegular,

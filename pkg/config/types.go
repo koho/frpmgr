@@ -13,17 +13,11 @@ type Config interface {
 	// Save serializes this config and saves to the given path.
 	Save(path string) error
 	// Complete prunes and completes this config.
-	Complete()
+	// When "read" is true, the config should be completed for a file loaded from source.
+	// Otherwise, it should be completed for file written to disk.
+	Complete(read bool)
 	// GetLogFile returns the log file path of this config.
 	GetLogFile() string
 	// AutoStart indicates whether this config should be started at boot.
 	AutoStart() bool
-}
-
-// Section is the interface that must be implemented to build a section in config.
-type Section interface {
-	// GetName returns the name of this section
-	GetName() string
-	// Marshal returns the encoded section
-	Marshal() ([]byte, error)
 }

@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/util"
 	"github.com/lxn/walk"
 	"os"
@@ -42,20 +43,22 @@ func (m *ListModel) ItemCount() int {
 	return len(m.items)
 }
 
-type SectionModel struct {
+type ProxyModel struct {
 	walk.ReflectTableModelBase
 
 	conf *Conf
+	data *config.ClientConfig
 }
 
-func NewSectionModel(conf *Conf) *SectionModel {
-	m := new(SectionModel)
+func NewProxyModel(conf *Conf) *ProxyModel {
+	m := new(ProxyModel)
 	m.conf = conf
+	m.data = conf.Data.(*config.ClientConfig)
 	return m
 }
 
-func (m *SectionModel) Items() interface{} {
-	return m.conf.Data.Items()
+func (m *ProxyModel) Items() interface{} {
+	return m.data.Proxies
 }
 
 // DefaultListModel has a default item at the top of the model

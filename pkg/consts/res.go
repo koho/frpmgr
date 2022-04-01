@@ -20,6 +20,8 @@ const (
 	IconExport       = -174
 	IconQuickAdd     = 111
 	IconEdit         = 269
+	IconEnable       = 27
+	IconDisable      = 28
 	IconEditDialog   = -114
 	IconRemote       = 20
 	IconSSH          = 26
@@ -42,6 +44,7 @@ const (
 var (
 	ColorBlue  = walk.RGB(11, 53, 137)
 	ColorGreen = walk.RGB(0, 100, 0)
+	ColorGray  = walk.RGB(109, 109, 109)
 )
 
 // Text

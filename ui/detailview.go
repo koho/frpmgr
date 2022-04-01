@@ -8,14 +8,14 @@ import (
 type DetailView struct {
 	*walk.Composite
 
-	panelView   *PanelView
-	sectionView *SectionView
+	panelView *PanelView
+	proxyView *ProxyView
 }
 
 func NewDetailView() *DetailView {
 	v := new(DetailView)
 	v.panelView = NewPanelView()
-	v.sectionView = NewSectionView()
+	v.proxyView = NewProxyView()
 	return v
 }
 
@@ -27,7 +27,7 @@ func (dv *DetailView) View() Widget {
 		Children: []Widget{
 			dv.panelView.View(),
 			VSpacer{Size: 6},
-			dv.sectionView.View(),
+			dv.proxyView.View(),
 		},
 	}
 }
@@ -35,12 +35,12 @@ func (dv *DetailView) View() Widget {
 func (dv *DetailView) OnCreate() {
 	// Create all child views
 	dv.panelView.OnCreate()
-	dv.sectionView.OnCreate()
-	dv.sectionView.toolbar.ApplyDPI(dv.DPI())
+	dv.proxyView.OnCreate()
+	dv.proxyView.toolbar.ApplyDPI(dv.DPI())
 	confDB.ResetFinished().Attach(dv.Invalidate)
 }
 
 func (dv *DetailView) Invalidate() {
 	dv.panelView.Invalidate()
-	dv.sectionView.Invalidate()
+	dv.proxyView.Invalidate()
 }

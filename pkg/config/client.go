@@ -2,10 +2,13 @@ package config
 
 import (
 	"bytes"
+	"fmt"
+	frputil "github.com/fatedier/frp/pkg/util/util"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
 	"github.com/thoas/go-funk"
 	"gopkg.in/ini.v1"
+	"strings"
 )
 
 type ClientAuth struct {
@@ -21,36 +24,37 @@ type ClientAuth struct {
 
 type ClientCommon struct {
 	ClientAuth              `ini:",extends"`
-	ServerAddress           string `ini:"server_addr"`
-	ServerPort              string `ini:"server_port"`
-	DialServerTimeout       int64  `ini:"dial_server_timeout,omitempty"`
-	DialServerKeepAlive     int64  `ini:"dial_server_keepalive,omitempty"`
-	ConnectServerLocalIP    string `ini:"connect_server_local_ip,omitempty"`
-	HTTPProxy               string `ini:"http_proxy,omitempty"`
-	LogFile                 string `ini:"log_file,omitempty"`
-	LogLevel                string `ini:"log_level,omitempty"`
-	LogMaxDays              uint   `ini:"log_max_days,omitempty"`
-	AdminAddr               string `ini:"admin_addr,omitempty"`
-	AdminPort               string `ini:"admin_port,omitempty"`
-	AdminUser               string `ini:"admin_user,omitempty"`
-	AdminPwd                string `ini:"admin_pwd,omitempty"`
-	AssetsDir               string `ini:"assets_dir,omitempty"`
-	PprofEnable             bool   `ini:"pprof_enable,omitempty"`
-	PoolCount               uint   `ini:"pool_count,omitempty"`
-	DNSServer               string `ini:"dns_server,omitempty"`
-	Protocol                string `ini:"protocol,omitempty"`
-	LoginFailExit           bool   `ini:"login_fail_exit"`
-	User                    string `ini:"user,omitempty"`
-	HeartbeatInterval       int64  `ini:"heartbeat_interval,omitempty"`
-	HeartbeatTimeout        int64  `ini:"heartbeat_timeout,omitempty"`
-	TCPMux                  bool   `ini:"tcp_mux"`
-	TCPMuxKeepaliveInterval int64  `ini:"tcp_mux_keepalive_interval,omitempty"`
-	TLSEnable               bool   `ini:"tls_enable,omitempty"`
-	TLSCertFile             string `ini:"tls_cert_file,omitempty"`
-	TLSKeyFile              string `ini:"tls_key_file,omitempty"`
-	TLSTrustedCaFile        string `ini:"tls_trusted_ca_file,omitempty"`
-	TLSServerName           string `ini:"tls_server_name,omitempty"`
-	UDPPacketSize           int64  `ini:"udp_packet_size,omitempty"`
+	ServerAddress           string   `ini:"server_addr"`
+	ServerPort              string   `ini:"server_port"`
+	DialServerTimeout       int64    `ini:"dial_server_timeout,omitempty"`
+	DialServerKeepAlive     int64    `ini:"dial_server_keepalive,omitempty"`
+	ConnectServerLocalIP    string   `ini:"connect_server_local_ip,omitempty"`
+	HTTPProxy               string   `ini:"http_proxy,omitempty"`
+	LogFile                 string   `ini:"log_file,omitempty"`
+	LogLevel                string   `ini:"log_level,omitempty"`
+	LogMaxDays              uint     `ini:"log_max_days,omitempty"`
+	AdminAddr               string   `ini:"admin_addr,omitempty"`
+	AdminPort               string   `ini:"admin_port,omitempty"`
+	AdminUser               string   `ini:"admin_user,omitempty"`
+	AdminPwd                string   `ini:"admin_pwd,omitempty"`
+	AssetsDir               string   `ini:"assets_dir,omitempty"`
+	PprofEnable             bool     `ini:"pprof_enable,omitempty"`
+	PoolCount               uint     `ini:"pool_count,omitempty"`
+	DNSServer               string   `ini:"dns_server,omitempty"`
+	Protocol                string   `ini:"protocol,omitempty"`
+	LoginFailExit           bool     `ini:"login_fail_exit"`
+	User                    string   `ini:"user,omitempty"`
+	HeartbeatInterval       int64    `ini:"heartbeat_interval,omitempty"`
+	HeartbeatTimeout        int64    `ini:"heartbeat_timeout,omitempty"`
+	TCPMux                  bool     `ini:"tcp_mux"`
+	TCPMuxKeepaliveInterval int64    `ini:"tcp_mux_keepalive_interval,omitempty"`
+	TLSEnable               bool     `ini:"tls_enable,omitempty"`
+	TLSCertFile             string   `ini:"tls_cert_file,omitempty"`
+	TLSKeyFile              string   `ini:"tls_key_file,omitempty"`
+	TLSTrustedCaFile        string   `ini:"tls_trusted_ca_file,omitempty"`
+	TLSServerName           string   `ini:"tls_server_name,omitempty"`
+	UDPPacketSize           int64    `ini:"udp_packet_size,omitempty"`
+	Start                   []string `ini:"start,omitempty"`
 	// Options for this project
 	// ManualStart defines whether to start the config on system boot
 	ManualStart bool `ini:"manual_start,omitempty"`
@@ -106,8 +110,11 @@ type BaseProxyConf struct {
 	HealthCheckType string `ini:"health_check_type,omitempty"` // tcp | http
 	// Health checking parameters
 	HealthCheckConf `ini:",extends"`
+	// Options for this project
 	// Custom collects all the unparsed options
 	Custom map[string]string `ini:"-"`
+	// Disabled defines whether to start the proxy
+	Disabled bool `ini:"-"`
 }
 
 type PluginParams struct {
@@ -159,10 +166,25 @@ type Proxy struct {
 	Multiplexer       string `ini:"multiplexer,omitempty" tcpmux:"true"`
 }
 
-func (p *Proxy) GetName() string {
-	return p.Name
+// GetAlias returns the alias of this proxy.
+// It's usually equal to the proxy name, but proxies that start with "range:" differ from it.
+func (p *Proxy) GetAlias() []string {
+	if strings.HasPrefix(p.Name, "range:") {
+		prefix := strings.TrimSpace(strings.TrimPrefix(p.Name, "range:"))
+		localPorts, err := frputil.ParseRangeNumbers(p.LocalPort)
+		if err != nil {
+			return []string{p.Name}
+		}
+		alias := make([]string, len(localPorts))
+		for i := range localPorts {
+			alias[i] = fmt.Sprintf("%s_%d", prefix, i)
+		}
+		return alias
+	}
+	return []string{p.Name}
 }
 
+// Marshal returns the encoded proxy
 func (p *Proxy) Marshal() ([]byte, error) {
 	cfg := ini.Empty()
 	tp, err := cfg.NewSection(p.Name)
@@ -244,7 +266,7 @@ func (conf *ClientConfig) Save(path string) error {
 	return cfg.SaveTo(path)
 }
 
-func (conf *ClientConfig) Complete() {
+func (conf *ClientConfig) Complete(read bool) {
 	// Common config
 	authMethod := conf.AuthMethod
 	if authMethod != "" {
@@ -282,7 +304,10 @@ func (conf *ClientConfig) Complete() {
 			if p, err := util.PruneByTag(*proxy, "true", "visitor"); err == nil {
 				*proxy = p.(Proxy)
 			}
-			proxy.BaseProxyConf = BaseProxyConf{Name: base.Name, Type: base.Type, UseEncryption: base.UseEncryption, UseCompression: base.UseCompression}
+			proxy.BaseProxyConf = BaseProxyConf{
+				Name: base.Name, Type: base.Type, UseEncryption: base.UseEncryption,
+				UseCompression: base.UseCompression, Disabled: base.Disabled,
+			}
 		} else {
 			var base = proxy.BaseProxyConf
 			// Plugins
@@ -307,7 +332,35 @@ func (conf *ClientConfig) Complete() {
 			}
 			proxy.BaseProxyConf = base
 		}
+		if read && len(conf.Start) > 0 {
+			proxy.Disabled = !funk.Subset(proxy.GetAlias(), conf.Start)
+		}
 	}
+	if !read {
+		conf.Start = conf.gatherStart()
+	}
+}
+
+// gatherStart returns a list of enabled proxies name, or a nil slice if all proxies are enabled.
+func (conf *ClientConfig) gatherStart() []string {
+	allStart := true
+	start := make([]string, 0)
+	for _, proxy := range conf.Proxies {
+		if !proxy.Disabled {
+			start = append(start, proxy.GetAlias()...)
+		} else {
+			allStart = false
+		}
+	}
+	if allStart {
+		return nil
+	}
+	return start
+}
+
+// CountStart returns the number of enabled proxies
+func (conf *ClientConfig) CountStart() int {
+	return len(funk.Filter(conf.Proxies, func(proxy *Proxy) bool { return !proxy.Disabled }).([]*Proxy))
 }
 
 func UnmarshalClientConfFromIni(source string) (*ClientConfig, error) {
@@ -349,7 +402,7 @@ func UnmarshalClientConfFromIni(source string) (*ClientConfig, error) {
 		}
 		conf.Proxies = append(conf.Proxies, &proxy)
 	}
-	conf.Complete()
+	conf.Complete(true)
 	return conf, nil
 }
 

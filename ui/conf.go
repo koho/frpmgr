@@ -55,7 +55,7 @@ func (conf *Conf) Delete() error {
 
 // Save config to the disk. The config will be completed before saving
 func (conf *Conf) Save() error {
-	conf.Data.Complete()
+	conf.Data.Complete(false)
 	conf.Path = conf.Name + ".ini"
 	return conf.Data.Save(conf.Path)
 }
