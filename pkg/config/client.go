@@ -66,18 +66,18 @@ type ClientCommon struct {
 type BaseProxyConf struct {
 	// Name is the name of this
 	Name string `ini:"-"`
-	// Type specifies the type of this  Valid values include tcp, udp,
+	// Type specifies the type of this. Valid values include tcp, udp,
 	// xtcp, stcp, sudp, http, https, tcpmux. By default, this value is "tcp".
 	Type string `ini:"type,omitempty"`
 
-	// UseEncryption controls whether or not communication with the server will
+	// UseEncryption controls whether communication with the server will
 	// be encrypted. Encryption is done using the tokens supplied in the server
 	// and client configuration. By default, this value is false.
 	UseEncryption bool `ini:"use_encryption,omitempty"`
-	// UseCompression controls whether or not communication with the server
+	// UseCompression controls whether communication with the server
 	// will be compressed. By default, this value is false.
 	UseCompression bool `ini:"use_compression,omitempty"`
-	// Group specifies which group the is a part of. The server will use
+	// Group specifies which group the proxy is a part of. The server will use
 	// this information to load balance proxies in the same group. If the value
 	// is "", this will not be in a group. By default, this value is "".
 	Group string `ini:"group,omitempty"`

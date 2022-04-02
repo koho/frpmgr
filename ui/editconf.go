@@ -318,7 +318,9 @@ func (cd *EditClientDialog) onSave() {
 			}
 		}
 		// Change log files
-		if newConf.LogFile != cd.data.LogFile && !(newConf.LogFile == "console" && cd.data.LogFile == "") && !(newConf.LogFile == "" && cd.data.LogFile == "console") {
+		if newConf.LogFile != cd.data.LogFile &&
+			!(newConf.LogFile == "console" && cd.data.LogFile == "") &&
+			!(newConf.LogFile == "" && cd.data.LogFile == "console") {
 			// Rename or remove log files
 			logs, dates, err := util.FindLogFiles(cd.data.LogFile)
 			if newConf.LogFile == "" || newConf.LogFile == "console" {
