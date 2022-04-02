@@ -1,5 +1,8 @@
 # frpmgr
 
+[![Build status](https://img.shields.io/github/workflow/status/koho/frpmgr/Releaser)](https://github.com/koho/frpmgr/actions/workflows/releaser.yml)
+[![GitHub release](https://img.shields.io/github/tag/koho/frpmgr.svg?label=release)](https://github.com/koho/frpmgr/releases)
+
 Windows 下的 [frp](https://github.com/fatedier/frp) 图形界面客户端。
 
 ![frpmgr](/docs/frpmgr.jpg)
@@ -12,27 +15,33 @@ Windows 下的 [frp](https://github.com/fatedier/frp) 图形界面客户端。
 3. 通过界面修改配置后，会自动重启该配置的实例
 4. 手动停止配置后，该配置将不会开机自启
 
-## 特征
-* 简易的编辑界面
-* 支持导入/导出配置文件
-* 开机自启动
-* 多配置文件管理
+## :sparkles: 特征
 
-## 编译
-**安装依赖**:
+* :pencil2: 简易的编辑界面，快速完成配置
+* 📚 多配置文件管理
+* :inbox_tray: 支持导入/导出配置文件
+* :computer: 开机自启动
+
+## :gear: 构建
+
+#### 安装依赖
 - go >=1.16
 - Visual Studio
 - [MinGW](https://www.mingw-w64.org/)
 - [WiX Toolset](https://wixtoolset.org/)
 
-**环境配置**:
+#### 环境配置
 
-把`vcvars64.bat`添加到环境变量。通常目录为：
+1. 把 `vcvars64.bat` 添加到环境变量。通常目录为：
 - `C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build`
 
-**执行编译**:
+2. 确保 MinGW 的 `bin` 目录已添加到环境变量
 
-```shell script
+3. 确保环境变量 `WIX` 已设置为 Wix 的安装目录
+
+#### 编译项目
+
+```shell
 git clone https://github.com/koho/frpmgr
 cd frpmgr
 build.bat
@@ -40,14 +49,10 @@ build.bat
 
 在 `bin` 目录找到生成的安装文件。
 
-**调试**:
+#### 调试
 
-编译程序需要渲染图标生成资源和对某些文件打补丁，这些操作都在`build.bat`完成。因此在第一次调试前需要运行一次`build.bat`，后续调试不需要再执行该脚本。
+编译程序需要渲染图标生成资源和对某些文件打补丁，这些操作都在 `build.bat` 完成。因此在第一次调试前需要运行一次此脚本，后续调试不需要再执行该脚本。
 
 ## 捐助
 
-如果您觉得本项目对你有帮助，欢迎给予我们支持。
-
-### 微信支付捐赠
-
-![donate-wechat](/docs/donate-wechat.jpg)
+如果您觉得本项目对你有帮助，欢迎给予我们[支持](/docs/donate-wechat.jpg)。
