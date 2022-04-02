@@ -1,89 +1,71 @@
 package services
 
 import (
-	"fmt"
-	"io"
-	"os"
-	"os/exec"
-	"syscall"
+	"github.com/go-ole/go-ole"
+	"github.com/go-ole/go-ole/oleutil"
+	"time"
 )
 
-type shell struct {
-	handle *exec.Cmd
-	stdin  io.Writer
-	stdout io.Reader
-	stderr io.Reader
+type mmcApp struct {
+	handle   *ole.IDispatch
+	document *ole.IDispatch
+	view     *ole.IDispatch
+	list     *ole.IDispatch
 }
 
-var mmc shell
+var mmc mmcApp
 
-// Start powershell via cmd
-// The console code page must be set to UTF8 before starting powershell
-var setupCmd = `chcp 65001
-powershell
-$mmc = New-Object -ComObject MMC20.Application;`
-
-// Powershell command to find and show a service property dialog
-var propCmd = `$mmc.Document.Close(0);
-$mmc.load("services.msc");
-$view = $mmc.document.ActiveView;
-foreach ($x in $view.ListItems) {
-  if ($x.Name -eq "%s") {
-    $view.Select($x);
-    $view.DisplaySelectionPropertySheet();
-    break
-  }
+func setupMMC() {
+	ole.CoInitialize(0)
+	unknown, _ := oleutil.CreateObject("MMC20.Application")
+	mmc.handle, _ = unknown.QueryInterface(ole.IID_IDispatch)
 }
-`
 
-func CloseMMC() {
-	if mmc.handle != nil {
-		// This line should exit the powershell
-		fmt.Fprintln(mmc.stdin, "$mmc.Document.Close(0);sleep 2;$mmc.Quit();exit;")
-		// Exit cmd
-		mmc.handle.Process.Kill()
+func closeDocument() {
+	if mmc.document != nil {
+		oleutil.MustCallMethod(mmc.document, "Close", false)
+		mmc.list.Release()
+		mmc.view.Release()
+		mmc.document.Release()
+		mmc.document = nil
 	}
 }
 
-// ShowPropertyDialog shows up a service property dialog with given service
+func Cleanup() {
+	if mmc.handle != nil {
+		closeDocument()
+		// Wait for the popup dialog to close by itself
+		time.Sleep(2 * time.Second)
+		// Exit MMC
+		oleutil.CallMethod(mmc.handle, "Quit")
+		mmc.handle.Release()
+		mmc.handle = nil
+		ole.CoUninitialize()
+	}
+}
+
+// ShowPropertyDialog shows up the service property dialog of the given service
 func ShowPropertyDialog(displayName string) {
 	if mmc.handle == nil {
-		handle, stdin, stdout, stderr, err := StartProcess("cmd.exe")
-		if err != nil {
+		setupMMC()
+	} else {
+		closeDocument()
+	}
+	// Load services
+	oleutil.MustCallMethod(mmc.handle, "Load", "services.msc")
+	mmc.document = oleutil.MustGetProperty(mmc.handle, "Document").ToIDispatch()
+	mmc.view = oleutil.MustGetProperty(mmc.document, "ActiveView").ToIDispatch()
+	mmc.list = oleutil.MustGetProperty(mmc.view, "ListItems").ToIDispatch()
+	count := int(oleutil.MustGetProperty(mmc.list, "Count").Val)
+	for i := 1; i <= count; i++ {
+		item := oleutil.MustCallMethod(mmc.list, "Item", i).ToIDispatch()
+		name := oleutil.MustGetProperty(item, "Name").ToString()
+		if name == displayName {
+			oleutil.MustCallMethod(mmc.view, "Select", item)
+			oleutil.MustCallMethod(mmc.view, "DisplaySelectionPropertySheet")
+			item.Release()
 			return
 		}
-		mmc.handle = handle
-		mmc.stdin = stdin
-		mmc.stdout = stdout
-		mmc.stderr = stderr
-		fmt.Fprintln(mmc.stdin, setupCmd)
+		item.Release()
 	}
-	fmt.Fprintln(mmc.stdin, fmt.Sprintf(propCmd, displayName))
-}
-
-func StartProcess(cmd string, args ...string) (*exec.Cmd, io.Writer, io.Reader, io.Reader, error) {
-	command := exec.Command(cmd, args...)
-	command.Dir = os.TempDir()
-	command.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
-	stdin, err := command.StdinPipe()
-	if err != nil {
-		return nil, nil, nil, nil, err
-	}
-
-	stdout, err := command.StdoutPipe()
-	if err != nil {
-		return nil, nil, nil, nil, err
-	}
-
-	stderr, err := command.StderrPipe()
-	if err != nil {
-		return nil, nil, nil, nil, err
-	}
-
-	err = command.Start()
-	if err != nil {
-		return nil, nil, nil, nil, err
-	}
-
-	return command, stdin, stdout, stderr, nil
 }

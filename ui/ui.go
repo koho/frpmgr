@@ -74,10 +74,8 @@ func RunUI() error {
 	fm.confPage.OnCreate()
 	fm.logPage.OnCreate()
 	fm.aboutPage.OnCreate()
-	fm.Closing().Attach(func(canceled *bool, reason walk.CloseReason) {
-		services.CloseMMC()
-	})
 	fm.Run()
+	services.Cleanup()
 	return nil
 }
 
