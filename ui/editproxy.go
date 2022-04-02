@@ -126,7 +126,7 @@ func (pd *EditProxyDialog) View() Dialog {
 			Layout: VBox{MarginsZero: true, SpacingZero: true},
 			Children: []Widget{
 				TabWidget{
-					MinSize: Size{320, 240},
+					MinSize: Size{0, 240},
 					Pages: []TabPage{
 						pd.baseProxyPage(),
 						pd.advancedProxyPage(),
@@ -178,7 +178,7 @@ func (pd *EditProxyDialog) baseProxyPage() TabPage {
 			LineEdit{Visible: Bind("vm.DomainVisible"), Text: Bind("SubDomain")},
 			Label{Visible: Bind("vm.DomainVisible"), Text: "自定义域名:"},
 			LineEdit{Visible: Bind("vm.DomainVisible"), Text: Bind("CustomDomains")},
-			Label{Visible: Bind("vm.HTTPVisible"), Text: "URL 路由配置:"},
+			Label{Visible: Bind("vm.HTTPVisible"), Text: "URL 路由:"},
 			LineEdit{Visible: Bind("vm.HTTPVisible"), Text: Bind("Locations")},
 			Label{Visible: Bind("vm.MuxVisible"), Text: "复用器:"},
 			LineEdit{Visible: Bind("vm.MuxVisible"), Text: Bind("Multiplexer")},
@@ -200,7 +200,7 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 					ComboBox{Model: []string{"MB", "KB"}, Value: Bind("BandwidthUnit")},
 				},
 			},
-			Label{Visible: Bind("vm.PluginEnable"), Text: "启用代理版本:"},
+			Label{Visible: Bind("vm.PluginEnable"), Text: "代理版本:"},
 			ComboBox{
 				Visible:       Bind("vm.PluginEnable"),
 				Model:         NewDefaultListModel([]string{"v1", "v2"}, "", "空"),
@@ -208,7 +208,7 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 				DisplayMember: "DisplayName",
 				Value:         Bind("ProxyProtocolVersion"),
 			},
-			CheckBox{Text: "加密传输", Checked: Bind("UseEncryption")},
+			CheckBox{Text: "加密传输", Checked: Bind("UseEncryption"), MaxSize: Size{Width: 75}},
 			CheckBox{Text: "压缩传输", Checked: Bind("UseCompression")},
 			Label{Visible: Bind("vm.HTTPVisible"), Text: "HTTP 用户:"},
 			LineEdit{Visible: Bind("vm.HTTPVisible"), Text: Bind("HTTPUser")},
@@ -286,9 +286,9 @@ func (pd *EditProxyDialog) healthCheckProxyPage() TabPage {
 		Children: []Widget{
 			Label{Text: "检查类型:", Enabled: Bind("vm.HealthCheckEnable"), MinSize: Size{Width: 55}},
 			NewRadioButtonGroup("HealthCheckType", &DataBinder{DataSource: pd.binder, AutoSubmit: true}, []RadioButton{
-				{Text: "tcp", Value: "tcp", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType},
-				{Text: "http", Value: "http", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType},
-				{Text: "无", Value: "", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType},
+				{Text: "tcp", Value: "tcp", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType, MaxSize: Size{Width: 80}},
+				{Text: "http", Value: "http", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType, MaxSize: Size{Width: 80}},
+				{Text: "无", Value: "", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType, MaxSize: Size{Width: 80}},
 			}),
 			Label{Visible: Bind("vm.HealthCheckURLVisible"), Text: "URL:"},
 			LineEdit{Visible: Bind("vm.HealthCheckURLVisible"), Text: Bind("HealthCheckURL")},

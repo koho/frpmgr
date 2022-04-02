@@ -43,7 +43,19 @@ func NewBrowseLineEdit(assignTo **walk.LineEdit, visible, enable, text Property,
 }
 
 // NewBasicDialog returns a dialog with given widgets and default buttons
-func NewBasicDialog(assignTo **walk.Dialog, title string, icon *walk.Icon, db DataBinder, yes func(), widgets ...Widget) Dialog {
+func NewBasicDialog(assignTo **walk.Dialog, title string, icon Property, db DataBinder, yes func(), widgets ...Widget) Dialog {
+	var w *walk.Dialog
+	if assignTo == nil {
+		assignTo = &w
+	}
+	if yes == nil {
+		// Default handler for "yes" button
+		yes = func() {
+			if err := (*assignTo).DataBinder().Submit(); err == nil {
+				(*assignTo).Accept()
+			}
+		}
+	}
 	var acceptPB, cancelPB *walk.PushButton
 	dlg := Dialog{
 		AssignTo:      assignTo,

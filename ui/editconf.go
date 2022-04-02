@@ -23,11 +23,8 @@ type EditClientDialog struct {
 	ShouldRestart bool
 
 	// Views
-	logFileView    *walk.LineEdit
-	customText     *walk.TextEdit
-	nameView       *walk.LineEdit
-	serverAddrView *walk.LineEdit
-	serverPortView *walk.LineEdit
+	logFileView *walk.LineEdit
+	nameView    *walk.LineEdit
 
 	// View models
 	binder *editClientBinder
@@ -36,7 +33,11 @@ type EditClientDialog struct {
 
 // Data binder contains a copy of config
 type editClientBinder struct {
+	// Name of this config
 	Name string
+	// CustomText contains the user-defined parameters
+	CustomText string
+	// Common settings
 	config.ClientCommon
 }
 
@@ -54,7 +55,11 @@ func NewEditClientDialog(conf *Conf) *EditClientDialog {
 		return nil
 	}
 	v.data = data
-	v.binder = &editClientBinder{v.Conf.Name, v.data.ClientCommon}
+	v.binder = &editClientBinder{
+		Name:         v.Conf.Name,
+		CustomText:   util.Map2String(data.Custom),
+		ClientCommon: v.data.ClientCommon,
+	}
 	return v
 }
 
@@ -73,12 +78,10 @@ func (cd *EditClientDialog) View() Dialog {
 				cd.connectionConfPage(),
 				cd.tlsConfPage(),
 				cd.advancedConfPage(),
-				cd.customConfPage(),
 			},
 		},
 	)
 	dlg.Layout = VBox{Margins: Margins{7, 9, 7, 9}}
-	dlg.MinSize = Size{430, 0}
 	return dlg
 }
 
@@ -98,9 +101,9 @@ func (cd *EditClientDialog) baseConfPage() TabPage {
 				}
 			}},
 			Label{Text: "服务器地址:"},
-			LineEdit{AssignTo: &cd.serverAddrView, Text: Bind("ServerAddress", consts.ValidateNonEmpty)},
+			LineEdit{Text: Bind("ServerAddress", consts.ValidateNonEmpty)},
 			Label{Text: "服务器端口:"},
-			LineEdit{AssignTo: &cd.serverPortView, Text: Bind("ServerPort", consts.ValidateRequireInteger)},
+			LineEdit{Text: Bind("ServerPort", consts.ValidateRequireInteger)},
 			Label{Text: "用户:"},
 			LineEdit{Text: Bind("User")},
 			VSpacer{ColumnSpan: 2},
@@ -215,7 +218,7 @@ func (cd *EditClientDialog) tlsConfPage() TabPage {
 		Title:  "TLS",
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Text: "TLS:", MinSize: Size{Width: 75}},
+			Label{Text: "TLS:", MinSize: Size{Width: 65}},
 			NewRadioButtonGroup("TLSEnable", nil, []RadioButton{
 				{Name: "tlsCheck", Text: "开启", Value: true},
 				{Text: "关闭", Value: false},
@@ -228,7 +231,7 @@ func (cd *EditClientDialog) tlsConfPage() TabPage {
 			Label{Visible: Bind("tlsCheck.Checked"), Text: "密钥文件:"},
 			NewBrowseLineEdit(nil, Bind("tlsCheck.Checked"), true, Bind("TLSKeyFile"),
 				"选择密钥文件", consts.FilterKey, true),
-			Label{Visible: Bind("tlsCheck.Checked"), Text: "受信任的证书:"},
+			Label{Visible: Bind("tlsCheck.Checked"), Text: "受信任证书:"},
 			NewBrowseLineEdit(nil, Bind("tlsCheck.Checked"), true, Bind("TLSTrustedCaFile"),
 				"选择受信任的证书", consts.FilterCert, true),
 		},
@@ -240,7 +243,7 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 		Title:  "高级",
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Text: "多路复用:"},
+			Label{Text: "多路复用:", MinSize: Size{Width: 65}},
 			NewRadioButtonGroup("TCPMux", nil, []RadioButton{
 				{Name: "muxCheck", Text: "开启", Value: true},
 				{Text: "关闭", Value: false},
@@ -251,13 +254,11 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 			LineEdit{Text: Bind("DNSServer")},
 			Label{Text: "使用源地址:"},
 			LineEdit{Text: Bind("ConnectServerLocalIP")},
-			Label{Text: "UDP 包大小:"},
-			NumberEdit{Value: Bind("UDPPacketSize")},
 			Composite{
 				Layout: VBox{MarginsZero: true, SpacingZero: true},
 				Children: []Widget{
 					VSpacer{Size: 6},
-					Label{Text: "运行选项:", Alignment: AlignHNearVNear},
+					Label{Text: "其他选项:", Alignment: AlignHNearVNear},
 				},
 			},
 			Composite{
@@ -265,21 +266,23 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 				Children: []Widget{
 					CheckBox{Text: "初次登录失败后退出", Checked: Bind("LoginFailExit")},
 					CheckBox{Text: "禁用开机自启动", Checked: Bind("ManualStart")},
+					VSpacer{Size: 4},
+					LinkLabel{Text: "<a>自定义...</a>", OnLinkActivated: func(link *walk.LinkLabelLink) {
+						cd.customConfDialog().Run(cd.Form())
+					}},
 				},
 			},
 		},
 	}
 }
 
-func (cd *EditClientDialog) customConfPage() TabPage {
-	return TabPage{
-		Title:  "自定义",
-		Layout: VBox{},
-		Children: []Widget{
-			Label{Text: "*参考 FRP 配置文件的 [common] 部分，每行格式为 a = b"},
-			TextEdit{AssignTo: &cd.customText, Text: util.Map2String(cd.data.Custom), VScroll: true},
-		},
-	}
+func (cd *EditClientDialog) customConfDialog() Dialog {
+	customDialog := NewBasicDialog(nil, "自定义参数", cd.Icon(), DataBinder{DataSource: cd.binder}, nil,
+		Label{Text: "*参考 FRP 配置文件的 [common] 部分，每行格式为 a = b"},
+		TextEdit{Text: Bind("CustomText"), VScroll: true},
+	)
+	customDialog.MinSize = Size{380, 280}
+	return customDialog
 }
 
 func (cd *EditClientDialog) shutdownService(wait bool) error {
@@ -346,7 +349,7 @@ func (cd *EditClientDialog) onSave() {
 	cd.Conf.Name = newConf.Name
 	// The order matters
 	cd.data.ClientCommon = newConf.ClientCommon
-	cd.data.Custom = util.String2Map(cd.customText.Text())
+	cd.data.Custom = util.String2Map(newConf.CustomText)
 	cd.Accept()
 }
 
