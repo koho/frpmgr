@@ -59,7 +59,9 @@ func InstallService(name string, configPath string, manual bool) error {
 			if err != nil && err != windows.ERROR_SERVICE_MARKED_FOR_DELETE {
 				break
 			}
-			service.Close()
+			if service != nil {
+				service.Close()
+			}
 			time.Sleep(time.Second / 3)
 		}
 	}
