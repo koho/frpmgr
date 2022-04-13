@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.1] - 2022-04-13
+### 新增
+* "快速添加"支持更多类型，如 FTP、文件服务等
+* 快捷启用/禁用代理条目
+* 新增 TLS、心跳、复用等配置选项
+* 代理条目右键菜单新增"复制访问地址"功能
+
+### 修复
+* 修复 Win7 下无法打开服务窗口
+
+### 优化
+* 防止同一用户下 GUI 窗口多开
+* 启动配置前验证配置文件
+* 保存代理条目前验证代理条目
+* 使用范围端口时自动添加前缀
+
 ## [1.7.0] - 2022-03-24
 ### 新增
 * 支持全部代理类型(本次新增`sudp`, `http`, `https`, `tcpmux`)的图形化配置
@@ -126,7 +142,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * 解决某些情况下电脑重启后服务没有自动运行问题
 * 更新软件后需打开软件，选择左侧配置项后右键编辑，然后直接确定，再启动即可
 
-[Unreleased]: https://github.com/koho/frpmgr/compare/v1.7.0...HEAD
+[Unreleased]: https://github.com/koho/frpmgr/compare/v1.7.1...HEAD
+[1.7.1]: https://github.com/koho/frpmgr/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/koho/frpmgr/compare/v1.6.1...v1.7.0
 [1.6.1]: https://github.com/koho/frpmgr/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/koho/frpmgr/compare/v1.5.0...v1.6.0
