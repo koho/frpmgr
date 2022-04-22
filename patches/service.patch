@@ -1,20 +1,20 @@
---- pkg/mod/github.com/fatedier/frp@v0.41.0/client/service.go	2022-03-24 15:06:41.000000000 +0800
-+++ patches/service.go	2022-03-24 15:10:43.000000000 +0800
-@@ -36,12 +36,13 @@
- 	"github.com/fatedier/frp/pkg/util/util"
+--- pkg/mod/github.com/fatedier/frp@v0.42.0/client/service.go	2022-04-22 14:59:20.000000000 +0800
++++ patches/service.go	2022-04-22 15:10:29.000000000 +0800
+@@ -39,12 +39,13 @@
  	"github.com/fatedier/frp/pkg/util/version"
  	"github.com/fatedier/frp/pkg/util/xlog"
+ 	"github.com/fatedier/golib/crypto"
  	libdial "github.com/fatedier/golib/net/dial"
 
  	fmux "github.com/hashicorp/yamux"
 +	frpmgr "github.com/koho/frpmgr/pkg/util"
  )
 
- // Service is a client service.
- type Service struct {
- 	// uniq id got from frps, attach it in loginMsg
- 	runID string
-@@ -248,14 +249,20 @@
+ func init() {
+ 	crypto.DefaultSalt = "frp"
+ 	rand.Seed(time.Now().UnixNano())
+ }
+@@ -271,14 +272,20 @@
  		libdial.WithProxyAuth(auth),
  		libdial.WithTLSConfig(tlsConfig),
  		libdial.WithAfterHook(libdial.AfterHook{
@@ -22,7 +22,7 @@
  		}),
  	)
 +	var serverAddr = svr.cfg.ServerAddr
-+	if svr.cfg.DNSServer != "" && runtime.GOOS == "windows" {
++	if svr.cfg.DNSServer != "" {
 +		if serverAddr, err = frpmgr.LookupIP(svr.cfg.ServerAddr, svr.cfg.DNSServer); err != nil {
 +			return nil, nil, err
 +		}
