@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.2] - 2022-04-22
+### 更新
+* FRP 版本 0.42.0
+
 ## [1.7.1] - 2022-04-13
 ### 新增
 * "快速添加"支持更多类型，如 FTP、文件服务等
@@ -142,7 +146,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * 解决某些情况下电脑重启后服务没有自动运行问题
 * 更新软件后需打开软件，选择左侧配置项后右键编辑，然后直接确定，再启动即可
 
-[Unreleased]: https://github.com/koho/frpmgr/compare/v1.7.1...HEAD
+[Unreleased]: https://github.com/koho/frpmgr/compare/v1.7.2...HEAD
+[1.7.2]: https://github.com/koho/frpmgr/compare/v1.7.1...v1.7.2
 [1.7.1]: https://github.com/koho/frpmgr/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/koho/frpmgr/compare/v1.6.1...v1.7.0
 [1.6.1]: https://github.com/koho/frpmgr/compare/v1.6.0...v1.6.1
