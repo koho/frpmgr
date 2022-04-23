@@ -176,8 +176,12 @@ func (pv *PanelView) Invalidate() {
 	if pv.Title() != conf.Name {
 		pv.SetTitle(conf.Name)
 	}
-	if pv.addressText.Text() != data.ServerAddress {
-		pv.addressText.SetText(data.ServerAddress)
+	addr := data.ServerAddress
+	if addr == "" {
+		addr = "0.0.0.0"
+	}
+	if pv.addressText.Text() != addr {
+		pv.addressText.SetText(addr)
 	}
 	pv.toggleBtn.SetEnabled(true)
 	pv.svcOpenBtn.SetEnabled(conf.Install)
