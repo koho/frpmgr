@@ -9,7 +9,7 @@ import (
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"github.com/thoas/go-funk"
-	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -207,30 +207,23 @@ func (cv *ConfView) onImport() {
 			newPath := filepath.Base(path)
 			if _, err := os.Stat(newPath); err == nil {
 				baseName, _ := util.SplitExt(newPath)
-				showWarningMessage(cv.Form(), "错误", fmt.Sprintf("无法导入配置: 另一个同名的配置「%s」已存在", baseName))
+				showWarningMessage(cv.Form(), "错误", fmt.Sprintf("无法导入配置: 另一个同名的配置「%s」已存在。", baseName))
 				continue
 			}
-			if _, err := util.CopyFile(path, newPath); err != nil {
-				showErrorMessage(cv.Form(), "错误", "复制文件时出现错误")
-				continue
-			}
-			conf, err := config.UnmarshalClientConfFromIni(newPath)
+			// Verify config before copying file
+			conf, err := config.UnmarshalClientConfFromIni(path)
 			if err != nil {
 				showError(err, cv.Form())
 				continue
 			}
+			if _, err = util.CopyFile(path, newPath); err != nil {
+				showErrorMessage(cv.Form(), "错误", fmt.Sprintf("无法复制文件 \"%s\"。", path))
+				continue
+			}
 			addConf(NewConf(newPath, conf))
 		case ".zip":
-			imported := 0
-			total, copied := cv.unzipFiles(path)
-			for _, cp := range copied {
-				if conf, err := config.UnmarshalClientConfFromIni(cp); err == nil {
-					addConf(NewConf(cp, conf))
-					imported++
-				}
-			}
-			if total != imported {
-				showWarningMessage(cv.Form(), "导入配置", fmt.Sprintf("导入了 %d 个配置文件中的 %d 个", total, imported))
+			if total, imported := cv.importZip(path); total != imported {
+				showWarningMessage(cv.Form(), "导入配置", fmt.Sprintf("导入了 %d 个配置文件中的 %d 个。", total, imported))
 			}
 		}
 	}
@@ -242,30 +235,38 @@ func (cv *ConfView) onImport() {
 	}
 }
 
-func (cv *ConfView) unzipFiles(path string) (total int, copied []string) {
-	unzip := func(file *zip.File) error {
+func (cv *ConfView) importZip(path string) (total, imported int) {
+	importFile := func(file *zip.File) error {
 		fr, err := file.Open()
 		if err != nil {
 			return err
 		}
 		defer fr.Close()
+		src, err := ioutil.ReadAll(fr)
+		if err != nil {
+			return err
+		}
+		conf, err := config.UnmarshalClientConfFromIni(src)
+		if err != nil {
+			return err
+		}
 		fw, err := os.OpenFile(file.Name, os.O_CREATE|os.O_RDWR|os.O_TRUNC, file.Mode())
 		if err != nil {
 			return err
 		}
 		defer fw.Close()
-		if _, err = io.Copy(fw, fr); err != nil {
+		if _, err = fw.Write(src); err != nil {
 			return err
 		}
+		addConf(NewConf(file.Name, conf))
 		return nil
 	}
 	zr, err := zip.OpenReader(path)
 	if err != nil {
-		showErrorMessage(cv.Form(), "导入错误", "读取压缩文件时出现错误")
+		showErrorMessage(cv.Form(), "导入错误", fmt.Sprintf("文件 \"%s\" 不是有效的压缩文件。", path))
 		return
 	}
 	defer zr.Close()
-	copied = make([]string, 0)
 	for _, file := range zr.File {
 		if file.FileInfo().IsDir() {
 			continue
@@ -278,8 +279,8 @@ func (cv *ConfView) unzipFiles(path string) (total int, copied []string) {
 		if _, err = os.Stat(file.Name); err == nil {
 			continue
 		}
-		if err = unzip(file); err == nil {
-			copied = append(copied, file.Name)
+		if err = importFile(file); err == nil {
+			imported++
 		}
 	}
 	return

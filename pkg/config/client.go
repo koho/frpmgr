@@ -363,7 +363,7 @@ func (conf *ClientConfig) CountStart() int {
 	return len(funk.Filter(conf.Proxies, func(proxy *Proxy) bool { return !proxy.Disabled }).([]*Proxy))
 }
 
-func UnmarshalClientConfFromIni(source string) (*ClientConfig, error) {
+func UnmarshalClientConfFromIni(source interface{}) (*ClientConfig, error) {
 	conf := NewDefaultClientConfig()
 	cfg, err := ini.Load(source)
 	if err != nil {
