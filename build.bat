@@ -18,8 +18,11 @@ go mod tidy || exit /b 1
 echo [+] Patching files
 for %%f in (patches\*.patch) do patch -N -r - -d %GOPATH% -p0 < %%f
 echo [+] Compiling release version
-for /F "tokens=2 delims=@" %%y in ('go mod graph ^| findstr frpmgr ^| findstr frp@') do (set FRP_VERSION=%%y)
-go build -ldflags="-H windowsgui -X github.com/koho/frpmgr/pkg/version.Version=v%FRPMGR_VERSION% -X github.com/koho/frpmgr/pkg/version.FRPVersion=%FRP_VERSION% -X github.com/koho/frpmgr/pkg/version.BuildDate=%BUILD_DATE%" -o bin/frpmgr.exe github.com/koho/frpmgr/cmd/frpmgr || exit /b 1
+set MOD=github.com/koho/frpmgr
+set GO111MODULE=on
+set CGO_ENABLED=0
+for /F "tokens=2 delims=@" %%y in ('go mod graph ^| findstr %MOD% ^| findstr frp@') do (set FRP_VERSION=%%y)
+go build -trimpath -ldflags="-H windowsgui -s -w -X %MOD%/pkg/version.Version=v%FRPMGR_VERSION% -X %MOD%/pkg/version.FRPVersion=%FRP_VERSION% -X %MOD%/pkg/version.BuildDate=%BUILD_DATE%" -o bin/frpmgr.exe ./cmd/frpmgr || exit /b 1
 echo [+] Building installer
 call installer/build.bat %FRPMGR_VERSION% || exit /b 1
 echo [+] Success.
