@@ -7,35 +7,35 @@
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST manifest.xml
-10        ICON           EXPAND(APP_ICO)
+10        ICON           "../icon/installer.ico"
 11        RCDATA         EXPAND(MSI_FILE)
 
-VS_VERSION_INFO VERSIONINFO \
-FILEVERSION    VERSION_ARRAY \
-PRODUCTVERSION VERSION_ARRAY \
-FILEFLAGSMASK  VS_FFI_FILEFLAGSMASK \
-FILEFLAGS      0x0 \
-FILEOS         VOS__WINDOWS32 \
-FILETYPE       VFT_APP \
-FILESUBTYPE    VFT2_UNKNOWN \
-BEGIN \
-  BLOCK "StringFileInfo" \
-  BEGIN \
-    BLOCK "080404B0" \
-    BEGIN \
-      VALUE "CompanyName", "Frpmgr Project" \
-      VALUE "FileDescription", "FRP 管理器安装程序" \
-      VALUE "FileVersion", EXPAND(VERSION_STR) \
-      VALUE "InternalName", "frpmgr-Setup" \
-      VALUE "LegalCopyright", "Copyright (c) Frpmgr Project" \
-      VALUE "OriginalFilename", EXPAND(frpmgr-VERSION_STR-Setup.exe) \
-      VALUE "ProductName", "frpmgr" \
-      VALUE "ProductVersion", EXPAND(VERSION_STR) \
-      VALUE "Comments", "https://github.com/koho/frpmgr" \
-    END \
-  END \
-  BLOCK "VarFileInfo" \
-  BEGIN \
-    VALUE "Translation", 0x0804, 1200 \
-  END \
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION    VERSION_ARRAY
+PRODUCTVERSION VERSION_ARRAY
+FILEFLAGSMASK  VS_FFI_FILEFLAGSMASK
+FILEFLAGS      0x0
+FILEOS         VOS__WINDOWS32
+FILETYPE       VFT_APP
+FILESUBTYPE    VFT2_UNKNOWN
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "080404B0"
+    BEGIN
+      VALUE "CompanyName", "FRP Manager Project"
+      VALUE "FileDescription", "FRP 管理器安装程序"
+      VALUE "FileVersion", EXPAND(VERSION_STR)
+      VALUE "InternalName", "frpmgr-Setup"
+      VALUE "LegalCopyright", "Copyright © FRP Manager Project"
+      VALUE "OriginalFilename", EXPAND(frpmgr-VERSION_STR-Setup.exe)
+      VALUE "ProductName", "FRP 管理器"
+      VALUE "ProductVersion", EXPAND(VERSION_STR)
+      VALUE "Comments", "https://github.com/koho/frpmgr"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x0804, 1200
+  END
 END

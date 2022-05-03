@@ -45,7 +45,7 @@ func main() {
 		return
 	}
 	if showVersion {
-		info("版本信息", "程序版本: %s, FRP 版本: %s, 构建日期: %s", version.Version, version.FRPVersion, version.BuildDate)
+		info("版本信息", "程序版本: %s, FRP 版本: %s, 构建日期: %s", version.Number, version.FRPVersion, version.BuildDate)
 		return
 	}
 	inService, err := svc.IsWindowsService()

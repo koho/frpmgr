@@ -50,7 +50,7 @@ func (ap *AboutPage) Page() TabPage {
 						Layout: VBox{Margins: Margins{12, 0, 0, 0}},
 						Children: []Widget{
 							Label{Text: "FRP Manager", Font: consts.TextLarge, TextColor: consts.ColorBlue},
-							Label{Text: fmt.Sprintf("版本：%s", version.Version)},
+							Label{Text: fmt.Sprintf("版本：%s", version.Number)},
 							Label{Text: fmt.Sprintf("FRP 版本：%s", version.FRPVersion)},
 							Label{Text: fmt.Sprintf("构建日期：%s", version.BuildDate)},
 							PushButton{AssignTo: &ap.checkUpdateBtn, Text: "检查更新", OnClicked: func() { ap.checkUpdate(true) }},
@@ -128,7 +128,7 @@ func (ap *AboutPage) checkUpdate(showErr bool) {
 				}
 				return
 			}
-			if ap.viewModel.TagName != "" && ap.viewModel.TagName != version.Version {
+			if ap.viewModel.TagName != "" && ap.viewModel.TagName[1:] != version.Number {
 				ap.viewModel.NewVersion = true
 				if pubDate, err := time.Parse("2006-01-02T15:04:05Z", ap.viewModel.PublishedAt); err == nil {
 					ap.viewModel.PublishedAt = pubDate.Format("2006-01-02")
@@ -139,7 +139,7 @@ func (ap *AboutPage) checkUpdate(showErr bool) {
 				ap.viewModel.NewVersion = false
 				ap.SetTitle("关于")
 				ap.SetImage(nil)
-				if ap.viewModel.TagName == version.Version && showErr {
+				if ap.viewModel.TagName[1:] == version.Number && showErr {
 					showInfoMessage(ap.Form(), "提示", "已是最新版本。")
 				}
 			}
