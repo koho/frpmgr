@@ -1,83 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="FRP 管理器" Language="2052" Version="$(var.VERSION)" Manufacturer="FRP" UpgradeCode="c9f7c2b3-291a-454a-9871-150d98dc2645" Codepage="936">
+	<Product Id="*" Name="FRP 管理器" Language="2052" Version="$(var.VERSION)" Manufacturer="FRP Manager Project" UpgradeCode="c9f7c2b3-291a-454a-9871-150d98dc2645" Codepage="936">
 
-		<Package InstallerVersion="400" Compressed="yes" InstallScope="perMachine" Platform="x64" />
+		<Package InstallerVersion="400" Compressed="yes" InstallScope="perMachine" Platform="x64" Description="FRP 管理器" SummaryCodepage="936" />
 
-		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-		<MediaTemplate EmbedCab="yes" CompressionLevel="high"/>
+		<MediaTemplate EmbedCab="yes" CompressionLevel="high" />
 
-		<Binary Id="actions.dll" SourceFile=".\\build\\actions.dll" />
+		<!--
+			Upgrading
+		-->
+		<MajorUpgrade DowngradeErrorMessage="该计算机已安装了更高版本的 [ProductName]。" />
+
+		<Icon Id="ProductIcon" SourceFile="..\icon\app.ico" />
+		<Binary Id="actions.dll" SourceFile="build\actions.dll" />
+
+		<Property Id="ARPPRODUCTICON" Value="ProductIcon" />
+		<Property Id="ARPURLINFOABOUT" Value="https://github.com/koho/frpmgr" />
+		<Property Id="ARPNOREPAIR" Value="yes" />
+		<Property Id="DISABLEADVTSHORTCUTS" Value="yes" />
+
+		<!--
+			Detect previous install folder if it's a upgrade
+		-->
+		<Property Id="PREVINSTALLFOLDER">
+			<RegistrySearch Id="GetPrevInstallFolder" Type="raw" Root="HKLM" Key="Software\[Manufacturer]" Name="InstallLocation" />
+		</Property>
+		<SetProperty Id="INSTALLFOLDER" Value="[PREVINSTALLFOLDER]" After="AppSearch" Sequence="first">
+			WIX_UPGRADE_DETECTED
+		</SetProperty>
+
+		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+		<Property Id="LicenseAccepted" Value="1" />
 
 		<Feature Id="ProductFeature" Title="FRP" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
 		</Feature>
 
-		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
-		<Property Id="DISABLEADVTSHORTCUTS" Value="yes" />
-		<Property Id="LicenseAccepted" Value="1" />
-
 		<UI>
 			<UIRef Id="WixUI_InstallDir" />
-			<Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">NOT Installed</Publish>
+
+			<!-- Skip license dialog -->
+			<Publish Dialog="WelcomeDlg"
+                     Control="Next"
+                     Event="NewDialog"
+                     Value="InstallDirDlg"
+                     Order="2">1</Publish>
+			<Publish Dialog="InstallDirDlg"
+                     Control="Back"
+                     Event="NewDialog"
+                     Value="WelcomeDlg"
+                     Order="2">1</Publish>
+
+			<!-- Launch application after installation -->
+			<Publish Dialog="ExitDialog"
+					 Control="Finish"
+					 Event="DoAction"
+					 Value="LaunchApplication">NOT Installed</Publish>
 			<ProgressText Action="KillProcesses">正在结束进程</ProgressText>
 			<ProgressText Action="EvaluateFrpServices">正在停止服务</ProgressText>
 			<ProgressText Action="RemoveFrpFiles">正在删除文件</ProgressText>
 		</UI>
-
-		<WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
-		<Icon Id="ProductIcon" SourceFile="..\\icon\\app.ico" />
-		<Property Id="ARPPRODUCTICON" Value="ProductIcon" />
 	</Product>
 
+	<!--
+		Folders
+	-->
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="ProgramFiles64Folder">
 				<Directory Id="INSTALLFOLDER" Name="FRP" />
 			</Directory>
-			<Directory Id="ProgramMenuFolder">
-			</Directory>
+			<Directory Id="ProgramMenuFolder" />
 		</Directory>
 	</Fragment>
 
+	<!--
+		Components
+	-->
 	<Fragment>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
 			<Component Guid="{E39EABEF-A7EB-4EAF-AD3E-A1254450BBE1}" Id="MainApplication" Win64="yes">
-				<File Id="MainApplication" Source="..\\bin\\frpmgr.exe" KeyPath="yes">
+				<File Id="MainApplication" Source="..\bin\frpmgr.exe" KeyPath="yes">
 					<Shortcut Id="StartMenuShortcut" Name="FRP 管理器" Directory="ProgramMenuFolder" WorkingDirectory="INSTALLFOLDER" Advertise="yes"/>
 				</File>
+				<!-- A dummy to make WiX create ServiceControl table for us. -->
 				<ServiceControl Id="DummyService.E3F2D6BE_38C7_4654_9C1B_C667A1F9040A" Name="DummyService.E3F2D6BE_38C7_4654_9C1B_C667A1F9040A" />
+				<!-- Store the install location so the upgrade can read it. -->
+				<RegistryKey Root="HKLM" Key="Software\[Manufacturer]">
+					<RegistryValue Type="string" Name="InstallLocation" Value="[INSTALLFOLDER]" />
+				</RegistryKey>
 			</Component>
 		</ComponentGroup>
 	</Fragment>
 
+	<!--
+		Actions
+	-->
 	<Fragment>
 		<SetProperty Id="ARPINSTALLLOCATION" Value="[INSTALLFOLDER]" After="CostFinalize" />
 		<CustomAction Id="KillProcesses.SetProperty" Return="check" Property="KillProcesses" Value="[#MainApplication]" />
 		<CustomAction Id="EvaluateFrpServices.SetProperty" Return="check" Property="EvaluateFrpServices" Value="[#MainApplication]" />
 		<CustomAction Id="RemoveFrpFiles.SetProperty" Return="check" Property="RemoveFrpFiles" Value="[INSTALLFOLDER]" />
 
+		<!--
+			Launch application
+		-->
 		<Property Id="WixShellExecTarget" Value="[#MainApplication]" />
-
 		<CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
 
+		<!--
+			Close GUI windows
+		-->
 		<CustomAction Id="KillGUIProcesses" BinaryKey="actions.dll" DllEntry="KillGUIProcesses" Impersonate="yes" Execute="immediate" />
 		<InstallExecuteSequence>
 			<Custom Action="KillGUIProcesses" Before="InstallValidate">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
 		</InstallExecuteSequence>
 
+		<!--
+			Evaluate FRP services
+		-->
 		<CustomAction Id="EvaluateFrpServices" BinaryKey="actions.dll" DllEntry="EvaluateFrpServices" Impersonate="no" Execute="deferred" />
 		<InstallExecuteSequence>
 			<Custom Action="EvaluateFrpServices.SetProperty" After="InstallInitialize" />
 			<Custom Action="EvaluateFrpServices" After="EvaluateFrpServices.SetProperty">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
 		</InstallExecuteSequence>
 
+		<!--
+			Kill lingering processes
+		-->
 		<CustomAction Id="KillProcesses" BinaryKey="actions.dll" DllEntry="KillProcesses" Impersonate="no" Execute="deferred" />
 		<InstallExecuteSequence>
 			<Custom Action="KillProcesses.SetProperty" After="StopServices" />
 			<Custom Action="KillProcesses" After="KillProcesses.SetProperty">REMOVE="ALL"</Custom>
 		</InstallExecuteSequence>
 
+		<!--
+			Delete files generated by FRP
+		-->
 		<CustomAction Id="RemoveFrpFiles" BinaryKey="actions.dll" DllEntry="RemoveFrpFiles" Impersonate="no" Execute="deferred" />
 		<InstallExecuteSequence>
 			<Custom Action="RemoveFrpFiles.SetProperty" After="DeleteServices" />
