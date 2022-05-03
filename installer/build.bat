@@ -4,8 +4,8 @@ set BUILDDIR=%~dp0
 cd /d %BUILDDIR% || exit /b 1
 
 if "%WIX%"=="" (
-    echo ERROR: WIX was not found.
-    exit /b 1
+	echo ERROR: WIX was not found.
+	exit /b 1
 )
 
 :build

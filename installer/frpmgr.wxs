@@ -40,22 +40,12 @@
 			<UIRef Id="WixUI_InstallDir" />
 
 			<!-- Skip license dialog -->
-			<Publish Dialog="WelcomeDlg"
-                     Control="Next"
-                     Event="NewDialog"
-                     Value="InstallDirDlg"
-                     Order="2">1</Publish>
-			<Publish Dialog="InstallDirDlg"
-                     Control="Back"
-                     Event="NewDialog"
-                     Value="WelcomeDlg"
-                     Order="2">1</Publish>
+			<Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="2">1</Publish>
+			<Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">1</Publish>
 
 			<!-- Launch application after installation -->
-			<Publish Dialog="ExitDialog"
-					 Control="Finish"
-					 Event="DoAction"
-					 Value="LaunchApplication">NOT Installed</Publish>
+			<Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">NOT Installed</Publish>
+
 			<ProgressText Action="KillProcesses">正在结束进程</ProgressText>
 			<ProgressText Action="EvaluateFrpServices">正在停止服务</ProgressText>
 			<ProgressText Action="RemoveFrpFiles">正在删除文件</ProgressText>
