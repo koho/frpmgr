@@ -46,13 +46,9 @@ func (pv *PanelView) View() Widget {
 				Row:    0, Column: 1,
 				Alignment: AlignHNearVCenter,
 				Children: []Widget{
-					ImageView{
-						AssignTo: &pv.stateImage,
-						Visible:  false,
-						Margin:   0,
-					},
+					ImageView{AssignTo: &pv.stateImage, Margin: 0},
 					HSpacer{Size: 4},
-					Label{AssignTo: &pv.stateText, Text: "-", TextAlignment: Alignment1D(walk.AlignHNearVCenter)},
+					Label{AssignTo: &pv.stateText},
 				},
 			},
 			Composite{
@@ -60,7 +56,7 @@ func (pv *PanelView) View() Widget {
 				Row:    1, Column: 1,
 				Alignment: AlignHNearVCenter,
 				Children: []Widget{
-					Label{AssignTo: &pv.addressText, Text: "-"},
+					Label{AssignTo: &pv.addressText},
 					HSpacer{Size: 5},
 					ImageView{AssignTo: &pv.copyImage, Image: loadResourceIcon(consts.IconCopy, 16), ToolTipText: "复制",
 						OnMouseDown: func(x, y int, button walk.MouseButton) {
@@ -82,11 +78,22 @@ func (pv *PanelView) View() Widget {
 				Row:    2, Column: 1,
 				Alignment: AlignHNearVCenter,
 				Children: []Widget{
-					PushButton{AssignTo: &pv.toggleBtn, Text: "启动", MaxSize: Size{80, 0}, Enabled: false, OnClicked: pv.ToggleService},
-					PushButton{AssignTo: &pv.svcOpenBtn, Text: "查看服务", MaxSize: Size{80, 0}, Enabled: false,
+					PushButton{
+						AssignTo:  &pv.toggleBtn,
+						Text:      "启动",
+						MaxSize:   Size{80, 0},
+						Enabled:   false,
+						OnClicked: pv.ToggleService,
+					},
+					PushButton{
+						AssignTo: &pv.svcOpenBtn,
+						Text:     "查看服务",
+						MaxSize:  Size{80, 0},
+						Enabled:  false,
 						OnClicked: func() {
 							services.ShowPropertyDialog("FRP Client: " + pv.Title())
-						}},
+						},
+					},
 					HSpacer{},
 				},
 			},
@@ -151,12 +158,11 @@ func (pv *PanelView) Invalidate() {
 	conf := getCurrentConf()
 	if conf == nil {
 		pv.SetTitle("")
-		pv.stateText.SetText("")
+		pv.setState(consts.StateUnknown)
 		pv.addressText.SetText("")
 		pv.toggleBtn.SetEnabled(false)
 		pv.toggleBtn.SetText("启动")
 		pv.svcOpenBtn.SetEnabled(false)
-		pv.stateImage.SetVisible(false)
 		return
 	}
 	data := conf.Data.(*config.ClientConfig)
@@ -172,7 +178,6 @@ func (pv *PanelView) Invalidate() {
 	}
 	pv.toggleBtn.SetEnabled(true)
 	pv.svcOpenBtn.SetEnabled(conf.Install)
-	pv.stateImage.SetVisible(true)
 	if conf.State == consts.StateStarted {
 		pv.setState(consts.StateStarted)
 		pv.toggleBtn.SetText("停止")
