@@ -37,7 +37,7 @@ func (pv *PanelView) View() Widget {
 	return GroupBox{
 		AssignTo: &pv.GroupBox,
 		Title:    "",
-		Layout:   Grid{Margins: Margins{10, 5, 10, 5}, Spacing: 0},
+		Layout:   Grid{Margins: Margins{10, 5, 10, 9}, Spacing: 0},
 		Children: []Widget{
 			Composite{
 				Layout:    HBox{MarginsZero: true, SpacingZero: true},
@@ -65,8 +65,9 @@ func (pv *PanelView) View() Widget {
 					ImageView{
 						AssignTo: &pv.stateImage,
 						Visible:  false,
-						Margin:   2,
+						Margin:   0,
 					},
+					HSpacer{Size: 4},
 					Label{AssignTo: &pv.stateText, Text: "-", TextAlignment: Alignment1D(walk.AlignHNearVCenter)},
 				},
 			},
