@@ -50,6 +50,7 @@ var (
 // Text
 var (
 	TextRegular = Font{Family: "微软雅黑", PointSize: 9}
+	TextMedium  = Font{Family: "微软雅黑", PointSize: 10}
 	TextLarge   = Font{Family: "微软雅黑", PointSize: 16}
 )
 

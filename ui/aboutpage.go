@@ -55,6 +55,7 @@ func (ap *AboutPage) Page() TabPage {
 							PushButton{
 								Enabled: Bind("!vm.Checking"),
 								Text:    Bind("vm.NewVersion ? ' 下载更新' : (vm.Checking ? '正在' : '') + '检查更新'"),
+								Font:    consts.TextMedium,
 								OnClicked: func() {
 									if ap.viewModel.NewVersion {
 										openPath(ap.viewModel.HtmlUrl)
