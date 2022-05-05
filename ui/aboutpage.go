@@ -52,6 +52,7 @@ func (ap *AboutPage) Page() TabPage {
 							Label{Text: fmt.Sprintf("版本：%s", version.Number)},
 							Label{Text: fmt.Sprintf("FRP 版本：%s", version.FRPVersion)},
 							Label{Text: fmt.Sprintf("构建日期：%s", version.BuildDate)},
+							VSpacer{Size: 3},
 							PushButton{
 								Enabled: Bind("!vm.Checking"),
 								Text:    Bind("vm.NewVersion ? ' 下载更新' : (vm.Checking ? '正在' : '') + '检查更新'"),
