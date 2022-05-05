@@ -35,6 +35,7 @@ const (
 	IconVpn          = 47
 	IconNewVersion1  = -1028
 	IconNewVersion2  = 1
+	IconUpdate       = -47
 	IconStateRunning = 101
 	IconStateStopped = 21
 	IconStateWorking = 238
@@ -42,15 +43,13 @@ const (
 
 // Colors
 var (
-	ColorBlue  = walk.RGB(11, 53, 137)
-	ColorGreen = walk.RGB(0, 100, 0)
-	ColorGray  = walk.RGB(109, 109, 109)
+	ColorBlue = walk.RGB(11, 53, 137)
+	ColorGray = walk.RGB(109, 109, 109)
 )
 
 // Text
 var (
 	TextRegular = Font{Family: "微软雅黑", PointSize: 9}
-	TextMiddle  = Font{Family: "微软雅黑", PointSize: 12}
 	TextLarge   = Font{Family: "微软雅黑", PointSize: 16}
 )
 

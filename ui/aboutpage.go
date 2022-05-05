@@ -9,25 +9,23 @@ import (
 	. "github.com/lxn/walk/declarative"
 	"io/ioutil"
 	"net/http"
-	"time"
 )
 
 type AboutPage struct {
 	*walk.TabPage
 
-	db             *walk.DataBinder
-	viewModel      aboutViewModel
-	checkUpdateBtn *walk.PushButton
+	db        *walk.DataBinder
+	viewModel aboutViewModel
 }
 
 type GithubRelease struct {
-	TagName     string `json:"tag_name"`
-	PublishedAt string `json:"published_at"`
-	HtmlUrl     string `json:"html_url"`
+	TagName string `json:"tag_name"`
+	HtmlUrl string `json:"html_url"`
 }
 
 type aboutViewModel struct {
 	GithubRelease
+	Checking   bool
 	NewVersion bool
 }
 
@@ -38,8 +36,9 @@ func NewAboutPage() *AboutPage {
 func (ap *AboutPage) Page() TabPage {
 	return TabPage{
 		AssignTo:   &ap.TabPage,
-		Title:      "关于",
-		DataBinder: DataBinder{AssignTo: &ap.db, DataSource: &ap.viewModel},
+		Title:      Bind("vm.NewVersion ? '发现更新！' : '关于'"),
+		Image:      Bind(fmt.Sprintf("vm.NewVersion ? sysIcon('imageres', 16, %d, %d) : ''", consts.IconNewVersion1, consts.IconNewVersion2)),
+		DataBinder: DataBinder{AssignTo: &ap.db, Name: "vm", DataSource: &ap.viewModel},
 		Layout:     VBox{},
 		Children: []Widget{
 			Composite{
@@ -53,7 +52,19 @@ func (ap *AboutPage) Page() TabPage {
 							Label{Text: fmt.Sprintf("版本：%s", version.Number)},
 							Label{Text: fmt.Sprintf("FRP 版本：%s", version.FRPVersion)},
 							Label{Text: fmt.Sprintf("构建日期：%s", version.BuildDate)},
-							PushButton{AssignTo: &ap.checkUpdateBtn, Text: "检查更新", OnClicked: func() { ap.checkUpdate(true) }},
+							PushButton{
+								Enabled: Bind("!vm.Checking"),
+								Text:    Bind("vm.NewVersion ? ' 下载更新' : (vm.Checking ? '正在' : '') + '检查更新'"),
+								OnClicked: func() {
+									if ap.viewModel.NewVersion {
+										openPath(ap.viewModel.HtmlUrl)
+									} else {
+										ap.checkUpdate(true)
+									}
+								},
+								Image:   Bind(fmt.Sprintf("vm.NewVersion ? sysIcon('shell32', 32, %d) : ''", consts.IconUpdate)),
+								MinSize: Size{Height: 38},
+							},
 							VSpacer{Size: 6},
 							Label{Text: "如有任何意见或报告错误，请访问项目地址："},
 							LinkLabel{
@@ -77,22 +88,6 @@ func (ap *AboutPage) Page() TabPage {
 					HSpacer{},
 				},
 			},
-			Composite{
-				Visible: Bind("NewVersion"),
-				Layout:  VBox{},
-				Children: []Widget{
-					Label{Text: "新版本可用", Font: consts.TextMiddle, TextColor: consts.ColorGreen},
-					Composite{
-						Layout: HBox{MarginsZero: true, Spacing: 100},
-						Children: []Widget{
-							Label{Text: Bind("TagName")},
-							Label{Text: Bind("PublishedAt")},
-							PushButton{Text: "下载", OnClicked: func() { openPath(ap.viewModel.HtmlUrl) }},
-							HSpacer{},
-						},
-					},
-				},
-			},
 			VSpacer{},
 		},
 	}
@@ -104,8 +99,8 @@ func (ap *AboutPage) OnCreate() {
 }
 
 func (ap *AboutPage) checkUpdate(showErr bool) {
-	ap.checkUpdateBtn.SetEnabled(false)
-	ap.checkUpdateBtn.SetText("正在检查更新")
+	ap.viewModel.Checking = true
+	ap.db.Reset()
 	go func() {
 		var body []byte
 		resp, err := http.Get("https://api.github.com/repos/koho/frpmgr/releases/latest")
@@ -116,12 +111,12 @@ func (ap *AboutPage) checkUpdate(showErr bool) {
 		if body, err = ioutil.ReadAll(resp.Body); err != nil {
 			goto Fin
 		}
-		ap.viewModel = aboutViewModel{}
-		err = json.Unmarshal(body, &ap.viewModel)
+		ap.viewModel.GithubRelease = GithubRelease{}
+		err = json.Unmarshal(body, &ap.viewModel.GithubRelease)
 	Fin:
 		ap.Synchronize(func() {
-			ap.checkUpdateBtn.SetEnabled(true)
-			ap.checkUpdateBtn.SetText("检查更新")
+			ap.viewModel.Checking = false
+			defer ap.db.Reset()
 			if err != nil || resp.StatusCode != http.StatusOK {
 				if showErr {
 					showErrorMessage(ap.Form(), "错误", "检查更新时出现错误。")
@@ -130,20 +125,12 @@ func (ap *AboutPage) checkUpdate(showErr bool) {
 			}
 			if ap.viewModel.TagName != "" && ap.viewModel.TagName[1:] != version.Number {
 				ap.viewModel.NewVersion = true
-				if pubDate, err := time.Parse("2006-01-02T15:04:05Z", ap.viewModel.PublishedAt); err == nil {
-					ap.viewModel.PublishedAt = pubDate.Format("2006-01-02")
-				}
-				ap.SetTitle("新版本可用")
-				ap.SetImage(loadNewVersionIcon(16))
 			} else {
 				ap.viewModel.NewVersion = false
-				ap.SetTitle("关于")
-				ap.SetImage(nil)
-				if ap.viewModel.TagName[1:] == version.Number && showErr {
+				if showErr {
 					showInfoMessage(ap.Form(), "提示", "已是最新版本。")
 				}
 			}
-			ap.db.Reset()
 		})
 	}()
 }

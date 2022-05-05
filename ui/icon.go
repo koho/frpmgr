@@ -54,14 +54,6 @@ func loadLogoIcon(size int) *walk.Icon {
 	return loadResourceIcon(consts.IconLogo, size)
 }
 
-func loadNewVersionIcon(size int) (icon *walk.Icon) {
-	icon = loadSysIcon("imageres", consts.IconNewVersion1, size)
-	if icon == nil {
-		icon = loadSysIcon("imageres", consts.IconNewVersion2, size)
-	}
-	return
-}
-
 var cachedResourceIcons = make(map[widthDllIdx]*walk.Icon)
 
 func loadResourceIcon(id int, size int) (icon *walk.Icon) {
