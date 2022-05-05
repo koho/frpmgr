@@ -37,26 +37,10 @@ func (pv *PanelView) View() Widget {
 	return GroupBox{
 		AssignTo: &pv.GroupBox,
 		Title:    "",
-		Layout:   Grid{Margins: Margins{10, 5, 10, 9}, Spacing: 0},
+		Layout:   Grid{Margins: Margins{10, 5, 10, 10}, Spacing: 10},
 		Children: []Widget{
-			Composite{
-				Layout:    HBox{MarginsZero: true, SpacingZero: true},
-				Row:       0,
-				Column:    0,
-				Alignment: AlignHFarVCenter,
-				Children: []Widget{
-					Label{Text: "状态:"},
-				},
-			},
-			Composite{
-				Layout:    HBox{MarginsZero: true, SpacingZero: true},
-				Row:       1,
-				Column:    0,
-				Alignment: AlignHFarVCenter,
-				Children: []Widget{
-					Label{Text: "远程地址:"},
-				},
-			},
+			Label{Text: "状态:", Row: 0, Column: 0, Alignment: AlignHFarVCenter},
+			Label{Text: "远程地址:", Row: 1, Column: 0, Alignment: AlignHFarVCenter},
 			Composite{
 				Layout: HBox{SpacingZero: true, MarginsZero: true},
 				Row:    0, Column: 1,
@@ -88,7 +72,9 @@ func (pv *PanelView) View() Widget {
 								pv.copyImage.SetImage(loadResourceIcon(consts.IconCopy, 16))
 								walk.Clipboard().SetText(pv.addressText.Text())
 							}
-						}},
+						},
+					},
+					VSpacer{Size: 20},
 				},
 			},
 			Composite{
