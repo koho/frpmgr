@@ -13,6 +13,9 @@ import (
 
 // SplitExt splits the path into base name and file extension
 func SplitExt(path string) (string, string) {
+	if path == "" {
+		return "", ""
+	}
 	fileName := filepath.Base(path)
 	ext := filepath.Ext(path)
 	return strings.TrimSuffix(fileName, ext), ext

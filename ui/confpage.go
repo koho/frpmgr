@@ -96,7 +96,7 @@ func (cp *ConfPage) welcomeView() Composite {
 				Text:      "从文件导入配置",
 				MinSize:   Size{200, 0},
 				MaxSize:   Size{200, 0},
-				OnClicked: cp.confView.onImport,
+				OnClicked: cp.confView.onFileImport,
 			},
 			VSpacer{},
 		},

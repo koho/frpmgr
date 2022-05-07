@@ -21,6 +21,7 @@ type EditClientDialog struct {
 	Conf          *Conf
 	data          *config.ClientConfig
 	ShouldRestart bool
+	Added         bool
 
 	// Views
 	logFileView *walk.LineEdit
@@ -347,6 +348,7 @@ func (cd *EditClientDialog) onSave() {
 	} else {
 		// For new config
 		addConf(cd.Conf)
+		cd.Added = true
 	}
 	cd.Conf.Name = newConf.Name
 	// The order matters

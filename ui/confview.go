@@ -55,7 +55,8 @@ func (cv *ConfView) View() Widget {
 					Action{Text: "打开配置文件", Enabled: Bind("conf.Selected"), OnTriggered: cv.onOpen},
 					Separator{},
 					Action{Text: "新建配置", OnTriggered: cv.editNew},
-					Action{Text: "从文件导入配置", OnTriggered: cv.onImport},
+					Action{Text: "从文件导入...", OnTriggered: cv.onFileImport},
+					Action{Text: "从剪贴板导入", OnTriggered: cv.onClipboardImport},
 					Action{Text: "导出所有配置 (ZIP 压缩包)", Enabled: Bind("conf.Selected"), OnTriggered: cv.onExport},
 					Separator{},
 					Action{Text: "删除配置", Enabled: Bind("conf.Selected"), OnTriggered: cv.onDelete},
@@ -112,8 +113,13 @@ func (cv *ConfView) View() Widget {
 									},
 									Action{
 										Text:        "从文件导入...",
-										Image:       loadSysIcon("shell32", consts.IconImport, 16),
-										OnTriggered: cv.onImport,
+										Image:       loadSysIcon("shell32", consts.IconFileImport, 16),
+										OnTriggered: cv.onFileImport,
+									},
+									Action{
+										Text:        "从剪贴板导入",
+										Image:       loadSysIcon("shell32", consts.IconClipboard, 16),
+										OnTriggered: cv.onClipboardImport,
 									},
 								},
 							},
@@ -178,7 +184,7 @@ func (cv *ConfView) onEditConf(conf *Conf) {
 		return
 	}
 	if res, _ := dlg.Run(cv.Form()); res == walk.DlgCmdOK {
-		if conf == nil {
+		if dlg.Added {
 			// Created new config
 			// The list is resorted, we should select by name
 			cv.reset(dlg.Conf.Name)
@@ -192,7 +198,7 @@ func (cv *ConfView) onEditConf(conf *Conf) {
 	}
 }
 
-func (cv *ConfView) onImport() {
+func (cv *ConfView) onFileImport() {
 	dlg := walk.FileDialog{
 		Filter: consts.FilterConfig + consts.FilterAllFiles,
 		Title:  "从文件导入配置",
@@ -284,6 +290,20 @@ func (cv *ConfView) importZip(path string) (total, imported int) {
 		}
 	}
 	return
+}
+
+func (cv *ConfView) onClipboardImport() {
+	text, err := walk.Clipboard().Text()
+	if err != nil {
+		showError(err, cv.Form())
+		return
+	}
+	conf, err := config.UnmarshalClientConfFromIni([]byte(text))
+	if err != nil {
+		showError(err, cv.Form())
+		return
+	}
+	cv.onEditConf(NewConf("", conf))
 }
 
 func (cv *ConfView) onOpen() {

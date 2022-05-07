@@ -15,7 +15,8 @@ const (
 	IconSysCopy      = 134
 	IconNewConf      = 149
 	IconCreate       = 205
-	IconImport       = 132
+	IconFileImport   = 132
+	IconClipboard    = 260
 	IconDelete       = 131
 	IconExport       = -174
 	IconQuickAdd     = 111
