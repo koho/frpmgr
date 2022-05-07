@@ -54,7 +54,7 @@ func (cv *ConfView) View() Widget {
 					Action{AssignTo: &cv.lsEditAction, Text: "编辑配置", Enabled: Bind("conf.Selected"), OnTriggered: cv.editCurrent},
 					Action{Text: "打开配置文件", Enabled: Bind("conf.Selected"), OnTriggered: cv.onOpen},
 					Separator{},
-					Action{Text: "创建新配置", OnTriggered: cv.editNew},
+					Action{Text: "新建配置", OnTriggered: cv.editNew},
 					Action{Text: "从文件导入配置", OnTriggered: cv.onImport},
 					Action{Text: "导出所有配置 (ZIP 压缩包)", Enabled: Bind("conf.Selected"), OnTriggered: cv.onExport},
 					Separator{},
@@ -106,12 +106,12 @@ func (cv *ConfView) View() Widget {
 								Items: []MenuItem{
 									Action{
 										AssignTo:    &cv.tbAddAction,
-										Text:        "创建新配置",
+										Text:        "手动设置",
 										Image:       loadSysIcon("shell32", consts.IconCreate, 16),
 										OnTriggered: cv.editNew,
 									},
 									Action{
-										Text:        "从文件导入配置",
+										Text:        "从文件导入...",
 										Image:       loadSysIcon("shell32", consts.IconImport, 16),
 										OnTriggered: cv.onImport,
 									},

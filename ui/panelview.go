@@ -37,7 +37,7 @@ func (pv *PanelView) View() Widget {
 	return GroupBox{
 		AssignTo: &pv.GroupBox,
 		Title:    "",
-		Layout:   Grid{Margins: Margins{10, 5, 10, 10}, Spacing: 10},
+		Layout:   Grid{Margins: Margins{10, 7, 10, 10}, Spacing: 10},
 		Children: []Widget{
 			Label{Text: "状态:", Row: 0, Column: 0, Alignment: AlignHFarVCenter},
 			Label{Text: "远程地址:", Row: 1, Column: 0, Alignment: AlignHFarVCenter},

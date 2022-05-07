@@ -243,9 +243,9 @@ func (pv *ProxyView) createProxyTable() TableView {
 			{Title: "本地地址", DataMember: "LocalIP", Width: 110},
 			{Title: "本地端口", DataMember: "LocalPort", Width: 90},
 			{Title: "远程端口", DataMember: "RemotePort", Width: 90},
-			{Title: "子域名", DataMember: "SubDomain", Width: 90},
-			{Title: "自定义域名", DataMember: "CustomDomains", Width: 90},
-			{Title: "插件", DataMember: "Plugin", Width: 100},
+			{Title: "子域名", DataMember: "SubDomain", Width: 70},
+			{Title: "自定义域名", DataMember: "CustomDomains", Width: 85},
+			{Title: "插件", DataMember: "Plugin", Width: 95},
 		},
 		ContextMenuItems: []MenuItem{
 			ActionRef{&pv.editAction},

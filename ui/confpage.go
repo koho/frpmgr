@@ -68,33 +68,37 @@ func (cp *ConfPage) Page() TabPage {
 						Layout:        HBox{MarginsZero: true, SpacingZero: true},
 						Children: []Widget{
 							cp.detailView.View(),
-							Composite{
-								Visible: Bind("!conf.Selected"),
-								Layout:  VBox{Margins: Margins{Left: 100, Right: 100}, Spacing: 20},
-								Children: []Widget{
-									HSpacer{},
-									VSpacer{},
-									PushButton{
-										Text:    "创建新配置",
-										MinSize: Size{200, 0},
-										MaxSize: Size{200, 0},
-										OnClicked: func() {
-											cp.confView.onEditConf(nil)
-										},
-									},
-									PushButton{
-										Text:      "从文件导入配置",
-										MinSize:   Size{200, 0},
-										MaxSize:   Size{200, 0},
-										OnClicked: cp.confView.onImport,
-									},
-									VSpacer{},
-								},
-							},
+							cp.welcomeView(),
 						},
 					},
 				},
 			},
+		},
+	}
+}
+
+func (cp *ConfPage) welcomeView() Composite {
+	return Composite{
+		Visible: Bind("!conf.Selected"),
+		Layout:  VBox{Margins: Margins{Left: 100, Right: 100}, Spacing: 20},
+		Children: []Widget{
+			HSpacer{},
+			VSpacer{},
+			PushButton{
+				Text:    "新建配置",
+				MinSize: Size{200, 0},
+				MaxSize: Size{200, 0},
+				OnClicked: func() {
+					cp.confView.onEditConf(nil)
+				},
+			},
+			PushButton{
+				Text:      "从文件导入配置",
+				MinSize:   Size{200, 0},
+				MaxSize:   Size{200, 0},
+				OnClicked: cp.confView.onImport,
+			},
+			VSpacer{},
 		},
 	}
 }
