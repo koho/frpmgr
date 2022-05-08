@@ -294,8 +294,7 @@ func (cv *ConfView) importZip(path string) (total, imported int) {
 
 func (cv *ConfView) onClipboardImport() {
 	text, err := walk.Clipboard().Text()
-	if err != nil {
-		showError(err, cv.Form())
+	if err != nil || strings.TrimSpace(text) == "" {
 		return
 	}
 	conf, err := config.UnmarshalClientConfFromIni([]byte(text))
