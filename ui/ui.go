@@ -5,11 +5,11 @@ import (
 	"github.com/koho/frpmgr/services"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
+	"github.com/lxn/win"
+	"golang.org/x/sys/windows"
 	"math/rand"
-	"os/exec"
 	"path/filepath"
 	"strings"
-	"syscall"
 	"time"
 )
 
@@ -114,9 +114,7 @@ func openPath(path string) {
 	if path == "" {
 		return
 	}
-	openCmd := exec.Command("cmd", "/c", "start", "", path)
-	openCmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
-	openCmd.Start()
+	win.ShellExecute(0, nil, windows.StringToUTF16Ptr(path), nil, nil, win.SW_SHOWNORMAL)
 }
 
 // openFolder opens the explorer and select the given file
@@ -125,7 +123,8 @@ func openFolder(path string) {
 		return
 	}
 	if absPath, err := filepath.Abs(path); err == nil {
-		exec.Command(`explorer`, `/select,`, absPath).Run()
+		win.ShellExecute(0, nil, windows.StringToUTF16Ptr(`explorer`),
+			windows.StringToUTF16Ptr(`/select,`+absPath), nil, win.SW_SHOWNORMAL)
 	}
 }
 
