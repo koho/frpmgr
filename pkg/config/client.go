@@ -380,7 +380,10 @@ func NewProxyFromIni(name string, section *ini.Section) (*Proxy, error) {
 
 // UnmarshalProxyFromIni finds a single proxy section and unmarshals it from ini source
 func UnmarshalProxyFromIni(source interface{}) (*Proxy, error) {
-	cfg, err := ini.Load(source)
+	cfg, err := ini.LoadSources(ini.LoadOptions{
+		IgnoreInlineComment: true,
+		AllowBooleanKeys:    true,
+	}, source)
 	if err != nil {
 		return nil, err
 	}
@@ -409,7 +412,10 @@ findSection:
 
 func UnmarshalClientConfFromIni(source interface{}) (*ClientConfig, error) {
 	conf := NewDefaultClientConfig()
-	cfg, err := ini.Load(source)
+	cfg, err := ini.LoadSources(ini.LoadOptions{
+		IgnoreInlineComment: true,
+		AllowBooleanKeys:    true,
+	}, source)
 	if err != nil {
 		return nil, err
 	}

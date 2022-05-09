@@ -1,5 +1,12 @@
 package config
 
+import "gopkg.in/ini.v1"
+
+func init() {
+	ini.PrettyFormat = false
+	ini.PrettyEqual = true
+}
+
 // Config is the interface that a config must implement to support management.
 type Config interface {
 	// Items returns all sections in this config. which must be a slice of pointer to struct.
