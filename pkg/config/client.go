@@ -363,6 +363,50 @@ func (conf *ClientConfig) CountStart() int {
 	return len(funk.Filter(conf.Proxies, func(proxy *Proxy) bool { return !proxy.Disabled }).([]*Proxy))
 }
 
+// NewProxyFromIni creates a proxy object from ini section
+func NewProxyFromIni(name string, section *ini.Section) (*Proxy, error) {
+	proxy := NewDefaultProxyConfig(name)
+	if err := section.MapTo(&proxy); err != nil {
+		return nil, err
+	}
+	proxy.Custom = make(map[string]string)
+	for _, key := range section.Keys() {
+		if util.GetFieldNameByTag(Proxy{}, "ini", key.Name()) == "" {
+			proxy.Custom[key.Name()] = key.String()
+		}
+	}
+	return proxy, nil
+}
+
+// UnmarshalProxyFromIni finds a single proxy section and unmarshals it from ini source
+func UnmarshalProxyFromIni(source interface{}) (*Proxy, error) {
+	cfg, err := ini.Load(source)
+	if err != nil {
+		return nil, err
+	}
+	var useName string
+	var useSection *ini.Section
+	// Try to find a proxy section
+findSection:
+	for _, section := range cfg.Sections() {
+		switch section.Name() {
+		case "common":
+			continue
+		case ini.DefaultSection:
+			// Use the default section if no proxy is found
+			useName, useSection = "", section
+			continue
+		default:
+			useName, useSection = section.Name(), section
+			break findSection
+		}
+	}
+	if useSection == nil || len(useSection.Keys()) == 0 {
+		return nil, ini.ErrDelimiterNotFound{}
+	}
+	return NewProxyFromIni(useName, useSection)
+}
+
 func UnmarshalClientConfFromIni(source interface{}) (*ClientConfig, error) {
 	conf := NewDefaultClientConfig()
 	cfg, err := ini.Load(source)
@@ -390,17 +434,11 @@ func UnmarshalClientConfFromIni(source interface{}) (*ClientConfig, error) {
 		if name == ini.DefaultSection || name == "common" {
 			continue
 		}
-		proxy := Proxy{BaseProxyConf: BaseProxyConf{Name: name}}
-		if err = section.MapTo(&proxy); err != nil {
+		proxy, err := NewProxyFromIni(name, section)
+		if err != nil {
 			return nil, err
 		}
-		proxy.Custom = make(map[string]string)
-		for _, key := range section.Keys() {
-			if util.GetFieldNameByTag(Proxy{}, "ini", key.Name()) == "" {
-				proxy.Custom[key.Name()] = key.String()
-			}
-		}
-		conf.Proxies = append(conf.Proxies, &proxy)
+		conf.Proxies = append(conf.Proxies, proxy)
 	}
 	conf.Complete(true)
 	return conf, nil
@@ -416,5 +454,13 @@ func NewDefaultClientConfig() *ClientConfig {
 			TCPMux:     true,
 		},
 		Proxies: make([]*Proxy, 0),
+	}
+}
+
+func NewDefaultProxyConfig(name string) *Proxy {
+	return &Proxy{
+		BaseProxyConf: BaseProxyConf{
+			Name: name, Type: consts.ProxyTypeTCP,
+		},
 	}
 }

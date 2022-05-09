@@ -16,6 +16,8 @@ type EditProxyDialog struct {
 	*walk.Dialog
 
 	Proxy *config.Proxy
+	// Whether we are editing an existing proxy
+	exist bool
 
 	// View models
 	binder    *editProxyBinder
@@ -68,11 +70,11 @@ type editProxyBinder struct {
 	BandwidthUnit string
 }
 
-func NewEditProxyDialog(proxy *config.Proxy) *EditProxyDialog {
-	v := new(EditProxyDialog)
+func NewEditProxyDialog(proxy *config.Proxy, exist bool) *EditProxyDialog {
+	v := &EditProxyDialog{exist: exist}
 	if proxy == nil {
-		proxy = &config.Proxy{}
-		proxy.Type = "tcp"
+		proxy = config.NewDefaultProxyConfig("")
+		v.exist = false
 	}
 	v.Proxy = proxy
 	v.binder = &editProxyBinder{
@@ -327,8 +329,7 @@ func (pd *EditProxyDialog) onSave() {
 			return
 		}
 	}
-	// Edit existing proxy
-	if pd.Proxy.Name != "" {
+	if pd.exist {
 		// Change proxy name
 		if pd.binder.Name != pd.Proxy.Name && pd.hasProxy(pd.binder.Name) {
 			return

@@ -90,7 +90,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 				Text:     "添加",
 				Image:    loadSysIcon("shell32", consts.IconCreate, 16),
 				OnTriggered: func() {
-					pv.onEdit(false)
+					pv.onEdit(false, nil)
 				},
 			},
 			Menu{
@@ -199,7 +199,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 				Text:     "编辑",
 				Enabled:  Bind("proxy.CurrentIndex >= 0"),
 				OnTriggered: func() {
-					pv.onEdit(true)
+					pv.onEdit(true, nil)
 				},
 			},
 			Action{
@@ -268,6 +268,11 @@ func (pv *ProxyView) createProxyTable() TableView {
 				},
 			},
 			Action{
+				Text:        "从剪贴板导入",
+				Image:       loadSysIcon("shell32", consts.IconClipboard, 16),
+				OnTriggered: pv.onClipboardImport,
+			},
+			Action{
 				Enabled:     Bind("proxy.CurrentIndex >= 0"),
 				Text:        "复制访问地址",
 				Image:       loadSysIcon("shell32", consts.IconSysCopy, 16),
@@ -277,7 +282,7 @@ func (pv *ProxyView) createProxyTable() TableView {
 			ActionRef{&pv.deleteAction},
 		},
 		OnItemActivated: func() {
-			pv.onEdit(true)
+			pv.onEdit(true, nil)
 		},
 		StyleCell: func(style *walk.CellStyle) {
 			if _, proxy := pv.getConfigProxy(style.Row()); proxy != nil && proxy.Disabled {
@@ -318,14 +323,27 @@ func (pv *ProxyView) onCopyAccessAddr() {
 	case consts.ProxyTypeHTTP, consts.ProxyTypeHTTPS:
 		if proxy.SubDomain != "" && net.ParseIP(conf.ServerAddress) == nil {
 			// Assume subdomain_host is equal to server_address
-			access = proxy.SubDomain + "." + conf.ServerAddress
+			access = fmt.Sprintf("%s://%s.%s", proxy.Type, proxy.SubDomain, conf.ServerAddress)
 		} else if proxy.CustomDomains != "" {
-			access = strings.Split(proxy.CustomDomains, ",")[0]
+			access = fmt.Sprintf("%s://%s", proxy.Type, strings.Split(proxy.CustomDomains, ",")[0])
 		}
 	case consts.ProxyTypeTCPMUX:
 		access = util.GetOrElse(proxy.LocalIP, "127.0.0.1") + ":" + proxy.LocalPort
 	}
 	walk.Clipboard().SetText(access)
+}
+
+func (pv *ProxyView) onClipboardImport() {
+	text, err := walk.Clipboard().Text()
+	if err != nil || strings.TrimSpace(text) == "" {
+		return
+	}
+	proxy, err := config.UnmarshalProxyFromIni([]byte(text))
+	if err != nil {
+		showError(err, pv.Form())
+		return
+	}
+	pv.onEdit(false, proxy)
 }
 
 func (pv *ProxyView) onDelete() {
@@ -343,17 +361,17 @@ func (pv *ProxyView) onDelete() {
 	pv.commit()
 }
 
-func (pv *ProxyView) onEdit(edit bool) {
+func (pv *ProxyView) onEdit(current bool, fill *config.Proxy) {
 	if pv.model == nil {
 		return
 	}
-	if edit {
+	if current {
 		idx := pv.table.CurrentIndex()
 		conf, proxy := pv.getConfigProxy(idx)
 		if conf == nil {
 			return
 		}
-		ep := NewEditProxyDialog(proxy)
+		ep := NewEditProxyDialog(proxy, true)
 		if ret, _ := ep.Run(pv.Form()); ret == walk.DlgCmdOK {
 			if conf.CountStart() == 0 {
 				ep.Proxy.Disabled = false
@@ -362,7 +380,7 @@ func (pv *ProxyView) onEdit(edit bool) {
 			pv.table.SetCurrentIndex(idx)
 		}
 	} else {
-		ep := NewEditProxyDialog(nil)
+		ep := NewEditProxyDialog(fill, false)
 		if ret, _ := ep.Run(pv.Form()); ret == walk.DlgCmdOK {
 			if pv.model.data.AddItem(ep.Proxy) {
 				if pv.model.data.CountStart() == 0 {
