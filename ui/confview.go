@@ -211,12 +211,14 @@ func (cv *ConfView) onFileImport() {
 }
 
 func (cv *ConfView) ImportFiles(files []string) {
+	total, imported := 0, 0
 	for _, path := range files {
 		if dir, err := util.IsDirectory(path); err != nil || dir {
 			continue
 		}
 		switch strings.ToLower(filepath.Ext(path)) {
 		case ".ini":
+			total++
 			newPath := filepath.Base(path)
 			if _, err := os.Stat(newPath); err == nil {
 				baseName, _ := util.SplitExt(newPath)
@@ -234,17 +236,21 @@ func (cv *ConfView) ImportFiles(files []string) {
 				continue
 			}
 			addConf(NewConf(newPath, conf))
+			imported++
 		case ".zip":
-			if total, imported := cv.importZip(path); total != imported {
-				showWarningMessage(cv.Form(), "导入配置", fmt.Sprintf("导入了 %d 个配置文件中的 %d 个。", total, imported))
-			}
+			subTotal, subImported := cv.importZip(path)
+			total += subTotal
+			imported += subImported
 		}
 	}
-	// Reselect the current config after refreshing list view
-	if conf := getCurrentConf(); conf != nil {
-		cv.reset(conf.Name)
-	} else {
-		cv.Invalidate()
+	if imported > 0 {
+		showInfoMessage(cv.Form(), "导入配置", fmt.Sprintf("导入了 %d 个配置文件中的 %d 个。", total, imported))
+		// Reselect the current config after refreshing list view
+		if conf := getCurrentConf(); conf != nil {
+			cv.reset(conf.Name)
+		} else {
+			cv.Invalidate()
+		}
 	}
 }
 
