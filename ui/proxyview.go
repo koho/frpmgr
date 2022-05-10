@@ -63,6 +63,7 @@ func (pv *ProxyView) View() Widget {
 }
 
 func (pv *ProxyView) OnCreate() {
+	pv.editAction.SetDefault(true)
 	pv.table.CurrentIndexChanged().Attach(pv.switchToggleAction)
 }
 
@@ -250,6 +251,7 @@ func (pv *ProxyView) createProxyTable() TableView {
 		ContextMenuItems: []MenuItem{
 			ActionRef{&pv.editAction},
 			ActionRef{&pv.toggleAction},
+			Separator{},
 			ActionRef{&pv.newAction},
 			Menu{
 				Text:  "快速添加",
@@ -272,6 +274,7 @@ func (pv *ProxyView) createProxyTable() TableView {
 				Image:       loadSysIcon("shell32", consts.IconClipboard, 16),
 				OnTriggered: pv.onClipboardImport,
 			},
+			Separator{},
 			Action{
 				Enabled:     Bind("proxy.CurrentIndex >= 0"),
 				Text:        "复制访问地址",
@@ -279,6 +282,7 @@ func (pv *ProxyView) createProxyTable() TableView {
 				OnTriggered: pv.onCopyAccessAddr,
 			},
 			ActionRef{&pv.openConfAction},
+			Separator{},
 			ActionRef{&pv.deleteAction},
 		},
 		OnItemActivated: func() {

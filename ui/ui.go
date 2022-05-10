@@ -53,7 +53,7 @@ func RunUI() error {
 		Title:      "FRP 管理器",
 		Persistent: true,
 		MinSize:    Size{640, 400},
-		Size:       Size{950, 525},
+		Size:       Size{950, 540},
 		Layout:     VBox{Margins: Margins{5, 5, 5, 5}},
 		Font:       consts.TextRegular,
 		Children: []Widget{
