@@ -1,11 +1,11 @@
-# frpmgr
+# FRP Manager
 
 [![Build status](https://img.shields.io/github/workflow/status/koho/frpmgr/Releaser)](https://github.com/koho/frpmgr/actions/workflows/releaser.yml)
 [![GitHub release](https://img.shields.io/github/tag/koho/frpmgr.svg?label=release)](https://github.com/koho/frpmgr/releases)
 
 Windows 下的 [frp](https://github.com/fatedier/frp) 图形界面客户端。
 
-![frpmgr](/docs/frpmgr.jpg)
+![screenshot](/docs/screenshot.png)
 
 系统需求：win7及以上版本
 
