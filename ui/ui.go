@@ -76,6 +76,7 @@ func RunUI() error {
 				return nil, nil
 			},
 		},
+		OnDropFiles: fm.confPage.confView.ImportFiles,
 	}
 	if err := mw.Create(); err != nil {
 		return err

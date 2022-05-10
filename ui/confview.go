@@ -207,7 +207,14 @@ func (cv *ConfView) onFileImport() {
 	if ok, _ := dlg.ShowOpenMultiple(cv.Form()); !ok {
 		return
 	}
-	for _, path := range dlg.FilePaths {
+	cv.ImportFiles(dlg.FilePaths)
+}
+
+func (cv *ConfView) ImportFiles(files []string) {
+	for _, path := range files {
+		if dir, err := util.IsDirectory(path); err != nil || dir {
+			continue
+		}
 		switch strings.ToLower(filepath.Ext(path)) {
 		case ".ini":
 			newPath := filepath.Base(path)
