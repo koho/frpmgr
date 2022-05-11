@@ -309,7 +309,7 @@ func (pd *EditProxyDialog) customProxyPage() TabPage {
 		Title:  "自定义",
 		Layout: VBox{},
 		Children: []Widget{
-			Label{Text: "*参考 FRP 支持的参数，每行格式为 a = b"},
+			Label{Text: "* 参考 FRP 支持的参数，每行格式为 a = b"},
 			TextEdit{AssignTo: &pd.customText, Text: util.Map2String(pd.binder.Custom), VScroll: true},
 		},
 	}

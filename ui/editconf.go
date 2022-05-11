@@ -151,7 +151,7 @@ func (cd *EditClientDialog) logConfPage() TabPage {
 		Title:  "日志",
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Text: "*留空则不记录日志，且删除原来的日志文件", ColumnSpan: 2},
+			Label{Text: "* 留空则不记录日志，且删除原来的日志文件", ColumnSpan: 2},
 			Label{Text: "日志文件:"},
 			NewBrowseLineEdit(&cd.logFileView, true, true, Bind("LogFile"),
 				"选择日志文件", "日志文件 (*.log, *.txt)|*.log;*.txt|", true),
@@ -279,7 +279,7 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 
 func (cd *EditClientDialog) customConfDialog() Dialog {
 	customDialog := NewBasicDialog(nil, "自定义参数", cd.Icon(), DataBinder{DataSource: cd.binder}, nil,
-		Label{Text: "*参考 FRP 配置文件的 [common] 部分，每行格式为 a = b"},
+		Label{Text: "* 参考 FRP 配置文件的 [common] 部分，每行格式为 a = b"},
 		TextEdit{Text: Bind("CustomText"), VScroll: true},
 	)
 	customDialog.MinSize = Size{380, 280}

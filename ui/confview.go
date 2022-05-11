@@ -222,7 +222,7 @@ func (cv *ConfView) ImportFiles(files []string) {
 			newPath := filepath.Base(path)
 			if _, err := os.Stat(newPath); err == nil {
 				baseName, _ := util.SplitExt(newPath)
-				showWarningMessage(cv.Form(), "错误", fmt.Sprintf("无法导入配置: 另一个同名的配置「%s」已存在。", baseName))
+				showWarningMessage(cv.Form(), "错误", fmt.Sprintf("无法导入配置：另一个同名的配置「%s」已存在。", baseName))
 				continue
 			}
 			// Verify config before copying file
