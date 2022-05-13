@@ -34,6 +34,7 @@ type ProxyView struct {
 	editAction      *walk.Action
 	deleteAction    *walk.Action
 	openConfAction  *walk.Action
+	showConfAction  *walk.Action
 	toggleAction    *walk.Action
 }
 
@@ -217,17 +218,24 @@ func (pv *ProxyView) createToolbar() ToolBar {
 				Enabled:     Bind("proxy.CurrentIndex >= 0"),
 				OnTriggered: pv.onDelete,
 			},
-			Action{
-				AssignTo: &pv.openConfAction,
-				Image:    loadResourceIcon(consts.IconOpen, 16),
-				Text:     "打开配置文件",
-				OnTriggered: func() {
-					if pv.model == nil {
-						return
-					}
-					if path, err := filepath.Abs(pv.model.conf.Path); err == nil {
-						openPath(path)
-					}
+			Menu{
+				Text:  "打开配置文件",
+				Image: loadResourceIcon(consts.IconOpen, 16),
+				Items: []MenuItem{
+					Action{
+						AssignTo: &pv.openConfAction,
+						Text:     "直接编辑",
+						OnTriggered: func() {
+							pv.onOpenConfig(false)
+						},
+					},
+					Action{
+						AssignTo: &pv.showConfAction,
+						Text:     "在文件夹中显示",
+						OnTriggered: func() {
+							pv.onOpenConfig(true)
+						},
+					},
 				},
 			},
 		},
@@ -281,7 +289,14 @@ func (pv *ProxyView) createProxyTable() TableView {
 				Image:       loadSysIcon("shell32", consts.IconSysCopy, 16),
 				OnTriggered: pv.onCopyAccessAddr,
 			},
-			ActionRef{&pv.openConfAction},
+			Menu{
+				Text:  "打开配置文件",
+				Image: loadResourceIcon(consts.IconOpen, 16),
+				Items: []MenuItem{
+					ActionRef{&pv.openConfAction},
+					ActionRef{&pv.showConfAction},
+				},
+			},
 			Separator{},
 			ActionRef{&pv.deleteAction},
 		},
@@ -433,6 +448,19 @@ func (pv *ProxyView) onQuickAdd(qa QuickAdd) {
 		if added {
 			pv.commit()
 			pv.scrollToBottom()
+		}
+	}
+}
+
+func (pv *ProxyView) onOpenConfig(folder bool) {
+	if pv.model == nil {
+		return
+	}
+	if path, err := filepath.Abs(pv.model.conf.Path); err == nil {
+		if folder {
+			openFolder(path)
+		} else {
+			openPath(path)
 		}
 	}
 }

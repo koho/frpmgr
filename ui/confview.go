@@ -52,7 +52,8 @@ func (cv *ConfView) View() Widget {
 				Model:               cv.model,
 				ContextMenuItems: []MenuItem{
 					Action{AssignTo: &cv.lsEditAction, Text: "编辑配置", Enabled: Bind("conf.Selected"), OnTriggered: cv.editCurrent},
-					Action{Text: "打开配置文件", Enabled: Bind("conf.Selected"), OnTriggered: cv.onOpen},
+					Action{Text: "打开配置文件", Enabled: Bind("conf.Selected"), OnTriggered: func() { cv.onOpen(false) }},
+					Action{Text: "在文件夹中显示", Enabled: Bind("conf.Selected"), OnTriggered: func() { cv.onOpen(true) }},
 					Separator{},
 					Action{Text: "新建配置", OnTriggered: cv.editNew},
 					Action{Text: "从文件导入...", OnTriggered: cv.onFileImport},
@@ -318,10 +319,14 @@ func (cv *ConfView) onClipboardImport() {
 	cv.onEditConf(NewConf("", conf))
 }
 
-func (cv *ConfView) onOpen() {
+func (cv *ConfView) onOpen(folder bool) {
 	if conf := getCurrentConf(); conf != nil {
 		if path, err := filepath.Abs(conf.Path); err == nil {
-			openPath(path)
+			if folder {
+				openFolder(path)
+			} else {
+				openPath(path)
+			}
 		}
 	}
 }
