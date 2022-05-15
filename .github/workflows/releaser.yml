@@ -27,7 +27,7 @@ jobs:
         shell: cmd
         run: |
           set GOPATH=%USERPROFILE%\go
-          for /f "tokens=1 delims=v" %%i in (version) do echo ::set-output name=version::%%i
+          echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
           build.bat
 
       - name: Get Changelog Entry
