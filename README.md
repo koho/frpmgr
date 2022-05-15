@@ -7,7 +7,7 @@ Windows 下的 [frp](https://github.com/fatedier/frp) 图形界面客户端。
 
 ![screenshot](/docs/screenshot.png)
 
-系统需求：win7及以上版本
+系统需求：win7 及以上版本
 
 使用说明：
 1. 启动配置将以后台服务的形式独立运行，**关闭界面并不影响配置的运行**
