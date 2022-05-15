@@ -27,7 +27,7 @@ jobs:
         shell: cmd
         run: |
           set GOPATH=%USERPROFILE%\go
-          echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
+          echo ::set-output name=version::%GITHUB_REF:~11%
           build.bat
 
       - name: Get Changelog Entry
