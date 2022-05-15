@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.0] - 2022-05-15
+### 新增
+* 从剪贴板导入配置/代理
+* 支持拖拽文件导入配置
+* 在文件夹中显示配置
+
+### 优化
+* 减少安装包体积（-48%）
+* 升级时默认选择上次安装的目录
+* 导入文件前验证配置文件
+
 ## [1.7.2] - 2022-04-22
 ### 更新
 * FRP 版本 0.42.0
@@ -146,7 +157,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * 解决某些情况下电脑重启后服务没有自动运行问题
 * 更新软件后需打开软件，选择左侧配置项后右键编辑，然后直接确定，再启动即可
 
-[Unreleased]: https://github.com/koho/frpmgr/compare/v1.7.2...HEAD
+[Unreleased]: https://github.com/koho/frpmgr/compare/v1.8.0...HEAD
+[1.8.0]: https://github.com/koho/frpmgr/compare/v1.7.2...v1.8.0
 [1.7.2]: https://github.com/koho/frpmgr/compare/v1.7.1...v1.7.2
 [1.7.1]: https://github.com/koho/frpmgr/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/koho/frpmgr/compare/v1.6.1...v1.7.0
