@@ -372,7 +372,7 @@ func (pv *ProxyView) onDelete() {
 		return
 	}
 	if walk.MsgBox(pv.Form(), fmt.Sprintf("删除代理「%s」", proxy.Name),
-		fmt.Sprintf("确定要删除代理「%s」吗?", proxy.Name),
+		fmt.Sprintf("确定要删除代理「%s」吗？", proxy.Name),
 		walk.MsgBoxOKCancel|walk.MsgBoxIconWarning) == walk.DlgCmdCancel {
 		return
 	}
@@ -423,7 +423,7 @@ func (pv *ProxyView) onToggleProxy() {
 			return
 		}
 		if walk.MsgBox(pv.Form(), fmt.Sprintf("禁用代理「%s」", proxy.Name),
-			fmt.Sprintf("确定要禁用代理「%s」吗?", proxy.Name),
+			fmt.Sprintf("确定要禁用代理「%s」吗？", proxy.Name),
 			walk.MsgBoxOKCancel|walk.MsgBoxIconWarning) == walk.DlgCmdCancel {
 			return
 		}

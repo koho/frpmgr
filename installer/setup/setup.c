@@ -68,7 +68,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmdLine, 
     ret = 0;
 out:
     if (ret) {
-        MessageBoxW(NULL, L"准备安装包时出现错误", L"FRP 管理器", MB_OK | MB_ICONERROR);
+        MessageBoxW(NULL, L"准备安装包时出现错误。", L"FRP 管理器", MB_OK | MB_ICONERROR);
     }
     return 0;
 }

@@ -31,7 +31,7 @@ var (
 )
 
 func init() {
-	flag.StringVar(&confPath, "c", "", "The path to config `file`. (Only valid in service mode)")
+	flag.StringVar(&confPath, "c", "", "The path to config `file` (Service-only).")
 	flag.BoolVar(&showVersion, "v", false, "Display version information.")
 	flag.BoolVar(&showHelp, "h", false, "Show help information.")
 	flag.CommandLine.SetOutput(&flagOutput)
@@ -45,7 +45,7 @@ func main() {
 		return
 	}
 	if showVersion {
-		info("版本信息", "程序版本: %s, FRP 版本: %s, 构建日期: %s", version.Number, version.FRPVersion, version.BuildDate)
+		info("版本信息", "程序版本：%s，FRP 版本：%s，构建日期：%s", version.Number, version.FRPVersion, version.BuildDate)
 		return
 	}
 	inService, err := svc.IsWindowsService()

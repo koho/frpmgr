@@ -334,7 +334,7 @@ func (cv *ConfView) onOpen(folder bool) {
 func (cv *ConfView) onDelete() {
 	if conf := getCurrentConf(); conf != nil {
 		if walk.MsgBox(cv.Form(), fmt.Sprintf("删除配置「%s」", conf.Name),
-			fmt.Sprintf("确定要删除配置「%s」吗? 此操作无法撤销。", conf.Name),
+			fmt.Sprintf("确定要删除配置「%s」吗？此操作无法撤销。", conf.Name),
 			walk.MsgBoxOKCancel|walk.MsgBoxIconWarning) == walk.DlgCmdCancel {
 			return
 		}
