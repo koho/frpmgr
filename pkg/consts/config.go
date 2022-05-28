@@ -41,3 +41,8 @@ const (
 	AuthToken = "token"
 	AuthOIDC  = "oidc"
 )
+
+// TCP multiplexer
+const (
+	HTTPConnectTCPMultiplexer = "httpconnect"
+)

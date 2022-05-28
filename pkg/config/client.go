@@ -164,6 +164,7 @@ type Proxy struct {
 	HTTPPwd           string `ini:"http_pwd,omitempty" http:"true"`
 	HostHeaderRewrite string `ini:"host_header_rewrite,omitempty" http:"true"`
 	Multiplexer       string `ini:"multiplexer,omitempty" tcpmux:"true"`
+	RouteByHTTPUser   string `ini:"route_by_http_user,omitempty" http:"true" tcpmux:"true"`
 }
 
 // GetAlias returns the alias of this proxy.

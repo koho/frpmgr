@@ -183,7 +183,13 @@ func (pd *EditProxyDialog) baseProxyPage() TabPage {
 			Label{Visible: Bind("vm.HTTPVisible"), Text: "URL 路由:"},
 			LineEdit{Visible: Bind("vm.HTTPVisible"), Text: Bind("Locations")},
 			Label{Visible: Bind("vm.MuxVisible"), Text: "复用器:"},
-			LineEdit{Visible: Bind("vm.MuxVisible"), Text: Bind("Multiplexer")},
+			ComboBox{
+				Visible: Bind("vm.MuxVisible"),
+				Model:   []string{consts.HTTPConnectTCPMultiplexer},
+				Value:   Bind("Multiplexer"),
+			},
+			Label{Visible: Bind("vm.MuxVisible || vm.HTTPVisible"), Text: "路由用户:"},
+			LineEdit{Visible: Bind("vm.MuxVisible || vm.HTTPVisible"), Text: Bind("RouteByHTTPUser")},
 		},
 	}
 }
