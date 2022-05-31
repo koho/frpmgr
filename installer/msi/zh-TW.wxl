@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="zh-TW" Codepage="950" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="Language">1028</String>
+    <String Id="ApplicationName">FRP 管理器</String>
+    <String Id="DowngradeErrorMessage">該計算機已安裝了更高版本的 FRP 管理器。</String>
+</WixLocalization>

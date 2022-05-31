@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/util"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
@@ -31,7 +32,7 @@ func NewLogPage() *LogPage {
 func (lp *LogPage) Page() TabPage {
 	return TabPage{
 		AssignTo: &lp.TabPage,
-		Title:    "日志",
+		Title:    i18n.Sprintf("Log"),
 		Layout:   VBox{},
 		Children: []Widget{
 			ComboBox{
@@ -66,7 +67,7 @@ func (lp *LogPage) Page() TabPage {
 					PushButton{
 						MinSize: Size{150, 0},
 						Enabled: Bind("HasLogFile"),
-						Text:    "打开日志文件夹",
+						Text:    i18n.Sprintf("Open Log Folder"),
 						OnClicked: func() {
 							openFolder(lp.logModel.path)
 						},

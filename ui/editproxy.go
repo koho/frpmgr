@@ -1,7 +1,7 @@
 package ui
 
 import (
-	"fmt"
+	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
@@ -86,7 +86,15 @@ func NewEditProxyDialog(proxy *config.Proxy, exist bool) *EditProxyDialog {
 }
 
 func (pd *EditProxyDialog) View() Dialog {
-	dlg := NewBasicDialog(&pd.Dialog, "编辑代理", loadSysIcon("imageres", consts.IconEditDialog, 32), DataBinder{
+	pages := []TabPage{
+		pd.basicProxyPage(),
+		pd.advancedProxyPage(),
+		pd.pluginProxyPage(),
+		pd.loadBalanceProxyPage(),
+		pd.healthCheckProxyPage(),
+		pd.customProxyPage(),
+	}
+	dlg := NewBasicDialog(&pd.Dialog, i18n.Sprintf("Edit Proxy"), loadSysIcon("imageres", consts.IconEditDialog, 32), DataBinder{
 		AssignTo:   &pd.vmDB,
 		Name:       "vm",
 		DataSource: &pd.viewModel,
@@ -101,17 +109,17 @@ func (pd *EditProxyDialog) View() Dialog {
 			},
 			Layout: Grid{Columns: 2, SpacingZero: false, Margins: Margins{0, 4, 0, 4}},
 			Children: []Widget{
-				Label{Text: "名称:", Alignment: AlignHNearVCenter},
+				Label{Text: i18n.SprintfColon("Name"), Alignment: AlignHNearVCenter},
 				Composite{
 					Layout: HBox{MarginsZero: true},
 					Children: []Widget{
 						LineEdit{AssignTo: &pd.nameView, Text: Bind("Name", consts.ValidateNonEmpty)},
-						PushButton{Text: " 随机名称", Image: loadResourceIcon(consts.IconRefresh, 16), OnClicked: func() {
+						PushButton{Text: i18n.SprintfLSpace("Random"), Image: loadResourceIcon(consts.IconRefresh, 16), OnClicked: func() {
 							pd.nameView.SetText(funk.RandomString(8))
 						}},
 					},
 				},
-				Label{Text: "类型:", Alignment: AlignHNearVCenter},
+				Label{Text: i18n.SprintfColon("Type"), Alignment: AlignHNearVCenter},
 				ComboBox{
 					AssignTo:              &pd.typeView,
 					Model:                 consts.ProxyTypes,
@@ -129,77 +137,79 @@ func (pd *EditProxyDialog) View() Dialog {
 			Children: []Widget{
 				TabWidget{
 					MinSize: Size{0, 240},
-					Pages: []TabPage{
-						pd.baseProxyPage(),
-						pd.advancedProxyPage(),
-						pd.pluginProxyPage(),
-						pd.loadBalanceProxyPage(),
-						pd.healthCheckProxyPage(),
-						pd.customProxyPage(),
-					},
+					Pages:   pages,
 				},
 			},
 		},
 	)
 	dlg.Layout = VBox{Margins: Margins{7, 9, 7, 9}}
+	minWidth := int(funk.Sum(funk.Map(pages, func(page TabPage) int {
+		return calculateStringWidth(page.Title.(string)) + 25
+	})) + 20)
+	dlg.MinSize = Size{Width: minWidth, Height: 420}
 	return dlg
 }
 
-func (pd *EditProxyDialog) baseProxyPage() TabPage {
-	return TabPage{
-		Title:  "基本",
+func (pd *EditProxyDialog) basicProxyPage() TabPage {
+	page := TabPage{
+		Title:  i18n.Sprintf("Basic"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Visible: Bind("vm.RoleVisible"), Text: "角色:", MinSize: Size{Width: 55}},
+			Label{Visible: Bind("vm.RoleVisible"), Text: i18n.SprintfColon("Role")},
 			CheckBox{
 				AssignTo: &pd.roleView,
-				Visible:  Bind("vm.RoleVisible"), Text: "访问者",
+				Visible:  Bind("vm.RoleVisible"), Text: i18n.Sprintf("Visitor"),
 				Checked: Bind("Visitor"), OnCheckedChanged: pd.switchType,
 			},
-			Label{Visible: Bind("vm.SKVisible"), Text: "私钥:"},
+			Label{Visible: Bind("vm.SKVisible"), Text: i18n.SprintfColon("Secret Key")},
 			LineEdit{Visible: Bind("vm.SKVisible"), Text: Bind("SK")},
-			Label{Visible: Bind("vm.LocalAddrVisible"), Text: "本地地址:"},
+			Label{Visible: Bind("vm.LocalAddrVisible"), Text: i18n.SprintfColon("Local Address")},
 			LineEdit{Visible: Bind("vm.LocalAddrVisible"), Text: Bind("LocalIP")},
-			Label{Visible: Bind("vm.LocalPortVisible"), Text: "本地端口:"},
+			Label{Visible: Bind("vm.LocalPortVisible"), Text: i18n.SprintfColon("Local Port")},
 			LineEdit{
 				AssignTo: &pd.localPortView, Visible: Bind("vm.LocalPortVisible"),
 				Text: Bind("LocalPort"), OnTextChanged: pd.watchRangePort,
 			},
-			Label{Visible: Bind("vm.RemotePortVisible"), Text: "远程端口:"},
+			Label{Visible: Bind("vm.RemotePortVisible"), Text: i18n.SprintfColon("Remote Port")},
 			LineEdit{
 				AssignTo: &pd.remotePortView, Visible: Bind("vm.RemotePortVisible"),
 				Text: Bind("RemotePort"), OnTextChanged: pd.watchRangePort,
 			},
-			Label{Visible: Bind("vm.BindAddrVisible"), Text: "绑定地址:"},
+			Label{Visible: Bind("vm.BindAddrVisible"), Text: i18n.SprintfColon("Bind Address")},
 			LineEdit{Visible: Bind("vm.BindAddrVisible"), Text: Bind("BindAddr")},
-			Label{Visible: Bind("vm.BindPortVisible"), Text: "绑定端口:"},
+			Label{Visible: Bind("vm.BindPortVisible"), Text: i18n.SprintfColon("Bind Port")},
 			LineEdit{Visible: Bind("vm.BindPortVisible"), Text: Bind("BindPort")},
-			Label{Visible: Bind("vm.ServerNameVisible"), Text: "服务名称:"},
+			Label{Visible: Bind("vm.ServerNameVisible"), Text: i18n.SprintfColon("Server Name")},
 			LineEdit{Visible: Bind("vm.ServerNameVisible"), Text: Bind("ServerName")},
-			Label{Visible: Bind("vm.DomainVisible"), Text: "子域名:"},
+			Label{Visible: Bind("vm.DomainVisible"), Text: i18n.SprintfColon("Subdomain")},
 			LineEdit{Visible: Bind("vm.DomainVisible"), Text: Bind("SubDomain")},
-			Label{Visible: Bind("vm.DomainVisible"), Text: "自定义域名:"},
+			Label{Visible: Bind("vm.DomainVisible"), Text: i18n.SprintfColon("Custom Domains")},
 			LineEdit{Visible: Bind("vm.DomainVisible"), Text: Bind("CustomDomains")},
-			Label{Visible: Bind("vm.HTTPVisible"), Text: "URL 路由:"},
+			Label{Visible: Bind("vm.HTTPVisible"), Text: i18n.SprintfColon("Locations")},
 			LineEdit{Visible: Bind("vm.HTTPVisible"), Text: Bind("Locations")},
-			Label{Visible: Bind("vm.MuxVisible"), Text: "复用器:"},
+			Label{Visible: Bind("vm.MuxVisible"), Text: i18n.SprintfColon("Multiplexer")},
 			ComboBox{
 				Visible: Bind("vm.MuxVisible"),
 				Model:   []string{consts.HTTPConnectTCPMultiplexer},
 				Value:   Bind("Multiplexer"),
 			},
-			Label{Visible: Bind("vm.MuxVisible || vm.HTTPVisible"), Text: "路由用户:"},
+			Label{Visible: Bind("vm.MuxVisible || vm.HTTPVisible"), Text: i18n.SprintfColon("Route User")},
 			LineEdit{Visible: Bind("vm.MuxVisible || vm.HTTPVisible"), Text: Bind("RouteByHTTPUser")},
 		},
 	}
+	head := page.Children[0].(Label)
+	// We only calculate children related to the first widget "role"
+	head.MinSize = Size{Width: calculateHeadColumnTextWidth(page.Children[:16], page.Layout.(Grid).Columns)}
+	page.Children[0] = head
+	return page
 }
 
 func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 	return TabPage{
-		Title:  "高级",
+		Title:  i18n.Sprintf("Advanced"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Visible: Bind("vm.PluginEnable"), Text: "带宽限流:"},
+			Label{Visible: Bind("vm.PluginEnable"), Text: i18n.SprintfColon("Bandwidth")},
 			Composite{
 				Visible: Bind("vm.PluginEnable"),
 				Layout:  HBox{MarginsZero: true},
@@ -208,114 +218,128 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 					ComboBox{Model: []string{"MB", "KB"}, Value: Bind("BandwidthUnit")},
 				},
 			},
-			Label{Visible: Bind("vm.PluginEnable"), Text: "代理版本:"},
+			Label{Visible: Bind("vm.PluginEnable"), Text: i18n.SprintfColon("Proxy Version")},
 			ComboBox{
 				Visible:       Bind("vm.PluginEnable"),
-				Model:         NewDefaultListModel([]string{"v1", "v2"}, "", "空"),
+				Model:         NewDefaultListModel([]string{"v1", "v2"}, "", i18n.Sprintf("Empty")),
 				BindingMember: "Name",
 				DisplayMember: "DisplayName",
 				Value:         Bind("ProxyProtocolVersion"),
 			},
-			CheckBox{Text: "加密传输", Checked: Bind("UseEncryption"), MaxSize: Size{Width: 75}},
-			CheckBox{Text: "压缩传输", Checked: Bind("UseCompression")},
-			Label{Visible: Bind("vm.HTTPVisible"), Text: "HTTP 用户:"},
+			Composite{
+				Layout:     HBox{MarginsZero: true},
+				ColumnSpan: 2,
+				Children: []Widget{
+					CheckBox{Text: i18n.Sprintf("Encryption"), Checked: Bind("UseEncryption")},
+					CheckBox{Text: i18n.Sprintf("Compression"), Checked: Bind("UseCompression")},
+				},
+			},
+			Label{Visible: Bind("vm.HTTPVisible"), Text: i18n.SprintfColon("HTTP User")},
 			LineEdit{Visible: Bind("vm.HTTPVisible"), Text: Bind("HTTPUser")},
-			Label{Visible: Bind("vm.HTTPVisible"), Text: "HTTP 密码:"},
+			Label{Visible: Bind("vm.HTTPVisible"), Text: i18n.SprintfColon("HTTP Password")},
 			LineEdit{Visible: Bind("vm.HTTPVisible"), Text: Bind("HTTPPwd")},
-			Label{Visible: Bind("vm.HTTPVisible"), Text: "Host 替换:"},
+			Label{Visible: Bind("vm.HTTPVisible"), Text: i18n.SprintfColon("Host Rewrite")},
 			LineEdit{Visible: Bind("vm.HTTPVisible"), Text: Bind("HostHeaderRewrite")},
 		},
 	}
 }
 
 func (pd *EditProxyDialog) pluginProxyPage() TabPage {
-	return TabPage{
-		Title:  "插件",
+	page := TabPage{
+		Title:  i18n.Sprintf("Plugin"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Text: "插件名称:", MinSize: Size{Width: 65}, Enabled: Bind("vm.PluginEnable")},
+			Label{Text: i18n.SprintfColon("Plugin Name"), Enabled: Bind("vm.PluginEnable")},
 			ComboBox{
 				AssignTo:              &pd.pluginView,
 				Enabled:               Bind("vm.PluginEnable"),
 				MinSize:               Size{Width: 250},
-				Model:                 NewDefaultListModel(consts.PluginTypes, "", "无"),
+				Model:                 NewDefaultListModel(consts.PluginTypes, "", i18n.Sprintf("None")),
 				Value:                 Bind("Plugin"),
 				BindingMember:         "Name",
 				DisplayMember:         "DisplayName",
 				OnCurrentIndexChanged: pd.switchType,
 			},
-			Label{Visible: Bind("vm.PluginUnixVisible"), Text: "Unix 路径:"},
+			Label{Visible: Bind("vm.PluginUnixVisible"), Text: i18n.SprintfColon("Unix Path")},
 			NewBrowseLineEdit(nil, Bind("vm.PluginUnixVisible"), true, Bind("PluginUnixPath"),
-				"选择 Unix 路径", "", true),
-			Label{Visible: Bind("vm.PluginStaticVisible"), Text: "本地路径:"},
+				i18n.Sprintf("Select Unix Path"), "", true),
+			Label{Visible: Bind("vm.PluginStaticVisible"), Text: i18n.SprintfColon("Local Path")},
 			NewBrowseLineEdit(nil, Bind("vm.PluginStaticVisible"), true, Bind("PluginLocalPath"),
-				"选择本地文件夹", "", false),
-			Label{Visible: Bind("vm.PluginStaticVisible"), Text: "移除前缀:"},
+				i18n.Sprintf("Select a folder for directory listing."), "", false),
+			Label{Visible: Bind("vm.PluginStaticVisible"), Text: i18n.SprintfColon("Strip Prefix")},
 			LineEdit{Visible: Bind("vm.PluginStaticVisible"), Text: Bind("PluginStripPrefix")},
-			Label{Visible: Bind("vm.PluginHTTPAuthVisible"), Text: "HTTP 用户:"},
+			Label{Visible: Bind("vm.PluginHTTPAuthVisible"), Text: i18n.SprintfColon("HTTP User")},
 			LineEdit{Visible: Bind("vm.PluginHTTPAuthVisible"), Text: Bind("PluginHttpUser")},
-			Label{Visible: Bind("vm.PluginHTTPAuthVisible"), Text: "HTTP 密码:"},
+			Label{Visible: Bind("vm.PluginHTTPAuthVisible"), Text: i18n.SprintfColon("HTTP Password")},
 			LineEdit{Visible: Bind("vm.PluginHTTPAuthVisible"), Text: Bind("PluginHttpPasswd")},
-			Label{Visible: Bind("vm.PluginAuthVisible"), Text: "用户名:"},
+			Label{Visible: Bind("vm.PluginAuthVisible"), Text: i18n.SprintfColon("User")},
 			LineEdit{Visible: Bind("vm.PluginAuthVisible"), Text: Bind("PluginUser")},
-			Label{Visible: Bind("vm.PluginAuthVisible"), Text: "密码:"},
+			Label{Visible: Bind("vm.PluginAuthVisible"), Text: i18n.SprintfColon("Password")},
 			LineEdit{Visible: Bind("vm.PluginAuthVisible"), Text: Bind("PluginPasswd")},
-			Label{Visible: Bind("vm.PluginHTTPFwdVisible"), Text: "本地地址:"},
+			Label{Visible: Bind("vm.PluginHTTPFwdVisible"), Text: i18n.SprintfColon("Local Address")},
 			LineEdit{Visible: Bind("vm.PluginHTTPFwdVisible"), Text: Bind("PluginLocalAddr")},
-			Label{Visible: Bind("vm.PluginCertVisible"), Text: "证书路径:"},
+			Label{Visible: Bind("vm.PluginCertVisible"), Text: i18n.SprintfColon("Certificate")},
 			NewBrowseLineEdit(nil, Bind("vm.PluginCertVisible"), true, Bind("PluginCrtPath"),
-				"选择证书文件", consts.FilterCert, true),
-			Label{Visible: Bind("vm.PluginCertVisible"), Text: "密钥路径:"},
+				i18n.Sprintf("Select Certificate File"), consts.FilterCert, true),
+			Label{Visible: Bind("vm.PluginCertVisible"), Text: i18n.SprintfColon("Certificate Key")},
 			NewBrowseLineEdit(nil, Bind("vm.PluginCertVisible"), true, Bind("PluginKeyPath"),
-				"选择密钥文件", consts.FilterKey, true),
-			Label{Visible: Bind("vm.PluginHTTPFwdVisible"), Text: "Host 替换:"},
+				i18n.Sprintf("Select Certificate Key File"), consts.FilterKey, true),
+			Label{Visible: Bind("vm.PluginHTTPFwdVisible"), Text: i18n.SprintfColon("Host Rewrite")},
 			LineEdit{Visible: Bind("vm.PluginHTTPFwdVisible"), Text: Bind("PluginHostHeaderRewrite")},
 		},
 	}
+	head := page.Children[0].(Label)
+	head.MinSize = Size{Width: calculateHeadColumnTextWidth(page.Children, page.Layout.(Grid).Columns)}
+	page.Children[0] = head
+	return page
 }
 
 func (pd *EditProxyDialog) loadBalanceProxyPage() TabPage {
 	return TabPage{
-		Title:  "负载均衡",
+		Title:  i18n.Sprintf("Load Balance"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Enabled: Bind("vm.PluginEnable"), Text: "分组名称:"},
+			Label{Enabled: Bind("vm.PluginEnable"), Text: i18n.SprintfColon("Group")},
 			LineEdit{Enabled: Bind("vm.PluginEnable"), Text: Bind("Group")},
-			Label{Enabled: Bind("vm.PluginEnable"), Text: "分组密钥:"},
+			Label{Enabled: Bind("vm.PluginEnable"), Text: i18n.SprintfColon("Group Key")},
 			LineEdit{Enabled: Bind("vm.PluginEnable"), Text: Bind("GroupKey")},
 		},
 	}
 }
 
 func (pd *EditProxyDialog) healthCheckProxyPage() TabPage {
-	return TabPage{
-		Title:  "健康检查",
+	page := TabPage{
+		Title:  i18n.Sprintf("Health Check"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Text: "检查类型:", Enabled: Bind("vm.HealthCheckEnable"), MinSize: Size{Width: 55}},
+			Label{Text: i18n.SprintfColon("Check Type"), Enabled: Bind("vm.HealthCheckEnable")},
 			NewRadioButtonGroup("HealthCheckType", &DataBinder{DataSource: pd.binder, AutoSubmit: true}, []RadioButton{
 				{Text: "tcp", Value: "tcp", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType, MaxSize: Size{Width: 80}},
 				{Text: "http", Value: "http", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType, MaxSize: Size{Width: 80}},
-				{Text: "无", Value: "", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType, MaxSize: Size{Width: 80}},
+				{Text: i18n.Sprintf("None"), Value: "", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType, MaxSize: Size{Width: 80}},
 			}),
 			Label{Visible: Bind("vm.HealthCheckURLVisible"), Text: "URL:"},
 			LineEdit{Visible: Bind("vm.HealthCheckURLVisible"), Text: Bind("HealthCheckURL")},
-			Label{Visible: Bind("vm.HealthCheckVisible"), Text: "超时时间:"},
-			NumberEdit{Visible: Bind("vm.HealthCheckVisible"), Value: Bind("HealthCheckTimeoutS"), Suffix: " 秒"},
-			Label{Visible: Bind("vm.HealthCheckVisible"), Text: "错误次数:"},
+			Label{Visible: Bind("vm.HealthCheckVisible"), Text: i18n.SprintfColon("Check Timeout")},
+			NumberEdit{Visible: Bind("vm.HealthCheckVisible"), Value: Bind("HealthCheckTimeoutS"), Suffix: i18n.SprintfLSpace("s")},
+			Label{Visible: Bind("vm.HealthCheckVisible"), Text: i18n.SprintfColon("Failure Count")},
 			NumberEdit{Visible: Bind("vm.HealthCheckVisible"), Value: Bind("HealthCheckMaxFailed")},
-			Label{Visible: Bind("vm.HealthCheckVisible"), Text: "检查周期:"},
-			NumberEdit{Visible: Bind("vm.HealthCheckVisible"), Value: Bind("HealthCheckIntervalS"), Suffix: " 秒"},
+			Label{Visible: Bind("vm.HealthCheckVisible"), Text: i18n.SprintfColon("Check Interval")},
+			NumberEdit{Visible: Bind("vm.HealthCheckVisible"), Value: Bind("HealthCheckIntervalS"), Suffix: i18n.SprintfLSpace("s")},
 		},
 	}
+	head := page.Children[0].(Label)
+	head.MinSize = Size{Width: calculateHeadColumnTextWidth(page.Children, page.Layout.(Grid).Columns)}
+	page.Children[0] = head
+	return page
 }
 
 func (pd *EditProxyDialog) customProxyPage() TabPage {
 	return TabPage{
-		Title:  "自定义",
+		Title:  i18n.Sprintf("Custom"),
 		Layout: VBox{},
 		Children: []Widget{
-			Label{Text: "* 参考 FRP 支持的参数，每行格式为 a = b"},
+			Label{Text: i18n.Sprintf("* Refer to the parameters supported by FRP.")},
 			TextEdit{AssignTo: &pd.customText, Text: util.Map2String(pd.binder.Custom), VScroll: true},
 		},
 	}
@@ -373,7 +397,7 @@ func (pd *EditProxyDialog) onSave() {
 func (pd *EditProxyDialog) hasProxy(name string) bool {
 	if conf := getCurrentConf(); conf != nil {
 		if funk.Contains(conf.Data.Items(), func(proxy *config.Proxy) bool { return proxy.Name == name }) {
-			showWarningMessage(pd.Form(), "代理已存在", fmt.Sprintf("代理名「%s」已存在。", name))
+			showWarningMessage(pd.Form(), i18n.Sprintf("Proxy already exists"), i18n.Sprintf("The proxy name \"%s\" already exists.", name))
 			return true
 		}
 	}

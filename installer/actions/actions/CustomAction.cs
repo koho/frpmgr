@@ -29,6 +29,9 @@ namespace actions
         [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern bool GetFileInformationByHandle(IntPtr handle, ref BY_HANDLE_FILE_INFORMATION hfi);
 
+        [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern int LCIDToLocaleName(uint Locale, StringBuilder lpName, int cchName, int dwFlags);
+
         [StructLayout(LayoutKind.Sequential)]
         public struct BY_HANDLE_FILE_INFORMATION
         {
@@ -115,38 +118,31 @@ namespace actions
             {
                 return ActionResult.Failure;
             }
-            if (MessageResult.Yes == session.Message(InstallMessage.User | (InstallMessage)MessageButtons.YesNo, new Record() { FormatString = "是否删除配置文件?\n\n注意：若要重新使用配置文件，下次安装时必须安装到此目录：\n\n" + installPath }))
+            foreach (string file in Directory.GetFiles(installPath))
             {
-                foreach (string file in Directory.GetFiles(installPath))
+                if (Path.GetExtension(file) == ".ini")
                 {
-                    if (Path.GetExtension(file) == ".ini")
+                    try
                     {
-                    DEL_CONF:
-                        try
-                        {
-                            File.Delete(file);
-                        }
-                        catch (Exception)
-                        {
-                            if (MessageResult.Retry == session.Message(InstallMessage.Error | (InstallMessage) MessageButtons.RetryCancel, new Record() { FormatString = "无法删除文件 " + file }))
-                                goto DEL_CONF;
-                        }
+                        File.Delete(file);
+                    }
+                    catch (Exception e)
+                    {
+                        session.Log(e.Message);
                     }
                 }
-                string logPath = Path.Combine(installPath, "logs");
-            DEL_LOG:
-                try
+            }
+            string logPath = Path.Combine(installPath, "logs");
+            try
+            {
+                if (Directory.Exists(logPath))
                 {
-                    if (Directory.Exists(logPath))
-                    {
-                        Directory.Delete(logPath, true);
-                    }
+                    Directory.Delete(logPath, true);
                 }
-                catch (Exception)
-                {
-                    if (MessageResult.Retry == session.Message(InstallMessage.Error | (InstallMessage)MessageButtons.RetryCancel, new Record() { FormatString = "无法删除目录 " + logPath }))
-                        goto DEL_LOG;
-                }
+            }
+            catch (Exception e)
+            {
+                session.Log(e.Message);
             }
             return ActionResult.Success;
         }
@@ -214,6 +210,24 @@ namespace actions
             process.StartInfo.Verb = "runas";
             process.Start();
             process.WaitForExit();
+            return ActionResult.Success;
+        }
+
+        [CustomAction]
+        public static ActionResult SetLangConfig(Session session)
+        {
+            session.Log("Set language config");
+            string langPath = session["CustomActionData"];
+            if (string.IsNullOrEmpty(langPath))
+            {
+                return ActionResult.Failure;
+            }
+            StringBuilder name = new StringBuilder(500);
+            if (LCIDToLocaleName((uint)session.Language, name, name.Capacity, 0) == 0)
+            {
+                return ActionResult.Failure;
+            }
+            File.AppendAllText(langPath, name.ToString() + Environment.NewLine, Encoding.UTF8);
             return ActionResult.Success;
         }
     }

@@ -3,6 +3,7 @@ package ui
 import (
 	"archive/zip"
 	"fmt"
+	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
@@ -51,16 +52,16 @@ func (cv *ConfView) View() Widget {
 				Columns:             []TableViewColumn{{DataMember: "Name"}},
 				Model:               cv.model,
 				ContextMenuItems: []MenuItem{
-					Action{AssignTo: &cv.lsEditAction, Text: "编辑配置", Enabled: Bind("conf.Selected"), OnTriggered: cv.editCurrent},
-					Action{Text: "打开配置文件", Enabled: Bind("conf.Selected"), OnTriggered: func() { cv.onOpen(false) }},
-					Action{Text: "在文件夹中显示", Enabled: Bind("conf.Selected"), OnTriggered: func() { cv.onOpen(true) }},
+					Action{AssignTo: &cv.lsEditAction, Text: i18n.Sprintf("Edit"), Enabled: Bind("conf.Selected"), OnTriggered: cv.editCurrent},
+					Action{Text: i18n.Sprintf("Open File"), Enabled: Bind("conf.Selected"), OnTriggered: func() { cv.onOpen(false) }},
+					Action{Text: i18n.Sprintf("Show in Folder"), Enabled: Bind("conf.Selected"), OnTriggered: func() { cv.onOpen(true) }},
 					Separator{},
-					Action{Text: "新建配置", OnTriggered: cv.editNew},
-					Action{Text: "从文件导入...", OnTriggered: cv.onFileImport},
-					Action{Text: "从剪贴板导入", OnTriggered: cv.onClipboardImport},
-					Action{Text: "导出所有配置 (ZIP 压缩包)", Enabled: Bind("conf.Selected"), OnTriggered: cv.onExport},
+					Action{Text: i18n.Sprintf("New Configuration"), OnTriggered: cv.editNew},
+					Action{Text: i18n.SprintfEllipsis("Import from File"), OnTriggered: cv.onFileImport},
+					Action{Text: i18n.Sprintf("Import from Clipboard"), OnTriggered: cv.onClipboardImport},
+					Action{Text: i18n.Sprintf("Export All Configs to ZIP"), Enabled: Bind("conf.Selected"), OnTriggered: cv.onExport},
 					Separator{},
-					Action{Text: "删除配置", Enabled: Bind("conf.Selected"), OnTriggered: cv.onDelete},
+					Action{Text: i18n.Sprintf("Delete"), Enabled: Bind("conf.Selected"), OnTriggered: cv.onDelete},
 				},
 				StyleCell: func(style *walk.CellStyle) {
 					row := style.Row()
@@ -94,7 +95,8 @@ func (cv *ConfView) View() Widget {
 				},
 			},
 			Composite{
-				Layout: HBox{MarginsZero: true, SpacingZero: true},
+				Layout:          HBox{MarginsZero: true, SpacingZero: true},
+				DoubleBuffering: true,
 				Children: []Widget{
 					ToolBar{
 						AssignTo:    &cv.toolbar,
@@ -103,22 +105,22 @@ func (cv *ConfView) View() Widget {
 						Items: []MenuItem{
 							Menu{
 								OnTriggered: cv.editNew,
-								Text:        "新建配置",
+								Text:        i18n.Sprintf("New Config"),
 								Image:       loadSysIcon("shell32", consts.IconNewConf, 16),
 								Items: []MenuItem{
 									Action{
 										AssignTo:    &cv.tbAddAction,
-										Text:        "手动设置",
+										Text:        i18n.Sprintf("Manual Settings"),
 										Image:       loadSysIcon("shell32", consts.IconCreate, 16),
 										OnTriggered: cv.editNew,
 									},
 									Action{
-										Text:        "从文件导入...",
+										Text:        i18n.SprintfEllipsis("Import from File"),
 										Image:       loadSysIcon("shell32", consts.IconFileImport, 16),
 										OnTriggered: cv.onFileImport,
 									},
 									Action{
-										Text:        "从剪贴板导入",
+										Text:        i18n.Sprintf("Import from Clipboard"),
 										Image:       loadSysIcon("shell32", consts.IconClipboard, 16),
 										OnTriggered: cv.onClipboardImport,
 									},
@@ -159,8 +161,8 @@ func (cv *ConfView) OnCreate() {
 	})
 	// Setup toolbar
 	cv.tbAddAction.SetDefault(true)
-	cv.tbDeleteAction.SetToolTip("删除配置")
-	cv.tbExportAction.SetToolTip("导出所有配置 (ZIP 压缩包)")
+	cv.tbDeleteAction.SetToolTip(i18n.Sprintf("Delete"))
+	cv.tbExportAction.SetToolTip(i18n.Sprintf("Export All Configs to ZIP"))
 	cv.toolbar.ApplyDPI(cv.DPI())
 	cv.fixWidthToToolbarWidth()
 	cv.toolbar.SizeChanged().Attach(cv.fixWidthToToolbarWidth)
@@ -202,7 +204,7 @@ func (cv *ConfView) onEditConf(conf *Conf) {
 func (cv *ConfView) onFileImport() {
 	dlg := walk.FileDialog{
 		Filter: consts.FilterConfig + consts.FilterAllFiles,
-		Title:  "从文件导入配置",
+		Title:  i18n.Sprintf("Import from File"),
 	}
 
 	if ok, _ := dlg.ShowOpenMultiple(cv.Form()); !ok {
@@ -223,7 +225,7 @@ func (cv *ConfView) ImportFiles(files []string) {
 			newPath := filepath.Base(path)
 			if _, err := os.Stat(newPath); err == nil {
 				baseName, _ := util.SplitExt(newPath)
-				showWarningMessage(cv.Form(), "错误", fmt.Sprintf("无法导入配置：另一个同名的配置「%s」已存在。", baseName))
+				showWarningMessage(cv.Form(), i18n.Sprintf("Import Config"), i18n.Sprintf("Another config already exists with the name \"%s\".", baseName))
 				continue
 			}
 			// Verify config before copying file
@@ -233,7 +235,7 @@ func (cv *ConfView) ImportFiles(files []string) {
 				continue
 			}
 			if _, err = util.CopyFile(path, newPath); err != nil {
-				showErrorMessage(cv.Form(), "错误", fmt.Sprintf("无法复制文件 \"%s\"。", path))
+				showErrorMessage(cv.Form(), "", i18n.Sprintf("Unable to copy file \"%s\".", path))
 				continue
 			}
 			addConf(NewConf(newPath, conf))
@@ -245,7 +247,7 @@ func (cv *ConfView) ImportFiles(files []string) {
 		}
 	}
 	if imported > 0 {
-		showInfoMessage(cv.Form(), "导入配置", fmt.Sprintf("导入了 %d 个配置文件中的 %d 个。", total, imported))
+		showInfoMessage(cv.Form(), i18n.Sprintf("Import Config"), fmt.Sprintf("Imported %d of %d configs.", total, imported))
 		// Reselect the current config after refreshing list view
 		if conf := getCurrentConf(); conf != nil {
 			cv.reset(conf.Name)
@@ -283,7 +285,7 @@ func (cv *ConfView) importZip(path string) (total, imported int) {
 	}
 	zr, err := zip.OpenReader(path)
 	if err != nil {
-		showErrorMessage(cv.Form(), "导入错误", fmt.Sprintf("文件 \"%s\" 不是有效的压缩文件。", path))
+		showErrorMessage(cv.Form(), "", fmt.Sprintf("The file \"%s\" is not a valid ZIP file.", path))
 		return
 	}
 	defer zr.Close()
@@ -333,8 +335,8 @@ func (cv *ConfView) onOpen(folder bool) {
 
 func (cv *ConfView) onDelete() {
 	if conf := getCurrentConf(); conf != nil {
-		if walk.MsgBox(cv.Form(), fmt.Sprintf("删除配置「%s」", conf.Name),
-			fmt.Sprintf("确定要删除配置「%s」吗？此操作无法撤销。", conf.Name),
+		if walk.MsgBox(cv.Form(), i18n.Sprintf("Delete config \"%s\"", conf.Name),
+			i18n.Sprintf("Are you sure you would like to delete config \"%s\"?", conf.Name),
 			walk.MsgBoxOKCancel|walk.MsgBoxIconWarning) == walk.DlgCmdCancel {
 			return
 		}
@@ -350,7 +352,7 @@ func (cv *ConfView) onDelete() {
 func (cv *ConfView) onExport() {
 	dlg := walk.FileDialog{
 		Filter: consts.FilterZip,
-		Title:  "导出配置文件 (ZIP 压缩包)",
+		Title:  i18n.Sprintf("Export All Configs to ZIP"),
 	}
 
 	if ok, _ := dlg.ShowSave(cv.Form()); !ok {

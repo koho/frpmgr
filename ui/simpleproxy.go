@@ -2,6 +2,7 @@ package ui
 
 import (
 	"fmt"
+	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
@@ -43,16 +44,16 @@ func NewSimpleProxyDialog(title string, icon *walk.Icon, service string, types [
 
 func (sp *SimpleProxyDialog) Run(owner walk.Form) (int, error) {
 	widgets := []Widget{
-		Label{Text: "远程端口", ColumnSpan: 2},
+		Label{Text: i18n.SprintfColon("Remote Port"), ColumnSpan: 2},
 		LineEdit{Text: Bind("RemotePort", consts.ValidateRequireInteger), ColumnSpan: 2},
-		Label{Text: "本地地址"},
-		Label{Text: "端口"},
+		Label{Text: i18n.SprintfColon("Local Address")},
+		Label{Text: i18n.SprintfColon("Port")},
 		LineEdit{Text: Bind("LocalAddr", consts.ValidateNonEmpty), StretchFactor: 2},
 		LineEdit{Text: Bind("LocalPort", consts.ValidateRequireInteger), StretchFactor: 1},
 	}
 	switch sp.service {
 	case "ftp":
-		widgets = append(widgets, Label{Text: "被动端口范围", ColumnSpan: 2}, Composite{
+		widgets = append(widgets, Label{Text: i18n.SprintfColon("Passive Port Range"), ColumnSpan: 2}, Composite{
 			Layout: HBox{MarginsZero: true},
 			Children: []Widget{
 				LineEdit{Text: Bind("LocalPortMin", consts.ValidateRequireInteger)},
@@ -61,7 +62,7 @@ func (sp *SimpleProxyDialog) Run(owner walk.Form) (int, error) {
 			},
 		})
 	}
-	return NewBasicDialog(&sp.Dialog, "添加 "+sp.title, sp.icon, DataBinder{
+	return NewBasicDialog(&sp.Dialog, fmt.Sprintf("%s %s", i18n.Sprintf("Add"), sp.title), sp.icon, DataBinder{
 		AssignTo:   &sp.db,
 		DataSource: sp.binder,
 	}, sp.onSave, Composite{

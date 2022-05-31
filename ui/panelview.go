@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/services"
@@ -11,11 +12,11 @@ import (
 )
 
 var stateDescription = map[consts.ServiceState]string{
-	consts.StateUnknown:  "未知",
-	consts.StateStarted:  "正在运行",
-	consts.StateStopped:  "已停止",
-	consts.StateStarting: "正在启动",
-	consts.StateStopping: "正在停止",
+	consts.StateUnknown:  i18n.Sprintf("Unknown"),
+	consts.StateStarted:  i18n.Sprintf("Running"),
+	consts.StateStopped:  i18n.Sprintf("Stopped"),
+	consts.StateStarting: i18n.Sprintf("Starting"),
+	consts.StateStopping: i18n.Sprintf("Stopping"),
 }
 
 type PanelView struct {
@@ -39,8 +40,8 @@ func (pv *PanelView) View() Widget {
 		Title:    "",
 		Layout:   Grid{Margins: Margins{10, 7, 10, 10}, Spacing: 10},
 		Children: []Widget{
-			Label{Text: "状态:", Row: 0, Column: 0, Alignment: AlignHFarVCenter},
-			Label{Text: "远程地址:", Row: 1, Column: 0, Alignment: AlignHFarVCenter},
+			Label{Text: i18n.SprintfColon("Status"), Row: 0, Column: 0, Alignment: AlignHFarVCenter},
+			Label{Text: i18n.SprintfColon("Remote Address"), Row: 1, Column: 0, Alignment: AlignHFarVCenter},
 			Composite{
 				Layout: HBox{SpacingZero: true, MarginsZero: true},
 				Row:    0, Column: 1,
@@ -58,12 +59,16 @@ func (pv *PanelView) View() Widget {
 				Children: []Widget{
 					Label{AssignTo: &pv.addressText},
 					HSpacer{Size: 5},
-					ImageView{AssignTo: &pv.copyImage, Image: loadResourceIcon(consts.IconCopy, 16), ToolTipText: "复制",
+					ImageView{
+						AssignTo:    &pv.copyImage,
+						Image:       loadResourceIcon(consts.IconCopy, 16),
+						ToolTipText: i18n.Sprintf("Copy"),
 						OnMouseDown: func(x, y int, button walk.MouseButton) {
 							if button == walk.LeftButton {
 								pv.copyImage.SetImage(loadResourceIcon(consts.IconCopyActive, 16))
 							}
-						}, OnMouseUp: func(x, y int, button walk.MouseButton) {
+						},
+						OnMouseUp: func(x, y int, button walk.MouseButton) {
 							if button == walk.LeftButton {
 								pv.copyImage.SetImage(loadResourceIcon(consts.IconCopy, 16))
 								walk.Clipboard().SetText(pv.addressText.Text())
@@ -80,14 +85,14 @@ func (pv *PanelView) View() Widget {
 				Children: []Widget{
 					PushButton{
 						AssignTo:  &pv.toggleBtn,
-						Text:      "启动",
+						Text:      i18n.Sprintf("Start"),
 						MaxSize:   Size{80, 0},
 						Enabled:   false,
 						OnClicked: pv.ToggleService,
 					},
 					PushButton{
 						AssignTo: &pv.svcOpenBtn,
-						Text:     "查看服务",
+						Text:     i18n.Sprintf("Service"),
 						MaxSize:  Size{80, 0},
 						Enabled:  false,
 						OnClicked: func() {
@@ -161,7 +166,7 @@ func (pv *PanelView) Invalidate() {
 		pv.setState(consts.StateUnknown)
 		pv.addressText.SetText("")
 		pv.toggleBtn.SetEnabled(false)
-		pv.toggleBtn.SetText("启动")
+		pv.toggleBtn.SetText(i18n.Sprintf("Start"))
 		pv.svcOpenBtn.SetEnabled(false)
 		return
 	}
@@ -180,9 +185,9 @@ func (pv *PanelView) Invalidate() {
 	pv.svcOpenBtn.SetEnabled(conf.Install)
 	if conf.State == consts.StateStarted {
 		pv.setState(consts.StateStarted)
-		pv.toggleBtn.SetText("停止")
+		pv.toggleBtn.SetText(i18n.Sprintf("Stop"))
 	} else {
 		pv.setState(consts.StateStopped)
-		pv.toggleBtn.SetText("启动")
+		pv.toggleBtn.SetText(i18n.Sprintf("Start"))
 	}
 }

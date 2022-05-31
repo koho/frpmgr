@@ -1,41 +1,92 @@
 #include <windows.h>
+#include "resource.h"
 
 #pragma code_page(65001) // UTF-8
 
 #define STRINGIZE(x) #x
 #define EXPAND(x) STRINGIZE(x)
+#define TITLE "FRP Manager Setup"
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST manifest.xml
-10        ICON           "../icon/installer.ico"
-11        RCDATA         EXPAND(MSI_FILE)
+IDI_ICON        ICON           "../icon/installer.ico"
+IDR_MSI         RCDATA         EXPAND(MSI_FILE)
 
-VS_VERSION_INFO VERSIONINFO
-FILEVERSION    VERSION_ARRAY
-PRODUCTVERSION VERSION_ARRAY
-FILEFLAGSMASK  VS_FFI_FILEFLAGSMASK
-FILEFLAGS      0x0
-FILEOS         VOS__WINDOWS32
-FILETYPE       VFT_APP
-FILESUBTYPE    VFT2_UNKNOWN
+#define VERSIONINFO_TEMPLATE(block_id, lang_id, charset_id, file_desc, product_name) \
+VS_VERSION_INFO VERSIONINFO \
+FILEVERSION    VERSION_ARRAY \
+PRODUCTVERSION VERSION_ARRAY \
+FILEFLAGSMASK  VS_FFI_FILEFLAGSMASK \
+FILEFLAGS      0x0 \
+FILEOS         VOS__WINDOWS32 \
+FILETYPE       VFT_APP \
+FILESUBTYPE    VFT2_UNKNOWN \
+BEGIN \
+  BLOCK "StringFileInfo" \
+  BEGIN \
+    BLOCK block_id \
+    BEGIN \
+      VALUE "CompanyName", "FRP Manager Project" \
+      VALUE "FileDescription", file_desc \
+      VALUE "FileVersion", EXPAND(VERSION_STR) \
+      VALUE "InternalName", "frpmgr-Setup" \
+      VALUE "LegalCopyright", "Copyright © FRP Manager Project" \
+      VALUE "OriginalFilename", EXPAND(frpmgr-VERSION_STR-Setup.exe) \
+      VALUE "ProductName", product_name \
+      VALUE "ProductVersion", EXPAND(VERSION_STR) \
+      VALUE "Comments", "https://github.com/koho/frpmgr" \
+    END \
+  END \
+  BLOCK "VarFileInfo" \
+  BEGIN \
+    VALUE "Translation", lang_id, charset_id \
+  END \
+END
+
+LANGUAGE LANG_ENGLISH, SUBLANG_DEFAULT
+VERSIONINFO_TEMPLATE(
+  "040904B0", 0x0409, 1200,
+  TITLE,
+  "FRP Manager"
+)
+
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+VERSIONINFO_TEMPLATE(
+  "080404B0", 0x0804, 1200,
+  "FRP 管理器安装程序",
+  "FRP 管理器"
+)
+
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_TRADITIONAL
+VERSIONINFO_TEMPLATE(
+  "040404B0", 0x0404, 1200,
+  "FRP 管理器安裝程式",
+  "FRP 管理器"
+)
+
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+VERSIONINFO_TEMPLATE(
+  "041104B0", 0x0411, 1200,
+  "FRP マネージャーインストーラー",
+  "FRP マネージャ"
+)
+
+LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
+VERSIONINFO_TEMPLATE(
+  "041204B0", 0x0412, 1200,
+  "FRP 관리자 설치 프로그램",
+  "FRP 관리자"
+)
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+IDD_LANG_DIALOG DIALOGEX 0, 0, 252, 79
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION TITLE
+FONT 8, "Tahoma"
 BEGIN
-  BLOCK "StringFileInfo"
-  BEGIN
-    BLOCK "080404B0"
-    BEGIN
-      VALUE "CompanyName", "FRP Manager Project"
-      VALUE "FileDescription", "FRP 管理器安装程序"
-      VALUE "FileVersion", EXPAND(VERSION_STR)
-      VALUE "InternalName", "frpmgr-Setup"
-      VALUE "LegalCopyright", "Copyright © FRP Manager Project"
-      VALUE "OriginalFilename", EXPAND(frpmgr-VERSION_STR-Setup.exe)
-      VALUE "ProductName", "FRP 管理器"
-      VALUE "ProductVersion", EXPAND(VERSION_STR)
-      VALUE "Comments", "https://github.com/koho/frpmgr"
-    END
-  END
-  BLOCK "VarFileInfo"
-  BEGIN
-    VALUE "Translation", 0x0804, 1200
-  END
+   COMBOBOX IDC_LANG_COMBO, 34, 40, 211, 374, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+   DEFPUSHBUTTON "OK", IDOK, 141, 58, 50, 14, BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP
+   PUSHBUTTON "Cancel", IDCANCEL, 195, 58, 50, 14, BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP
+   LTEXT "Select the language for the installation from the choices below.", IDC_STATIC, 34, 8, 211, 25, SS_LEFT | SS_NOPREFIX | WS_CHILD | WS_VISIBLE | WS_GROUP
+   ICON IDI_ICON, IDC_STATIC, 7, 7, 21, 20, SS_ICON | WS_CHILD | WS_VISIBLE
 END

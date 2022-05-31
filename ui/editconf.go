@@ -2,6 +2,7 @@ package ui
 
 import (
 	"fmt"
+	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
@@ -65,33 +66,38 @@ func NewEditClientDialog(conf *Conf) *EditClientDialog {
 }
 
 func (cd *EditClientDialog) View() Dialog {
-	dlg := NewBasicDialog(&cd.Dialog, "编辑配置", loadSysIcon("imageres", consts.IconEditDialog, 32), DataBinder{
+	pages := []TabPage{
+		cd.basicConfPage(),
+		cd.authConfPage(),
+		cd.logConfPage(),
+		cd.adminConfPage(),
+		cd.connectionConfPage(),
+		cd.tlsConfPage(),
+		cd.advancedConfPage(),
+	}
+	dlg := NewBasicDialog(&cd.Dialog, i18n.Sprintf("Edit Config"), loadSysIcon("imageres", consts.IconEditDialog, 32), DataBinder{
 		AssignTo:   &cd.db,
 		Name:       "common",
 		DataSource: cd.binder,
 	}, cd.onSave,
 		TabWidget{
-			Pages: []TabPage{
-				cd.baseConfPage(),
-				cd.authConfPage(),
-				cd.logConfPage(),
-				cd.adminConfPage(),
-				cd.connectionConfPage(),
-				cd.tlsConfPage(),
-				cd.advancedConfPage(),
-			},
+			Pages: pages,
 		},
 	)
 	dlg.Layout = VBox{Margins: Margins{7, 9, 7, 9}}
+	minWidth := int(funk.Sum(funk.Map(pages, func(page TabPage) int {
+		return calculateStringWidth(page.Title.(string)) + 25
+	})) + 70)
+	dlg.MinSize = Size{Width: minWidth, Height: 380}
 	return dlg
 }
 
-func (cd *EditClientDialog) baseConfPage() TabPage {
+func (cd *EditClientDialog) basicConfPage() TabPage {
 	return TabPage{
-		Title:  "基本",
+		Title:  i18n.Sprintf("Basic"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Text: "名称:"},
+			Label{Text: i18n.SprintfColon("Name")},
 			LineEdit{AssignTo: &cd.nameView, Text: Bind("Name", consts.ValidateNonEmpty), OnTextChanged: func() {
 				if name := cd.nameView.Text(); name != "" {
 					curLog := strings.TrimSpace(cd.logFileView.Text())
@@ -101,11 +107,11 @@ func (cd *EditClientDialog) baseConfPage() TabPage {
 					}
 				}
 			}},
-			Label{Text: "服务器地址:"},
+			Label{Text: i18n.SprintfColon("Server Address")},
 			LineEdit{Text: Bind("ServerAddress", consts.ValidateNonEmpty)},
-			Label{Text: "服务器端口:"},
+			Label{Text: i18n.SprintfColon("Server Port")},
 			LineEdit{Text: Bind("ServerPort", consts.ValidateRequireInteger)},
-			Label{Text: "用户:"},
+			Label{Text: i18n.SprintfColon("User")},
 			LineEdit{Text: Bind("User")},
 			VSpacer{ColumnSpan: 2},
 		},
@@ -113,76 +119,82 @@ func (cd *EditClientDialog) baseConfPage() TabPage {
 }
 
 func (cd *EditClientDialog) authConfPage() TabPage {
-	return TabPage{
-		Title:  "认证",
+	page := TabPage{
+		Title:  i18n.Sprintf("Auth"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Text: "认证方式:", MinSize: Size{Width: 55}},
+			Label{Text: i18n.SprintfColon("Auth Method")},
 			NewRadioButtonGroup("AuthMethod", nil, []RadioButton{
 				{Name: "tokenCheck", Text: "Token", Value: consts.AuthToken},
 				{Name: "oidcCheck", Text: "OIDC", Value: consts.AuthOIDC},
-				{Name: "noAuthCheck", Text: "无", Value: ""},
+				{Name: "noAuthCheck", Text: i18n.Sprintf("None"), Value: ""},
 			}),
-			Label{Visible: Bind("tokenCheck.Checked"), Text: "令牌:"},
+			Label{Visible: Bind("tokenCheck.Checked"), Text: i18n.SprintfColon("Token")},
 			LineEdit{Visible: Bind("tokenCheck.Checked"), Text: Bind("Token")},
 			Label{Visible: Bind("oidcCheck.Checked"), Text: "ID:"},
 			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCClientId")},
-			Label{Visible: Bind("oidcCheck.Checked"), Text: "密钥:"},
+			Label{Visible: Bind("oidcCheck.Checked"), Text: i18n.SprintfColon("Secret")},
 			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCClientSecret")},
-			Label{Visible: Bind("oidcCheck.Checked"), Text: "接受者:"},
+			Label{Visible: Bind("oidcCheck.Checked"), Text: i18n.SprintfColon("Audience")},
 			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCAudience")},
-			Label{Visible: Bind("oidcCheck.Checked"), Text: "令牌地址:"},
+			Label{Visible: Bind("oidcCheck.Checked"), Text: i18n.SprintfColon("Token Endpoint")},
 			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCTokenEndpoint")},
-			Label{Visible: Bind("!noAuthCheck.Checked"), Text: "鉴权:"},
+			Label{Visible: Bind("!noAuthCheck.Checked"), Text: i18n.SprintfColon("Authentication")},
 			Composite{
 				Visible: Bind("!noAuthCheck.Checked"),
-				Layout:  HBox{MarginsZero: true, SpacingZero: true},
+				Layout:  HBox{MarginsZero: true},
 				Children: []Widget{
-					CheckBox{Text: "心跳消息", Checked: Bind("AuthenticateHeartBeats")},
-					CheckBox{Text: "工作连接", Checked: Bind("AuthenticateNewWorkConns")},
+					CheckBox{Text: i18n.Sprintf("Heart Beats"), Checked: Bind("AuthenticateHeartBeats")},
+					CheckBox{Text: i18n.Sprintf("Work Conns"), Checked: Bind("AuthenticateNewWorkConns")},
 				},
 			},
 		},
 	}
+	head := page.Children[0].(Label)
+	head.MinSize = Size{Width: calculateHeadColumnTextWidth(page.Children, page.Layout.(Grid).Columns)}
+	page.Children[0] = head
+	return page
 }
 
 func (cd *EditClientDialog) logConfPage() TabPage {
 	return TabPage{
-		Title:  "日志",
+		Title:  i18n.Sprintf("Log"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Text: "* 留空则不记录日志，且删除原来的日志文件", ColumnSpan: 2},
-			Label{Text: "日志文件:"},
+			TextLabel{Text: i18n.Sprintf("* Leave blank to record no log and delete the original log file."), ColumnSpan: 2},
+			VSpacer{Size: 2, ColumnSpan: 2},
+			Label{Text: i18n.SprintfColon("Log File")},
 			NewBrowseLineEdit(&cd.logFileView, true, true, Bind("LogFile"),
-				"选择日志文件", "日志文件 (*.log, *.txt)|*.log;*.txt|", true),
-			Label{Text: "级别:"},
+				i18n.Sprintf("Select Log File"), consts.FilterLog, true),
+			Label{Text: i18n.SprintfColon("Level")},
 			ComboBox{
 				Value: Bind("LogLevel"),
 				Model: []string{"trace", "debug", "info", "warn", "error"},
 			},
-			Label{Text: "最大天数:"},
+			Label{Text: i18n.SprintfColon("Max Days")},
 			NumberEdit{Value: Bind("LogMaxDays")},
+			VSpacer{ColumnSpan: 2},
 		},
 	}
 }
 
 func (cd *EditClientDialog) adminConfPage() TabPage {
 	return TabPage{
-		Title:  "管理",
+		Title:  i18n.Sprintf("Admin"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Text: "管理地址:"},
+			Label{Text: i18n.SprintfColon("Admin Address")},
 			LineEdit{Text: Bind("AdminAddr")},
-			Label{Text: "管理端口:"},
+			Label{Text: i18n.SprintfColon("Admin Port")},
 			LineEdit{Name: "adminPort", Text: Bind("AdminPort", consts.ValidateInteger)},
-			Label{Enabled: Bind("adminPort.Text != ''"), Text: "用户名:"},
+			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("User")},
 			LineEdit{Enabled: Bind("adminPort.Text != ''"), Text: Bind("AdminUser")},
-			Label{Enabled: Bind("adminPort.Text != ''"), Text: "密码:"},
+			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("Password")},
 			LineEdit{Enabled: Bind("adminPort.Text != ''"), Text: Bind("AdminPwd")},
-			Label{Enabled: Bind("adminPort.Text != ''"), Text: "静态资源:"},
+			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("Assets")},
 			NewBrowseLineEdit(nil, true, Bind("adminPort.Text != ''"), Bind("AssetsDir"),
-				"选择静态资源目录", "", false),
-			Label{Enabled: Bind("adminPort.Text != ''"), Text: "调试:"},
+				i18n.Sprintf("Select a local directory that the admin server will load resources from."), "", false),
+			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("Debug")},
 			CheckBox{Text: "pprof", Checked: Bind("PprofEnable"), Enabled: Bind("adminPort.Text != ''")},
 		},
 	}
@@ -190,26 +202,26 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 
 func (cd *EditClientDialog) connectionConfPage() TabPage {
 	return TabPage{
-		Title:  "连接",
+		Title:  i18n.Sprintf("Connection"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Text: "协议:"},
+			Label{Text: i18n.SprintfColon("Protocol")},
 			ComboBox{
 				Value: Bind("Protocol"),
 				Model: []string{"tcp", "kcp", "websocket"},
 			},
-			Label{Text: "HTTP 代理:"},
+			Label{Text: i18n.SprintfColon("HTTP Proxy")},
 			LineEdit{Text: Bind("HTTPProxy")},
-			Label{Text: "连接池数量:"},
+			Label{Text: i18n.SprintfColon("Pool Count")},
 			NumberEdit{Value: Bind("PoolCount")},
-			Label{Text: "连接超时:"},
-			NumberEdit{Value: Bind("DialServerTimeout"), Suffix: " 秒"},
-			Label{Text: "TCP 保活周期:"},
-			NumberEdit{Value: Bind("DialServerKeepAlive"), Suffix: " 秒"},
-			Label{Text: "心跳间隔:"},
-			NumberEdit{Value: Bind("HeartbeatInterval"), Suffix: " 秒"},
-			Label{Text: "心跳超时:"},
-			NumberEdit{Value: Bind("HeartbeatTimeout"), Suffix: " 秒"},
+			Label{Text: i18n.SprintfColon("Dial Timeout")},
+			NumberEdit{Value: Bind("DialServerTimeout"), Suffix: i18n.SprintfLSpace("s")},
+			Label{Text: i18n.SprintfColon("TCP Keep-Alive")},
+			NumberEdit{Value: Bind("DialServerKeepAlive"), Suffix: i18n.SprintfLSpace("s")},
+			Label{Text: i18n.SprintfColon("Heartbeat Interval")},
+			NumberEdit{Value: Bind("HeartbeatInterval"), Suffix: i18n.SprintfLSpace("s")},
+			Label{Text: i18n.SprintfColon("Heartbeat Timeout")},
+			NumberEdit{Value: Bind("HeartbeatTimeout"), Suffix: i18n.SprintfLSpace("s")},
 		},
 	}
 }
@@ -219,56 +231,56 @@ func (cd *EditClientDialog) tlsConfPage() TabPage {
 		Title:  "TLS",
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Text: "TLS:", MinSize: Size{Width: 65}},
+			Label{Text: "TLS:"},
 			NewRadioButtonGroup("TLSEnable", nil, []RadioButton{
-				{Name: "tlsCheck", Text: "开启", Value: true},
-				{Text: "关闭", Value: false},
+				{Name: "tlsCheck", Text: i18n.Sprintf("On"), Value: true},
+				{Text: i18n.Sprintf("Off"), Value: false},
 			}),
-			Label{Visible: Bind("tlsCheck.Checked"), Text: "主机名称:"},
+			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Host Name")},
 			LineEdit{Visible: Bind("tlsCheck.Checked"), Text: Bind("TLSServerName")},
-			Label{Visible: Bind("tlsCheck.Checked"), Text: "证书文件:"},
+			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Certificate")},
 			NewBrowseLineEdit(nil, Bind("tlsCheck.Checked"), true, Bind("TLSCertFile"),
-				"选择证书文件", consts.FilterCert, true),
-			Label{Visible: Bind("tlsCheck.Checked"), Text: "密钥文件:"},
+				i18n.Sprintf("Select Certificate File"), consts.FilterCert, true),
+			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Certificate Key"), AlwaysConsumeSpace: true},
 			NewBrowseLineEdit(nil, Bind("tlsCheck.Checked"), true, Bind("TLSKeyFile"),
-				"选择密钥文件", consts.FilterKey, true),
-			Label{Visible: Bind("tlsCheck.Checked"), Text: "受信任证书:"},
+				i18n.Sprintf("Select Certificate Key File"), consts.FilterKey, true),
+			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Trusted CA"), AlwaysConsumeSpace: true},
 			NewBrowseLineEdit(nil, Bind("tlsCheck.Checked"), true, Bind("TLSTrustedCaFile"),
-				"选择受信任的证书", consts.FilterCert, true),
+				i18n.Sprintf("Select Trusted CA File"), consts.FilterCert, true),
 		},
 	}
 }
 
 func (cd *EditClientDialog) advancedConfPage() TabPage {
 	return TabPage{
-		Title:  "高级",
+		Title:  i18n.Sprintf("Advanced"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Text: "多路复用:", MinSize: Size{Width: 65}},
+			Label{Text: i18n.SprintfColon("TCP Mux")},
 			NewRadioButtonGroup("TCPMux", nil, []RadioButton{
-				{Name: "muxCheck", Text: "开启", Value: true},
-				{Text: "关闭", Value: false},
+				{Name: "muxCheck", Text: i18n.Sprintf("On"), Value: true},
+				{Text: i18n.Sprintf("Off"), Value: false},
 			}),
-			Label{Enabled: Bind("muxCheck.Checked"), Text: "复用器心跳:"},
-			NumberEdit{Enabled: Bind("muxCheck.Checked"), Value: Bind("TCPMuxKeepaliveInterval"), Suffix: " 秒"},
+			Label{Enabled: Bind("muxCheck.Checked"), Text: i18n.SprintfColon("Mux Keepalive")},
+			NumberEdit{Enabled: Bind("muxCheck.Checked"), Value: Bind("TCPMuxKeepaliveInterval"), Suffix: i18n.SprintfLSpace("s")},
 			Label{Text: "DNS:"},
 			LineEdit{Text: Bind("DNSServer")},
-			Label{Text: "使用源地址:"},
+			Label{Text: i18n.SprintfColon("Source Address")},
 			LineEdit{Text: Bind("ConnectServerLocalIP")},
 			Composite{
 				Layout: VBox{MarginsZero: true, SpacingZero: true},
 				Children: []Widget{
 					VSpacer{Size: 6},
-					Label{Text: "其他选项:", Alignment: AlignHNearVNear},
+					Label{Text: i18n.SprintfColon("Other Options"), Alignment: AlignHNearVNear},
 				},
 			},
 			Composite{
 				Layout: VBox{MarginsZero: true, SpacingZero: true, Alignment: AlignHNearVNear},
 				Children: []Widget{
-					CheckBox{Text: "初次登录失败后退出", Checked: Bind("LoginFailExit")},
-					CheckBox{Text: "禁用开机自启动", Checked: Bind("ManualStart")},
+					CheckBox{Text: i18n.Sprintf("Exit after login failure"), Checked: Bind("LoginFailExit")},
+					CheckBox{Text: i18n.Sprintf("Disable auto-start at boot"), Checked: Bind("ManualStart")},
 					VSpacer{Size: 4},
-					LinkLabel{Text: "<a>自定义...</a>", OnLinkActivated: func(link *walk.LinkLabelLink) {
+					LinkLabel{Text: fmt.Sprintf("<a>%s</a>", i18n.SprintfEllipsis("Custom")), OnLinkActivated: func(link *walk.LinkLabelLink) {
 						cd.customConfDialog().Run(cd.Form())
 					}},
 				},
@@ -278,11 +290,11 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 }
 
 func (cd *EditClientDialog) customConfDialog() Dialog {
-	customDialog := NewBasicDialog(nil, "自定义参数", cd.Icon(), DataBinder{DataSource: cd.binder}, nil,
-		Label{Text: "* 参考 FRP 配置文件的 [common] 部分，每行格式为 a = b"},
+	customDialog := NewBasicDialog(nil, i18n.Sprintf("Custom Options"), cd.Icon(), DataBinder{DataSource: cd.binder}, nil,
+		Label{Text: i18n.Sprintf("* Refer to the [common] section of the FRP configuration file.")},
 		TextEdit{Text: Bind("CustomText"), VScroll: true},
 	)
-	customDialog.MinSize = Size{380, 280}
+	customDialog.MinSize = Size{420, 280}
 	return customDialog
 }
 
@@ -359,7 +371,7 @@ func (cd *EditClientDialog) onSave() {
 
 func (cd *EditClientDialog) hasConf(name string) bool {
 	if funk.Contains(confList, func(e *Conf) bool { return e.Name == name }) {
-		showWarningMessage(cd.Form(), "配置已存在", fmt.Sprintf("配置名「%s」已存在。", name))
+		showWarningMessage(cd.Form(), i18n.Sprintf("Config already exists"), i18n.Sprintf("The config name \"%s\" already exists.", name))
 		return true
 	}
 	return false

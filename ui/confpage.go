@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/services"
 	"github.com/lxn/walk"
@@ -26,7 +27,7 @@ func NewConfPage() *ConfPage {
 func (cp *ConfPage) Page() TabPage {
 	return TabPage{
 		AssignTo: &cp.TabPage,
-		Title:    "配置",
+		Title:    i18n.Sprintf("Configuration"),
 		Layout:   HBox{},
 		DataBinder: DataBinder{
 			AssignTo: &confDB,
@@ -85,7 +86,7 @@ func (cp *ConfPage) welcomeView() Composite {
 			HSpacer{},
 			VSpacer{},
 			PushButton{
-				Text:    "新建配置",
+				Text:    i18n.Sprintf("New Configuration"),
 				MinSize: Size{200, 0},
 				MaxSize: Size{200, 0},
 				OnClicked: func() {
@@ -93,7 +94,7 @@ func (cp *ConfPage) welcomeView() Composite {
 				},
 			},
 			PushButton{
-				Text:      "从文件导入配置",
+				Text:      i18n.Sprintf("Import Config from File"),
 				MinSize:   Size{200, 0},
 				MaxSize:   Size{200, 0},
 				OnClicked: cp.confView.onFileImport,

@@ -1,0 +1,980 @@
+{
+    "language": "ko-KR",
+    "messages": [
+        {
+            "id": "FRP Manager",
+            "message": "FRP Manager",
+            "translation": "FRP 관리자"
+        },
+        {
+            "id": "Version: {Number}",
+            "message": "Version: {Number}",
+            "translation": "버전: {Number}",
+            "placeholders": [
+                {
+                    "id": "Number",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "version.Number"
+                }
+            ]
+        },
+        {
+            "id": "FRP version: {FRPVersion}",
+            "message": "FRP version: {FRPVersion}",
+            "translation": "FRP 버전: {FRPVersion}",
+            "placeholders": [
+                {
+                    "id": "FRPVersion",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "version.FRPVersion"
+                }
+            ]
+        },
+        {
+            "id": "Built on: {BuildDate}",
+            "message": "Built on: {BuildDate}",
+            "translation": "빌드 날짜: {BuildDate}",
+            "placeholders": [
+                {
+                    "id": "BuildDate",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "version.BuildDate"
+                }
+            ]
+        },
+        {
+            "id": "All Files",
+            "message": "All Files",
+            "translation": "모든 파일"
+        },
+        {
+            "id": "Configuration Files",
+            "message": "Configuration Files",
+            "translation": "구성 파일"
+        },
+        {
+            "id": "Certificate Files",
+            "message": "Certificate Files",
+            "translation": "인증서 파일"
+        },
+        {
+            "id": "Key Files",
+            "message": "Key Files",
+            "translation": "열쇠 파일"
+        },
+        {
+            "id": "Log Files",
+            "message": "Log Files",
+            "translation": "로그 파일"
+        },
+        {
+            "id": "New Version!",
+            "message": "New Version!",
+            "translation": "새로운 버전!"
+        },
+        {
+            "id": "About",
+            "message": "About",
+            "translation": "에 대한"
+        },
+        {
+            "id": "Download updates",
+            "message": "Download updates",
+            "translation": "업데이트 다운로드"
+        },
+        {
+            "id": "Checking for updates",
+            "message": "Checking for updates",
+            "translation": "업데이트 확인"
+        },
+        {
+            "id": "Check for updates",
+            "message": "Check for updates",
+            "translation": "업데이트 확인"
+        },
+        {
+            "id": "For comments or to report bugs, please visit the project page:",
+            "message": "For comments or to report bugs, please visit the project page:",
+            "translation": "의견을 보거나 버그를 보고하려면 프로젝트 페이지를 방문하세요:"
+        },
+        {
+            "id": "For FRP configuration documentation, please visit the FRP project page:",
+            "message": "For FRP configuration documentation, please visit the FRP project page:",
+            "translation": "FRP 구성 문서를 보려면 FRP 프로젝트 페이지를 방문하십시오:"
+        },
+        {
+            "id": "An error occurred while checking for a software update.",
+            "message": "An error occurred while checking for a software update.",
+            "translation": "소프트웨어 업데이트를 확인하는 동안 오류가 발생했습니다."
+        },
+        {
+            "id": "There are currently no updates available.",
+            "message": "There are currently no updates available.",
+            "translation": "현재 사용 가능한 업데이트가 없습니다."
+        },
+        {
+            "id": "OK",
+            "message": "OK",
+            "translation": "확인"
+        },
+        {
+            "id": "Cancel",
+            "message": "Cancel",
+            "translation": "취소"
+        },
+        {
+            "id": "Configuration",
+            "message": "Configuration",
+            "translation": "구성"
+        },
+        {
+            "id": "New Configuration",
+            "message": "New Configuration",
+            "translation": "새 구성"
+        },
+        {
+            "id": "Import Config from File",
+            "message": "Import Config from File",
+            "translation": "파일에서 구성 가져오기"
+        },
+        {
+            "id": "Edit",
+            "message": "Edit",
+            "translation": "편집하다"
+        },
+        {
+            "id": "Open File",
+            "message": "Open File",
+            "translation": "파일 열기"
+        },
+        {
+            "id": "Show in Folder",
+            "message": "Show in Folder",
+            "translation": "폴더에 표시"
+        },
+        {
+            "id": "Import from File",
+            "message": "Import from File",
+            "translation": "파일에서 가져오기"
+        },
+        {
+            "id": "Import from Clipboard",
+            "message": "Import from Clipboard",
+            "translation": "클립보드에서 가져오기"
+        },
+        {
+            "id": "Export All Configs to ZIP",
+            "message": "Export All Configs to ZIP",
+            "translation": "모든 구성을 ZIP 으로 내보내기"
+        },
+        {
+            "id": "Delete",
+            "message": "Delete",
+            "translation": "삭제"
+        },
+        {
+            "id": "New Config",
+            "message": "New Config",
+            "translation": "새 구성"
+        },
+        {
+            "id": "Manual Settings",
+            "message": "Manual Settings",
+            "translation": "수동 설정"
+        },
+        {
+            "id": "Import Config",
+            "message": "Import Config",
+            "translation": "구성 가져오기"
+        },
+        {
+            "id": "Another config already exists with the name \"{BaseName}\".",
+            "message": "Another config already exists with the name \"{BaseName}\".",
+            "translation": "이름이 \"{BaseName}\" 인 다른 구성이 이미 있습니다.",
+            "placeholders": [
+                {
+                    "id": "BaseName",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "baseName"
+                }
+            ]
+        },
+        {
+            "id": "Unable to copy file \"{Path}\".",
+            "message": "Unable to copy file \"{Path}\".",
+            "translation": "\"{Path}\" 파일을 복사할 수 없습니다.",
+            "placeholders": [
+                {
+                    "id": "Path",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "path"
+                }
+            ]
+        },
+        {
+            "id": "Delete config \"{Name}\"",
+            "message": "Delete config \"{Name}\"",
+            "translation": "\"{Name}\" 구성 삭제",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "conf.Name"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure you would like to delete config \"{Name}\"?",
+            "message": "Are you sure you would like to delete config \"{Name}\"?",
+            "translation": "\"{Name}\" 구성을 삭제하시겠습니까?",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "conf.Name"
+                }
+            ]
+        },
+        {
+            "id": "Edit Config",
+            "message": "Edit Config",
+            "translation": "구성 수정"
+        },
+        {
+            "id": "Basic",
+            "message": "Basic",
+            "translation": "기초적인"
+        },
+        {
+            "id": "Name",
+            "message": "Name",
+            "translation": "이름"
+        },
+        {
+            "id": "Server Address",
+            "message": "Server Address",
+            "translation": "서버 주소"
+        },
+        {
+            "id": "Server Port",
+            "message": "Server Port",
+            "translation": "서버 포트"
+        },
+        {
+            "id": "User",
+            "message": "User",
+            "translation": "사용자"
+        },
+        {
+            "id": "Auth",
+            "message": "Auth",
+            "translation": "인증"
+        },
+        {
+            "id": "Auth Method",
+            "message": "Auth Method",
+            "translation": "인증 방법"
+        },
+        {
+            "id": "None",
+            "message": "None",
+            "translation": "없음"
+        },
+        {
+            "id": "Token",
+            "message": "Token",
+            "translation": "토큰"
+        },
+        {
+            "id": "Secret",
+            "message": "Secret",
+            "translation": "비밀 키"
+        },
+        {
+            "id": "Audience",
+            "message": "Audience",
+            "translation": "받는 사람"
+        },
+        {
+            "id": "Token Endpoint",
+            "message": "Token Endpoint",
+            "translation": "토큰 URL"
+        },
+        {
+            "id": "Authentication",
+            "message": "Authentication",
+            "translation": "입증"
+        },
+        {
+            "id": "Heart Beats",
+            "message": "Heart Beats",
+            "translation": "대기 중"
+        },
+        {
+            "id": "Work Conns",
+            "message": "Work Conns",
+            "translation": "작동 연결"
+        },
+        {
+            "id": "Log",
+            "message": "Log",
+            "translation": "통나무"
+        },
+        {
+            "id": "* Leave blank to record no log and delete the original log file.",
+            "message": "* Leave blank to record no log and delete the original log file.",
+            "translation": "* 로그를 기록하지 않고 원본 로그 파일을 삭제하려면 비워 둡니다."
+        },
+        {
+            "id": "Log File",
+            "message": "Log File",
+            "translation": "로그 파일"
+        },
+        {
+            "id": "Select Log File",
+            "message": "Select Log File",
+            "translation": "로그 파일 선택"
+        },
+        {
+            "id": "Level",
+            "message": "Level",
+            "translation": "수준"
+        },
+        {
+            "id": "Max Days",
+            "message": "Max Days",
+            "translation": "최대 일수"
+        },
+        {
+            "id": "Admin",
+            "message": "Admin",
+            "translation": "관리자"
+        },
+        {
+            "id": "Admin Address",
+            "message": "Admin Address",
+            "translation": "관리자 주소"
+        },
+        {
+            "id": "Admin Port",
+            "message": "Admin Port",
+            "translation": "관리 포트"
+        },
+        {
+            "id": "Password",
+            "message": "Password",
+            "translation": "비밀번호"
+        },
+        {
+            "id": "Assets",
+            "message": "Assets",
+            "translation": "자산"
+        },
+        {
+            "id": "Select a local directory that the admin server will load resources from.",
+            "message": "Select a local directory that the admin server will load resources from.",
+            "translation": "관리 서버가 리소스를 로드할 로컬 디렉토리를 선택하십시오."
+        },
+        {
+            "id": "Debug",
+            "message": "Debug",
+            "translation": "디버그"
+        },
+        {
+            "id": "Connection",
+            "message": "Connection",
+            "translation": "연결"
+        },
+        {
+            "id": "Protocol",
+            "message": "Protocol",
+            "translation": "규약"
+        },
+        {
+            "id": "HTTP Proxy",
+            "message": "HTTP Proxy",
+            "translation": "HTTP 프록시"
+        },
+        {
+            "id": "Pool Count",
+            "message": "Pool Count",
+            "translation": "연결 수"
+        },
+        {
+            "id": "Dial Timeout",
+            "message": "Dial Timeout",
+            "translation": "연결 시간 초과"
+        },
+        {
+            "id": "s",
+            "message": "s",
+            "translation": "s"
+        },
+        {
+            "id": "TCP Keep-Alive",
+            "message": "TCP Keep-Alive",
+            "translation": "TCP 대기 중"
+        },
+        {
+            "id": "Heartbeat Interval",
+            "message": "Heartbeat Interval",
+            "translation": "연결 간격 유지"
+        },
+        {
+            "id": "Heartbeat Timeout",
+            "message": "Heartbeat Timeout",
+            "translation": "연결 시간 초과 유지"
+        },
+        {
+            "id": "On",
+            "message": "On",
+            "translation": "켜다"
+        },
+        {
+            "id": "Off",
+            "message": "Off",
+            "translation": "폐쇄"
+        },
+        {
+            "id": "Host Name",
+            "message": "Host Name",
+            "translation": "호스트 이름"
+        },
+        {
+            "id": "Certificate",
+            "message": "Certificate",
+            "translation": "자격증"
+        },
+        {
+            "id": "Select Certificate File",
+            "message": "Select Certificate File",
+            "translation": "인증서 파일 선택"
+        },
+        {
+            "id": "Certificate Key",
+            "message": "Certificate Key",
+            "translation": "인증서 키"
+        },
+        {
+            "id": "Select Certificate Key File",
+            "message": "Select Certificate Key File",
+            "translation": "인증서 키 파일 선택"
+        },
+        {
+            "id": "Trusted CA",
+            "message": "Trusted CA",
+            "translation": "신뢰할 수 있는 CA"
+        },
+        {
+            "id": "Select Trusted CA File",
+            "message": "Select Trusted CA File",
+            "translation": "신뢰할 수 있는 CA 파일 선택"
+        },
+        {
+            "id": "Advanced",
+            "message": "Advanced",
+            "translation": "고급의"
+        },
+        {
+            "id": "TCP Mux",
+            "message": "TCP Mux",
+            "translation": "다중화"
+        },
+        {
+            "id": "Mux Keepalive",
+            "message": "Mux Keepalive",
+            "translation": "다중화 대기 중"
+        },
+        {
+            "id": "Source Address",
+            "message": "Source Address",
+            "translation": "소스 주소"
+        },
+        {
+            "id": "Other Options",
+            "message": "Other Options",
+            "translation": "다른 옵션"
+        },
+        {
+            "id": "Exit after login failure",
+            "message": "Exit after login failure",
+            "translation": "로그인 실패 후 종료"
+        },
+        {
+            "id": "Disable auto-start at boot",
+            "message": "Disable auto-start at boot",
+            "translation": "부팅 시 자동 시작 비활성화"
+        },
+        {
+            "id": "Custom",
+            "message": "Custom",
+            "translation": "관습"
+        },
+        {
+            "id": "Custom Options",
+            "message": "Custom Options",
+            "translation": "사용자 지정 옵션"
+        },
+        {
+            "id": "* Refer to the [common] section of the FRP configuration file.",
+            "message": "* Refer to the [common] section of the FRP configuration file.",
+            "translation": "* FRP 설정 파일의 [common] 부분을 참고하세요."
+        },
+        {
+            "id": "Config already exists",
+            "message": "Config already exists",
+            "translation": "구성이 이미 있습니다."
+        },
+        {
+            "id": "The config name \"{Name}\" already exists.",
+            "message": "The config name \"{Name}\" already exists.",
+            "translation": "구성 이름 \"{Name}\" 이(가) 이미 존재합니다.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "name"
+                }
+            ]
+        },
+        {
+            "id": "Edit Proxy",
+            "message": "Edit Proxy",
+            "translation": "프록시 편집"
+        },
+        {
+            "id": "Random",
+            "message": "Random",
+            "translation": "무작위의"
+        },
+        {
+            "id": "Type",
+            "message": "Type",
+            "translation": "유형"
+        },
+        {
+            "id": "Role",
+            "message": "Role",
+            "translation": "역할"
+        },
+        {
+            "id": "Visitor",
+            "message": "Visitor",
+            "translation": "방문객"
+        },
+        {
+            "id": "Secret Key",
+            "message": "Secret Key",
+            "translation": "비밀 키"
+        },
+        {
+            "id": "Local Address",
+            "message": "Local Address",
+            "translation": "지역 주소"
+        },
+        {
+            "id": "Local Port",
+            "message": "Local Port",
+            "translation": "로컬 포트"
+        },
+        {
+            "id": "Remote Port",
+            "message": "Remote Port",
+            "translation": "원격 포트"
+        },
+        {
+            "id": "Bind Address",
+            "message": "Bind Address",
+            "translation": "바인드 주소"
+        },
+        {
+            "id": "Bind Port",
+            "message": "Bind Port",
+            "translation": "바인드 포트"
+        },
+        {
+            "id": "Server Name",
+            "message": "Server Name",
+            "translation": "서버 이름"
+        },
+        {
+            "id": "Subdomain",
+            "message": "Subdomain",
+            "translation": "하위 도메인"
+        },
+        {
+            "id": "Custom Domains",
+            "message": "Custom Domains",
+            "translation": "사용자 정의 도메인"
+        },
+        {
+            "id": "Locations",
+            "message": "Locations",
+            "translation": "URL 라우팅"
+        },
+        {
+            "id": "Multiplexer",
+            "message": "Multiplexer",
+            "translation": "멀티플렉서"
+        },
+        {
+            "id": "Route User",
+            "message": "Route User",
+            "translation": "경로 사용자"
+        },
+        {
+            "id": "Bandwidth",
+            "message": "Bandwidth",
+            "translation": "대역폭"
+        },
+        {
+            "id": "Proxy Version",
+            "message": "Proxy Version",
+            "translation": "프록시 버전"
+        },
+        {
+            "id": "Empty",
+            "message": "Empty",
+            "translation": "비어 있는"
+        },
+        {
+            "id": "Encryption",
+            "message": "Encryption",
+            "translation": "암호화"
+        },
+        {
+            "id": "Compression",
+            "message": "Compression",
+            "translation": "압축"
+        },
+        {
+            "id": "HTTP User",
+            "message": "HTTP User",
+            "translation": "HTTP 사용자"
+        },
+        {
+            "id": "HTTP Password",
+            "message": "HTTP Password",
+            "translation": "HTTP 비밀번호"
+        },
+        {
+            "id": "Host Rewrite",
+            "message": "Host Rewrite",
+            "translation": "호스트 재작성"
+        },
+        {
+            "id": "Plugin",
+            "message": "Plugin",
+            "translation": "플러그인"
+        },
+        {
+            "id": "Plugin Name",
+            "message": "Plugin Name",
+            "translation": "플러그인 이름"
+        },
+        {
+            "id": "Unix Path",
+            "message": "Unix Path",
+            "translation": "Unix 경로"
+        },
+        {
+            "id": "Select Unix Path",
+            "message": "Select Unix Path",
+            "translation": "선택 Unix 경로"
+        },
+        {
+            "id": "Local Path",
+            "message": "Local Path",
+            "translation": "로컬 경로"
+        },
+        {
+            "id": "Select a folder for directory listing.",
+            "message": "Select a folder for directory listing.",
+            "translation": "디렉토리 목록에 대한 폴더를 선택하십시오."
+        },
+        {
+            "id": "Strip Prefix",
+            "message": "Strip Prefix",
+            "translation": "스트립 접두사"
+        },
+        {
+            "id": "Load Balance",
+            "message": "Load Balance",
+            "translation": "부하 분산"
+        },
+        {
+            "id": "Group",
+            "message": "Group",
+            "translation": "그룹"
+        },
+        {
+            "id": "Group Key",
+            "message": "Group Key",
+            "translation": "그룹 비밀 키"
+        },
+        {
+            "id": "Health Check",
+            "message": "Health Check",
+            "translation": "건강 체크"
+        },
+        {
+            "id": "Check Type",
+            "message": "Check Type",
+            "translation": "유형"
+        },
+        {
+            "id": "Check Timeout",
+            "message": "Check Timeout",
+            "translation": "시간 초과"
+        },
+        {
+            "id": "Failure Count",
+            "message": "Failure Count",
+            "translation": "실패 횟수"
+        },
+        {
+            "id": "Check Interval",
+            "message": "Check Interval",
+            "translation": "간격"
+        },
+        {
+            "id": "* Refer to the parameters supported by FRP.",
+            "message": "* Refer to the parameters supported by FRP.",
+            "translation": "* FRP 에서 지원하는 매개변수를 참조하십시오."
+        },
+        {
+            "id": "Proxy already exists",
+            "message": "Proxy already exists",
+            "translation": "프록시가 이미 있습니다."
+        },
+        {
+            "id": "The proxy name \"{Name}\" already exists.",
+            "message": "The proxy name \"{Name}\" already exists.",
+            "translation": "프록시 이름 \"{Name}\" 이(가) 이미 존재합니다.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "name"
+                }
+            ]
+        },
+        {
+            "id": "Open Log Folder",
+            "message": "Open Log Folder",
+            "translation": "로그 폴더 열기"
+        },
+        {
+            "id": "Unknown",
+            "message": "Unknown",
+            "translation": "알려지지 않은"
+        },
+        {
+            "id": "Running",
+            "message": "Running",
+            "translation": "달리기"
+        },
+        {
+            "id": "Stopped",
+            "message": "Stopped",
+            "translation": "중지됨"
+        },
+        {
+            "id": "Starting",
+            "message": "Starting",
+            "translation": "시작"
+        },
+        {
+            "id": "Stopping",
+            "message": "Stopping",
+            "translation": "멎는"
+        },
+        {
+            "id": "Status",
+            "message": "Status",
+            "translation": "상태"
+        },
+        {
+            "id": "Remote Address",
+            "message": "Remote Address",
+            "translation": "원격 주소"
+        },
+        {
+            "id": "Copy",
+            "message": "Copy",
+            "translation": "복사"
+        },
+        {
+            "id": "Start",
+            "message": "Start",
+            "translation": "시작"
+        },
+        {
+            "id": "Service",
+            "message": "Service",
+            "translation": "서비스"
+        },
+        {
+            "id": "Stop",
+            "message": "Stop",
+            "translation": "중지"
+        },
+        {
+            "id": "Local Directory",
+            "message": "Local Directory",
+            "translation": "로컬 디렉토리"
+        },
+        {
+            "id": "Add",
+            "message": "Add",
+            "translation": "추가하다"
+        },
+        {
+            "id": "Quick Add",
+            "message": "Quick Add",
+            "translation": "빠른 추가"
+        },
+        {
+            "id": "Remote Desktop",
+            "message": "Remote Desktop",
+            "translation": "원격 데스크탑"
+        },
+        {
+            "id": "HTTP File Server",
+            "message": "HTTP File Server",
+            "translation": "HTTP 파일 서버"
+        },
+        {
+            "id": "SOCKS5 Proxy",
+            "message": "SOCKS5 Proxy",
+            "translation": "SOCKS5 프록시"
+        },
+        {
+            "id": "Enable",
+            "message": "Enable",
+            "translation": "켜다"
+        },
+        {
+            "id": "Open Config",
+            "message": "Open Config",
+            "translation": "구성 열기"
+        },
+        {
+            "id": "Direct Edit",
+            "message": "Direct Edit",
+            "translation": "직접 편집"
+        },
+        {
+            "id": "Copy Access Address",
+            "message": "Copy Access Address",
+            "translation": "액세스 주소 복사"
+        },
+        {
+            "id": "Delete proxy \"{Name}\"",
+            "message": "Delete proxy \"{Name}\"",
+            "translation": "프록시 \"{Name}\" 삭제",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "proxy.Name"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure you would like to delete proxy \"{Name}\"?",
+            "message": "Are you sure you would like to delete proxy \"{Name}\"?",
+            "translation": "\"{Name}\" 프록시를 삭제하시겠습니까?",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "proxy.Name"
+                }
+            ]
+        },
+        {
+            "id": "Disable proxy \"{Name}\"",
+            "message": "Disable proxy \"{Name}\"",
+            "translation": "프록시 \"{Name}\" 비활성화",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "proxy.Name"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure you would like to disable proxy \"{Name}\"?",
+            "message": "Are you sure you would like to disable proxy \"{Name}\"?",
+            "translation": "\"{Name}\" 프록시를 비활성화하시겠습니까?",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "proxy.Name"
+                }
+            ]
+        },
+        {
+            "id": "Disable",
+            "message": "Disable",
+            "translation": "폐쇄"
+        },
+        {
+            "id": "Port",
+            "message": "Port",
+            "translation": "포트"
+        },
+        {
+            "id": "Passive Port Range",
+            "message": "Passive Port Range",
+            "translation": "패시브 포트 범위"
+        },
+        {
+            "id": "Error",
+            "message": "Error",
+            "translation": "오류"
+        }
+    ]
+}
