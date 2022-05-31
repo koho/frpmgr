@@ -3,9 +3,11 @@
 [![Build status](https://img.shields.io/github/workflow/status/koho/frpmgr/Releaser)](https://github.com/koho/frpmgr/actions/workflows/releaser.yml)
 [![GitHub release](https://img.shields.io/github/tag/koho/frpmgr.svg?label=release)](https://github.com/koho/frpmgr/releases)
 
+简体中文 | [English](README_en.md)
+
 Windows 下的 [frp](https://github.com/fatedier/frp) 图形界面客户端。
 
-![screenshot](/docs/screenshot.png)
+![screenshot](/docs/screenshot_zh.png)
 
 系统需求：Windows 7 及以上版本
 
