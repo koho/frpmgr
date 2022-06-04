@@ -24,6 +24,7 @@ static Language languages[] = {
         {1033, TEXT("English"), "en-US"},
         {1041, TEXT("日本語"),     "ja-JP"},
         {1042, TEXT("한국어"),     "ko-KR"},
+        {3082, TEXT("Español"), "es-ES"},
 };
 
 static BOOL RandomString(TCHAR ss[32]) {

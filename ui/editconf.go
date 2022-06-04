@@ -85,10 +85,7 @@ func (cd *EditClientDialog) View() Dialog {
 		},
 	)
 	dlg.Layout = VBox{Margins: Margins{7, 9, 7, 9}}
-	minWidth := int(funk.Sum(funk.Map(pages, func(page TabPage) int {
-		return calculateStringWidth(page.Title.(string)) + 25
-	})) + 70)
-	dlg.MinSize = Size{Width: minWidth, Height: 380}
+	dlg.MinSize = Size{Width: 0, Height: 380}
 	return dlg
 }
 
@@ -236,7 +233,7 @@ func (cd *EditClientDialog) tlsConfPage() TabPage {
 				{Name: "tlsCheck", Text: i18n.Sprintf("On"), Value: true},
 				{Text: i18n.Sprintf("Off"), Value: false},
 			}),
-			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Host Name")},
+			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Host Name"), AlwaysConsumeSpace: true},
 			LineEdit{Visible: Bind("tlsCheck.Checked"), Text: Bind("TLSServerName")},
 			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Certificate")},
 			NewBrowseLineEdit(nil, Bind("tlsCheck.Checked"), true, Bind("TLSCertFile"),

@@ -28,6 +28,7 @@ func (d *dictionary) Lookup(key string) (data string, ok bool) {
 func init() {
 	dict := map[string]catalog.Dictionary{
 		"en_US": &dictionary{index: en_USIndex, data: en_USData},
+		"es_ES": &dictionary{index: es_ESIndex, data: es_ESData},
 		"ja_JP": &dictionary{index: ja_JPIndex, data: ja_JPData},
 		"ko_KR": &dictionary{index: ko_KRIndex, data: ko_KRData},
 		"zh_CN": &dictionary{index: zh_CNIndex, data: zh_CNData},
@@ -312,6 +313,117 @@ const en_USData string = "" + // Size: 2685 bytes
 	" delete proxy \x22%[1]s\x22?\x02Disable proxy \x22%[1]s\x22\x02Are you s" +
 	"ure you would like to disable proxy \x22%[1]s\x22?\x02Disable\x02Port" +
 	"\x02Passive Port Range\x02Error"
+
+var es_ESIndex = []uint32{ // 170 elements
+	// Entry 0 - 1F
+	0x00000000, 0x00000015, 0x00000025, 0x00000039,
+	0x00000056, 0x00000069, 0x00000084, 0x0000009c,
+	0x000000ab, 0x000000c0, 0x000000d0, 0x000000d6,
+	0x000000f0, 0x0000010c, 0x00000123, 0x0000016d,
+	0x000001c6, 0x00000204, 0x00000234, 0x0000023c,
+	0x00000245, 0x00000254, 0x00000269, 0x0000028f,
+	0x00000296, 0x000002a6, 0x000002bc, 0x000002d3,
+	0x000002ef, 0x00000318, 0x0000031f, 0x0000032c,
+	// Entry 20 - 3F
+	0x0000033d, 0x00000355, 0x0000038a, 0x000003b1,
+	0x000003d1, 0x00000411, 0x00000427, 0x0000042f,
+	0x00000436, 0x0000044e, 0x00000461, 0x00000469,
+	0x00000477, 0x00000491, 0x00000499, 0x000004a4,
+	0x000004ac, 0x000004b6, 0x000004ca, 0x000004d9,
+	0x000004ee, 0x00000503, 0x0000050c, 0x0000056f,
+	0x00000583, 0x000005a3, 0x000005a9, 0x000005b8,
+	0x000005c8, 0x000005e5, 0x000005ff, 0x00000605,
+	// Entry 40 - 5F
+	0x0000060d, 0x0000066f, 0x00000677, 0x00000681,
+	0x0000068b, 0x00000696, 0x000006a6, 0x000006c4,
+	0x000006c6, 0x000006d5, 0x000006ea, 0x00000705,
+	0x0000070e, 0x00000716, 0x0000072b, 0x00000737,
+	0x0000075a, 0x0000076f, 0x0000079b, 0x000007ab,
+	0x000007cf, 0x000007d8, 0x000007e0, 0x000007ee,
+	0x00000806, 0x00000815, 0x00000845, 0x00000877,
+	0x0000087f, 0x00000897, 0x000008dd, 0x000008f9,
+	// Entry 60 - 7F
+	0x00000928, 0x00000935, 0x0000093f, 0x00000944,
+	0x00000949, 0x00000953, 0x00000961, 0x00000972,
+	0x0000097f, 0x0000098d, 0x000009a2, 0x000009b3,
+	0x000009c7, 0x000009d2, 0x000009ea, 0x000009f3,
+	0x000009ff, 0x00000a0f, 0x00000a1b, 0x00000a2d,
+	0x00000a34, 0x00000a3c, 0x00000a48, 0x00000a55,
+	0x00000a66, 0x00000a81, 0x00000a8a, 0x00000aa1,
+	0x00000aab, 0x00000ac6, 0x00000ad1, 0x00000b06,
+	// Entry 80 - 9F
+	0x00000b16, 0x00000b2a, 0x00000b30, 0x00000b3f,
+	0x00000b50, 0x00000b55, 0x00000b69, 0x00000b7c,
+	0x00000b86, 0x00000bb4, 0x00000bc7, 0x00000bed,
+	0x00000bfc, 0x00000c08, 0x00000c0f, 0x00000c18,
+	0x00000c23, 0x00000c2a, 0x00000c31, 0x00000c43,
+	0x00000c4a, 0x00000c53, 0x00000c5c, 0x00000c67,
+	0x00000c78, 0x00000c80, 0x00000c90, 0x00000ca2,
+	0x00000cbc, 0x00000cc9, 0x00000cd3, 0x00000ce8,
+	// Entry A0 - BF
+	0x00000cf9, 0x00000d15, 0x00000d2c, 0x00000d63,
+	0x00000d7e, 0x00000db7, 0x00000dc4, 0x00000dcb,
+	0x00000de3, 0x00000de9,
+} // Size: 704 bytes
+
+const es_ESData string = "" + // Size: 3561 bytes
+	"\x02Administrador de FRP\x02Versión: %[1]s\x02Versión FRP: %[1]s\x02Fech" +
+	"a de compilación: %[1]s\x02Todos los archivos\x02Archivos de configuraci" +
+	"ón\x02Archivos de certificado\x02Archivos clave\x02Archivos de registro" +
+	"\x02Nueva versión!\x02Sobre\x02Descargar actualizaciones\x02Comprobando " +
+	"actualizaciones\x02Buscar actualizaciones\x02Para comentarios o para inf" +
+	"ormar errores, visite la página del proyecto:\x02Para ver la documentaci" +
+	"ón de configuración de FRP, visite la página del proyecto FRP:\x02Se pr" +
+	"odujo un error al buscar una actualización de software.\x02Actualmente n" +
+	"o hay actualizaciones disponibles.\x02Aceptar\x02Cancelar\x02Configuraci" +
+	"ón\x02Nueva Configuración\x02Importar configuración desde archivo\x02Ed" +
+	"itar\x02Abrir documento\x02Mostrar en la carpeta\x02Importar desde archi" +
+	"vo\x02Importar desde portapapeles\x02Exportar todas las configuraciones " +
+	"a ZIP\x02Borrar\x02Nueva Config\x02Ajustes manuales\x02Importar configur" +
+	"ación\x02Ya existe otra configuración con el nombre \x22%[1]s\x22.\x02No" +
+	" se puede copiar el archivo \x22%[1]s\x22.\x02Eliminar configuración " +
+	"\x22%[1]s\x22\x02¿Está seguro de que desea eliminar la configuración " +
+	"\x22%[1]s\x22?\x02Editar Configuración\x02Básico\x02Nombre\x02Dirección " +
+	"del servidor\x02Puerto de servicio\x02Usuario\x02Autorización\x02Método " +
+	"de autenticación\x02Ninguna\x02Simbólico\x02Secreto\x02Audiencia\x02Dire" +
+	"cción de token\x02Autenticación\x02Latidos del corazón\x02Conexión de tr" +
+	"abajo\x02Registro\x02* Déjelo en blanco para no registrar ningún registr" +
+	"o y eliminar el archivo de registro original.\x02Archivo de registro\x02" +
+	"Seleccionar archivo de registro\x02Nivel\x02Días máximos\x02Administraci" +
+	"ón\x02Dirección del administrador\x02Puerto de administración\x02Clave" +
+	"\x02Recurso\x02Seleccione un directorio local desde el que el servidor d" +
+	"e administración cargará los recursos.\x02Depurar\x02Conexión\x02Protoco" +
+	"lo\x02Proxy HTTP\x02Conectar cuenta\x02Tiempo de espera de conexión\x02s" +
+	"\x02TCP Keep-Alive\x02Intervalo de latidos\x02Tiempo de espera de latido" +
+	"\x02Encender\x02Apagado\x02Nombre de anfitrión\x02Certificado\x02Selecci" +
+	"onar archivo de certificado\x02Clave de certificado\x02Seleccionar archi" +
+	"vo de clave de certificado\x02CA de confianza\x02Seleccionar archivo CA " +
+	"de confianza\x02Avanzado\x02Mux TCP\x02Mux Keepalive\x02Dirección de la " +
+	"fuente\x02Otras opciones\x02Salir después de un error de inicio de sesió" +
+	"n\x02Deshabilitar el inicio automático en el arranque\x02Disfraz\x02Opci" +
+	"ones personalizadas\x02* Consulte la sección [common] del archivo de con" +
+	"figuración de FRP.\x02La configuración ya existe\x02El nombre de configu" +
+	"ración \x22%[1]s\x22 ya existe.\x02Editar Proxy\x02Aleatorio\x02Tipo\x02" +
+	"Role\x02Visitante\x02Llave secreta\x02Dirección local\x02Puerto local" +
+	"\x02Puerto remoto\x02Dirección de enlace\x02Puerto de enlace\x02Nombre d" +
+	"el servidor\x02Subdominio\x02Dominios personalizados\x02Ruta URL\x02Mult" +
+	"iplexor\x02Usuario de ruta\x02Banda ancha\x02Versión de proxy\x02Vacío" +
+	"\x02Cifrado\x02Compresión\x02Usuario HTTP\x02Contraseña HTTP\x02Reescrit" +
+	"ura del anfitrión\x02Enchufar\x02Nombre del complemento\x02Ruta Unix\x02" +
+	"Seleccione la ruta de Unix\x02Ruta local\x02Seleccione una carpeta para " +
+	"la lista de directorios.\x02Prefijo de tira\x02Equilibrio de carga\x02Gr" +
+	"upo\x02Clave de grupo\x02Chequeo de salud\x02Tipo\x02Se acabó el tiempo" +
+	"\x02Recuento de fallas\x02Intervalo\x02* Consulte los parámetros admitid" +
+	"os por FRP.\x02El proxy ya existe\x02El nombre de proxy \x22%[1]s\x22 ya" +
+	" existe.\x02Abrir registro\x02Desconocido\x02Correr\x02Detenido\x02Comen" +
+	"zando\x02Parada\x02Estado\x02Dirección remota\x02Copiar\x02Comienzo\x02S" +
+	"ervicio\x02Deténgase\x02Directorio local\x02Agregar\x02Añadir rápido\x02" +
+	"Escritorio remoto\x02Servidor de archivos HTTP\x02Proxy SOCKS5\x02Habili" +
+	"tar\x02Abrir configuración\x02Edición directa\x02Copiar dirección de acc" +
+	"eso\x02Eliminar proxy \x22%[1]s\x22\x02¿Está seguro de que desea elimina" +
+	"r el proxy \x22%[1]s\x22?\x02Deshabilitar proxy \x22%[1]s\x22\x02¿Está s" +
+	"eguro de que desea desactivar el proxy \x22%[1]s\x22?\x02Deshabilitar" +
+	"\x02Puerto\x02Gama de puertos pasivos\x02Error"
 
 var ja_JPIndex = []uint32{ // 170 elements
 	// Entry 0 - 1F
@@ -638,4 +750,4 @@ const zh_TWData string = "" + // Size: 2664 bytes
 	"\x02確定要刪除代理「%[1]s」嗎？\x02禁用代理「%[1]s」\x02確定要禁用代理「%[1]s」嗎？\x02禁用\x02端口\x02被" +
 	"動端口範圍\x02錯誤"
 
-	// Total table size 18877 bytes (18KiB); checksum: FFA8243E
+	// Total table size 23142 bytes (22KiB); checksum: 8EFEBDD3

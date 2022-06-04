@@ -1,0 +1,980 @@
+{
+    "language": "es-ES",
+    "messages": [
+        {
+            "id": "FRP Manager",
+            "message": "FRP Manager",
+            "translation": "Administrador de FRP"
+        },
+        {
+            "id": "Version: {Number}",
+            "message": "Version: {Number}",
+            "translation": "Versión: {Number}",
+            "placeholders": [
+                {
+                    "id": "Number",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "version.Number"
+                }
+            ]
+        },
+        {
+            "id": "FRP version: {FRPVersion}",
+            "message": "FRP version: {FRPVersion}",
+            "translation": "Versión FRP: {FRPVersion}",
+            "placeholders": [
+                {
+                    "id": "FRPVersion",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "version.FRPVersion"
+                }
+            ]
+        },
+        {
+            "id": "Built on: {BuildDate}",
+            "message": "Built on: {BuildDate}",
+            "translation": "Fecha de compilación: {BuildDate}",
+            "placeholders": [
+                {
+                    "id": "BuildDate",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "version.BuildDate"
+                }
+            ]
+        },
+        {
+            "id": "All Files",
+            "message": "All Files",
+            "translation": "Todos los archivos"
+        },
+        {
+            "id": "Configuration Files",
+            "message": "Configuration Files",
+            "translation": "Archivos de configuración"
+        },
+        {
+            "id": "Certificate Files",
+            "message": "Certificate Files",
+            "translation": "Archivos de certificado"
+        },
+        {
+            "id": "Key Files",
+            "message": "Key Files",
+            "translation": "Archivos clave"
+        },
+        {
+            "id": "Log Files",
+            "message": "Log Files",
+            "translation": "Archivos de registro"
+        },
+        {
+            "id": "New Version!",
+            "message": "New Version!",
+            "translation": "Nueva versión!"
+        },
+        {
+            "id": "About",
+            "message": "About",
+            "translation": "Sobre"
+        },
+        {
+            "id": "Download updates",
+            "message": "Download updates",
+            "translation": "Descargar actualizaciones"
+        },
+        {
+            "id": "Checking for updates",
+            "message": "Checking for updates",
+            "translation": "Comprobando actualizaciones"
+        },
+        {
+            "id": "Check for updates",
+            "message": "Check for updates",
+            "translation": "Buscar actualizaciones"
+        },
+        {
+            "id": "For comments or to report bugs, please visit the project page:",
+            "message": "For comments or to report bugs, please visit the project page:",
+            "translation": "Para comentarios o para informar errores, visite la página del proyecto:"
+        },
+        {
+            "id": "For FRP configuration documentation, please visit the FRP project page:",
+            "message": "For FRP configuration documentation, please visit the FRP project page:",
+            "translation": "Para ver la documentación de configuración de FRP, visite la página del proyecto FRP:"
+        },
+        {
+            "id": "An error occurred while checking for a software update.",
+            "message": "An error occurred while checking for a software update.",
+            "translation": "Se produjo un error al buscar una actualización de software."
+        },
+        {
+            "id": "There are currently no updates available.",
+            "message": "There are currently no updates available.",
+            "translation": "Actualmente no hay actualizaciones disponibles."
+        },
+        {
+            "id": "OK",
+            "message": "OK",
+            "translation": "Aceptar"
+        },
+        {
+            "id": "Cancel",
+            "message": "Cancel",
+            "translation": "Cancelar"
+        },
+        {
+            "id": "Configuration",
+            "message": "Configuration",
+            "translation": "Configuración"
+        },
+        {
+            "id": "New Configuration",
+            "message": "New Configuration",
+            "translation": "Nueva Configuración"
+        },
+        {
+            "id": "Import Config from File",
+            "message": "Import Config from File",
+            "translation": "Importar configuración desde archivo"
+        },
+        {
+            "id": "Edit",
+            "message": "Edit",
+            "translation": "Editar"
+        },
+        {
+            "id": "Open File",
+            "message": "Open File",
+            "translation": "Abrir documento"
+        },
+        {
+            "id": "Show in Folder",
+            "message": "Show in Folder",
+            "translation": "Mostrar en la carpeta"
+        },
+        {
+            "id": "Import from File",
+            "message": "Import from File",
+            "translation": "Importar desde archivo"
+        },
+        {
+            "id": "Import from Clipboard",
+            "message": "Import from Clipboard",
+            "translation": "Importar desde portapapeles"
+        },
+        {
+            "id": "Export All Configs to ZIP",
+            "message": "Export All Configs to ZIP",
+            "translation": "Exportar todas las configuraciones a ZIP"
+        },
+        {
+            "id": "Delete",
+            "message": "Delete",
+            "translation": "Borrar"
+        },
+        {
+            "id": "New Config",
+            "message": "New Config",
+            "translation": "Nueva Config"
+        },
+        {
+            "id": "Manual Settings",
+            "message": "Manual Settings",
+            "translation": "Ajustes manuales"
+        },
+        {
+            "id": "Import Config",
+            "message": "Import Config",
+            "translation": "Importar configuración"
+        },
+        {
+            "id": "Another config already exists with the name \"{BaseName}\".",
+            "message": "Another config already exists with the name \"{BaseName}\".",
+            "translation": "Ya existe otra configuración con el nombre \"{BaseName}\".",
+            "placeholders": [
+                {
+                    "id": "BaseName",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "baseName"
+                }
+            ]
+        },
+        {
+            "id": "Unable to copy file \"{Path}\".",
+            "message": "Unable to copy file \"{Path}\".",
+            "translation": "No se puede copiar el archivo \"{Path}\".",
+            "placeholders": [
+                {
+                    "id": "Path",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "path"
+                }
+            ]
+        },
+        {
+            "id": "Delete config \"{Name}\"",
+            "message": "Delete config \"{Name}\"",
+            "translation": "Eliminar configuración \"{Name}\"",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "conf.Name"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure you would like to delete config \"{Name}\"?",
+            "message": "Are you sure you would like to delete config \"{Name}\"?",
+            "translation": "¿Está seguro de que desea eliminar la configuración \"{Name}\"?",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "conf.Name"
+                }
+            ]
+        },
+        {
+            "id": "Edit Config",
+            "message": "Edit Config",
+            "translation": "Editar Configuración"
+        },
+        {
+            "id": "Basic",
+            "message": "Basic",
+            "translation": "Básico"
+        },
+        {
+            "id": "Name",
+            "message": "Name",
+            "translation": "Nombre"
+        },
+        {
+            "id": "Server Address",
+            "message": "Server Address",
+            "translation": "Dirección del servidor"
+        },
+        {
+            "id": "Server Port",
+            "message": "Server Port",
+            "translation": "Puerto de servicio"
+        },
+        {
+            "id": "User",
+            "message": "User",
+            "translation": "Usuario"
+        },
+        {
+            "id": "Auth",
+            "message": "Auth",
+            "translation": "Autorización"
+        },
+        {
+            "id": "Auth Method",
+            "message": "Auth Method",
+            "translation": "Método de autenticación"
+        },
+        {
+            "id": "None",
+            "message": "None",
+            "translation": "Ninguna"
+        },
+        {
+            "id": "Token",
+            "message": "Token",
+            "translation": "Simbólico"
+        },
+        {
+            "id": "Secret",
+            "message": "Secret",
+            "translation": "Secreto"
+        },
+        {
+            "id": "Audience",
+            "message": "Audience",
+            "translation": "Audiencia"
+        },
+        {
+            "id": "Token Endpoint",
+            "message": "Token Endpoint",
+            "translation": "Dirección de token"
+        },
+        {
+            "id": "Authentication",
+            "message": "Authentication",
+            "translation": "Autenticación"
+        },
+        {
+            "id": "Heart Beats",
+            "message": "Heart Beats",
+            "translation": "Latidos del corazón"
+        },
+        {
+            "id": "Work Conns",
+            "message": "Work Conns",
+            "translation": "Conexión de trabajo"
+        },
+        {
+            "id": "Log",
+            "message": "Log",
+            "translation": "Registro"
+        },
+        {
+            "id": "* Leave blank to record no log and delete the original log file.",
+            "message": "* Leave blank to record no log and delete the original log file.",
+            "translation": "* Déjelo en blanco para no registrar ningún registro y eliminar el archivo de registro original."
+        },
+        {
+            "id": "Log File",
+            "message": "Log File",
+            "translation": "Archivo de registro"
+        },
+        {
+            "id": "Select Log File",
+            "message": "Select Log File",
+            "translation": "Seleccionar archivo de registro"
+        },
+        {
+            "id": "Level",
+            "message": "Level",
+            "translation": "Nivel"
+        },
+        {
+            "id": "Max Days",
+            "message": "Max Days",
+            "translation": "Días máximos"
+        },
+        {
+            "id": "Admin",
+            "message": "Admin",
+            "translation": "Administración"
+        },
+        {
+            "id": "Admin Address",
+            "message": "Admin Address",
+            "translation": "Dirección del administrador"
+        },
+        {
+            "id": "Admin Port",
+            "message": "Admin Port",
+            "translation": "Puerto de administración"
+        },
+        {
+            "id": "Password",
+            "message": "Password",
+            "translation": "Clave"
+        },
+        {
+            "id": "Assets",
+            "message": "Assets",
+            "translation": "Recurso"
+        },
+        {
+            "id": "Select a local directory that the admin server will load resources from.",
+            "message": "Select a local directory that the admin server will load resources from.",
+            "translation": "Seleccione un directorio local desde el que el servidor de administración cargará los recursos."
+        },
+        {
+            "id": "Debug",
+            "message": "Debug",
+            "translation": "Depurar"
+        },
+        {
+            "id": "Connection",
+            "message": "Connection",
+            "translation": "Conexión"
+        },
+        {
+            "id": "Protocol",
+            "message": "Protocol",
+            "translation": "Protocolo"
+        },
+        {
+            "id": "HTTP Proxy",
+            "message": "HTTP Proxy",
+            "translation": "Proxy HTTP"
+        },
+        {
+            "id": "Pool Count",
+            "message": "Pool Count",
+            "translation": "Conectar cuenta"
+        },
+        {
+            "id": "Dial Timeout",
+            "message": "Dial Timeout",
+            "translation": "Tiempo de espera de conexión"
+        },
+        {
+            "id": "s",
+            "message": "s",
+            "translation": "s"
+        },
+        {
+            "id": "TCP Keep-Alive",
+            "message": "TCP Keep-Alive",
+            "translation": "TCP Keep-Alive"
+        },
+        {
+            "id": "Heartbeat Interval",
+            "message": "Heartbeat Interval",
+            "translation": "Intervalo de latidos"
+        },
+        {
+            "id": "Heartbeat Timeout",
+            "message": "Heartbeat Timeout",
+            "translation": "Tiempo de espera de latido"
+        },
+        {
+            "id": "On",
+            "message": "On",
+            "translation": "Encender"
+        },
+        {
+            "id": "Off",
+            "message": "Off",
+            "translation": "Apagado"
+        },
+        {
+            "id": "Host Name",
+            "message": "Host Name",
+            "translation": "Nombre de anfitrión"
+        },
+        {
+            "id": "Certificate",
+            "message": "Certificate",
+            "translation": "Certificado"
+        },
+        {
+            "id": "Select Certificate File",
+            "message": "Select Certificate File",
+            "translation": "Seleccionar archivo de certificado"
+        },
+        {
+            "id": "Certificate Key",
+            "message": "Certificate Key",
+            "translation": "Clave de certificado"
+        },
+        {
+            "id": "Select Certificate Key File",
+            "message": "Select Certificate Key File",
+            "translation": "Seleccionar archivo de clave de certificado"
+        },
+        {
+            "id": "Trusted CA",
+            "message": "Trusted CA",
+            "translation": "CA de confianza"
+        },
+        {
+            "id": "Select Trusted CA File",
+            "message": "Select Trusted CA File",
+            "translation": "Seleccionar archivo CA de confianza"
+        },
+        {
+            "id": "Advanced",
+            "message": "Advanced",
+            "translation": "Avanzado"
+        },
+        {
+            "id": "TCP Mux",
+            "message": "TCP Mux",
+            "translation": "Mux TCP"
+        },
+        {
+            "id": "Mux Keepalive",
+            "message": "Mux Keepalive",
+            "translation": "Mux Keepalive"
+        },
+        {
+            "id": "Source Address",
+            "message": "Source Address",
+            "translation": "Dirección de la fuente"
+        },
+        {
+            "id": "Other Options",
+            "message": "Other Options",
+            "translation": "Otras opciones"
+        },
+        {
+            "id": "Exit after login failure",
+            "message": "Exit after login failure",
+            "translation": "Salir después de un error de inicio de sesión"
+        },
+        {
+            "id": "Disable auto-start at boot",
+            "message": "Disable auto-start at boot",
+            "translation": "Deshabilitar el inicio automático en el arranque"
+        },
+        {
+            "id": "Custom",
+            "message": "Custom",
+            "translation": "Disfraz"
+        },
+        {
+            "id": "Custom Options",
+            "message": "Custom Options",
+            "translation": "Opciones personalizadas"
+        },
+        {
+            "id": "* Refer to the [common] section of the FRP configuration file.",
+            "message": "* Refer to the [common] section of the FRP configuration file.",
+            "translation": "* Consulte la sección [common] del archivo de configuración de FRP."
+        },
+        {
+            "id": "Config already exists",
+            "message": "Config already exists",
+            "translation": "La configuración ya existe"
+        },
+        {
+            "id": "The config name \"{Name}\" already exists.",
+            "message": "The config name \"{Name}\" already exists.",
+            "translation": "El nombre de configuración \"{Name}\" ya existe.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "name"
+                }
+            ]
+        },
+        {
+            "id": "Edit Proxy",
+            "message": "Edit Proxy",
+            "translation": "Editar Proxy"
+        },
+        {
+            "id": "Random",
+            "message": "Random",
+            "translation": "Aleatorio"
+        },
+        {
+            "id": "Type",
+            "message": "Type",
+            "translation": "Tipo"
+        },
+        {
+            "id": "Role",
+            "message": "Role",
+            "translation": "Role"
+        },
+        {
+            "id": "Visitor",
+            "message": "Visitor",
+            "translation": "Visitante"
+        },
+        {
+            "id": "Secret Key",
+            "message": "Secret Key",
+            "translation": "Llave secreta"
+        },
+        {
+            "id": "Local Address",
+            "message": "Local Address",
+            "translation": "Dirección local"
+        },
+        {
+            "id": "Local Port",
+            "message": "Local Port",
+            "translation": "Puerto local"
+        },
+        {
+            "id": "Remote Port",
+            "message": "Remote Port",
+            "translation": "Puerto remoto"
+        },
+        {
+            "id": "Bind Address",
+            "message": "Bind Address",
+            "translation": "Dirección de enlace"
+        },
+        {
+            "id": "Bind Port",
+            "message": "Bind Port",
+            "translation": "Puerto de enlace"
+        },
+        {
+            "id": "Server Name",
+            "message": "Server Name",
+            "translation": "Nombre del servidor"
+        },
+        {
+            "id": "Subdomain",
+            "message": "Subdomain",
+            "translation": "Subdominio"
+        },
+        {
+            "id": "Custom Domains",
+            "message": "Custom Domains",
+            "translation": "Dominios personalizados"
+        },
+        {
+            "id": "Locations",
+            "message": "Locations",
+            "translation": "Ruta URL"
+        },
+        {
+            "id": "Multiplexer",
+            "message": "Multiplexer",
+            "translation": "Multiplexor"
+        },
+        {
+            "id": "Route User",
+            "message": "Route User",
+            "translation": "Usuario de ruta"
+        },
+        {
+            "id": "Bandwidth",
+            "message": "Bandwidth",
+            "translation": "Banda ancha"
+        },
+        {
+            "id": "Proxy Version",
+            "message": "Proxy Version",
+            "translation": "Versión de proxy"
+        },
+        {
+            "id": "Empty",
+            "message": "Empty",
+            "translation": "Vacío"
+        },
+        {
+            "id": "Encryption",
+            "message": "Encryption",
+            "translation": "Cifrado"
+        },
+        {
+            "id": "Compression",
+            "message": "Compression",
+            "translation": "Compresión"
+        },
+        {
+            "id": "HTTP User",
+            "message": "HTTP User",
+            "translation": "Usuario HTTP"
+        },
+        {
+            "id": "HTTP Password",
+            "message": "HTTP Password",
+            "translation": "Contraseña HTTP"
+        },
+        {
+            "id": "Host Rewrite",
+            "message": "Host Rewrite",
+            "translation": "Reescritura del anfitrión"
+        },
+        {
+            "id": "Plugin",
+            "message": "Plugin",
+            "translation": "Enchufar"
+        },
+        {
+            "id": "Plugin Name",
+            "message": "Plugin Name",
+            "translation": "Nombre del complemento"
+        },
+        {
+            "id": "Unix Path",
+            "message": "Unix Path",
+            "translation": "Ruta Unix"
+        },
+        {
+            "id": "Select Unix Path",
+            "message": "Select Unix Path",
+            "translation": "Seleccione la ruta de Unix"
+        },
+        {
+            "id": "Local Path",
+            "message": "Local Path",
+            "translation": "Ruta local"
+        },
+        {
+            "id": "Select a folder for directory listing.",
+            "message": "Select a folder for directory listing.",
+            "translation": "Seleccione una carpeta para la lista de directorios."
+        },
+        {
+            "id": "Strip Prefix",
+            "message": "Strip Prefix",
+            "translation": "Prefijo de tira"
+        },
+        {
+            "id": "Load Balance",
+            "message": "Load Balance",
+            "translation": "Equilibrio de carga"
+        },
+        {
+            "id": "Group",
+            "message": "Group",
+            "translation": "Grupo"
+        },
+        {
+            "id": "Group Key",
+            "message": "Group Key",
+            "translation": "Clave de grupo"
+        },
+        {
+            "id": "Health Check",
+            "message": "Health Check",
+            "translation": "Chequeo de salud"
+        },
+        {
+            "id": "Check Type",
+            "message": "Check Type",
+            "translation": "Tipo"
+        },
+        {
+            "id": "Check Timeout",
+            "message": "Check Timeout",
+            "translation": "Se acabó el tiempo"
+        },
+        {
+            "id": "Failure Count",
+            "message": "Failure Count",
+            "translation": "Recuento de fallas"
+        },
+        {
+            "id": "Check Interval",
+            "message": "Check Interval",
+            "translation": "Intervalo"
+        },
+        {
+            "id": "* Refer to the parameters supported by FRP.",
+            "message": "* Refer to the parameters supported by FRP.",
+            "translation": "* Consulte los parámetros admitidos por FRP."
+        },
+        {
+            "id": "Proxy already exists",
+            "message": "Proxy already exists",
+            "translation": "El proxy ya existe"
+        },
+        {
+            "id": "The proxy name \"{Name}\" already exists.",
+            "message": "The proxy name \"{Name}\" already exists.",
+            "translation": "El nombre de proxy \"{Name}\" ya existe.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "name"
+                }
+            ]
+        },
+        {
+            "id": "Open Log Folder",
+            "message": "Open Log Folder",
+            "translation": "Abrir registro"
+        },
+        {
+            "id": "Unknown",
+            "message": "Unknown",
+            "translation": "Desconocido"
+        },
+        {
+            "id": "Running",
+            "message": "Running",
+            "translation": "Correr"
+        },
+        {
+            "id": "Stopped",
+            "message": "Stopped",
+            "translation": "Detenido"
+        },
+        {
+            "id": "Starting",
+            "message": "Starting",
+            "translation": "Comenzando"
+        },
+        {
+            "id": "Stopping",
+            "message": "Stopping",
+            "translation": "Parada"
+        },
+        {
+            "id": "Status",
+            "message": "Status",
+            "translation": "Estado"
+        },
+        {
+            "id": "Remote Address",
+            "message": "Remote Address",
+            "translation": "Dirección remota"
+        },
+        {
+            "id": "Copy",
+            "message": "Copy",
+            "translation": "Copiar"
+        },
+        {
+            "id": "Start",
+            "message": "Start",
+            "translation": "Comienzo"
+        },
+        {
+            "id": "Service",
+            "message": "Service",
+            "translation": "Servicio"
+        },
+        {
+            "id": "Stop",
+            "message": "Stop",
+            "translation": "Deténgase"
+        },
+        {
+            "id": "Local Directory",
+            "message": "Local Directory",
+            "translation": "Directorio local"
+        },
+        {
+            "id": "Add",
+            "message": "Add",
+            "translation": "Agregar"
+        },
+        {
+            "id": "Quick Add",
+            "message": "Quick Add",
+            "translation": "Añadir rápido"
+        },
+        {
+            "id": "Remote Desktop",
+            "message": "Remote Desktop",
+            "translation": "Escritorio remoto"
+        },
+        {
+            "id": "HTTP File Server",
+            "message": "HTTP File Server",
+            "translation": "Servidor de archivos HTTP"
+        },
+        {
+            "id": "SOCKS5 Proxy",
+            "message": "SOCKS5 Proxy",
+            "translation": "Proxy SOCKS5"
+        },
+        {
+            "id": "Enable",
+            "message": "Enable",
+            "translation": "Habilitar"
+        },
+        {
+            "id": "Open Config",
+            "message": "Open Config",
+            "translation": "Abrir configuración"
+        },
+        {
+            "id": "Direct Edit",
+            "message": "Direct Edit",
+            "translation": "Edición directa"
+        },
+        {
+            "id": "Copy Access Address",
+            "message": "Copy Access Address",
+            "translation": "Copiar dirección de acceso"
+        },
+        {
+            "id": "Delete proxy \"{Name}\"",
+            "message": "Delete proxy \"{Name}\"",
+            "translation": "Eliminar proxy \"{Name}\"",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "proxy.Name"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure you would like to delete proxy \"{Name}\"?",
+            "message": "Are you sure you would like to delete proxy \"{Name}\"?",
+            "translation": "¿Está seguro de que desea eliminar el proxy \"{Name}\"?",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "proxy.Name"
+                }
+            ]
+        },
+        {
+            "id": "Disable proxy \"{Name}\"",
+            "message": "Disable proxy \"{Name}\"",
+            "translation": "Deshabilitar proxy \"{Name}\"",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "proxy.Name"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure you would like to disable proxy \"{Name}\"?",
+            "message": "Are you sure you would like to disable proxy \"{Name}\"?",
+            "translation": "¿Está seguro de que desea desactivar el proxy \"{Name}\"?",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "proxy.Name"
+                }
+            ]
+        },
+        {
+            "id": "Disable",
+            "message": "Disable",
+            "translation": "Deshabilitar"
+        },
+        {
+            "id": "Port",
+            "message": "Port",
+            "translation": "Puerto"
+        },
+        {
+            "id": "Passive Port Range",
+            "message": "Passive Port Range",
+            "translation": "Gama de puertos pasivos"
+        },
+        {
+            "id": "Error",
+            "message": "Error",
+            "translation": "Error"
+        }
+    ]
+}

@@ -144,8 +144,12 @@ func (pd *EditProxyDialog) View() Dialog {
 	)
 	dlg.Layout = VBox{Margins: Margins{7, 9, 7, 9}}
 	minWidth := int(funk.Sum(funk.Map(pages, func(page TabPage) int {
-		return calculateStringWidth(page.Title.(string)) + 25
+		return calculateStringWidth(page.Title.(string)) + 20
 	})) + 20)
+	// Keep a better aspect ratio
+	if minWidth < 350 {
+		minWidth += 30
+	}
 	dlg.MinSize = Size{Width: minWidth, Height: 420}
 	return dlg
 }
@@ -253,7 +257,7 @@ func (pd *EditProxyDialog) pluginProxyPage() TabPage {
 			ComboBox{
 				AssignTo:              &pd.pluginView,
 				Enabled:               Bind("vm.PluginEnable"),
-				MinSize:               Size{Width: 250},
+				MinSize:               Size{Width: 210},
 				Model:                 NewDefaultListModel(consts.PluginTypes, "", i18n.Sprintf("None")),
 				Value:                 Bind("Plugin"),
 				BindingMember:         "Name",

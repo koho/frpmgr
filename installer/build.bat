@@ -21,7 +21,7 @@ if "%WIX%"=="" (
 	set WIX_OBJ=build/frpmgr.wixobj
 	"%WIX%bin\candle" %WIX_CANDLE_FLAGS% -out %WIX_OBJ% -arch x64 msi\frpmgr.wxs || goto :error
 	"%WIX%bin\light" %WIX_LIGHT_FLAGS% -cultures:en-US -loc msi\en-US.wxl -out %MSI_FILE% %WIX_OBJ% || goto :error
-	for %%l in (zh-CN zh-TW ja-JP ko-KR) do (
+	for %%l in (zh-CN zh-TW ja-JP ko-KR es-ES) do (
 		set WIX_LANG_MSI=%MSI_FILE:~0,-4%_%%l.msi
 		"%WIX%bin\light" %WIX_LIGHT_FLAGS% -cultures:%%l -loc msi\%%l.wxl -out !WIX_LANG_MSI! %WIX_OBJ% || goto :error
 		for /f "tokens=3 delims=><" %%a in ('findstr /r "Id.*=.*Language" msi\%%l.wxl') do set LANG_CODE=%%a

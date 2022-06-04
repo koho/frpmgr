@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Product Id="*" Name="!(loc.ApplicationName)" Language="!(loc.Language)" Version="$(var.VERSION)" Manufacturer="FRP Manager Project" UpgradeCode="c9f7c2b3-291a-454a-9871-150d98dc2645">
 
-		<Package InstallerVersion="400" Compressed="yes" InstallScope="perMachine" Platform="x64" Languages="1033,1041,1042,2052,1028" Description="!(loc.ApplicationName)" />
+		<Package InstallerVersion="400" Compressed="yes" InstallScope="perMachine" Platform="x64" Languages="1033,1041,1042,2052,1028,3082" Description="!(loc.ApplicationName)" />
 
 		<MediaTemplate EmbedCab="yes" CompressionLevel="high" />
 

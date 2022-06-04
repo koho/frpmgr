@@ -1,6 +1,6 @@
 package i18n
 
-//go:generate gotext -srclang=en-US update -out=catalog.go -lang=en-US,zh-CN,zh-TW,ja-JP,ko-KR ../cmd/frpmgr
+//go:generate gotext -srclang=en-US update -out=catalog.go -lang=en-US,zh-CN,zh-TW,ja-JP,ko-KR,es-ES ../cmd/frpmgr
 
 import (
 	"bufio"
