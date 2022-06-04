@@ -289,12 +289,12 @@
         {
             "id": "Auth",
             "message": "Auth",
-            "translation": "Autorización"
+            "translation": "Auth"
         },
         {
             "id": "Auth Method",
             "message": "Auth Method",
-            "translation": "Método de autenticación"
+            "translation": "Método"
         },
         {
             "id": "None",
@@ -369,17 +369,17 @@
         {
             "id": "Admin",
             "message": "Admin",
-            "translation": "Administración"
+            "translation": "Admin"
         },
         {
             "id": "Admin Address",
             "message": "Admin Address",
-            "translation": "Dirección del administrador"
+            "translation": "Dirección"
         },
         {
             "id": "Admin Port",
             "message": "Admin Port",
-            "translation": "Puerto de administración"
+            "translation": "Puerto"
         },
         {
             "id": "Password",
@@ -519,12 +519,12 @@
         {
             "id": "Exit after login failure",
             "message": "Exit after login failure",
-            "translation": "Salir después de un error de inicio de sesión"
+            "translation": "Salir después de fallar el inicio de sesión"
         },
         {
             "id": "Disable auto-start at boot",
             "message": "Disable auto-start at boot",
-            "translation": "Deshabilitar el inicio automático en el arranque"
+            "translation": "Desactivar el inicio automático al arrancar"
         },
         {
             "id": "Custom",
@@ -684,7 +684,7 @@
         {
             "id": "Host Rewrite",
             "message": "Host Rewrite",
-            "translation": "Reescritura del anfitrión"
+            "translation": "Reescritura de host"
         },
         {
             "id": "Plugin",
@@ -694,7 +694,7 @@
         {
             "id": "Plugin Name",
             "message": "Plugin Name",
-            "translation": "Nombre del complemento"
+            "translation": "Nombre"
         },
         {
             "id": "Unix Path",

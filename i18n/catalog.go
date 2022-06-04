@@ -328,45 +328,45 @@ var es_ESIndex = []uint32{ // 170 elements
 	0x0000033d, 0x00000355, 0x0000038a, 0x000003b1,
 	0x000003d1, 0x00000411, 0x00000427, 0x0000042f,
 	0x00000436, 0x0000044e, 0x00000461, 0x00000469,
-	0x00000477, 0x00000491, 0x00000499, 0x000004a4,
-	0x000004ac, 0x000004b6, 0x000004ca, 0x000004d9,
-	0x000004ee, 0x00000503, 0x0000050c, 0x0000056f,
-	0x00000583, 0x000005a3, 0x000005a9, 0x000005b8,
-	0x000005c8, 0x000005e5, 0x000005ff, 0x00000605,
+	0x0000046e, 0x00000476, 0x0000047e, 0x00000489,
+	0x00000491, 0x0000049b, 0x000004af, 0x000004be,
+	0x000004d3, 0x000004e8, 0x000004f1, 0x00000554,
+	0x00000568, 0x00000588, 0x0000058e, 0x0000059d,
+	0x000005a3, 0x000005ae, 0x000005b5, 0x000005bb,
 	// Entry 40 - 5F
-	0x0000060d, 0x0000066f, 0x00000677, 0x00000681,
-	0x0000068b, 0x00000696, 0x000006a6, 0x000006c4,
-	0x000006c6, 0x000006d5, 0x000006ea, 0x00000705,
-	0x0000070e, 0x00000716, 0x0000072b, 0x00000737,
-	0x0000075a, 0x0000076f, 0x0000079b, 0x000007ab,
-	0x000007cf, 0x000007d8, 0x000007e0, 0x000007ee,
-	0x00000806, 0x00000815, 0x00000845, 0x00000877,
-	0x0000087f, 0x00000897, 0x000008dd, 0x000008f9,
+	0x000005c3, 0x00000625, 0x0000062d, 0x00000637,
+	0x00000641, 0x0000064c, 0x0000065c, 0x0000067a,
+	0x0000067c, 0x0000068b, 0x000006a0, 0x000006bb,
+	0x000006c4, 0x000006cc, 0x000006e1, 0x000006ed,
+	0x00000710, 0x00000725, 0x00000751, 0x00000761,
+	0x00000785, 0x0000078e, 0x00000796, 0x000007a4,
+	0x000007bc, 0x000007cb, 0x000007f9, 0x00000826,
+	0x0000082e, 0x00000846, 0x0000088c, 0x000008a8,
 	// Entry 60 - 7F
-	0x00000928, 0x00000935, 0x0000093f, 0x00000944,
-	0x00000949, 0x00000953, 0x00000961, 0x00000972,
-	0x0000097f, 0x0000098d, 0x000009a2, 0x000009b3,
-	0x000009c7, 0x000009d2, 0x000009ea, 0x000009f3,
-	0x000009ff, 0x00000a0f, 0x00000a1b, 0x00000a2d,
-	0x00000a34, 0x00000a3c, 0x00000a48, 0x00000a55,
-	0x00000a66, 0x00000a81, 0x00000a8a, 0x00000aa1,
-	0x00000aab, 0x00000ac6, 0x00000ad1, 0x00000b06,
+	0x000008d7, 0x000008e4, 0x000008ee, 0x000008f3,
+	0x000008f8, 0x00000902, 0x00000910, 0x00000921,
+	0x0000092e, 0x0000093c, 0x00000951, 0x00000962,
+	0x00000976, 0x00000981, 0x00000999, 0x000009a2,
+	0x000009ae, 0x000009be, 0x000009ca, 0x000009dc,
+	0x000009e3, 0x000009eb, 0x000009f7, 0x00000a04,
+	0x00000a15, 0x00000a29, 0x00000a32, 0x00000a39,
+	0x00000a43, 0x00000a5e, 0x00000a69, 0x00000a9e,
 	// Entry 80 - 9F
-	0x00000b16, 0x00000b2a, 0x00000b30, 0x00000b3f,
-	0x00000b50, 0x00000b55, 0x00000b69, 0x00000b7c,
-	0x00000b86, 0x00000bb4, 0x00000bc7, 0x00000bed,
-	0x00000bfc, 0x00000c08, 0x00000c0f, 0x00000c18,
-	0x00000c23, 0x00000c2a, 0x00000c31, 0x00000c43,
-	0x00000c4a, 0x00000c53, 0x00000c5c, 0x00000c67,
-	0x00000c78, 0x00000c80, 0x00000c90, 0x00000ca2,
-	0x00000cbc, 0x00000cc9, 0x00000cd3, 0x00000ce8,
+	0x00000aae, 0x00000ac2, 0x00000ac8, 0x00000ad7,
+	0x00000ae8, 0x00000aed, 0x00000b01, 0x00000b14,
+	0x00000b1e, 0x00000b4c, 0x00000b5f, 0x00000b85,
+	0x00000b94, 0x00000ba0, 0x00000ba7, 0x00000bb0,
+	0x00000bbb, 0x00000bc2, 0x00000bc9, 0x00000bdb,
+	0x00000be2, 0x00000beb, 0x00000bf4, 0x00000bff,
+	0x00000c10, 0x00000c18, 0x00000c28, 0x00000c3a,
+	0x00000c54, 0x00000c61, 0x00000c6b, 0x00000c80,
 	// Entry A0 - BF
-	0x00000cf9, 0x00000d15, 0x00000d2c, 0x00000d63,
-	0x00000d7e, 0x00000db7, 0x00000dc4, 0x00000dcb,
-	0x00000de3, 0x00000de9,
+	0x00000c91, 0x00000cad, 0x00000cc4, 0x00000cfb,
+	0x00000d16, 0x00000d4f, 0x00000d5c, 0x00000d63,
+	0x00000d7b, 0x00000d81,
 } // Size: 704 bytes
 
-const es_ESData string = "" + // Size: 3561 bytes
+const es_ESData string = "" + // Size: 3457 bytes
 	"\x02Administrador de FRP\x02Versión: %[1]s\x02Versión FRP: %[1]s\x02Fech" +
 	"a de compilación: %[1]s\x02Todos los archivos\x02Archivos de configuraci" +
 	"ón\x02Archivos de certificado\x02Archivos clave\x02Archivos de registro" +
@@ -384,13 +384,12 @@ const es_ESData string = "" + // Size: 3561 bytes
 	" se puede copiar el archivo \x22%[1]s\x22.\x02Eliminar configuración " +
 	"\x22%[1]s\x22\x02¿Está seguro de que desea eliminar la configuración " +
 	"\x22%[1]s\x22?\x02Editar Configuración\x02Básico\x02Nombre\x02Dirección " +
-	"del servidor\x02Puerto de servicio\x02Usuario\x02Autorización\x02Método " +
-	"de autenticación\x02Ninguna\x02Simbólico\x02Secreto\x02Audiencia\x02Dire" +
-	"cción de token\x02Autenticación\x02Latidos del corazón\x02Conexión de tr" +
-	"abajo\x02Registro\x02* Déjelo en blanco para no registrar ningún registr" +
-	"o y eliminar el archivo de registro original.\x02Archivo de registro\x02" +
-	"Seleccionar archivo de registro\x02Nivel\x02Días máximos\x02Administraci" +
-	"ón\x02Dirección del administrador\x02Puerto de administración\x02Clave" +
+	"del servidor\x02Puerto de servicio\x02Usuario\x02Auth\x02Método\x02Ningu" +
+	"na\x02Simbólico\x02Secreto\x02Audiencia\x02Dirección de token\x02Autenti" +
+	"cación\x02Latidos del corazón\x02Conexión de trabajo\x02Registro\x02* Dé" +
+	"jelo en blanco para no registrar ningún registro y eliminar el archivo d" +
+	"e registro original.\x02Archivo de registro\x02Seleccionar archivo de re" +
+	"gistro\x02Nivel\x02Días máximos\x02Admin\x02Dirección\x02Puerto\x02Clave" +
 	"\x02Recurso\x02Seleccione un directorio local desde el que el servidor d" +
 	"e administración cargará los recursos.\x02Depurar\x02Conexión\x02Protoco" +
 	"lo\x02Proxy HTTP\x02Conectar cuenta\x02Tiempo de espera de conexión\x02s" +
@@ -399,31 +398,31 @@ const es_ESData string = "" + // Size: 3561 bytes
 	"onar archivo de certificado\x02Clave de certificado\x02Seleccionar archi" +
 	"vo de clave de certificado\x02CA de confianza\x02Seleccionar archivo CA " +
 	"de confianza\x02Avanzado\x02Mux TCP\x02Mux Keepalive\x02Dirección de la " +
-	"fuente\x02Otras opciones\x02Salir después de un error de inicio de sesió" +
-	"n\x02Deshabilitar el inicio automático en el arranque\x02Disfraz\x02Opci" +
-	"ones personalizadas\x02* Consulte la sección [common] del archivo de con" +
-	"figuración de FRP.\x02La configuración ya existe\x02El nombre de configu" +
-	"ración \x22%[1]s\x22 ya existe.\x02Editar Proxy\x02Aleatorio\x02Tipo\x02" +
-	"Role\x02Visitante\x02Llave secreta\x02Dirección local\x02Puerto local" +
-	"\x02Puerto remoto\x02Dirección de enlace\x02Puerto de enlace\x02Nombre d" +
-	"el servidor\x02Subdominio\x02Dominios personalizados\x02Ruta URL\x02Mult" +
-	"iplexor\x02Usuario de ruta\x02Banda ancha\x02Versión de proxy\x02Vacío" +
-	"\x02Cifrado\x02Compresión\x02Usuario HTTP\x02Contraseña HTTP\x02Reescrit" +
-	"ura del anfitrión\x02Enchufar\x02Nombre del complemento\x02Ruta Unix\x02" +
-	"Seleccione la ruta de Unix\x02Ruta local\x02Seleccione una carpeta para " +
-	"la lista de directorios.\x02Prefijo de tira\x02Equilibrio de carga\x02Gr" +
-	"upo\x02Clave de grupo\x02Chequeo de salud\x02Tipo\x02Se acabó el tiempo" +
-	"\x02Recuento de fallas\x02Intervalo\x02* Consulte los parámetros admitid" +
-	"os por FRP.\x02El proxy ya existe\x02El nombre de proxy \x22%[1]s\x22 ya" +
-	" existe.\x02Abrir registro\x02Desconocido\x02Correr\x02Detenido\x02Comen" +
-	"zando\x02Parada\x02Estado\x02Dirección remota\x02Copiar\x02Comienzo\x02S" +
-	"ervicio\x02Deténgase\x02Directorio local\x02Agregar\x02Añadir rápido\x02" +
-	"Escritorio remoto\x02Servidor de archivos HTTP\x02Proxy SOCKS5\x02Habili" +
-	"tar\x02Abrir configuración\x02Edición directa\x02Copiar dirección de acc" +
-	"eso\x02Eliminar proxy \x22%[1]s\x22\x02¿Está seguro de que desea elimina" +
-	"r el proxy \x22%[1]s\x22?\x02Deshabilitar proxy \x22%[1]s\x22\x02¿Está s" +
-	"eguro de que desea desactivar el proxy \x22%[1]s\x22?\x02Deshabilitar" +
-	"\x02Puerto\x02Gama de puertos pasivos\x02Error"
+	"fuente\x02Otras opciones\x02Salir después de fallar el inicio de sesión" +
+	"\x02Desactivar el inicio automático al arrancar\x02Disfraz\x02Opciones p" +
+	"ersonalizadas\x02* Consulte la sección [common] del archivo de configura" +
+	"ción de FRP.\x02La configuración ya existe\x02El nombre de configuración" +
+	" \x22%[1]s\x22 ya existe.\x02Editar Proxy\x02Aleatorio\x02Tipo\x02Role" +
+	"\x02Visitante\x02Llave secreta\x02Dirección local\x02Puerto local\x02Pue" +
+	"rto remoto\x02Dirección de enlace\x02Puerto de enlace\x02Nombre del serv" +
+	"idor\x02Subdominio\x02Dominios personalizados\x02Ruta URL\x02Multiplexor" +
+	"\x02Usuario de ruta\x02Banda ancha\x02Versión de proxy\x02Vacío\x02Cifra" +
+	"do\x02Compresión\x02Usuario HTTP\x02Contraseña HTTP\x02Reescritura de ho" +
+	"st\x02Enchufar\x02Nombre\x02Ruta Unix\x02Seleccione la ruta de Unix\x02R" +
+	"uta local\x02Seleccione una carpeta para la lista de directorios.\x02Pre" +
+	"fijo de tira\x02Equilibrio de carga\x02Grupo\x02Clave de grupo\x02Cheque" +
+	"o de salud\x02Tipo\x02Se acabó el tiempo\x02Recuento de fallas\x02Interv" +
+	"alo\x02* Consulte los parámetros admitidos por FRP.\x02El proxy ya exist" +
+	"e\x02El nombre de proxy \x22%[1]s\x22 ya existe.\x02Abrir registro\x02De" +
+	"sconocido\x02Correr\x02Detenido\x02Comenzando\x02Parada\x02Estado\x02Dir" +
+	"ección remota\x02Copiar\x02Comienzo\x02Servicio\x02Deténgase\x02Director" +
+	"io local\x02Agregar\x02Añadir rápido\x02Escritorio remoto\x02Servidor de" +
+	" archivos HTTP\x02Proxy SOCKS5\x02Habilitar\x02Abrir configuración\x02Ed" +
+	"ición directa\x02Copiar dirección de acceso\x02Eliminar proxy \x22%[1]s" +
+	"\x22\x02¿Está seguro de que desea eliminar el proxy \x22%[1]s\x22?\x02De" +
+	"shabilitar proxy \x22%[1]s\x22\x02¿Está seguro de que desea desactivar e" +
+	"l proxy \x22%[1]s\x22?\x02Deshabilitar\x02Puerto\x02Gama de puertos pasi" +
+	"vos\x02Error"
 
 var ja_JPIndex = []uint32{ // 170 elements
 	// Entry 0 - 1F
@@ -750,4 +749,4 @@ const zh_TWData string = "" + // Size: 2664 bytes
 	"\x02確定要刪除代理「%[1]s」嗎？\x02禁用代理「%[1]s」\x02確定要禁用代理「%[1]s」嗎？\x02禁用\x02端口\x02被" +
 	"動端口範圍\x02錯誤"
 
-	// Total table size 23142 bytes (22KiB); checksum: 8EFEBDD3
+	// Total table size 23038 bytes (22KiB); checksum: 80129B53

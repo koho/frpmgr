@@ -85,7 +85,10 @@ func (cd *EditClientDialog) View() Dialog {
 		},
 	)
 	dlg.Layout = VBox{Margins: Margins{7, 9, 7, 9}}
-	dlg.MinSize = Size{Width: 0, Height: 380}
+	minWidth := int(funk.Sum(funk.Map(pages, func(page TabPage) int {
+		return calculateStringWidth(page.Title.(string)) + 19
+	})) + 70)
+	dlg.MinSize = Size{Width: minWidth, Height: 380}
 	return dlg
 }
 
