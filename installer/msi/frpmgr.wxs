@@ -85,6 +85,7 @@
 		<CustomAction Id="EvaluateFrpServices.SetProperty" Return="check" Property="EvaluateFrpServices" Value="[#MainApplication]" />
 		<CustomAction Id="RemoveFrpFiles.SetProperty" Return="check" Property="RemoveFrpFiles" Value="[INSTALLFOLDER]" />
 		<CustomAction Id="SetLangConfig.SetProperty" Return="check" Property="SetLangConfig" Value="[#LangConfig]" />
+		<CustomAction Id="MoveFrpProfiles.SetProperty" Return="check" Property="MoveFrpProfiles" Value="[INSTALLFOLDER]" />
 
 		<!--
 			Launch application
@@ -127,10 +128,22 @@
 			<Custom Action="RemoveFrpFiles" After="RemoveFrpFiles.SetProperty">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
 		</InstallExecuteSequence>
 
+		<!--
+			Set language of the product
+		-->
 		<CustomAction Id="SetLangConfig" BinaryKey="actions.dll" DllEntry="SetLangConfig" Impersonate="no" Execute="deferred" />
 		<InstallExecuteSequence>
 			<Custom Action="SetLangConfig.SetProperty" After="InstallFiles" />
 			<Custom Action="SetLangConfig" After="SetLangConfig.SetProperty">NOT (REMOVE="ALL")</Custom>
+		</InstallExecuteSequence>
+
+		<!--
+			Move old profiles to the new folder
+		-->
+		<CustomAction Id="MoveFrpProfiles" BinaryKey="actions.dll" DllEntry="MoveFrpProfiles" Impersonate="no" Execute="deferred" />
+		<InstallExecuteSequence>
+			<Custom Action="MoveFrpProfiles.SetProperty" After="InstallFiles" />
+			<Custom Action="MoveFrpProfiles" After="MoveFrpProfiles.SetProperty">NOT (REMOVE="ALL")</Custom>
 		</InstallExecuteSequence>
 	</Fragment>
 </Wix>

@@ -11,6 +11,7 @@ import (
 	"github.com/thoas/go-funk"
 	"golang.org/x/sys/windows"
 	"math/rand"
+	"os"
 	"path/filepath"
 	"strings"
 	"time"
@@ -43,6 +44,10 @@ type FRPManager struct {
 }
 
 func RunUI() error {
+	// Make sure the config directory exists.
+	if err := os.MkdirAll(PathOfConf(""), os.ModePerm); err != nil {
+		return err
+	}
 	if err := loadAllConfs(); err != nil {
 		return err
 	}

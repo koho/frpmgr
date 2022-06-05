@@ -45,7 +45,7 @@ namespace actions
             public uint nNumberOfLinks;
             public uint nFileIndexHigh;
             public uint nFileIndexLow;
-        };
+        }
 
         public const int OPEN_EXISTING = 3;
         public const int INVALID_HANDLE_VALUE = -1;
@@ -76,6 +76,20 @@ namespace actions
             return f1.dwVolumeSerialNumber == f2.dwVolumeSerialNumber && f1.nFileIndexHigh == f2.nFileIndexHigh && f1.nFileIndexLow == f2.nFileIndexLow;
         }
 
+        public static int ForceDeleteDirectory(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                return -1;
+            }
+            using (ManagementObject dirObject = new ManagementObject("Win32_Directory.Name='" + path + "'"))
+            {
+                dirObject.Get();
+                ManagementBaseObject outParams = dirObject.InvokeMethod("Delete", null, null);
+                return Convert.ToInt32(outParams.Properties["ReturnValue"].Value);
+            }
+        }
+
         [CustomAction]
         public static ActionResult KillProcesses(Session session)
         {
@@ -101,7 +115,8 @@ namespace actions
                         p.Kill();
                         p.WaitForExit();
                     }
-                } catch (Exception)
+                }
+                catch (Exception)
                 {
                     continue;
                 }
@@ -118,32 +133,8 @@ namespace actions
             {
                 return ActionResult.Failure;
             }
-            foreach (string file in Directory.GetFiles(installPath))
-            {
-                if (Path.GetExtension(file) == ".ini")
-                {
-                    try
-                    {
-                        File.Delete(file);
-                    }
-                    catch (Exception e)
-                    {
-                        session.Log(e.Message);
-                    }
-                }
-            }
-            string logPath = Path.Combine(installPath, "logs");
-            try
-            {
-                if (Directory.Exists(logPath))
-                {
-                    Directory.Delete(logPath, true);
-                }
-            }
-            catch (Exception e)
-            {
-                session.Log(e.Message);
-            }
+            ForceDeleteDirectory(Path.Combine(installPath, "profiles"));
+            ForceDeleteDirectory(Path.Combine(installPath, "logs"));
             return ActionResult.Success;
         }
 
@@ -170,9 +161,12 @@ namespace actions
                     {
                         controller.Stop();
                         controller.WaitForStatus(ServiceControllerStatus.Stopped);
-                    } 
-                    catch (Exception) { }
-                    
+                    }
+                    catch (Exception)
+                    {
+                        session.Log("Failed to stop " + controller.ServiceName);
+                    }
+
                     ServiceInstaller installer = new ServiceInstaller
                     {
                         Context = new InstallContext(),
@@ -181,7 +175,8 @@ namespace actions
                     try
                     {
                         installer.Uninstall(null);
-                    } catch (Exception)
+                    }
+                    catch (Exception)
                     {
                         session.Log("Failed to uninstall " + controller.ServiceName);
                     }
@@ -228,6 +223,31 @@ namespace actions
                 return ActionResult.Failure;
             }
             File.AppendAllText(langPath, name.ToString() + Environment.NewLine, Encoding.UTF8);
+            return ActionResult.Success;
+        }
+
+        [CustomAction]
+        public static ActionResult MoveFrpProfiles(Session session)
+        {
+            session.Log("Moving FRP profiles");
+            string installPath = session["CustomActionData"];
+            if (string.IsNullOrEmpty(installPath))
+            {
+                return ActionResult.Failure;
+            }
+            string profilePath = Path.Combine(installPath, "profiles");
+            Directory.CreateDirectory(profilePath);
+            foreach (string profile in Directory.GetFiles(installPath, "*.ini"))
+            {
+                try
+                {
+                    File.Move(profile, Path.Combine(profilePath, Path.GetFileName(profile)));
+                }
+                catch (Exception e)
+                {
+                    session.Log(e.Message);
+                }
+            }
             return ActionResult.Success;
         }
     }

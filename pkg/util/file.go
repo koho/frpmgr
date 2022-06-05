@@ -137,7 +137,7 @@ func addFileToZip(zipWriter *zip.Writer, filename string) error {
 	if err != nil {
 		return err
 	}
-	header.Name = filename
+	header.Name = filepath.Base(filename)
 
 	// Change to deflate to gain better compression
 	header.Method = zip.Deflate

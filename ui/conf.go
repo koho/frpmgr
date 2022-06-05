@@ -26,6 +26,11 @@ type Conf struct {
 	Data config.Config
 }
 
+// PathOfConf returns the file path of a config with given base file name
+func PathOfConf(base string) string {
+	return filepath.Join("profiles", base)
+}
+
 func NewConf(path string, data config.Config) *Conf {
 	conf := &Conf{Path: path, Data: data}
 	baseName, _ := util.SplitExt(path)
@@ -56,7 +61,7 @@ func (conf *Conf) Delete() error {
 // Save config to the disk. The config will be completed before saving
 func (conf *Conf) Save() error {
 	conf.Data.Complete(false)
-	conf.Path = conf.Name + ".ini"
+	conf.Path = PathOfConf(conf.Name + ".ini")
 	return conf.Data.Save(conf.Path)
 }
 
@@ -68,8 +73,8 @@ var (
 )
 
 func loadAllConfs() error {
-	// Find all config files in current directory
-	files, err := filepath.Glob("*.ini")
+	// Find all config files in `profiles` directory
+	files, err := filepath.Glob(PathOfConf("*.ini"))
 	if err != nil {
 		return err
 	}

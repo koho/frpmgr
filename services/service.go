@@ -22,7 +22,11 @@ type frpService struct {
 }
 
 func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, changes chan<- svc.Status) (svcSpecificEC bool, exitCode uint32) {
-	if err := os.Chdir(filepath.Dir(service.configPath)); err != nil {
+	path, err := os.Executable()
+	if err != nil {
+		return
+	}
+	if err = os.Chdir(filepath.Dir(path)); err != nil {
 		return
 	}
 	changes <- svc.Status{State: svc.StartPending}

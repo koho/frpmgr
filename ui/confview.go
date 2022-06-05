@@ -2,7 +2,6 @@ package ui
 
 import (
 	"archive/zip"
-	"fmt"
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
@@ -222,7 +221,7 @@ func (cv *ConfView) ImportFiles(files []string) {
 		switch strings.ToLower(filepath.Ext(path)) {
 		case ".ini":
 			total++
-			newPath := filepath.Base(path)
+			newPath := PathOfConf(filepath.Base(path))
 			if _, err := os.Stat(newPath); err == nil {
 				baseName, _ := util.SplitExt(newPath)
 				showWarningMessage(cv.Form(), i18n.Sprintf("Import Config"), i18n.Sprintf("Another config already exists with the name \"%s\".", baseName))
@@ -258,7 +257,7 @@ func (cv *ConfView) ImportFiles(files []string) {
 }
 
 func (cv *ConfView) importZip(path string) (total, imported int) {
-	importFile := func(file *zip.File) error {
+	importFile := func(file *zip.File, dst string) error {
 		fr, err := file.Open()
 		if err != nil {
 			return err
@@ -272,7 +271,7 @@ func (cv *ConfView) importZip(path string) (total, imported int) {
 		if err != nil {
 			return err
 		}
-		fw, err := os.OpenFile(file.Name, os.O_CREATE|os.O_RDWR|os.O_TRUNC, file.Mode())
+		fw, err := os.OpenFile(dst, os.O_CREATE|os.O_RDWR|os.O_TRUNC, file.Mode())
 		if err != nil {
 			return err
 		}
@@ -280,7 +279,7 @@ func (cv *ConfView) importZip(path string) (total, imported int) {
 		if _, err = fw.Write(src); err != nil {
 			return err
 		}
-		addConf(NewConf(file.Name, conf))
+		addConf(NewConf(dst, conf))
 		return nil
 	}
 	zr, err := zip.OpenReader(path)
@@ -297,11 +296,12 @@ func (cv *ConfView) importZip(path string) (total, imported int) {
 			continue
 		}
 		total++
+		dstPath := PathOfConf(file.Name)
 		// Skip the existing config
-		if _, err = os.Stat(file.Name); err == nil {
+		if _, err = os.Stat(dstPath); err == nil {
 			continue
 		}
-		if err = importFile(file); err == nil {
+		if err = importFile(file, dstPath); err == nil {
 			imported++
 		}
 	}
