@@ -3,6 +3,7 @@ package ui
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/version"
 	"github.com/lxn/walk"
@@ -36,7 +37,7 @@ func NewAboutPage() *AboutPage {
 func (ap *AboutPage) Page() TabPage {
 	return TabPage{
 		AssignTo:   &ap.TabPage,
-		Title:      Bind("vm.NewVersion ? '发现更新！' : '关于'"),
+		Title:      Bind(fmt.Sprintf("vm.NewVersion ? '%s' : '%s'", i18n.Sprintf("New Version!"), i18n.Sprintf("About"))),
 		Image:      Bind(fmt.Sprintf("vm.NewVersion ? sysIcon('imageres', 16, %d, %d) : ''", consts.IconNewVersion1, consts.IconNewVersion2)),
 		DataBinder: DataBinder{AssignTo: &ap.db, Name: "vm", DataSource: &ap.viewModel},
 		Layout:     VBox{},
@@ -49,14 +50,17 @@ func (ap *AboutPage) Page() TabPage {
 						Layout: VBox{Margins: Margins{12, 0, 0, 0}},
 						Children: []Widget{
 							Label{Text: "FRP Manager", Font: consts.TextLarge, TextColor: consts.ColorBlue},
-							Label{Text: fmt.Sprintf("版本：%s", version.Number)},
-							Label{Text: fmt.Sprintf("FRP 版本：%s", version.FRPVersion)},
-							Label{Text: fmt.Sprintf("构建日期：%s", version.BuildDate)},
+							Label{Text: i18n.Sprintf("Version: %s", version.Number)},
+							Label{Text: i18n.Sprintf("FRP version: %s", version.FRPVersion)},
+							Label{Text: i18n.Sprintf("Built on: %s", version.BuildDate)},
 							VSpacer{Size: 3},
 							PushButton{
 								Enabled: Bind("!vm.Checking"),
-								Text:    Bind("vm.NewVersion ? ' 下载更新' : (vm.Checking ? '正在' : '') + '检查更新'"),
-								Font:    consts.TextMedium,
+								Text: Bind(fmt.Sprintf("vm.NewVersion ? ' %s' : (vm.Checking ? '%s' : '%s')",
+									i18n.Sprintf("Download updates"), i18n.Sprintf("Checking for updates"),
+									i18n.Sprintf("Check for updates"),
+								)),
+								Font: consts.TextMedium,
 								OnClicked: func() {
 									if ap.viewModel.NewVersion {
 										openPath(ap.viewModel.HtmlUrl)
@@ -65,29 +69,34 @@ func (ap *AboutPage) Page() TabPage {
 									}
 								},
 								Image:   Bind(fmt.Sprintf("vm.NewVersion ? sysIcon('shell32', 32, %d) : ''", consts.IconUpdate)),
-								MinSize: Size{Height: 38},
-							},
-							VSpacer{Size: 6},
-							Label{Text: "如有任何意见或报告错误，请访问项目地址："},
-							LinkLabel{
-								Alignment: AlignHNearVCenter,
-								Text:      `<a id="home" href="https://github.com/koho/frpmgr">https://github.com/koho/frpmgr</a>`,
-								OnLinkActivated: func(link *walk.LinkLabelLink) {
-									openPath(link.URL())
-								},
-							},
-							VSpacer{Size: 6},
-							Label{Text: "了解 FRP 软件配置文档，请访问 FRP 项目地址："},
-							LinkLabel{
-								Alignment: AlignHNearVCenter,
-								Text:      `<a id="frp" href="https://github.com/fatedier/frp">https://github.com/fatedier/frp</a>`,
-								OnLinkActivated: func(link *walk.LinkLabelLink) {
-									openPath(link.URL())
-								},
+								MinSize: Size{Width: 250, Height: 38},
 							},
 						},
 					},
 					HSpacer{},
+				},
+			},
+			Composite{
+				Layout:    VBox{Margins: Margins{123, 0, 0, 0}},
+				Alignment: AlignHNearVNear,
+				Children: []Widget{
+					Label{Text: i18n.Sprintf("For comments or to report bugs, please visit the project page:")},
+					LinkLabel{
+						Alignment: AlignHNearVCenter,
+						Text:      fmt.Sprintf(`<a id="home" href="%s">%s</a>`, consts.ProjectURL, consts.ProjectURL),
+						OnLinkActivated: func(link *walk.LinkLabelLink) {
+							openPath(link.URL())
+						},
+					},
+					VSpacer{Size: 6},
+					Label{Text: i18n.Sprintf("For FRP configuration documentation, please visit the FRP project page:")},
+					LinkLabel{
+						Alignment: AlignHNearVCenter,
+						Text:      fmt.Sprintf(`<a id="frp" href="%s">%s</a>`, consts.FRPProjectURL, consts.FRPProjectURL),
+						OnLinkActivated: func(link *walk.LinkLabelLink) {
+							openPath(link.URL())
+						},
+					},
 				},
 			},
 			VSpacer{},
@@ -121,7 +130,7 @@ func (ap *AboutPage) checkUpdate(showErr bool) {
 			defer ap.db.Reset()
 			if err != nil || resp.StatusCode != http.StatusOK {
 				if showErr {
-					showErrorMessage(ap.Form(), "错误", "检查更新时出现错误。")
+					showErrorMessage(ap.Form(), "", i18n.Sprintf("An error occurred while checking for a software update."))
 				}
 				return
 			}
@@ -130,7 +139,7 @@ func (ap *AboutPage) checkUpdate(showErr bool) {
 			} else {
 				ap.viewModel.NewVersion = false
 				if showErr {
-					showInfoMessage(ap.Form(), "提示", "已是最新版本。")
+					showInfoMessage(ap.Form(), i18n.Sprintf("FRP Manager"), i18n.Sprintf("There are currently no updates available."))
 				}
 			}
 		})

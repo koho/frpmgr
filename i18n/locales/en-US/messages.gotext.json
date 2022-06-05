@@ -1,0 +1,1318 @@
+{
+    "language": "en-US",
+    "messages": [
+        {
+            "id": "FRP Manager",
+            "message": "FRP Manager",
+            "translation": "FRP Manager",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Version: {Number}",
+            "message": "Version: {Number}",
+            "translation": "Version: {Number}",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Number",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "version.Number"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "FRP version: {FRPVersion}",
+            "message": "FRP version: {FRPVersion}",
+            "translation": "FRP version: {FRPVersion}",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "FRPVersion",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "version.FRPVersion"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Built on: {BuildDate}",
+            "message": "Built on: {BuildDate}",
+            "translation": "Built on: {BuildDate}",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "BuildDate",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "version.BuildDate"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "All Files",
+            "message": "All Files",
+            "translation": "All Files",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Configuration Files",
+            "message": "Configuration Files",
+            "translation": "Configuration Files",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Certificate Files",
+            "message": "Certificate Files",
+            "translation": "Certificate Files",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Key Files",
+            "message": "Key Files",
+            "translation": "Key Files",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Log Files",
+            "message": "Log Files",
+            "translation": "Log Files",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "New Version!",
+            "message": "New Version!",
+            "translation": "New Version!",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "About",
+            "message": "About",
+            "translation": "About",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Download updates",
+            "message": "Download updates",
+            "translation": "Download updates",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Checking for updates",
+            "message": "Checking for updates",
+            "translation": "Checking for updates",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Check for updates",
+            "message": "Check for updates",
+            "translation": "Check for updates",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "For comments or to report bugs, please visit the project page:",
+            "message": "For comments or to report bugs, please visit the project page:",
+            "translation": "For comments or to report bugs, please visit the project page:",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "For FRP configuration documentation, please visit the FRP project page:",
+            "message": "For FRP configuration documentation, please visit the FRP project page:",
+            "translation": "For FRP configuration documentation, please visit the FRP project page:",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "An error occurred while checking for a software update.",
+            "message": "An error occurred while checking for a software update.",
+            "translation": "An error occurred while checking for a software update.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "There are currently no updates available.",
+            "message": "There are currently no updates available.",
+            "translation": "There are currently no updates available.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "OK",
+            "message": "OK",
+            "translation": "OK",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Cancel",
+            "message": "Cancel",
+            "translation": "Cancel",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Configuration",
+            "message": "Configuration",
+            "translation": "Configuration",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "New Configuration",
+            "message": "New Configuration",
+            "translation": "New Configuration",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Import Config from File",
+            "message": "Import Config from File",
+            "translation": "Import Config from File",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Edit",
+            "message": "Edit",
+            "translation": "Edit",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Open File",
+            "message": "Open File",
+            "translation": "Open File",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Show in Folder",
+            "message": "Show in Folder",
+            "translation": "Show in Folder",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Import from File",
+            "message": "Import from File",
+            "translation": "Import from File",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Import from Clipboard",
+            "message": "Import from Clipboard",
+            "translation": "Import from Clipboard",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Export All Configs to ZIP",
+            "message": "Export All Configs to ZIP",
+            "translation": "Export All Configs to ZIP",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Delete",
+            "message": "Delete",
+            "translation": "Delete",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "New Config",
+            "message": "New Config",
+            "translation": "New Config",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Manual Settings",
+            "message": "Manual Settings",
+            "translation": "Manual Settings",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Import Config",
+            "message": "Import Config",
+            "translation": "Import Config",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Another config already exists with the name \"{BaseName}\".",
+            "message": "Another config already exists with the name \"{BaseName}\".",
+            "translation": "Another config already exists with the name \"{BaseName}\".",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "BaseName",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "baseName"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Unable to copy file \"{Path}\".",
+            "message": "Unable to copy file \"{Path}\".",
+            "translation": "Unable to copy file \"{Path}\".",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Path",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "path"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Delete config \"{Name}\"",
+            "message": "Delete config \"{Name}\"",
+            "translation": "Delete config \"{Name}\"",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "conf.Name"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Are you sure you would like to delete config \"{Name}\"?",
+            "message": "Are you sure you would like to delete config \"{Name}\"?",
+            "translation": "Are you sure you would like to delete config \"{Name}\"?",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "conf.Name"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Edit Config",
+            "message": "Edit Config",
+            "translation": "Edit Config",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Basic",
+            "message": "Basic",
+            "translation": "Basic",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Name",
+            "message": "Name",
+            "translation": "Name",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Server Address",
+            "message": "Server Address",
+            "translation": "Server Address",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Server Port",
+            "message": "Server Port",
+            "translation": "Server Port",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "User",
+            "message": "User",
+            "translation": "User",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Auth",
+            "message": "Auth",
+            "translation": "Auth",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Auth Method",
+            "message": "Auth Method",
+            "translation": "Auth Method",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "None",
+            "message": "None",
+            "translation": "None",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Token",
+            "message": "Token",
+            "translation": "Token",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Secret",
+            "message": "Secret",
+            "translation": "Secret",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Audience",
+            "message": "Audience",
+            "translation": "Audience",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Token Endpoint",
+            "message": "Token Endpoint",
+            "translation": "Token Endpoint",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Authentication",
+            "message": "Authentication",
+            "translation": "Authentication",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Heart Beats",
+            "message": "Heart Beats",
+            "translation": "Heart Beats",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Work Conns",
+            "message": "Work Conns",
+            "translation": "Work Conns",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Log",
+            "message": "Log",
+            "translation": "Log",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "* Leave blank to record no log and delete the original log file.",
+            "message": "* Leave blank to record no log and delete the original log file.",
+            "translation": "* Leave blank to record no log and delete the original log file.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Log File",
+            "message": "Log File",
+            "translation": "Log File",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Select Log File",
+            "message": "Select Log File",
+            "translation": "Select Log File",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Level",
+            "message": "Level",
+            "translation": "Level",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Max Days",
+            "message": "Max Days",
+            "translation": "Max Days",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Admin",
+            "message": "Admin",
+            "translation": "Admin",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Admin Address",
+            "message": "Admin Address",
+            "translation": "Admin Address",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Admin Port",
+            "message": "Admin Port",
+            "translation": "Admin Port",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Password",
+            "message": "Password",
+            "translation": "Password",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Assets",
+            "message": "Assets",
+            "translation": "Assets",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Select a local directory that the admin server will load resources from.",
+            "message": "Select a local directory that the admin server will load resources from.",
+            "translation": "Select a local directory that the admin server will load resources from.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Debug",
+            "message": "Debug",
+            "translation": "Debug",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Connection",
+            "message": "Connection",
+            "translation": "Connection",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Protocol",
+            "message": "Protocol",
+            "translation": "Protocol",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "HTTP Proxy",
+            "message": "HTTP Proxy",
+            "translation": "HTTP Proxy",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Pool Count",
+            "message": "Pool Count",
+            "translation": "Pool Count",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Dial Timeout",
+            "message": "Dial Timeout",
+            "translation": "Dial Timeout",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "s",
+            "message": "s",
+            "translation": "s",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "TCP Keep-Alive",
+            "message": "TCP Keep-Alive",
+            "translation": "TCP Keep-Alive",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Heartbeat Interval",
+            "message": "Heartbeat Interval",
+            "translation": "Heartbeat Interval",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Heartbeat Timeout",
+            "message": "Heartbeat Timeout",
+            "translation": "Heartbeat Timeout",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "On",
+            "message": "On",
+            "translation": "On",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Off",
+            "message": "Off",
+            "translation": "Off",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Host Name",
+            "message": "Host Name",
+            "translation": "Host Name",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Certificate",
+            "message": "Certificate",
+            "translation": "Certificate",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Select Certificate File",
+            "message": "Select Certificate File",
+            "translation": "Select Certificate File",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Certificate Key",
+            "message": "Certificate Key",
+            "translation": "Certificate Key",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Select Certificate Key File",
+            "message": "Select Certificate Key File",
+            "translation": "Select Certificate Key File",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Trusted CA",
+            "message": "Trusted CA",
+            "translation": "Trusted CA",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Select Trusted CA File",
+            "message": "Select Trusted CA File",
+            "translation": "Select Trusted CA File",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Advanced",
+            "message": "Advanced",
+            "translation": "Advanced",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "TCP Mux",
+            "message": "TCP Mux",
+            "translation": "TCP Mux",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Mux Keepalive",
+            "message": "Mux Keepalive",
+            "translation": "Mux Keepalive",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Source Address",
+            "message": "Source Address",
+            "translation": "Source Address",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Other Options",
+            "message": "Other Options",
+            "translation": "Other Options",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Exit after login failure",
+            "message": "Exit after login failure",
+            "translation": "Exit after login failure",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Disable auto-start at boot",
+            "message": "Disable auto-start at boot",
+            "translation": "Disable auto-start at boot",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Custom",
+            "message": "Custom",
+            "translation": "Custom",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Custom Options",
+            "message": "Custom Options",
+            "translation": "Custom Options",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "* Refer to the [common] section of the FRP configuration file.",
+            "message": "* Refer to the [common] section of the FRP configuration file.",
+            "translation": "* Refer to the [common] section of the FRP configuration file.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Config already exists",
+            "message": "Config already exists",
+            "translation": "Config already exists",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "The config name \"{Name}\" already exists.",
+            "message": "The config name \"{Name}\" already exists.",
+            "translation": "The config name \"{Name}\" already exists.",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "name"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Edit Proxy",
+            "message": "Edit Proxy",
+            "translation": "Edit Proxy",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Random",
+            "message": "Random",
+            "translation": "Random",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Type",
+            "message": "Type",
+            "translation": "Type",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Role",
+            "message": "Role",
+            "translation": "Role",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Visitor",
+            "message": "Visitor",
+            "translation": "Visitor",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Secret Key",
+            "message": "Secret Key",
+            "translation": "Secret Key",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Local Address",
+            "message": "Local Address",
+            "translation": "Local Address",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Local Port",
+            "message": "Local Port",
+            "translation": "Local Port",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Remote Port",
+            "message": "Remote Port",
+            "translation": "Remote Port",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Bind Address",
+            "message": "Bind Address",
+            "translation": "Bind Address",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Bind Port",
+            "message": "Bind Port",
+            "translation": "Bind Port",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Server Name",
+            "message": "Server Name",
+            "translation": "Server Name",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Subdomain",
+            "message": "Subdomain",
+            "translation": "Subdomain",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Custom Domains",
+            "message": "Custom Domains",
+            "translation": "Custom Domains",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Locations",
+            "message": "Locations",
+            "translation": "Locations",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Multiplexer",
+            "message": "Multiplexer",
+            "translation": "Multiplexer",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Route User",
+            "message": "Route User",
+            "translation": "Route User",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Bandwidth",
+            "message": "Bandwidth",
+            "translation": "Bandwidth",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Proxy Version",
+            "message": "Proxy Version",
+            "translation": "Proxy Version",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Empty",
+            "message": "Empty",
+            "translation": "Empty",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Encryption",
+            "message": "Encryption",
+            "translation": "Encryption",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Compression",
+            "message": "Compression",
+            "translation": "Compression",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "HTTP User",
+            "message": "HTTP User",
+            "translation": "HTTP User",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "HTTP Password",
+            "message": "HTTP Password",
+            "translation": "HTTP Password",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Host Rewrite",
+            "message": "Host Rewrite",
+            "translation": "Host Rewrite",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Plugin",
+            "message": "Plugin",
+            "translation": "Plugin",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Plugin Name",
+            "message": "Plugin Name",
+            "translation": "Plugin Name",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Unix Path",
+            "message": "Unix Path",
+            "translation": "Unix Path",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Select Unix Path",
+            "message": "Select Unix Path",
+            "translation": "Select Unix Path",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Local Path",
+            "message": "Local Path",
+            "translation": "Local Path",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Select a folder for directory listing.",
+            "message": "Select a folder for directory listing.",
+            "translation": "Select a folder for directory listing.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Strip Prefix",
+            "message": "Strip Prefix",
+            "translation": "Strip Prefix",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Load Balance",
+            "message": "Load Balance",
+            "translation": "Load Balance",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Group",
+            "message": "Group",
+            "translation": "Group",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Group Key",
+            "message": "Group Key",
+            "translation": "Group Key",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Health Check",
+            "message": "Health Check",
+            "translation": "Health Check",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Check Type",
+            "message": "Check Type",
+            "translation": "Check Type",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Check Timeout",
+            "message": "Check Timeout",
+            "translation": "Check Timeout",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Failure Count",
+            "message": "Failure Count",
+            "translation": "Failure Count",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Check Interval",
+            "message": "Check Interval",
+            "translation": "Check Interval",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "* Refer to the parameters supported by FRP.",
+            "message": "* Refer to the parameters supported by FRP.",
+            "translation": "* Refer to the parameters supported by FRP.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Proxy already exists",
+            "message": "Proxy already exists",
+            "translation": "Proxy already exists",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "The proxy name \"{Name}\" already exists.",
+            "message": "The proxy name \"{Name}\" already exists.",
+            "translation": "The proxy name \"{Name}\" already exists.",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "name"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Open Log Folder",
+            "message": "Open Log Folder",
+            "translation": "Open Log Folder",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Unknown",
+            "message": "Unknown",
+            "translation": "Unknown",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Running",
+            "message": "Running",
+            "translation": "Running",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Stopped",
+            "message": "Stopped",
+            "translation": "Stopped",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Starting",
+            "message": "Starting",
+            "translation": "Starting",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Stopping",
+            "message": "Stopping",
+            "translation": "Stopping",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Status",
+            "message": "Status",
+            "translation": "Status",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Remote Address",
+            "message": "Remote Address",
+            "translation": "Remote Address",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Copy",
+            "message": "Copy",
+            "translation": "Copy",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Start",
+            "message": "Start",
+            "translation": "Start",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Service",
+            "message": "Service",
+            "translation": "Service",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Stop",
+            "message": "Stop",
+            "translation": "Stop",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Local Directory",
+            "message": "Local Directory",
+            "translation": "Local Directory",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Add",
+            "message": "Add",
+            "translation": "Add",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Quick Add",
+            "message": "Quick Add",
+            "translation": "Quick Add",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Remote Desktop",
+            "message": "Remote Desktop",
+            "translation": "Remote Desktop",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "HTTP File Server",
+            "message": "HTTP File Server",
+            "translation": "HTTP File Server",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "SOCKS5 Proxy",
+            "message": "SOCKS5 Proxy",
+            "translation": "SOCKS5 Proxy",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Enable",
+            "message": "Enable",
+            "translation": "Enable",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Open Config",
+            "message": "Open Config",
+            "translation": "Open Config",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Direct Edit",
+            "message": "Direct Edit",
+            "translation": "Direct Edit",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Copy Access Address",
+            "message": "Copy Access Address",
+            "translation": "Copy Access Address",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Delete proxy \"{Name}\"",
+            "message": "Delete proxy \"{Name}\"",
+            "translation": "Delete proxy \"{Name}\"",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "proxy.Name"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Are you sure you would like to delete proxy \"{Name}\"?",
+            "message": "Are you sure you would like to delete proxy \"{Name}\"?",
+            "translation": "Are you sure you would like to delete proxy \"{Name}\"?",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "proxy.Name"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Disable proxy \"{Name}\"",
+            "message": "Disable proxy \"{Name}\"",
+            "translation": "Disable proxy \"{Name}\"",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "proxy.Name"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Are you sure you would like to disable proxy \"{Name}\"?",
+            "message": "Are you sure you would like to disable proxy \"{Name}\"?",
+            "translation": "Are you sure you would like to disable proxy \"{Name}\"?",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "proxy.Name"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Disable",
+            "message": "Disable",
+            "translation": "Disable",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Port",
+            "message": "Port",
+            "translation": "Port",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Passive Port Range",
+            "message": "Passive Port Range",
+            "translation": "Passive Port Range",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Error",
+            "message": "Error",
+            "translation": "Error",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        }
+    ]
+}

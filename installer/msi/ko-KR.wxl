@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="ko-KR" Codepage="949" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="Language">1042</String>
+    <String Id="ApplicationName">FRP 관리자</String>
+    <String Id="DowngradeErrorMessage">최신 버전의 FRP 관리자 가 이미 설치되어 있습니다.</String>
+</WixLocalization>

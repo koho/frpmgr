@@ -3,6 +3,7 @@ package util
 import (
 	"fmt"
 	"strings"
+	"unicode/utf8"
 )
 
 // String2Map splits the string by new line character. Each line is partitioned by equal sign.
@@ -44,4 +45,15 @@ func GetOrElse(s string, def string) string {
 		return s
 	}
 	return def
+}
+
+// RuneSizeInString returns a slice of each character's size in the given string
+func RuneSizeInString(s string) []int {
+	sizes := make([]int, 0)
+	for len(s) > 0 {
+		_, size := utf8.DecodeRuneInString(s)
+		sizes = append(sizes, size)
+		s = s[size:]
+	}
+	return sizes
 }

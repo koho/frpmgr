@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="FRP 管理器" Language="2052" Version="$(var.VERSION)" Manufacturer="FRP Manager Project" UpgradeCode="c9f7c2b3-291a-454a-9871-150d98dc2645" Codepage="936">
+	<Product Id="*" Name="!(loc.ApplicationName)" Language="!(loc.Language)" Version="$(var.VERSION)" Manufacturer="FRP Manager Project" UpgradeCode="c9f7c2b3-291a-454a-9871-150d98dc2645">
 
-		<Package InstallerVersion="400" Compressed="yes" InstallScope="perMachine" Platform="x64" Description="FRP 管理器" SummaryCodepage="936" />
+		<Package InstallerVersion="400" Compressed="yes" InstallScope="perMachine" Platform="x64" Languages="1033,1041,1042,2052,1028,3082" Description="!(loc.ApplicationName)" />
 
 		<MediaTemplate EmbedCab="yes" CompressionLevel="high" />
 
 		<!--
 			Upgrading
 		-->
-		<MajorUpgrade DowngradeErrorMessage="该计算机已安装了更高版本的 [ProductName]。" />
+		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)" />
 
 		<Icon Id="ProductIcon" SourceFile="..\icon\app.ico" />
 		<Binary Id="actions.dll" SourceFile="build\actions.dll" />
@@ -22,9 +22,6 @@
 		<!--
 			Detect previous install folder if it's a upgrade
 		-->
-		<Property Id="PREVINSTALLFOLDER">
-			<RegistrySearch Id="GetPrevInstallFolder" Type="raw" Root="HKLM" Key="Software\[Manufacturer]" Name="InstallLocation" />
-		</Property>
 		<SetProperty Id="INSTALLFOLDER" Value="[PREVINSTALLFOLDER]" After="AppSearch" Sequence="first">
 			WIX_UPGRADE_DETECTED
 		</SetProperty>
@@ -38,6 +35,7 @@
 
 		<UI>
 			<UIRef Id="WixUI_InstallDir" />
+			<UIRef Id="WixUI_ErrorProgressText" />
 
 			<!-- Skip license dialog -->
 			<Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="2">1</Publish>
@@ -45,10 +43,6 @@
 
 			<!-- Launch application after installation -->
 			<Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">NOT Installed</Publish>
-
-			<ProgressText Action="KillProcesses">正在结束进程</ProgressText>
-			<ProgressText Action="EvaluateFrpServices">正在停止服务</ProgressText>
-			<ProgressText Action="RemoveFrpFiles">正在删除文件</ProgressText>
 		</UI>
 	</Product>
 
@@ -71,14 +65,13 @@
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
 			<Component Guid="{E39EABEF-A7EB-4EAF-AD3E-A1254450BBE1}" Id="MainApplication" Win64="yes">
 				<File Id="MainApplication" Source="..\bin\frpmgr.exe" KeyPath="yes">
-					<Shortcut Id="StartMenuShortcut" Name="FRP 管理器" Directory="ProgramMenuFolder" WorkingDirectory="INSTALLFOLDER" Advertise="yes"/>
+					<Shortcut Id="StartMenuShortcut" Name="!(loc.ApplicationName)" Directory="ProgramMenuFolder" WorkingDirectory="INSTALLFOLDER" Advertise="yes"/>
 				</File>
 				<!-- A dummy to make WiX create ServiceControl table for us. -->
 				<ServiceControl Id="DummyService.E3F2D6BE_38C7_4654_9C1B_C667A1F9040A" Name="DummyService.E3F2D6BE_38C7_4654_9C1B_C667A1F9040A" />
-				<!-- Store the install location so the upgrade can read it. -->
-				<RegistryKey Root="HKLM" Key="Software\[Manufacturer]">
-					<RegistryValue Type="string" Name="InstallLocation" Value="[INSTALLFOLDER]" />
-				</RegistryKey>
+			</Component>
+			<Component Guid="{4D11B79E-74E2-4F35-81EA-8B5CC7225A78}" Id="LangConfig" Win64="yes">
+				<File Id="LangConfig" Source="..\cmd\frpmgr\lang.config" KeyPath="yes"/>
 			</Component>
 		</ComponentGroup>
 	</Fragment>
@@ -91,6 +84,7 @@
 		<CustomAction Id="KillProcesses.SetProperty" Return="check" Property="KillProcesses" Value="[#MainApplication]" />
 		<CustomAction Id="EvaluateFrpServices.SetProperty" Return="check" Property="EvaluateFrpServices" Value="[#MainApplication]" />
 		<CustomAction Id="RemoveFrpFiles.SetProperty" Return="check" Property="RemoveFrpFiles" Value="[INSTALLFOLDER]" />
+		<CustomAction Id="SetLangConfig.SetProperty" Return="check" Property="SetLangConfig" Value="[#LangConfig]" />
 
 		<!--
 			Launch application
@@ -131,6 +125,12 @@
 		<InstallExecuteSequence>
 			<Custom Action="RemoveFrpFiles.SetProperty" After="DeleteServices" />
 			<Custom Action="RemoveFrpFiles" After="RemoveFrpFiles.SetProperty">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
+		</InstallExecuteSequence>
+
+		<CustomAction Id="SetLangConfig" BinaryKey="actions.dll" DllEntry="SetLangConfig" Impersonate="no" Execute="deferred" />
+		<InstallExecuteSequence>
+			<Custom Action="SetLangConfig.SetProperty" After="InstallFiles" />
+			<Custom Action="SetLangConfig" After="SetLangConfig.SetProperty">NOT (REMOVE="ALL")</Custom>
 		</InstallExecuteSequence>
 	</Fragment>
 </Wix>

@@ -17,32 +17,69 @@ CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST manifest.xml
 27 ICON icon/play.ico
 28 ICON icon/pause.ico
 
-VS_VERSION_INFO VERSIONINFO
-FILEVERSION    VERSION_ARRAY
-PRODUCTVERSION VERSION_ARRAY
-FILEFLAGSMASK  VS_FFI_FILEFLAGSMASK
-FILEFLAGS      0x0
-FILEOS         VOS__WINDOWS32
-FILETYPE       VFT_APP
-FILESUBTYPE    VFT2_UNKNOWN
-BEGIN
-  BLOCK "StringFileInfo"
-  BEGIN
-    BLOCK "080404B0"
-    BEGIN
-      VALUE "CompanyName", "FRP Manager Project"
-      VALUE "FileDescription", "FRP 管理器"
-      VALUE "FileVersion", EXPAND(VERSION_STR)
-      VALUE "InternalName", "frpmgr"
-      VALUE "LegalCopyright", "Copyright © FRP Manager Project"
-      VALUE "OriginalFilename", "frpmgr.exe"
-      VALUE "ProductName", "FRP 管理器"
-      VALUE "ProductVersion", EXPAND(VERSION_STR)
-      VALUE "Comments", "https://github.com/koho/frpmgr"
-    END
-  END
-  BLOCK "VarFileInfo"
-  BEGIN
-    VALUE "Translation", 0x0804, 1200
-  END
+#define VERSIONINFO_TEMPLATE(block_id, lang_id, charset_id, file_desc) \
+VS_VERSION_INFO VERSIONINFO \
+FILEVERSION    VERSION_ARRAY \
+PRODUCTVERSION VERSION_ARRAY \
+FILEFLAGSMASK  VS_FFI_FILEFLAGSMASK \
+FILEFLAGS      0x0 \
+FILEOS         VOS__WINDOWS32 \
+FILETYPE       VFT_APP \
+FILESUBTYPE    VFT2_UNKNOWN \
+BEGIN \
+  BLOCK "StringFileInfo" \
+  BEGIN \
+    BLOCK block_id \
+    BEGIN \
+      VALUE "CompanyName", "FRP Manager Project" \
+      VALUE "FileDescription", file_desc \
+      VALUE "FileVersion", EXPAND(VERSION_STR) \
+      VALUE "InternalName", "frpmgr" \
+      VALUE "LegalCopyright", "Copyright © FRP Manager Project" \
+      VALUE "OriginalFilename", "frpmgr.exe" \
+      VALUE "ProductName", file_desc \
+      VALUE "ProductVersion", EXPAND(VERSION_STR) \
+      VALUE "Comments", "https://github.com/koho/frpmgr" \
+    END \
+  END \
+  BLOCK "VarFileInfo" \
+  BEGIN \
+    VALUE "Translation", lang_id, charset_id \
+  END \
 END
+
+LANGUAGE LANG_ENGLISH, SUBLANG_DEFAULT
+VERSIONINFO_TEMPLATE(
+  "040904B0", 0x0409, 1200,
+  "FRP Manager"
+)
+
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+VERSIONINFO_TEMPLATE(
+  "080404B0", 0x0804, 1200,
+  "FRP 管理器"
+)
+
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_TRADITIONAL
+VERSIONINFO_TEMPLATE(
+  "040404B0", 0x0404, 1200,
+  "FRP 管理器"
+)
+
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+VERSIONINFO_TEMPLATE(
+  "041104B0", 0x0411, 1200,
+  "FRP マネージャ"
+)
+
+LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
+VERSIONINFO_TEMPLATE(
+  "041204B0", 0x0412, 1200,
+  "FRP 관리자"
+)
+
+LANGUAGE LANG_SPANISH, SUBLANG_SPANISH
+VERSIONINFO_TEMPLATE(
+  "0C0A04B0", 0x0C0A, 1200,
+  "Administrador de FRP"
+)

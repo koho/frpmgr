@@ -4,6 +4,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/version"
 	"github.com/koho/frpmgr/services"
 	"github.com/koho/frpmgr/ui"
@@ -15,7 +16,7 @@ import (
 )
 
 func fatal(v ...interface{}) {
-	windows.MessageBox(0, windows.StringToUTF16Ptr(fmt.Sprint(v...)), windows.StringToUTF16Ptr("错误"), windows.MB_ICONERROR)
+	windows.MessageBox(0, windows.StringToUTF16Ptr(fmt.Sprint(v...)), windows.StringToUTF16Ptr(i18n.Sprintf("FRP Manager")), windows.MB_ICONERROR)
 	os.Exit(1)
 }
 
@@ -41,11 +42,15 @@ func init() {
 func main() {
 	if showHelp {
 		flag.Usage()
-		info("帮助信息", flagOutput.String())
+		info(i18n.Sprintf("FRP Manager"), flagOutput.String())
 		return
 	}
 	if showVersion {
-		info("版本信息", "程序版本：%s，FRP 版本：%s，构建日期：%s", version.Number, version.FRPVersion, version.BuildDate)
+		info(i18n.Sprintf("FRP Manager"), strings.Join([]string{
+			i18n.Sprintf("Version: %s", version.Number),
+			i18n.Sprintf("FRP version: %s", version.FRPVersion),
+			i18n.Sprintf("Built on: %s", version.BuildDate),
+		}, "\n"))
 		return
 	}
 	inService, err := svc.IsWindowsService()

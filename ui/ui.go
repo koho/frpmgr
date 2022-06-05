@@ -1,11 +1,14 @@
 package ui
 
 import (
+	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/util"
 	"github.com/koho/frpmgr/services"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"github.com/lxn/win"
+	"github.com/thoas/go-funk"
 	"golang.org/x/sys/windows"
 	"math/rand"
 	"path/filepath"
@@ -50,7 +53,7 @@ func RunUI() error {
 	mw := MainWindow{
 		Icon:       loadLogoIcon(32),
 		AssignTo:   &fm.MainWindow,
-		Title:      "FRP 管理器",
+		Title:      i18n.Sprintf("FRP Manager"),
 		Persistent: true,
 		MinSize:    Size{650, 400},
 		Size:       Size{950, 540},
@@ -94,11 +97,14 @@ func showError(err error, owner walk.Form) bool {
 	if err == nil {
 		return false
 	}
-	showErrorMessage(owner, "错误", err.Error())
+	showErrorMessage(owner, "", err.Error())
 	return true
 }
 
 func showErrorMessage(owner walk.Form, title, message string) {
+	if title == "" {
+		title = i18n.Sprintf("Error")
+	}
 	walk.MsgBox(owner, title, message, walk.MsgBoxIconError)
 }
 
@@ -149,4 +155,28 @@ func openFileDialog(receiver *walk.LineEdit, title string, filter string, file b
 		return nil
 	}
 	return receiver.SetText(strings.ReplaceAll(dlg.FilePath, "\\", "/"))
+}
+
+// calculateHeadColumnTextWidth returns the estimated display width of the first column
+func calculateHeadColumnTextWidth(widgets []Widget, columns int) int {
+	maxLen := 0
+	for i := range widgets {
+		if label, ok := widgets[i].(Label); ok && i%columns == 0 {
+			if textLen := calculateStringWidth(label.Text.(string)); textLen > maxLen {
+				maxLen = textLen
+			}
+		}
+	}
+	return maxLen + 5
+}
+
+// calculateStringWidth returns the estimated display width of the given string
+func calculateStringWidth(str string) int {
+	return int(funk.Sum(funk.Map(util.RuneSizeInString(str), func(s int) int {
+		// For better estimation, reduce size for non-ascii character
+		if s > 1 {
+			return s - 1
+		}
+		return s
+	})) * 6)
 }

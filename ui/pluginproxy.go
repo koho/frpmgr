@@ -2,6 +2,7 @@ package ui
 
 import (
 	"fmt"
+	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/lxn/walk"
@@ -33,7 +34,7 @@ func NewPluginProxyDialog(title string, icon *walk.Icon, plugin string) *PluginP
 
 func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {
 	widgets := []Widget{
-		Label{Text: "远程端口:"},
+		Label{Text: i18n.SprintfColon("Remote Port")},
 		LineEdit{Text: Bind("RemotePort", consts.ValidateRequireInteger)},
 	}
 	switch pp.plugin {
@@ -43,12 +44,12 @@ func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {
 		remoteView.MinSize = Size{Width: 250}
 		widgets[1] = remoteView
 		widgets = append(widgets,
-			Label{Text: "本地目录:"},
+			Label{Text: i18n.SprintfColon("Local Directory")},
 			NewBrowseLineEdit(nil, true, true, Bind("Dir", consts.ValidateNonEmpty),
-				"选择本地文件夹", "", false),
+				i18n.Sprintf("Select a folder for directory listing."), "", false),
 		)
 	}
-	return NewBasicDialog(&pp.Dialog, "添加 "+pp.title, pp.icon, DataBinder{
+	return NewBasicDialog(&pp.Dialog, fmt.Sprintf("%s %s", i18n.Sprintf("Add"), pp.title), pp.icon, DataBinder{
 		AssignTo:   &pp.db,
 		DataSource: pp.binder,
 	}, pp.onSave, Composite{

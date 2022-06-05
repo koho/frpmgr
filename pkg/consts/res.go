@@ -1,8 +1,15 @@
 package consts
 
 import (
+	"github.com/koho/frpmgr/i18n"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
+)
+
+// Links
+const (
+	ProjectURL    = "https://github.com/koho/frpmgr"
+	FRPProjectURL = "https://github.com/fatedier/frp"
 )
 
 // Icons
@@ -50,18 +57,19 @@ var (
 
 // Text
 var (
-	TextRegular = Font{Family: "微软雅黑", PointSize: 9}
-	TextMedium  = Font{Family: "微软雅黑", PointSize: 10}
-	TextLarge   = Font{Family: "微软雅黑", PointSize: 16}
+	TextRegular = Font{Family: "Microsoft YaHei UI", PointSize: 9}
+	TextMedium  = Font{Family: "Microsoft YaHei UI", PointSize: 10}
+	TextLarge   = Font{Family: "Microsoft YaHei UI", PointSize: 16}
 )
 
 // Filters
-const (
-	FilterAllFiles = "所有文件 (*.*)|*.*"
-	FilterConfig   = "配置文件 (*.zip, *.ini)|*.zip;*.ini|"
-	FilterZip      = "配置文件 (*.zip)|*.zip"
-	FilterCert     = "证书文件 (*.crt, *.cer)|*.crt;*.cer|"
-	FilterKey      = "密钥文件 (*.key)|*.key|"
+var (
+	FilterAllFiles = i18n.Sprintf("All Files") + " (*.*)|*.*"
+	FilterConfig   = i18n.Sprintf("Configuration Files") + " (*.zip, *.ini)|*.zip;*.ini|"
+	FilterZip      = i18n.Sprintf("Configuration Files") + " (*.zip)|*.zip"
+	FilterCert     = i18n.Sprintf("Certificate Files") + " (*.crt, *.cer)|*.crt;*.cer|"
+	FilterKey      = i18n.Sprintf("Key Files") + " (*.key)|*.key|"
+	FilterLog      = i18n.Sprintf("Log Files") + " (*.log, *.txt)|*.log;*.txt|"
 )
 
 // Validators

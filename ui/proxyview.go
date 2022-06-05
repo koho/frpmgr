@@ -2,6 +2,7 @@ package ui
 
 import (
 	"fmt"
+	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
@@ -47,7 +48,15 @@ func (pv *ProxyView) View() Widget {
 		AssignTo: &pv.Composite,
 		Layout:   VBox{MarginsZero: true},
 		Children: []Widget{
-			pv.createToolbar(),
+			Composite{
+				Layout:          HBox{MarginsZero: true, SpacingZero: true},
+				Alignment:       AlignHNearVNear,
+				DoubleBuffering: true,
+				MaxSize:         Size{Width: 300},
+				Children: []Widget{
+					pv.createToolbar(),
+				},
+			},
 			pv.createProxyTable(),
 		},
 		Functions: map[string]func(args ...interface{}) (interface{}, error){
@@ -83,28 +92,27 @@ func (pv *ProxyView) Invalidate() {
 func (pv *ProxyView) createToolbar() ToolBar {
 	return ToolBar{
 		AssignTo:    &pv.toolbar,
-		MaxSize:     Size{Width: 300},
 		ButtonStyle: ToolBarButtonImageBeforeText,
 		Orientation: Horizontal,
 		Items: []MenuItem{
 			Action{
 				AssignTo: &pv.newAction,
-				Text:     "添加",
+				Text:     i18n.Sprintf("Add"),
 				Image:    loadSysIcon("shell32", consts.IconCreate, 16),
 				OnTriggered: func() {
 					pv.onEdit(false, nil)
 				},
 			},
 			Menu{
-				Text:  "快速添加",
+				Text:  i18n.Sprintf("Quick Add"),
 				Image: loadSysIcon("imageres", consts.IconQuickAdd, 16),
 				Items: []MenuItem{
 					Action{
 						AssignTo: &pv.rdAction,
-						Text:     "远程桌面",
+						Text:     i18n.Sprintf("Remote Desktop"),
 						Image:    loadSysIcon("imageres", consts.IconRemote, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewSimpleProxyDialog("远程桌面", loadSysIcon("imageres", consts.IconRemote, 32),
+							pv.onQuickAdd(NewSimpleProxyDialog(i18n.Sprintf("Remote Desktop"), loadSysIcon("imageres", consts.IconRemote, 32),
 								"rdp", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, ":3389"))
 						},
 					},
@@ -159,28 +167,28 @@ func (pv *ProxyView) createToolbar() ToolBar {
 					},
 					Action{
 						AssignTo: &pv.httpFileAction,
-						Text:     "HTTP 文件服务",
+						Text:     i18n.Sprintf("HTTP File Server"),
 						Image:    loadSysIcon("imageres", consts.IconHttpFile, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewPluginProxyDialog("HTTP 文件服务", loadSysIcon("imageres", consts.IconHttpFile, 32),
+							pv.onQuickAdd(NewPluginProxyDialog(i18n.Sprintf("HTTP File Server"), loadSysIcon("imageres", consts.IconHttpFile, 32),
 								consts.PluginStaticFile))
 						},
 					},
 					Action{
 						AssignTo: &pv.httpProxyAction,
-						Text:     "HTTP 代理",
+						Text:     i18n.Sprintf("HTTP Proxy"),
 						Image:    loadSysIcon("imageres", consts.IconHttpProxy, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewPluginProxyDialog("HTTP 代理", loadSysIcon("imageres", consts.IconHttpProxy, 32),
+							pv.onQuickAdd(NewPluginProxyDialog(i18n.Sprintf("HTTP Proxy"), loadSysIcon("imageres", consts.IconHttpProxy, 32),
 								consts.PluginHttpProxy))
 						},
 					},
 					Action{
 						AssignTo: &pv.socks5Action,
-						Text:     "SOCKS5 代理",
+						Text:     i18n.Sprintf("SOCKS5 Proxy"),
 						Image:    loadSysIcon("imageres", consts.IconSocks5, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewPluginProxyDialog("SOCKS5 代理", loadSysIcon("imageres", consts.IconSocks5, 32),
+							pv.onQuickAdd(NewPluginProxyDialog(i18n.Sprintf("SOCKS5 Proxy"), loadSysIcon("imageres", consts.IconSocks5, 32),
 								consts.PluginSocks5))
 						},
 					},
@@ -198,7 +206,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 			Action{
 				AssignTo: &pv.editAction,
 				Image:    loadSysIcon("shell32", consts.IconEdit, 16),
-				Text:     "编辑",
+				Text:     i18n.Sprintf("Edit"),
 				Enabled:  Bind("proxy.CurrentIndex >= 0"),
 				OnTriggered: func() {
 					pv.onEdit(true, nil)
@@ -207,31 +215,31 @@ func (pv *ProxyView) createToolbar() ToolBar {
 			Action{
 				AssignTo:    &pv.toggleAction,
 				Image:       loadResourceIcon(consts.IconEnable, 16),
-				Text:        "启用",
+				Text:        i18n.Sprintf("Enable"),
 				Enabled:     Bind("proxy.CurrentIndex >= 0 && switchable(proxy.CurrentIndex)"),
 				OnTriggered: pv.onToggleProxy,
 			},
 			Action{
 				AssignTo:    &pv.deleteAction,
 				Image:       loadSysIcon("shell32", consts.IconDelete, 16),
-				Text:        "删除",
+				Text:        i18n.Sprintf("Delete"),
 				Enabled:     Bind("proxy.CurrentIndex >= 0"),
 				OnTriggered: pv.onDelete,
 			},
 			Menu{
-				Text:  "打开配置文件",
+				Text:  i18n.Sprintf("Open Config"),
 				Image: loadResourceIcon(consts.IconOpen, 16),
 				Items: []MenuItem{
 					Action{
 						AssignTo: &pv.openConfAction,
-						Text:     "直接编辑",
+						Text:     i18n.Sprintf("Direct Edit"),
 						OnTriggered: func() {
 							pv.onOpenConfig(false)
 						},
 					},
 					Action{
 						AssignTo: &pv.showConfAction,
-						Text:     "在文件夹中显示",
+						Text:     i18n.Sprintf("Show in Folder"),
 						OnTriggered: func() {
 							pv.onOpenConfig(true)
 						},
@@ -247,14 +255,14 @@ func (pv *ProxyView) createProxyTable() TableView {
 		Name:     "proxy",
 		AssignTo: &pv.table,
 		Columns: []TableViewColumn{
-			{Title: "名称", DataMember: "Name", Width: 105},
-			{Title: "类型", DataMember: "Type", Width: 60},
-			{Title: "本地地址", DataMember: "LocalIP", Width: 110},
-			{Title: "本地端口", DataMember: "LocalPort", Width: 90},
-			{Title: "远程端口", DataMember: "RemotePort", Width: 90},
-			{Title: "子域名", DataMember: "SubDomain", Width: 70},
-			{Title: "自定义域名", DataMember: "CustomDomains", Width: 85},
-			{Title: "插件", DataMember: "Plugin", Width: 95},
+			{Title: i18n.Sprintf("Name"), DataMember: "Name", Width: 105},
+			{Title: i18n.Sprintf("Type"), DataMember: "Type", Width: 60},
+			{Title: i18n.Sprintf("Local Address"), DataMember: "LocalIP", Width: 110},
+			{Title: i18n.Sprintf("Local Port"), DataMember: "LocalPort", Width: 90},
+			{Title: i18n.Sprintf("Remote Port"), DataMember: "RemotePort", Width: 90},
+			{Title: i18n.Sprintf("Subdomain"), DataMember: "SubDomain", Width: 70},
+			{Title: i18n.Sprintf("Custom Domains"), DataMember: "CustomDomains", Width: 85},
+			{Title: i18n.Sprintf("Plugin"), DataMember: "Plugin", Width: 95},
 		},
 		ContextMenuItems: []MenuItem{
 			ActionRef{&pv.editAction},
@@ -262,7 +270,7 @@ func (pv *ProxyView) createProxyTable() TableView {
 			Separator{},
 			ActionRef{&pv.newAction},
 			Menu{
-				Text:  "快速添加",
+				Text:  i18n.Sprintf("Quick Add"),
 				Image: loadSysIcon("imageres", consts.IconQuickAdd, 16),
 				Items: []MenuItem{
 					ActionRef{&pv.rdAction},
@@ -278,19 +286,19 @@ func (pv *ProxyView) createProxyTable() TableView {
 				},
 			},
 			Action{
-				Text:        "从剪贴板导入",
+				Text:        i18n.Sprintf("Import from Clipboard"),
 				Image:       loadSysIcon("shell32", consts.IconClipboard, 16),
 				OnTriggered: pv.onClipboardImport,
 			},
 			Separator{},
 			Action{
 				Enabled:     Bind("proxy.CurrentIndex >= 0"),
-				Text:        "复制访问地址",
+				Text:        i18n.Sprintf("Copy Access Address"),
 				Image:       loadSysIcon("shell32", consts.IconSysCopy, 16),
 				OnTriggered: pv.onCopyAccessAddr,
 			},
 			Menu{
-				Text:  "打开配置文件",
+				Text:  i18n.Sprintf("Open Config"),
 				Image: loadResourceIcon(consts.IconOpen, 16),
 				Items: []MenuItem{
 					ActionRef{&pv.openConfAction},
@@ -371,8 +379,8 @@ func (pv *ProxyView) onDelete() {
 	if conf == nil {
 		return
 	}
-	if walk.MsgBox(pv.Form(), fmt.Sprintf("删除代理「%s」", proxy.Name),
-		fmt.Sprintf("确定要删除代理「%s」吗？", proxy.Name),
+	if walk.MsgBox(pv.Form(), i18n.Sprintf("Delete proxy \"%s\"", proxy.Name),
+		i18n.Sprintf("Are you sure you would like to delete proxy \"%s\"?", proxy.Name),
 		walk.MsgBoxOKCancel|walk.MsgBoxIconWarning) == walk.DlgCmdCancel {
 		return
 	}
@@ -422,8 +430,8 @@ func (pv *ProxyView) onToggleProxy() {
 		if conf.CountStart() <= 1 {
 			return
 		}
-		if walk.MsgBox(pv.Form(), fmt.Sprintf("禁用代理「%s」", proxy.Name),
-			fmt.Sprintf("确定要禁用代理「%s」吗？", proxy.Name),
+		if walk.MsgBox(pv.Form(), i18n.Sprintf("Disable proxy \"%s\"", proxy.Name),
+			i18n.Sprintf("Are you sure you would like to disable proxy \"%s\"?", proxy.Name),
 			walk.MsgBoxOKCancel|walk.MsgBoxIconWarning) == walk.DlgCmdCancel {
 			return
 		}
@@ -440,7 +448,7 @@ func (pv *ProxyView) onQuickAdd(qa QuickAdd) {
 	if res, _ := qa.Run(pv.Form()); res == walk.DlgCmdOK {
 		for _, proxy := range qa.GetProxies() {
 			if !pv.model.data.AddItem(proxy) {
-				showWarningMessage(pv.Form(), "代理已存在", fmt.Sprintf("代理名「%s」已存在。", proxy.Name))
+				showWarningMessage(pv.Form(), i18n.Sprintf("Proxy already exists"), i18n.Sprintf("The proxy name \"%s\" already exists.", proxy.Name))
 			} else {
 				added = true
 			}
@@ -472,10 +480,10 @@ func (pv *ProxyView) switchToggleAction() {
 		return
 	}
 	if proxy.Disabled {
-		pv.toggleAction.SetText("启用")
+		pv.toggleAction.SetText(i18n.Sprintf("Enable"))
 		pv.toggleAction.SetImage(loadResourceIcon(consts.IconEnable, 16))
 	} else {
-		pv.toggleAction.SetText("禁用")
+		pv.toggleAction.SetText(i18n.Sprintf("Disable"))
 		pv.toggleAction.SetImage(loadResourceIcon(consts.IconDisable, 16))
 	}
 }
