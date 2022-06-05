@@ -247,7 +247,7 @@ func (cv *ConfView) ImportFiles(files []string) {
 		}
 	}
 	if imported > 0 {
-		showInfoMessage(cv.Form(), i18n.Sprintf("Import Config"), fmt.Sprintf("Imported %d of %d configs.", total, imported))
+		showInfoMessage(cv.Form(), i18n.Sprintf("Import Config"), i18n.Sprintf("Imported %d of %d configs.", imported, total))
 		// Reselect the current config after refreshing list view
 		if conf := getCurrentConf(); conf != nil {
 			cv.reset(conf.Name)
@@ -285,7 +285,7 @@ func (cv *ConfView) importZip(path string) (total, imported int) {
 	}
 	zr, err := zip.OpenReader(path)
 	if err != nil {
-		showErrorMessage(cv.Form(), "", fmt.Sprintf("The file \"%s\" is not a valid ZIP file.", path))
+		showErrorMessage(cv.Form(), "", i18n.Sprintf("The file \"%s\" is not a valid ZIP file.", path))
 		return
 	}
 	defer zr.Close()

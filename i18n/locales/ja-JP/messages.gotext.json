@@ -227,6 +227,54 @@
             ]
         },
         {
+            "id": "Imported {Imported} of {Total} configs.",
+            "message": "Imported {Imported} of {Total} configs.",
+            "translation": {
+                "select": {
+                    "feature": "plural",
+                    "arg": "Total",
+                    "cases": {
+                        "other": {
+                            "msg": "{Total} 中の {Imported} 設定をインポートしました。"
+                        }
+                    }
+                }
+            },
+            "placeholders": [
+                {
+                    "id": "Imported",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "imported"
+                },
+                {
+                    "id": "Total",
+                    "string": "%[2]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 2,
+                    "expr": "total"
+                }
+            ]
+        },
+        {
+            "id": "The file \"{Path}\" is not a valid ZIP file.",
+            "message": "The file \"{Path}\" is not a valid ZIP file.",
+            "translation": "ファイル \"{Path}\" は有効なZIPファイルではありません。",
+            "placeholders": [
+                {
+                    "id": "Path",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "path"
+                }
+            ]
+        },
+        {
             "id": "Delete config \"{Name}\"",
             "message": "Delete config \"{Name}\"",
             "translation": "設定 \"{Name}\" を削除",
