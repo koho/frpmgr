@@ -4,6 +4,7 @@ import (
 	"github.com/koho/frpmgr/i18n"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
+	"golang.org/x/sys/windows"
 )
 
 // Links
@@ -57,9 +58,21 @@ var (
 
 // Text
 var (
-	TextRegular = Font{Family: "Microsoft YaHei UI", PointSize: 9}
-	TextMedium  = Font{Family: "Microsoft YaHei UI", PointSize: 10}
-	TextLarge   = Font{Family: "Microsoft YaHei UI", PointSize: 16}
+	defaultFontFamily = func() string {
+		versionInfo := windows.RtlGetVersion()
+		// Microsoft YaHei UI is not included in Windows 7
+		// Fallback to Microsoft YaHei instead
+		if versionInfo.MajorVersion > 6 || (versionInfo.MajorVersion == 6 && versionInfo.MinorVersion > 1) {
+			// > Windows 7
+			return "Microsoft YaHei UI"
+		} else {
+			// <= Windows 7
+			return "Microsoft YaHei"
+		}
+	}()
+	TextRegular = Font{Family: defaultFontFamily, PointSize: 9}
+	TextMedium  = Font{Family: defaultFontFamily, PointSize: 10}
+	TextLarge   = Font{Family: defaultFontFamily, PointSize: 16}
 )
 
 // Filters
