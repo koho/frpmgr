@@ -43,7 +43,7 @@ type editClientBinder struct {
 	config.ClientCommon
 }
 
-func NewEditClientDialog(conf *Conf) *EditClientDialog {
+func NewEditClientDialog(conf *Conf, name string) *EditClientDialog {
 	v := new(EditClientDialog)
 	if conf == nil {
 		newConf := config.NewDefaultClientConfig()
@@ -61,6 +61,9 @@ func NewEditClientDialog(conf *Conf) *EditClientDialog {
 		Name:         v.Conf.Name,
 		CustomText:   util.Map2String(data.Custom),
 		ClientCommon: v.data.ClientCommon,
+	}
+	if name != "" {
+		v.binder.Name = name
 	}
 	return v
 }

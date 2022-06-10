@@ -162,6 +162,21 @@
             "translation": "フォルダで見て"
         },
         {
+            "id": "Create a Copy",
+            "message": "Create a Copy",
+            "translation": "コピーを作成する"
+        },
+        {
+            "id": "All",
+            "message": "All",
+            "translation": "全て"
+        },
+        {
+            "id": "Common Only",
+            "message": "Common Only",
+            "translation": "共通設定のみ"
+        },
+        {
             "id": "Import from File",
             "message": "Import from File",
             "translation": "ファイルからインポート"
@@ -170,6 +185,11 @@
             "id": "Import from Clipboard",
             "message": "Import from Clipboard",
             "translation": "クリップボードからインポート"
+        },
+        {
+            "id": "Copy Share Link",
+            "message": "Copy Share Link",
+            "translation": "共有リンクをコピー"
         },
         {
             "id": "Export All Configs to ZIP",

@@ -2,6 +2,8 @@ package ui
 
 import (
 	"archive/zip"
+	"bytes"
+	"encoding/base64"
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
@@ -56,8 +58,14 @@ func (cv *ConfView) View() Widget {
 					Action{Text: i18n.Sprintf("Show in Folder"), Enabled: Bind("conf.Selected"), OnTriggered: func() { cv.onOpen(true) }},
 					Separator{},
 					Action{Text: i18n.Sprintf("New Configuration"), OnTriggered: cv.editNew},
+					Menu{Text: i18n.Sprintf("Create a Copy"), Enabled: Bind("conf.Selected"), Items: []MenuItem{
+						Action{Text: i18n.Sprintf("All"), OnTriggered: func() { cv.editCopy(true) }},
+						Action{Text: i18n.Sprintf("Common Only"), OnTriggered: func() { cv.editCopy(false) }},
+					}},
 					Action{Text: i18n.SprintfEllipsis("Import from File"), OnTriggered: cv.onFileImport},
 					Action{Text: i18n.Sprintf("Import from Clipboard"), OnTriggered: cv.onClipboardImport},
+					Separator{},
+					Action{Text: i18n.Sprintf("Copy Share Link"), Enabled: Bind("conf.Selected"), OnTriggered: cv.onCopyShareLink},
 					Action{Text: i18n.Sprintf("Export All Configs to ZIP"), Enabled: Bind("conf.Selected"), OnTriggered: cv.onExport},
 					Separator{},
 					Action{Text: i18n.Sprintf("Delete"), Enabled: Bind("conf.Selected"), OnTriggered: cv.onDelete},
@@ -168,11 +176,17 @@ func (cv *ConfView) OnCreate() {
 }
 
 func (cv *ConfView) editCurrent() {
-	cv.onEditConf(getCurrentConf())
+	cv.onEditConf(getCurrentConf(), "")
 }
 
 func (cv *ConfView) editNew() {
-	cv.onEditConf(nil)
+	cv.onEditConf(nil, "")
+}
+
+func (cv *ConfView) editCopy(all bool) {
+	if conf := getCurrentConf(); conf != nil {
+		cv.onEditConf(NewConf("", conf.Data.Copy(all)), "")
+	}
 }
 
 func (cv *ConfView) fixWidthToToolbarWidth() {
@@ -180,8 +194,8 @@ func (cv *ConfView) fixWidthToToolbarWidth() {
 	cv.SetMinMaxSizePixels(walk.Size{toolbarWidth, 0}, walk.Size{toolbarWidth, 0})
 }
 
-func (cv *ConfView) onEditConf(conf *Conf) {
-	dlg := NewEditClientDialog(conf)
+func (cv *ConfView) onEditConf(conf *Conf, name string) {
+	dlg := NewEditClientDialog(conf, name)
 	if dlg == nil {
 		return
 	}
@@ -310,15 +324,46 @@ func (cv *ConfView) importZip(path string) (total, imported int) {
 
 func (cv *ConfView) onClipboardImport() {
 	text, err := walk.Clipboard().Text()
-	if err != nil || strings.TrimSpace(text) == "" {
+	if err != nil {
 		return
+	}
+	if text = strings.TrimSpace(text); text == "" {
+		return
+	}
+	var name string
+	// Check for a share link
+	if strings.HasPrefix(text, consts.ShareLinkScheme) {
+		text = strings.TrimPrefix(text, consts.ShareLinkScheme)
+		content, err := base64.StdEncoding.DecodeString(text)
+		if err != nil {
+			showError(err, cv.Form())
+			return
+		}
+		text = string(content)
+		// Extract the config name in the first line
+		if i := bytes.IndexByte(content, '\n'); i > 0 && content[0] == '#' {
+			name = string(bytes.TrimSpace(content[1:i]))
+		}
 	}
 	conf, err := config.UnmarshalClientConfFromIni([]byte(text))
 	if err != nil {
 		showError(err, cv.Form())
 		return
 	}
-	cv.onEditConf(NewConf("", conf))
+	cv.onEditConf(NewConf("", conf), name)
+}
+
+func (cv *ConfView) onCopyShareLink() {
+	if conf := getCurrentConf(); conf != nil {
+		content, err := ioutil.ReadFile(conf.Path)
+		if err != nil {
+			showError(err, cv.Form())
+			return
+		}
+		// Insert the config name in the first line
+		content = append([]byte("# "+conf.Name+"\n"), content...)
+		walk.Clipboard().SetText(consts.ShareLinkScheme + base64.StdEncoding.EncodeToString(content))
+	}
 }
 
 func (cv *ConfView) onOpen(folder bool) {

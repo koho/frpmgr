@@ -342,6 +342,20 @@ func (conf *ClientConfig) Complete(read bool) {
 	}
 }
 
+func (conf *ClientConfig) Copy(all bool) Config {
+	newConf := NewDefaultClientConfig()
+	newConf.ClientCommon = conf.ClientCommon
+	// We can't share the same log file between different configs
+	newConf.ClientCommon.LogFile = ""
+	if all {
+		for _, proxy := range conf.Proxies {
+			var newProxy = *proxy
+			newConf.Proxies = append(newConf.Proxies, &newProxy)
+		}
+	}
+	return newConf
+}
+
 // gatherStart returns a list of enabled proxies name, or a nil slice if all proxies are enabled.
 func (conf *ClientConfig) gatherStart() []string {
 	allStart := true

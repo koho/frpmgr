@@ -27,4 +27,6 @@ type Config interface {
 	GetLogFile() string
 	// AutoStart indicates whether this config should be started at boot.
 	AutoStart() bool
+	// Copy creates a new copy of this config.
+	Copy(all bool) Config
 }

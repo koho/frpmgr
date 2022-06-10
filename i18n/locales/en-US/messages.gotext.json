@@ -214,6 +214,27 @@
             "fuzzy": true
         },
         {
+            "id": "Create a Copy",
+            "message": "Create a Copy",
+            "translation": "Create a Copy",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "All",
+            "message": "All",
+            "translation": "All",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Common Only",
+            "message": "Common Only",
+            "translation": "Common Only",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Import from File",
             "message": "Import from File",
             "translation": "Import from File",
@@ -224,6 +245,13 @@
             "id": "Import from Clipboard",
             "message": "Import from Clipboard",
             "translation": "Import from Clipboard",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Copy Share Link",
+            "message": "Copy Share Link",
+            "translation": "Copy Share Link",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

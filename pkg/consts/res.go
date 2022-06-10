@@ -9,8 +9,9 @@ import (
 
 // Links
 const (
-	ProjectURL    = "https://github.com/koho/frpmgr"
-	FRPProjectURL = "https://github.com/fatedier/frp"
+	ProjectURL      = "https://github.com/koho/frpmgr"
+	FRPProjectURL   = "https://github.com/fatedier/frp"
+	ShareLinkScheme = "frp://"
 )
 
 // Icons

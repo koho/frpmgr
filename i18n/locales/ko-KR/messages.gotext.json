@@ -162,6 +162,21 @@
             "translation": "폴더에 표시"
         },
         {
+            "id": "Create a Copy",
+            "message": "Create a Copy",
+            "translation": "복사본 생성"
+        },
+        {
+            "id": "All",
+            "message": "All",
+            "translation": "모두"
+        },
+        {
+            "id": "Common Only",
+            "message": "Common Only",
+            "translation": "일반 구성만 해당"
+        },
+        {
             "id": "Import from File",
             "message": "Import from File",
             "translation": "파일에서 가져오기"
@@ -170,6 +185,11 @@
             "id": "Import from Clipboard",
             "message": "Import from Clipboard",
             "translation": "클립보드에서 가져오기"
+        },
+        {
+            "id": "Copy Share Link",
+            "message": "Copy Share Link",
+            "translation": "공유 링크 복사"
         },
         {
             "id": "Export All Configs to ZIP",

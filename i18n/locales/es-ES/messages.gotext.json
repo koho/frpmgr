@@ -162,6 +162,21 @@
             "translation": "Mostrar en la carpeta"
         },
         {
+            "id": "Create a Copy",
+            "message": "Create a Copy",
+            "translation": "Crear una copia"
+        },
+        {
+            "id": "All",
+            "message": "All",
+            "translation": "Todos"
+        },
+        {
+            "id": "Common Only",
+            "message": "Common Only",
+            "translation": "Solo común"
+        },
+        {
             "id": "Import from File",
             "message": "Import from File",
             "translation": "Importar desde archivo"
@@ -170,6 +185,11 @@
             "id": "Import from Clipboard",
             "message": "Import from Clipboard",
             "translation": "Importar desde portapapeles"
+        },
+        {
+            "id": "Copy Share Link",
+            "message": "Copy Share Link",
+            "translation": "Copiar compartir enlace"
         },
         {
             "id": "Export All Configs to ZIP",

@@ -162,6 +162,21 @@
             "translation": "在文件夹中显示"
         },
         {
+            "id": "Create a Copy",
+            "message": "Create a Copy",
+            "translation": "创建副本"
+        },
+        {
+            "id": "All",
+            "message": "All",
+            "translation": "全部"
+        },
+        {
+            "id": "Common Only",
+            "message": "Common Only",
+            "translation": "仅通用配置"
+        },
+        {
             "id": "Import from File",
             "message": "Import from File",
             "translation": "从文件导入"
@@ -170,6 +185,11 @@
             "id": "Import from Clipboard",
             "message": "Import from Clipboard",
             "translation": "从剪贴板导入"
+        },
+        {
+            "id": "Copy Share Link",
+            "message": "Copy Share Link",
+            "translation": "复制分享链接"
         },
         {
             "id": "Export All Configs to ZIP",
