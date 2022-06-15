@@ -53,22 +53,51 @@ func (cv *ConfView) View() Widget {
 				Columns:             []TableViewColumn{{DataMember: "Name"}},
 				Model:               cv.model,
 				ContextMenuItems: []MenuItem{
-					Action{AssignTo: &cv.lsEditAction, Text: i18n.Sprintf("Edit"), Enabled: Bind("conf.Selected"), OnTriggered: cv.editCurrent},
-					Action{Text: i18n.Sprintf("Open File"), Enabled: Bind("conf.Selected"), OnTriggered: func() { cv.onOpen(false) }},
-					Action{Text: i18n.Sprintf("Show in Folder"), Enabled: Bind("conf.Selected"), OnTriggered: func() { cv.onOpen(true) }},
+					Action{
+						AssignTo:    &cv.lsEditAction,
+						Text:        i18n.Sprintf("Edit"),
+						Enabled:     Bind("conf.Selected"),
+						OnTriggered: cv.editCurrent,
+					},
+					Action{Text: i18n.Sprintf("Open File"),
+						Enabled:     Bind("conf.Selected"),
+						OnTriggered: func() { cv.onOpen(false) },
+					},
+					Action{
+						Text:        i18n.Sprintf("Show in Folder"),
+						Enabled:     Bind("conf.Selected"),
+						OnTriggered: func() { cv.onOpen(true) },
+					},
 					Separator{},
 					Action{Text: i18n.Sprintf("New Configuration"), OnTriggered: cv.editNew},
-					Menu{Text: i18n.Sprintf("Create a Copy"), Enabled: Bind("conf.Selected"), Items: []MenuItem{
-						Action{Text: i18n.Sprintf("All"), OnTriggered: func() { cv.editCopy(true) }},
-						Action{Text: i18n.Sprintf("Common Only"), OnTriggered: func() { cv.editCopy(false) }},
-					}},
+					Menu{
+						Text:    i18n.Sprintf("Create a Copy"),
+						Enabled: Bind("conf.Selected"),
+						Items: []MenuItem{
+							Action{Text: i18n.Sprintf("All"), OnTriggered: func() { cv.editCopy(true) }},
+							Action{Text: i18n.Sprintf("Common Only"), OnTriggered: func() { cv.editCopy(false) }},
+						},
+					},
 					Action{Text: i18n.SprintfEllipsis("Import from File"), OnTriggered: cv.onFileImport},
+					Action{Text: i18n.SprintfEllipsis("Import from URL"), OnTriggered: cv.onURLImport},
 					Action{Text: i18n.Sprintf("Import from Clipboard"), OnTriggered: cv.onClipboardImport},
 					Separator{},
-					Action{Text: i18n.Sprintf("Copy Share Link"), Enabled: Bind("conf.Selected"), OnTriggered: cv.onCopyShareLink},
-					Action{Text: i18n.Sprintf("Export All Configs to ZIP"), Enabled: Bind("conf.Selected"), OnTriggered: cv.onExport},
+					Action{
+						Text:        i18n.Sprintf("Copy Share Link"),
+						Enabled:     Bind("conf.Selected"),
+						OnTriggered: cv.onCopyShareLink,
+					},
+					Action{
+						Text:        i18n.Sprintf("Export All Configs to ZIP"),
+						Enabled:     Bind("conf.Selected"),
+						OnTriggered: cv.onExport,
+					},
 					Separator{},
-					Action{Text: i18n.Sprintf("Delete"), Enabled: Bind("conf.Selected"), OnTriggered: cv.onDelete},
+					Action{
+						Text:        i18n.Sprintf("Delete"),
+						Enabled:     Bind("conf.Selected"),
+						OnTriggered: cv.onDelete,
+					},
 				},
 				StyleCell: func(style *walk.CellStyle) {
 					row := style.Row()
@@ -125,6 +154,11 @@ func (cv *ConfView) View() Widget {
 										Text:        i18n.SprintfEllipsis("Import from File"),
 										Image:       loadSysIcon("shell32", consts.IconFileImport, 16),
 										OnTriggered: cv.onFileImport,
+									},
+									Action{
+										Text:        i18n.SprintfEllipsis("Import from URL"),
+										Image:       loadSysIcon("imageres", consts.IconURLImport, 16),
+										OnTriggered: cv.onURLImport,
 									},
 									Action{
 										Text:        i18n.Sprintf("Import from Clipboard"),
@@ -214,6 +248,52 @@ func (cv *ConfView) onEditConf(conf *Conf, name string) {
 	}
 }
 
+func (cv *ConfView) onURLImport() {
+	dlg := NewURLImportDialog()
+	if result, err := dlg.Run(cv.Form()); err != nil || result != walk.DlgCmdOK {
+		return
+	}
+	cv.importConfig(func() (total, imported int) {
+		for _, item := range dlg.Items {
+			if item.Zip {
+				subTotal, subImported := cv.importZip(item.Filename, item.Data, item.Rename)
+				total += subTotal
+				imported += subImported
+			} else {
+				total++
+				if newPath, ok := cv.checkConfName(item.Filename, item.Rename); ok {
+					conf, err := config.UnmarshalClientConfFromIni(item.Data)
+					if err != nil {
+						showError(err, cv.Form())
+						continue
+					}
+					if err = ioutil.WriteFile(newPath, item.Data, 0666); err != nil {
+						showError(err, cv.Form())
+						continue
+					}
+					addConf(NewConf(newPath, conf))
+					imported++
+				}
+			}
+		}
+		return
+	})
+}
+
+func (cv *ConfView) checkConfName(filename string, rename bool) (string, bool) {
+	suffix := ""
+checkName:
+	newPath := PathOfConf(util.AddFileSuffix(filename, suffix))
+	if _, err := os.Stat(newPath); err == nil {
+		if rename {
+			suffix = "_" + funk.RandomString(4)
+			goto checkName
+		}
+		return newPath, false
+	}
+	return newPath, true
+}
+
 func (cv *ConfView) onFileImport() {
 	dlg := walk.FileDialog{
 		Filter: consts.FilterConfig + consts.FilterAllFiles,
@@ -226,41 +306,11 @@ func (cv *ConfView) onFileImport() {
 	cv.ImportFiles(dlg.FilePaths)
 }
 
-func (cv *ConfView) ImportFiles(files []string) {
-	total, imported := 0, 0
-	for _, path := range files {
-		if dir, err := util.IsDirectory(path); err != nil || dir {
-			continue
-		}
-		switch strings.ToLower(filepath.Ext(path)) {
-		case ".ini":
-			total++
-			newPath := PathOfConf(filepath.Base(path))
-			if _, err := os.Stat(newPath); err == nil {
-				baseName, _ := util.SplitExt(newPath)
-				showWarningMessage(cv.Form(), i18n.Sprintf("Import Config"), i18n.Sprintf("Another config already exists with the name \"%s\".", baseName))
-				continue
-			}
-			// Verify config before copying file
-			conf, err := config.UnmarshalClientConfFromIni(path)
-			if err != nil {
-				showError(err, cv.Form())
-				continue
-			}
-			if _, err = util.CopyFile(path, newPath); err != nil {
-				showErrorMessage(cv.Form(), "", i18n.Sprintf("Unable to copy file \"%s\".", path))
-				continue
-			}
-			addConf(NewConf(newPath, conf))
-			imported++
-		case ".zip":
-			subTotal, subImported := cv.importZip(path)
-			total += subTotal
-			imported += subImported
-		}
-	}
-	if imported > 0 {
-		showInfoMessage(cv.Form(), i18n.Sprintf("Import Config"), i18n.Sprintf("Imported %d of %d configs.", imported, total))
+func (cv *ConfView) importConfig(f func() (int, int)) {
+	if total, imported := f(); imported > 0 {
+		showInfoMessage(cv.Form(),
+			i18n.Sprintf("Import Config"),
+			i18n.Sprintf("Imported %d of %d configs.", imported, total))
 		// Reselect the current config after refreshing list view
 		if conf := getCurrentConf(); conf != nil {
 			cv.reset(conf.Name)
@@ -270,7 +320,46 @@ func (cv *ConfView) ImportFiles(files []string) {
 	}
 }
 
-func (cv *ConfView) importZip(path string) (total, imported int) {
+func (cv *ConfView) ImportFiles(files []string) {
+	cv.importConfig(func() (total, imported int) {
+		for _, path := range files {
+			if dir, err := util.IsDirectory(path); err != nil || dir {
+				continue
+			}
+			switch strings.ToLower(filepath.Ext(path)) {
+			case ".ini":
+				total++
+				newPath, ok := cv.checkConfName(path, false)
+				if !ok {
+					baseName, _ := util.SplitExt(newPath)
+					showWarningMessage(cv.Form(),
+						i18n.Sprintf("Import Config"),
+						i18n.Sprintf("Another config already exists with the name \"%s\".", baseName))
+					continue
+				}
+				// Verify config before copying file
+				conf, err := config.UnmarshalClientConfFromIni(path)
+				if err != nil {
+					showError(err, cv.Form())
+					continue
+				}
+				if _, err = util.CopyFile(path, newPath); err != nil {
+					showError(err, cv.Form())
+					continue
+				}
+				addConf(NewConf(newPath, conf))
+				imported++
+			case ".zip":
+				subTotal, subImported := cv.importZip(path, nil, false)
+				total += subTotal
+				imported += subImported
+			}
+		}
+		return
+	})
+}
+
+func (cv *ConfView) importZip(path string, data []byte, rename bool) (total, imported int) {
 	importFile := func(file *zip.File, dst string) error {
 		fr, err := file.Open()
 		if err != nil {
@@ -296,12 +385,23 @@ func (cv *ConfView) importZip(path string) (total, imported int) {
 		addConf(NewConf(dst, conf))
 		return nil
 	}
-	zr, err := zip.OpenReader(path)
+	var zr *zip.Reader
+	var err error
+	if data == nil {
+		// Read from the given file path
+		var fr *zip.ReadCloser
+		if fr, err = zip.OpenReader(path); err == nil {
+			zr = &fr.Reader
+			defer fr.Close()
+		}
+	} else {
+		// Read from the memory buffer
+		zr, err = zip.NewReader(bytes.NewReader(data), int64(len(data)))
+	}
 	if err != nil {
 		showErrorMessage(cv.Form(), "", i18n.Sprintf("The file \"%s\" is not a valid ZIP file.", path))
 		return
 	}
-	defer zr.Close()
 	for _, file := range zr.File {
 		if file.FileInfo().IsDir() {
 			continue
@@ -310,13 +410,10 @@ func (cv *ConfView) importZip(path string) (total, imported int) {
 			continue
 		}
 		total++
-		dstPath := PathOfConf(file.Name)
-		// Skip the existing config
-		if _, err = os.Stat(dstPath); err == nil {
-			continue
-		}
-		if err = importFile(file, dstPath); err == nil {
-			imported++
+		if dstPath, ok := cv.checkConfName(file.Name, rename); ok {
+			if err = importFile(file, dstPath); err == nil {
+				imported++
+			}
 		}
 	}
 	return

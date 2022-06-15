@@ -182,6 +182,11 @@
             "translation": "从文件导入"
         },
         {
+            "id": "Import from URL",
+            "message": "Import from URL",
+            "translation": "从 URL 导入"
+        },
+        {
             "id": "Import from Clipboard",
             "message": "Import from Clipboard",
             "translation": "从剪贴板导入"
@@ -217,36 +222,6 @@
             "translation": "导入配置"
         },
         {
-            "id": "Another config already exists with the name \"{BaseName}\".",
-            "message": "Another config already exists with the name \"{BaseName}\".",
-            "translation": "另一个同名的配置「{BaseName}」已存在。",
-            "placeholders": [
-                {
-                    "id": "BaseName",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "baseName"
-                }
-            ]
-        },
-        {
-            "id": "Unable to copy file \"{Path}\".",
-            "message": "Unable to copy file \"{Path}\".",
-            "translation": "无法复制文件 \"{Path}\"。",
-            "placeholders": [
-                {
-                    "id": "Path",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "path"
-                }
-            ]
-        },
-        {
             "id": "Imported {Imported} of {Total} configs.",
             "message": "Imported {Imported} of {Total} configs.",
             "translation": "导入了 {Total} 个配置文件中的 {Imported} 个。",
@@ -266,6 +241,21 @@
                     "underlyingType": "int",
                     "argNum": 2,
                     "expr": "total"
+                }
+            ]
+        },
+        {
+            "id": "Another config already exists with the name \"{BaseName}\".",
+            "message": "Another config already exists with the name \"{BaseName}\".",
+            "translation": "另一个同名的配置「{BaseName}」已存在。",
+            "placeholders": [
+                {
+                    "id": "BaseName",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "baseName"
                 }
             ]
         },
@@ -1033,6 +1023,31 @@
             "id": "Error",
             "message": "Error",
             "translation": "错误"
+        },
+        {
+            "id": "* Support batch import, one link per line.",
+            "message": "* Support batch import, one link per line.",
+            "translation": "* 支持批量导入，每行一个链接。"
+        },
+        {
+            "id": "Rename automatically",
+            "message": "Rename automatically",
+            "translation": "自动重命名"
+        },
+        {
+            "id": "Ready",
+            "message": "Ready",
+            "translation": "准备就绪"
+        },
+        {
+            "id": "Please enter the correct URL list.",
+            "message": "Please enter the correct URL list.",
+            "translation": "请输入正确的 URL 列表。"
+        },
+        {
+            "id": "Download",
+            "message": "Download",
+            "translation": "下载"
         }
     ]
 }

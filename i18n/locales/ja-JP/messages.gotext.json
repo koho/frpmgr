@@ -182,6 +182,11 @@
             "translation": "ファイルからインポート"
         },
         {
+            "id": "Import from URL",
+            "message": "Import from URL",
+            "translation": "URLからインポート"
+        },
+        {
             "id": "Import from Clipboard",
             "message": "Import from Clipboard",
             "translation": "クリップボードからインポート"
@@ -217,36 +222,6 @@
             "translation": "設定のインポート"
         },
         {
-            "id": "Another config already exists with the name \"{BaseName}\".",
-            "message": "Another config already exists with the name \"{BaseName}\".",
-            "translation": "\"{BaseName}\" という名前の別の設定が既に存在します。",
-            "placeholders": [
-                {
-                    "id": "BaseName",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "baseName"
-                }
-            ]
-        },
-        {
-            "id": "Unable to copy file \"{Path}\".",
-            "message": "Unable to copy file \"{Path}\".",
-            "translation": "ファイル \"{Path}\" をコピーできません。",
-            "placeholders": [
-                {
-                    "id": "Path",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "path"
-                }
-            ]
-        },
-        {
             "id": "Imported {Imported} of {Total} configs.",
             "message": "Imported {Imported} of {Total} configs.",
             "translation": {
@@ -276,6 +251,21 @@
                     "underlyingType": "int",
                     "argNum": 2,
                     "expr": "total"
+                }
+            ]
+        },
+        {
+            "id": "Another config already exists with the name \"{BaseName}\".",
+            "message": "Another config already exists with the name \"{BaseName}\".",
+            "translation": "\"{BaseName}\" という名前の別の設定が既に存在します。",
+            "placeholders": [
+                {
+                    "id": "BaseName",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "baseName"
                 }
             ]
         },
@@ -1043,6 +1033,31 @@
             "id": "Error",
             "message": "Error",
             "translation": "エラー"
+        },
+        {
+            "id": "* Support batch import, one link per line.",
+            "message": "* Support batch import, one link per line.",
+            "translation": "* バッチインポートをサポートします、1行に1つのリンクがあります。"
+        },
+        {
+            "id": "Rename automatically",
+            "message": "Rename automatically",
+            "translation": "自動的に名前を変更"
+        },
+        {
+            "id": "Ready",
+            "message": "Ready",
+            "translation": "準備"
+        },
+        {
+            "id": "Please enter the correct URL list.",
+            "message": "Please enter the correct URL list.",
+            "translation": "正しいURLリストを入力してください。"
+        },
+        {
+            "id": "Download",
+            "message": "Download",
+            "translation": "ダウンロード"
         }
     ]
 }

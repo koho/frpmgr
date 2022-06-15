@@ -193,3 +193,9 @@ func IsDirectory(path string) (bool, error) {
 	}
 	return fileInfo.IsDir(), err
 }
+
+// AddFileSuffix adds a suffix between the file name and the file extension
+func AddFileSuffix(filename, suffix string) string {
+	baseName, ext := SplitExt(filename)
+	return baseName + suffix + ext
+}

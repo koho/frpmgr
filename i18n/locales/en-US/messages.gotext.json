@@ -242,6 +242,13 @@
             "fuzzy": true
         },
         {
+            "id": "Import from URL",
+            "message": "Import from URL",
+            "translation": "Import from URL",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Import from Clipboard",
             "message": "Import from Clipboard",
             "translation": "Import from Clipboard",
@@ -291,40 +298,6 @@
             "fuzzy": true
         },
         {
-            "id": "Another config already exists with the name \"{BaseName}\".",
-            "message": "Another config already exists with the name \"{BaseName}\".",
-            "translation": "Another config already exists with the name \"{BaseName}\".",
-            "translatorComment": "Copied from source.",
-            "placeholders": [
-                {
-                    "id": "BaseName",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "baseName"
-                }
-            ],
-            "fuzzy": true
-        },
-        {
-            "id": "Unable to copy file \"{Path}\".",
-            "message": "Unable to copy file \"{Path}\".",
-            "translation": "Unable to copy file \"{Path}\".",
-            "translatorComment": "Copied from source.",
-            "placeholders": [
-                {
-                    "id": "Path",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "path"
-                }
-            ],
-            "fuzzy": true
-        },
-        {
             "id": "Imported {Imported} of {Total} configs.",
             "message": "Imported {Imported} of {Total} configs.",
             "translation": "Imported {Imported} of {Total} configs.",
@@ -345,6 +318,23 @@
                     "underlyingType": "int",
                     "argNum": 2,
                     "expr": "total"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Another config already exists with the name \"{BaseName}\".",
+            "message": "Another config already exists with the name \"{BaseName}\".",
+            "translation": "Another config already exists with the name \"{BaseName}\".",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "BaseName",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "baseName"
                 }
             ],
             "fuzzy": true
@@ -1381,6 +1371,41 @@
             "id": "Error",
             "message": "Error",
             "translation": "Error",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "* Support batch import, one link per line.",
+            "message": "* Support batch import, one link per line.",
+            "translation": "* Support batch import, one link per line.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Rename automatically",
+            "message": "Rename automatically",
+            "translation": "Rename automatically",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Ready",
+            "message": "Ready",
+            "translation": "Ready",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Please enter the correct URL list.",
+            "message": "Please enter the correct URL list.",
+            "translation": "Please enter the correct URL list.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Download",
+            "message": "Download",
+            "translation": "Download",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         }
