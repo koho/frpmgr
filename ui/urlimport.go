@@ -61,7 +61,12 @@ func (ud *URLImportDialog) Run(owner walk.Form) (int, error) {
 			VScroll: true,
 			MinSize: Size{430, 130},
 		},
-		CheckBox{Text: i18n.Sprintf("Rename automatically"), Alignment: AlignHNearVCenter, Checked: Bind("Rename")},
+		CheckBox{
+			Enabled:   Bind("!vm.Working"),
+			Text:      i18n.Sprintf("Rename automatically"),
+			Alignment: AlignHNearVCenter,
+			Checked:   Bind("Rename"),
+		},
 		Label{
 			AssignTo:     &ud.statusText,
 			Text:         fmt.Sprintf("%s: %s", i18n.Sprintf("Status"), i18n.Sprintf("Ready")),
@@ -101,7 +106,7 @@ func (ud *URLImportDialog) onImport() {
 
 func (ud *URLImportDialog) urlImport(ctx context.Context, wg *sync.WaitGroup, urls []string) {
 	result := walk.DlgCmdOK
-	defer ud.Close(result)
+	defer func() { ud.Close(result) }()
 	defer wg.Done()
 	for i, url := range urls {
 		ud.statusText.SetText(fmt.Sprintf("%s: [%d/%d] %s %s",
