@@ -182,6 +182,11 @@
             "translation": "Importar desde archivo"
         },
         {
+            "id": "Import from URL",
+            "message": "Import from URL",
+            "translation": "Importar desde URL"
+        },
+        {
             "id": "Import from Clipboard",
             "message": "Import from Clipboard",
             "translation": "Importar desde portapapeles"
@@ -217,36 +222,6 @@
             "translation": "Importar configuración"
         },
         {
-            "id": "Another config already exists with the name \"{BaseName}\".",
-            "message": "Another config already exists with the name \"{BaseName}\".",
-            "translation": "Ya existe otra configuración con el nombre \"{BaseName}\".",
-            "placeholders": [
-                {
-                    "id": "BaseName",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "baseName"
-                }
-            ]
-        },
-        {
-            "id": "Unable to copy file \"{Path}\".",
-            "message": "Unable to copy file \"{Path}\".",
-            "translation": "No se puede copiar el archivo \"{Path}\".",
-            "placeholders": [
-                {
-                    "id": "Path",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "path"
-                }
-            ]
-        },
-        {
             "id": "Imported {Imported} of {Total} configs.",
             "message": "Imported {Imported} of {Total} configs.",
             "translation": "Importado {Imported} de {Total} configuraciones.",
@@ -266,6 +241,21 @@
                     "underlyingType": "int",
                     "argNum": 2,
                     "expr": "total"
+                }
+            ]
+        },
+        {
+            "id": "Another config already exists with the name \"{BaseName}\".",
+            "message": "Another config already exists with the name \"{BaseName}\".",
+            "translation": "Ya existe otra configuración con el nombre \"{BaseName}\".",
+            "placeholders": [
+                {
+                    "id": "BaseName",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "baseName"
                 }
             ]
         },
@@ -1033,6 +1023,31 @@
             "id": "Error",
             "message": "Error",
             "translation": "Error"
+        },
+        {
+            "id": "* Support batch import, one link per line.",
+            "message": "* Support batch import, one link per line.",
+            "translation": "* Admite importación por lotes, un enlace por línea."
+        },
+        {
+            "id": "Rename automatically",
+            "message": "Rename automatically",
+            "translation": "Renombrar automáticamente"
+        },
+        {
+            "id": "Ready",
+            "message": "Ready",
+            "translation": "Listo"
+        },
+        {
+            "id": "Please enter the correct URL list.",
+            "message": "Please enter the correct URL list.",
+            "translation": "Introduzca la lista de URL correcta."
+        },
+        {
+            "id": "Download",
+            "message": "Download",
+            "translation": "Descargar"
         }
     ]
 }

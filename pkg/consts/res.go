@@ -25,6 +25,7 @@ const (
 	IconNewConf      = 149
 	IconCreate       = 205
 	IconFileImport   = 132
+	IconURLImport    = 175
 	IconClipboard    = 260
 	IconDelete       = 131
 	IconExport       = -174

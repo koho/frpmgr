@@ -182,6 +182,11 @@
             "translation": "파일에서 가져오기"
         },
         {
+            "id": "Import from URL",
+            "message": "Import from URL",
+            "translation": "URL에서 가져오기"
+        },
+        {
             "id": "Import from Clipboard",
             "message": "Import from Clipboard",
             "translation": "클립보드에서 가져오기"
@@ -217,36 +222,6 @@
             "translation": "구성 가져오기"
         },
         {
-            "id": "Another config already exists with the name \"{BaseName}\".",
-            "message": "Another config already exists with the name \"{BaseName}\".",
-            "translation": "이름이 \"{BaseName}\" 인 다른 구성이 이미 있습니다.",
-            "placeholders": [
-                {
-                    "id": "BaseName",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "baseName"
-                }
-            ]
-        },
-        {
-            "id": "Unable to copy file \"{Path}\".",
-            "message": "Unable to copy file \"{Path}\".",
-            "translation": "\"{Path}\" 파일을 복사할 수 없습니다.",
-            "placeholders": [
-                {
-                    "id": "Path",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "path"
-                }
-            ]
-        },
-        {
             "id": "Imported {Imported} of {Total} configs.",
             "message": "Imported {Imported} of {Total} configs.",
             "translation": "{Total}개 구성 중 {Imported}개를 가져왔습니다.",
@@ -266,6 +241,21 @@
                     "underlyingType": "int",
                     "argNum": 2,
                     "expr": "total"
+                }
+            ]
+        },
+        {
+            "id": "Another config already exists with the name \"{BaseName}\".",
+            "message": "Another config already exists with the name \"{BaseName}\".",
+            "translation": "이름이 \"{BaseName}\" 인 다른 구성이 이미 있습니다.",
+            "placeholders": [
+                {
+                    "id": "BaseName",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "baseName"
                 }
             ]
         },
@@ -1033,6 +1023,31 @@
             "id": "Error",
             "message": "Error",
             "translation": "오류"
+        },
+        {
+            "id": "* Support batch import, one link per line.",
+            "message": "* Support batch import, one link per line.",
+            "translation": "* 한 줄에 하나의 링크로 일괄 가져오기를 지원합니다."
+        },
+        {
+            "id": "Rename automatically",
+            "message": "Rename automatically",
+            "translation": "자동으로 이름 바꾸기"
+        },
+        {
+            "id": "Ready",
+            "message": "Ready",
+            "translation": "준비가 된"
+        },
+        {
+            "id": "Please enter the correct URL list.",
+            "message": "Please enter the correct URL list.",
+            "translation": "올바른 URL 목록을 입력하세요."
+        },
+        {
+            "id": "Download",
+            "message": "Download",
+            "translation": "다운로드"
         }
     ]
 }
