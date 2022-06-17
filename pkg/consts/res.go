@@ -89,7 +89,7 @@ var (
 
 // Validators
 var (
-	ValidateNonEmpty       = Regexp{Pattern: ".+"}
+	ValidateNonEmpty       = Regexp{Pattern: "[^\\s]+"}
 	ValidateRequireInteger = Regexp{Pattern: "^\\d+$"}
 	ValidateInteger        = Regexp{Pattern: "^\\d*$"}
 )
