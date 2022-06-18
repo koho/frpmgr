@@ -1272,6 +1272,13 @@
             "fuzzy": true
         },
         {
+            "id": "Domains",
+            "message": "Domains",
+            "translation": "Domains",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "Copy Access Address",

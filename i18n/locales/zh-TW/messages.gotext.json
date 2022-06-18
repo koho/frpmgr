@@ -940,6 +940,11 @@
             "translation": "直接編輯"
         },
         {
+            "id": "Domains",
+            "message": "Domains",
+            "translation": "域名"
+        },
+        {
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "複製訪問地址"

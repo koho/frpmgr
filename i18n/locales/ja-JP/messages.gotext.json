@@ -950,6 +950,11 @@
             "translation": "直接編集"
         },
         {
+            "id": "Domains",
+            "message": "Domains",
+            "translation": "ドメイン名"
+        },
+        {
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "アクセスアドレスのコピー"

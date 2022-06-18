@@ -260,9 +260,8 @@ func (pv *ProxyView) createProxyTable() TableView {
 			{Title: i18n.Sprintf("Local Address"), DataMember: "LocalIP", Width: 110},
 			{Title: i18n.Sprintf("Local Port"), DataMember: "LocalPort", Width: 90},
 			{Title: i18n.Sprintf("Remote Port"), DataMember: "RemotePort", Width: 90},
-			{Title: i18n.Sprintf("Subdomain"), DataMember: "SubDomain", Width: 70},
-			{Title: i18n.Sprintf("Custom Domains"), DataMember: "CustomDomains", Width: 85},
-			{Title: i18n.Sprintf("Plugin"), DataMember: "Plugin", Width: 95},
+			{Title: i18n.Sprintf("Domains"), DataMember: "Domains", Width: 80},
+			{Title: i18n.Sprintf("Plugin"), DataMember: "Plugin", Width: 80},
 		},
 		ContextMenuItems: []MenuItem{
 			ActionRef{&pv.editAction},

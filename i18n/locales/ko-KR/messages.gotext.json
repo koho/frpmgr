@@ -209,7 +209,7 @@
         {
             "id": "New Config",
             "message": "New Config",
-            "translation": "새 구성"
+            "translation": "구성 만들기"
         },
         {
             "id": "Manual Settings",
@@ -938,6 +938,11 @@
             "id": "Direct Edit",
             "message": "Direct Edit",
             "translation": "직접 편집"
+        },
+        {
+            "id": "Domains",
+            "message": "Domains",
+            "translation": "도메인"
         },
         {
             "id": "Copy Access Address",

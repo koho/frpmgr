@@ -4,7 +4,9 @@ import (
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/util"
 	"github.com/lxn/walk"
+	"github.com/thoas/go-funk"
 	"os"
+	"strings"
 )
 
 type SortedListModel struct {
@@ -46,19 +48,36 @@ func (m *ListModel) ItemCount() int {
 type ProxyModel struct {
 	walk.ReflectTableModelBase
 
-	conf *Conf
-	data *config.ClientConfig
+	conf  *Conf
+	data  *config.ClientConfig
+	items []ProxyItem
+}
+
+type ProxyItem struct {
+	*config.Proxy
+	// Domains is a list of domains bound to this proxy
+	Domains string
 }
 
 func NewProxyModel(conf *Conf) *ProxyModel {
 	m := new(ProxyModel)
 	m.conf = conf
 	m.data = conf.Data.(*config.ClientConfig)
+	m.items = funk.Map(m.data.Proxies, func(p *config.Proxy) ProxyItem {
+		// Combine subdomain and custom domains to form a list of domains
+		domains := strings.Join(funk.FilterString([]string{p.SubDomain, p.CustomDomains}, func(s string) bool {
+			return strings.TrimSpace(s) != ""
+		}), ",")
+		return ProxyItem{
+			Proxy:   p,
+			Domains: domains,
+		}
+	}).([]ProxyItem)
 	return m
 }
 
 func (m *ProxyModel) Items() interface{} {
-	return m.data.Proxies
+	return m.items
 }
 
 // DefaultListModel has a default item at the top of the model

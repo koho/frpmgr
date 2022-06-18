@@ -940,6 +940,11 @@
             "translation": "Edición directa"
         },
         {
+            "id": "Domains",
+            "message": "Domains",
+            "translation": "Dominios"
+        },
+        {
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "Copiar dirección de acceso"
