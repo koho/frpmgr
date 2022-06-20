@@ -60,8 +60,7 @@ func RunUI() error {
 		AssignTo:   &fm.MainWindow,
 		Title:      i18n.Sprintf("FRP Manager"),
 		Persistent: true,
-		MinSize:    Size{650, 400},
-		Size:       Size{950, 540},
+		Visible:    false,
 		Layout:     VBox{Margins: Margins{5, 5, 5, 5}},
 		Font:       consts.TextRegular,
 		Children: []Widget{
@@ -93,6 +92,12 @@ func RunUI() error {
 	fm.confPage.OnCreate()
 	fm.logPage.OnCreate()
 	fm.aboutPage.OnCreate()
+	// Resize window
+	fm.SetSizePixels(walk.Size{
+		fm.confPage.confView.MinSizePixels().Width + fm.IntFrom96DPI(685),
+		fm.IntFrom96DPI(525),
+	})
+	fm.SetVisible(true)
 	fm.Run()
 	services.Cleanup()
 	return nil

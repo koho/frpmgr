@@ -52,7 +52,6 @@ func (pv *ProxyView) View() Widget {
 				Layout:          HBox{MarginsZero: true, SpacingZero: true},
 				Alignment:       AlignHNearVNear,
 				DoubleBuffering: true,
-				MaxSize:         Size{Width: 300},
 				Children: []Widget{
 					pv.createToolbar(),
 				},
@@ -255,8 +254,8 @@ func (pv *ProxyView) createProxyTable() TableView {
 		Name:     "proxy",
 		AssignTo: &pv.table,
 		Columns: []TableViewColumn{
-			{Title: i18n.Sprintf("Name"), DataMember: "Name", Width: 105},
-			{Title: i18n.Sprintf("Type"), DataMember: "Type", Width: 60},
+			{Title: i18n.Sprintf("Name"), DataMember: "Name", Width: 100},
+			{Title: i18n.Sprintf("Type"), DataMember: "Type", Width: 55},
 			{Title: i18n.Sprintf("Local Address"), DataMember: "LocalIP", Width: 110},
 			{Title: i18n.Sprintf("Local Port"), DataMember: "LocalPort", Width: 90},
 			{Title: i18n.Sprintf("Remote Port"), DataMember: "RemotePort", Width: 90},
