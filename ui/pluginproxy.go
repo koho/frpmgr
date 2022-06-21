@@ -41,7 +41,7 @@ func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {
 	case consts.PluginStaticFile:
 		// Make the dialog wider
 		remoteView := widgets[1].(LineEdit)
-		remoteView.MinSize = Size{Width: 250}
+		remoteView.MinSize = Size{Width: 300}
 		widgets[1] = remoteView
 		widgets = append(widgets,
 			Label{Text: i18n.SprintfColon("Local Directory")},
