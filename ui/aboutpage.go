@@ -114,7 +114,7 @@ func (ap *AboutPage) checkUpdate(showErr bool) {
 	ap.db.Reset()
 	go func() {
 		var body []byte
-		resp, err := http.Get("https://api.github.com/repos/koho/frpmgr/releases/latest")
+		resp, err := http.Get(consts.UpdateURL)
 		if err != nil {
 			goto Fin
 		}
