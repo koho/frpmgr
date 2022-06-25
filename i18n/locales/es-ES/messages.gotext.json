@@ -305,9 +305,9 @@
             ]
         },
         {
-            "id": "Edit Config",
-            "message": "Edit Config",
-            "translation": "Editar Configuración"
+            "id": "Edit Client",
+            "message": "Edit Client",
+            "translation": "Editar Cliente"
         },
         {
             "id": "Basic",

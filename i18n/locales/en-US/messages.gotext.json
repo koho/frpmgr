@@ -391,9 +391,9 @@
             "fuzzy": true
         },
         {
-            "id": "Edit Config",
-            "message": "Edit Config",
-            "translation": "Edit Config",
+            "id": "Edit Client",
+            "message": "Edit Client",
+            "translation": "Edit Client",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

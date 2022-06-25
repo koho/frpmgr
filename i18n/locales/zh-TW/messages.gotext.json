@@ -305,9 +305,9 @@
             ]
         },
         {
-            "id": "Edit Config",
-            "message": "Edit Config",
-            "translation": "編輯配置"
+            "id": "Edit Client",
+            "message": "Edit Client",
+            "translation": "編輯客戶端"
         },
         {
             "id": "Basic",

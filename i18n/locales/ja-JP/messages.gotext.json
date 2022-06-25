@@ -315,9 +315,9 @@
             ]
         },
         {
-            "id": "Edit Config",
-            "message": "Edit Config",
-            "translation": "編集の設定"
+            "id": "Edit Client",
+            "message": "Edit Client",
+            "translation": "クライアントの編集"
         },
         {
             "id": "Basic",

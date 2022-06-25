@@ -305,9 +305,9 @@
             ]
         },
         {
-            "id": "Edit Config",
-            "message": "Edit Config",
-            "translation": "구성 수정"
+            "id": "Edit Client",
+            "message": "Edit Client",
+            "translation": "클라이언트 편집"
         },
         {
             "id": "Basic",
