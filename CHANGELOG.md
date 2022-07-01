@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0] - 2022-07-01
+### 新增
+* 多语言支持（#19）
+* 支持创建/导入分享链接
+* 可创建某个配置的副本，避免参数的重复输入
+* 从 URL 导入配置
+
+### 优化
+* 配置文件统一存放到 `profiles` 目录
+
 ## [1.8.1] - 2022-05-28
 ### 新增
 * 新的代理参数「路由用户」(`route_by_http_user`)
@@ -164,7 +174,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * 解决某些情况下电脑重启后服务没有自动运行问题
 * 更新软件后需打开软件，选择左侧配置项后右键编辑，然后直接确定，再启动即可
 
-[Unreleased]: https://github.com/koho/frpmgr/compare/v1.8.1...HEAD
+[Unreleased]: https://github.com/koho/frpmgr/compare/v1.9.0...HEAD
+[1.9.0]: https://github.com/koho/frpmgr/compare/v1.8.1...v1.9.0
 [1.8.1]: https://github.com/koho/frpmgr/compare/v1.8.0...v1.8.1
 [1.8.0]: https://github.com/koho/frpmgr/compare/v1.7.2...v1.8.0
 [1.7.2]: https://github.com/koho/frpmgr/compare/v1.7.1...v1.7.2
