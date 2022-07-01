@@ -32,7 +32,7 @@ jobs:
 
       - name: Get Changelog Entry
         id: changelog_reader
-        uses: mindsers/changelog-reader-action@v2
+        uses: mindsers/changelog-reader-action@v2.0.0
         if: startsWith(github.ref, 'refs/tags/')
         with:
           version: ${{ steps.build.outputs.version }}
