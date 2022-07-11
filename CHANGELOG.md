@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2022-07-11
+### 更新
+* FRP 版本 0.44.0
+
 ## [2.0.0] - 2022-07-01
 ### 新增
 * 多语言支持（#19）
@@ -174,7 +178,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * 解决某些情况下电脑重启后服务没有自动运行问题
 * 更新软件后需打开软件，选择左侧配置项后右键编辑，然后直接确定，再启动即可
 
-[Unreleased]: https://github.com/koho/frpmgr/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/koho/frpmgr/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/koho/frpmgr/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/koho/frpmgr/compare/v1.8.1...v2.0.0
 [1.8.1]: https://github.com/koho/frpmgr/compare/v1.8.0...v1.8.1
 [1.8.0]: https://github.com/koho/frpmgr/compare/v1.7.2...v1.8.0
