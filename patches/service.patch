@@ -1,4 +1,4 @@
---- pkg/mod/github.com/fatedier/frp@v0.43.0/client/service.go	2022-04-22 14:59:20.000000000 +0800
+--- pkg/mod/github.com/fatedier/frp@v0.44.0/client/service.go	2022-04-22 14:59:20.000000000 +0800
 +++ patches/service.go	2022-04-22 15:10:29.000000000 +0800
 @@ -39,12 +39,13 @@
  	"github.com/fatedier/frp/pkg/util/version"
