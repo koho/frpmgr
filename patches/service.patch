@@ -1,20 +1,20 @@
---- pkg/mod/github.com/fatedier/frp@v0.44.0/client/service.go	2022-04-22 14:59:20.000000000 +0800
-+++ patches/service.go	2022-04-22 15:10:29.000000000 +0800
-@@ -39,12 +39,13 @@
- 	"github.com/fatedier/frp/pkg/util/version"
- 	"github.com/fatedier/frp/pkg/util/xlog"
+--- pkg/mod/github.com/fatedier/frp@v0.45.0/client/service.go	2022-10-27 15:40:22.000000000 +0800
++++ patches/service.go	2022-10-27 15:45:12.000000000 +0800
+@@ -28,12 +28,13 @@
+ 	"sync/atomic"
+ 	"time"
+
  	"github.com/fatedier/golib/crypto"
  	libdial "github.com/fatedier/golib/net/dial"
-
  	fmux "github.com/hashicorp/yamux"
 +	frpmgr "github.com/koho/frpmgr/pkg/util"
- )
 
- func init() {
- 	crypto.DefaultSalt = "frp"
- 	rand.Seed(time.Now().UnixNano())
- }
-@@ -271,14 +272,20 @@
+ 	"github.com/fatedier/frp/assets"
+ 	"github.com/fatedier/frp/pkg/auth"
+ 	"github.com/fatedier/frp/pkg/config"
+ 	"github.com/fatedier/frp/pkg/msg"
+ 	"github.com/fatedier/frp/pkg/transport"
+@@ -279,14 +280,20 @@
  		libdial.WithProxyAuth(auth),
  		libdial.WithTLSConfig(tlsConfig),
  		libdial.WithAfterHook(libdial.AfterHook{
