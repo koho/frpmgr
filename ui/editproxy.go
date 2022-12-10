@@ -79,7 +79,7 @@ func NewEditProxyDialog(proxy *config.Proxy, exist bool) *EditProxyDialog {
 	v.Proxy = proxy
 	v.binder = &editProxyBinder{
 		Proxy:   *v.Proxy,
-		Visitor: proxy.Role == "visitor",
+		Visitor: proxy.IsVisitor(),
 	}
 	v.binder.BandwidthNum, v.binder.BandwidthUnit = splitBandwidth(v.Proxy.BandwidthLimit)
 	return v

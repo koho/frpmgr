@@ -57,6 +57,10 @@ type ProxyItem struct {
 	*config.Proxy
 	// Domains is a list of domains bound to this proxy
 	Domains string
+	// DisplayLocalIP changes the local address shown in table
+	DisplayLocalIP string
+	// DisplayLocalPort changes the local port shown in table
+	DisplayLocalPort string
 }
 
 func NewProxyModel(conf *Conf) *ProxyModel {
@@ -64,14 +68,18 @@ func NewProxyModel(conf *Conf) *ProxyModel {
 	m.conf = conf
 	m.data = conf.Data.(*config.ClientConfig)
 	m.items = funk.Map(m.data.Proxies, func(p *config.Proxy) ProxyItem {
+		pi := ProxyItem{Proxy: p, DisplayLocalIP: p.LocalIP, DisplayLocalPort: p.LocalPort}
 		// Combine subdomain and custom domains to form a list of domains
-		domains := strings.Join(funk.FilterString([]string{p.SubDomain, p.CustomDomains}, func(s string) bool {
+		pi.Domains = strings.Join(funk.FilterString([]string{p.SubDomain, p.CustomDomains}, func(s string) bool {
 			return strings.TrimSpace(s) != ""
 		}), ",")
-		return ProxyItem{
-			Proxy:   p,
-			Domains: domains,
+		// Show bind address and server name for visitor
+		if p.IsVisitor() {
+			pi.Domains = p.ServerName
+			pi.DisplayLocalIP = p.BindAddr
+			pi.DisplayLocalPort = p.BindPort
 		}
+		return pi
 	}).([]ProxyItem)
 	return m
 }
