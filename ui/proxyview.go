@@ -256,8 +256,8 @@ func (pv *ProxyView) createProxyTable() TableView {
 		Columns: []TableViewColumn{
 			{Title: i18n.Sprintf("Name"), DataMember: "Name", Width: 100},
 			{Title: i18n.Sprintf("Type"), DataMember: "Type", Width: 55},
-			{Title: i18n.Sprintf("Local Address"), DataMember: "LocalIP", Width: 110},
-			{Title: i18n.Sprintf("Local Port"), DataMember: "LocalPort", Width: 90},
+			{Title: i18n.Sprintf("Local Address"), DataMember: "DisplayLocalIP", Width: 110},
+			{Title: i18n.Sprintf("Local Port"), DataMember: "DisplayLocalPort", Width: 90},
 			{Title: i18n.Sprintf("Remote Port"), DataMember: "RemotePort", Width: 90},
 			{Title: i18n.Sprintf("Domains"), DataMember: "Domains", Width: 80},
 			{Title: i18n.Sprintf("Plugin"), DataMember: "Plugin", Width: 80},
@@ -310,8 +310,15 @@ func (pv *ProxyView) createProxyTable() TableView {
 			pv.onEdit(true, nil)
 		},
 		StyleCell: func(style *walk.CellStyle) {
-			if _, proxy := pv.getConfigProxy(style.Row()); proxy != nil && proxy.Disabled {
-				style.TextColor = consts.ColorGray
+			if _, proxy := pv.getConfigProxy(style.Row()); proxy != nil {
+				if proxy.Disabled {
+					// Disabled proxy
+					style.TextColor = consts.ColorGray
+				} else if proxy.IsVisitor() {
+					// Visitor proxy
+					style.TextColor = consts.ColorBlue
+				}
+				// Normal proxy is default black text
 			}
 		},
 	}

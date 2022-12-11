@@ -185,6 +185,13 @@ func (p *Proxy) GetAlias() []string {
 	return []string{p.Name}
 }
 
+// IsVisitor returns a boolean indicating whether the proxy has a visitor role.
+func (p *Proxy) IsVisitor() bool {
+	return (p.Type == consts.ProxyTypeXTCP ||
+		p.Type == consts.ProxyTypeSTCP ||
+		p.Type == consts.ProxyTypeSUDP) && p.Role == "visitor"
+}
+
 // Marshal returns the encoded proxy
 func (p *Proxy) Marshal() ([]byte, error) {
 	cfg := ini.Empty()
@@ -299,7 +306,7 @@ func (conf *ClientConfig) Complete(read bool) {
 	}
 	// Proxies
 	for _, proxy := range conf.Proxies {
-		if funk.ContainsString([]string{consts.ProxyTypeXTCP, consts.ProxyTypeSTCP, consts.ProxyTypeSUDP}, proxy.Type) && proxy.Role == "visitor" {
+		if proxy.IsVisitor() {
 			var base = proxy.BaseProxyConf
 			// Visitor
 			if p, err := util.PruneByTag(*proxy, "true", "visitor"); err == nil {
