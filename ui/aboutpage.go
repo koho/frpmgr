@@ -49,7 +49,7 @@ func (ap *AboutPage) Page() TabPage {
 					Composite{
 						Layout: VBox{Margins: Margins{12, 0, 0, 0}},
 						Children: []Widget{
-							Label{Text: "FRP Manager", Font: consts.TextLarge, TextColor: consts.ColorBlue},
+							Label{Text: "FRP Manager", Font: consts.TextLarge, TextColor: consts.ColorDarkBlue},
 							Label{Text: i18n.Sprintf("Version: %s", version.Number)},
 							Label{Text: i18n.Sprintf("FRP version: %s", version.FRPVersion)},
 							Label{Text: i18n.Sprintf("Built on: %s", version.BuildDate)},

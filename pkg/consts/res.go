@@ -55,8 +55,9 @@ const (
 
 // Colors
 var (
-	ColorBlue = walk.RGB(11, 53, 137)
-	ColorGray = walk.RGB(109, 109, 109)
+	ColorBlue     = walk.RGB(0, 0, 255)
+	ColorDarkBlue = walk.RGB(11, 53, 137)
+	ColorGray     = walk.RGB(109, 109, 109)
 )
 
 // Text
