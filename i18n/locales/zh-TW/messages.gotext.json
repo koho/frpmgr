@@ -365,6 +365,11 @@
             "translation": "接收者"
         },
         {
+            "id": "Scope",
+            "message": "Scope",
+            "translation": "作用域"
+        },
+        {
             "id": "Token Endpoint",
             "message": "Token Endpoint",
             "translation": "令牌地址"

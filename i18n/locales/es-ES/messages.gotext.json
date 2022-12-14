@@ -365,6 +365,11 @@
             "translation": "Audiencia"
         },
         {
+            "id": "Scope",
+            "message": "Scope",
+            "translation": "Alcance"
+        },
+        {
             "id": "Token Endpoint",
             "message": "Token Endpoint",
             "translation": "Dirección de token"

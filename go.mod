@@ -10,7 +10,7 @@ require (
 	github.com/miekg/dns v1.1.50
 	github.com/thoas/go-funk v0.9.2
 	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f
-	golang.org/x/text v0.3.8-0.20220509174342-b4bca84b0361
+	golang.org/x/text v0.5.0
 	gopkg.in/ini.v1 v1.67.0
 )
 
@@ -46,7 +46,7 @@ require (
 	golang.org/x/net v0.0.0-20220722155237-a158d28d115b // indirect
 	golang.org/x/oauth2 v0.0.0-20220223155221-ee480838109b // indirect
 	golang.org/x/time v0.0.0-20220210224613-90d013bbcef8 // indirect
-	golang.org/x/tools v0.1.11-0.20220504162446-54c7ba520b92 // indirect
+	golang.org/x/tools v0.1.12 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/Knetic/govaluate.v3 v3.0.0 // indirect
