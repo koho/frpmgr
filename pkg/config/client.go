@@ -19,6 +19,7 @@ type ClientAuth struct {
 	OIDCClientId             string `ini:"oidc_client_id,omitempty" oidc:"true"`
 	OIDCClientSecret         string `ini:"oidc_client_secret,omitempty" oidc:"true"`
 	OIDCAudience             string `ini:"oidc_audience,omitempty" oidc:"true"`
+	OIDCScope                string `ini:"oidc_scope" oidc:"true"`
 	OIDCTokenEndpoint        string `ini:"oidc_token_endpoint_url,omitempty" oidc:"true"`
 }
 

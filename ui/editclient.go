@@ -140,6 +140,8 @@ func (cd *EditClientDialog) authConfPage() TabPage {
 			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCClientSecret")},
 			Label{Visible: Bind("oidcCheck.Checked"), Text: i18n.SprintfColon("Audience")},
 			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCAudience")},
+			Label{Visible: Bind("oidcCheck.Checked"), Text: i18n.SprintfColon("Scope")},
+			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCScope")},
 			Label{Visible: Bind("oidcCheck.Checked"), Text: i18n.SprintfColon("Token Endpoint")},
 			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCTokenEndpoint")},
 			Label{Visible: Bind("!noAuthCheck.Checked"), Text: i18n.SprintfColon("Authentication")},

@@ -375,6 +375,11 @@
             "translation": "受信者"
         },
         {
+            "id": "Scope",
+            "message": "Scope",
+            "translation": "範囲"
+        },
+        {
             "id": "Token Endpoint",
             "message": "Token Endpoint",
             "translation": "トークンのURL"

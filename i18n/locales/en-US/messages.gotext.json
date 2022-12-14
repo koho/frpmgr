@@ -475,6 +475,13 @@
             "fuzzy": true
         },
         {
+            "id": "Scope",
+            "message": "Scope",
+            "translation": "Scope",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Token Endpoint",
             "message": "Token Endpoint",
             "translation": "Token Endpoint",

@@ -365,6 +365,11 @@
             "translation": "받는 사람"
         },
         {
+            "id": "Scope",
+            "message": "Scope",
+            "translation": "범위"
+        },
+        {
             "id": "Token Endpoint",
             "message": "Token Endpoint",
             "translation": "토큰 URL"
