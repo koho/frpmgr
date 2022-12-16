@@ -1,6 +1,5 @@
 # FRP Manager
 
-[![Build status](https://img.shields.io/github/workflow/status/koho/frpmgr/Releaser)](https://github.com/koho/frpmgr/actions/workflows/releaser.yml)
 [![GitHub release](https://img.shields.io/github/tag/koho/frpmgr.svg?label=release)](https://github.com/koho/frpmgr/releases)
 
 [简体中文](README.md) | English
