@@ -475,9 +475,14 @@
             "translation": "연결 수"
         },
         {
-            "id": "Dial Timeout",
-            "message": "Dial Timeout",
-            "translation": "연결 시간 초과"
+            "id": "Heartbeat",
+            "message": "Heartbeat",
+            "translation": "심장박동"
+        },
+        {
+            "id": "Interval",
+            "message": "Interval",
+            "translation": "간격"
         },
         {
             "id": "s",
@@ -485,19 +490,29 @@
             "translation": "s"
         },
         {
-            "id": "TCP Keep-Alive",
-            "message": "TCP Keep-Alive",
-            "translation": "TCP 대기 중"
+            "id": "Timeout",
+            "message": "Timeout",
+            "translation": "타임아웃"
         },
         {
-            "id": "Heartbeat Interval",
-            "message": "Heartbeat Interval",
-            "translation": "연결 간격 유지"
+            "id": "Dial Timeout",
+            "message": "Dial Timeout",
+            "translation": "연결 시간 초과"
         },
         {
-            "id": "Heartbeat Timeout",
-            "message": "Heartbeat Timeout",
-            "translation": "연결 시간 초과 유지"
+            "id": "Keepalive",
+            "message": "Keepalive",
+            "translation": "유지"
+        },
+        {
+            "id": "Idle Timeout",
+            "message": "Idle Timeout",
+            "translation": "유휴 시간 초과"
+        },
+        {
+            "id": "Max Streams",
+            "message": "Max Streams",
+            "translation": "최대 스트림"
         },
         {
             "id": "On",

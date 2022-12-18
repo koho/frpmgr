@@ -75,3 +75,8 @@ func SprintfEllipsis(key message.Reference, a ...interface{}) string {
 func SprintfLSpace(key message.Reference, a ...interface{}) string {
 	return " " + Sprintf(key, a...)
 }
+
+// SprintfRSpace adds a space at the end of a string.
+func SprintfRSpace(key message.Reference, a ...interface{}) string {
+	return Sprintf(key, a...) + " "
+}

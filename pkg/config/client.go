@@ -43,6 +43,9 @@ type ClientCommon struct {
 	PoolCount               uint     `ini:"pool_count,omitempty"`
 	DNSServer               string   `ini:"dns_server,omitempty"`
 	Protocol                string   `ini:"protocol,omitempty"`
+	QUICKeepalivePeriod     int      `ini:"quic_keepalive_period,omitempty"`
+	QUICMaxIdleTimeout      int      `ini:"quic_max_idle_timeout,omitempty"`
+	QUICMaxIncomingStreams  int      `ini:"quic_max_incoming_streams,omitempty"`
 	LoginFailExit           bool     `ini:"login_fail_exit"`
 	User                    string   `ini:"user,omitempty"`
 	HeartbeatInterval       int64    `ini:"heartbeat_interval,omitempty"`
@@ -304,6 +307,14 @@ func (conf *ClientConfig) Complete(read bool) {
 		conf.TLSCertFile = ""
 		conf.TLSKeyFile = ""
 		conf.TLSTrustedCaFile = ""
+	}
+	if conf.Protocol == consts.ProtoQUIC {
+		conf.DialServerTimeout = 0
+		conf.DialServerKeepAlive = 0
+	} else {
+		conf.QUICMaxIdleTimeout = 0
+		conf.QUICKeepalivePeriod = 0
+		conf.QUICMaxIncomingStreams = 0
 	}
 	// Proxies
 	for _, proxy := range conf.Proxies {

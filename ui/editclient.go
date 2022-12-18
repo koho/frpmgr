@@ -206,29 +206,57 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 }
 
 func (cd *EditClientDialog) connectionConfPage() TabPage {
-	return TabPage{
+	expr := func(op, proto string) string {
+		return fmt.Sprintf("proto.Value %s '%s'", op, proto)
+	}
+	quic := Bind(expr("==", consts.ProtoQUIC))
+	tcp := Bind(expr("!=", consts.ProtoQUIC))
+	page := TabPage{
 		Title:  i18n.Sprintf("Connection"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
 			Label{Text: i18n.SprintfColon("Protocol")},
 			ComboBox{
+				Name:  "proto",
 				Value: Bind("Protocol"),
-				Model: []string{"tcp", "kcp", "websocket"},
+				Model: []string{consts.ProtoTCP, consts.ProtoKCP, consts.ProtoQUIC, consts.ProtoWebsocket},
 			},
 			Label{Text: i18n.SprintfColon("HTTP Proxy")},
 			LineEdit{Text: Bind("HTTPProxy")},
 			Label{Text: i18n.SprintfColon("Pool Count")},
 			NumberEdit{Value: Bind("PoolCount")},
-			Label{Text: i18n.SprintfColon("Dial Timeout")},
-			NumberEdit{Value: Bind("DialServerTimeout"), Suffix: i18n.SprintfLSpace("s")},
-			Label{Text: i18n.SprintfColon("TCP Keep-Alive")},
-			NumberEdit{Value: Bind("DialServerKeepAlive"), Suffix: i18n.SprintfLSpace("s")},
-			Label{Text: i18n.SprintfColon("Heartbeat Interval")},
-			NumberEdit{Value: Bind("HeartbeatInterval"), Suffix: i18n.SprintfLSpace("s")},
-			Label{Text: i18n.SprintfColon("Heartbeat Timeout")},
-			NumberEdit{Value: Bind("HeartbeatTimeout"), Suffix: i18n.SprintfLSpace("s")},
+			Label{Text: i18n.SprintfColon("Heartbeat")},
+			Composite{
+				Layout: HBox{MarginsZero: true},
+				Children: []Widget{
+					NumberEdit{
+						Value:  Bind("HeartbeatInterval"),
+						Prefix: i18n.SprintfRSpace("Interval"),
+						Suffix: i18n.SprintfLSpace("s"),
+					},
+					NumberEdit{
+						Value:  Bind("HeartbeatTimeout"),
+						Prefix: i18n.SprintfRSpace("Timeout"),
+						Suffix: i18n.SprintfLSpace("s"),
+					},
+				},
+			},
+			Label{Visible: tcp, Text: i18n.SprintfColon("Dial Timeout")},
+			NumberEdit{Visible: tcp, Value: Bind("DialServerTimeout"), Suffix: i18n.SprintfLSpace("s")},
+			Label{Visible: tcp, Text: i18n.SprintfColon("Keepalive")},
+			NumberEdit{Visible: tcp, Value: Bind("DialServerKeepAlive"), Suffix: i18n.SprintfLSpace("s")},
+			Label{Visible: quic, Text: i18n.SprintfColon("Idle Timeout")},
+			NumberEdit{Visible: quic, Value: Bind("QUICMaxIdleTimeout"), Suffix: i18n.SprintfLSpace("s")},
+			Label{Visible: quic, Text: i18n.SprintfColon("Keepalive")},
+			NumberEdit{Visible: quic, Value: Bind("QUICKeepalivePeriod"), Suffix: i18n.SprintfLSpace("s")},
+			Label{Visible: quic, Text: i18n.SprintfColon("Max Streams")},
+			NumberEdit{Visible: quic, Value: Bind("QUICMaxIncomingStreams")},
 		},
 	}
+	head := page.Children[0].(Label)
+	head.MinSize = Size{Width: calculateHeadColumnTextWidth(page.Children, page.Layout.(Grid).Columns)}
+	page.Children[0] = head
+	return page
 }
 
 func (cd *EditClientDialog) tlsConfPage() TabPage {

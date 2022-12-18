@@ -475,9 +475,14 @@
             "translation": "連接池數量"
         },
         {
-            "id": "Dial Timeout",
-            "message": "Dial Timeout",
-            "translation": "連接超時"
+            "id": "Heartbeat",
+            "message": "Heartbeat",
+            "translation": "心跳"
+        },
+        {
+            "id": "Interval",
+            "message": "Interval",
+            "translation": "間隔"
         },
         {
             "id": "s",
@@ -485,19 +490,29 @@
             "translation": "秒"
         },
         {
-            "id": "TCP Keep-Alive",
-            "message": "TCP Keep-Alive",
-            "translation": "TCP 保活週期"
+            "id": "Timeout",
+            "message": "Timeout",
+            "translation": "超時"
         },
         {
-            "id": "Heartbeat Interval",
-            "message": "Heartbeat Interval",
-            "translation": "心跳間隔"
+            "id": "Dial Timeout",
+            "message": "Dial Timeout",
+            "translation": "連接超時"
         },
         {
-            "id": "Heartbeat Timeout",
-            "message": "Heartbeat Timeout",
-            "translation": "心跳超時"
+            "id": "Keepalive",
+            "message": "Keepalive",
+            "translation": "保活週期"
+        },
+        {
+            "id": "Idle Timeout",
+            "message": "Idle Timeout",
+            "translation": "閒置超時"
+        },
+        {
+            "id": "Max Streams",
+            "message": "Max Streams",
+            "translation": "最大流數量"
         },
         {
             "id": "On",

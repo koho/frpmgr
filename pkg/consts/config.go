@@ -2,6 +2,14 @@ package consts
 
 const RangePrefix = "range:"
 
+// Protocols
+const (
+	ProtoTCP       = "tcp"
+	ProtoKCP       = "kcp"
+	ProtoQUIC      = "quic"
+	ProtoWebsocket = "websocket"
+)
+
 // Proxy types
 const (
 	ProxyTypeTCP    = "tcp"
