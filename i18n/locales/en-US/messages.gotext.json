@@ -629,9 +629,16 @@
             "fuzzy": true
         },
         {
-            "id": "Dial Timeout",
-            "message": "Dial Timeout",
-            "translation": "Dial Timeout",
+            "id": "Heartbeat",
+            "message": "Heartbeat",
+            "translation": "Heartbeat",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Interval",
+            "message": "Interval",
+            "translation": "Interval",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -643,23 +650,37 @@
             "fuzzy": true
         },
         {
-            "id": "TCP Keep-Alive",
-            "message": "TCP Keep-Alive",
-            "translation": "TCP Keep-Alive",
+            "id": "Timeout",
+            "message": "Timeout",
+            "translation": "Timeout",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
         {
-            "id": "Heartbeat Interval",
-            "message": "Heartbeat Interval",
-            "translation": "Heartbeat Interval",
+            "id": "Dial Timeout",
+            "message": "Dial Timeout",
+            "translation": "Dial Timeout",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
         {
-            "id": "Heartbeat Timeout",
-            "message": "Heartbeat Timeout",
-            "translation": "Heartbeat Timeout",
+            "id": "Keepalive",
+            "message": "Keepalive",
+            "translation": "Keepalive",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Idle Timeout",
+            "message": "Idle Timeout",
+            "translation": "Idle Timeout",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Max Streams",
+            "message": "Max Streams",
+            "translation": "Max Streams",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

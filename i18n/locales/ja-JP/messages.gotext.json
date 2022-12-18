@@ -485,9 +485,14 @@
             "translation": "接続プールの数"
         },
         {
-            "id": "Dial Timeout",
-            "message": "Dial Timeout",
-            "translation": "接続タイムアウト"
+            "id": "Heartbeat",
+            "message": "Heartbeat",
+            "translation": "ハートビート"
+        },
+        {
+            "id": "Interval",
+            "message": "Interval",
+            "translation": "間隔"
         },
         {
             "id": "s",
@@ -495,19 +500,29 @@
             "translation": "s"
         },
         {
-            "id": "TCP Keep-Alive",
-            "message": "TCP Keep-Alive",
-            "translation": "TCP 接続を維持"
+            "id": "Timeout",
+            "message": "Timeout",
+            "translation": "タイムアウト"
         },
         {
-            "id": "Heartbeat Interval",
-            "message": "Heartbeat Interval",
-            "translation": "接続を維持間隔"
+            "id": "Dial Timeout",
+            "message": "Dial Timeout",
+            "translation": "接続タイムアウト"
         },
         {
-            "id": "Heartbeat Timeout",
-            "message": "Heartbeat Timeout",
-            "translation": "接続を維持タイムアウト"
+            "id": "Keepalive",
+            "message": "Keepalive",
+            "translation": "接続を維持"
+        },
+        {
+            "id": "Idle Timeout",
+            "message": "Idle Timeout",
+            "translation": "アイドルタイムアウト"
+        },
+        {
+            "id": "Max Streams",
+            "message": "Max Streams",
+            "translation": "最大ストリーム"
         },
         {
             "id": "On",

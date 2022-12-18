@@ -475,9 +475,14 @@
             "translation": "Conectar cuenta"
         },
         {
-            "id": "Dial Timeout",
-            "message": "Dial Timeout",
-            "translation": "Tiempo de espera de conexión"
+            "id": "Heartbeat",
+            "message": "Heartbeat",
+            "translation": "Latido del corazón"
+        },
+        {
+            "id": "Interval",
+            "message": "Interval",
+            "translation": "Intervalo"
         },
         {
             "id": "s",
@@ -485,19 +490,29 @@
             "translation": "s"
         },
         {
-            "id": "TCP Keep-Alive",
-            "message": "TCP Keep-Alive",
-            "translation": "TCP Keep-Alive"
+            "id": "Timeout",
+            "message": "Timeout",
+            "translation": "Tiempo muerto"
         },
         {
-            "id": "Heartbeat Interval",
-            "message": "Heartbeat Interval",
-            "translation": "Intervalo de latidos"
+            "id": "Dial Timeout",
+            "message": "Dial Timeout",
+            "translation": "Conexión agotado"
         },
         {
-            "id": "Heartbeat Timeout",
-            "message": "Heartbeat Timeout",
-            "translation": "Tiempo de espera de latido"
+            "id": "Keepalive",
+            "message": "Keepalive",
+            "translation": "Keepalive"
+        },
+        {
+            "id": "Idle Timeout",
+            "message": "Idle Timeout",
+            "translation": "Tiempo de inactividad"
+        },
+        {
+            "id": "Max Streams",
+            "message": "Max Streams",
+            "translation": "Corrientes máximas"
         },
         {
             "id": "On",
