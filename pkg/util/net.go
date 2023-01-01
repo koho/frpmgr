@@ -3,16 +3,12 @@ package util
 import (
 	"bytes"
 	"context"
-	"errors"
 	"fmt"
-	"github.com/miekg/dns"
 	"golang.org/x/sys/windows"
-	"io/ioutil"
+	"io"
 	"mime"
-	"net"
 	"net/http"
 	"path"
-	"strings"
 	"syscall"
 	"time"
 	"unsafe"
@@ -22,45 +18,6 @@ var (
 	modIPHelp            = syscall.NewLazyDLL("iphlpapi.dll")
 	procGetNetworkParams = modIPHelp.NewProc("GetNetworkParams")
 )
-
-// LookupIP lookups the IP address of the given host name with the given dns server
-func LookupIP(addr string, server string) (string, error) {
-	if net.ParseIP(addr) != nil {
-		return addr, nil
-	}
-	c := dns.Client{}
-	m := dns.Msg{}
-	if !strings.HasSuffix(addr, ".") {
-		addr += "."
-	}
-	if !strings.Contains(server, ":") {
-		server += ":53"
-	}
-	m.SetQuestion(addr, dns.TypeA)
-	r, _, err := c.Exchange(&m, server)
-	if err != nil {
-		return "", err
-	}
-	if len(r.Answer) == 0 {
-		m.SetQuestion(addr, dns.TypeAAAA)
-		if r, _, err = c.Exchange(&m, server); err != nil {
-			return "", err
-		}
-		if len(r.Answer) == 0 {
-			return "", errors.New(fmt.Sprintf("no record for host '%s' with '%s'", addr, server))
-		}
-	}
-	switch v := r.Answer[0].(type) {
-	case *dns.A:
-		return v.A.String(), nil
-	case *dns.AAAA:
-		return v.AAAA.String(), nil
-	case *dns.CNAME:
-		return LookupIP(v.Target, server)
-	default:
-		return "", errors.New(fmt.Sprintf("host '%s' lookup failed with '%s'", addr, server))
-	}
-}
 
 // GetSystemDnsServer returns the dns server used by local system
 func GetSystemDnsServer() string {
@@ -120,7 +77,7 @@ func DownloadFile(ctx context.Context, url string) (filename, mediaType string, 
 		filename = path.Base(resp.Request.URL.Path)
 	}
 	if mediaType, _, err = mime.ParseMediaType(resp.Header.Get("Content-Type")); err == nil {
-		data, err = ioutil.ReadAll(resp.Body)
+		data, err = io.ReadAll(resp.Body)
 		return filename, mediaType, data, err
 	} else {
 		return "", "", nil, err
