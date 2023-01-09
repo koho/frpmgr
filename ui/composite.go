@@ -79,3 +79,16 @@ func NewRadioButtonGroup(dataMember string, db *DataBinder, buttons []RadioButto
 	}
 	return v
 }
+
+// AlignGrid resizes the first child of a grid to the width of the first column.
+// After that, we keep a fixed width column regardless of whether the row is hidden or not.
+func AlignGrid(page TabPage, n int) TabPage {
+	widgets := page.Children
+	if n > 0 {
+		widgets = page.Children[:n]
+	}
+	head := page.Children[0].(Label)
+	head.MinSize = Size{Width: calculateHeadColumnTextWidth(widgets, page.Layout.(Grid).Columns)}
+	page.Children[0] = head
+	return page
+}

@@ -155,7 +155,7 @@ func (pd *EditProxyDialog) View() Dialog {
 }
 
 func (pd *EditProxyDialog) basicProxyPage() TabPage {
-	page := TabPage{
+	return AlignGrid(TabPage{
 		Title:  i18n.Sprintf("Basic"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
@@ -200,12 +200,7 @@ func (pd *EditProxyDialog) basicProxyPage() TabPage {
 			Label{Visible: Bind("vm.MuxVisible || vm.HTTPVisible"), Text: i18n.SprintfColon("Route User")},
 			LineEdit{Visible: Bind("vm.MuxVisible || vm.HTTPVisible"), Text: Bind("RouteByHTTPUser")},
 		},
-	}
-	head := page.Children[0].(Label)
-	// We only calculate children related to the first widget "role"
-	head.MinSize = Size{Width: calculateHeadColumnTextWidth(page.Children[:16], page.Layout.(Grid).Columns)}
-	page.Children[0] = head
-	return page
+	}, 16) // We only calculate children related to the first widget "role"
 }
 
 func (pd *EditProxyDialog) advancedProxyPage() TabPage {
@@ -249,7 +244,7 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 }
 
 func (pd *EditProxyDialog) pluginProxyPage() TabPage {
-	page := TabPage{
+	return AlignGrid(TabPage{
 		Title:  i18n.Sprintf("Plugin"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
@@ -291,11 +286,7 @@ func (pd *EditProxyDialog) pluginProxyPage() TabPage {
 			Label{Visible: Bind("vm.PluginHTTPFwdVisible"), Text: i18n.SprintfColon("Host Rewrite")},
 			LineEdit{Visible: Bind("vm.PluginHTTPFwdVisible"), Text: Bind("PluginHostHeaderRewrite")},
 		},
-	}
-	head := page.Children[0].(Label)
-	head.MinSize = Size{Width: calculateHeadColumnTextWidth(page.Children, page.Layout.(Grid).Columns)}
-	page.Children[0] = head
-	return page
+	}, 0)
 }
 
 func (pd *EditProxyDialog) loadBalanceProxyPage() TabPage {
@@ -312,7 +303,7 @@ func (pd *EditProxyDialog) loadBalanceProxyPage() TabPage {
 }
 
 func (pd *EditProxyDialog) healthCheckProxyPage() TabPage {
-	page := TabPage{
+	return AlignGrid(TabPage{
 		Title:  i18n.Sprintf("Health Check"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
@@ -331,11 +322,7 @@ func (pd *EditProxyDialog) healthCheckProxyPage() TabPage {
 			Label{Visible: Bind("vm.HealthCheckVisible"), Text: i18n.SprintfColon("Check Interval")},
 			NumberEdit{Visible: Bind("vm.HealthCheckVisible"), Value: Bind("HealthCheckIntervalS"), Suffix: i18n.SprintfLSpace("s")},
 		},
-	}
-	head := page.Children[0].(Label)
-	head.MinSize = Size{Width: calculateHeadColumnTextWidth(page.Children, page.Layout.(Grid).Columns)}
-	page.Children[0] = head
-	return page
+	}, 0)
 }
 
 func (pd *EditProxyDialog) customProxyPage() TabPage {

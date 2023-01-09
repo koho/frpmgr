@@ -122,7 +122,7 @@ func (cd *EditClientDialog) basicConfPage() TabPage {
 }
 
 func (cd *EditClientDialog) authConfPage() TabPage {
-	page := TabPage{
+	return AlignGrid(TabPage{
 		Title:  i18n.Sprintf("Auth"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
@@ -154,11 +154,7 @@ func (cd *EditClientDialog) authConfPage() TabPage {
 				},
 			},
 		},
-	}
-	head := page.Children[0].(Label)
-	head.MinSize = Size{Width: calculateHeadColumnTextWidth(page.Children, page.Layout.(Grid).Columns)}
-	page.Children[0] = head
-	return page
+	}, 0)
 }
 
 func (cd *EditClientDialog) logConfPage() TabPage {
@@ -211,7 +207,7 @@ func (cd *EditClientDialog) connectionConfPage() TabPage {
 	}
 	quic := Bind(expr("==", consts.ProtoQUIC))
 	tcp := Bind(expr("!=", consts.ProtoQUIC))
-	page := TabPage{
+	return AlignGrid(TabPage{
 		Title:  i18n.Sprintf("Connection"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
@@ -252,11 +248,7 @@ func (cd *EditClientDialog) connectionConfPage() TabPage {
 			Label{Visible: quic, Text: i18n.SprintfColon("Max Streams")},
 			NumberEdit{Visible: quic, Value: Bind("QUICMaxIncomingStreams")},
 		},
-	}
-	head := page.Children[0].(Label)
-	head.MinSize = Size{Width: calculateHeadColumnTextWidth(page.Children, page.Layout.(Grid).Columns)}
-	page.Children[0] = head
-	return page
+	}, 0)
 }
 
 func (cd *EditClientDialog) tlsConfPage() TabPage {
