@@ -3,7 +3,7 @@ module github.com/koho/frpmgr
 go 1.19
 
 require (
-	github.com/fatedier/frp v0.46.0
+	github.com/fatedier/frp v0.46.1
 	github.com/go-ole/go-ole v1.2.6
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e
