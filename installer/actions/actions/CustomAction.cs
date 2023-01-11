@@ -95,13 +95,9 @@ namespace actions
         {
             session.Log("Killing FRP processes");
             string binPath = session["CustomActionData"];
-            if (string.IsNullOrEmpty(binPath))
+            if (string.IsNullOrEmpty(binPath) || !CalculateFileId(binPath, out BY_HANDLE_FILE_INFORMATION binInfo))
             {
-                return ActionResult.Failure;
-            }
-            if (!CalculateFileId(binPath, out BY_HANDLE_FILE_INFORMATION binInfo))
-            {
-                return ActionResult.Failure;
+                return ActionResult.Success;
             }
             Process[] processes = Process.GetProcesses();
             foreach (Process p in processes)
@@ -129,12 +125,11 @@ namespace actions
         {
             session.Log("Removing files");
             string installPath = session["CustomActionData"];
-            if (string.IsNullOrEmpty(installPath))
+            if (!string.IsNullOrEmpty(installPath))
             {
-                return ActionResult.Failure;
+                ForceDeleteDirectory(Path.Combine(installPath, "profiles"));
+                ForceDeleteDirectory(Path.Combine(installPath, "logs"));
             }
-            ForceDeleteDirectory(Path.Combine(installPath, "profiles"));
-            ForceDeleteDirectory(Path.Combine(installPath, "logs"));
             return ActionResult.Success;
         }
 
@@ -145,7 +140,7 @@ namespace actions
             string binPath = session["CustomActionData"];
             if (string.IsNullOrEmpty(binPath))
             {
-                return ActionResult.Failure;
+                return ActionResult.Success;
             }
             ServiceController[] services = ServiceController.GetServices();
             foreach (ServiceController controller in services)
@@ -192,7 +187,7 @@ namespace actions
             string binPath = session.Format(session["WixShellExecTarget"]);
             if (string.IsNullOrEmpty(binPath))
             {
-                return ActionResult.Failure;
+                return ActionResult.Success;
             }
             Process process = new Process
             {

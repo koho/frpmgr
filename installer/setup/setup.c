@@ -99,7 +99,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmdLine, 
     DWORD dwSize = MAX_PATH;
     memset(installPath, 0, dwSize);
     Language *lang = NULL;
-    if (MsiLocateComponent(L"{E39EABEF-A7EB-4EAF-AD3E-A1254450BBE1}", installPath, &dwSize) == INSTALLSTATE_LOCAL) {
+    if (MsiLocateComponent(L"{E39EABEF-A7EB-4EAF-AD3E-A1254450BBE1}", installPath, &dwSize) >= 0 && wcslen(installPath) > 0) {
         PathRemoveFileSpec(installPath);
         lang = GetPreferredLang(installPath);
     }
