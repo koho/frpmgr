@@ -88,17 +88,31 @@ func (m *ProxyModel) Items() interface{} {
 	return m.items
 }
 
-// DefaultListModel has a default item at the top of the model
-type DefaultListModel struct {
+// StringPair is a simple struct to hold a pair of strings.
+type StringPair struct {
 	Name        string
 	DisplayName string
 }
 
-func NewDefaultListModel(items []string, defaultKey string, defaultName string) []*DefaultListModel {
-	listItems := make([]*DefaultListModel, 0, len(items)+1)
-	listItems = append(listItems, &DefaultListModel{Name: defaultKey, DisplayName: defaultName})
+// NewDefaultListModel creates a default item at the top of the model.
+func NewDefaultListModel(items []string, defaultKey string, defaultName string) []*StringPair {
+	listItems := make([]*StringPair, 0, len(items)+1)
+	listItems = append(listItems, &StringPair{Name: defaultKey, DisplayName: defaultName})
 	for _, item := range items {
-		listItems = append(listItems, &DefaultListModel{Name: item, DisplayName: item})
+		listItems = append(listItems, &StringPair{Name: item, DisplayName: item})
+	}
+	return listItems
+}
+
+// NewStringPairModel creates a slice of string pair from two string slices.
+func NewStringPairModel(keys []string, values []string, defaultValue string) []*StringPair {
+	listItems := make([]*StringPair, 0, len(keys))
+	for i, k := range keys {
+		pair := &StringPair{Name: k, DisplayName: values[i]}
+		if pair.DisplayName == "" {
+			pair.DisplayName = defaultValue
+		}
+		listItems = append(listItems, pair)
 	}
 	return listItems
 }

@@ -860,6 +860,11 @@
             "translation": "打開日誌文件夾"
         },
         {
+            "id": "Latest",
+            "message": "Latest",
+            "translation": "最新"
+        },
+        {
             "id": "Unknown",
             "message": "Unknown",
             "translation": "未知"

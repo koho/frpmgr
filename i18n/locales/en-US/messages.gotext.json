@@ -1160,6 +1160,13 @@
             "fuzzy": true
         },
         {
+            "id": "Latest",
+            "message": "Latest",
+            "translation": "Latest",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Unknown",
             "message": "Unknown",
             "translation": "Unknown",
