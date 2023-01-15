@@ -860,6 +860,11 @@
             "translation": "로그 폴더 열기"
         },
         {
+            "id": "Latest",
+            "message": "Latest",
+            "translation": "최신"
+        },
+        {
             "id": "Unknown",
             "message": "Unknown",
             "translation": "알려지지 않은"

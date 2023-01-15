@@ -870,6 +870,11 @@
             "translation": "ログフォルダを開く"
         },
         {
+            "id": "Latest",
+            "message": "Latest",
+            "translation": "最新"
+        },
+        {
             "id": "Unknown",
             "message": "Unknown",
             "translation": "わからない"

@@ -860,6 +860,11 @@
             "translation": "Abrir registro"
         },
         {
+            "id": "Latest",
+            "message": "Latest",
+            "translation": "Último"
+        },
+        {
             "id": "Unknown",
             "message": "Unknown",
             "translation": "Desconocido"
