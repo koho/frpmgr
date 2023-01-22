@@ -78,7 +78,11 @@ func (cd *EditClientDialog) View() Dialog {
 		cd.tlsConfPage(),
 		cd.advancedConfPage(),
 	}
-	dlg := NewBasicDialog(&cd.Dialog, i18n.Sprintf("Edit Client"), loadSysIcon("imageres", consts.IconEditDialog, 32), DataBinder{
+	title := i18n.Sprintf("New Client")
+	if cd.Conf.Name != "" {
+		title = i18n.Sprintf("Edit Client - %s", cd.Conf.Name)
+	}
+	dlg := NewBasicDialog(&cd.Dialog, title, loadSysIcon("imageres", consts.IconEditDialog, 32), DataBinder{
 		AssignTo:   &cd.db,
 		Name:       "common",
 		DataSource: cd.binder,

@@ -305,9 +305,24 @@
             ]
         },
         {
-            "id": "Edit Client",
-            "message": "Edit Client",
-            "translation": "클라이언트 편집"
+            "id": "New Client",
+            "message": "New Client",
+            "translation": "새 클라이언트"
+        },
+        {
+            "id": "Edit Client - {Name}",
+            "message": "Edit Client - {Name}",
+            "translation": "클라이언트 편집 - {Name}",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "cd.Conf.Name"
+                }
+            ]
         },
         {
             "id": "Basic",
@@ -630,9 +645,24 @@
             ]
         },
         {
-            "id": "Edit Proxy",
-            "message": "Edit Proxy",
-            "translation": "프록시 편집"
+            "id": "New Proxy",
+            "message": "New Proxy",
+            "translation": "새 프록시"
+        },
+        {
+            "id": "Edit Proxy - {Name}",
+            "message": "Edit Proxy - {Name}",
+            "translation": "프록시 편집 - {Name}",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "pd.Proxy.Name"
+                }
+            ]
         },
         {
             "id": "Random",

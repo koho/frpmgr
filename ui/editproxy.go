@@ -94,7 +94,11 @@ func (pd *EditProxyDialog) View() Dialog {
 		pd.healthCheckProxyPage(),
 		pd.customProxyPage(),
 	}
-	dlg := NewBasicDialog(&pd.Dialog, i18n.Sprintf("Edit Proxy"), loadSysIcon("imageres", consts.IconEditDialog, 32), DataBinder{
+	title := i18n.Sprintf("New Proxy")
+	if pd.exist && pd.Proxy.Name != "" {
+		title = i18n.Sprintf("Edit Proxy - %s", pd.Proxy.Name)
+	}
+	dlg := NewBasicDialog(&pd.Dialog, title, loadSysIcon("imageres", consts.IconEditDialog, 32), DataBinder{
 		AssignTo:   &pd.vmDB,
 		Name:       "vm",
 		DataSource: &pd.viewModel,

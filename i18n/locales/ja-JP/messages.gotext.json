@@ -315,9 +315,24 @@
             ]
         },
         {
-            "id": "Edit Client",
-            "message": "Edit Client",
-            "translation": "クライアントの編集"
+            "id": "New Client",
+            "message": "New Client",
+            "translation": "新しいクライアント"
+        },
+        {
+            "id": "Edit Client - {Name}",
+            "message": "Edit Client - {Name}",
+            "translation": "クライアントの編集 - {Name}",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "cd.Conf.Name"
+                }
+            ]
         },
         {
             "id": "Basic",
@@ -640,9 +655,24 @@
             ]
         },
         {
-            "id": "Edit Proxy",
-            "message": "Edit Proxy",
-            "translation": "プロキシの編集"
+            "id": "New Proxy",
+            "message": "New Proxy",
+            "translation": "新しいプロキシ"
+        },
+        {
+            "id": "Edit Proxy - {Name}",
+            "message": "Edit Proxy - {Name}",
+            "translation": "プロキシの編集 - {Name}",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "pd.Proxy.Name"
+                }
+            ]
         },
         {
             "id": "Random",

@@ -391,10 +391,27 @@
             "fuzzy": true
         },
         {
-            "id": "Edit Client",
-            "message": "Edit Client",
-            "translation": "Edit Client",
+            "id": "New Client",
+            "message": "New Client",
+            "translation": "New Client",
             "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Edit Client - {Name}",
+            "message": "Edit Client - {Name}",
+            "translation": "Edit Client - {Name}",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "cd.Conf.Name"
+                }
+            ],
             "fuzzy": true
         },
         {
@@ -842,10 +859,27 @@
             "fuzzy": true
         },
         {
-            "id": "Edit Proxy",
-            "message": "Edit Proxy",
-            "translation": "Edit Proxy",
+            "id": "New Proxy",
+            "message": "New Proxy",
+            "translation": "New Proxy",
             "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Edit Proxy - {Name}",
+            "message": "Edit Proxy - {Name}",
+            "translation": "Edit Proxy - {Name}",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "pd.Proxy.Name"
+                }
+            ],
             "fuzzy": true
         },
         {
