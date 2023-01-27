@@ -68,7 +68,7 @@ func (pp *PluginProxyDialog) onSave() {
 	}
 	pp.Proxies = append(pp.Proxies, &config.Proxy{
 		BaseProxyConf: config.BaseProxyConf{
-			Name:   fmt.Sprintf("%s-%s", pp.plugin, pp.binder.RemotePort),
+			Name:   fmt.Sprintf("%s_%s", pp.plugin, pp.binder.RemotePort),
 			Type:   "tcp",
 			Plugin: pp.plugin,
 			PluginParams: config.PluginParams{

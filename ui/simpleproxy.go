@@ -83,7 +83,7 @@ func (sp *SimpleProxyDialog) onSave() {
 	for _, proto := range sp.types {
 		proxy := config.Proxy{
 			BaseProxyConf: config.BaseProxyConf{
-				Name:      fmt.Sprintf("%s-%s-%s", sp.service, proto, sp.binder.RemotePort),
+				Name:      fmt.Sprintf("%s_%s_%s", sp.service, proto, sp.binder.RemotePort),
 				Type:      proto,
 				LocalIP:   sp.binder.LocalAddr,
 				LocalPort: sp.binder.LocalPort,
