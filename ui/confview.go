@@ -105,6 +105,9 @@ func (cv *ConfView) View() Widget {
 						return
 					}
 					conf := cv.model.items[row]
+					if !conf.Data.AutoStart() {
+						style.TextColor = consts.ColorBlue
+					}
 					margin := cv.listView.IntFrom96DPI(1)
 					bitmapWidth := cv.listView.IntFrom96DPI(16)
 					cacheKey := widthAndState{bitmapWidth, conf.State}
