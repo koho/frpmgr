@@ -314,6 +314,7 @@ func (pv *ProxyView) createProxyTable() TableView {
 				if proxy.Disabled {
 					// Disabled proxy
 					style.TextColor = consts.ColorGray
+					style.BackgroundColor = consts.ColorGrayBG
 				} else if proxy.IsVisitor() {
 					// Visitor proxy
 					style.TextColor = consts.ColorBlue

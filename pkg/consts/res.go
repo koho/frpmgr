@@ -4,6 +4,7 @@ import (
 	"github.com/koho/frpmgr/i18n"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
+	"github.com/lxn/win"
 	"golang.org/x/sys/windows"
 )
 
@@ -58,6 +59,7 @@ var (
 	ColorBlue     = walk.RGB(0, 38, 247)
 	ColorDarkBlue = walk.RGB(11, 53, 137)
 	ColorGray     = walk.RGB(109, 109, 109)
+	ColorGrayBG   = walk.Color(win.GetSysColor(win.COLOR_BTNFACE))
 )
 
 // Text
