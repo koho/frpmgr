@@ -1,6 +1,6 @@
 module github.com/koho/frpmgr
 
-go 1.19
+go 1.20
 
 require (
 	github.com/fatedier/frp v0.46.1
