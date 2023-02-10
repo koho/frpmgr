@@ -745,6 +745,16 @@
             "translation": "路由用戶"
         },
         {
+            "id": "Client",
+            "message": "Client",
+            "translation": "客戶端"
+        },
+        {
+            "id": "Server",
+            "message": "Server",
+            "translation": "服務端"
+        },
+        {
             "id": "Bandwidth",
             "message": "Bandwidth",
             "translation": "帶寬限流"

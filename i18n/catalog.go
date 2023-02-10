@@ -45,10 +45,10 @@ func init() {
 var messageKeyToIndex = map[string]int{
 	"* Leave blank to record no log and delete the original log file.": 62,
 	"* Refer to the [common] section of the FRP configuration file.":   104,
-	"* Refer to the parameters supported by FRP.":                      148,
-	"* Support batch import, one link per line.":                       183,
+	"* Refer to the parameters supported by FRP.":                      150,
+	"* Support batch import, one link per line.":                       185,
 	"About":         10,
-	"Add":           165,
+	"Add":           167,
 	"Admin":         67,
 	"Admin Address": 68,
 	"Admin Port":    69,
@@ -58,14 +58,14 @@ var messageKeyToIndex = map[string]int{
 	"An error occurred while checking for a software update.": 16,
 	"Another config already exists with the name \"%s\".":     39,
 	"Are you sure you would like to delete config \"%s\"?":    42,
-	"Are you sure you would like to delete proxy \"%s\"?":     176,
-	"Are you sure you would like to disable proxy \"%s\"?":    178,
+	"Are you sure you would like to delete proxy \"%s\"?":     178,
+	"Are you sure you would like to disable proxy \"%s\"?":    180,
 	"Assets":                     71,
 	"Audience":                   55,
 	"Auth":                       50,
 	"Auth Method":                51,
 	"Authentication":             58,
-	"Bandwidth":                  125,
+	"Bandwidth":                  127,
 	"Basic":                      45,
 	"Bind Address":               117,
 	"Bind Port":                  118,
@@ -74,19 +74,20 @@ var messageKeyToIndex = map[string]int{
 	"Certificate":                89,
 	"Certificate Files":          6,
 	"Certificate Key":            91,
-	"Check Interval":             147,
-	"Check Timeout":              145,
-	"Check Type":                 144,
+	"Check Interval":             149,
+	"Check Timeout":              147,
+	"Check Type":                 146,
 	"Check for updates":          13,
 	"Checking for updates":       12,
+	"Client":                     125,
 	"Common Only":                28,
-	"Compression":                129,
+	"Compression":                131,
 	"Config already exists":      105,
 	"Configuration":              20,
 	"Configuration Files":        5,
 	"Connection":                 74,
-	"Copy":                       160,
-	"Copy Access Address":        174,
+	"Copy":                       162,
+	"Copy Access Address":        176,
 	"Copy Share Link":            32,
 	"Create a Copy":              26,
 	"Custom":                     102,
@@ -95,40 +96,40 @@ var messageKeyToIndex = map[string]int{
 	"Debug":                      73,
 	"Delete":                     34,
 	"Delete config \"%s\"":       41,
-	"Delete proxy \"%s\"":        175,
+	"Delete proxy \"%s\"":        177,
 	"Dial Timeout":               82,
-	"Direct Edit":                172,
-	"Disable":                    179,
+	"Direct Edit":                174,
+	"Disable":                    181,
 	"Disable auto-start at boot": 101,
-	"Disable proxy \"%s\"":       177,
-	"Domains":                    173,
-	"Download":                   187,
+	"Disable proxy \"%s\"":       179,
+	"Domains":                    175,
+	"Download":                   189,
 	"Download updates":           11,
 	"Edit":                       23,
 	"Edit Client - %s":           44,
 	"Edit Proxy - %s":            108,
-	"Empty":                      127,
-	"Enable":                     170,
-	"Encryption":                 128,
-	"Error":                      182,
+	"Empty":                      129,
+	"Enable":                     172,
+	"Encryption":                 130,
+	"Error":                      184,
 	"Exit after login failure":   100,
 	"Export All Configs to ZIP":  33,
 	"FRP Manager":                0,
 	"FRP version: %s":            2,
-	"Failure Count":              146,
+	"Failure Count":              148,
 	"For FRP configuration documentation, please visit the FRP project page:": 15,
 	"For comments or to report bugs, please visit the project page:":          14,
-	"Group":                                  141,
-	"Group Key":                              142,
-	"HTTP File Server":                       168,
-	"HTTP Password":                          131,
+	"Group":                                  143,
+	"Group Key":                              144,
+	"HTTP File Server":                       170,
+	"HTTP Password":                          133,
 	"HTTP Proxy":                             76,
-	"HTTP User":                              130,
-	"Health Check":                           143,
+	"HTTP User":                              132,
+	"Health Check":                           145,
 	"Heart Beats":                            59,
 	"Heartbeat":                              78,
 	"Host Name":                              88,
-	"Host Rewrite":                           132,
+	"Host Rewrite":                           134,
 	"Idle Timeout":                           84,
 	"Import Config":                          37,
 	"Import Config from File":                22,
@@ -139,12 +140,12 @@ var messageKeyToIndex = map[string]int{
 	"Interval":                               79,
 	"Keepalive":                              83,
 	"Key Files":                              7,
-	"Latest":                                 152,
+	"Latest":                                 154,
 	"Level":                                  65,
-	"Load Balance":                           140,
+	"Load Balance":                           142,
 	"Local Address":                          114,
-	"Local Directory":                        164,
-	"Local Path":                             137,
+	"Local Directory":                        166,
+	"Local Path":                             139,
 	"Local Port":                             115,
 	"Locations":                              122,
 	"Log":                                    61,
@@ -165,31 +166,31 @@ var messageKeyToIndex = map[string]int{
 	"OK":                                     18,
 	"Off":                                    87,
 	"On":                                     86,
-	"Open Config":                            171,
+	"Open Config":                            173,
 	"Open File":                              24,
-	"Open Log Folder":                        151,
+	"Open Log Folder":                        153,
 	"Other Options":                          99,
-	"Passive Port Range":                     181,
+	"Passive Port Range":                     183,
 	"Password":                               70,
-	"Please enter the correct URL list.":     186,
-	"Plugin":                                 133,
-	"Plugin Name":                            134,
+	"Please enter the correct URL list.":     188,
+	"Plugin":                                 135,
+	"Plugin Name":                            136,
 	"Pool Count":                             77,
-	"Port":                                   180,
+	"Port":                                   182,
 	"Protocol":                               75,
-	"Proxy Version":                          126,
-	"Proxy already exists":                   149,
-	"Quick Add":                              166,
+	"Proxy Version":                          128,
+	"Proxy already exists":                   151,
+	"Quick Add":                              168,
 	"Random":                                 109,
-	"Ready":                                  185,
-	"Remote Address":                         159,
-	"Remote Desktop":                         167,
+	"Ready":                                  187,
+	"Remote Address":                         161,
+	"Remote Desktop":                         169,
 	"Remote Port":                            116,
-	"Rename automatically":                   184,
+	"Rename automatically":                   186,
 	"Role":                                   111,
 	"Route User":                             124,
-	"Running":                                154,
-	"SOCKS5 Proxy":                           169,
+	"Running":                                156,
+	"SOCKS5 Proxy":                           171,
 	"Scope":                                  56,
 	"Secret":                                 54,
 	"Secret Key":                             113,
@@ -197,35 +198,36 @@ var messageKeyToIndex = map[string]int{
 	"Select Certificate Key File":            92,
 	"Select Log File":                        64,
 	"Select Trusted CA File":                 94,
-	"Select Unix Path":                       136,
-	"Select a folder for directory listing.": 138,
+	"Select Unix Path":                       138,
+	"Select a folder for directory listing.": 140,
 	"Select a local directory that the admin server will load resources from.": 72,
+	"Server":                                 126,
 	"Server Address":                         47,
 	"Server Name":                            119,
 	"Server Port":                            48,
-	"Service":                                162,
+	"Service":                                164,
 	"Show in Folder":                         25,
 	"Source Address":                         98,
-	"Start":                                  161,
-	"Starting":                               156,
-	"Status":                                 158,
-	"Stop":                                   163,
-	"Stopped":                                155,
-	"Stopping":                               157,
-	"Strip Prefix":                           139,
+	"Start":                                  163,
+	"Starting":                               158,
+	"Status":                                 160,
+	"Stop":                                   165,
+	"Stopped":                                157,
+	"Stopping":                               159,
+	"Strip Prefix":                           141,
 	"Subdomain":                              120,
 	"TCP Mux":                                96,
 	"The config name \"%s\" already exists.": 106,
 	"The file \"%s\" is not a valid ZIP file.":  40,
-	"The proxy name \"%s\" already exists.":     150,
+	"The proxy name \"%s\" already exists.":     152,
 	"There are currently no updates available.": 17,
 	"Timeout":        81,
 	"Token":          53,
 	"Token Endpoint": 57,
 	"Trusted CA":     93,
 	"Type":           110,
-	"Unix Path":      135,
-	"Unknown":        153,
+	"Unix Path":      137,
+	"Unknown":        155,
 	"User":           49,
 	"Version: %s":    1,
 	"Visitor":        112,
@@ -233,7 +235,7 @@ var messageKeyToIndex = map[string]int{
 	"s":              80,
 }
 
-var en_USIndex = []uint32{ // 189 elements
+var en_USIndex = []uint32{ // 191 elements
 	// Entry 0 - 1F
 	0x00000000, 0x0000000c, 0x0000001b, 0x0000002e,
 	0x0000003e, 0x00000048, 0x0000005c, 0x0000006e,
@@ -269,28 +271,28 @@ var en_USIndex = []uint32{ // 189 elements
 	0x00000758, 0x00000760, 0x0000076b, 0x00000779,
 	0x00000784, 0x00000790, 0x0000079d, 0x000007a7,
 	0x000007b3, 0x000007bd, 0x000007cc, 0x000007d6,
-	0x000007e2, 0x000007ed, 0x000007f7, 0x00000805,
+	0x000007e2, 0x000007ed, 0x000007f4, 0x000007fb,
 	// Entry 80 - 9F
-	0x0000080b, 0x00000816, 0x00000822, 0x0000082c,
-	0x0000083a, 0x00000847, 0x0000084e, 0x0000085a,
-	0x00000864, 0x00000875, 0x00000880, 0x000008a7,
-	0x000008b4, 0x000008c1, 0x000008c7, 0x000008d1,
-	0x000008de, 0x000008e9, 0x000008f7, 0x00000905,
-	0x00000914, 0x00000940, 0x00000955, 0x0000097c,
-	0x0000098c, 0x00000993, 0x0000099b, 0x000009a3,
-	0x000009ab, 0x000009b4, 0x000009bd, 0x000009c4,
+	0x00000805, 0x00000813, 0x00000819, 0x00000824,
+	0x00000830, 0x0000083a, 0x00000848, 0x00000855,
+	0x0000085c, 0x00000868, 0x00000872, 0x00000883,
+	0x0000088e, 0x000008b5, 0x000008c2, 0x000008cf,
+	0x000008d5, 0x000008df, 0x000008ec, 0x000008f7,
+	0x00000905, 0x00000913, 0x00000922, 0x0000094e,
+	0x00000963, 0x0000098a, 0x0000099a, 0x000009a1,
+	0x000009a9, 0x000009b1, 0x000009b9, 0x000009c2,
 	// Entry A0 - BF
-	0x000009d3, 0x000009d8, 0x000009de, 0x000009e6,
-	0x000009eb, 0x000009fb, 0x000009ff, 0x00000a09,
-	0x00000a18, 0x00000a29, 0x00000a36, 0x00000a3d,
-	0x00000a49, 0x00000a55, 0x00000a5d, 0x00000a71,
-	0x00000a86, 0x00000abb, 0x00000ad1, 0x00000b07,
-	0x00000b0f, 0x00000b14, 0x00000b27, 0x00000b2d,
-	0x00000b58, 0x00000b6d, 0x00000b73, 0x00000b96,
-	0x00000b9f,
-} // Size: 780 bytes
+	0x000009cb, 0x000009d2, 0x000009e1, 0x000009e6,
+	0x000009ec, 0x000009f4, 0x000009f9, 0x00000a09,
+	0x00000a0d, 0x00000a17, 0x00000a26, 0x00000a37,
+	0x00000a44, 0x00000a4b, 0x00000a57, 0x00000a63,
+	0x00000a6b, 0x00000a7f, 0x00000a94, 0x00000ac9,
+	0x00000adf, 0x00000b15, 0x00000b1d, 0x00000b22,
+	0x00000b35, 0x00000b3b, 0x00000b66, 0x00000b7b,
+	0x00000b81, 0x00000ba4, 0x00000bad,
+} // Size: 788 bytes
 
-const en_USData string = "" + // Size: 2975 bytes
+const en_USData string = "" + // Size: 2989 bytes
 	"\x02FRP Manager\x02Version: %[1]s\x02FRP version: %[1]s\x02Built on: %[1" +
 	"]s\x02All Files\x02Configuration Files\x02Certificate Files\x02Key Files" +
 	"\x02Log Files\x02New Version!\x02About\x02Download updates\x02Checking f" +
@@ -324,26 +326,26 @@ const en_USData string = "" + // Size: 2975 bytes
 	"me \x22%[1]s\x22 already exists.\x02New Proxy\x02Edit Proxy - %[1]s\x02R" +
 	"andom\x02Type\x02Role\x02Visitor\x02Secret Key\x02Local Address\x02Local" +
 	" Port\x02Remote Port\x02Bind Address\x02Bind Port\x02Server Name\x02Subd" +
-	"omain\x02Custom Domains\x02Locations\x02Multiplexer\x02Route User\x02Ban" +
-	"dwidth\x02Proxy Version\x02Empty\x02Encryption\x02Compression\x02HTTP Us" +
-	"er\x02HTTP Password\x02Host Rewrite\x02Plugin\x02Plugin Name\x02Unix Pat" +
-	"h\x02Select Unix Path\x02Local Path\x02Select a folder for directory lis" +
-	"ting.\x02Strip Prefix\x02Load Balance\x02Group\x02Group Key\x02Health Ch" +
-	"eck\x02Check Type\x02Check Timeout\x02Failure Count\x02Check Interval" +
-	"\x02* Refer to the parameters supported by FRP.\x02Proxy already exists" +
-	"\x02The proxy name \x22%[1]s\x22 already exists.\x02Open Log Folder\x02L" +
-	"atest\x02Unknown\x02Running\x02Stopped\x02Starting\x02Stopping\x02Status" +
-	"\x02Remote Address\x02Copy\x02Start\x02Service\x02Stop\x02Local Director" +
-	"y\x02Add\x02Quick Add\x02Remote Desktop\x02HTTP File Server\x02SOCKS5 Pr" +
-	"oxy\x02Enable\x02Open Config\x02Direct Edit\x02Domains\x02Copy Access Ad" +
-	"dress\x02Delete proxy \x22%[1]s\x22\x02Are you sure you would like to de" +
-	"lete proxy \x22%[1]s\x22?\x02Disable proxy \x22%[1]s\x22\x02Are you sure" +
-	" you would like to disable proxy \x22%[1]s\x22?\x02Disable\x02Port\x02Pa" +
-	"ssive Port Range\x02Error\x02* Support batch import, one link per line." +
-	"\x02Rename automatically\x02Ready\x02Please enter the correct URL list." +
-	"\x02Download"
+	"omain\x02Custom Domains\x02Locations\x02Multiplexer\x02Route User\x02Cli" +
+	"ent\x02Server\x02Bandwidth\x02Proxy Version\x02Empty\x02Encryption\x02Co" +
+	"mpression\x02HTTP User\x02HTTP Password\x02Host Rewrite\x02Plugin\x02Plu" +
+	"gin Name\x02Unix Path\x02Select Unix Path\x02Local Path\x02Select a fold" +
+	"er for directory listing.\x02Strip Prefix\x02Load Balance\x02Group\x02Gr" +
+	"oup Key\x02Health Check\x02Check Type\x02Check Timeout\x02Failure Count" +
+	"\x02Check Interval\x02* Refer to the parameters supported by FRP.\x02Pro" +
+	"xy already exists\x02The proxy name \x22%[1]s\x22 already exists.\x02Ope" +
+	"n Log Folder\x02Latest\x02Unknown\x02Running\x02Stopped\x02Starting\x02S" +
+	"topping\x02Status\x02Remote Address\x02Copy\x02Start\x02Service\x02Stop" +
+	"\x02Local Directory\x02Add\x02Quick Add\x02Remote Desktop\x02HTTP File S" +
+	"erver\x02SOCKS5 Proxy\x02Enable\x02Open Config\x02Direct Edit\x02Domains" +
+	"\x02Copy Access Address\x02Delete proxy \x22%[1]s\x22\x02Are you sure yo" +
+	"u would like to delete proxy \x22%[1]s\x22?\x02Disable proxy \x22%[1]s" +
+	"\x22\x02Are you sure you would like to disable proxy \x22%[1]s\x22?\x02D" +
+	"isable\x02Port\x02Passive Port Range\x02Error\x02* Support batch import," +
+	" one link per line.\x02Rename automatically\x02Ready\x02Please enter the" +
+	" correct URL list.\x02Download"
 
-var es_ESIndex = []uint32{ // 189 elements
+var es_ESIndex = []uint32{ // 191 elements
 	// Entry 0 - 1F
 	0x00000000, 0x00000015, 0x00000025, 0x00000039,
 	0x00000056, 0x00000069, 0x00000084, 0x0000009c,
@@ -379,28 +381,28 @@ var es_ESIndex = []uint32{ // 189 elements
 	0x000009b9, 0x000009c3, 0x000009d1, 0x000009e2,
 	0x000009ef, 0x000009fd, 0x00000a12, 0x00000a23,
 	0x00000a37, 0x00000a42, 0x00000a5a, 0x00000a63,
-	0x00000a6f, 0x00000a7f, 0x00000a8b, 0x00000a9d,
+	0x00000a6f, 0x00000a7f, 0x00000a87, 0x00000a90,
 	// Entry 80 - 9F
-	0x00000aa4, 0x00000aac, 0x00000ab8, 0x00000ac5,
-	0x00000ad6, 0x00000aea, 0x00000af3, 0x00000afa,
-	0x00000b04, 0x00000b1f, 0x00000b2a, 0x00000b5f,
-	0x00000b6f, 0x00000b83, 0x00000b89, 0x00000b98,
-	0x00000ba9, 0x00000bae, 0x00000bc2, 0x00000bd5,
-	0x00000bdf, 0x00000c0d, 0x00000c20, 0x00000c46,
-	0x00000c55, 0x00000c5d, 0x00000c69, 0x00000c70,
-	0x00000c79, 0x00000c84, 0x00000c8b, 0x00000c92,
+	0x00000a9c, 0x00000aae, 0x00000ab5, 0x00000abd,
+	0x00000ac9, 0x00000ad6, 0x00000ae7, 0x00000afb,
+	0x00000b04, 0x00000b0b, 0x00000b15, 0x00000b30,
+	0x00000b3b, 0x00000b70, 0x00000b80, 0x00000b94,
+	0x00000b9a, 0x00000ba9, 0x00000bba, 0x00000bbf,
+	0x00000bd3, 0x00000be6, 0x00000bf0, 0x00000c1e,
+	0x00000c31, 0x00000c57, 0x00000c66, 0x00000c6e,
+	0x00000c7a, 0x00000c81, 0x00000c8a, 0x00000c95,
 	// Entry A0 - BF
-	0x00000ca4, 0x00000cab, 0x00000cb4, 0x00000cbd,
-	0x00000cc8, 0x00000cd9, 0x00000ce1, 0x00000cf1,
-	0x00000d03, 0x00000d1d, 0x00000d2a, 0x00000d34,
-	0x00000d49, 0x00000d5a, 0x00000d63, 0x00000d7f,
-	0x00000d96, 0x00000dcd, 0x00000de8, 0x00000e21,
-	0x00000e2e, 0x00000e35, 0x00000e4d, 0x00000e53,
-	0x00000e8a, 0x00000ea5, 0x00000eab, 0x00000ed0,
-	0x00000eda,
-} // Size: 780 bytes
+	0x00000c9c, 0x00000ca3, 0x00000cb5, 0x00000cbc,
+	0x00000cc5, 0x00000cce, 0x00000cd9, 0x00000cea,
+	0x00000cf2, 0x00000d02, 0x00000d14, 0x00000d2e,
+	0x00000d3b, 0x00000d45, 0x00000d5a, 0x00000d6b,
+	0x00000d74, 0x00000d90, 0x00000da7, 0x00000dde,
+	0x00000df9, 0x00000e32, 0x00000e3f, 0x00000e46,
+	0x00000e5e, 0x00000e64, 0x00000e9b, 0x00000eb6,
+	0x00000ebc, 0x00000ee1, 0x00000eeb,
+} // Size: 788 bytes
 
-const es_ESData string = "" + // Size: 3802 bytes
+const es_ESData string = "" + // Size: 3819 bytes
 	"\x02Administrador de FRP\x02Versión: %[1]s\x02Versión FRP: %[1]s\x02Fech" +
 	"a de compilación: %[1]s\x02Todos los archivos\x02Archivos de configuraci" +
 	"ón\x02Archivos de certificado\x02Archivos clave\x02Archivos de registro" +
@@ -443,27 +445,28 @@ const es_ESData string = "" + // Size: 3802 bytes
 	"\x02Tipo\x02Role\x02Visitante\x02Llave secreta\x02Dirección local\x02Pue" +
 	"rto local\x02Puerto remoto\x02Dirección de enlace\x02Puerto de enlace" +
 	"\x02Nombre del servidor\x02Subdominio\x02Dominios personalizados\x02Ruta" +
-	" URL\x02Multiplexor\x02Usuario de ruta\x02Banda ancha\x02Versión de prox" +
-	"y\x02Vacío\x02Cifrado\x02Compresión\x02Usuario HTTP\x02Contraseña HTTP" +
-	"\x02Reescritura de host\x02Enchufar\x02Nombre\x02Ruta Unix\x02Seleccione" +
-	" la ruta de Unix\x02Ruta local\x02Seleccione una carpeta para la lista d" +
-	"e directorios.\x02Prefijo de tira\x02Equilibrio de carga\x02Grupo\x02Cla" +
-	"ve de grupo\x02Chequeo de salud\x02Tipo\x02Se acabó el tiempo\x02Recuent" +
-	"o de fallas\x02Intervalo\x02* Consulte los parámetros admitidos por FRP." +
-	"\x02El proxy ya existe\x02El nombre de proxy \x22%[1]s\x22 ya existe." +
-	"\x02Abrir registro\x02Último\x02Desconocido\x02Correr\x02Detenido\x02Com" +
-	"enzando\x02Parada\x02Estado\x02Dirección remota\x02Copiar\x02Comienzo" +
-	"\x02Servicio\x02Deténgase\x02Directorio local\x02Agregar\x02Añadir rápid" +
-	"o\x02Escritorio remoto\x02Servidor de archivos HTTP\x02Proxy SOCKS5\x02H" +
-	"abilitar\x02Abrir configuración\x02Edición directa\x02Dominios\x02Copiar" +
-	" dirección de acceso\x02Eliminar proxy \x22%[1]s\x22\x02¿Está seguro de " +
-	"que desea eliminar el proxy \x22%[1]s\x22?\x02Deshabilitar proxy \x22%[1" +
-	"]s\x22\x02¿Está seguro de que desea desactivar el proxy \x22%[1]s\x22?" +
-	"\x02Deshabilitar\x02Puerto\x02Gama de puertos pasivos\x02Error\x02* Admi" +
-	"te importación por lotes, un enlace por línea.\x02Renombrar automáticame" +
-	"nte\x02Listo\x02Introduzca la lista de URL correcta.\x02Descargar"
+	" URL\x02Multiplexor\x02Usuario de ruta\x02Cliente\x02Servidor\x02Banda a" +
+	"ncha\x02Versión de proxy\x02Vacío\x02Cifrado\x02Compresión\x02Usuario HT" +
+	"TP\x02Contraseña HTTP\x02Reescritura de host\x02Enchufar\x02Nombre\x02Ru" +
+	"ta Unix\x02Seleccione la ruta de Unix\x02Ruta local\x02Seleccione una ca" +
+	"rpeta para la lista de directorios.\x02Prefijo de tira\x02Equilibrio de " +
+	"carga\x02Grupo\x02Clave de grupo\x02Chequeo de salud\x02Tipo\x02Se acabó" +
+	" el tiempo\x02Recuento de fallas\x02Intervalo\x02* Consulte los parámetr" +
+	"os admitidos por FRP.\x02El proxy ya existe\x02El nombre de proxy \x22%[" +
+	"1]s\x22 ya existe.\x02Abrir registro\x02Último\x02Desconocido\x02Correr" +
+	"\x02Detenido\x02Comenzando\x02Parada\x02Estado\x02Dirección remota\x02Co" +
+	"piar\x02Comienzo\x02Servicio\x02Deténgase\x02Directorio local\x02Agregar" +
+	"\x02Añadir rápido\x02Escritorio remoto\x02Servidor de archivos HTTP\x02P" +
+	"roxy SOCKS5\x02Habilitar\x02Abrir configuración\x02Edición directa\x02Do" +
+	"minios\x02Copiar dirección de acceso\x02Eliminar proxy \x22%[1]s\x22\x02" +
+	"¿Está seguro de que desea eliminar el proxy \x22%[1]s\x22?\x02Deshabili" +
+	"tar proxy \x22%[1]s\x22\x02¿Está seguro de que desea desactivar el proxy" +
+	" \x22%[1]s\x22?\x02Deshabilitar\x02Puerto\x02Gama de puertos pasivos\x02" +
+	"Error\x02* Admite importación por lotes, un enlace por línea.\x02Renombr" +
+	"ar automáticamente\x02Listo\x02Introduzca la lista de URL correcta.\x02D" +
+	"escargar"
 
-var ja_JPIndex = []uint32{ // 189 elements
+var ja_JPIndex = []uint32{ // 191 elements
 	// Entry 0 - 1F
 	0x00000000, 0x00000014, 0x0000002c, 0x00000048,
 	0x00000063, 0x0000007c, 0x0000008f, 0x000000a5,
@@ -499,28 +502,28 @@ var ja_JPIndex = []uint32{ // 189 elements
 	0x00000b3a, 0x00000b47, 0x00000b51, 0x00000b6a,
 	0x00000b80, 0x00000b96, 0x00000baf, 0x00000bc5,
 	0x00000bd5, 0x00000be8, 0x00000c01, 0x00000c18,
-	0x00000c2e, 0x00000c44, 0x00000c4e, 0x00000c6a,
+	0x00000c2e, 0x00000c44, 0x00000c57, 0x00000c61,
 	// Entry 80 - 9F
-	0x00000c6e, 0x00000c78, 0x00000c7f, 0x00000c91,
-	0x00000ca6, 0x00000cbf, 0x00000ccf, 0x00000ce2,
-	0x00000cee, 0x00000d03, 0x00000d16, 0x00000d56,
-	0x00000d75, 0x00000d82, 0x00000d8f, 0x00000da5,
-	0x00000db2, 0x00000dbc, 0x00000dcf, 0x00000dd9,
-	0x00000dec, 0x00000e26, 0x00000e4e, 0x00000e82,
-	0x00000e9e, 0x00000ea5, 0x00000eb5, 0x00000ec5,
-	0x00000ecc, 0x00000ed3, 0x00000eda, 0x00000ee1,
+	0x00000c6b, 0x00000c7b, 0x00000c7f, 0x00000c89,
+	0x00000c90, 0x00000ca2, 0x00000cb7, 0x00000cd0,
+	0x00000ce0, 0x00000cf3, 0x00000cff, 0x00000d14,
+	0x00000d27, 0x00000d67, 0x00000d86, 0x00000d93,
+	0x00000da0, 0x00000db6, 0x00000dc3, 0x00000dcd,
+	0x00000de0, 0x00000dea, 0x00000dfd, 0x00000e37,
+	0x00000e5f, 0x00000e93, 0x00000eaf, 0x00000eb6,
+	0x00000ec6, 0x00000ed6, 0x00000edd, 0x00000ee4,
 	// Entry A0 - BF
-	0x00000efa, 0x00000f04, 0x00000f0e, 0x00000f1b,
-	0x00000f25, 0x00000f32, 0x00000f39, 0x00000f4c,
-	0x00000f6b, 0x00000f89, 0x00000f9d, 0x00000fa4,
-	0x00000fb4, 0x00000fc1, 0x00000fd1, 0x00000ff6,
-	0x0000101e, 0x00001055, 0x0000107d, 0x000010c0,
-	0x000010c7, 0x000010d1, 0x000010ed, 0x000010f7,
-	0x00001156, 0x00001172, 0x00001179, 0x000011ad,
-	0x000011c0,
-} // Size: 780 bytes
+	0x00000eeb, 0x00000ef2, 0x00000f0b, 0x00000f15,
+	0x00000f1f, 0x00000f2c, 0x00000f36, 0x00000f43,
+	0x00000f4a, 0x00000f5d, 0x00000f7c, 0x00000f9a,
+	0x00000fae, 0x00000fb5, 0x00000fc5, 0x00000fd2,
+	0x00000fe2, 0x00001007, 0x0000102f, 0x00001066,
+	0x0000108e, 0x000010d1, 0x000010d8, 0x000010e2,
+	0x000010fe, 0x00001108, 0x00001167, 0x00001183,
+	0x0000118a, 0x000011be, 0x000011d1,
+} // Size: 788 bytes
 
-const ja_JPData string = "" + // Size: 4544 bytes
+const ja_JPData string = "" + // Size: 4561 bytes
 	"\x02FRP マネージャ\x02バージョン：%[1]s\x02FRP バージョン：%[1]s\x02コンパイル日：%[1]s\x02すべてのフ" +
 	"ァイル\x02設定ファイル\x02証明書ファイル\x02秘密鍵ファイル\x02ログファイル\x02新しいバージョン！\x02約\x02更新を" +
 	"ダウンロード\x02アップデートの確認\x02更新を確認する\x02コメントやバグの報告については、プロジェクトページにアクセスしてください" +
@@ -544,20 +547,21 @@ const ja_JPData string = "" + // Size: 4544 bytes
 	"mon] セクションを参照してください。\x02設定はすでに存在します\x02設定名 \x22%[1]s\x22 は既に存在します。\x02新し" +
 	"いプロキシ\x02プロキシの編集 - %[1]s\x02ランダム\x02タイプ\x02役割\x02ビジター\x02秘密鍵\x02ローカルアド" +
 	"レス\x02ローカルポート\x02リモートポート\x02バインドアドレス\x02バインドポート\x02サーバー名\x02サブドメイン\x02" +
-	"カスタムドメイン\x02URL ルーティング\x02マルチプレクサ\x02ルートユーザー\x02帯域幅\x02プロキシバージョン\x02空" +
-	"\x02暗号化\x02圧縮\x02HTTP ユーザー\x02HTTP パスワード\x02ホストの書き換え\x02プラグイン\x02プラグイン名" +
-	"\x02Unix パス\x02Unix パスを選択\x02ローカルパス\x02ディレクトリリストのフォルダを選択します。\x02プレフィックスを" +
-	"削除\x02負荷平衡\x02グループ\x02グループ秘密鍵\x02健康診断\x02タイプ\x02タイムアウト\x02失敗数\x02チェック間" +
-	"隔\x02* FRP 対応のパラメータをご参照ください。\x02プロキシはすでに存在します\x02プロキシ名 \x22%[1]s\x22 は" +
-	"既に存在します。\x02ログフォルダを開く\x02最新\x02わからない\x02ランニング\x02停止\x02起動\x02停止\x02状態" +
-	"\x02リモートアドレス\x02コピー\x02始める\x02サービス\x02止まる\x02フォルダ\x02追加\x02クイック追加\x02リモー" +
-	"トデスクトップ\x02HTTP ファイルサーバー\x02SOCKS5 プロキシ\x02有効\x02設定を開く\x02直接編集\x02ドメイン" +
-	"名\x02アクセスアドレスのコピー\x02プロキシ \x22%[1]s\x22 を削除します\x02本当にプロキシ \x22%[1]s" +
-	"\x22 を削除しますか？\x02プロキシ \x22%[1]s\x22 を無効にする\x02プロキシ \x22%[1]s\x22 を無効にしても" +
-	"よろしいですか？\x02無効\x02ポート\x02パッシブポート範囲\x02エラー\x02* バッチインポートをサポートします、1行に1つの" +
-	"リンクがあります。\x02自動的に名前を変更\x02準備\x02正しいURLリストを入力してください。\x02ダウンロード"
+	"カスタムドメイン\x02URL ルーティング\x02マルチプレクサ\x02ルートユーザー\x02クライアント\x02サーバ\x02帯域幅" +
+	"\x02プロキシ版\x02空\x02暗号化\x02圧縮\x02HTTP ユーザー\x02HTTP パスワード\x02ホストの書き換え\x02プラ" +
+	"グイン\x02プラグイン名\x02Unix パス\x02Unix パスを選択\x02ローカルパス\x02ディレクトリリストのフォルダを選択し" +
+	"ます。\x02プレフィックスを削除\x02負荷平衡\x02グループ\x02グループ秘密鍵\x02健康診断\x02タイプ\x02タイムアウト" +
+	"\x02失敗数\x02チェック間隔\x02* FRP 対応のパラメータをご参照ください。\x02プロキシはすでに存在します\x02プロキシ名 " +
+	"\x22%[1]s\x22 は既に存在します。\x02ログフォルダを開く\x02最新\x02わからない\x02ランニング\x02停止\x02起動" +
+	"\x02停止\x02状態\x02リモートアドレス\x02コピー\x02始める\x02サービス\x02止まる\x02フォルダ\x02追加\x02ク" +
+	"イック追加\x02リモートデスクトップ\x02HTTP ファイルサーバー\x02SOCKS5 プロキシ\x02有効\x02設定を開く\x02" +
+	"直接編集\x02ドメイン名\x02アクセスアドレスのコピー\x02プロキシ \x22%[1]s\x22 を削除します\x02本当にプロキシ " +
+	"\x22%[1]s\x22 を削除しますか？\x02プロキシ \x22%[1]s\x22 を無効にする\x02プロキシ \x22%[1]s" +
+	"\x22 を無効にしてもよろしいですか？\x02無効\x02ポート\x02パッシブポート範囲\x02エラー\x02* バッチインポートをサポート" +
+	"します、1行に1つのリンクがあります。\x02自動的に名前を変更\x02準備\x02正しいURLリストを入力してください。\x02ダウンロー" +
+	"ド"
 
-var ko_KRIndex = []uint32{ // 189 elements
+var ko_KRIndex = []uint32{ // 191 elements
 	// Entry 0 - 1F
 	0x00000000, 0x0000000e, 0x0000001c, 0x0000002e,
 	0x00000043, 0x00000051, 0x0000005f, 0x00000070,
@@ -593,28 +597,28 @@ var ko_KRIndex = []uint32{ // 189 elements
 	0x0000092d, 0x00000937, 0x00000942, 0x00000950,
 	0x0000095e, 0x0000096c, 0x0000097d, 0x0000098e,
 	0x0000099c, 0x000009ad, 0x000009c8, 0x000009d6,
-	0x000009e6, 0x000009f7, 0x00000a01, 0x00000a12,
+	0x000009e6, 0x000009f7, 0x00000a07, 0x00000a0e,
 	// Entry 80 - 9F
-	0x00000a20, 0x00000a2a, 0x00000a31, 0x00000a40,
-	0x00000a52, 0x00000a66, 0x00000a73, 0x00000a87,
-	0x00000a93, 0x00000aa6, 0x00000ab4, 0x00000af0,
-	0x00000b04, 0x00000b12, 0x00000b19, 0x00000b2b,
-	0x00000b39, 0x00000b40, 0x00000b4e, 0x00000b5c,
-	0x00000b63, 0x00000ba1, 0x00000bc3, 0x00000bfd,
-	0x00000c12, 0x00000c19, 0x00000c2d, 0x00000c37,
-	0x00000c41, 0x00000c48, 0x00000c4f, 0x00000c56,
+	0x00000a18, 0x00000a29, 0x00000a37, 0x00000a41,
+	0x00000a48, 0x00000a57, 0x00000a69, 0x00000a7d,
+	0x00000a8a, 0x00000a9e, 0x00000aaa, 0x00000abd,
+	0x00000acb, 0x00000b07, 0x00000b1b, 0x00000b29,
+	0x00000b30, 0x00000b42, 0x00000b50, 0x00000b57,
+	0x00000b65, 0x00000b73, 0x00000b7a, 0x00000bb8,
+	0x00000bda, 0x00000c14, 0x00000c29, 0x00000c30,
+	0x00000c44, 0x00000c4e, 0x00000c58, 0x00000c5f,
 	// Entry A0 - BF
-	0x00000c64, 0x00000c6b, 0x00000c72, 0x00000c7c,
-	0x00000c83, 0x00000c97, 0x00000ca4, 0x00000cb2,
-	0x00000cc6, 0x00000cd9, 0x00000cea, 0x00000cf1,
-	0x00000cff, 0x00000d0d, 0x00000d17, 0x00000d2f,
-	0x00000d48, 0x00000d77, 0x00000d96, 0x00000dcb,
-	0x00000dd2, 0x00000dd9, 0x00000df1, 0x00000df8,
-	0x00000e41, 0x00000e5f, 0x00000e6d, 0x00000e96,
-	0x00000ea3,
-} // Size: 780 bytes
+	0x00000c66, 0x00000c6d, 0x00000c7b, 0x00000c82,
+	0x00000c89, 0x00000c93, 0x00000c9a, 0x00000cae,
+	0x00000cbb, 0x00000cc9, 0x00000cdd, 0x00000cf0,
+	0x00000d01, 0x00000d08, 0x00000d16, 0x00000d24,
+	0x00000d2e, 0x00000d46, 0x00000d5f, 0x00000d8e,
+	0x00000dad, 0x00000de2, 0x00000de9, 0x00000df0,
+	0x00000e08, 0x00000e0f, 0x00000e58, 0x00000e76,
+	0x00000e84, 0x00000ead, 0x00000eba,
+} // Size: 788 bytes
 
-const ko_KRData string = "" + // Size: 3747 bytes
+const ko_KRData string = "" + // Size: 3770 bytes
 	"\x02FRP 관리자\x02버전: %[1]s\x02FRP 버전: %[1]s\x02빌드 날짜: %[1]s\x02모든 파일\x02구성" +
 	" 파일\x02인증서 파일\x02열쇠 파일\x02로그 파일\x02새로운 버전!\x02에 대한\x02업데이트 다운로드\x02업데이트 " +
 	"확인\x02업데이트 확인\x02의견을 보거나 버그를 보고하려면 프로젝트 페이지를 방문하세요:\x02FRP 구성 문서를 보려면 " +
@@ -636,20 +640,20 @@ const ko_KRData string = "" + // Size: 3747 bytes
 	"사용자 지정 옵션\x02* FRP 설정 파일의 [common] 부분을 참고하세요.\x02구성이 이미 있습니다.\x02구성 이름" +
 	" \x22%[1]s\x22 이(가) 이미 존재합니다.\x02새 프록시\x02프록시 편집 - %[1]s\x02무작위의\x02유형" +
 	"\x02역할\x02방문객\x02비밀 키\x02지역 주소\x02로컬 포트\x02원격 포트\x02바인드 주소\x02바인드 포트\x02" +
-	"서버 이름\x02하위 도메인\x02사용자 정의 도메인\x02URL 라우팅\x02멀티플렉서\x02경로 사용자\x02대역폭\x02" +
-	"프록시 버전\x02비어 있는\x02암호화\x02압축\x02HTTP 사용자\x02HTTP 비밀번호\x02호스트 재작성\x02플러" +
-	"그인\x02플러그인 이름\x02Unix 경로\x02선택 Unix 경로\x02로컬 경로\x02디렉토리 목록에 대한 폴더를 선택하" +
-	"십시오.\x02스트립 접두사\x02부하 분산\x02그룹\x02그룹 비밀 키\x02건강 체크\x02유형\x02시간 초과\x02실" +
-	"패 횟수\x02간격\x02* FRP 에서 지원하는 매개변수를 참조하십시오.\x02프록시가 이미 있습니다.\x02프록시 이름 " +
-	"\x22%[1]s\x22 이(가) 이미 존재합니다.\x02로그 폴더 열기\x02최신\x02알려지지 않은\x02달리기\x02중지됨" +
-	"\x02시작\x02멎는\x02상태\x02원격 주소\x02복사\x02시작\x02서비스\x02중지\x02로컬 디렉토리\x02추가하다" +
-	"\x02빠른 추가\x02원격 데스크탑\x02HTTP 파일 서버\x02SOCKS5 프록시\x02켜다\x02구성 열기\x02직접 편집" +
-	"\x02도메인\x02액세스 주소 복사\x02프록시 \x22%[1]s\x22 삭제\x02\x22%[1]s\x22 프록시를 삭제하시겠" +
-	"습니까?\x02프록시 \x22%[1]s\x22 비활성화\x02\x22%[1]s\x22 프록시를 비활성화하시겠습니까?\x02폐쇄" +
-	"\x02포트\x02패시브 포트 범위\x02오류\x02* 한 줄에 하나의 링크로 일괄 가져오기를 지원합니다.\x02자동으로 이름 바" +
-	"꾸기\x02준비가 된\x02올바른 URL 목록을 입력하세요.\x02다운로드"
+	"서버 이름\x02하위 도메인\x02사용자 정의 도메인\x02URL 라우팅\x02멀티플렉서\x02경로 사용자\x02클라이언트" +
+	"\x02서버\x02대역폭\x02프록시 버전\x02비어 있는\x02암호화\x02압축\x02HTTP 사용자\x02HTTP 비밀번호" +
+	"\x02호스트 재작성\x02플러그인\x02플러그인 이름\x02Unix 경로\x02선택 Unix 경로\x02로컬 경로\x02디렉토리" +
+	" 목록에 대한 폴더를 선택하십시오.\x02스트립 접두사\x02부하 분산\x02그룹\x02그룹 비밀 키\x02건강 체크\x02유형" +
+	"\x02시간 초과\x02실패 횟수\x02간격\x02* FRP 에서 지원하는 매개변수를 참조하십시오.\x02프록시가 이미 있습니다." +
+	"\x02프록시 이름 \x22%[1]s\x22 이(가) 이미 존재합니다.\x02로그 폴더 열기\x02최신\x02알려지지 않은\x02" +
+	"달리기\x02중지됨\x02시작\x02멎는\x02상태\x02원격 주소\x02복사\x02시작\x02서비스\x02중지\x02로컬 디" +
+	"렉토리\x02추가하다\x02빠른 추가\x02원격 데스크탑\x02HTTP 파일 서버\x02SOCKS5 프록시\x02켜다\x02구" +
+	"성 열기\x02직접 편집\x02도메인\x02액세스 주소 복사\x02프록시 \x22%[1]s\x22 삭제\x02\x22%[1]s" +
+	"\x22 프록시를 삭제하시겠습니까?\x02프록시 \x22%[1]s\x22 비활성화\x02\x22%[1]s\x22 프록시를 비활성화" +
+	"하시겠습니까?\x02폐쇄\x02포트\x02패시브 포트 범위\x02오류\x02* 한 줄에 하나의 링크로 일괄 가져오기를 지원합니" +
+	"다.\x02자동으로 이름 바꾸기\x02준비가 된\x02올바른 URL 목록을 입력하세요.\x02다운로드"
 
-var zh_CNIndex = []uint32{ // 189 elements
+var zh_CNIndex = []uint32{ // 191 elements
 	// Entry 0 - 1F
 	0x00000000, 0x0000000e, 0x0000001d, 0x00000030,
 	0x00000045, 0x00000052, 0x0000005f, 0x0000006c,
@@ -685,28 +689,28 @@ var zh_CNIndex = []uint32{ // 189 elements
 	0x00000768, 0x00000772, 0x00000779, 0x00000786,
 	0x00000793, 0x000007a0, 0x000007ad, 0x000007ba,
 	0x000007c7, 0x000007d1, 0x000007e1, 0x000007ec,
-	0x000007f6, 0x00000803, 0x00000810, 0x0000081d,
+	0x000007f6, 0x00000803, 0x0000080d, 0x00000817,
 	// Entry 80 - 9F
-	0x00000821, 0x0000082e, 0x0000083b, 0x00000847,
-	0x00000853, 0x0000085f, 0x00000866, 0x00000873,
-	0x0000087f, 0x00000892, 0x0000089f, 0x000008cd,
-	0x000008da, 0x000008e7, 0x000008f4, 0x00000901,
-	0x0000090e, 0x0000091b, 0x00000928, 0x00000935,
-	0x00000942, 0x00000962, 0x00000972, 0x00000993,
-	0x000009a9, 0x000009b0, 0x000009b7, 0x000009c4,
-	0x000009ce, 0x000009db, 0x000009e8, 0x000009ef,
+	0x00000824, 0x00000831, 0x00000835, 0x00000842,
+	0x0000084f, 0x0000085b, 0x00000867, 0x00000873,
+	0x0000087a, 0x00000887, 0x00000893, 0x000008a6,
+	0x000008b3, 0x000008e1, 0x000008ee, 0x000008fb,
+	0x00000908, 0x00000915, 0x00000922, 0x0000092f,
+	0x0000093c, 0x00000949, 0x00000956, 0x00000976,
+	0x00000986, 0x000009a7, 0x000009bd, 0x000009c4,
+	0x000009cb, 0x000009d8, 0x000009e2, 0x000009ef,
 	// Entry A0 - BF
-	0x000009fc, 0x00000a03, 0x00000a0a, 0x00000a11,
-	0x00000a18, 0x00000a25, 0x00000a2c, 0x00000a39,
-	0x00000a46, 0x00000a58, 0x00000a66, 0x00000a6d,
-	0x00000a80, 0x00000a8d, 0x00000a94, 0x00000aa7,
-	0x00000abf, 0x00000ae6, 0x00000afe, 0x00000b25,
-	0x00000b2c, 0x00000b33, 0x00000b46, 0x00000b4d,
-	0x00000b7a, 0x00000b8a, 0x00000b97, 0x00000bb8,
-	0x00000bbf,
-} // Size: 780 bytes
+	0x000009fc, 0x00000a03, 0x00000a10, 0x00000a17,
+	0x00000a1e, 0x00000a25, 0x00000a2c, 0x00000a39,
+	0x00000a40, 0x00000a4d, 0x00000a5a, 0x00000a6c,
+	0x00000a7a, 0x00000a81, 0x00000a94, 0x00000aa1,
+	0x00000aa8, 0x00000abb, 0x00000ad3, 0x00000afa,
+	0x00000b12, 0x00000b39, 0x00000b40, 0x00000b47,
+	0x00000b5a, 0x00000b61, 0x00000b8e, 0x00000b9e,
+	0x00000bab, 0x00000bcc, 0x00000bd3,
+} // Size: 788 bytes
 
-const zh_CNData string = "" + // Size: 3007 bytes
+const zh_CNData string = "" + // Size: 3027 bytes
 	"\x02FRP 管理器\x02版本：%[1]s\x02FRP 版本：%[1]s\x02构建日期：%[1]s\x02所有文件\x02配置文件" +
 	"\x02证书文件\x02密钥文件\x02日志文件\x02发现更新！\x02关于\x02下载更新\x02正在检查更新\x02检查更新\x02如有任" +
 	"何意见或报告错误，请访问项目地址：\x02了解 FRP 软件配置文档，请访问 FRP 项目地址：\x02检查更新时出现错误。\x02当前没有" +
@@ -724,18 +728,18 @@ const zh_CNData string = "" + // Size: 3007 bytes
 	"址\x02其他选项\x02初次登录失败后退出\x02禁用开机自启动\x02自定义\x02自定义参数\x02* 参考 FRP 配置文件的 [c" +
 	"ommon] 部分。\x02配置已存在\x02配置名「%[1]s」已存在。\x02新建代理\x02编辑代理 - %[1]s\x02随机名称" +
 	"\x02类型\x02角色\x02访问者\x02私钥\x02本地地址\x02本地端口\x02远程端口\x02绑定地址\x02绑定端口\x02服务名" +
-	"称\x02子域名\x02自定义域名\x02URL 路由\x02复用器\x02路由用户\x02带宽限流\x02代理版本\x02空\x02加密传" +
-	"输\x02压缩传输\x02HTTP 用户\x02HTTP 密码\x02Host 替换\x02插件\x02插件名称\x02Unix 路径" +
-	"\x02选择 Unix 路径\x02本地路径\x02选择需要显示目录列表的文件夹。\x02移除前缀\x02负载均衡\x02分组名称\x02分组密" +
-	"钥\x02健康检查\x02检查类型\x02检查超时\x02错误次数\x02检查周期\x02* 参考 FRP 支持的参数。\x02代理已存在" +
-	"\x02代理名「%[1]s」已存在。\x02打开日志文件夹\x02最新\x02未知\x02正在运行\x02已停止\x02正在启动\x02正在停止" +
-	"\x02状态\x02远程地址\x02复制\x02启动\x02服务\x02停止\x02本地目录\x02添加\x02快速添加\x02远程桌面\x02" +
-	"HTTP 文件服务\x02SOCKS5 代理\x02启用\x02打开配置文件\x02直接编辑\x02域名\x02复制访问地址\x02删除代理「%" +
-	"[1]s」\x02确定要删除代理「%[1]s」吗？\x02禁用代理「%[1]s」\x02确定要禁用代理「%[1]s」吗？\x02禁用\x02端口" +
-	"\x02被动端口范围\x02错误\x02* 支持批量导入，每行一个链接。\x02自动重命名\x02准备就绪\x02请输入正确的 URL 列表。" +
-	"\x02下载"
+	"称\x02子域名\x02自定义域名\x02URL 路由\x02复用器\x02路由用户\x02客户端\x02服务端\x02带宽限流\x02代理" +
+	"版本\x02空\x02加密传输\x02压缩传输\x02HTTP 用户\x02HTTP 密码\x02Host 替换\x02插件\x02插件名称" +
+	"\x02Unix 路径\x02选择 Unix 路径\x02本地路径\x02选择需要显示目录列表的文件夹。\x02移除前缀\x02负载均衡\x02" +
+	"分组名称\x02分组密钥\x02健康检查\x02检查类型\x02检查超时\x02错误次数\x02检查周期\x02* 参考 FRP 支持的参数" +
+	"。\x02代理已存在\x02代理名「%[1]s」已存在。\x02打开日志文件夹\x02最新\x02未知\x02正在运行\x02已停止\x02" +
+	"正在启动\x02正在停止\x02状态\x02远程地址\x02复制\x02启动\x02服务\x02停止\x02本地目录\x02添加\x02快速" +
+	"添加\x02远程桌面\x02HTTP 文件服务\x02SOCKS5 代理\x02启用\x02打开配置文件\x02直接编辑\x02域名\x02" +
+	"复制访问地址\x02删除代理「%[1]s」\x02确定要删除代理「%[1]s」吗？\x02禁用代理「%[1]s」\x02确定要禁用代理「%[" +
+	"1]s」吗？\x02禁用\x02端口\x02被动端口范围\x02错误\x02* 支持批量导入，每行一个链接。\x02自动重命名\x02准备就绪" +
+	"\x02请输入正确的 URL 列表。\x02下载"
 
-var zh_TWIndex = []uint32{ // 189 elements
+var zh_TWIndex = []uint32{ // 191 elements
 	// Entry 0 - 1F
 	0x00000000, 0x0000000e, 0x0000001d, 0x00000030,
 	0x00000045, 0x00000052, 0x0000005f, 0x0000006c,
@@ -771,28 +775,28 @@ var zh_TWIndex = []uint32{ // 189 elements
 	0x00000768, 0x00000772, 0x00000779, 0x00000786,
 	0x00000793, 0x000007a0, 0x000007ad, 0x000007ba,
 	0x000007c7, 0x000007d1, 0x000007e1, 0x000007ec,
-	0x000007f6, 0x00000803, 0x00000810, 0x0000081d,
+	0x000007f6, 0x00000803, 0x0000080d, 0x00000817,
 	// Entry 80 - 9F
-	0x00000821, 0x0000082e, 0x0000083b, 0x00000847,
-	0x00000853, 0x0000085f, 0x00000866, 0x00000873,
-	0x0000087f, 0x00000892, 0x0000089f, 0x000008cd,
-	0x000008da, 0x000008e7, 0x000008f4, 0x00000901,
-	0x0000090e, 0x0000091b, 0x00000928, 0x00000935,
-	0x00000942, 0x00000962, 0x00000972, 0x00000993,
-	0x000009a9, 0x000009b0, 0x000009b7, 0x000009c4,
-	0x000009ce, 0x000009db, 0x000009e8, 0x000009ef,
+	0x00000824, 0x00000831, 0x00000835, 0x00000842,
+	0x0000084f, 0x0000085b, 0x00000867, 0x00000873,
+	0x0000087a, 0x00000887, 0x00000893, 0x000008a6,
+	0x000008b3, 0x000008e1, 0x000008ee, 0x000008fb,
+	0x00000908, 0x00000915, 0x00000922, 0x0000092f,
+	0x0000093c, 0x00000949, 0x00000956, 0x00000976,
+	0x00000986, 0x000009a7, 0x000009bd, 0x000009c4,
+	0x000009cb, 0x000009d8, 0x000009e2, 0x000009ef,
 	// Entry A0 - BF
-	0x000009fc, 0x00000a03, 0x00000a0a, 0x00000a11,
-	0x00000a18, 0x00000a25, 0x00000a2c, 0x00000a39,
-	0x00000a46, 0x00000a58, 0x00000a66, 0x00000a6d,
-	0x00000a80, 0x00000a8d, 0x00000a94, 0x00000aa7,
-	0x00000abf, 0x00000ae6, 0x00000afe, 0x00000b25,
-	0x00000b2c, 0x00000b33, 0x00000b46, 0x00000b4d,
-	0x00000b7a, 0x00000b8a, 0x00000b97, 0x00000bb8,
-	0x00000bbf,
-} // Size: 780 bytes
+	0x000009fc, 0x00000a03, 0x00000a10, 0x00000a17,
+	0x00000a1e, 0x00000a25, 0x00000a2c, 0x00000a39,
+	0x00000a40, 0x00000a4d, 0x00000a5a, 0x00000a6c,
+	0x00000a7a, 0x00000a81, 0x00000a94, 0x00000aa1,
+	0x00000aa8, 0x00000abb, 0x00000ad3, 0x00000afa,
+	0x00000b12, 0x00000b39, 0x00000b40, 0x00000b47,
+	0x00000b5a, 0x00000b61, 0x00000b8e, 0x00000b9e,
+	0x00000bab, 0x00000bcc, 0x00000bd3,
+} // Size: 788 bytes
 
-const zh_TWData string = "" + // Size: 3007 bytes
+const zh_TWData string = "" + // Size: 3027 bytes
 	"\x02FRP 管理器\x02版本：%[1]s\x02FRP 版本：%[1]s\x02構建日期：%[1]s\x02所有文件\x02配置文件" +
 	"\x02證書文件\x02密鑰文件\x02日誌文件\x02發現更新！\x02關於\x02下載更新\x02正在檢查更新\x02檢查更新\x02如有任" +
 	"何意見或報告錯誤，請訪問項目地址：\x02了解 FRP 軟件配置文檔，請訪問 FRP 項目地址：\x02檢查更新時出現錯誤。\x02當前沒有" +
@@ -810,15 +814,15 @@ const zh_TWData string = "" + // Size: 3007 bytes
 	"址\x02其他選項\x02初次登錄失敗後退出\x02禁用開機自啟動\x02自定義\x02自定義參數\x02* 參考 FRP 配置文件的 [c" +
 	"ommon] 部分。\x02配置已存在\x02配置名「%[1]s」已存在。\x02新建代理\x02編輯代理 - %[1]s\x02隨機名稱" +
 	"\x02類型\x02角色\x02訪問者\x02私鑰\x02本地地址\x02本地端口\x02遠程端口\x02綁定地址\x02綁定端口\x02服務名" +
-	"稱\x02子域名\x02自定義域名\x02URL 路由\x02復用器\x02路由用戶\x02帶寬限流\x02代理版本\x02空\x02加密傳" +
-	"輸\x02壓縮傳輸\x02HTTP 用戶\x02HTTP 密碼\x02Host 替換\x02插件\x02插件名稱\x02Unix 路徑" +
-	"\x02選擇 Unix 路徑\x02本地路徑\x02選擇需要顯示目錄列表的文件夾。\x02移除前綴\x02負載均衡\x02分組名稱\x02分組密" +
-	"鑰\x02健康檢查\x02檢查類型\x02檢查超時\x02錯誤次數\x02檢查週期\x02* 參考 FRP 支持的參數。\x02代理已存在" +
-	"\x02代理名「%[1]s」已存在。\x02打開日誌文件夾\x02最新\x02未知\x02正在運行\x02已停止\x02正在啟動\x02正在停止" +
-	"\x02狀態\x02遠程地址\x02複製\x02啟動\x02服務\x02停止\x02本地目錄\x02添加\x02快速添加\x02遠程桌面\x02" +
-	"HTTP 文件服務\x02SOCKS5 代理\x02啟用\x02打開配置文件\x02直接編輯\x02域名\x02複製訪問地址\x02刪除代理「%" +
-	"[1]s」\x02確定要刪除代理「%[1]s」嗎？\x02禁用代理「%[1]s」\x02確定要禁用代理「%[1]s」嗎？\x02禁用\x02端口" +
-	"\x02被動端口範圍\x02錯誤\x02* 支持批量導入，每行一個鏈接。\x02自動重命名\x02準備就緒\x02請輸入正確的 URL 列表。" +
-	"\x02下載"
+	"稱\x02子域名\x02自定義域名\x02URL 路由\x02復用器\x02路由用戶\x02客戶端\x02服務端\x02帶寬限流\x02代理" +
+	"版本\x02空\x02加密傳輸\x02壓縮傳輸\x02HTTP 用戶\x02HTTP 密碼\x02Host 替換\x02插件\x02插件名稱" +
+	"\x02Unix 路徑\x02選擇 Unix 路徑\x02本地路徑\x02選擇需要顯示目錄列表的文件夾。\x02移除前綴\x02負載均衡\x02" +
+	"分組名稱\x02分組密鑰\x02健康檢查\x02檢查類型\x02檢查超時\x02錯誤次數\x02檢查週期\x02* 參考 FRP 支持的參數" +
+	"。\x02代理已存在\x02代理名「%[1]s」已存在。\x02打開日誌文件夾\x02最新\x02未知\x02正在運行\x02已停止\x02" +
+	"正在啟動\x02正在停止\x02狀態\x02遠程地址\x02複製\x02啟動\x02服務\x02停止\x02本地目錄\x02添加\x02快速" +
+	"添加\x02遠程桌面\x02HTTP 文件服務\x02SOCKS5 代理\x02啟用\x02打開配置文件\x02直接編輯\x02域名\x02" +
+	"複製訪問地址\x02刪除代理「%[1]s」\x02確定要刪除代理「%[1]s」嗎？\x02禁用代理「%[1]s」\x02確定要禁用代理「%[" +
+	"1]s」嗎？\x02禁用\x02端口\x02被動端口範圍\x02錯誤\x02* 支持批量導入，每行一個鏈接。\x02自動重命名\x02準備就緒" +
+	"\x02請輸入正確的 URL 列表。\x02下載"
 
-	// Total table size 25762 bytes (25KiB); checksum: 5E3160F2
+	// Total table size 25921 bytes (25KiB); checksum: DC5598BB

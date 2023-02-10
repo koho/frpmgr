@@ -745,6 +745,16 @@
             "translation": "경로 사용자"
         },
         {
+            "id": "Client",
+            "message": "Client",
+            "translation": "클라이언트"
+        },
+        {
+            "id": "Server",
+            "message": "Server",
+            "translation": "서버"
+        },
+        {
             "id": "Bandwidth",
             "message": "Bandwidth",
             "translation": "대역폭"

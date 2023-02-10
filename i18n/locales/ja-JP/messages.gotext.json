@@ -755,6 +755,16 @@
             "translation": "ルートユーザー"
         },
         {
+            "id": "Client",
+            "message": "Client",
+            "translation": "クライアント"
+        },
+        {
+            "id": "Server",
+            "message": "Server",
+            "translation": "サーバ"
+        },
+        {
             "id": "Bandwidth",
             "message": "Bandwidth",
             "translation": "帯域幅"
@@ -762,7 +772,7 @@
         {
             "id": "Proxy Version",
             "message": "Proxy Version",
-            "translation": "プロキシバージョン"
+            "translation": "プロキシ版"
         },
         {
             "id": "Empty",

@@ -1,5 +1,7 @@
 package consts
 
+import "github.com/fatedier/frp/pkg/config"
+
 const RangePrefix = "range:"
 
 // Protocols
@@ -53,4 +55,13 @@ const (
 // TCP multiplexer
 const (
 	HTTPConnectTCPMultiplexer = "httpconnect"
+)
+
+// Bandwidth
+var (
+	Bandwidth     = []string{"MB", "KB"}
+	BandwidthMode = []string{
+		config.BandwidthLimitModeClient,
+		config.BandwidthLimitModeServer,
+	}
 )

@@ -82,6 +82,9 @@ func NewEditProxyDialog(proxy *config.Proxy, exist bool) *EditProxyDialog {
 		Visitor: proxy.IsVisitor(),
 	}
 	v.binder.BandwidthNum, v.binder.BandwidthUnit = splitBandwidth(v.Proxy.BandwidthLimit)
+	if v.Proxy.BandwidthLimitMode == "" {
+		v.binder.BandwidthLimitMode = consts.BandwidthMode[0]
+	}
 	return v
 }
 
@@ -208,6 +211,8 @@ func (pd *EditProxyDialog) basicProxyPage() TabPage {
 }
 
 func (pd *EditProxyDialog) advancedProxyPage() TabPage {
+	bandwidthMode := NewStringPairModel(consts.BandwidthMode,
+		[]string{i18n.Sprintf("Client"), i18n.Sprintf("Server")}, "")
 	return TabPage{
 		Title:  i18n.Sprintf("Advanced"),
 		Layout: Grid{Columns: 2},
@@ -218,7 +223,14 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 				Layout:  HBox{MarginsZero: true},
 				Children: []Widget{
 					LineEdit{Text: Bind("BandwidthNum")},
-					ComboBox{Model: []string{"MB", "KB"}, Value: Bind("BandwidthUnit")},
+					ComboBox{Model: consts.Bandwidth, Value: Bind("BandwidthUnit")},
+					Label{Text: "@"},
+					ComboBox{
+						Model:         bandwidthMode,
+						BindingMember: "Name",
+						DisplayMember: "DisplayName",
+						Value:         Bind("BandwidthLimitMode"),
+					},
 				},
 			},
 			Label{Visible: Bind("vm.PluginEnable"), Text: i18n.SprintfColon("Proxy Version")},
@@ -373,8 +385,12 @@ func (pd *EditProxyDialog) onSave() {
 	// Update bandwidth
 	if pd.binder.BandwidthNum != "" {
 		pd.binder.Proxy.BandwidthLimit = pd.binder.BandwidthNum + pd.binder.BandwidthUnit
+		if pd.binder.Proxy.BandwidthLimitMode == consts.BandwidthMode[0] {
+			pd.binder.Proxy.BandwidthLimitMode = ""
+		}
 	} else {
 		pd.binder.Proxy.BandwidthLimit = ""
+		pd.binder.Proxy.BandwidthLimitMode = ""
 	}
 	pb, err := pd.binder.Proxy.Marshal()
 	if err != nil {

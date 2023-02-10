@@ -745,6 +745,16 @@
             "translation": "Usuario de ruta"
         },
         {
+            "id": "Client",
+            "message": "Client",
+            "translation": "Cliente"
+        },
+        {
+            "id": "Server",
+            "message": "Server",
+            "translation": "Servidor"
+        },
+        {
             "id": "Bandwidth",
             "message": "Bandwidth",
             "translation": "Banda ancha"

@@ -96,7 +96,8 @@ type BaseProxyConf struct {
 
 	// BandwidthLimit limit the bandwidth
 	// 0 means no limit
-	BandwidthLimit string `ini:"bandwidth_limit,omitempty"`
+	BandwidthLimit     string `ini:"bandwidth_limit,omitempty"`
+	BandwidthLimitMode string `ini:"bandwidth_limit_mode,omitempty"`
 
 	// LocalIP specifies the IP address or host name.
 	LocalIP string `ini:"local_ip,omitempty"`

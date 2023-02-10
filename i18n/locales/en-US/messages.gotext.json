@@ -995,6 +995,20 @@
             "fuzzy": true
         },
         {
+            "id": "Client",
+            "message": "Client",
+            "translation": "Client",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Server",
+            "message": "Server",
+            "translation": "Server",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Bandwidth",
             "message": "Bandwidth",
             "translation": "Bandwidth",
