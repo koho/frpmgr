@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.11.0] - 2023-02-10
 
-## What's Changed
+### What's Changed
 * View old history log files by @koho in https://github.com/koho/frpmgr/pull/30
 * Show item name in dialog title
 * Show blue config name when config is set to start manually
@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Support go1.20
 * Support `bandwidth_limit_mode` option
 
-## Update
+### Update
 * FRP v0.47.0
 
 **Full Changelog**: https://github.com/koho/frpmgr/compare/v1.10.1...v1.11.0
