@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.11.0] - 2023-02-10
+
+## What's Changed
+* View old history log files by @koho in https://github.com/koho/frpmgr/pull/30
+* Show item name in dialog title
+* Show blue config name when config is set to start manually
+* Set gray background color for disabled proxy
+* Support go1.20
+* Support `bandwidth_limit_mode` option
+
+## Update
+* FRP v0.47.0
+
+**Full Changelog**: https://github.com/koho/frpmgr/compare/v1.10.1...v1.11.0
+
 ## [1.10.1] - 2023-01-10
 ### 新增
 * 自定义 DNS 服务
@@ -201,7 +216,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * 解决某些情况下电脑重启后服务没有自动运行问题
 * 更新软件后需打开软件，选择左侧配置项后右键编辑，然后直接确定，再启动即可
 
-[Unreleased]: https://github.com/koho/frpmgr/compare/v1.10.1...HEAD
+[Unreleased]: https://github.com/koho/frpmgr/compare/v1.11.0...HEAD
+[1.11.0]: https://github.com/koho/frpmgr/compare/v1.10.1...v1.11.0
 [1.10.1]: https://github.com/koho/frpmgr/compare/v1.10.0...v1.10.1
 [1.10.0]: https://github.com/koho/frpmgr/compare/v1.9.2...v1.10.0
 [1.9.2]: https://github.com/koho/frpmgr/compare/v1.9.1...v1.9.2
