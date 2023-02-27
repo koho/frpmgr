@@ -2,11 +2,6 @@
     "language": "ja-JP",
     "messages": [
         {
-            "id": "FRP Manager",
-            "message": "FRP Manager",
-            "translation": "FRP マネージャ"
-        },
-        {
             "id": "Version: {Number}",
             "message": "Version: {Number}",
             "translation": "バージョン：{Number}",
@@ -980,6 +975,101 @@
             "translation": "追加"
         },
         {
+            "id": "Preferences",
+            "message": "Preferences",
+            "translation": "環境設定"
+        },
+        {
+            "id": "Master password",
+            "message": "Master password",
+            "translation": "マスターパスワード"
+        },
+        {
+            "id": "You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.",
+            "message": "You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.",
+            "translation": "パスワードを設定して、このプログラムへのアクセスを制限できます。\n次回このプログラムを使用するときに入力するよう求められます。"
+        },
+        {
+            "id": "Use master password",
+            "message": "Use master password",
+            "translation": "マスターパスワードを使用する"
+        },
+        {
+            "id": "Change Password",
+            "message": "Change Password",
+            "translation": "パスワードを変更する"
+        },
+        {
+            "id": "Languages",
+            "message": "Languages",
+            "translation": "言語"
+        },
+        {
+            "id": "The current display language is",
+            "message": "The current display language is",
+            "translation": "現在の表示言語は"
+        },
+        {
+            "id": "You must restart program to apply the modification.",
+            "message": "You must restart program to apply the modification.",
+            "translation": "変更を適用するには、プログラムを再起動する必要があります。"
+        },
+        {
+            "id": "Select language",
+            "message": "Select language",
+            "translation": "言語を選択する"
+        },
+        {
+            "id": "Defaults",
+            "message": "Defaults",
+            "translation": "デフォルト"
+        },
+        {
+            "id": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
+            "message": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
+            "translation": "新しい設定を作成するときのデフォルト値を定義します。\nここでの値は、既存の設定には影響しません。"
+        },
+        {
+            "id": "Set Defaults",
+            "message": "Set Defaults",
+            "translation": "デフォルトの設定"
+        },
+        {
+            "id": "Password removed.",
+            "message": "Password removed.",
+            "translation": "パスワードが解除されました。"
+        },
+        {
+            "id": "New master password",
+            "message": "New master password",
+            "translation": "新しいマスターパスワード"
+        },
+        {
+            "id": "Re-enter password",
+            "message": "Re-enter password",
+            "translation": "再入力"
+        },
+        {
+            "id": "Password is set.",
+            "message": "Password is set.",
+            "translation": "パスワードが設定されています。"
+        },
+        {
+            "id": "Log Level",
+            "message": "Log Level",
+            "translation": "ログレベル"
+        },
+        {
+            "id": "Log retention",
+            "message": "Log retention",
+            "translation": "ログ保持"
+        },
+        {
+            "id": "Days",
+            "message": "Days",
+            "translation": "日"
+        },
+        {
             "id": "Quick Add",
             "message": "Quick Add",
             "translation": "クイック追加"
@@ -1100,9 +1190,12 @@
             "translation": "パッシブポート範囲"
         },
         {
-            "id": "Error",
-            "message": "Error",
-            "translation": "エラー"
+            "id": [
+                "AppName",
+                "FRP Manager"
+            ],
+            "message": "FRP Manager",
+            "translation": "FRP マネージャ"
         },
         {
             "id": "* Support batch import, one link per line.",
@@ -1128,6 +1221,36 @@
             "id": "Download",
             "message": "Download",
             "translation": "ダウンロード"
+        },
+        {
+            "id": "Enter Password",
+            "message": "Enter Password",
+            "translation": "パスワードを入力する"
+        },
+        {
+            "id": "You must enter an administration password to operate the {AppLocalName}.",
+            "message": "You must enter an administration password to operate the {AppLocalName}.",
+            "translation": "{AppLocalName} を操作するには、管理パスワードを入力する必要があります。",
+            "placeholders": [
+                {
+                    "id": "AppLocalName",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "AppLocalName"
+                }
+            ]
+        },
+        {
+            "id": "Enter Administration Password",
+            "message": "Enter Administration Password",
+            "translation": "管理者パスワードを入力"
+        },
+        {
+            "id": "The password is incorrect. Re-enter password.",
+            "message": "The password is incorrect. Re-enter password.",
+            "translation": "パスワードが正しくありません。 パスワード再入力。"
         }
     ]
 }

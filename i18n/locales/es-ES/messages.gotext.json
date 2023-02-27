@@ -2,11 +2,6 @@
     "language": "es-ES",
     "messages": [
         {
-            "id": "FRP Manager",
-            "message": "FRP Manager",
-            "translation": "Administrador de FRP"
-        },
-        {
             "id": "Version: {Number}",
             "message": "Version: {Number}",
             "translation": "Versión: {Number}",
@@ -970,6 +965,101 @@
             "translation": "Agregar"
         },
         {
+            "id": "Preferences",
+            "message": "Preferences",
+            "translation": "Preferencias"
+        },
+        {
+            "id": "Master password",
+            "message": "Master password",
+            "translation": "Contraseña maestra"
+        },
+        {
+            "id": "You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.",
+            "message": "You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.",
+            "translation": "Puede establecer una contraseña para restringir el acceso a este programa.\nSe le pedirá que lo ingrese la próxima vez que use este programa."
+        },
+        {
+            "id": "Use master password",
+            "message": "Use master password",
+            "translation": "Usar contraseña maestra"
+        },
+        {
+            "id": "Change Password",
+            "message": "Change Password",
+            "translation": "Cambiar la contraseña"
+        },
+        {
+            "id": "Languages",
+            "message": "Languages",
+            "translation": "Idiomas"
+        },
+        {
+            "id": "The current display language is",
+            "message": "The current display language is",
+            "translation": "El idioma de visualización actual es"
+        },
+        {
+            "id": "You must restart program to apply the modification.",
+            "message": "You must restart program to apply the modification.",
+            "translation": "Debe reiniciar el programa para aplicar la modificación."
+        },
+        {
+            "id": "Select language",
+            "message": "Select language",
+            "translation": "Seleccione el idioma"
+        },
+        {
+            "id": "Defaults",
+            "message": "Defaults",
+            "translation": "Predeterminados"
+        },
+        {
+            "id": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
+            "message": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
+            "translation": "Defina el valor predeterminado al crear una nueva configuración.\nEl valor aquí no afectará la configuración existente."
+        },
+        {
+            "id": "Set Defaults",
+            "message": "Set Defaults",
+            "translation": "Valor ajustado"
+        },
+        {
+            "id": "Password removed.",
+            "message": "Password removed.",
+            "translation": "Contraseña eliminada."
+        },
+        {
+            "id": "New master password",
+            "message": "New master password",
+            "translation": "Nueva contraseña maestra"
+        },
+        {
+            "id": "Re-enter password",
+            "message": "Re-enter password",
+            "translation": "Escriba la contraseña otra vez"
+        },
+        {
+            "id": "Password is set.",
+            "message": "Password is set.",
+            "translation": "La contraseña está configurada."
+        },
+        {
+            "id": "Log Level",
+            "message": "Log Level",
+            "translation": "Nivel de registro"
+        },
+        {
+            "id": "Log retention",
+            "message": "Log retention",
+            "translation": "Retención de registros"
+        },
+        {
+            "id": "Days",
+            "message": "Days",
+            "translation": "Días"
+        },
+        {
             "id": "Quick Add",
             "message": "Quick Add",
             "translation": "Añadir rápido"
@@ -1090,9 +1180,12 @@
             "translation": "Gama de puertos pasivos"
         },
         {
-            "id": "Error",
-            "message": "Error",
-            "translation": "Error"
+            "id": [
+                "AppName",
+                "FRP Manager"
+            ],
+            "message": "FRP Manager",
+            "translation": "Administrador de FRP"
         },
         {
             "id": "* Support batch import, one link per line.",
@@ -1118,6 +1211,36 @@
             "id": "Download",
             "message": "Download",
             "translation": "Descargar"
+        },
+        {
+            "id": "Enter Password",
+            "message": "Enter Password",
+            "translation": "Introducir la contraseña"
+        },
+        {
+            "id": "You must enter an administration password to operate the {AppLocalName}.",
+            "message": "You must enter an administration password to operate the {AppLocalName}.",
+            "translation": "Debe ingresar una contraseña de administración para operar {AppLocalName}.",
+            "placeholders": [
+                {
+                    "id": "AppLocalName",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "AppLocalName"
+                }
+            ]
+        },
+        {
+            "id": "Enter Administration Password",
+            "message": "Enter Administration Password",
+            "translation": "Ingrese la contraseña de administración"
+        },
+        {
+            "id": "The password is incorrect. Re-enter password.",
+            "message": "The password is incorrect. Re-enter password.",
+            "translation": "La contraseña es incorrecta. Escriba la contraseña otra vez."
         }
     ]
 }

@@ -46,8 +46,7 @@ type editClientBinder struct {
 func NewEditClientDialog(conf *Conf, name string) *EditClientDialog {
 	v := new(EditClientDialog)
 	if conf == nil {
-		newConf := config.NewDefaultClientConfig()
-		newConf.AuthMethod = ""
+		newConf := newDefaultClientConfig()
 		v.Conf = &Conf{Data: newConf}
 	} else {
 		v.Conf = conf
@@ -137,11 +136,11 @@ func (cd *EditClientDialog) authConfPage() TabPage {
 				{Name: "noAuthCheck", Text: i18n.Sprintf("None"), Value: ""},
 			}),
 			Label{Visible: Bind("tokenCheck.Checked"), Text: i18n.SprintfColon("Token")},
-			LineEdit{Visible: Bind("tokenCheck.Checked"), Text: Bind("Token")},
+			LineEdit{Visible: Bind("tokenCheck.Checked"), Text: Bind("Token"), PasswordMode: true},
 			Label{Visible: Bind("oidcCheck.Checked"), Text: "ID:"},
 			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCClientId")},
 			Label{Visible: Bind("oidcCheck.Checked"), Text: i18n.SprintfColon("Secret")},
-			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCClientSecret")},
+			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCClientSecret"), PasswordMode: true},
 			Label{Visible: Bind("oidcCheck.Checked"), Text: i18n.SprintfColon("Audience")},
 			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCAudience")},
 			Label{Visible: Bind("oidcCheck.Checked"), Text: i18n.SprintfColon("Scope")},
@@ -174,7 +173,7 @@ func (cd *EditClientDialog) logConfPage() TabPage {
 			Label{Text: i18n.SprintfColon("Level")},
 			ComboBox{
 				Value: Bind("LogLevel"),
-				Model: []string{"trace", "debug", "info", "warn", "error"},
+				Model: consts.LogLevels,
 			},
 			Label{Text: i18n.SprintfColon("Max Days")},
 			NumberEdit{Value: Bind("LogMaxDays")},
@@ -219,7 +218,7 @@ func (cd *EditClientDialog) connectionConfPage() TabPage {
 			ComboBox{
 				Name:  "proto",
 				Value: Bind("Protocol"),
-				Model: []string{consts.ProtoTCP, consts.ProtoKCP, consts.ProtoQUIC, consts.ProtoWebsocket},
+				Model: consts.Protocols,
 			},
 			Label{Text: i18n.SprintfColon("HTTP Proxy")},
 			LineEdit{Text: Bind("HTTPProxy")},

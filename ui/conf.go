@@ -66,6 +66,12 @@ func (conf *Conf) Save() error {
 }
 
 var (
+	appConf = config.App{Defaults: config.ClientCommon{
+		ServerPort: "7000",
+		LogLevel:   "info",
+		LogMaxDays: 3,
+		TCPMux:     true,
+	}}
 	// The config list contains all the loaded configs
 	confList  []*Conf
 	confMutex sync.Mutex
@@ -73,6 +79,7 @@ var (
 )
 
 func loadAllConfs() error {
+	_ = config.UnmarshalAppConfFromIni(config.DefaultAppFile, &appConf)
 	// Find all config files in `profiles` directory
 	files, err := filepath.Glob(PathOfConf("*.ini"))
 	if err != nil {
@@ -154,4 +161,14 @@ func commitConf(conf *Conf, forceStart bool) {
 			ds.Commit(conf, forceStart)
 		}
 	}
+}
+
+func newDefaultClientConfig() *config.ClientConfig {
+	return &config.ClientConfig{
+		ClientCommon: appConf.Defaults,
+	}
+}
+
+func saveAppConfig() error {
+	return appConf.Save(config.DefaultAppFile)
 }

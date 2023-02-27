@@ -52,6 +52,9 @@ const (
 	IconStateRunning = 101
 	IconStateStopped = 21
 	IconStateWorking = 238
+	IconDefaults     = 156
+	IconKey          = 29
+	IconLanguage     = 89
 )
 
 // Colors
@@ -96,4 +99,13 @@ var (
 	ValidateNonEmpty       = Regexp{Pattern: "[^\\s]+"}
 	ValidateRequireInteger = Regexp{Pattern: "^\\d+$"}
 	ValidateInteger        = Regexp{Pattern: "^\\d*$"}
+)
+
+// Dialogs
+const (
+	DialogValidate = "VALDLG"
+	DialogTitle    = 2000
+	DialogStatic1  = 2001
+	DialogStatic2  = 2002
+	DialogEdit     = 2003
 )

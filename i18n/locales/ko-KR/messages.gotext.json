@@ -2,11 +2,6 @@
     "language": "ko-KR",
     "messages": [
         {
-            "id": "FRP Manager",
-            "message": "FRP Manager",
-            "translation": "FRP 관리자"
-        },
-        {
             "id": "Version: {Number}",
             "message": "Version: {Number}",
             "translation": "버전: {Number}",
@@ -970,6 +965,101 @@
             "translation": "추가하다"
         },
         {
+            "id": "Preferences",
+            "message": "Preferences",
+            "translation": "옵션"
+        },
+        {
+            "id": "Master password",
+            "message": "Master password",
+            "translation": "마스터 비밀번호"
+        },
+        {
+            "id": "You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.",
+            "message": "You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.",
+            "translation": "이 프로그램에 대한 액세스를 제한하기 위해 암호를 설정할 수 있습니다.\n다음에 이 프로그램을 사용할 때 입력하라는 메시지가 표시됩니다."
+        },
+        {
+            "id": "Use master password",
+            "message": "Use master password",
+            "translation": "마스터 비밀번호 사용"
+        },
+        {
+            "id": "Change Password",
+            "message": "Change Password",
+            "translation": "비밀번호 변경"
+        },
+        {
+            "id": "Languages",
+            "message": "Languages",
+            "translation": "언어"
+        },
+        {
+            "id": "The current display language is",
+            "message": "The current display language is",
+            "translation": "현재 표시 언어는"
+        },
+        {
+            "id": "You must restart program to apply the modification.",
+            "message": "You must restart program to apply the modification.",
+            "translation": "수정 사항을 적용하려면 프로그램을 재시작해야 합니다."
+        },
+        {
+            "id": "Select language",
+            "message": "Select language",
+            "translation": "언어 선택"
+        },
+        {
+            "id": "Defaults",
+            "message": "Defaults",
+            "translation": "기본값"
+        },
+        {
+            "id": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
+            "message": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
+            "translation": "새 구성을 만들 때 기본값을 정의합니다.\n여기의 값은 기존 구성에 영향을 주지 않습니다."
+        },
+        {
+            "id": "Set Defaults",
+            "message": "Set Defaults",
+            "translation": "기본값으로 설정"
+        },
+        {
+            "id": "Password removed.",
+            "message": "Password removed.",
+            "translation": "암호가 제거되었습니다."
+        },
+        {
+            "id": "New master password",
+            "message": "New master password",
+            "translation": "새 마스터 비밀번호"
+        },
+        {
+            "id": "Re-enter password",
+            "message": "Re-enter password",
+            "translation": "비밀번호 재입력"
+        },
+        {
+            "id": "Password is set.",
+            "message": "Password is set.",
+            "translation": "비밀번호가 설정되어 있습니다."
+        },
+        {
+            "id": "Log Level",
+            "message": "Log Level",
+            "translation": "로그 수준"
+        },
+        {
+            "id": "Log retention",
+            "message": "Log retention",
+            "translation": "로그 보존"
+        },
+        {
+            "id": "Days",
+            "message": "Days",
+            "translation": "날"
+        },
+        {
             "id": "Quick Add",
             "message": "Quick Add",
             "translation": "빠른 추가"
@@ -1090,9 +1180,12 @@
             "translation": "패시브 포트 범위"
         },
         {
-            "id": "Error",
-            "message": "Error",
-            "translation": "오류"
+            "id": [
+                "AppName",
+                "FRP Manager"
+            ],
+            "message": "FRP Manager",
+            "translation": "FRP 관리자"
         },
         {
             "id": "* Support batch import, one link per line.",
@@ -1118,6 +1211,36 @@
             "id": "Download",
             "message": "Download",
             "translation": "다운로드"
+        },
+        {
+            "id": "Enter Password",
+            "message": "Enter Password",
+            "translation": "암호를 입력"
+        },
+        {
+            "id": "You must enter an administration password to operate the {AppLocalName}.",
+            "message": "You must enter an administration password to operate the {AppLocalName}.",
+            "translation": "{AppLocalName}을(를) 작동하려면 관리 암호를 입력해야 합니다.",
+            "placeholders": [
+                {
+                    "id": "AppLocalName",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "AppLocalName"
+                }
+            ]
+        },
+        {
+            "id": "Enter Administration Password",
+            "message": "Enter Administration Password",
+            "translation": "관리 비밀번호 입력"
+        },
+        {
+            "id": "The password is incorrect. Re-enter password.",
+            "message": "The password is incorrect. Re-enter password.",
+            "translation": "비밀번호가 올바르지 않습니다. 비밀번호를 다시 입력하세요."
         }
     ]
 }

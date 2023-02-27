@@ -2,13 +2,6 @@
     "language": "en-US",
     "messages": [
         {
-            "id": "FRP Manager",
-            "message": "FRP Manager",
-            "translation": "FRP Manager",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "Version: {Number}",
             "message": "Version: {Number}",
             "translation": "Version: {Number}",
@@ -1306,6 +1299,139 @@
             "fuzzy": true
         },
         {
+            "id": "Preferences",
+            "message": "Preferences",
+            "translation": "Preferences",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Master password",
+            "message": "Master password",
+            "translation": "Master password",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.",
+            "message": "You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.",
+            "translation": "You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Use master password",
+            "message": "Use master password",
+            "translation": "Use master password",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Change Password",
+            "message": "Change Password",
+            "translation": "Change Password",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Languages",
+            "message": "Languages",
+            "translation": "Languages",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "The current display language is",
+            "message": "The current display language is",
+            "translation": "The current display language is",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "You must restart program to apply the modification.",
+            "message": "You must restart program to apply the modification.",
+            "translation": "You must restart program to apply the modification.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Select language",
+            "message": "Select language",
+            "translation": "Select language",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Defaults",
+            "message": "Defaults",
+            "translation": "Defaults",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
+            "message": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
+            "translation": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Set Defaults",
+            "message": "Set Defaults",
+            "translation": "Set Defaults",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Password removed.",
+            "message": "Password removed.",
+            "translation": "Password removed.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "New master password",
+            "message": "New master password",
+            "translation": "New master password",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Re-enter password",
+            "message": "Re-enter password",
+            "translation": "Re-enter password",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Password is set.",
+            "message": "Password is set.",
+            "translation": "Password is set.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Log Level",
+            "message": "Log Level",
+            "translation": "Log Level",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Log retention",
+            "message": "Log retention",
+            "translation": "Log retention",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Days",
+            "message": "Days",
+            "translation": "Days",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Quick Add",
             "message": "Quick Add",
             "translation": "Quick Add",
@@ -1458,9 +1584,12 @@
             "fuzzy": true
         },
         {
-            "id": "Error",
-            "message": "Error",
-            "translation": "Error",
+            "id": [
+                "AppName",
+                "FRP Manager"
+            ],
+            "message": "FRP Manager",
+            "translation": "FRP Manager",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1496,6 +1625,44 @@
             "id": "Download",
             "message": "Download",
             "translation": "Download",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Enter Password",
+            "message": "Enter Password",
+            "translation": "Enter Password",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "You must enter an administration password to operate the {AppLocalName}.",
+            "message": "You must enter an administration password to operate the {AppLocalName}.",
+            "translation": "You must enter an administration password to operate the {AppLocalName}.",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "AppLocalName",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "AppLocalName"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Enter Administration Password",
+            "message": "Enter Administration Password",
+            "translation": "Enter Administration Password",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "The password is incorrect. Re-enter password.",
+            "message": "The password is incorrect. Re-enter password.",
+            "translation": "The password is incorrect. Re-enter password.",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         }

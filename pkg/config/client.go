@@ -25,8 +25,8 @@ type ClientAuth struct {
 
 type ClientCommon struct {
 	ClientAuth              `ini:",extends"`
-	ServerAddress           string   `ini:"server_addr"`
-	ServerPort              string   `ini:"server_port"`
+	ServerAddress           string   `ini:"server_addr,omitempty"`
+	ServerPort              string   `ini:"server_port,omitempty"`
 	DialServerTimeout       int64    `ini:"dial_server_timeout,omitempty"`
 	DialServerKeepAlive     int64    `ini:"dial_server_keepalive,omitempty"`
 	ConnectServerLocalIP    string   `ini:"connect_server_local_ip,omitempty"`
@@ -491,7 +491,6 @@ func NewDefaultClientConfig() *ClientConfig {
 			ClientAuth: ClientAuth{AuthMethod: consts.AuthToken},
 			ServerPort: "7000",
 			LogLevel:   "info",
-			LogMaxDays: 3,
 			TCPMux:     true,
 		},
 		Proxies: make([]*Proxy, 0),

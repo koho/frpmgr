@@ -8,27 +8,41 @@ import (
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
 	"os"
-	"path/filepath"
 	"strings"
 )
 
-var printer *message.Printer
+const LangFile = "lang.config"
+
+var (
+	printer  *message.Printer
+	useLang  language.Tag
+	IDToName = map[string]string{
+		"zh-CN": "简体中文",
+		"zh-TW": "繁體中文",
+		"en-US": "English",
+		"ja-JP": "日本語",
+		"ko-KR": "한국어",
+		"es-ES": "Español",
+	}
+)
 
 func init() {
 	if preferredLang := langInConfig(); preferredLang != "" {
-		printer = message.NewPrinter(language.Make(preferredLang))
+		useLang = language.Make(preferredLang)
 	} else {
-		printer = message.NewPrinter(lang())
+		useLang = lang()
 	}
+	printer = message.NewPrinter(useLang)
+}
+
+// GetLanguage returns the current display language code.
+func GetLanguage() string {
+	return useLang.String()
 }
 
 // langInConfig returns the UI language code in config file
 func langInConfig() string {
-	exePath, err := os.Executable()
-	if err != nil {
-		return ""
-	}
-	langFile, err := os.Open(filepath.Join(filepath.Dir(exePath), "lang.config"))
+	langFile, err := os.Open(LangFile)
 	if err != nil {
 		return ""
 	}
