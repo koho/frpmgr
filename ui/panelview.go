@@ -96,7 +96,7 @@ func (pv *PanelView) View() Widget {
 						MaxSize:  Size{80, 0},
 						Enabled:  false,
 						OnClicked: func() {
-							services.ShowPropertyDialog("FRP Client: " + pv.Title())
+							services.ShowPropertyDialog(services.DisplayNameOfClient(pv.Title()))
 						},
 					},
 					HSpacer{},
