@@ -69,7 +69,7 @@ func RunUI() error {
 	mw := MainWindow{
 		Icon:       loadLogoIcon(32),
 		AssignTo:   &fm.MainWindow,
-		Title:      i18n.Sprintf("FRP Manager"),
+		Title:      AppLocalName,
 		Persistent: true,
 		Visible:    false,
 		Layout:     VBox{Margins: Margins{5, 5, 5, 5}},
