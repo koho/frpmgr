@@ -16,7 +16,7 @@ import (
 )
 
 func fatal(v ...interface{}) {
-	windows.MessageBox(0, windows.StringToUTF16Ptr(fmt.Sprint(v...)), windows.StringToUTF16Ptr(i18n.Sprintf("FRP Manager")), windows.MB_ICONERROR)
+	windows.MessageBox(0, windows.StringToUTF16Ptr(fmt.Sprint(v...)), windows.StringToUTF16Ptr(ui.AppLocalName), windows.MB_ICONERROR)
 	os.Exit(1)
 }
 
@@ -42,11 +42,11 @@ func init() {
 func main() {
 	if showHelp {
 		flag.Usage()
-		info(i18n.Sprintf("FRP Manager"), flagOutput.String())
+		info(ui.AppLocalName, flagOutput.String())
 		return
 	}
 	if showVersion {
-		info(i18n.Sprintf("FRP Manager"), strings.Join([]string{
+		info(ui.AppLocalName, strings.Join([]string{
 			i18n.Sprintf("Version: %s", version.Number),
 			i18n.Sprintf("FRP version: %s", version.FRPVersion),
 			i18n.Sprintf("Built on: %s", version.BuildDate),

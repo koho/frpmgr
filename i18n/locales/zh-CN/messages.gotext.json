@@ -2,11 +2,6 @@
     "language": "zh-CN",
     "messages": [
         {
-            "id": "FRP Manager",
-            "message": "FRP Manager",
-            "translation": "FRP 管理器"
-        },
-        {
             "id": "Version: {Number}",
             "message": "Version: {Number}",
             "translation": "版本：{Number}",
@@ -970,6 +965,101 @@
             "translation": "添加"
         },
         {
+            "id": "Preferences",
+            "message": "Preferences",
+            "translation": "选项"
+        },
+        {
+            "id": "Master password",
+            "message": "Master password",
+            "translation": "主密码"
+        },
+        {
+            "id": "You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.",
+            "message": "You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.",
+            "translation": "您可以设置密码来限制访问此程序。\n在下次使用此程序时，您将被要求输入密码。"
+        },
+        {
+            "id": "Use master password",
+            "message": "Use master password",
+            "translation": "使用主密码"
+        },
+        {
+            "id": "Change Password",
+            "message": "Change Password",
+            "translation": "修改密码"
+        },
+        {
+            "id": "Languages",
+            "message": "Languages",
+            "translation": "语言"
+        },
+        {
+            "id": "The current display language is",
+            "message": "The current display language is",
+            "translation": "目前的显示语言"
+        },
+        {
+            "id": "You must restart program to apply the modification.",
+            "message": "You must restart program to apply the modification.",
+            "translation": "您必须重新启动程序才能应用修改。"
+        },
+        {
+            "id": "Select language",
+            "message": "Select language",
+            "translation": "选择语言"
+        },
+        {
+            "id": "Defaults",
+            "message": "Defaults",
+            "translation": "默认值"
+        },
+        {
+            "id": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
+            "message": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
+            "translation": "定义新建配置时的默认值。\n此处的值不会影响现有的配置。"
+        },
+        {
+            "id": "Set Defaults",
+            "message": "Set Defaults",
+            "translation": "设置默认值"
+        },
+        {
+            "id": "Password removed.",
+            "message": "Password removed.",
+            "translation": "密码已删除。"
+        },
+        {
+            "id": "New master password",
+            "message": "New master password",
+            "translation": "新主密码"
+        },
+        {
+            "id": "Re-enter password",
+            "message": "Re-enter password",
+            "translation": "确认密码"
+        },
+        {
+            "id": "Password is set.",
+            "message": "Password is set.",
+            "translation": "密码已设定。"
+        },
+        {
+            "id": "Log Level",
+            "message": "Log Level",
+            "translation": "日志级别"
+        },
+        {
+            "id": "Log retention",
+            "message": "Log retention",
+            "translation": "日志保留"
+        },
+        {
+            "id": "Days",
+            "message": "Days",
+            "translation": "天"
+        },
+        {
             "id": "Quick Add",
             "message": "Quick Add",
             "translation": "快速添加"
@@ -1090,9 +1180,12 @@
             "translation": "被动端口范围"
         },
         {
-            "id": "Error",
-            "message": "Error",
-            "translation": "错误"
+            "id": [
+                "AppName",
+                "FRP Manager"
+            ],
+            "message": "FRP Manager",
+            "translation": "FRP 管理器"
         },
         {
             "id": "* Support batch import, one link per line.",
@@ -1118,6 +1211,36 @@
             "id": "Download",
             "message": "Download",
             "translation": "下载"
+        },
+        {
+            "id": "Enter Password",
+            "message": "Enter Password",
+            "translation": "输入密码"
+        },
+        {
+            "id": "You must enter an administration password to operate the {AppLocalName}.",
+            "message": "You must enter an administration password to operate the {AppLocalName}.",
+            "translation": "您必须输入管理密码来使用 {AppLocalName}。",
+            "placeholders": [
+                {
+                    "id": "AppLocalName",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "AppLocalName"
+                }
+            ]
+        },
+        {
+            "id": "Enter Administration Password",
+            "message": "Enter Administration Password",
+            "translation": "输入管理密码"
+        },
+        {
+            "id": "The password is incorrect. Re-enter password.",
+            "message": "The password is incorrect. Re-enter password.",
+            "translation": "密码错误。请重新输入。"
         }
     ]
 }

@@ -17,6 +17,10 @@ import (
 	"time"
 )
 
+const AppName = "FRP Manager"
+
+var AppLocalName = i18n.Sprintf(AppName)
+
 // View is the interface that must be implemented to build a Widget.
 type View interface {
 	// View should define widget in declarative way, and will
@@ -40,6 +44,7 @@ type FRPManager struct {
 	tabs      *walk.TabWidget
 	confPage  *ConfPage
 	logPage   *LogPage
+	prefPage  *PrefPage
 	aboutPage *AboutPage
 }
 
@@ -51,14 +56,20 @@ func RunUI() error {
 	if err := loadAllConfs(); err != nil {
 		return err
 	}
+	if appConf.Password != "" {
+		if r, err := NewValidateDialog().Run(); err != nil || r != win.IDOK {
+			return err
+		}
+	}
 	fm := new(FRPManager)
 	fm.confPage = NewConfPage()
 	fm.logPage = NewLogPage()
+	fm.prefPage = NewPrefPage()
 	fm.aboutPage = NewAboutPage()
 	mw := MainWindow{
 		Icon:       loadLogoIcon(32),
 		AssignTo:   &fm.MainWindow,
-		Title:      i18n.Sprintf("FRP Manager"),
+		Title:      AppLocalName,
 		Persistent: true,
 		Visible:    false,
 		Layout:     VBox{Margins: Margins{5, 5, 5, 5}},
@@ -69,6 +80,7 @@ func RunUI() error {
 				Pages: []TabPage{
 					fm.confPage.Page(),
 					fm.logPage.Page(),
+					fm.prefPage.Page(),
 					fm.aboutPage.Page(),
 				},
 			},
@@ -91,6 +103,7 @@ func RunUI() error {
 	// Initialize child pages
 	fm.confPage.OnCreate()
 	fm.logPage.OnCreate()
+	fm.prefPage.OnCreate()
 	fm.aboutPage.OnCreate()
 	// Resize window
 	fm.SetSizePixels(walk.Size{
@@ -113,7 +126,7 @@ func showError(err error, owner walk.Form) bool {
 
 func showErrorMessage(owner walk.Form, title, message string) {
 	if title == "" {
-		title = i18n.Sprintf("Error")
+		title = AppLocalName
 	}
 	walk.MsgBox(owner, title, message, walk.MsgBoxIconError)
 }
@@ -123,6 +136,9 @@ func showWarningMessage(owner walk.Form, title, message string) {
 }
 
 func showInfoMessage(owner walk.Form, title, message string) {
+	if title == "" {
+		title = AppLocalName
+	}
 	walk.MsgBox(owner, title, message, walk.MsgBoxIconInformation)
 }
 

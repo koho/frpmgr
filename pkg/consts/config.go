@@ -12,6 +12,8 @@ const (
 	ProtoWebsocket = "websocket"
 )
 
+var Protocols = []string{ProtoTCP, ProtoKCP, ProtoQUIC, ProtoWebsocket}
+
 // Proxy types
 const (
 	ProxyTypeTCP    = "tcp"
@@ -65,3 +67,14 @@ var (
 		config.BandwidthLimitModeServer,
 	}
 )
+
+// Log level
+const (
+	LogLevelTrace = "trace"
+	LogLevelDebug = "debug"
+	LogLevelInfo  = "info"
+	LogLevelWarn  = "warn"
+	LogLevelError = "error"
+)
+
+var LogLevels = []string{LogLevelTrace, LogLevelDebug, LogLevelInfo, LogLevelWarn, LogLevelError}

@@ -8,7 +8,7 @@ import (
 	"github.com/koho/frpmgr/pkg/version"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -49,7 +49,7 @@ func (ap *AboutPage) Page() TabPage {
 					Composite{
 						Layout: VBox{Margins: Margins{12, 0, 0, 0}},
 						Children: []Widget{
-							Label{Text: "FRP Manager", Font: consts.TextLarge, TextColor: consts.ColorDarkBlue},
+							Label{Text: AppName, Font: consts.TextLarge, TextColor: consts.ColorDarkBlue},
 							Label{Text: i18n.Sprintf("Version: %s", version.Number)},
 							Label{Text: i18n.Sprintf("FRP version: %s", version.FRPVersion)},
 							Label{Text: i18n.Sprintf("Built on: %s", version.BuildDate)},
@@ -119,7 +119,7 @@ func (ap *AboutPage) checkUpdate(showErr bool) {
 			goto Fin
 		}
 		defer resp.Body.Close()
-		if body, err = ioutil.ReadAll(resp.Body); err != nil {
+		if body, err = io.ReadAll(resp.Body); err != nil {
 			goto Fin
 		}
 		ap.viewModel.GithubRelease = GithubRelease{}
@@ -139,7 +139,7 @@ func (ap *AboutPage) checkUpdate(showErr bool) {
 			} else {
 				ap.viewModel.NewVersion = false
 				if showErr {
-					showInfoMessage(ap.Form(), i18n.Sprintf("FRP Manager"), i18n.Sprintf("There are currently no updates available."))
+					showInfoMessage(ap.Form(), "", i18n.Sprintf("There are currently no updates available."))
 				}
 			}
 		})

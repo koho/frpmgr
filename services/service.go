@@ -13,8 +13,8 @@ func ServiceNameOfClient(name string) string {
 	return fmt.Sprintf("FRPC$%s", name)
 }
 
-func ServiceNameOfServer(name string) string {
-	return fmt.Sprintf("FRPS$%s", name)
+func DisplayNameOfClient(name string) string {
+	return "FRP Client: " + name
 }
 
 type frpService struct {

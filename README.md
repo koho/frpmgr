@@ -12,6 +12,7 @@ Windows 下的 [frp](https://github.com/fatedier/frp) 图形界面客户端。
 系统需求：Windows 7 及以上版本
 
 使用说明：
+
 1. 启动配置将以后台服务的形式独立运行，**关闭界面并不影响配置的运行**
 2. 已启动的配置，**下次开机会自动启动**，除非手动禁用自启
 3. 通过界面修改配置后，会自动重启该配置的实例
@@ -24,11 +25,13 @@ Windows 下的 [frp](https://github.com/fatedier/frp) 图形界面客户端。
 * 📚 多配置文件管理
 * :inbox_tray: 支持导入/导出配置文件
 * :computer: 开机自启动
+* :lock: 支持密码保护
 
 ## :gear: 构建
 
 #### 安装依赖
-- go >=1.16
+
+- Go
 - Visual Studio
 - [MinGW](https://www.mingw-w64.org/)
 - [WiX Toolset](https://wixtoolset.org/)
@@ -36,7 +39,8 @@ Windows 下的 [frp](https://github.com/fatedier/frp) 图形界面客户端。
 #### 环境配置
 
 1. 把 `vcvars64.bat` 添加到环境变量。通常目录为：
-- `C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build`
+
+   `C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build`
 
 2. 确保 MinGW 的 `bin` 目录已添加到环境变量
 

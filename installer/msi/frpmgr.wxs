@@ -74,6 +74,9 @@
 			<Component Guid="{4D11B79E-74E2-4F35-81EA-8B5CC7225A78}" Id="LangConfig" Win64="yes">
 				<File Id="LangConfig" Source="..\cmd\frpmgr\lang.config" KeyPath="yes"/>
 			</Component>
+			<Component Guid="{B73203B2-5C06-4C45-BC6C-1C98CE11A292}" Id="AppConfig" Win64="yes">
+				<File Id="AppConfig" Source="..\cmd\frpmgr\app.config" KeyPath="yes"/>
+			</Component>
 		</ComponentGroup>
 	</Fragment>
 

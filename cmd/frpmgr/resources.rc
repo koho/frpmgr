@@ -1,4 +1,5 @@
 #include <windows.h>
+#include "resource.h"
 
 #pragma code_page(65001) // UTF-8
 
@@ -7,15 +8,16 @@
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST manifest.xml
-11 ICON icon/app.ico
-21 ICON icon/dot.ico
-22 ICON icon/open.ico
-23 ICON icon/refresh.ico
-24 ICON icon/copy.ico
-25 ICON icon/copy_act.ico
-26 ICON icon/shell.ico
-27 ICON icon/play.ico
-28 ICON icon/pause.ico
+IDI_APP      ICON icon/app.ico
+IDI_DOT      ICON icon/dot.ico
+IDI_OPEN     ICON icon/open.ico
+IDI_REFRESH  ICON icon/refresh.ico
+IDI_COPY     ICON icon/copy.ico
+IDI_COPY_ACT ICON icon/copy_act.ico
+IDI_SHELL    ICON icon/shell.ico
+IDI_PLAY     ICON icon/play.ico
+IDI_PAUSE    ICON icon/pause.ico
+IDI_KEY      ICON icon/key.ico
 
 #define VERSIONINFO_TEMPLATE(block_id, lang_id, charset_id, file_desc) \
 VS_VERSION_INFO VERSIONINFO \
@@ -83,3 +85,18 @@ VERSIONINFO_TEMPLATE(
   "0C0A04B0", 0x0C0A, 1200,
   "Administrador de FRP"
 )
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+IDD_VALIDATE DIALOGEX 0, 0, 275, 114
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "@IDD_VALIDATE"
+FONT 9, "Microsoft YaHei", 400, 0, 0x80
+BEGIN
+    ICON            IDI_KEY,IDC_STATIC,7,5,20,18
+    LTEXT           "@IDC_TITLE",IDC_TITLE,31,5,237,30
+    RTEXT           "@IDC_STATIC2",IDC_STATIC2,33,59,49,11
+    EDITTEXT        IDC_EDIT,87,58,141,11,ES_PASSWORD | ES_AUTOHSCROLL
+    GROUPBOX        "@IDC_STATIC1",IDC_STATIC1,26,40,222,43
+    DEFPUSHBUTTON   "@IDOK",IDOK,158,95,52,14
+    PUSHBUTTON      "@IDCANCEL",IDCANCEL,216,95,52,14
+END
