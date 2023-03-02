@@ -142,6 +142,26 @@
             "translation": "ファイルから設定をインポートする"
         },
         {
+            "id": "Config already removed",
+            "message": "Config already removed",
+            "translation": "設定はすでに削除されています"
+        },
+        {
+            "id": "The config \"{Name}\" already removed.",
+            "message": "The config \"{Name}\" already removed.",
+            "translation": "設定「{Name}」は既に削除されています。",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "name"
+                }
+            ]
+        },
+        {
             "id": "Edit",
             "message": "Edit",
             "translation": "編集"
@@ -473,6 +493,16 @@
             "id": "Debug",
             "message": "Debug",
             "translation": "デバッグ"
+        },
+        {
+            "id": "Auto Delete",
+            "message": "Auto Delete",
+            "translation": "自動削除"
+        },
+        {
+            "id": "Days",
+            "message": "Days",
+            "translation": "日"
         },
         {
             "id": "Connection",
@@ -1063,11 +1093,6 @@
             "id": "Log retention",
             "message": "Log retention",
             "translation": "ログ保持"
-        },
-        {
-            "id": "Days",
-            "message": "Days",
-            "translation": "日"
         },
         {
             "id": "Quick Add",

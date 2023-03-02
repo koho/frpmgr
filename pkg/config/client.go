@@ -8,7 +8,9 @@ import (
 	"github.com/koho/frpmgr/pkg/util"
 	"github.com/thoas/go-funk"
 	"gopkg.in/ini.v1"
+	"os"
 	"strings"
+	"time"
 )
 
 type ClientAuth struct {
@@ -62,6 +64,8 @@ type ClientCommon struct {
 	// Options for this project
 	// ManualStart defines whether to start the config on system boot
 	ManualStart bool `ini:"manual_start,omitempty"`
+	// DeleteAfterDays is the number of days a config will be kept, after which it may be stopped and deleted.
+	DeleteAfterDays uint `ini:"delete_after_days,omitempty"`
 	// Custom collects all the unparsed options
 	Custom map[string]string `ini:"-"`
 }
@@ -483,6 +487,21 @@ func UnmarshalClientConfFromIni(source interface{}) (*ClientConfig, error) {
 	}
 	conf.Complete(true)
 	return conf, nil
+}
+
+// Expiry returns the remaining duration, after which a config will expire.
+// If a config has no expiry date, an `ErrNoDeadline` error is returned.
+func Expiry(configPath string, days uint) (time.Duration, error) {
+	fInfo, err := os.Stat(configPath)
+	if err != nil {
+		return 0, err
+	}
+	if days > 0 {
+		elapsed := time.Since(fInfo.ModTime())
+		total := time.Hour * 24 * time.Duration(days)
+		return total - elapsed, nil
+	}
+	return 0, os.ErrNoDeadline
 }
 
 func NewDefaultClientConfig() *ClientConfig {

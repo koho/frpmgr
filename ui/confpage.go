@@ -3,6 +3,7 @@ package ui
 import (
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/util"
 	"github.com/koho/frpmgr/services"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
@@ -117,6 +118,7 @@ func (cp *ConfPage) OnCreate() {
 func (cp *ConfPage) startQueryService() {
 	query := func() {
 		stateChanged := false
+		configRemoved := false
 		list := getConfListSafe()
 		for _, conf := range list {
 			conf.Lock()
@@ -131,13 +133,27 @@ func (cp *ConfPage) startQueryService() {
 			conf.Install = err == nil
 			if conf.State != lastState || conf.Install != lastInstall {
 				stateChanged = true
+				// Check whether the config file was deleted after a service uninstallation
+				if !conf.Install && !util.FileExists(conf.Path) && deleteConf(conf) {
+					configRemoved = true
+				}
 			}
 			conf.Unlock()
 		}
 		// Only update views on state changes
 		if stateChanged {
-			cp.confView.listView.Invalidate()
-			cp.detailView.panelView.Invalidate()
+			cp.Synchronize(func() {
+				if configRemoved {
+					if conf := getCurrentConf(); conf != nil {
+						cp.confView.reset(conf.Name)
+					} else {
+						cp.confView.Invalidate()
+					}
+				} else {
+					cp.confView.listView.Invalidate()
+					cp.detailView.panelView.Invalidate()
+				}
+			})
 		}
 	}
 	ticker := time.NewTicker(time.Second)
@@ -152,4 +168,16 @@ func (cp *ConfPage) startQueryService() {
 			}
 		}
 	}()
+}
+
+func ensureExistingConfig(name string, owner walk.Form) bool {
+	if hasConf(name) {
+		return true
+	}
+	warnConfigRemoved(owner, name)
+	return false
+}
+
+func warnConfigRemoved(owner walk.Form, name string) {
+	showWarningMessage(owner, i18n.Sprintf("Config already removed"), i18n.Sprintf("The config \"%s\" already removed.", name))
 }

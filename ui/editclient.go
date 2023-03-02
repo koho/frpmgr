@@ -194,12 +194,14 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("User")},
 			LineEdit{Enabled: Bind("adminPort.Text != ''"), Text: Bind("AdminUser")},
 			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("Password")},
-			LineEdit{Enabled: Bind("adminPort.Text != ''"), Text: Bind("AdminPwd")},
+			LineEdit{Enabled: Bind("adminPort.Text != ''"), Text: Bind("AdminPwd"), PasswordMode: true},
 			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("Assets")},
 			NewBrowseLineEdit(nil, true, Bind("adminPort.Text != ''"), Bind("AssetsDir"),
 				i18n.Sprintf("Select a local directory that the admin server will load resources from."), "", false),
 			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("Debug")},
 			CheckBox{Text: "pprof", Checked: Bind("PprofEnable"), Enabled: Bind("adminPort.Text != ''")},
+			Label{Text: i18n.SprintfColon("Auto Delete")},
+			NumberEdit{Value: Bind("DeleteAfterDays"), Suffix: i18n.SprintfLSpace("Days")},
 		},
 	}
 }
@@ -341,6 +343,10 @@ func (cd *EditClientDialog) onSave() {
 	cd.ShouldRestart = false
 	// Edit existing config
 	if cd.Conf.Name != "" {
+		if !ensureExistingConfig(cd.Conf.Name, cd.Form()) {
+			cd.Cancel()
+			return
+		}
 		// Change config name
 		if newConf.Name != cd.Conf.Name {
 			if cd.hasConf(newConf.Name) {
@@ -398,7 +404,7 @@ func (cd *EditClientDialog) onSave() {
 }
 
 func (cd *EditClientDialog) hasConf(name string) bool {
-	if funk.Contains(confList, func(e *Conf) bool { return e.Name == name }) {
+	if hasConf(name) {
 		showWarningMessage(cd.Form(), i18n.Sprintf("Config already exists"), i18n.Sprintf("The config name \"%s\" already exists.", name))
 		return true
 	}

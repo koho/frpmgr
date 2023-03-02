@@ -485,12 +485,16 @@ func (cv *ConfView) onDelete() {
 			walk.MsgBoxOKCancel|walk.MsgBoxIconWarning) == walk.DlgCmdCancel {
 			return
 		}
-		// Fully delete config
-		if err := conf.Delete(); err != nil {
-			showError(err, cv.Form())
+		if !hasConf(conf.Name) {
 			return
 		}
-		cv.Invalidate()
+		// Fully delete config
+		if removed, err := conf.Delete(); err != nil {
+			showError(err, cv.Form())
+			return
+		} else if removed {
+			cv.Invalidate()
+		}
 	}
 }
 
@@ -525,7 +529,9 @@ func (cv *ConfView) reset(selectName string) {
 	cv.model = NewSortedListModel(confList)
 	cv.listView.SetModel(cv.model)
 	if selectName != "" {
-		sel = funk.MaxInt([]int{funk.IndexOf(cv.model.items, func(conf *Conf) bool { return conf.Name == selectName }), 0})
+		if idx := funk.IndexOf(cv.model.items, func(conf *Conf) bool { return conf.Name == selectName }); idx >= 0 {
+			sel = idx
+		}
 	}
 	// Make sure the final selected index is valid
 	if selectIdx := funk.MinInt([]int{sel, len(cv.model.items) - 1}); selectIdx >= 0 {

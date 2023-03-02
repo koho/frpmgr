@@ -385,9 +385,14 @@ func (pv *ProxyView) onDelete() {
 	if conf == nil {
 		return
 	}
+	oldConf := pv.model.conf.Name
 	if walk.MsgBox(pv.Form(), i18n.Sprintf("Delete proxy \"%s\"", proxy.Name),
 		i18n.Sprintf("Are you sure you would like to delete proxy \"%s\"?", proxy.Name),
 		walk.MsgBoxOKCancel|walk.MsgBoxIconWarning) == walk.DlgCmdCancel {
+		return
+	}
+	if !hasConf(oldConf) {
+		warnConfigRemoved(pv.Form(), oldConf)
 		return
 	}
 	conf.DeleteItem(idx)
@@ -404,7 +409,7 @@ func (pv *ProxyView) onEdit(current bool, fill *config.Proxy) {
 		if conf == nil {
 			return
 		}
-		ep := NewEditProxyDialog(proxy, true)
+		ep := NewEditProxyDialog(pv.model.conf.Name, proxy, true)
 		if ret, _ := ep.Run(pv.Form()); ret == walk.DlgCmdOK {
 			if conf.CountStart() == 0 {
 				ep.Proxy.Disabled = false
@@ -413,7 +418,7 @@ func (pv *ProxyView) onEdit(current bool, fill *config.Proxy) {
 			pv.table.SetCurrentIndex(idx)
 		}
 	} else {
-		ep := NewEditProxyDialog(fill, false)
+		ep := NewEditProxyDialog(pv.model.conf.Name, fill, false)
 		if ret, _ := ep.Run(pv.Form()); ret == walk.DlgCmdOK {
 			if pv.model.data.AddItem(ep.Proxy) {
 				if pv.model.data.CountStart() == 0 {
@@ -436,9 +441,14 @@ func (pv *ProxyView) onToggleProxy() {
 		if conf.CountStart() <= 1 {
 			return
 		}
+		oldConf := pv.model.conf.Name
 		if walk.MsgBox(pv.Form(), i18n.Sprintf("Disable proxy \"%s\"", proxy.Name),
 			i18n.Sprintf("Are you sure you would like to disable proxy \"%s\"?", proxy.Name),
 			walk.MsgBoxOKCancel|walk.MsgBoxIconWarning) == walk.DlgCmdCancel {
+			return
+		}
+		if !hasConf(oldConf) {
+			warnConfigRemoved(pv.Form(), oldConf)
 			return
 		}
 	}
@@ -451,7 +461,12 @@ func (pv *ProxyView) onQuickAdd(qa QuickAdd) {
 		return
 	}
 	added := false
+	oldConf := pv.model.conf.Name
 	if res, _ := qa.Run(pv.Form()); res == walk.DlgCmdOK {
+		if pv.model == nil || pv.model.conf.Name != oldConf {
+			warnConfigRemoved(pv.Form(), oldConf)
+			return
+		}
 		for _, proxy := range qa.GetProxies() {
 			if !pv.model.data.AddItem(proxy) {
 				showWarningMessage(pv.Form(), i18n.Sprintf("Proxy already exists"), i18n.Sprintf("The proxy name \"%s\" already exists.", proxy.Name))

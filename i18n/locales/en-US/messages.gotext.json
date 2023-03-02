@@ -186,6 +186,30 @@
             "fuzzy": true
         },
         {
+            "id": "Config already removed",
+            "message": "Config already removed",
+            "translation": "Config already removed",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "The config \"{Name}\" already removed.",
+            "message": "The config \"{Name}\" already removed.",
+            "translation": "The config \"{Name}\" already removed.",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "name"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
             "id": "Edit",
             "message": "Edit",
             "translation": "Edit",
@@ -607,6 +631,20 @@
             "id": "Debug",
             "message": "Debug",
             "translation": "Debug",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Auto Delete",
+            "message": "Auto Delete",
+            "translation": "Auto Delete",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Days",
+            "message": "Days",
+            "translation": "Days",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1421,13 +1459,6 @@
             "id": "Log retention",
             "message": "Log retention",
             "translation": "Log retention",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Days",
-            "message": "Days",
-            "translation": "Days",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

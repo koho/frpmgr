@@ -2,11 +2,13 @@ package services
 
 import (
 	"fmt"
+	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/util"
 	"golang.org/x/sys/windows/svc"
 	"log"
 	"os"
 	"path/filepath"
+	"time"
 )
 
 func ServiceNameOfClient(name string) string {
@@ -36,6 +38,25 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 		log.Println("Shutting down")
 	}()
 
+	cc, err := config.UnmarshalClientConfFromIni(service.configPath)
+	if err != nil {
+		return
+	}
+	var expired <-chan time.Time
+	t, err := config.Expiry(service.configPath, cc.DeleteAfterDays)
+	switch err {
+	case nil:
+		if t <= 0 {
+			deleteFrpConfig(args[0], service.configPath, cc)
+			return
+		}
+		expired = time.After(t)
+	case os.ErrNoDeadline:
+		break
+	default:
+		return
+	}
+
 	go runFrpClient()
 
 	changes <- svc.Status{State: svc.Running, Accepts: svc.AcceptStop | svc.AcceptShutdown}
@@ -52,6 +73,9 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 			default:
 				log.Printf("Unexpected services control request #%d\n", c)
 			}
+		case <-expired:
+			deleteFrpConfig(args[0], service.configPath, cc)
+			return
 		}
 	}
 }

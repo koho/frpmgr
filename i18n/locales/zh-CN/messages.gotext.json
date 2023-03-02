@@ -142,6 +142,26 @@
             "translation": "从文件导入配置"
         },
         {
+            "id": "Config already removed",
+            "message": "Config already removed",
+            "translation": "配置已删除"
+        },
+        {
+            "id": "The config \"{Name}\" already removed.",
+            "message": "The config \"{Name}\" already removed.",
+            "translation": "配置名「{Name}」已删除。",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "name"
+                }
+            ]
+        },
+        {
             "id": "Edit",
             "message": "Edit",
             "translation": "编辑"
@@ -463,6 +483,16 @@
             "id": "Debug",
             "message": "Debug",
             "translation": "调试"
+        },
+        {
+            "id": "Auto Delete",
+            "message": "Auto Delete",
+            "translation": "自动删除"
+        },
+        {
+            "id": "Days",
+            "message": "Days",
+            "translation": "天"
         },
         {
             "id": "Connection",
@@ -1053,11 +1083,6 @@
             "id": "Log retention",
             "message": "Log retention",
             "translation": "日志保留"
-        },
-        {
-            "id": "Days",
-            "message": "Days",
-            "translation": "天"
         },
         {
             "id": "Quick Add",
