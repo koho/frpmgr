@@ -16,7 +16,8 @@ import (
 type Conf struct {
 	sync.Mutex
 	// Name of the config
-	Name string
+	Name        string
+	DisplayName string
 	// Path of the config file
 	Path string
 	// State of service

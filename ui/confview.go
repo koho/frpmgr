@@ -11,7 +11,7 @@ import (
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"github.com/thoas/go-funk"
-	"io/ioutil"
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
@@ -50,7 +50,7 @@ func (cv *ConfView) View() Widget {
 				AssignTo:            &cv.listView,
 				LastColumnStretched: true,
 				HeaderHidden:        true,
-				Columns:             []TableViewColumn{{DataMember: "Name"}},
+				Columns:             []TableViewColumn{{DataMember: "DisplayName"}},
 				Model:               cv.model,
 				ContextMenuItems: []MenuItem{
 					Action{
@@ -242,6 +242,7 @@ func (cv *ConfView) onEditConf(conf *Conf, name string) {
 			// The list is resorted, we should select by name
 			cv.reset(dlg.Conf.Name)
 		} else {
+			cv.model.Items()
 			cv.listView.Invalidate()
 			// Reset current conf
 			confDB.Reset()
@@ -270,7 +271,7 @@ func (cv *ConfView) onURLImport() {
 						showError(err, cv.Form())
 						continue
 					}
-					if err = ioutil.WriteFile(newPath, item.Data, 0666); err != nil {
+					if err = os.WriteFile(newPath, item.Data, 0666); err != nil {
 						showError(err, cv.Form())
 						continue
 					}
@@ -369,7 +370,7 @@ func (cv *ConfView) importZip(path string, data []byte, rename bool) (total, imp
 			return err
 		}
 		defer fr.Close()
-		src, err := ioutil.ReadAll(fr)
+		src, err := io.ReadAll(fr)
 		if err != nil {
 			return err
 		}
@@ -455,7 +456,7 @@ func (cv *ConfView) onClipboardImport() {
 
 func (cv *ConfView) onCopyShareLink() {
 	if conf := getCurrentConf(); conf != nil {
-		content, err := ioutil.ReadFile(conf.Path)
+		content, err := os.ReadFile(conf.Path)
 		if err != nil {
 			showError(err, cv.Form())
 			return

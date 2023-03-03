@@ -234,6 +234,10 @@ func (conf *ClientConfig) GetLogFile() string {
 	return conf.LogFile
 }
 
+func (conf *ClientConfig) GetExpiry() uint {
+	return conf.DeleteAfterDays
+}
+
 func (conf *ClientConfig) Items() interface{} {
 	return conf.Proxies
 }

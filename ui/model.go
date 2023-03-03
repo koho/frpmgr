@@ -22,6 +22,13 @@ func NewSortedListModel(items []*Conf) *SortedListModel {
 }
 
 func (m *SortedListModel) Items() interface{} {
+	for _, x := range m.items {
+		if x.Data.GetExpiry() > 0 {
+			x.DisplayName = x.Name + "🕓"
+		} else {
+			x.DisplayName = x.Name
+		}
+	}
 	return m.items
 }
 
