@@ -23,7 +23,7 @@ type ConfView struct {
 	// List view
 	listView     *walk.TableView
 	lsEditAction *walk.Action
-	model        *SortedListModel
+	model        *ConfListModel
 
 	// Toolbar view
 	toolbar        *walk.ToolBar
@@ -36,7 +36,7 @@ var cachedListViewIconsForWidthAndState = make(map[widthAndState]*walk.Bitmap)
 
 func NewConfView() *ConfView {
 	v := new(ConfView)
-	v.model = NewSortedListModel(confList)
+	v.model = NewConfListModel(confList)
 	return v
 }
 
@@ -527,7 +527,7 @@ func (cv *ConfView) reset(selectName string) {
 	sel := funk.MaxInt([]int{cv.listView.CurrentIndex(), 0})
 	// Refresh the whole config list
 	// The confList will be sorted
-	cv.model = NewSortedListModel(confList)
+	cv.model = NewConfListModel(confList)
 	cv.listView.SetModel(cv.model)
 	if selectName != "" {
 		if idx := funk.IndexOf(cv.model.items, func(conf *Conf) bool { return conf.Name == selectName }); idx >= 0 {

@@ -9,19 +9,19 @@ import (
 	"strings"
 )
 
-type SortedListModel struct {
+type ConfListModel struct {
 	walk.TableModelBase
 
 	items []*Conf
 }
 
-func NewSortedListModel(items []*Conf) *SortedListModel {
-	m := new(SortedListModel)
+func NewConfListModel(items []*Conf) *ConfListModel {
+	m := new(ConfListModel)
 	m.items = items
 	return m
 }
 
-func (m *SortedListModel) Items() interface{} {
+func (m *ConfListModel) Items() interface{} {
 	for _, x := range m.items {
 		if x.Data.GetExpiry() > 0 {
 			x.DisplayName = x.Name + "🕓"
