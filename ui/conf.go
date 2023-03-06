@@ -6,6 +6,7 @@ import (
 	"github.com/koho/frpmgr/pkg/util"
 	"github.com/koho/frpmgr/services"
 	"github.com/lxn/walk"
+	"github.com/thoas/go-funk"
 	"os"
 	"path/filepath"
 	"sync"
@@ -15,7 +16,8 @@ import (
 type Conf struct {
 	sync.Mutex
 	// Name of the config
-	Name string
+	Name        string
+	DisplayName string
 	// Path of the config file
 	Path string
 	// State of service
@@ -39,11 +41,11 @@ func NewConf(path string, data config.Config) *Conf {
 }
 
 // Delete config will remove service, logs, config file in disk/mem
-func (conf *Conf) Delete() error {
+func (conf *Conf) Delete() (bool, error) {
 	// Delete service
 	running := conf.State == consts.StateStarted
 	if err := services.UninstallService(conf.Name, true); err != nil && running {
-		return err
+		return false, err
 	}
 	// Delete logs
 	if logs, _, err := util.FindLogFiles(conf.Data.GetLogFile()); err == nil {
@@ -51,11 +53,10 @@ func (conf *Conf) Delete() error {
 	}
 	// Delete config file
 	if err := os.Remove(conf.Path); err != nil {
-		return err
+		return false, err
 	}
 	// Delete mem config
-	deleteConf(conf)
-	return nil
+	return deleteConf(conf), nil
 }
 
 // Save config to the disk. The config will be completed before saving
@@ -90,6 +91,12 @@ func loadAllConfs() error {
 		c := NewConf(f, nil)
 		if conf, err := config.UnmarshalClientConfFromIni(f); err == nil {
 			c.Data = conf
+			if conf.DeleteAfterDays > 0 {
+				if t, err := config.Expiry(f, conf.DeleteAfterDays); err == nil && t <= 0 {
+					c.Delete()
+					continue
+				}
+			}
 			confList = append(confList, c)
 		}
 	}
@@ -112,15 +119,21 @@ func addConf(conf *Conf) {
 }
 
 // Remove a config from the mem config list
-func deleteConf(conf *Conf) {
+func deleteConf(conf *Conf) bool {
 	confMutex.Lock()
 	defer confMutex.Unlock()
 	for i := range confList {
 		if confList[i] == conf {
 			confList = append(confList[:i], confList[i+1:]...)
-			break
+			return true
 		}
 	}
+	return false
+}
+
+// Check whether a config exists with the given name
+func hasConf(name string) bool {
+	return funk.Contains(confList, func(e *Conf) bool { return e.Name == name })
 }
 
 // ConfBinder is the view model of the current selected config

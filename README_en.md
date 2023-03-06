@@ -28,6 +28,7 @@ Instructions for use:
 * :inbox_tray: Support import/export configuration files
 * :computer: Auto-start at system boot
 * :lock: Support password protection
+* :clock4: Support automatic deletion of configuration files
 
 ## :gear: Build
 

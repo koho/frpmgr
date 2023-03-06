@@ -142,6 +142,26 @@
             "translation": "파일에서 구성 가져오기"
         },
         {
+            "id": "Config already removed",
+            "message": "Config already removed",
+            "translation": "구성이 이미 삭제됨"
+        },
+        {
+            "id": "The config \"{Name}\" already removed.",
+            "message": "The config \"{Name}\" already removed.",
+            "translation": "\"{Name}\" 구성이 이미 제거되었습니다.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "name"
+                }
+            ]
+        },
+        {
             "id": "Edit",
             "message": "Edit",
             "translation": "편집하다"
@@ -463,6 +483,16 @@
             "id": "Debug",
             "message": "Debug",
             "translation": "디버그"
+        },
+        {
+            "id": "Auto Delete",
+            "message": "Auto Delete",
+            "translation": "자동 삭제"
+        },
+        {
+            "id": "Days",
+            "message": "Days",
+            "translation": "날"
         },
         {
             "id": "Connection",
@@ -1053,11 +1083,6 @@
             "id": "Log retention",
             "message": "Log retention",
             "translation": "로그 보존"
-        },
-        {
-            "id": "Days",
-            "message": "Days",
-            "translation": "날"
         },
         {
             "id": "Quick Add",

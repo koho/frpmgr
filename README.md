@@ -26,6 +26,7 @@ Windows 下的 [frp](https://github.com/fatedier/frp) 图形界面客户端。
 * :inbox_tray: 支持导入/导出配置文件
 * :computer: 开机自启动
 * :lock: 支持密码保护
+* :clock4: 支持自动删除配置文件
 
 ## :gear: 构建
 

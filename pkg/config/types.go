@@ -27,6 +27,8 @@ type Config interface {
 	GetLogFile() string
 	// AutoStart indicates whether this config should be started at boot.
 	AutoStart() bool
+	// GetExpiry returns the expiry days of this config.
+	GetExpiry() uint
 	// Copy creates a new copy of this config.
 	Copy(all bool) Config
 }

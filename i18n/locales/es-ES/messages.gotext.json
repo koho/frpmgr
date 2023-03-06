@@ -142,6 +142,26 @@
             "translation": "Importar configuración desde archivo"
         },
         {
+            "id": "Config already removed",
+            "message": "Config already removed",
+            "translation": "Configuración ya eliminada"
+        },
+        {
+            "id": "The config \"{Name}\" already removed.",
+            "message": "The config \"{Name}\" already removed.",
+            "translation": "La configuración \"{Name}\" ya se eliminó.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "name"
+                }
+            ]
+        },
+        {
             "id": "Edit",
             "message": "Edit",
             "translation": "Editar"
@@ -463,6 +483,16 @@
             "id": "Debug",
             "message": "Debug",
             "translation": "Depurar"
+        },
+        {
+            "id": "Auto Delete",
+            "message": "Auto Delete",
+            "translation": "Eliminación automática"
+        },
+        {
+            "id": "Days",
+            "message": "Days",
+            "translation": "Días"
         },
         {
             "id": "Connection",
@@ -1053,11 +1083,6 @@
             "id": "Log retention",
             "message": "Log retention",
             "translation": "Retención de registros"
-        },
-        {
-            "id": "Days",
-            "message": "Days",
-            "translation": "Días"
         },
         {
             "id": "Quick Add",

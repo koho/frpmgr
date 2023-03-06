@@ -228,6 +228,8 @@ func (pp *PrefPage) setDefaultValue() (int, error) {
 				},
 				Label{Text: i18n.SprintfColon("Log retention")},
 				NumberEdit{Value: Bind("LogMaxDays"), Suffix: i18n.SprintfLSpace("Days")},
+				Label{Text: i18n.SprintfColon("Auto Delete")},
+				NumberEdit{Value: Bind("DeleteAfterDays"), Suffix: i18n.SprintfLSpace("Days")},
 				Label{Text: "DNS:"},
 				LineEdit{Text: Bind("DNSServer")},
 				Label{Text: i18n.SprintfColon("Source Address")},
