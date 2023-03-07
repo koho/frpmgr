@@ -995,6 +995,16 @@
             "translation": "添加"
         },
         {
+            "id": "Port",
+            "message": "Port",
+            "translation": "端口"
+        },
+        {
+            "id": "Open Port",
+            "message": "Open Port",
+            "translation": "打開端口"
+        },
+        {
             "id": "Preferences",
             "message": "Preferences",
             "translation": "選項"
@@ -1100,11 +1110,6 @@
             "translation": "HTTP 文件服務"
         },
         {
-            "id": "SOCKS5 Proxy",
-            "message": "SOCKS5 Proxy",
-            "translation": "SOCKS5 代理"
-        },
-        {
             "id": "Enable",
             "message": "Enable",
             "translation": "啟用"
@@ -1193,11 +1198,6 @@
             "id": "Disable",
             "message": "Disable",
             "translation": "禁用"
-        },
-        {
-            "id": "Port",
-            "message": "Port",
-            "translation": "端口"
         },
         {
             "id": "Passive Port Range",

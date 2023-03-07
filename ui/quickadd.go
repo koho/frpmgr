@@ -13,6 +13,7 @@ type quickAddBinder struct {
 	LocalPortMin string
 	LocalPortMax string
 	Dir          string
+	Plugin       string
 }
 
 // QuickAdd is the interface that must be implemented to build a quick-add dialog

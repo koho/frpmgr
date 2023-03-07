@@ -2,6 +2,7 @@ package consts
 
 import (
 	"github.com/koho/frpmgr/i18n"
+	"github.com/koho/frpmgr/pkg/validators"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"github.com/lxn/win"
@@ -44,7 +45,7 @@ const (
 	IconFtp          = 137
 	IconHttpFile     = 69
 	IconHttpProxy    = 114
-	IconSocks5       = 146
+	IconOpenPort     = 135
 	IconVpn          = 47
 	IconNewVersion1  = -1028
 	IconNewVersion2  = 1
@@ -99,6 +100,7 @@ var (
 	ValidateNonEmpty       = Regexp{Pattern: "[^\\s]+"}
 	ValidateRequireInteger = Regexp{Pattern: "^\\d+$"}
 	ValidateInteger        = Regexp{Pattern: "^\\d*$"}
+	ValidatePortRange      = []Validator{ValidateRequireInteger, validators.Range{Min: 0, Max: 65535}}
 )
 
 // Dialogs

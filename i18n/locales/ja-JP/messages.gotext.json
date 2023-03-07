@@ -1005,6 +1005,16 @@
             "translation": "追加"
         },
         {
+            "id": "Port",
+            "message": "Port",
+            "translation": "ポート"
+        },
+        {
+            "id": "Open Port",
+            "message": "Open Port",
+            "translation": "ポート開放"
+        },
+        {
             "id": "Preferences",
             "message": "Preferences",
             "translation": "環境設定"
@@ -1110,11 +1120,6 @@
             "translation": "HTTP ファイルサーバー"
         },
         {
-            "id": "SOCKS5 Proxy",
-            "message": "SOCKS5 Proxy",
-            "translation": "SOCKS5 プロキシ"
-        },
-        {
             "id": "Enable",
             "message": "Enable",
             "translation": "有効"
@@ -1203,11 +1208,6 @@
             "id": "Disable",
             "message": "Disable",
             "translation": "無効"
-        },
-        {
-            "id": "Port",
-            "message": "Port",
-            "translation": "ポート"
         },
         {
             "id": "Passive Port Range",

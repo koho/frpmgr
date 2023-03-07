@@ -35,9 +35,18 @@ func NewPluginProxyDialog(title string, icon *walk.Icon, plugin string) *PluginP
 func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {
 	widgets := []Widget{
 		Label{Text: i18n.SprintfColon("Remote Port")},
-		LineEdit{Text: Bind("RemotePort", consts.ValidateRequireInteger)},
+		LineEdit{Text: Bind("RemotePort", consts.ValidatePortRange...)},
 	}
 	switch pp.plugin {
+	case consts.PluginHttpProxy, consts.PluginSocks5:
+		pp.binder.Plugin = consts.PluginHttpProxy
+		widgets = append([]Widget{
+			Label{Text: i18n.SprintfColon("Type")},
+			NewRadioButtonGroup("Plugin", nil, []RadioButton{
+				{Text: "HTTP", Value: consts.PluginHttpProxy},
+				{Text: "SOCKS5", Value: consts.PluginSocks5},
+			}),
+		}, widgets...)
 	case consts.PluginStaticFile:
 		// Make the dialog wider
 		remoteView := widgets[1].(LineEdit)
@@ -52,10 +61,7 @@ func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {
 	return NewBasicDialog(&pp.Dialog, fmt.Sprintf("%s %s", i18n.Sprintf("Add"), pp.title), pp.icon, DataBinder{
 		AssignTo:   &pp.db,
 		DataSource: pp.binder,
-	}, pp.onSave, Composite{
-		Layout:   Grid{Columns: 2, MarginsZero: true},
-		Children: widgets,
-	}, VSpacer{}).Run(owner)
+	}, pp.onSave, append(widgets, VSpacer{})...).Run(owner)
 }
 
 func (pp *PluginProxyDialog) GetProxies() []*config.Proxy {
@@ -65,6 +71,9 @@ func (pp *PluginProxyDialog) GetProxies() []*config.Proxy {
 func (pp *PluginProxyDialog) onSave() {
 	if err := pp.db.Submit(); err != nil {
 		return
+	}
+	if pp.binder.Plugin != "" {
+		pp.plugin = pp.binder.Plugin
 	}
 	pp.Proxies = append(pp.Proxies, &config.Proxy{
 		BaseProxyConf: config.BaseProxyConf{

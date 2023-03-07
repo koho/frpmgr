@@ -1337,6 +1337,20 @@
             "fuzzy": true
         },
         {
+            "id": "Port",
+            "message": "Port",
+            "translation": "Port",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Open Port",
+            "message": "Open Port",
+            "translation": "Open Port",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Preferences",
             "message": "Preferences",
             "translation": "Preferences",
@@ -1484,13 +1498,6 @@
             "fuzzy": true
         },
         {
-            "id": "SOCKS5 Proxy",
-            "message": "SOCKS5 Proxy",
-            "translation": "SOCKS5 Proxy",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "Enable",
             "message": "Enable",
             "translation": "Enable",
@@ -1597,13 +1604,6 @@
             "id": "Disable",
             "message": "Disable",
             "translation": "Disable",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Port",
-            "message": "Port",
-            "translation": "Port",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

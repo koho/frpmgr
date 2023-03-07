@@ -995,6 +995,16 @@
             "translation": "Agregar"
         },
         {
+            "id": "Port",
+            "message": "Port",
+            "translation": "Puerto"
+        },
+        {
+            "id": "Open Port",
+            "message": "Open Port",
+            "translation": "Puerto abierto"
+        },
+        {
             "id": "Preferences",
             "message": "Preferences",
             "translation": "Preferencias"
@@ -1100,11 +1110,6 @@
             "translation": "Servidor de archivos HTTP"
         },
         {
-            "id": "SOCKS5 Proxy",
-            "message": "SOCKS5 Proxy",
-            "translation": "Proxy SOCKS5"
-        },
-        {
             "id": "Enable",
             "message": "Enable",
             "translation": "Habilitar"
@@ -1193,11 +1198,6 @@
             "id": "Disable",
             "message": "Disable",
             "translation": "Deshabilitar"
-        },
-        {
-            "id": "Port",
-            "message": "Port",
-            "translation": "Puerto"
         },
         {
             "id": "Passive Port Range",

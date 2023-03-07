@@ -995,6 +995,16 @@
             "translation": "추가하다"
         },
         {
+            "id": "Port",
+            "message": "Port",
+            "translation": "포트"
+        },
+        {
+            "id": "Open Port",
+            "message": "Open Port",
+            "translation": "오픈 포트"
+        },
+        {
             "id": "Preferences",
             "message": "Preferences",
             "translation": "옵션"
@@ -1100,11 +1110,6 @@
             "translation": "HTTP 파일 서버"
         },
         {
-            "id": "SOCKS5 Proxy",
-            "message": "SOCKS5 Proxy",
-            "translation": "SOCKS5 프록시"
-        },
-        {
             "id": "Enable",
             "message": "Enable",
             "translation": "켜다"
@@ -1193,11 +1198,6 @@
             "id": "Disable",
             "message": "Disable",
             "translation": "폐쇄"
-        },
-        {
-            "id": "Port",
-            "message": "Port",
-            "translation": "포트"
         },
         {
             "id": "Passive Port Range",
