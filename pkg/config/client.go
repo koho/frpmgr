@@ -169,8 +169,8 @@ type Proxy struct {
 	CustomDomains     string `ini:"custom_domains,omitempty" http:"true" https:"true" tcpmux:"true"`
 	SubDomain         string `ini:"subdomain,omitempty" http:"true" https:"true" tcpmux:"true"`
 	Locations         string `ini:"locations,omitempty" http:"true"`
-	HTTPUser          string `ini:"http_user,omitempty" http:"true"`
-	HTTPPwd           string `ini:"http_pwd,omitempty" http:"true"`
+	HTTPUser          string `ini:"http_user,omitempty" http:"true" tcpmux:"true"`
+	HTTPPwd           string `ini:"http_pwd,omitempty" http:"true" tcpmux:"true"`
 	HostHeaderRewrite string `ini:"host_header_rewrite,omitempty" http:"true"`
 	Multiplexer       string `ini:"multiplexer,omitempty" tcpmux:"true"`
 	RouteByHTTPUser   string `ini:"route_by_http_user,omitempty" http:"true" tcpmux:"true"`
