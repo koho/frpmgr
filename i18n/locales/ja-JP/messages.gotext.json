@@ -72,6 +72,46 @@
             "translation": "ログファイル"
         },
         {
+            "id": "Number out of allowed range",
+            "message": "Number out of allowed range",
+            "translation": "許容範囲外の数値"
+        },
+        {
+            "id": "Please enter a number greater than {Intt}.",
+            "message": "Please enter a number greater than {Intt}.",
+            "translation": "{Intt} より大きい数値を入力してください。",
+            "placeholders": [
+                {
+                    "id": "Intt",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "int(t)"
+                }
+            ]
+        },
+        {
+            "id": "Password mismatch",
+            "message": "Password mismatch",
+            "translation": "パスワードの不一致"
+        },
+        {
+            "id": "Please check and try again.",
+            "message": "Please check and try again.",
+            "translation": "もう一度確認してください。"
+        },
+        {
+            "id": "Not a number",
+            "message": "Not a number",
+            "translation": "数字ではありません"
+        },
+        {
+            "id": "Please enter a valid number.",
+            "message": "Please enter a valid number.",
+            "translation": "有効な数値を入力してください。"
+        },
+        {
             "id": "New Version!",
             "message": "New Version!",
             "translation": "新しいバージョン！"
@@ -1276,6 +1316,73 @@
             "id": "The password is incorrect. Re-enter password.",
             "message": "The password is incorrect. Re-enter password.",
             "translation": "パスワードが正しくありません。 パスワード再入力。"
+        },
+        {
+            "id": "Invalid Input",
+            "message": "Invalid Input",
+            "translation": "無効入力"
+        },
+        {
+            "id": "Please enter a number from {Number} to {Number_1}.",
+            "message": "Please enter a number from {Number} to {Number_1}.",
+            "translation": "{Number} から {Number_1} までの数字を入力してください。",
+            "placeholders": [
+                {
+                    "id": "Number",
+                    "string": "%.[1]f",
+                    "type": "",
+                    "underlyingType": "float64",
+                    "argNum": 1
+                },
+                {
+                    "id": "Number_1",
+                    "string": "%.[2]f",
+                    "type": "",
+                    "underlyingType": "float64",
+                    "argNum": 2
+                }
+            ]
+        },
+        {
+            "id": "Please enter a number from {Arg_1} to {Arg_2}.",
+            "message": "Please enter a number from {Arg_1} to {Arg_2}.",
+            "translation": "{Arg_1} から {Arg_2} までの数値を入力してください。",
+            "placeholders": [
+                {
+                    "id": "Arg_1",
+                    "string": "%[1]s",
+                    "type": "",
+                    "underlyingType": "string",
+                    "argNum": 1
+                },
+                {
+                    "id": "Arg_2",
+                    "string": "%[2]s",
+                    "type": "",
+                    "underlyingType": "string",
+                    "argNum": 2
+                }
+            ]
+        },
+        {
+            "id": "The text does not match the required pattern.",
+            "message": "The text does not match the required pattern.",
+            "translation": "テキストが必要なパターンと一致しません。"
+        },
+        {
+            "id": "Selection Required",
+            "message": "Selection Required",
+            "translation": "選択必須"
+        },
+        {
+            "id": "Please select one of the provided options.",
+            "message": "Please select one of the provided options.",
+            "translation": "提供されたオプションのいずれかを選択してください。"
+        },
+        {
+            "id": "A selection is required.",
+            "message": "A selection is required.",
+            "translation": "選択が必要です。"
         }
     ]
 }

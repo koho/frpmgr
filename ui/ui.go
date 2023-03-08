@@ -36,6 +36,11 @@ type View interface {
 
 func init() {
 	rand.Seed(time.Now().UnixNano())
+	walk.SetTranslationFunc(func(source string, context ...string) string {
+		translation := i18n.Sprintf(source)
+		s1 := strings.ReplaceAll(translation, "%!f(MISSING)", "%.f")
+		return strings.ReplaceAll(s1, "%!f(BADINDEX)", "%.f")
+	})
 }
 
 type FRPManager struct {

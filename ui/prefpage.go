@@ -178,14 +178,18 @@ func (pp *PrefPage) changePassword() string {
 		Password string
 	}
 	NewBasicDialog(nil, i18n.Sprintf("Master password"), loadResourceIcon(consts.IconKey, 32),
-		DataBinder{AssignTo: &db, DataSource: &vm}, nil, Composite{
+		DataBinder{
+			AssignTo:       &db,
+			DataSource:     &vm,
+			ErrorPresenter: validators.SilentToolTipErrorPresenter{},
+		}, nil, Composite{
 			Layout:  VBox{MarginsZero: true},
 			MinSize: Size{Width: 280},
 			Children: []Widget{
 				Label{Text: i18n.SprintfColon("New master password")},
 				LineEdit{AssignTo: &pwdEdit, Text: Bind("Password", consts.ValidateNonEmpty), PasswordMode: true},
 				Label{Text: i18n.SprintfColon("Re-enter password")},
-				LineEdit{Text: Bind("", validators.TextEqual{Target: &pwdEdit}), PasswordMode: true},
+				LineEdit{Text: Bind("", validators.ConfirmPassword{Password: &pwdEdit}), PasswordMode: true},
 			},
 		}, VSpacer{}).Run(pp.Form())
 	if vm.Password != "" {

@@ -72,6 +72,46 @@
             "translation": "로그 파일"
         },
         {
+            "id": "Number out of allowed range",
+            "message": "Number out of allowed range",
+            "translation": "허용 범위를 벗어난 숫자"
+        },
+        {
+            "id": "Please enter a number greater than {Intt}.",
+            "message": "Please enter a number greater than {Intt}.",
+            "translation": "{Intt}보다 큰 숫자를 입력하세요.",
+            "placeholders": [
+                {
+                    "id": "Intt",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "int(t)"
+                }
+            ]
+        },
+        {
+            "id": "Password mismatch",
+            "message": "Password mismatch",
+            "translation": "암호 불일치"
+        },
+        {
+            "id": "Please check and try again.",
+            "message": "Please check and try again.",
+            "translation": "확인하고 다시 시도해 주세요."
+        },
+        {
+            "id": "Not a number",
+            "message": "Not a number",
+            "translation": "숫자가 아님"
+        },
+        {
+            "id": "Please enter a valid number.",
+            "message": "Please enter a valid number.",
+            "translation": "유효한 숫자를 입력하세요."
+        },
+        {
             "id": "New Version!",
             "message": "New Version!",
             "translation": "새로운 버전!"
@@ -1266,6 +1306,73 @@
             "id": "The password is incorrect. Re-enter password.",
             "message": "The password is incorrect. Re-enter password.",
             "translation": "비밀번호가 올바르지 않습니다. 비밀번호를 다시 입력하세요."
+        },
+        {
+            "id": "Invalid Input",
+            "message": "Invalid Input",
+            "translation": "잘못된 입력"
+        },
+        {
+            "id": "Please enter a number from {Number} to {Number_1}.",
+            "message": "Please enter a number from {Number} to {Number_1}.",
+            "translation": "{Number}에서 {Number_1}까지의 숫자를 입력하세요.",
+            "placeholders": [
+                {
+                    "id": "Number",
+                    "string": "%.[1]f",
+                    "type": "",
+                    "underlyingType": "float64",
+                    "argNum": 1
+                },
+                {
+                    "id": "Number_1",
+                    "string": "%.[2]f",
+                    "type": "",
+                    "underlyingType": "float64",
+                    "argNum": 2
+                }
+            ]
+        },
+        {
+            "id": "Please enter a number from {Arg_1} to {Arg_2}.",
+            "message": "Please enter a number from {Arg_1} to {Arg_2}.",
+            "translation": "{Arg_1}에서 {Arg_2} 사이의 숫자를 입력하십시오.",
+            "placeholders": [
+                {
+                    "id": "Arg_1",
+                    "string": "%[1]s",
+                    "type": "",
+                    "underlyingType": "string",
+                    "argNum": 1
+                },
+                {
+                    "id": "Arg_2",
+                    "string": "%[2]s",
+                    "type": "",
+                    "underlyingType": "string",
+                    "argNum": 2
+                }
+            ]
+        },
+        {
+            "id": "The text does not match the required pattern.",
+            "message": "The text does not match the required pattern.",
+            "translation": "텍스트가 필수 패턴과 일치하지 않습니다."
+        },
+        {
+            "id": "Selection Required",
+            "message": "Selection Required",
+            "translation": "선택 필수"
+        },
+        {
+            "id": "Please select one of the provided options.",
+            "message": "Please select one of the provided options.",
+            "translation": "제공된 옵션 중 하나를 선택하십시오."
+        },
+        {
+            "id": "A selection is required.",
+            "message": "A selection is required.",
+            "translation": "선택이 필요합니다."
         }
     ]
 }

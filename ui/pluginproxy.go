@@ -5,6 +5,7 @@ import (
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/validators"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 )
@@ -59,8 +60,9 @@ func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {
 		)
 	}
 	return NewBasicDialog(&pp.Dialog, fmt.Sprintf("%s %s", i18n.Sprintf("Add"), pp.title), pp.icon, DataBinder{
-		AssignTo:   &pp.db,
-		DataSource: pp.binder,
+		AssignTo:       &pp.db,
+		DataSource:     pp.binder,
+		ErrorPresenter: validators.SilentToolTipErrorPresenter{},
 	}, pp.onSave, append(widgets, VSpacer{})...).Run(owner)
 }
 

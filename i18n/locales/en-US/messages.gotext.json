@@ -88,6 +88,58 @@
             "fuzzy": true
         },
         {
+            "id": "Number out of allowed range",
+            "message": "Number out of allowed range",
+            "translation": "Number out of allowed range",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Please enter a number greater than {Intt}.",
+            "message": "Please enter a number greater than {Intt}.",
+            "translation": "Please enter a number greater than {Intt}.",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Intt",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "int(t)"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Password mismatch",
+            "message": "Password mismatch",
+            "translation": "Password mismatch",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Please check and try again.",
+            "message": "Please check and try again.",
+            "translation": "Please check and try again.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Not a number",
+            "message": "Not a number",
+            "translation": "Not a number",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Please enter a valid number.",
+            "message": "Please enter a valid number.",
+            "translation": "Please enter a valid number.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "New Version!",
             "message": "New Version!",
             "translation": "New Version!",
@@ -1694,6 +1746,87 @@
             "id": "The password is incorrect. Re-enter password.",
             "message": "The password is incorrect. Re-enter password.",
             "translation": "The password is incorrect. Re-enter password.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Invalid Input",
+            "message": "Invalid Input",
+            "translation": "Invalid Input",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Please enter a number from {Number} to {Number_1}.",
+            "message": "Please enter a number from {Number} to {Number_1}.",
+            "translation": "Please enter a number from {Number} to {Number_1}.",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Number",
+                    "string": "%.[1]f",
+                    "type": "",
+                    "underlyingType": "float64",
+                    "argNum": 1
+                },
+                {
+                    "id": "Number_1",
+                    "string": "%.[2]f",
+                    "type": "",
+                    "underlyingType": "float64",
+                    "argNum": 2
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Please enter a number from {Arg_1} to {Arg_2}.",
+            "message": "Please enter a number from {Arg_1} to {Arg_2}.",
+            "translation": "Please enter a number from {Arg_1} to {Arg_2}.",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Arg_1",
+                    "string": "%[1]s",
+                    "type": "",
+                    "underlyingType": "string",
+                    "argNum": 1
+                },
+                {
+                    "id": "Arg_2",
+                    "string": "%[2]s",
+                    "type": "",
+                    "underlyingType": "string",
+                    "argNum": 2
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "The text does not match the required pattern.",
+            "message": "The text does not match the required pattern.",
+            "translation": "The text does not match the required pattern.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Selection Required",
+            "message": "Selection Required",
+            "translation": "Selection Required",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Please select one of the provided options.",
+            "message": "Please select one of the provided options.",
+            "translation": "Please select one of the provided options.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "A selection is required.",
+            "message": "A selection is required.",
+            "translation": "A selection is required.",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         }

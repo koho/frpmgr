@@ -23,7 +23,7 @@ func (rv *RangeValidator) Validate(v interface{}) error {
 	case string:
 		f, err := walk.ParseFloat(v.(string))
 		if err != nil {
-			return walk.NewValidationError("Not a number", "")
+			return nanErr
 		}
 		value = f
 	case float64:

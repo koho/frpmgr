@@ -54,19 +54,20 @@ func (sp *SimpleProxyDialog) Run(owner walk.Form) (int, error) {
 	}
 	switch sp.service {
 	case "ftp":
-		var lPortMaxEdit *walk.LineEdit
+		var lPortMinEdit *walk.LineEdit
 		widgets = append(widgets, Label{Text: i18n.SprintfColon("Passive Port Range"), ColumnSpan: 2}, Composite{
 			Layout: HBox{MarginsZero: true},
 			Children: []Widget{
-				LineEdit{Text: Bind("LocalPortMin", append(consts.ValidatePortRange, validators.LessThan{Target: &lPortMaxEdit})...)},
+				LineEdit{AssignTo: &lPortMinEdit, Text: Bind("LocalPortMin", consts.ValidatePortRange...)},
 				Label{Text: "-"},
-				LineEdit{AssignTo: &lPortMaxEdit, Text: Bind("LocalPortMax", consts.ValidatePortRange...)},
+				LineEdit{Text: Bind("LocalPortMax", append(consts.ValidatePortRange, validators.GTE{Value: &lPortMinEdit})...)},
 			},
 		})
 	}
 	return NewBasicDialog(&sp.Dialog, fmt.Sprintf("%s %s", i18n.Sprintf("Add"), sp.title), sp.icon, DataBinder{
-		AssignTo:   &sp.db,
-		DataSource: sp.binder,
+		AssignTo:       &sp.db,
+		DataSource:     sp.binder,
+		ErrorPresenter: validators.SilentToolTipErrorPresenter{},
 	}, sp.onSave, Composite{
 		Layout:   Grid{Columns: 2, MarginsZero: true},
 		MinSize:  Size{Width: 280},

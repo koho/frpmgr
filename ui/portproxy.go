@@ -5,6 +5,7 @@ import (
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/validators"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 )
@@ -57,8 +58,9 @@ func (pp *PortProxyDialog) Run(owner walk.Form) (int, error) {
 		LineEdit{Text: Bind("LocalPort", consts.ValidatePortRange...), StretchFactor: 1},
 	}
 	return NewBasicDialog(&pp.Dialog, i18n.Sprintf("Open Port"), loadSysIcon("shell32", consts.IconOpenPort, 32), DataBinder{
-		AssignTo:   &pp.db,
-		DataSource: pp.binder,
+		AssignTo:       &pp.db,
+		DataSource:     pp.binder,
+		ErrorPresenter: validators.SilentToolTipErrorPresenter{},
 	}, pp.onSave, Composite{
 		Layout:   Grid{Columns: 2, MarginsZero: true},
 		MinSize:  Size{Width: 280},
