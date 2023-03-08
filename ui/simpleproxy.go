@@ -6,6 +6,7 @@ import (
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
+	"github.com/koho/frpmgr/pkg/validators"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 )
@@ -45,26 +46,28 @@ func NewSimpleProxyDialog(title string, icon *walk.Icon, service string, types [
 func (sp *SimpleProxyDialog) Run(owner walk.Form) (int, error) {
 	widgets := []Widget{
 		Label{Text: i18n.SprintfColon("Remote Port"), ColumnSpan: 2},
-		LineEdit{Text: Bind("RemotePort", consts.ValidateRequireInteger), ColumnSpan: 2},
+		LineEdit{Text: Bind("RemotePort", consts.ValidatePortRange...), ColumnSpan: 2},
 		Label{Text: i18n.SprintfColon("Local Address")},
 		Label{Text: i18n.SprintfColon("Port")},
 		LineEdit{Text: Bind("LocalAddr", consts.ValidateNonEmpty), StretchFactor: 2},
-		LineEdit{Text: Bind("LocalPort", consts.ValidateRequireInteger), StretchFactor: 1},
+		LineEdit{Text: Bind("LocalPort", consts.ValidatePortRange...), StretchFactor: 1},
 	}
 	switch sp.service {
 	case "ftp":
+		var lPortMinEdit *walk.LineEdit
 		widgets = append(widgets, Label{Text: i18n.SprintfColon("Passive Port Range"), ColumnSpan: 2}, Composite{
 			Layout: HBox{MarginsZero: true},
 			Children: []Widget{
-				LineEdit{Text: Bind("LocalPortMin", consts.ValidateRequireInteger)},
+				LineEdit{AssignTo: &lPortMinEdit, Text: Bind("LocalPortMin", consts.ValidatePortRange...)},
 				Label{Text: "-"},
-				LineEdit{Text: Bind("LocalPortMax", consts.ValidateRequireInteger)},
+				LineEdit{Text: Bind("LocalPortMax", append(consts.ValidatePortRange, validators.GTE{Value: &lPortMinEdit})...)},
 			},
 		})
 	}
 	return NewBasicDialog(&sp.Dialog, fmt.Sprintf("%s %s", i18n.Sprintf("Add"), sp.title), sp.icon, DataBinder{
-		AssignTo:   &sp.db,
-		DataSource: sp.binder,
+		AssignTo:       &sp.db,
+		DataSource:     sp.binder,
+		ErrorPresenter: validators.SilentToolTipErrorPresenter{},
 	}, sp.onSave, Composite{
 		Layout:   Grid{Columns: 2, MarginsZero: true},
 		MinSize:  Size{Width: 280},

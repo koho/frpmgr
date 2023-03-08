@@ -22,6 +22,7 @@ type ProxyView struct {
 
 	// Actions
 	newAction       *walk.Action
+	portAction      *walk.Action
 	rdAction        *walk.Action
 	sshAction       *walk.Action
 	webAction       *walk.Action
@@ -30,7 +31,6 @@ type ProxyView struct {
 	ftpAction       *walk.Action
 	httpFileAction  *walk.Action
 	httpProxyAction *walk.Action
-	socks5Action    *walk.Action
 	vpnAction       *walk.Action
 	editAction      *walk.Action
 	deleteAction    *walk.Action
@@ -107,6 +107,14 @@ func (pv *ProxyView) createToolbar() ToolBar {
 				Image: loadSysIcon("imageres", consts.IconQuickAdd, 16),
 				Items: []MenuItem{
 					Action{
+						AssignTo: &pv.portAction,
+						Text:     i18n.Sprintf("Open Port"),
+						Image:    loadSysIcon("shell32", consts.IconOpenPort, 16),
+						OnTriggered: func() {
+							pv.onQuickAdd(NewPortProxyDialog())
+						},
+					},
+					Action{
 						AssignTo: &pv.rdAction,
 						Text:     i18n.Sprintf("Remote Desktop"),
 						Image:    loadSysIcon("imageres", consts.IconRemote, 16),
@@ -156,6 +164,15 @@ func (pv *ProxyView) createToolbar() ToolBar {
 						},
 					},
 					Action{
+						AssignTo: &pv.vpnAction,
+						Text:     "OpenVPN",
+						Image:    loadSysIcon("shell32", consts.IconVpn, 16),
+						OnTriggered: func() {
+							pv.onQuickAdd(NewSimpleProxyDialog("OpenVPN", loadSysIcon("shell32", consts.IconVpn, 32),
+								"openvpn", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, ":1194"))
+						},
+					},
+					Action{
 						AssignTo: &pv.ftpAction,
 						Text:     "FTP",
 						Image:    loadSysIcon("imageres", consts.IconFtp, 16),
@@ -180,24 +197,6 @@ func (pv *ProxyView) createToolbar() ToolBar {
 						OnTriggered: func() {
 							pv.onQuickAdd(NewPluginProxyDialog(i18n.Sprintf("HTTP Proxy"), loadSysIcon("imageres", consts.IconHttpProxy, 32),
 								consts.PluginHttpProxy))
-						},
-					},
-					Action{
-						AssignTo: &pv.socks5Action,
-						Text:     i18n.Sprintf("SOCKS5 Proxy"),
-						Image:    loadSysIcon("imageres", consts.IconSocks5, 16),
-						OnTriggered: func() {
-							pv.onQuickAdd(NewPluginProxyDialog(i18n.Sprintf("SOCKS5 Proxy"), loadSysIcon("imageres", consts.IconSocks5, 32),
-								consts.PluginSocks5))
-						},
-					},
-					Action{
-						AssignTo: &pv.vpnAction,
-						Text:     "OpenVPN",
-						Image:    loadSysIcon("shell32", consts.IconVpn, 16),
-						OnTriggered: func() {
-							pv.onQuickAdd(NewSimpleProxyDialog("OpenVPN", loadSysIcon("shell32", consts.IconVpn, 32),
-								"openvpn", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, ":1194"))
 						},
 					},
 				},
@@ -271,16 +270,16 @@ func (pv *ProxyView) createProxyTable() TableView {
 				Text:  i18n.Sprintf("Quick Add"),
 				Image: loadSysIcon("imageres", consts.IconQuickAdd, 16),
 				Items: []MenuItem{
+					ActionRef{&pv.portAction},
 					ActionRef{&pv.rdAction},
 					ActionRef{&pv.vncAction},
 					ActionRef{&pv.sshAction},
 					ActionRef{&pv.webAction},
 					ActionRef{&pv.dnsAction},
+					ActionRef{&pv.vpnAction},
 					ActionRef{&pv.ftpAction},
 					ActionRef{&pv.httpFileAction},
 					ActionRef{&pv.httpProxyAction},
-					ActionRef{&pv.socks5Action},
-					ActionRef{&pv.vpnAction},
 				},
 			},
 			Action{

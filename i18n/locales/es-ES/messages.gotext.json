@@ -72,6 +72,46 @@
             "translation": "Archivos de registro"
         },
         {
+            "id": "Number out of allowed range",
+            "message": "Number out of allowed range",
+            "translation": "Número fuera del rango permitido"
+        },
+        {
+            "id": "Please enter a number greater than {Intt}.",
+            "message": "Please enter a number greater than {Intt}.",
+            "translation": "Ingrese un número mayor que {Intt}.",
+            "placeholders": [
+                {
+                    "id": "Intt",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "int(t)"
+                }
+            ]
+        },
+        {
+            "id": "Password mismatch",
+            "message": "Password mismatch",
+            "translation": "Contraseña no coincide"
+        },
+        {
+            "id": "Please check and try again.",
+            "message": "Please check and try again.",
+            "translation": "Por favor revisa e intenta de nuevo."
+        },
+        {
+            "id": "Not a number",
+            "message": "Not a number",
+            "translation": "No un número"
+        },
+        {
+            "id": "Please enter a valid number.",
+            "message": "Please enter a valid number.",
+            "translation": "Por favor ingrese un número valido."
+        },
+        {
             "id": "New Version!",
             "message": "New Version!",
             "translation": "Nueva versión!"
@@ -995,6 +1035,16 @@
             "translation": "Agregar"
         },
         {
+            "id": "Port",
+            "message": "Port",
+            "translation": "Puerto"
+        },
+        {
+            "id": "Open Port",
+            "message": "Open Port",
+            "translation": "Puerto abierto"
+        },
+        {
             "id": "Preferences",
             "message": "Preferences",
             "translation": "Preferencias"
@@ -1100,11 +1150,6 @@
             "translation": "Servidor de archivos HTTP"
         },
         {
-            "id": "SOCKS5 Proxy",
-            "message": "SOCKS5 Proxy",
-            "translation": "Proxy SOCKS5"
-        },
-        {
             "id": "Enable",
             "message": "Enable",
             "translation": "Habilitar"
@@ -1195,11 +1240,6 @@
             "translation": "Deshabilitar"
         },
         {
-            "id": "Port",
-            "message": "Port",
-            "translation": "Puerto"
-        },
-        {
             "id": "Passive Port Range",
             "message": "Passive Port Range",
             "translation": "Gama de puertos pasivos"
@@ -1266,6 +1306,73 @@
             "id": "The password is incorrect. Re-enter password.",
             "message": "The password is incorrect. Re-enter password.",
             "translation": "La contraseña es incorrecta. Escriba la contraseña otra vez."
+        },
+        {
+            "id": "Invalid Input",
+            "message": "Invalid Input",
+            "translation": "Entrada invalida"
+        },
+        {
+            "id": "Please enter a number from {Number} to {Number_1}.",
+            "message": "Please enter a number from {Number} to {Number_1}.",
+            "translation": "Ingrese un número de {Number} a {Number_1}.",
+            "placeholders": [
+                {
+                    "id": "Number",
+                    "string": "%.[1]f",
+                    "type": "",
+                    "underlyingType": "float64",
+                    "argNum": 1
+                },
+                {
+                    "id": "Number_1",
+                    "string": "%.[2]f",
+                    "type": "",
+                    "underlyingType": "float64",
+                    "argNum": 2
+                }
+            ]
+        },
+        {
+            "id": "Please enter a number from {Arg_1} to {Arg_2}.",
+            "message": "Please enter a number from {Arg_1} to {Arg_2}.",
+            "translation": "Ingrese un número de {Arg_1} a {Arg_2}.",
+            "placeholders": [
+                {
+                    "id": "Arg_1",
+                    "string": "%[1]s",
+                    "type": "",
+                    "underlyingType": "string",
+                    "argNum": 1
+                },
+                {
+                    "id": "Arg_2",
+                    "string": "%[2]s",
+                    "type": "",
+                    "underlyingType": "string",
+                    "argNum": 2
+                }
+            ]
+        },
+        {
+            "id": "The text does not match the required pattern.",
+            "message": "The text does not match the required pattern.",
+            "translation": "El texto no coincide con el patrón requerido."
+        },
+        {
+            "id": "Selection Required",
+            "message": "Selection Required",
+            "translation": "Selección requerida"
+        },
+        {
+            "id": "Please select one of the provided options.",
+            "message": "Please select one of the provided options.",
+            "translation": "Seleccione una de las opciones proporcionadas."
+        },
+        {
+            "id": "A selection is required.",
+            "message": "A selection is required.",
+            "translation": "Se requiere una selección."
         }
     ]
 }
