@@ -25,6 +25,6 @@ type ConfirmPassword struct {
 	Password **walk.LineEdit
 }
 
-func (p ConfirmPassword) Create() (walk.Validator, error) {
-	return &PasswordValidator{p.Password}, nil
+func (c ConfirmPassword) Create() (walk.Validator, error) {
+	return &PasswordValidator{c.Password}, nil
 }
