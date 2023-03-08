@@ -7,7 +7,7 @@ require (
 	github.com/go-ole/go-ole v1.2.6
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e
-	github.com/thoas/go-funk v0.9.2
+	github.com/thoas/go-funk v0.9.3
 	golang.org/x/sys v0.5.0
 	golang.org/x/text v0.8.0
 	gopkg.in/ini.v1 v1.67.0
