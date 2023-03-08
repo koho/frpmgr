@@ -1,20 +1,22 @@
 package ui
 
 import (
-	"github.com/koho/frpmgr/i18n"
-	"github.com/koho/frpmgr/pkg/consts"
-	"github.com/koho/frpmgr/pkg/util"
-	"github.com/koho/frpmgr/services"
-	"github.com/lxn/walk"
-	. "github.com/lxn/walk/declarative"
-	"github.com/lxn/win"
-	"github.com/thoas/go-funk"
-	"golang.org/x/sys/windows"
 	"math/rand"
 	"os"
 	"path/filepath"
 	"strings"
 	"time"
+
+	"github.com/koho/frpmgr/i18n"
+	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/util"
+	"github.com/koho/frpmgr/services"
+
+	"github.com/lxn/walk"
+	. "github.com/lxn/walk/declarative"
+	"github.com/lxn/win"
+	"github.com/thoas/go-funk"
+	"golang.org/x/sys/windows"
 )
 
 const AppName = "FRP Manager"

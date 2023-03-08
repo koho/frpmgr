@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"golang.org/x/sys/windows"
 	"io"
 	"mime"
 	"net/http"
@@ -12,6 +11,8 @@ import (
 	"syscall"
 	"time"
 	"unsafe"
+
+	"golang.org/x/sys/windows"
 )
 
 var (

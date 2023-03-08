@@ -3,6 +3,7 @@ package ui
 import (
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/consts"
+
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 )

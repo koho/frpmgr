@@ -2,15 +2,17 @@ package ui
 
 import (
 	"fmt"
+	"net"
+	"path/filepath"
+	"strings"
+
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
+
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
-	"net"
-	"path/filepath"
-	"strings"
 )
 
 type ProxyView struct {

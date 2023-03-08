@@ -1,12 +1,14 @@
 package ui
 
 import (
-	"github.com/koho/frpmgr/pkg/config"
-	"github.com/koho/frpmgr/pkg/util"
-	"github.com/lxn/walk"
-	"github.com/thoas/go-funk"
 	"os"
 	"strings"
+
+	"github.com/koho/frpmgr/pkg/config"
+	"github.com/koho/frpmgr/pkg/util"
+
+	"github.com/lxn/walk"
+	"github.com/thoas/go-funk"
 )
 
 type ConfListModel struct {

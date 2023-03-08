@@ -1,9 +1,10 @@
 package services
 
 import (
+	"time"
+
 	"github.com/go-ole/go-ole"
 	"github.com/go-ole/go-ole/oleutil"
-	"time"
 )
 
 type mmcApp struct {

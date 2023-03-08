@@ -2,6 +2,7 @@ package ui
 
 import (
 	"github.com/koho/frpmgr/pkg/consts"
+
 	"github.com/lxn/walk"
 )
 

@@ -1,14 +1,16 @@
 package ui
 
 import (
-	"github.com/koho/frpmgr/i18n"
-	"github.com/koho/frpmgr/pkg/util"
-	"github.com/lxn/walk"
-	. "github.com/lxn/walk/declarative"
-	"github.com/thoas/go-funk"
 	"sort"
 	"sync"
 	"time"
+
+	"github.com/koho/frpmgr/i18n"
+	"github.com/koho/frpmgr/pkg/util"
+
+	"github.com/lxn/walk"
+	. "github.com/lxn/walk/declarative"
+	"github.com/thoas/go-funk"
 )
 
 type LogPage struct {

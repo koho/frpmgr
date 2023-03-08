@@ -2,12 +2,13 @@ package services
 
 import (
 	"errors"
-	"golang.org/x/sys/windows"
-	"golang.org/x/sys/windows/svc"
-	"golang.org/x/sys/windows/svc/mgr"
 	"os"
 	"path/filepath"
 	"time"
+
+	"golang.org/x/sys/windows"
+	"golang.org/x/sys/windows/svc"
+	"golang.org/x/sys/windows/svc/mgr"
 )
 
 var cachedServiceManager *mgr.Mgr

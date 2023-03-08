@@ -3,11 +3,12 @@ package main
 import (
 	"crypto/md5"
 	"encoding/hex"
-	"github.com/lxn/win"
-	"golang.org/x/sys/windows"
 	"io/fs"
 	"os"
 	"syscall"
+
+	"github.com/lxn/win"
+	"golang.org/x/sys/windows"
 )
 
 // checkSingleton returns an error when another program is running.

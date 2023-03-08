@@ -2,13 +2,15 @@ package services
 
 import (
 	"fmt"
-	"github.com/koho/frpmgr/pkg/config"
-	"github.com/koho/frpmgr/pkg/util"
-	"golang.org/x/sys/windows/svc"
 	"log"
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/koho/frpmgr/pkg/config"
+	"github.com/koho/frpmgr/pkg/util"
+
+	"golang.org/x/sys/windows/svc"
 )
 
 func ServiceNameOfClient(name string) string {

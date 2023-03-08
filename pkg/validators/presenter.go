@@ -2,7 +2,9 @@ package validators
 
 import (
 	"errors"
+
 	"github.com/koho/frpmgr/i18n"
+
 	"github.com/lxn/walk"
 )
 

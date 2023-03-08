@@ -1,15 +1,17 @@
 package ui
 
 import (
+	"os"
+	"sort"
+
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/sec"
 	"github.com/koho/frpmgr/pkg/validators"
+
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"github.com/lxn/win"
-	"os"
-	"sort"
 )
 
 type PrefPage struct {

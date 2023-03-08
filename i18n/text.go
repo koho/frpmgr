@@ -4,11 +4,12 @@ package i18n
 
 import (
 	"bufio"
+	"os"
+	"strings"
+
 	"golang.org/x/sys/windows"
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
-	"os"
-	"strings"
 )
 
 const LangFile = "lang.config"

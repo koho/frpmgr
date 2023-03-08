@@ -3,14 +3,16 @@ package config
 import (
 	"bytes"
 	"fmt"
-	frputil "github.com/fatedier/frp/pkg/util/util"
-	"github.com/koho/frpmgr/pkg/consts"
-	"github.com/koho/frpmgr/pkg/util"
-	"github.com/thoas/go-funk"
-	"gopkg.in/ini.v1"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/util"
+
+	frputil "github.com/fatedier/frp/pkg/util/util"
+	"github.com/thoas/go-funk"
+	"gopkg.in/ini.v1"
 )
 
 type ClientAuth struct {

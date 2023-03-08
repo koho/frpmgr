@@ -3,13 +3,15 @@ package ui
 import (
 	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
+
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/version"
+
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
-	"io"
-	"net/http"
 )
 
 type AboutPage struct {

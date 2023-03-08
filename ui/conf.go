@@ -1,15 +1,17 @@
 package ui
 
 import (
+	"os"
+	"path/filepath"
+	"sync"
+
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
 	"github.com/koho/frpmgr/services"
+
 	"github.com/lxn/walk"
 	"github.com/thoas/go-funk"
-	"os"
-	"path/filepath"
-	"sync"
 )
 
 // Conf contains all data of a config

@@ -1,14 +1,16 @@
 package ui
 
 import (
+	"os"
+	"path/filepath"
+
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/services"
+
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
-	"os"
-	"path/filepath"
 )
 
 var stateDescription = map[consts.ServiceState]string{

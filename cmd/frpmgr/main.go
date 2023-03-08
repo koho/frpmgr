@@ -4,15 +4,17 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"os"
+	"strings"
+	"syscall"
+
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/version"
 	"github.com/koho/frpmgr/services"
 	"github.com/koho/frpmgr/ui"
+
 	"golang.org/x/sys/windows"
 	"golang.org/x/sys/windows/svc"
-	"os"
-	"strings"
-	"syscall"
 )
 
 func fatal(v ...interface{}) {
