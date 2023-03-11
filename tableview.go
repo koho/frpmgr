@@ -46,6 +46,7 @@ type TableViewCfg struct {
 	Style              uint32
 	CustomHeaderHeight int // in native pixels?
 	CustomRowHeight    int // in native pixels?
+	LayoutItem         func() LayoutItem
 }
 
 // TableView is a model based widget for record centric, tabular data.
@@ -127,6 +128,7 @@ type TableView struct {
 	currentItemChangedPublisher        EventPublisher
 	currentItemID                      interface{}
 	restoringCurrentItemOnReset        bool
+	layoutItem                         func() LayoutItem
 }
 
 // NewTableView creates and returns a *TableView as child of the specified
@@ -152,6 +154,7 @@ func NewTableViewWithCfg(parent Container, cfg *TableViewCfg) (*TableView, error
 		customRowHeight:             cfg.CustomRowHeight,
 		scrollbarOrientation:        Horizontal | Vertical,
 		restoringCurrentItemOnReset: true,
+		layoutItem:                  cfg.LayoutItem,
 	}
 
 	tv.columns = newTableViewColumnList(tv)
@@ -2734,7 +2737,10 @@ func (tv *TableView) updateLVSizesWithSpecialCare(needSpecialCare bool) {
 	}
 }
 
-func (*TableView) CreateLayoutItem(ctx *LayoutContext) LayoutItem {
+func (tv *TableView) CreateLayoutItem(ctx *LayoutContext) LayoutItem {
+	if tv.layoutItem != nil {
+		return tv.layoutItem()
+	}
 	return NewGreedyLayoutItem()
 }
 
