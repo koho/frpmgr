@@ -28,7 +28,7 @@ if "%WIX%"=="" (
 		"%WindowsSdkVerBinPath%x86\MsiTran" -g %MSI_FILE% !WIX_LANG_MSI! build\!LANG_CODE! || goto :error
 		"%WindowsSdkVerBinPath%x86\MsiDb" -d %MSI_FILE% -r build\!LANG_CODE! || goto :error
 	)
-	windres -DVERSION_ARRAY=%VERSION:.=,%,0 -DVERSION_STR=%VERSION% -DMSI_FILE=%MSI_FILE% -i setup/resources.rc -o build/rsrc.o -O coff -c 65001 || goto :error
+	windres -DVERSION_ARRAY=%VERSION:.=,%,0 -DVERSION_STR=%VERSION% -DMSI_FILE=%MSI_FILE% -i setup/resource.rc -o build/rsrc.o -O coff -c 65001 || goto :error
 	cl /Fe..\bin\frpmgr-%VERSION%-Setup.exe /Fobuild\setup.obj /utf-8 setup\setup.c /link /subsystem:windows build\rsrc.o shlwapi.lib msi.lib user32.lib advapi32.lib
 
 :success

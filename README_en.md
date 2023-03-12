@@ -61,10 +61,19 @@ Find the generated installation files in the `bin` directory.
 
 #### Debugging
 
-The build process needs to render icons to generate resources and patch some files, all of which are done
-in `build.bat`.
-Therefore, this script needs to be run once before the first debugging, and the subsequent debugging does not need to
-execute the script again.
+When building the project for the first time, you need to render the icon and generate resources:
+
+```shell
+go generate
+```
+
+The above command does not need to be run for every build, it just needs to be executed again when the resource changes.
+
+After the command is completed, the program can be run directly:
+
+```shell
+go run ./cmd/frpmgr
+```
 
 ## Donation
 
