@@ -64,19 +64,9 @@ func (cp *ConfPage) Page() TabPage {
 			Name: "conf",
 		},
 		Children: []Widget{
-			HSplitter{
-				Children: []Widget{
-					cp.confView.View(),
-					Composite{
-						StretchFactor: 10,
-						Layout:        HBox{MarginsZero: true, SpacingZero: true},
-						Children: []Widget{
-							cp.detailView.View(),
-							cp.welcomeView(),
-						},
-					},
-				},
-			},
+			cp.confView.View(),
+			cp.detailView.View(),
+			cp.welcomeView(),
 		},
 	}
 }
