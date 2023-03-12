@@ -59,3 +59,5 @@ require (
 	gopkg.in/Knetic/govaluate.v3 v3.0.0 // indirect
 	gopkg.in/square/go-jose.v2 v2.6.0 // indirect
 )
+
+replace github.com/lxn/walk => github.com/koho/frpmgr v0.0.0-20230311212131-f5c521a0f74f

@@ -12,6 +12,7 @@ import (
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/layout"
 	"github.com/koho/frpmgr/pkg/util"
 
 	"github.com/lxn/walk"
@@ -44,9 +45,8 @@ func NewConfView() *ConfView {
 
 func (cv *ConfView) View() Widget {
 	return Composite{
-		StretchFactor: 1,
-		AssignTo:      &cv.Composite,
-		Layout:        VBox{MarginsZero: true, SpacingZero: true},
+		AssignTo: &cv.Composite,
+		Layout:   VBox{MarginsZero: true, SpacingZero: true},
 		Children: []Widget{
 			TableView{
 				AssignTo:            &cv.listView,
@@ -133,6 +133,9 @@ func (cv *ConfView) View() Widget {
 					}
 					cachedListViewIconsForWidthAndState[cacheKey] = bitmap
 					style.Image = bitmap
+				},
+				LayoutItem: func() walk.LayoutItem {
+					return layout.NewGreedyLayoutItem(walk.Vertical)
 				},
 			},
 			Composite{

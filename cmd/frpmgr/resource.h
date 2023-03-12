@@ -1,7 +1,7 @@
 #ifndef _RESOURCE_H
 #define _RESOURCE_H
 
-#define IDI_APP       11
+#define IDI_APP       7
 #define IDI_DOT       21
 #define IDI_OPEN      22
 #define IDI_REFRESH   23
