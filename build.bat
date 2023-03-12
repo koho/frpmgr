@@ -19,10 +19,6 @@ set VERSION=%VERSION:"=%
 	echo [+] Downloading packages
 	go mod tidy || goto :error
 
-:patch
-	echo [+] Patching files
-	for %%f in (patches\*.patch) do patch -N -r - -d %GOPATH% -p0 < %%f
-
 :build
 	echo [+] Building program
 	for /f "usebackq tokens=1,2 delims==" %%i in (`wmic os get LocalDateTime /VALUE 2^>NUL`) do if '.%%i.'=='.LocalDateTime.' set ldt=%%j
