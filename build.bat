@@ -7,17 +7,13 @@ cd /d %BUILDDIR% || exit /b 1
 for /f "tokens=3" %%a in ('findstr /r "Number.*=.*[0-9.]*" .\pkg\version\version.go') do set VERSION=%%a
 set VERSION=%VERSION:"=%
 
-:render
-	echo [+] Rendering icons
-	for %%a in ("icon\*.svg") do convert -background none "%%~fa" -define icon:auto-resize="256,192,128,96,64,48,40,32,24,20,16" -compress zip "%%~dpna.ico" || goto :error
-
-:resources
-	echo [+] Assembling resources
-	windres -DVERSION_ARRAY=%VERSION:.=,%,0 -DVERSION_STR=%VERSION% -i cmd/frpmgr/resources.rc -o cmd/frpmgr/rsrc.syso -O coff -c 65001 || goto :error
-
 :packages
 	echo [+] Downloading packages
 	go mod tidy || goto :error
+
+:resources
+	echo [+] Generating resources
+	go generate || goto :error
 
 :build
 	echo [+] Building program
