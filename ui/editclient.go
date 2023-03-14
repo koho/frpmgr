@@ -206,8 +206,8 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 				i18n.Sprintf("Select a local directory that the admin server will load resources from."), "", false),
 			Label{Text: i18n.SprintfColon("Auto Delete")},
 			NewRadioButtonGroup("DeleteMethod", nil, []RadioButton{
-				{Name: "absCheck", Text: i18n.Sprintf("Absolute"), Value: "absolute"},
-				{Name: "relCheck", Text: i18n.Sprintf("Relative"), Value: "relative"},
+				{Name: "absCheck", Text: i18n.Sprintf("Absolute"), Value: consts.DeleteAbsolute},
+				{Name: "relCheck", Text: i18n.Sprintf("Relative"), Value: consts.DeleteRelative},
 				{Name: "noDelCheck", Text: i18n.Sprintf("None"), Value: ""},
 			}),
 			Label{Visible: Bind("absCheck.Checked"), Text: i18n.SprintfColon("Delete Date")},
