@@ -45,7 +45,7 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 		return
 	}
 	var expired <-chan time.Time
-	t, err := config.Expiry(service.configPath, cc.DeleteAfterDays)
+	t, err := config.Expiry(service.configPath, cc.AutoDelete)
 	switch err {
 	case nil:
 		if t <= 0 {

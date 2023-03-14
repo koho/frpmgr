@@ -520,14 +520,29 @@
             "translation": "选择管理服务器使用的静态资源目录。"
         },
         {
-            "id": "Debug",
-            "message": "Debug",
-            "translation": "调试"
-        },
-        {
             "id": "Auto Delete",
             "message": "Auto Delete",
             "translation": "自动删除"
+        },
+        {
+            "id": "Absolute",
+            "message": "Absolute",
+            "translation": "绝对"
+        },
+        {
+            "id": "Relative",
+            "message": "Relative",
+            "translation": "相对"
+        },
+        {
+            "id": "Delete Date",
+            "message": "Delete Date",
+            "translation": "删除日期"
+        },
+        {
+            "id": "Delete Days",
+            "message": "Delete Days",
+            "translation": "删除天数"
         },
         {
             "id": "Days",

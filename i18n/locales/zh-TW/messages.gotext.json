@@ -520,14 +520,29 @@
             "translation": "選擇管理服務器使用的靜態資源目錄。"
         },
         {
-            "id": "Debug",
-            "message": "Debug",
-            "translation": "調試"
-        },
-        {
             "id": "Auto Delete",
             "message": "Auto Delete",
             "translation": "自動刪除"
+        },
+        {
+            "id": "Absolute",
+            "message": "Absolute",
+            "translation": "絕對"
+        },
+        {
+            "id": "Relative",
+            "message": "Relative",
+            "translation": "相對"
+        },
+        {
+            "id": "Delete Date",
+            "message": "Delete Date",
+            "translation": "刪除日期"
+        },
+        {
+            "id": "Delete Days",
+            "message": "Delete Days",
+            "translation": "刪除天數"
         },
         {
             "id": "Days",

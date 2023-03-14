@@ -520,14 +520,29 @@
             "translation": "Seleccione un directorio local desde el que el servidor de administración cargará los recursos."
         },
         {
-            "id": "Debug",
-            "message": "Debug",
-            "translation": "Depurar"
-        },
-        {
             "id": "Auto Delete",
             "message": "Auto Delete",
             "translation": "Eliminación automática"
+        },
+        {
+            "id": "Absolute",
+            "message": "Absolute",
+            "translation": "Absoluto"
+        },
+        {
+            "id": "Relative",
+            "message": "Relative",
+            "translation": "Relativo"
+        },
+        {
+            "id": "Delete Date",
+            "message": "Delete Date",
+            "translation": "Eliminar fecha"
+        },
+        {
+            "id": "Delete Days",
+            "message": "Delete Days",
+            "translation": "Eliminar días"
         },
         {
             "id": "Days",

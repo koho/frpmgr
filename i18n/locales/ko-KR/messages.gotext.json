@@ -520,14 +520,29 @@
             "translation": "관리 서버가 리소스를 로드할 로컬 디렉토리를 선택하십시오."
         },
         {
-            "id": "Debug",
-            "message": "Debug",
-            "translation": "디버그"
-        },
-        {
             "id": "Auto Delete",
             "message": "Auto Delete",
             "translation": "자동 삭제"
+        },
+        {
+            "id": "Absolute",
+            "message": "Absolute",
+            "translation": "절대"
+        },
+        {
+            "id": "Relative",
+            "message": "Relative",
+            "translation": "상대적"
+        },
+        {
+            "id": "Delete Date",
+            "message": "Delete Date",
+            "translation": "날짜 삭제"
+        },
+        {
+            "id": "Delete Days",
+            "message": "Delete Days",
+            "translation": "삭제 일"
         },
         {
             "id": "Days",

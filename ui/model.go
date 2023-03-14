@@ -25,7 +25,7 @@ func NewConfListModel(items []*Conf) *ConfListModel {
 
 func (m *ConfListModel) Items() interface{} {
 	for _, x := range m.items {
-		if x.Data.GetExpiry() > 0 {
+		if x.Data.Expiry() {
 			x.DisplayName = x.Name + "🕓"
 		} else {
 			x.DisplayName = x.Name

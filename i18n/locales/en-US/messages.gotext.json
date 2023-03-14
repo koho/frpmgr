@@ -680,16 +680,37 @@
             "fuzzy": true
         },
         {
-            "id": "Debug",
-            "message": "Debug",
-            "translation": "Debug",
+            "id": "Auto Delete",
+            "message": "Auto Delete",
+            "translation": "Auto Delete",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
         {
-            "id": "Auto Delete",
-            "message": "Auto Delete",
-            "translation": "Auto Delete",
+            "id": "Absolute",
+            "message": "Absolute",
+            "translation": "Absolute",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Relative",
+            "message": "Relative",
+            "translation": "Relative",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Delete Date",
+            "message": "Delete Date",
+            "translation": "Delete Date",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Delete Days",
+            "message": "Delete Days",
+            "translation": "Delete Days",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
