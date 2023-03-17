@@ -530,14 +530,29 @@
             "translation": "管理サーバーがリソースをロードするローカルディレクトリを選択します。"
         },
         {
-            "id": "Debug",
-            "message": "Debug",
-            "translation": "デバッグ"
-        },
-        {
             "id": "Auto Delete",
             "message": "Auto Delete",
             "translation": "自動削除"
+        },
+        {
+            "id": "Absolute",
+            "message": "Absolute",
+            "translation": "絶対"
+        },
+        {
+            "id": "Relative",
+            "message": "Relative",
+            "translation": "相対"
+        },
+        {
+            "id": "Delete Date",
+            "message": "Delete Date",
+            "translation": "削除日"
+        },
+        {
+            "id": "Delete Days",
+            "message": "Delete Days",
+            "translation": "日を削除"
         },
         {
             "id": "Days",

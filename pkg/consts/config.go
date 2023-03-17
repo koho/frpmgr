@@ -54,6 +54,12 @@ const (
 	AuthOIDC  = "oidc"
 )
 
+// Delete methods
+const (
+	DeleteAbsolute = "absolute"
+	DeleteRelative = "relative"
+)
+
 // TCP multiplexer
 const (
 	HTTPConnectTCPMultiplexer = "httpconnect"

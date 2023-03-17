@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
@@ -65,6 +66,9 @@ func NewEditClientDialog(conf *Conf, name string) *EditClientDialog {
 	}
 	if name != "" {
 		v.binder.Name = name
+	}
+	if v.binder.DeleteAfterDate.IsZero() {
+		v.binder.DeleteAfterDate = time.Now().AddDate(0, 0, 1)
 	}
 	return v
 }
@@ -185,7 +189,7 @@ func (cd *EditClientDialog) logConfPage() TabPage {
 }
 
 func (cd *EditClientDialog) adminConfPage() TabPage {
-	return TabPage{
+	return AlignGrid(TabPage{
 		Title:  i18n.Sprintf("Admin"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
@@ -200,12 +204,18 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("Assets")},
 			NewBrowseLineEdit(nil, true, Bind("adminPort.Text != ''"), Bind("AssetsDir"),
 				i18n.Sprintf("Select a local directory that the admin server will load resources from."), "", false),
-			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("Debug")},
-			CheckBox{Text: "pprof", Checked: Bind("PprofEnable"), Enabled: Bind("adminPort.Text != ''")},
 			Label{Text: i18n.SprintfColon("Auto Delete")},
-			NumberEdit{Value: Bind("DeleteAfterDays"), Suffix: i18n.SprintfLSpace("Days")},
+			NewRadioButtonGroup("DeleteMethod", nil, []RadioButton{
+				{Name: "absCheck", Text: i18n.Sprintf("Absolute"), Value: consts.DeleteAbsolute},
+				{Name: "relCheck", Text: i18n.Sprintf("Relative"), Value: consts.DeleteRelative},
+				{Name: "noDelCheck", Text: i18n.Sprintf("None"), Value: ""},
+			}),
+			Label{Visible: Bind("absCheck.Checked"), Text: i18n.SprintfColon("Delete Date")},
+			DateEdit{Visible: Bind("absCheck.Checked"), Date: Bind("DeleteAfterDate")},
+			Label{Visible: Bind("relCheck.Checked"), Text: i18n.SprintfColon("Delete Days")},
+			NumberEdit{Visible: Bind("relCheck.Checked"), Value: Bind("DeleteAfterDays"), Suffix: i18n.SprintfLSpace("Days")},
 		},
-	}
+	}, 0)
 }
 
 func (cd *EditClientDialog) connectionConfPage() TabPage {

@@ -3,9 +3,7 @@ package config
 import (
 	"bytes"
 	"fmt"
-	"os"
 	"strings"
-	"time"
 
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
@@ -27,6 +25,23 @@ type ClientAuth struct {
 	OIDCTokenEndpoint        string `ini:"oidc_token_endpoint_url,omitempty" oidc:"true"`
 }
 
+func (ca ClientAuth) Complete() ClientAuth {
+	authMethod := ca.AuthMethod
+	if authMethod != "" {
+		if auth, err := util.PruneByTag(ca, "true", authMethod); err == nil {
+			ca = auth.(ClientAuth)
+			ca.AuthMethod = authMethod
+		}
+		// Check the default auth method
+		if authMethod == consts.AuthToken && ca.Token == "" {
+			ca.AuthMethod = ""
+		}
+	} else {
+		ca = ClientAuth{}
+	}
+	return ca
+}
+
 type ClientCommon struct {
 	ClientAuth              `ini:",extends"`
 	ServerAddress           string   `ini:"server_addr,omitempty"`
@@ -43,7 +58,6 @@ type ClientCommon struct {
 	AdminUser               string   `ini:"admin_user,omitempty"`
 	AdminPwd                string   `ini:"admin_pwd,omitempty"`
 	AssetsDir               string   `ini:"assets_dir,omitempty"`
-	PprofEnable             bool     `ini:"pprof_enable,omitempty"`
 	PoolCount               uint     `ini:"pool_count,omitempty"`
 	DNSServer               string   `ini:"dns_server,omitempty"`
 	Protocol                string   `ini:"protocol,omitempty"`
@@ -66,8 +80,7 @@ type ClientCommon struct {
 	// Options for this project
 	// ManualStart defines whether to start the config on system boot
 	ManualStart bool `ini:"manual_start,omitempty"`
-	// DeleteAfterDays is the number of days a config will be kept, after which it may be stopped and deleted.
-	DeleteAfterDays uint `ini:"delete_after_days,omitempty"`
+	AutoDelete  `ini:",extends"`
 	// Custom collects all the unparsed options
 	Custom map[string]string `ini:"-"`
 }
@@ -236,8 +249,14 @@ func (conf *ClientConfig) GetLogFile() string {
 	return conf.LogFile
 }
 
-func (conf *ClientConfig) GetExpiry() uint {
-	return conf.DeleteAfterDays
+func (conf *ClientConfig) Expiry() bool {
+	switch conf.DeleteMethod {
+	case consts.DeleteAbsolute:
+		return true
+	case consts.DeleteRelative:
+		return conf.DeleteAfterDays > 0
+	}
+	return false
 }
 
 func (conf *ClientConfig) Items() interface{} {
@@ -291,25 +310,13 @@ func (conf *ClientConfig) Save(path string) error {
 
 func (conf *ClientConfig) Complete(read bool) {
 	// Common config
-	authMethod := conf.AuthMethod
-	if authMethod != "" {
-		if auth, err := util.PruneByTag(conf.ClientAuth, "true", authMethod); err == nil {
-			conf.ClientAuth = auth.(ClientAuth)
-			conf.AuthMethod = authMethod
-		}
-		// Check the default auth method
-		if authMethod == consts.AuthToken && conf.Token == "" {
-			conf.AuthMethod = ""
-		}
-	} else {
-		conf.ClientAuth = ClientAuth{}
-	}
+	conf.ClientAuth = conf.ClientAuth.Complete()
 	if conf.AdminPort == "" {
 		conf.AdminUser = ""
 		conf.AdminPwd = ""
 		conf.AssetsDir = ""
-		conf.PprofEnable = false
 	}
+	conf.AutoDelete = conf.AutoDelete.Complete()
 	if !conf.TCPMux {
 		conf.TCPMuxKeepaliveInterval = 0
 	}
@@ -493,21 +500,6 @@ func UnmarshalClientConfFromIni(source interface{}) (*ClientConfig, error) {
 	}
 	conf.Complete(true)
 	return conf, nil
-}
-
-// Expiry returns the remaining duration, after which a config will expire.
-// If a config has no expiry date, an `ErrNoDeadline` error is returned.
-func Expiry(configPath string, days uint) (time.Duration, error) {
-	fInfo, err := os.Stat(configPath)
-	if err != nil {
-		return 0, err
-	}
-	if days > 0 {
-		elapsed := time.Since(fInfo.ModTime())
-		total := time.Hour * 24 * time.Duration(days)
-		return total - elapsed, nil
-	}
-	return 0, os.ErrNoDeadline
 }
 
 func NewDefaultClientConfig() *ClientConfig {

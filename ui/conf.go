@@ -94,7 +94,7 @@ func loadAllConfs() error {
 		if conf, err := config.UnmarshalClientConfFromIni(f); err == nil {
 			c.Data = conf
 			if conf.DeleteAfterDays > 0 {
-				if t, err := config.Expiry(f, conf.DeleteAfterDays); err == nil && t <= 0 {
+				if t, err := config.Expiry(f, conf.AutoDelete); err == nil && t <= 0 {
 					c.Delete()
 					continue
 				}
