@@ -509,6 +509,7 @@ func NewDefaultClientConfig() *ClientConfig {
 			ServerPort: "7000",
 			LogLevel:   "info",
 			TCPMux:     true,
+			AutoDelete: AutoDelete{DeleteMethod: consts.DeleteRelative},
 		},
 		Proxies: make([]*Proxy, 0),
 	}
