@@ -2,9 +2,11 @@ package config
 
 import (
 	"os"
+	"strings"
 	"time"
 
 	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/sec"
 	"github.com/koho/frpmgr/pkg/util"
 
 	"gopkg.in/ini.v1"
@@ -87,4 +89,20 @@ func Expiry(configPath string, del AutoDelete) (time.Duration, error) {
 		}
 	}
 	return 0, os.ErrNoDeadline
+}
+
+// ReadFile reads the named file and returns the contents.
+// If the file extension is ".dat" then the contents will be decrypted.
+func ReadFile(path string) ([]byte, error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasSuffix(path, ".dat") {
+		data, err = sec.Decrypt(data)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return data, nil
 }

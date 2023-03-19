@@ -3,9 +3,11 @@ package config
 import (
 	"bytes"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/sec"
 	"github.com/koho/frpmgr/pkg/util"
 
 	frputil "github.com/fatedier/frp/pkg/util/util"
@@ -305,7 +307,15 @@ func (conf *ClientConfig) Save(path string) error {
 			p.Key(k).SetValue(v)
 		}
 	}
-	return cfg.SaveTo(path)
+	buf := &bytes.Buffer{}
+	if _, err = cfg.WriteTo(buf); err != nil {
+		return err
+	}
+	encrypted, err := sec.Encrypt(buf.Bytes())
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(path, encrypted, 0666)
 }
 
 func (conf *ClientConfig) Complete(read bool) {
@@ -463,6 +473,13 @@ findSection:
 }
 
 func UnmarshalClientConfFromIni(source interface{}) (*ClientConfig, error) {
+	if path, ok := source.(string); ok {
+		data, err := ReadFile(path)
+		if err != nil {
+			return nil, err
+		}
+		source = data
+	}
 	conf := NewDefaultClientConfig()
 	cfg, err := ini.LoadSources(ini.LoadOptions{
 		IgnoreInlineComment: true,

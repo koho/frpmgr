@@ -3,6 +3,7 @@ package ui
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 
 	"github.com/koho/frpmgr/pkg/config"
@@ -64,8 +65,17 @@ func (conf *Conf) Delete() (bool, error) {
 // Save config to the disk. The config will be completed before saving
 func (conf *Conf) Save() error {
 	conf.Data.Complete(false)
-	conf.Path = PathOfConf(conf.Name + ".ini")
-	return conf.Data.Save(conf.Path)
+	oldPath := conf.Path
+	conf.Path = PathOfConf(conf.Name + ".dat")
+	if err := conf.Data.Save(conf.Path); err != nil {
+		return err
+	}
+	// If the config is loaded from a ".ini" file, we should
+	// delete this file because an encrypted file is written.
+	if strings.HasSuffix(oldPath, ".ini") {
+		_ = os.Remove(oldPath)
+	}
+	return nil
 }
 
 var (
@@ -84,12 +94,16 @@ var (
 func loadAllConfs() error {
 	_ = config.UnmarshalAppConfFromIni(config.DefaultAppFile, &appConf)
 	// Find all config files in `profiles` directory
-	files, err := filepath.Glob(PathOfConf("*.ini"))
+	datFiles, err := filepath.Glob(PathOfConf("*.dat"))
+	if err != nil {
+		return err
+	}
+	iniFiles, err := filepath.Glob(PathOfConf("*.ini"))
 	if err != nil {
 		return err
 	}
 	confList = make([]*Conf, 0)
-	for _, f := range files {
+	for _, f := range append(datFiles, iniFiles...) {
 		c := NewConf(f, nil)
 		if conf, err := config.UnmarshalClientConfFromIni(f); err == nil {
 			c.Data = conf
