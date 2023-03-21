@@ -52,6 +52,8 @@ jobs:
     steps:
       - name: Collect files
         uses: actions/download-artifact@v3
+        with:
+          name: assets
 
       - name: Calculate SHA256 checksum
         run: sha256sum *.exe > frpmgr-${{ needs.build.outputs.version }}-sha256-checksums.txt
