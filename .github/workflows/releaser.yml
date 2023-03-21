@@ -4,9 +4,14 @@ on:
   release:
     types: [published]
 
+  workflow_dispatch:
+
 jobs:
-  Release:
+  build:
+    name: Build
     runs-on: windows-latest
+    outputs:
+      version: ${{ steps.build.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -31,12 +36,50 @@ jobs:
           echo ::set-output name=version::%GITHUB_REF:~11%
           build.bat
 
-      - name: Upload Release Asset
+      - uses: actions/upload-artifact@v3
+        with:
+          name: asset
+          path: bin/*.exe
+
+  checksum:
+    name: Checksum
+    needs: build
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: asset
+
+      - name: Calculate SHA256 checksum
+        working-directory: bin
+        run: sha256sum *.exe > frpmgr-${{ needs.build.outputs.version }}-sha256-checksums.txt
+
+      - uses: actions/upload-artifact@v3
+        working-directory: bin
+        with:
+          name: sha256-checksums.txt
+          path: frpmgr-${{ needs.build.outputs.version }}-sha256-checksums.txt
+
+  release:
+    name: Release
+    needs: [build, checksum]
+    strategy:
+      matrix:
+        file:
+          - name: setup-x64.exe
+            type: application/octet-stream
+          - name: setup-x86.exe
+            type: application/octet-stream
+          - name: sha256-checksums.txt
+            type: text/plain
+    steps:
+      - uses: actions/download-artifact@v3
+
+      - name: Upload release asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./bin/frpmgr-${{ steps.build.outputs.version }}-Setup.exe
-          asset_name: frpmgr-${{ steps.build.outputs.version }}-Setup.exe
-          asset_content_type: application/octet-stream
+          asset_path: bin/frpmgr-${{ needs.build.outputs.version }}-${{ matrix.file.name }}
+          asset_name: frpmgr-${{ needs.build.outputs.version }}-${{ matrix.file.name }}
+          asset_content_type: ${{ matrix.file.type }}
