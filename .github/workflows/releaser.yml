@@ -55,13 +55,12 @@ jobs:
           name: asset
 
       - name: Calculate SHA256 checksum
-        working-directory: bin
         run: sha256sum *.exe > frpmgr-${{ needs.build.outputs.version }}-sha256-checksums.txt
 
       - uses: actions/upload-artifact@v3
         with:
           name: sha256-checksums.txt
-          path: bin/frpmgr-${{ needs.build.outputs.version }}-sha256-checksums.txt
+          path: frpmgr-${{ needs.build.outputs.version }}-sha256-checksums.txt
 
   release:
     name: Release
@@ -85,6 +84,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: bin/frpmgr-${{ needs.build.outputs.version }}-${{ matrix.file.name }}
+          asset_path: frpmgr-${{ needs.build.outputs.version }}-${{ matrix.file.name }}
           asset_name: frpmgr-${{ needs.build.outputs.version }}-${{ matrix.file.name }}
           asset_content_type: ${{ matrix.file.type }}
