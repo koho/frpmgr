@@ -41,9 +41,10 @@ jobs:
           echo ::set-output name=version::%VERSION:"=%
           build.bat
 
-      - uses: actions/upload-artifact@v3
+      - name: Upload assets
+        uses: actions/upload-artifact@v3
         with:
-          name: asset
+          name: assets
           path: bin/*.exe
 
   checksum:
@@ -51,14 +52,16 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
+      - name: Download assets
+        uses: actions/download-artifact@v3
         with:
-          name: asset
+          name: assets
 
       - name: Calculate SHA256 checksum
         run: sha256sum *.exe > frpmgr-${{ needs.build.outputs.version }}-sha256-checksums.txt
 
-      - uses: actions/upload-artifact@v3
+      - name: Upload checksum
+        uses: actions/upload-artifact@v3
         with:
           name: sha256-checksums.txt
           path: frpmgr-${{ needs.build.outputs.version }}-sha256-checksums.txt
@@ -77,7 +80,8 @@ jobs:
           - name: sha256-checksums.txt
             type: text/plain
     steps:
-      - uses: actions/download-artifact@v3
+      - name: Collect files
+        uses: actions/download-artifact@v3
 
       - name: Upload release asset
         uses: actions/upload-release-asset@v1
