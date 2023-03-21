@@ -37,7 +37,8 @@ jobs:
         shell: cmd
         run: |
           set GOPATH=%USERPROFILE%\go
-          echo ::set-output name=version::%GITHUB_REF:~11%
+          for /f "tokens=3" %%a in ('findstr /r "Number.*=.*[0-9.]*" .\pkg\version\version.go') do set VERSION=%%a
+          echo ::set-output name=version::%VERSION:"=%
           build.bat
 
       - uses: actions/upload-artifact@v3
