@@ -58,10 +58,9 @@ jobs:
         run: sha256sum *.exe > frpmgr-${{ needs.build.outputs.version }}-sha256-checksums.txt
 
       - uses: actions/upload-artifact@v3
-        working-directory: bin
         with:
           name: sha256-checksums.txt
-          path: frpmgr-${{ needs.build.outputs.version }}-sha256-checksums.txt
+          path: bin/frpmgr-${{ needs.build.outputs.version }}-sha256-checksums.txt
 
   release:
     name: Release
