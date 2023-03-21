@@ -65,6 +65,7 @@ jobs:
   release:
     name: Release
     needs: [build, checksum]
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         file:
