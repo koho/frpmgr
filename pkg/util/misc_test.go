@@ -2,7 +2,7 @@ package util
 
 import "testing"
 
-type testStruct struct {
+type tagTest struct {
 	Tag  string
 	Name string `t1:"true" t2:"true"`
 	Age  int    `t2:"true"`
@@ -10,12 +10,12 @@ type testStruct struct {
 
 func TestPruneByTag(t *testing.T) {
 	tests := []struct {
-		input    testStruct
-		expected testStruct
+		input    tagTest
+		expected tagTest
 	}{
-		{input: testStruct{Tag: "t1", Name: "John", Age: 34}, expected: testStruct{Name: "John"}},
-		{input: testStruct{Tag: "t2", Name: "Ben", Age: 20}, expected: testStruct{Name: "Ben", Age: 20}},
-		{input: testStruct{Name: "Mary", Age: 50}, expected: testStruct{}},
+		{input: tagTest{Tag: "t1", Name: "John", Age: 34}, expected: tagTest{Name: "John"}},
+		{input: tagTest{Tag: "t2", Name: "Ben", Age: 20}, expected: tagTest{Name: "Ben", Age: 20}},
+		{input: tagTest{Name: "Mary", Age: 50}, expected: tagTest{}},
 	}
 	for i, test := range tests {
 		output, err := PruneByTag(test.input, "true", test.input.Tag)
@@ -40,7 +40,7 @@ func TestGetFieldNameByTag(t *testing.T) {
 		{tag: "t3", value: "true", expected: ""},
 	}
 	for i, test := range tests {
-		output := GetFieldNameByTag(testStruct{}, test.tag, test.value)
+		output := GetFieldNameByTag(tagTest{}, test.tag, test.value)
 		if output != test.expected {
 			t.Errorf("Test %d: expected: %v, got: %v", i, test.expected, output)
 		}

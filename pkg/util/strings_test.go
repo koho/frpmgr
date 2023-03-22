@@ -93,6 +93,6 @@ func TestRuneSizeInString(t *testing.T) {
 	expected := []int{1, 1, 1, 1, 1, 1, 1, 3, 3}
 	output := RuneSizeInString(str)
 	if !reflect.DeepEqual(output, expected) {
-		t.Errorf("expected: %v, got: %v", expected, output)
+		t.Errorf("Expected: %v, got: %v", expected, output)
 	}
 }
