@@ -16,7 +16,7 @@ jobs:
       version: ${{ steps.build.outputs.version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -36,7 +36,7 @@ jobs:
         run: |
           set GOPATH=%USERPROFILE%\go
           for /f "tokens=3" %%a in ('findstr /r "Number.*=.*[0-9.]*" .\pkg\version\version.go') do set VERSION=%%a
-          echo ::set-output name=version::%VERSION:"=%
+          echo version=%VERSION:"=% >> %GITHUB_OUTPUT%
           build.bat
 
       - name: Upload assets
