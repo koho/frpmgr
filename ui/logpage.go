@@ -82,7 +82,7 @@ func (lp *LogPage) Page() TabPage {
 				Children: []Widget{
 					HSpacer{},
 					PushButton{
-						MinSize: Size{150, 0},
+						MinSize: Size{Width: 150},
 						Enabled: Bind("HasLogFile"),
 						Text:    i18n.Sprintf("Open Log Folder"),
 						OnClicked: func() {

@@ -61,7 +61,7 @@ func (ud *URLImportDialog) Run(owner walk.Form) (int, error) {
 			Enabled: Bind("!vm.Working"),
 			Text:    Bind("URLs", consts.ValidateNonEmpty),
 			VScroll: true,
-			MinSize: Size{430, 130},
+			MinSize: Size{Width: 430, Height: 130},
 		},
 		CheckBox{
 			Enabled:   Bind("!vm.Working"),

@@ -49,7 +49,7 @@ func (ap *AboutPage) Page() TabPage {
 				Children: []Widget{
 					ImageView{Image: loadLogoIcon(96), Alignment: AlignHCenterVNear},
 					Composite{
-						Layout: VBox{Margins: Margins{12, 0, 0, 0}},
+						Layout: VBox{Margins: Margins{Left: 12}},
 						Children: []Widget{
 							Label{Text: AppName, Font: consts.TextLarge, TextColor: consts.ColorDarkBlue},
 							Label{Text: i18n.Sprintf("Version: %s", version.Number)},
@@ -79,7 +79,7 @@ func (ap *AboutPage) Page() TabPage {
 				},
 			},
 			Composite{
-				Layout:    VBox{Margins: Margins{123, 0, 0, 0}},
+				Layout:    VBox{Margins: Margins{Left: 123}},
 				Alignment: AlignHNearVNear,
 				Children: []Widget{
 					Label{Text: i18n.Sprintf("For comments or to report bugs, please visit the project page:")},

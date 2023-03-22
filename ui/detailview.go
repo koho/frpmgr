@@ -23,7 +23,7 @@ func (dv *DetailView) View() Widget {
 	return Composite{
 		Visible:  Bind("conf.Selected"),
 		AssignTo: &dv.Composite,
-		Layout:   VBox{Margins: Margins{5, 0, 0, 0}, SpacingZero: true},
+		Layout:   VBox{Margins: Margins{Left: 5}, SpacingZero: true},
 		Children: []Widget{
 			dv.panelView.View(),
 			VSpacer{Size: 6},

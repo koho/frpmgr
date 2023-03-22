@@ -1,0 +1,13 @@
+run:
+  timeout: 5m
+
+linters:
+  disable-all: true
+  enable:
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - typecheck
+    - whitespace
+    - unused
