@@ -35,7 +35,7 @@ jobs:
         shell: cmd
         run: |
           for /f "tokens=3" %%a in ('findstr /r "Number.*=.*[0-9.]*" .\pkg\version\version.go') do set VERSION=%%a
-          echo version=%VERSION:"=% >> %GITHUB_OUTPUT%
+          echo version=%VERSION:"=%>>%GITHUB_OUTPUT%
           build.bat
 
       - name: Upload assets
