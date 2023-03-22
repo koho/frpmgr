@@ -4,10 +4,6 @@ on:
   release:
     types: [published]
 
-  push:
-    branches:
-      - '*'
-
 jobs:
   build:
     name: Build
