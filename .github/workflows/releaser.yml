@@ -5,16 +5,19 @@ on:
     types: [published]
 
 jobs:
-  Release:
+  build:
+    name: Build
     runs-on: windows-latest
+    outputs:
+      version: ${{ steps.build.outputs.version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - name: Setup Go environment
-        uses: actions/setup-go@v3.0.0
+        uses: actions/setup-go@v4
         with:
           go-version: '1.20'
 
@@ -27,16 +30,35 @@ jobs:
         id: build
         shell: cmd
         run: |
-          set GOPATH=%USERPROFILE%\go
-          echo ::set-output name=version::%GITHUB_REF:~11%
+          for /f "tokens=3" %%a in ('findstr /r "Number.*=.*[0-9.]*" .\pkg\version\version.go') do set VERSION=%%a
+          echo version=%VERSION:"=%>>%GITHUB_OUTPUT%
           build.bat
 
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
+      - name: Upload assets
+        uses: actions/upload-artifact@v3
+        with:
+          name: assets
+          path: bin/*.exe
+
+  release:
+    name: Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Collect files
+        uses: actions/download-artifact@v3
+        with:
+          name: assets
+
+      - name: Calculate SHA256 checksum
+        run: sha256sum *.exe > frpmgr-${{ needs.build.outputs.version }}-sha256-checksums.txt
+
+      - name: Upload release assets
+        uses: shogo82148/actions-upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./bin/frpmgr-${{ steps.build.outputs.version }}-Setup.exe
-          asset_name: frpmgr-${{ steps.build.outputs.version }}-Setup.exe
-          asset_content_type: application/octet-stream
+          asset_path: |
+            ./*.exe
+            ./*.txt

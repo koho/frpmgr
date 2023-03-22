@@ -41,7 +41,7 @@ Instructions for use:
 
 #### Setup environment
 
-1. Add `vcvars64.bat` to the `PATH` environment variable. Usually the directory is:
+1. Add `vcvarsall.bat` to the `PATH` environment variable. Usually the directory is:
 
    `C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build`
 
