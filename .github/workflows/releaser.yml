@@ -49,6 +49,7 @@ jobs:
     name: Release
     needs: build
     runs-on: ubuntu-latest
+    if: github.event.release.upload_url != ''
     steps:
       - name: Collect files
         uses: actions/download-artifact@v3
