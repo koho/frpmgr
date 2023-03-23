@@ -14,7 +14,7 @@ func TestUnmarshalClientConfFromIni(t *testing.T) {
 		token = 123456
 		manual_start = true
 		delete_method = absolute
-		delete_after_date = 2023-03-23T00:00:00+08:00
+		delete_after_date = 2023-03-23T00:00:00Z
 		meta_1 = value
 		
 		[ssh]
@@ -31,7 +31,7 @@ func TestUnmarshalClientConfFromIni(t *testing.T) {
 	expected.ManualStart = true
 	expected.Custom = map[string]string{"meta_1": "value"}
 	expected.DeleteMethod = "absolute"
-	expected.DeleteAfterDate = time.Date(2023, 3, 23, 0, 0, 0, 0, time.Local)
+	expected.DeleteAfterDate = time.Date(2023, 3, 23, 0, 0, 0, 0, time.UTC)
 	expected.Proxies = append(expected.Proxies, &Proxy{
 		BaseProxyConf: BaseProxyConf{
 			Name:      "ssh",
