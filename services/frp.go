@@ -21,15 +21,14 @@ import (
 func runFrpClient(data []byte) {
 	cfg, pxyCfgs, visitorCfgs, err := parseClientConfig(data)
 	if err != nil {
-		return
+		os.Exit(1)
 	}
 	log.InitLog(cfg.LogWay, cfg.LogFile, cfg.LogLevel,
 		cfg.LogMaxDays, cfg.DisableLogColor)
 
-	svr, errRet := client.NewService(cfg, pxyCfgs, visitorCfgs, "")
-	if errRet != nil {
-		err = errRet
-		return
+	svr, err := client.NewService(cfg, pxyCfgs, visitorCfgs, "")
+	if err != nil {
+		os.Exit(1)
 	}
 
 	closedDoneCh := make(chan struct{})
@@ -43,7 +42,6 @@ func runFrpClient(data []byte) {
 	if err == nil && shouldGracefulClose {
 		<-closedDoneCh
 	}
-	return
 }
 
 func deleteFrpConfig(serviceName string, configPath string, c config.Config) {
