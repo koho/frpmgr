@@ -38,7 +38,7 @@ func NewPluginProxyDialog(title string, icon *walk.Icon, plugin string) *PluginP
 func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {
 	widgets := []Widget{
 		Label{Text: i18n.SprintfColon("Remote Port")},
-		LineEdit{Text: Bind("RemotePort", consts.ValidatePortRange...)},
+		LineEdit{Text: Bind("RemotePort", consts.ValidatePortRange...), MinSize: Size{Width: 280}},
 	}
 	switch pp.plugin {
 	case consts.PluginHttpProxy, consts.PluginSocks5:
@@ -51,10 +51,6 @@ func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {
 			}),
 		}, widgets...)
 	case consts.PluginStaticFile:
-		// Make the dialog wider
-		remoteView := widgets[1].(LineEdit)
-		remoteView.MinSize = Size{Width: 300}
-		widgets[1] = remoteView
 		widgets = append(widgets,
 			Label{Text: i18n.SprintfColon("Local Directory")},
 			NewBrowseLineEdit(nil, true, true, Bind("Dir", consts.ValidateNonEmpty),
