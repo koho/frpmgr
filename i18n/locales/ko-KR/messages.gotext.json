@@ -207,16 +207,6 @@
             "translation": "편집하다"
         },
         {
-            "id": "Open File",
-            "message": "Open File",
-            "translation": "파일 열기"
-        },
-        {
-            "id": "Show in Folder",
-            "message": "Show in Folder",
-            "translation": "폴더에 표시"
-        },
-        {
             "id": "Create a Copy",
             "message": "Create a Copy",
             "translation": "복사본 생성"
@@ -1168,16 +1158,6 @@
             "id": "Enable",
             "message": "Enable",
             "translation": "켜다"
-        },
-        {
-            "id": "Open Config",
-            "message": "Open Config",
-            "translation": "구성 열기"
-        },
-        {
-            "id": "Direct Edit",
-            "message": "Direct Edit",
-            "translation": "직접 편집"
         },
         {
             "id": "Domains",

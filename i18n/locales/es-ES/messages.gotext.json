@@ -207,16 +207,6 @@
             "translation": "Editar"
         },
         {
-            "id": "Open File",
-            "message": "Open File",
-            "translation": "Abrir documento"
-        },
-        {
-            "id": "Show in Folder",
-            "message": "Show in Folder",
-            "translation": "Mostrar en la carpeta"
-        },
-        {
             "id": "Create a Copy",
             "message": "Create a Copy",
             "translation": "Crear una copia"
@@ -1168,16 +1158,6 @@
             "id": "Enable",
             "message": "Enable",
             "translation": "Habilitar"
-        },
-        {
-            "id": "Open Config",
-            "message": "Open Config",
-            "translation": "Abrir configuración"
-        },
-        {
-            "id": "Direct Edit",
-            "message": "Direct Edit",
-            "translation": "Edición directa"
         },
         {
             "id": "Domains",

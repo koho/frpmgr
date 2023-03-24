@@ -10,7 +10,6 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST manifest.xml
 IDI_APP      ICON icon/app.ico
 IDI_DOT      ICON icon/dot.ico
-IDI_OPEN     ICON icon/open.ico
 IDI_REFRESH  ICON icon/refresh.ico
 IDI_COPY     ICON icon/copy.ico
 IDI_COPY_ACT ICON icon/copy_act.ico

@@ -21,7 +21,6 @@ const (
 // Icons
 const (
 	IconLogo         = 7
-	IconOpen         = 22
 	IconRefresh      = 23
 	IconCopy         = 24
 	IconCopyActive   = 25

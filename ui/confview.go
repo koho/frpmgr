@@ -62,15 +62,6 @@ func (cv *ConfView) View() Widget {
 						Enabled:     Bind("conf.Selected"),
 						OnTriggered: cv.editCurrent,
 					},
-					Action{Text: i18n.Sprintf("Open File"),
-						Enabled:     Bind("conf.Selected"),
-						OnTriggered: func() { cv.onOpen(false) },
-					},
-					Action{
-						Text:        i18n.Sprintf("Show in Folder"),
-						Enabled:     Bind("conf.Selected"),
-						OnTriggered: func() { cv.onOpen(true) },
-					},
 					Separator{},
 					Action{Text: i18n.Sprintf("New Configuration"), OnTriggered: cv.editNew},
 					Menu{
@@ -485,18 +476,6 @@ func (cv *ConfView) onCopyShareLink() {
 		// Insert the config name in the first line
 		content = append([]byte("# "+conf.Name+"\n"), content...)
 		walk.Clipboard().SetText(consts.ShareLinkScheme + base64.StdEncoding.EncodeToString(content))
-	}
-}
-
-func (cv *ConfView) onOpen(folder bool) {
-	if conf := getCurrentConf(); conf != nil {
-		if path, err := filepath.Abs(conf.Path); err == nil {
-			if folder {
-				openFolder(path)
-			} else {
-				openPath(path)
-			}
-		}
 	}
 }
 
