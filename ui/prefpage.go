@@ -59,7 +59,7 @@ func (pp *PrefPage) passwordSection() GroupBox {
 			},
 			Composite{
 				Row: 2, Column: 1,
-				Layout: HBox{MarginsZero: true, Margins: Margins{0, 5, 0, 5}, Spacing: 10},
+				Layout: HBox{MarginsZero: true, Margins: Margins{Top: 5, Bottom: 5}, Spacing: 10},
 				Children: []Widget{
 					PushButton{
 						MinSize: Size{Width: 150},
@@ -110,7 +110,7 @@ func (pp *PrefPage) languageSection() GroupBox {
 			},
 			Composite{
 				Row: 1, Column: 1,
-				Layout: HBox{Margins: Margins{0, 5, 0, 5}, Spacing: 10},
+				Layout: HBox{Margins: Margins{Top: 5, Bottom: 5}, Spacing: 10},
 				Children: []Widget{
 					Label{Text: i18n.SprintfColon("Select language")},
 					ComboBox{
@@ -134,7 +134,7 @@ func (pp *PrefPage) languageSection() GroupBox {
 func (pp *PrefPage) defaultSection() GroupBox {
 	return GroupBox{
 		Title:  i18n.Sprintf("Defaults"),
-		Layout: Grid{Alignment: AlignHNearVCenter, Columns: 2, Spacing: 10, Margins: Margins{9, 9, 9, 16}},
+		Layout: Grid{Alignment: AlignHNearVCenter, Columns: 2, Spacing: 10, Margins: Margins{Left: 9, Top: 9, Right: 9, Bottom: 16}},
 		Children: []Widget{
 			ImageView{Image: loadSysIcon("imageres", consts.IconDefaults, 32)},
 			Label{Text: i18n.Sprintf("Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.")},

@@ -1,0 +1,45 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Go environment
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+
+      - name: Setup VS environment
+        shell: cmd
+        run: |
+          for /f "usebackq delims=" %%i in (`vswhere.exe -latest -property installationPath`) do echo %%i\VC\Auxiliary\Build>>%GITHUB_PATH%
+
+      - name: Build
+        shell: cmd
+        run: build.bat
+
+  test:
+    name: Go
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Go environment
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+
+      - name: Test
+        run: go test -v ./...

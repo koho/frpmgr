@@ -78,7 +78,7 @@ func Expiry(configPath string, del AutoDelete) (time.Duration, error) {
 	}
 	switch del.DeleteMethod {
 	case consts.DeleteAbsolute:
-		return del.DeleteAfterDate.Sub(time.Now()), nil
+		return time.Until(del.DeleteAfterDate), nil
 	case consts.DeleteRelative:
 		if del.DeleteAfterDays > 0 {
 			elapsed := time.Since(fInfo.ModTime())

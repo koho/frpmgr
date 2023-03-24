@@ -117,7 +117,7 @@ func (cv *ConfView) View() Widget {
 						style.Image = cacheValue
 						return
 					}
-					bitmap, err := walk.NewBitmapWithTransparentPixelsForDPI(walk.Size{bitmapWidth, bitmapWidth}, cv.listView.DPI())
+					bitmap, err := walk.NewBitmapWithTransparentPixelsForDPI(walk.Size{Width: bitmapWidth, Height: bitmapWidth}, cv.listView.DPI())
 					if err != nil {
 						return
 					}
@@ -233,7 +233,7 @@ func (cv *ConfView) editCopy(all bool) {
 
 func (cv *ConfView) fixWidthToToolbarWidth() {
 	toolbarWidth := cv.toolbar.SizeHint().Width
-	cv.SetMinMaxSizePixels(walk.Size{toolbarWidth, 0}, walk.Size{toolbarWidth, 0})
+	cv.SetMinMaxSizePixels(walk.Size{Width: toolbarWidth}, walk.Size{Width: toolbarWidth})
 }
 
 func (cv *ConfView) onEditConf(conf *Conf, name string) {

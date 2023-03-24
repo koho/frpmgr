@@ -19,15 +19,15 @@ func NewRangeValidator(min, max float64) (*RangeValidator, error) {
 
 func (rv *RangeValidator) Validate(v interface{}) error {
 	var value float64
-	switch v.(type) {
+	switch v := v.(type) {
 	case string:
-		f, err := walk.ParseFloat(v.(string))
+		f, err := walk.ParseFloat(v)
 		if err != nil {
 			return nanErr
 		}
 		value = f
 	case float64:
-		value = v.(float64)
+		value = v
 	default:
 		panic("Unsupported type")
 	}

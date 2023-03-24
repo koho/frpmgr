@@ -96,7 +96,7 @@ func (cd *EditClientDialog) View() Dialog {
 			Pages: pages,
 		},
 	)
-	dlg.Layout = VBox{Margins: Margins{7, 9, 7, 9}}
+	dlg.Layout = VBox{Margins: Margins{Left: 7, Top: 9, Right: 7, Bottom: 9}}
 	minWidth := int(funk.Sum(funk.Map(pages, func(page TabPage) int {
 		return calculateStringWidth(page.Title.(string)) + 19
 	})) + 70)
@@ -336,7 +336,7 @@ func (cd *EditClientDialog) customConfDialog() Dialog {
 		Label{Text: i18n.Sprintf("* Refer to the [common] section of the FRP configuration file.")},
 		TextEdit{Text: Bind("CustomText"), VScroll: true},
 	)
-	customDialog.MinSize = Size{420, 280}
+	customDialog.MinSize = Size{Width: 420, Height: 280}
 	return customDialog
 }
 

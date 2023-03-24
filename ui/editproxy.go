@@ -117,7 +117,7 @@ func (pd *EditProxyDialog) View() Dialog {
 					pd.DefaultButton().SetEnabled(pd.dbs[0].CanSubmit())
 				},
 			},
-			Layout: Grid{Columns: 2, SpacingZero: false, Margins: Margins{0, 4, 0, 4}},
+			Layout: Grid{Columns: 2, SpacingZero: false, Margins: Margins{Top: 4, Bottom: 4}},
 			Children: []Widget{
 				Label{Text: i18n.SprintfColon("Name"), Alignment: AlignHNearVCenter},
 				Composite{
@@ -146,13 +146,13 @@ func (pd *EditProxyDialog) View() Dialog {
 			Layout: VBox{MarginsZero: true, SpacingZero: true},
 			Children: []Widget{
 				TabWidget{
-					MinSize: Size{0, 240},
+					MinSize: Size{Height: 240},
 					Pages:   pages,
 				},
 			},
 		},
 	)
-	dlg.Layout = VBox{Margins: Margins{7, 9, 7, 9}}
+	dlg.Layout = VBox{Margins: Margins{Left: 7, Top: 9, Right: 7, Bottom: 9}}
 	minWidth := int(funk.Sum(funk.Map(pages, func(page TabPage) int {
 		return calculateStringWidth(page.Title.(string)) + 20
 	})) + 20)

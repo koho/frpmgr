@@ -80,14 +80,14 @@ func (cp *ConfPage) welcomeView() Composite {
 			VSpacer{},
 			PushButton{
 				Text:      i18n.Sprintf("New Configuration"),
-				MinSize:   Size{200, 0},
-				MaxSize:   Size{200, 0},
+				MinSize:   Size{Width: 200},
+				MaxSize:   Size{Width: 200},
 				OnClicked: cp.confView.editNew,
 			},
 			PushButton{
 				Text:      i18n.Sprintf("Import Config from File"),
-				MinSize:   Size{200, 0},
-				MaxSize:   Size{200, 0},
+				MinSize:   Size{Width: 200},
+				MaxSize:   Size{Width: 200},
 				OnClicked: cp.confView.onFileImport,
 			},
 			VSpacer{},
@@ -153,11 +153,8 @@ func (cp *ConfPage) startQueryService() {
 		defer ticker.Stop()
 		// Trigger a state query first
 		query()
-		for {
-			select {
-			case <-ticker.C:
-				query()
-			}
+		for range ticker.C {
+			query()
 		}
 	}()
 }
