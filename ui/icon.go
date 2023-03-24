@@ -63,7 +63,7 @@ func loadResourceIcon(id int, size int) (icon *walk.Icon) {
 		return
 	}
 	var err error
-	icon, err = walk.NewIconFromResourceIdWithSize(id, walk.Size{size, size})
+	icon, err = walk.NewIconFromResourceIdWithSize(id, walk.Size{Width: size, Height: size})
 	if err == nil {
 		cachedResourceIcons[widthDllIdx{width: size, idx: int32(id)}] = icon
 	}

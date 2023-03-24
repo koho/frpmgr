@@ -1,11 +1,9 @@
 package ui
 
 import (
-	"math/rand"
 	"os"
 	"path/filepath"
 	"strings"
-	"time"
 
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/consts"
@@ -37,7 +35,6 @@ type View interface {
 }
 
 func init() {
-	rand.Seed(time.Now().UnixNano())
 	walk.SetTranslationFunc(func(source string, context ...string) string {
 		translation := i18n.Sprintf(source)
 		s1 := strings.ReplaceAll(translation, "%!f(MISSING)", "%.f")
@@ -79,7 +76,7 @@ func RunUI() error {
 		Title:      AppLocalName,
 		Persistent: true,
 		Visible:    false,
-		Layout:     VBox{Margins: Margins{5, 5, 5, 5}},
+		Layout:     VBox{Margins: Margins{Left: 5, Top: 5, Right: 5, Bottom: 5}},
 		Font:       consts.TextRegular,
 		Children: []Widget{
 			TabWidget{
@@ -114,8 +111,8 @@ func RunUI() error {
 	fm.aboutPage.OnCreate()
 	// Resize window
 	fm.SetSizePixels(walk.Size{
-		fm.confPage.confView.MinSizePixels().Width + fm.IntFrom96DPI(685),
-		fm.IntFrom96DPI(525),
+		Width:  fm.confPage.confView.MinSizePixels().Width + fm.IntFrom96DPI(685),
+		Height: fm.IntFrom96DPI(525),
 	})
 	fm.SetVisible(true)
 	fm.Run()

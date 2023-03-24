@@ -40,7 +40,7 @@ func (pv *PanelView) View() Widget {
 	return GroupBox{
 		AssignTo: &pv.GroupBox,
 		Title:    "",
-		Layout:   Grid{Margins: Margins{10, 7, 10, 10}, Spacing: 10},
+		Layout:   Grid{Margins: Margins{Left: 10, Top: 7, Right: 10, Bottom: 10}, Spacing: 10},
 		Children: []Widget{
 			Label{Text: i18n.SprintfColon("Status"), Row: 0, Column: 0, Alignment: AlignHFarVCenter},
 			Label{Text: i18n.SprintfColon("Remote Address"), Row: 1, Column: 0, Alignment: AlignHFarVCenter},
@@ -88,14 +88,14 @@ func (pv *PanelView) View() Widget {
 					PushButton{
 						AssignTo:  &pv.toggleBtn,
 						Text:      i18n.Sprintf("Start"),
-						MaxSize:   Size{80, 0},
+						MaxSize:   Size{Width: 80},
 						Enabled:   false,
 						OnClicked: pv.ToggleService,
 					},
 					PushButton{
 						AssignTo: &pv.svcOpenBtn,
 						Text:     i18n.Sprintf("Service"),
-						MaxSize:  Size{80, 0},
+						MaxSize:  Size{Width: 80},
 						Enabled:  false,
 						OnClicked: func() {
 							services.ShowPropertyDialog(services.DisplayNameOfClient(pv.Title()))

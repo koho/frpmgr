@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="!(loc.ApplicationName)" Language="!(loc.Language)" Version="$(var.VERSION)" Manufacturer="FRP Manager Project" UpgradeCode="c9f7c2b3-291a-454a-9871-150d98dc2645">
 
-		<Package InstallerVersion="400" Compressed="yes" InstallScope="perMachine" Platform="x64" Languages="1033,1041,1042,2052,1028,3082" Description="!(loc.ApplicationName)" />
+<?if $(sys.BUILDARCH) = x64 ?>
+	<?define Win64 = "yes" ?>
+	<?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+	<?define UpgradeCode = "c9f7c2b3-291a-454a-9871-150d98dc2645" ?>
+<?else?>
+	<?define Win64 = "no" ?>
+	<?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+	<?define UpgradeCode = "46E3AA36-10BB-4CD9-92E3-5F990AB5FC88" ?>
+<?endif?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="!(loc.ApplicationName)" Language="!(loc.Language)" Version="$(var.VERSION)" Manufacturer="FRP Manager Project" UpgradeCode="$(var.UpgradeCode)">
+
+		<Package InstallerVersion="400" Compressed="yes" InstallScope="perMachine" Languages="1033,1041,1042,2052,1028,3082" Description="!(loc.ApplicationName)" />
 
 		<MediaTemplate EmbedCab="yes" CompressionLevel="high" />
 
@@ -12,7 +23,7 @@
 		<MajorUpgrade AllowDowngrades="yes" />
 
 		<Icon Id="ProductIcon" SourceFile="..\icon\app.ico" />
-		<Binary Id="actions.dll" SourceFile="build\actions.dll" />
+		<Binary Id="actions.dll" SourceFile="build\$(sys.BUILDARCH)\actions.dll" />
 
 		<Property Id="ARPPRODUCTICON" Value="ProductIcon" />
 		<Property Id="ARPURLINFOABOUT" Value="https://github.com/koho/frpmgr" />
@@ -52,7 +63,7 @@
 	-->
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="ProgramFiles64Folder">
+			<Directory Id="$(var.PlatformProgramFilesFolder)">
 				<Directory Id="INSTALLFOLDER" Name="FRP" />
 			</Directory>
 			<Directory Id="ProgramMenuFolder" />
@@ -64,17 +75,17 @@
 	-->
 	<Fragment>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-			<Component Guid="{E39EABEF-A7EB-4EAF-AD3E-A1254450BBE1}" Id="MainApplication" Win64="yes">
-				<File Id="MainApplication" Source="..\bin\frpmgr.exe" KeyPath="yes">
+			<Component Guid="{E39EABEF-A7EB-4EAF-AD3E-A1254450BBE1}" Id="MainApplication" Win64="$(var.Win64)">
+				<File Id="MainApplication" Source="..\bin\$(sys.BUILDARCH)\frpmgr.exe" KeyPath="yes">
 					<Shortcut Id="StartMenuShortcut" Name="!(loc.ApplicationName)" Directory="ProgramMenuFolder" WorkingDirectory="INSTALLFOLDER" Advertise="yes"/>
 				</File>
 				<!-- A dummy to make WiX create ServiceControl table for us. -->
 				<ServiceControl Id="DummyService.E3F2D6BE_38C7_4654_9C1B_C667A1F9040A" Name="DummyService.E3F2D6BE_38C7_4654_9C1B_C667A1F9040A" />
 			</Component>
-			<Component Guid="{4D11B79E-74E2-4F35-81EA-8B5CC7225A78}" Id="LangConfig" Win64="yes">
+			<Component Guid="{4D11B79E-74E2-4F35-81EA-8B5CC7225A78}" Id="LangConfig" Win64="$(var.Win64)">
 				<File Id="LangConfig" Source="..\cmd\frpmgr\lang.config" KeyPath="yes"/>
 			</Component>
-			<Component Guid="{B73203B2-5C06-4C45-BC6C-1C98CE11A292}" Id="AppConfig" Win64="yes">
+			<Component Guid="{B73203B2-5C06-4C45-BC6C-1C98CE11A292}" Id="AppConfig" Win64="$(var.Win64)">
 				<File Id="AppConfig" Source="..\cmd\frpmgr\app.config" KeyPath="yes"/>
 			</Component>
 		</ComponentGroup>

@@ -40,6 +40,9 @@ func FindLogFiles(path string) ([]string, []string, error) {
 	fileDir, fileName := filepath.Split(path)
 	baseName, ext := SplitExt(fileName)
 	pattern := regexp.MustCompile(`^\.\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$`)
+	if fileDir == "" {
+		fileDir = "."
+	}
 	files, err := os.ReadDir(fileDir)
 	if err != nil {
 		return nil, nil, err

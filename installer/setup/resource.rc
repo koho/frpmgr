@@ -31,7 +31,7 @@ BEGIN \
       VALUE "FileVersion", EXPAND(VERSION_STR) \
       VALUE "InternalName", "frpmgr-Setup" \
       VALUE "LegalCopyright", "Copyright © FRP Manager Project" \
-      VALUE "OriginalFilename", EXPAND(frpmgr-VERSION_STR-Setup.exe) \
+      VALUE "OriginalFilename", EXPAND(frpmgr-VERSION_STR-setup-ARCH.exe) \
       VALUE "ProductName", product_name \
       VALUE "ProductVersion", EXPAND(VERSION_STR) \
       VALUE "Comments", "https://github.com/koho/frpmgr" \
