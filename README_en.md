@@ -22,13 +22,13 @@ Instructions for use:
 
 ## :sparkles: Features
 
-* :pencil2: Simple GUI for quick configuration
-* :play_or_pause_button: Quick enable/disable proxy entry
-* 📚 Multiple configuration files management
-* :inbox_tray: Support import/export configuration files
-* :computer: Auto-start at system boot
-* :lock: Support password protection
-* :clock4: Support automatic deletion of configuration files
+* :pencil2: Simple GUI for quick configuration.
+* :play_or_pause_button: Enable/Disable proxy entry.
+* 📚 Manage multiple configuration files.
+* :inbox_tray: Import/Export configuration files.
+* :computer: Auto-start at system boot.
+* :lock: Lock application, encrypt configuration files.
+* :clock4: Support automatic deletion of configuration files.
 
 ## :gear: Build
 

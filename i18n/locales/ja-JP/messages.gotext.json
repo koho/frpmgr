@@ -207,16 +207,6 @@
             "translation": "編集"
         },
         {
-            "id": "Open File",
-            "message": "Open File",
-            "translation": "ファイルを開く"
-        },
-        {
-            "id": "Show in Folder",
-            "message": "Show in Folder",
-            "translation": "フォルダで見て"
-        },
-        {
             "id": "Create a Copy",
             "message": "Create a Copy",
             "translation": "コピーを作成する"
@@ -1178,16 +1168,6 @@
             "id": "Enable",
             "message": "Enable",
             "translation": "有効"
-        },
-        {
-            "id": "Open Config",
-            "message": "Open Config",
-            "translation": "設定を開く"
-        },
-        {
-            "id": "Direct Edit",
-            "message": "Direct Edit",
-            "translation": "直接編集"
         },
         {
             "id": "Domains",

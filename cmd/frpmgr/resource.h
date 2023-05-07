@@ -3,7 +3,6 @@
 
 #define IDI_APP       7
 #define IDI_DOT       21
-#define IDI_OPEN      22
 #define IDI_REFRESH   23
 #define IDI_COPY      24
 #define IDI_COPY_ACT  25

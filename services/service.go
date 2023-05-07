@@ -40,7 +40,11 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 		log.Println("Shutting down")
 	}()
 
-	cc, err := config.UnmarshalClientConfFromIni(service.configPath)
+	data, err := config.ReadFile(service.configPath)
+	if err != nil {
+		return
+	}
+	cc, err := config.UnmarshalClientConfFromIni(data)
 	if err != nil {
 		return
 	}
@@ -59,7 +63,7 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 		return
 	}
 
-	go runFrpClient()
+	go runFrpClient(data)
 
 	changes <- svc.Status{State: svc.Running, Accepts: svc.AcceptStop | svc.AcceptShutdown}
 	log.Println("Startup complete")

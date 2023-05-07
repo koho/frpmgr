@@ -207,16 +207,6 @@
             "translation": "編輯"
         },
         {
-            "id": "Open File",
-            "message": "Open File",
-            "translation": "打開文件"
-        },
-        {
-            "id": "Show in Folder",
-            "message": "Show in Folder",
-            "translation": "在文件夾中顯示"
-        },
-        {
             "id": "Create a Copy",
             "message": "Create a Copy",
             "translation": "創建副本"
@@ -1168,16 +1158,6 @@
             "id": "Enable",
             "message": "Enable",
             "translation": "啟用"
-        },
-        {
-            "id": "Open Config",
-            "message": "Open Config",
-            "translation": "打開配置文件"
-        },
-        {
-            "id": "Direct Edit",
-            "message": "Direct Edit",
-            "translation": "直接編輯"
         },
         {
             "id": "Domains",

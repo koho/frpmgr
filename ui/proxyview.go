@@ -3,7 +3,6 @@ package ui
 import (
 	"fmt"
 	"net"
-	"path/filepath"
 	"strings"
 
 	"github.com/koho/frpmgr/i18n"
@@ -36,8 +35,6 @@ type ProxyView struct {
 	vpnAction       *walk.Action
 	editAction      *walk.Action
 	deleteAction    *walk.Action
-	openConfAction  *walk.Action
-	showConfAction  *walk.Action
 	toggleAction    *walk.Action
 }
 
@@ -226,26 +223,6 @@ func (pv *ProxyView) createToolbar() ToolBar {
 				Enabled:     Bind("proxy.CurrentIndex >= 0"),
 				OnTriggered: pv.onDelete,
 			},
-			Menu{
-				Text:  i18n.Sprintf("Open Config"),
-				Image: loadResourceIcon(consts.IconOpen, 16),
-				Items: []MenuItem{
-					Action{
-						AssignTo: &pv.openConfAction,
-						Text:     i18n.Sprintf("Direct Edit"),
-						OnTriggered: func() {
-							pv.onOpenConfig(false)
-						},
-					},
-					Action{
-						AssignTo: &pv.showConfAction,
-						Text:     i18n.Sprintf("Show in Folder"),
-						OnTriggered: func() {
-							pv.onOpenConfig(true)
-						},
-					},
-				},
-			},
 		},
 	}
 }
@@ -295,14 +272,6 @@ func (pv *ProxyView) createProxyTable() TableView {
 				Text:        i18n.Sprintf("Copy Access Address"),
 				Image:       loadSysIcon("shell32", consts.IconSysCopy, 16),
 				OnTriggered: pv.onCopyAccessAddr,
-			},
-			Menu{
-				Text:  i18n.Sprintf("Open Config"),
-				Image: loadResourceIcon(consts.IconOpen, 16),
-				Items: []MenuItem{
-					ActionRef{Action: &pv.openConfAction},
-					ActionRef{Action: &pv.showConfAction},
-				},
 			},
 			Separator{},
 			ActionRef{Action: &pv.deleteAction},
@@ -478,19 +447,6 @@ func (pv *ProxyView) onQuickAdd(qa QuickAdd) {
 		if added {
 			pv.commit()
 			pv.scrollToBottom()
-		}
-	}
-}
-
-func (pv *ProxyView) onOpenConfig(folder bool) {
-	if pv.model == nil {
-		return
-	}
-	if path, err := filepath.Abs(pv.model.conf.Path); err == nil {
-		if folder {
-			openFolder(path)
-		} else {
-			openPath(path)
 		}
 	}
 }

@@ -269,20 +269,6 @@
             "fuzzy": true
         },
         {
-            "id": "Open File",
-            "message": "Open File",
-            "translation": "Open File",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Show in Folder",
-            "message": "Show in Folder",
-            "translation": "Show in Folder",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "Create a Copy",
             "message": "Create a Copy",
             "translation": "Create a Copy",
@@ -1574,20 +1560,6 @@
             "id": "Enable",
             "message": "Enable",
             "translation": "Enable",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Open Config",
-            "message": "Open Config",
-            "translation": "Open Config",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Direct Edit",
-            "message": "Direct Edit",
-            "translation": "Direct Edit",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

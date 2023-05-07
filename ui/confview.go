@@ -13,6 +13,7 @@ import (
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/layout"
+	"github.com/koho/frpmgr/pkg/sec"
 	"github.com/koho/frpmgr/pkg/util"
 
 	"github.com/lxn/walk"
@@ -60,15 +61,6 @@ func (cv *ConfView) View() Widget {
 						Text:        i18n.Sprintf("Edit"),
 						Enabled:     Bind("conf.Selected"),
 						OnTriggered: cv.editCurrent,
-					},
-					Action{Text: i18n.Sprintf("Open File"),
-						Enabled:     Bind("conf.Selected"),
-						OnTriggered: func() { cv.onOpen(false) },
-					},
-					Action{
-						Text:        i18n.Sprintf("Show in Folder"),
-						Enabled:     Bind("conf.Selected"),
-						OnTriggered: func() { cv.onOpen(true) },
 					},
 					Separator{},
 					Action{Text: i18n.Sprintf("New Configuration"), OnTriggered: cv.editNew},
@@ -276,7 +268,12 @@ func (cv *ConfView) onURLImport() {
 						showError(err, cv.Form())
 						continue
 					}
-					if err = os.WriteFile(newPath, item.Data, 0666); err != nil {
+					encrypted, err := sec.Encrypt(item.Data)
+					if err != nil {
+						showError(err, cv.Form())
+						continue
+					}
+					if err = os.WriteFile(newPath, encrypted, 0666); err != nil {
 						showError(err, cv.Form())
 						continue
 					}
@@ -292,15 +289,21 @@ func (cv *ConfView) onURLImport() {
 func (cv *ConfView) checkConfName(filename string, rename bool) (string, bool) {
 	suffix := ""
 checkName:
-	newPath := PathOfConf(util.AddFileSuffix(filename, suffix))
-	if _, err := os.Stat(newPath); err == nil {
-		if rename {
-			suffix = "_" + funk.RandomString(4)
-			goto checkName
+	// The config file has two different extensions.
+	// We should make sure none of these files exist.
+	baseName, _ := util.SplitExt(filename)
+	datPath := PathOfConf(util.AddFileSuffix(baseName+".dat", suffix))
+	iniPath := PathOfConf(util.AddFileSuffix(baseName+".ini", suffix))
+	for _, path := range []string{datPath, iniPath} {
+		if _, err := os.Stat(path); err == nil {
+			if rename {
+				suffix = "_" + funk.RandomString(4)
+				goto checkName
+			}
+			return path, false
 		}
-		return newPath, false
 	}
-	return newPath, true
+	return datPath, true
 }
 
 func (cv *ConfView) onFileImport() {
@@ -352,7 +355,7 @@ func (cv *ConfView) ImportFiles(files []string) {
 					showError(err, cv.Form())
 					continue
 				}
-				if _, err = util.CopyFile(path, newPath); err != nil {
+				if err = sec.EncryptFile(path, newPath); err != nil {
 					showError(err, cv.Form())
 					continue
 				}
@@ -388,7 +391,11 @@ func (cv *ConfView) importZip(path string, data []byte, rename bool) (total, imp
 			return err
 		}
 		defer fw.Close()
-		if _, err = fw.Write(src); err != nil {
+		encrypted, err := sec.Encrypt(src)
+		if err != nil {
+			return err
+		}
+		if _, err = fw.Write(encrypted); err != nil {
 			return err
 		}
 		addConf(NewConf(dst, conf))
@@ -472,18 +479,6 @@ func (cv *ConfView) onCopyShareLink() {
 	}
 }
 
-func (cv *ConfView) onOpen(folder bool) {
-	if conf := getCurrentConf(); conf != nil {
-		if path, err := filepath.Abs(conf.Path); err == nil {
-			if folder {
-				openFolder(path)
-			} else {
-				openPath(path)
-			}
-		}
-	}
-}
-
 func (cv *ConfView) onDelete() {
 	if conf := getCurrentConf(); conf != nil {
 		if walk.MsgBox(cv.Form(), i18n.Sprintf("Delete config \"%s\"", conf.Name),
@@ -521,7 +516,7 @@ func (cv *ConfView) onExport() {
 	files := funk.Map(confList, func(conf *Conf) string {
 		return conf.Path
 	})
-	if err := util.ZipFiles(dlg.FilePath, files.([]string)); err != nil {
+	if err := config.Zip(dlg.FilePath, files.([]string)); err != nil {
 		showError(err, cv.Form())
 	}
 }
