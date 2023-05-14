@@ -14,6 +14,15 @@ import (
 	"github.com/thoas/go-funk"
 )
 
+// The flag controls the running state of service.
+type runFlag int
+
+const (
+	runFlagAuto runFlag = iota
+	runFlagForceStart
+	runFlagReload
+)
+
 // Conf contains all data of a config
 type Conf struct {
 	sync.Mutex
@@ -145,7 +154,7 @@ type ConfBinder struct {
 	// Selected indicates whether there's a selected config
 	Selected bool
 	// Commit will save the given config and try to reload service
-	Commit func(conf *Conf, forceStart bool)
+	Commit func(conf *Conf, flag runFlag)
 }
 
 // getCurrentConf returns the current selected config
@@ -170,10 +179,10 @@ func setCurrentConf(conf *Conf) {
 }
 
 // commitConf will save the given config and try to reload service
-func commitConf(conf *Conf, forceStart bool) {
+func commitConf(conf *Conf, flag runFlag) {
 	if confDB != nil {
 		if ds, ok := confDB.DataSource().(*ConfBinder); ok {
-			ds.Commit(conf, forceStart)
+			ds.Commit(conf, flag)
 		}
 	}
 }
