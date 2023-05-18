@@ -253,7 +253,11 @@ func (cv *ConfView) onEditConf(conf *Conf, name string) {
 			confDB.Reset()
 		}
 		// Commit the config
-		commitConf(dlg.Conf, dlg.ShouldRestart)
+		flag := runFlagAuto
+		if dlg.ShouldRestart {
+			flag = runFlagForceStart
+		}
+		commitConf(dlg.Conf, flag)
 	}
 }
 

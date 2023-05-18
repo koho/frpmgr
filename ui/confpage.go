@@ -36,15 +36,22 @@ func (cp *ConfPage) Page() TabPage {
 			AssignTo: &confDB,
 			DataSource: &ConfBinder{
 				Current: nil,
-				Commit: func(conf *Conf, forceStart bool) {
+				Commit: func(conf *Conf, flag runFlag) {
 					if conf != nil {
 						if err := conf.Save(); err != nil {
 							showError(err, cp.Form())
 							return
 						}
-						if forceStart {
+						if flag == runFlagForceStart {
 							// The service of config is stopped by other code, but it should be restarted
 						} else if conf.State == consts.StateStarted {
+							// Hot-Reloading frp configuration
+							if flag == runFlagReload {
+								if err := services.ReloadService(conf.Name); err != nil {
+									showError(err, cp.Form())
+								}
+								return
+							}
 							// The service is running, we should stop it and restart it later
 							if err := cp.detailView.panelView.StopService(conf); err != nil {
 								showError(err, cp.Form())

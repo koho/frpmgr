@@ -514,7 +514,7 @@ func (pv *ProxyView) switchToggleAction() {
 func (pv *ProxyView) commit() {
 	pv.Invalidate()
 	if pv.model != nil {
-		commitConf(pv.model.conf, false)
+		commitConf(pv.model.conf, runFlagReload)
 	}
 }
 

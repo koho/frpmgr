@@ -1,7 +1,6 @@
 package services
 
 import (
-	"errors"
 	"os"
 	"path/filepath"
 	"time"
@@ -41,14 +40,10 @@ func InstallService(name string, configPath string, manual bool) error {
 	serviceName := ServiceNameOfClient(name)
 	service, err := m.OpenService(serviceName)
 	if err == nil {
-		status, err := service.Query()
+		_, err = service.Query()
 		if err != nil && err != windows.ERROR_SERVICE_MARKED_FOR_DELETE {
 			service.Close()
 			return err
-		}
-		if status.State != svc.Stopped && err != windows.ERROR_SERVICE_MARKED_FOR_DELETE {
-			service.Close()
-			return errors.New("service already installed and running")
 		}
 		err = service.Delete()
 		service.Close()

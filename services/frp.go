@@ -6,17 +6,9 @@ import (
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/util"
 
-	_ "github.com/fatedier/frp/assets/frpc"
-	frpc "github.com/fatedier/frp/cmd/frpc/sub"
 	frpconfig "github.com/fatedier/frp/pkg/config"
 	"github.com/fatedier/frp/pkg/util/log"
 )
-
-func runFrpClient() {
-	// Change program arguments for frpc to parse
-	// No need to change it for now
-	frpc.Execute()
-}
 
 func deleteFrpConfig(serviceName string, configPath string, c config.Config) {
 	// Delete logs
