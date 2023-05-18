@@ -1,11 +1,11 @@
 package ui
 
 import (
-	"github.com/koho/frpmgr/i18n"
-	"github.com/koho/frpmgr/pkg/consts"
-
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
+
+	"github.com/koho/frpmgr/i18n"
+	"github.com/koho/frpmgr/pkg/consts"
 )
 
 // NewBrowseLineEdit places a tool button at the tail of a LineEdit, and opens a file dialog when the button is clicked

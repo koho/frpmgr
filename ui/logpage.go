@@ -5,12 +5,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/koho/frpmgr/i18n"
-	"github.com/koho/frpmgr/pkg/util"
-
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"github.com/thoas/go-funk"
+
+	"github.com/koho/frpmgr/i18n"
+	"github.com/koho/frpmgr/pkg/util"
 )
 
 type LogPage struct {

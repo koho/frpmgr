@@ -5,13 +5,13 @@ import (
 	"path/filepath"
 	"sync"
 
+	"github.com/lxn/walk"
+	"github.com/thoas/go-funk"
+
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
 	"github.com/koho/frpmgr/services"
-
-	"github.com/lxn/walk"
-	"github.com/thoas/go-funk"
 )
 
 // The flag controls the running state of service.

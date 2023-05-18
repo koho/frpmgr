@@ -3,9 +3,9 @@ package validators
 import (
 	"errors"
 
-	"github.com/koho/frpmgr/i18n"
-
 	"github.com/lxn/walk"
+
+	"github.com/koho/frpmgr/i18n"
 )
 
 var (

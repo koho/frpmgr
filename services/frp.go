@@ -3,11 +3,11 @@ package services
 import (
 	"os"
 
-	"github.com/koho/frpmgr/pkg/config"
-	"github.com/koho/frpmgr/pkg/util"
-
 	frpconfig "github.com/fatedier/frp/pkg/config"
 	"github.com/fatedier/frp/pkg/util/log"
+
+	"github.com/koho/frpmgr/pkg/config"
+	"github.com/koho/frpmgr/pkg/util"
 )
 
 func deleteFrpConfig(serviceName string, configPath string, c config.Config) {

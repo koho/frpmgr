@@ -1,9 +1,9 @@
 package validators
 
 import (
-	"github.com/koho/frpmgr/i18n"
-
 	"github.com/lxn/walk"
+
+	"github.com/koho/frpmgr/i18n"
 )
 
 type GTEValidator struct {

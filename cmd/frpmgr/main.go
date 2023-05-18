@@ -8,13 +8,13 @@ import (
 	"strings"
 	"syscall"
 
+	"golang.org/x/sys/windows"
+	"golang.org/x/sys/windows/svc"
+
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/version"
 	"github.com/koho/frpmgr/services"
 	"github.com/koho/frpmgr/ui"
-
-	"golang.org/x/sys/windows"
-	"golang.org/x/sys/windows/svc"
 )
 
 func fatal(v ...interface{}) {

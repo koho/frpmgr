@@ -5,13 +5,13 @@ import (
 	"syscall"
 	"unsafe"
 
-	"github.com/koho/frpmgr/i18n"
-	"github.com/koho/frpmgr/pkg/consts"
-	"github.com/koho/frpmgr/pkg/sec"
-
 	"github.com/lxn/walk"
 	"github.com/lxn/win"
 	"golang.org/x/sys/windows"
+
+	"github.com/koho/frpmgr/i18n"
+	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/sec"
 )
 
 // ValidateDialog validates the administration password.

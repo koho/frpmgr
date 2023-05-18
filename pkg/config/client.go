@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/koho/frpmgr/pkg/consts"
-	"github.com/koho/frpmgr/pkg/util"
-
 	frputil "github.com/fatedier/frp/pkg/util/util"
 	"github.com/thoas/go-funk"
 	"gopkg.in/ini.v1"
+
+	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/util"
 )
 
 type ClientAuth struct {

@@ -1,9 +1,9 @@
 package ui
 
 import (
-	"github.com/koho/frpmgr/pkg/config"
-
 	"github.com/lxn/walk"
+
+	"github.com/koho/frpmgr/pkg/config"
 )
 
 // quickAddBinder is the view model of quick-add dialog

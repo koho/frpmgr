@@ -1,13 +1,13 @@
 package consts
 
 import (
-	"github.com/koho/frpmgr/i18n"
-	"github.com/koho/frpmgr/pkg/validators"
-
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"github.com/lxn/win"
 	"golang.org/x/sys/windows"
+
+	"github.com/koho/frpmgr/i18n"
+	"github.com/koho/frpmgr/pkg/validators"
 )
 
 // Links

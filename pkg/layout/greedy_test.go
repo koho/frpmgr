@@ -1,8 +1,9 @@
 package layout
 
 import (
-	"github.com/lxn/walk"
 	"testing"
+
+	"github.com/lxn/walk"
 )
 
 func TestNewGreedyLayoutItem(t *testing.T) {
