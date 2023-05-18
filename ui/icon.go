@@ -1,9 +1,9 @@
 package ui
 
 import (
-	"github.com/koho/frpmgr/pkg/consts"
-
 	"github.com/lxn/walk"
+
+	"github.com/koho/frpmgr/pkg/consts"
 )
 
 var cachedSystemIconsForWidthAndDllIdx = make(map[widthDllIdx]*walk.Icon)

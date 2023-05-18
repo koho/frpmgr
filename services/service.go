@@ -6,11 +6,11 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/koho/frpmgr/pkg/config"
-	"github.com/koho/frpmgr/pkg/util"
-
 	"github.com/fatedier/frp/pkg/util/log"
 	"golang.org/x/sys/windows/svc"
+
+	"github.com/koho/frpmgr/pkg/config"
+	"github.com/koho/frpmgr/pkg/util"
 )
 
 func ServiceNameOfClient(name string) string {

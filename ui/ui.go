@@ -5,16 +5,16 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/koho/frpmgr/i18n"
-	"github.com/koho/frpmgr/pkg/consts"
-	"github.com/koho/frpmgr/pkg/util"
-	"github.com/koho/frpmgr/services"
-
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"github.com/lxn/win"
 	"github.com/thoas/go-funk"
 	"golang.org/x/sys/windows"
+
+	"github.com/koho/frpmgr/i18n"
+	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/util"
+	"github.com/koho/frpmgr/services"
 )
 
 const AppName = "FRP Manager"

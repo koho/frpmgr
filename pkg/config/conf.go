@@ -4,10 +4,10 @@ import (
 	"os"
 	"time"
 
+	"gopkg.in/ini.v1"
+
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
-
-	"gopkg.in/ini.v1"
 )
 
 func init() {

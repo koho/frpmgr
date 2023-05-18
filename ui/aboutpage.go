@@ -6,12 +6,12 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/lxn/walk"
+	. "github.com/lxn/walk/declarative"
+
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/version"
-
-	"github.com/lxn/walk"
-	. "github.com/lxn/walk/declarative"
 )
 
 type AboutPage struct {

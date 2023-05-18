@@ -4,14 +4,14 @@ import (
 	"os"
 	"sort"
 
+	"github.com/lxn/walk"
+	. "github.com/lxn/walk/declarative"
+	"github.com/lxn/win"
+
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/sec"
 	"github.com/koho/frpmgr/pkg/validators"
-
-	"github.com/lxn/walk"
-	. "github.com/lxn/walk/declarative"
-	"github.com/lxn/win"
 )
 
 type PrefPage struct {

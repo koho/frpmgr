@@ -4,11 +4,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/koho/frpmgr/pkg/config"
-	"github.com/koho/frpmgr/pkg/util"
-
 	"github.com/lxn/walk"
 	"github.com/thoas/go-funk"
+
+	"github.com/koho/frpmgr/pkg/config"
+	"github.com/koho/frpmgr/pkg/util"
 )
 
 type ConfListModel struct {

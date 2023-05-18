@@ -3,13 +3,13 @@ package ui
 import (
 	"time"
 
+	"github.com/lxn/walk"
+	. "github.com/lxn/walk/declarative"
+
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
 	"github.com/koho/frpmgr/services"
-
-	"github.com/lxn/walk"
-	. "github.com/lxn/walk/declarative"
 )
 
 type ConfPage struct {
