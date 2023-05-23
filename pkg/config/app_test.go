@@ -17,8 +17,8 @@ func TestUnmarshalAppConfFromIni(t *testing.T) {
 		login_fail_exit = false
 		user = user
 		tcp_mux = true
-		manual_start = true
-		delete_after_days = 1
+		frpmgr_manual_start = true
+		frpmgr_delete_after_days = 1
 	`
 	expected := App{
 		Password: "abcde",

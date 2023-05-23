@@ -77,17 +77,16 @@ type ClientCommon struct {
 	TLSServerName           string   `ini:"tls_server_name,omitempty"`
 	UDPPacketSize           int64    `ini:"udp_packet_size,omitempty"`
 	Start                   []string `ini:"start,omitempty"`
-	// Options for this project
-	// ManualStart defines whether to start the config on system boot
-	ManualStart bool `ini:"manual_start,omitempty"`
+	// ManualStart defines whether to start the config on system boot.
+	ManualStart bool `ini:"frpmgr_manual_start,omitempty"`
 	AutoDelete  `ini:",extends"`
-	// Custom collects all the unparsed options
+	// Custom collects all the unparsed options.
 	Custom map[string]string `ini:"-"`
 }
 
 // BaseProxyConf provides configuration info that is common to all types.
 type BaseProxyConf struct {
-	// Name is the name of this
+	// Name is the name of this proxy.
 	Name string `ini:"-"`
 	// Type specifies the type of this. Valid values include tcp, udp,
 	// xtcp, stcp, sudp, http, https, tcpmux. By default, this value is "tcp".
@@ -113,8 +112,8 @@ type BaseProxyConf struct {
 	// version will be automatically selected. By default, this value is "".
 	ProxyProtocolVersion string `ini:"proxy_protocol_version,omitempty"`
 
-	// BandwidthLimit limit the bandwidth
-	// 0 means no limit
+	// BandwidthLimit limits the bandwidth.
+	// 0 means no limit.
 	BandwidthLimit     string `ini:"bandwidth_limit,omitempty"`
 	BandwidthLimitMode string `ini:"bandwidth_limit_mode,omitempty"`
 
@@ -132,12 +131,11 @@ type BaseProxyConf struct {
 	PluginParams `ini:",extends"`
 	// HealthCheckType specifies what protocol to use for health checking.
 	HealthCheckType string `ini:"health_check_type,omitempty"` // tcp | http
-	// Health checking parameters
+	// Health checking parameters.
 	HealthCheckConf `ini:",extends"`
-	// Options for this project
-	// Custom collects all the unparsed options
+	// Custom collects all the unparsed options.
 	Custom map[string]string `ini:"-"`
-	// Disabled defines whether to start the proxy
+	// Disabled defines whether to start the proxy.
 	Disabled bool `ini:"-"`
 }
 
@@ -216,7 +214,7 @@ func (p *Proxy) IsVisitor() bool {
 		p.Type == consts.ProxyTypeSUDP) && p.Role == "visitor"
 }
 
-// Marshal returns the encoded proxy
+// Marshal returns the encoded proxy.
 func (p *Proxy) Marshal() ([]byte, error) {
 	cfg := ini.Empty()
 	tp, err := cfg.NewSection(p.Name)
@@ -410,7 +408,7 @@ func (conf *ClientConfig) gatherStart() []string {
 	return start
 }
 
-// CountStart returns the number of enabled proxies
+// CountStart returns the number of enabled proxies.
 func (conf *ClientConfig) CountStart() int {
 	return len(funk.Filter(conf.Proxies, func(proxy *Proxy) bool { return !proxy.Disabled }).([]*Proxy))
 }
@@ -430,7 +428,7 @@ func NewProxyFromIni(name string, section *ini.Section) (*Proxy, error) {
 	return proxy, nil
 }
 
-// UnmarshalProxyFromIni finds a single proxy section and unmarshals it from ini source
+// UnmarshalProxyFromIni finds a single proxy section and unmarshals it from ini source.
 func UnmarshalProxyFromIni(source interface{}) (*Proxy, error) {
 	cfg, err := ini.LoadSources(ini.LoadOptions{
 		IgnoreInlineComment: true,

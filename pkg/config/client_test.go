@@ -12,9 +12,9 @@ func TestUnmarshalClientConfFromIni(t *testing.T) {
 		server_addr = example.com
 		server_port = 7001
 		token = 123456
-		manual_start = true
-		delete_method = absolute
-		delete_after_date = 2023-03-23T00:00:00Z
+		frpmgr_manual_start = true
+		frpmgr_delete_method = absolute
+		frpmgr_delete_after_date = 2023-03-23T00:00:00Z
 		meta_1 = value
 		
 		[ssh]
