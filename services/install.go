@@ -67,7 +67,7 @@ func InstallService(name string, configPath string, manual bool) error {
 		StartType:    mgr.StartAutomatic,
 		ErrorControl: mgr.ErrorNormal,
 		DisplayName:  DisplayNameOfClient(name),
-		Description:  "FRP Client Daemon Service",
+		Description:  "FRP Manager Background Service.",
 		SidType:      windows.SERVICE_SID_TYPE_UNRESTRICTED,
 	}
 	if manual {
