@@ -1,6 +1,7 @@
 package services
 
 import (
+	"crypto/md5"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -14,11 +15,11 @@ import (
 )
 
 func ServiceNameOfClient(name string) string {
-	return fmt.Sprintf("FRPC$%s", name)
+	return fmt.Sprintf("frpmgr_%x", md5.Sum([]byte(name)))
 }
 
 func DisplayNameOfClient(name string) string {
-	return "FRP Client: " + name
+	return "FRP Manager: " + name
 }
 
 type frpService struct {

@@ -1,10 +1,8 @@
 using Microsoft.Deployment.WindowsInstaller;
 using System;
-using System.Collections.Generic;
 using System.Configuration.Install;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
 using System.ServiceProcess;
@@ -90,6 +88,45 @@ namespace actions
             }
         }
 
+        public static void RemoveServices(Session session, string prefix, string binPath)
+        {
+            ServiceController[] services = ServiceController.GetServices();
+            foreach (ServiceController controller in services)
+            {
+                ManagementObject wmiService = new ManagementObject("Win32_Service.Name='" + controller.ServiceName + "'");
+                wmiService.Get();
+                string pathName = wmiService.GetPropertyValue("PathName").ToString();
+                string path1 = pathName.Substring(0, Math.Min(binPath.Length, pathName.Length));
+                string path2 = pathName.Substring(1, Math.Min(binPath.Length, pathName.Length - 1));
+                if ((binPath.ToLower().Equals(path1.ToLower()) || binPath.ToLower().Equals(path2.ToLower())) && controller.ServiceName.StartsWith(prefix))
+                {
+                    try
+                    {
+                        controller.Stop();
+                        controller.WaitForStatus(ServiceControllerStatus.Stopped);
+                    }
+                    catch (Exception)
+                    {
+                        session.Log("Failed to stop " + controller.ServiceName);
+                    }
+
+                    ServiceInstaller installer = new ServiceInstaller
+                    {
+                        Context = new InstallContext(),
+                        ServiceName = controller.ServiceName
+                    };
+                    try
+                    {
+                        installer.Uninstall(null);
+                    }
+                    catch (Exception)
+                    {
+                        session.Log("Failed to uninstall " + controller.ServiceName);
+                    }
+                }
+            }
+        }
+
         [CustomAction]
         public static ActionResult KillProcesses(Session session)
         {
@@ -142,41 +179,7 @@ namespace actions
             {
                 return ActionResult.Success;
             }
-            ServiceController[] services = ServiceController.GetServices();
-            foreach (ServiceController controller in services)
-            {
-                ManagementObject wmiService = new ManagementObject("Win32_Service.Name='" + controller.ServiceName + "'");
-                wmiService.Get();
-                string pathName = wmiService.GetPropertyValue("PathName").ToString();
-                string path1 = pathName.Substring(0, Math.Min(binPath.Length, pathName.Length));
-                string path2 = pathName.Substring(1, Math.Min(binPath.Length, pathName.Length - 1));
-                if (binPath.ToLower().Equals(path1.ToLower()) || binPath.ToLower().Equals(path2.ToLower()))
-                {
-                    try
-                    {
-                        controller.Stop();
-                        controller.WaitForStatus(ServiceControllerStatus.Stopped);
-                    }
-                    catch (Exception)
-                    {
-                        session.Log("Failed to stop " + controller.ServiceName);
-                    }
-
-                    ServiceInstaller installer = new ServiceInstaller
-                    {
-                        Context = new InstallContext(),
-                        ServiceName = controller.ServiceName
-                    };
-                    try
-                    {
-                        installer.Uninstall(null);
-                    }
-                    catch (Exception)
-                    {
-                        session.Log("Failed to uninstall " + controller.ServiceName);
-                    }
-                }
-            }
+            RemoveServices(session, "", binPath);
             return ActionResult.Success;
         }
 
@@ -243,6 +246,19 @@ namespace actions
                     session.Log(e.Message);
                 }
             }
+            return ActionResult.Success;
+        }
+
+        [CustomAction]
+        public static ActionResult RemoveOldFrpServices(Session session)
+        {
+            session.Log("Remove old FRP Services");
+            string binPath = session["CustomActionData"];
+            if (string.IsNullOrEmpty(binPath))
+            {
+                return ActionResult.Success;
+            }
+            RemoveServices(session, "FRPC$", binPath);
             return ActionResult.Success;
         }
     }
