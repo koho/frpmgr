@@ -37,6 +37,8 @@ type Config interface {
 	AutoStart() bool
 	// Expiry indicates whether the config has an expiry date.
 	Expiry() bool
+	// GetSTUNServer returns the STUN server to help penetrate NAT hole.
+	GetSTUNServer() string
 	// Copy creates a new copy of this config.
 	Copy(all bool) Config
 }

@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	frpConfig "github.com/fatedier/frp/pkg/config"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"github.com/thoas/go-funk"
@@ -80,9 +81,19 @@ func (cv *ConfView) View() Widget {
 							Action{Text: i18n.Sprintf("Common Only"), OnTriggered: func() { cv.editCopy(false) }},
 						},
 					},
-					Action{Text: i18n.SprintfEllipsis("Import from File"), OnTriggered: cv.onFileImport},
-					Action{Text: i18n.SprintfEllipsis("Import from URL"), OnTriggered: cv.onURLImport},
-					Action{Text: i18n.Sprintf("Import from Clipboard"), OnTriggered: cv.onClipboardImport},
+					Menu{
+						Text: i18n.Sprintf("Import Config"),
+						Items: []MenuItem{
+							Action{Text: i18n.SprintfEllipsis("Import from File"), OnTriggered: cv.onFileImport},
+							Action{Text: i18n.SprintfEllipsis("Import from URL"), OnTriggered: cv.onURLImport},
+							Action{Text: i18n.Sprintf("Import from Clipboard"), OnTriggered: cv.onClipboardImport},
+						},
+					},
+					Separator{},
+					Action{
+						Text:        i18n.Sprintf("NAT Discovery"),
+						OnTriggered: cv.onNATDiscovery,
+					},
 					Separator{},
 					Action{
 						Text:        i18n.Sprintf("Copy Share Link"),
@@ -526,6 +537,20 @@ func (cv *ConfView) onExport() {
 		return conf.Path
 	})
 	if err := util.ZipFiles(dlg.FilePath, files.([]string)); err != nil {
+		showError(err, cv.Form())
+	}
+}
+
+func (cv *ConfView) onNATDiscovery() {
+	var stunServer string
+	// Try to use the address in config first
+	if conf := getCurrentConf(); conf != nil {
+		stunServer = conf.Data.GetSTUNServer()
+	}
+	if stunServer == "" {
+		stunServer = frpConfig.GetDefaultClientConf().NatHoleSTUNServer
+	}
+	if _, err := NewNATDiscoverDialog(stunServer).Run(cv.Form()); err != nil {
 		showError(err, cv.Form())
 	}
 }

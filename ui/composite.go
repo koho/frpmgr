@@ -34,7 +34,11 @@ func NewBasicDialog(assignTo **walk.Dialog, title string, icon Property, db Data
 	if yes == nil {
 		// Default handler for "yes" button
 		yes = func() {
-			if err := (*assignTo).DataBinder().Submit(); err == nil {
+			if binder := (*assignTo).DataBinder(); binder != nil {
+				if err := binder.Submit(); err == nil {
+					(*assignTo).Accept()
+				}
+			} else {
 				(*assignTo).Accept()
 			}
 		}

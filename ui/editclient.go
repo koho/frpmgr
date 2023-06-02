@@ -125,6 +125,8 @@ func (cd *EditClientDialog) basicConfPage() TabPage {
 			LineEdit{Text: Bind("ServerPort", consts.ValidateRequireInteger)},
 			Label{Text: i18n.SprintfColon("User")},
 			LineEdit{Text: Bind("User")},
+			Label{Text: i18n.SprintfColon("STUN Server")},
+			LineEdit{Text: Bind("NatHoleSTUNServer")},
 			VSpacer{ColumnSpan: 2},
 		},
 	}

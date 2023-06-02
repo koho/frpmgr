@@ -164,3 +164,19 @@ func (m *LogModel) Reset() error {
 	m.lines = lines
 	return nil
 }
+
+// NonSortedModel preserves the original order of items
+// in the slice.
+type NonSortedModel[T any] struct {
+	walk.ReflectTableModelBase
+
+	items []*T
+}
+
+func NewNonSortedModel[T any](items []*T) *NonSortedModel[T] {
+	return &NonSortedModel[T]{items: items}
+}
+
+func (m *NonSortedModel[T]) Items() interface{} {
+	return m.items
+}
