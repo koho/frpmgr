@@ -232,6 +232,11 @@
             "translation": "Solo común"
         },
         {
+            "id": "Import Config",
+            "message": "Import Config",
+            "translation": "Importar configuración"
+        },
+        {
             "id": "Import from File",
             "message": "Import from File",
             "translation": "Importar desde archivo"
@@ -245,6 +250,11 @@
             "id": "Import from Clipboard",
             "message": "Import from Clipboard",
             "translation": "Importar desde portapapeles"
+        },
+        {
+            "id": "NAT Discovery",
+            "message": "NAT Discovery",
+            "translation": "Detección de NAT"
         },
         {
             "id": "Copy Share Link",
@@ -270,11 +280,6 @@
             "id": "Manual Settings",
             "message": "Manual Settings",
             "translation": "Ajustes manuales"
-        },
-        {
-            "id": "Import Config",
-            "message": "Import Config",
-            "translation": "Importar configuración"
         },
         {
             "id": "Imported {Imported} of {Total} configs.",
@@ -403,6 +408,11 @@
             "id": "User",
             "message": "User",
             "translation": "Usuario"
+        },
+        {
+            "id": "STUN Server",
+            "message": "STUN Server",
+            "translation": "Servidor STUN"
         },
         {
             "id": "Auth",
@@ -983,6 +993,46 @@
             "id": "Latest",
             "message": "Latest",
             "translation": "Último"
+        },
+        {
+            "id": "Item",
+            "message": "Item",
+            "translation": "Ítem"
+        },
+        {
+            "id": "Value",
+            "message": "Value",
+            "translation": "Valorizar"
+        },
+        {
+            "id": "NAT Type",
+            "message": "NAT Type",
+            "translation": "Tipo de NAT"
+        },
+        {
+            "id": "Behavior",
+            "message": "Behavior",
+            "translation": "Comportamiento"
+        },
+        {
+            "id": "External Address",
+            "message": "External Address",
+            "translation": "Dirección externa"
+        },
+        {
+            "id": "Yes",
+            "message": "Yes",
+            "translation": "Sí"
+        },
+        {
+            "id": "No",
+            "message": "No",
+            "translation": "No"
+        },
+        {
+            "id": "Public Network",
+            "message": "Public Network",
+            "translation": "Red pública"
         },
         {
             "id": "Unknown",

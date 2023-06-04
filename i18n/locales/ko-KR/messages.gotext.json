@@ -232,6 +232,11 @@
             "translation": "일반 구성만 해당"
         },
         {
+            "id": "Import Config",
+            "message": "Import Config",
+            "translation": "구성 가져오기"
+        },
+        {
             "id": "Import from File",
             "message": "Import from File",
             "translation": "파일에서 가져오기"
@@ -245,6 +250,11 @@
             "id": "Import from Clipboard",
             "message": "Import from Clipboard",
             "translation": "클립보드에서 가져오기"
+        },
+        {
+            "id": "NAT Discovery",
+            "message": "NAT Discovery",
+            "translation": "NAT 검색"
         },
         {
             "id": "Copy Share Link",
@@ -270,11 +280,6 @@
             "id": "Manual Settings",
             "message": "Manual Settings",
             "translation": "수동 설정"
-        },
-        {
-            "id": "Import Config",
-            "message": "Import Config",
-            "translation": "구성 가져오기"
         },
         {
             "id": "Imported {Imported} of {Total} configs.",
@@ -403,6 +408,11 @@
             "id": "User",
             "message": "User",
             "translation": "사용자"
+        },
+        {
+            "id": "STUN Server",
+            "message": "STUN Server",
+            "translation": "STUN 서버"
         },
         {
             "id": "Auth",
@@ -983,6 +993,46 @@
             "id": "Latest",
             "message": "Latest",
             "translation": "최신"
+        },
+        {
+            "id": "Item",
+            "message": "Item",
+            "translation": "안건"
+        },
+        {
+            "id": "Value",
+            "message": "Value",
+            "translation": "값"
+        },
+        {
+            "id": "NAT Type",
+            "message": "NAT Type",
+            "translation": "NAT 유형"
+        },
+        {
+            "id": "Behavior",
+            "message": "Behavior",
+            "translation": "행실"
+        },
+        {
+            "id": "External Address",
+            "message": "External Address",
+            "translation": "외부 주소"
+        },
+        {
+            "id": "Yes",
+            "message": "Yes",
+            "translation": "예"
+        },
+        {
+            "id": "No",
+            "message": "No",
+            "translation": "아니요"
+        },
+        {
+            "id": "Public Network",
+            "message": "Public Network",
+            "translation": "공용 네트워크"
         },
         {
             "id": "Unknown",
