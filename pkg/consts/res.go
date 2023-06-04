@@ -57,7 +57,7 @@ const (
 	IconDefaults     = 156
 	IconKey          = 29
 	IconLanguage     = 89
-	IconNat          = 159
+	IconNat          = 0
 )
 
 // Colors
