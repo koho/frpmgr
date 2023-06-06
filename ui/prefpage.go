@@ -238,6 +238,8 @@ func (pp *PrefPage) setDefaultValue() (int, error) {
 				NumberEdit{Value: Bind("DeleteAfterDays"), Suffix: i18n.SprintfLSpace("Days")},
 				Label{Text: "DNS:"},
 				LineEdit{Text: Bind("DNSServer")},
+				Label{Text: i18n.SprintfColon("STUN Server")},
+				LineEdit{Text: Bind("NatHoleSTUNServer")},
 				Label{Text: i18n.SprintfColon("Source Address")},
 				LineEdit{Text: Bind("ConnectServerLocalIP")},
 				Composite{
