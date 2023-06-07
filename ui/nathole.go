@@ -22,7 +22,7 @@ type NATDiscoveryDialog struct {
 	closed     bool
 }
 
-func NewNATDiscoverDialog(serverAddr string) *NATDiscoveryDialog {
+func NewNATDiscoveryDialog(serverAddr string) *NATDiscoveryDialog {
 	return &NATDiscoveryDialog{serverAddr: serverAddr}
 }
 
