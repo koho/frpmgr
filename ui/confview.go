@@ -548,7 +548,11 @@ func (cv *ConfView) onNATDiscovery() {
 		stunServer = conf.Data.GetSTUNServer()
 	}
 	if stunServer == "" {
-		stunServer = frpConfig.GetDefaultClientConf().NatHoleSTUNServer
+		if appConf.Defaults.NatHoleSTUNServer != "" {
+			stunServer = appConf.Defaults.NatHoleSTUNServer
+		} else {
+			stunServer = frpConfig.GetDefaultClientConf().NatHoleSTUNServer
+		}
 	}
 	if _, err := NewNATDiscoveryDialog(stunServer).Run(cv.Form()); err != nil {
 		showError(err, cv.Form())
