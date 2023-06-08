@@ -304,6 +304,13 @@
             "fuzzy": true
         },
         {
+            "id": "Import Config",
+            "message": "Import Config",
+            "translation": "Import Config",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Import from File",
             "message": "Import from File",
             "translation": "Import from File",
@@ -321,6 +328,13 @@
             "id": "Import from Clipboard",
             "message": "Import from Clipboard",
             "translation": "Import from Clipboard",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "NAT Discovery",
+            "message": "NAT Discovery",
+            "translation": "NAT Discovery",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -356,13 +370,6 @@
             "id": "Manual Settings",
             "message": "Manual Settings",
             "translation": "Manual Settings",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Import Config",
-            "message": "Import Config",
-            "translation": "Import Config",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -515,6 +522,13 @@
             "id": "User",
             "message": "User",
             "translation": "User",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "STUN Server",
+            "message": "STUN Server",
+            "translation": "STUN Server",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1315,6 +1329,62 @@
             "id": "Latest",
             "message": "Latest",
             "translation": "Latest",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Item",
+            "message": "Item",
+            "translation": "Item",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Value",
+            "message": "Value",
+            "translation": "Value",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "NAT Type",
+            "message": "NAT Type",
+            "translation": "NAT Type",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Behavior",
+            "message": "Behavior",
+            "translation": "Behavior",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "External Address",
+            "message": "External Address",
+            "translation": "External Address",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Yes",
+            "message": "Yes",
+            "translation": "Yes",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "No",
+            "message": "No",
+            "translation": "No",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Public Network",
+            "message": "Public Network",
+            "translation": "Public Network",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

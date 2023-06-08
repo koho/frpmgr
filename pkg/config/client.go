@@ -46,6 +46,7 @@ type ClientCommon struct {
 	ClientAuth              `ini:",extends"`
 	ServerAddress           string   `ini:"server_addr,omitempty"`
 	ServerPort              string   `ini:"server_port,omitempty"`
+	NatHoleSTUNServer       string   `ini:"nat_hole_stun_server,omitempty"`
 	DialServerTimeout       int64    `ini:"dial_server_timeout,omitempty"`
 	DialServerKeepAlive     int64    `ini:"dial_server_keepalive,omitempty"`
 	ConnectServerLocalIP    string   `ini:"connect_server_local_ip,omitempty"`
@@ -245,6 +246,10 @@ func (conf *ClientConfig) AutoStart() bool {
 
 func (conf *ClientConfig) GetLogFile() string {
 	return conf.LogFile
+}
+
+func (conf *ClientConfig) GetSTUNServer() string {
+	return conf.NatHoleSTUNServer
 }
 
 func (conf *ClientConfig) Expiry() bool {

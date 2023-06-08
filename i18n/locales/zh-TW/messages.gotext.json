@@ -232,6 +232,11 @@
             "translation": "僅通用配置"
         },
         {
+            "id": "Import Config",
+            "message": "Import Config",
+            "translation": "導入配置"
+        },
+        {
             "id": "Import from File",
             "message": "Import from File",
             "translation": "從文件導入"
@@ -245,6 +250,11 @@
             "id": "Import from Clipboard",
             "message": "Import from Clipboard",
             "translation": "從剪貼板導入"
+        },
+        {
+            "id": "NAT Discovery",
+            "message": "NAT Discovery",
+            "translation": "NAT 檢測"
         },
         {
             "id": "Copy Share Link",
@@ -270,11 +280,6 @@
             "id": "Manual Settings",
             "message": "Manual Settings",
             "translation": "手動設置"
-        },
-        {
-            "id": "Import Config",
-            "message": "Import Config",
-            "translation": "導入配置"
         },
         {
             "id": "Imported {Imported} of {Total} configs.",
@@ -403,6 +408,11 @@
             "id": "User",
             "message": "User",
             "translation": "用戶名"
+        },
+        {
+            "id": "STUN Server",
+            "message": "STUN Server",
+            "translation": "STUN 服務"
         },
         {
             "id": "Auth",
@@ -983,6 +993,46 @@
             "id": "Latest",
             "message": "Latest",
             "translation": "最新"
+        },
+        {
+            "id": "Item",
+            "message": "Item",
+            "translation": "項目"
+        },
+        {
+            "id": "Value",
+            "message": "Value",
+            "translation": "值"
+        },
+        {
+            "id": "NAT Type",
+            "message": "NAT Type",
+            "translation": "NAT 類型"
+        },
+        {
+            "id": "Behavior",
+            "message": "Behavior",
+            "translation": "行為"
+        },
+        {
+            "id": "External Address",
+            "message": "External Address",
+            "translation": "外部地址"
+        },
+        {
+            "id": "Yes",
+            "message": "Yes",
+            "translation": "是"
+        },
+        {
+            "id": "No",
+            "message": "No",
+            "translation": "否"
+        },
+        {
+            "id": "Public Network",
+            "message": "Public Network",
+            "translation": "公網"
         },
         {
             "id": "Unknown",
