@@ -524,7 +524,7 @@ func (pv *ProxyView) scrollToBottom() {
 	}
 }
 
-// visitors returns a list of visitor name except the given proxy.
+// visitors returns a list of visitor names except the given proxy.
 func (pv *ProxyView) visitors(except *config.Proxy) (visitors []string) {
 	for _, proxy := range pv.model.data.Proxies {
 		if proxy != except && proxy.IsVisitor() {
