@@ -3,7 +3,7 @@ module github.com/koho/frpmgr
 go 1.20
 
 require (
-	github.com/fatedier/frp v0.50.0
+	github.com/fatedier/frp v0.51.0
 	github.com/go-ole/go-ole v1.2.6
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e
@@ -18,7 +18,7 @@ require (
 	github.com/armon/go-socks5 v0.0.0-20160902184237-e75332964ef5 // indirect
 	github.com/coreos/go-oidc/v3 v3.4.0 // indirect
 	github.com/fatedier/beego v0.0.0-20171024143340-6c6a4f5bd5eb // indirect
-	github.com/fatedier/golib v0.1.1-0.20230320133937-a7edcc8c793d // indirect
+	github.com/fatedier/golib v0.1.1-0.20230628070619-a1a0c648236a // indirect
 	github.com/fatedier/kcp-go v2.0.4-0.20190803094908-fe8645b0a904+incompatible // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
