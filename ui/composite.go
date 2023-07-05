@@ -68,9 +68,10 @@ func NewBasicDialog(assignTo **walk.Dialog, title string, icon Property, db Data
 }
 
 // NewRadioButtonGroup returns a simple radio button group
-func NewRadioButtonGroup(dataMember string, db *DataBinder, buttons []RadioButton) Composite {
+func NewRadioButtonGroup(dataMember string, db *DataBinder, visible Property, buttons []RadioButton) Composite {
 	v := Composite{
-		Layout: HBox{MarginsZero: true, SpacingZero: true},
+		Visible: visible,
+		Layout:  HBox{MarginsZero: true, SpacingZero: true},
 		Children: []Widget{
 			RadioButtonGroup{
 				DataMember: dataMember,

@@ -19,6 +19,7 @@ type EditProxyDialog struct {
 
 	configName string
 	Proxy      *config.Proxy
+	visitors   []string
 	// Whether we are editing an existing proxy
 	exist bool
 
@@ -73,8 +74,8 @@ type editProxyBinder struct {
 	BandwidthUnit string
 }
 
-func NewEditProxyDialog(configName string, proxy *config.Proxy, exist bool) *EditProxyDialog {
-	v := &EditProxyDialog{configName: configName, exist: exist}
+func NewEditProxyDialog(configName string, proxy *config.Proxy, visitors []string, exist bool) *EditProxyDialog {
+	v := &EditProxyDialog{configName: configName, visitors: visitors, exist: exist}
 	if proxy == nil {
 		proxy = config.NewDefaultProxyConfig("")
 		v.exist = false
@@ -131,6 +132,7 @@ func (pd *EditProxyDialog) View() Dialog {
 				},
 				Label{Text: i18n.SprintfColon("Type"), Alignment: AlignHNearVCenter},
 				ComboBox{
+					Name:                  "proxyType",
 					AssignTo:              &pd.typeView,
 					Model:                 consts.ProxyTypes,
 					Value:                 Bind("Type"),
@@ -170,11 +172,11 @@ func (pd *EditProxyDialog) basicProxyPage() TabPage {
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
 			Label{Visible: Bind("vm.RoleVisible"), Text: i18n.SprintfColon("Role")},
-			CheckBox{
-				AssignTo: &pd.roleView,
-				Visible:  Bind("vm.RoleVisible"), Text: i18n.Sprintf("Visitor"),
-				Checked: Bind("Visitor"), OnCheckedChanged: pd.switchType,
-			},
+			NewRadioButtonGroup("Visitor", &DataBinder{DataSource: pd.binder, AutoSubmit: true},
+				Bind("vm.RoleVisible"), []RadioButton{
+					{Text: i18n.Sprintf("Server"), Value: false, OnClicked: pd.switchType, MaxSize: Size{Width: 80}},
+					{Text: i18n.Sprintf("Visitor"), Value: true, OnClicked: pd.switchType, MaxSize: Size{Width: 80}},
+				}),
 			Label{Visible: Bind("vm.SKVisible"), Text: i18n.SprintfColon("Secret Key")},
 			LineEdit{Visible: Bind("vm.SKVisible"), Text: Bind("SK"), PasswordMode: true},
 			Label{Visible: Bind("vm.LocalAddrVisible"), Text: i18n.SprintfColon("Local Address")},
@@ -189,12 +191,16 @@ func (pd *EditProxyDialog) basicProxyPage() TabPage {
 				AssignTo: &pd.remotePortView, Visible: Bind("vm.RemotePortVisible"),
 				Text: Bind("RemotePort"), OnTextChanged: pd.watchRangePort,
 			},
+			Label{Visible: Bind("vm.RoleVisible && !vm.ServerNameVisible"), Text: i18n.SprintfColon("Allow Users")},
+			LineEdit{Visible: Bind("vm.RoleVisible && !vm.ServerNameVisible"), Text: Bind("AllowUsers")},
 			Label{Visible: Bind("vm.BindAddrVisible"), Text: i18n.SprintfColon("Bind Address")},
 			LineEdit{Visible: Bind("vm.BindAddrVisible"), Text: Bind("BindAddr")},
 			Label{Visible: Bind("vm.BindPortVisible"), Text: i18n.SprintfColon("Bind Port")},
 			LineEdit{Visible: Bind("vm.BindPortVisible"), Text: Bind("BindPort")},
 			Label{Visible: Bind("vm.ServerNameVisible"), Text: i18n.SprintfColon("Server Name")},
 			LineEdit{Visible: Bind("vm.ServerNameVisible"), Text: Bind("ServerName")},
+			Label{Visible: Bind("vm.ServerNameVisible"), Text: i18n.SprintfColon("Server User")},
+			LineEdit{Visible: Bind("vm.ServerNameVisible"), Text: Bind("ServerUser")},
 			Label{Visible: Bind("vm.DomainVisible"), Text: i18n.SprintfColon("Subdomain")},
 			LineEdit{Visible: Bind("vm.DomainVisible"), Text: Bind("SubDomain")},
 			Label{Visible: Bind("vm.DomainVisible"), Text: i18n.SprintfColon("Custom Domains")},
@@ -216,6 +222,7 @@ func (pd *EditProxyDialog) basicProxyPage() TabPage {
 func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 	bandwidthMode := NewStringPairModel(consts.BandwidthMode,
 		[]string{i18n.Sprintf("Client"), i18n.Sprintf("Server")}, "")
+	var xtcpVisitor = Bind("proxyType.Value == 'xtcp' && vm.ServerNameVisible")
 	return TabPage{
 		Title:  i18n.Sprintf("Advanced"),
 		Layout: Grid{Columns: 2},
@@ -244,14 +251,37 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 				DisplayMember: "DisplayName",
 				Value:         Bind("ProxyProtocolVersion"),
 			},
+			Label{Visible: xtcpVisitor, Text: i18n.SprintfColon("Protocol")},
+			ComboBox{
+				Visible:       xtcpVisitor,
+				Model:         NewDefaultListModel([]string{consts.ProtoKCP, consts.ProtoQUIC}, "", i18n.Sprintf("Default")),
+				BindingMember: "Name",
+				DisplayMember: "DisplayName",
+				Value:         Bind("Protocol"),
+			},
 			Composite{
 				Layout:     HBox{MarginsZero: true},
 				ColumnSpan: 2,
 				Children: []Widget{
+					CheckBox{Name: "keepTunnel", Visible: xtcpVisitor, Text: i18n.Sprintf("Keep Tunnel"), Checked: Bind("KeepTunnelOpen")},
 					CheckBox{Text: i18n.Sprintf("Encryption"), Checked: Bind("UseEncryption")},
 					CheckBox{Text: i18n.Sprintf("Compression"), Checked: Bind("UseCompression")},
 				},
 			},
+			Label{Visible: xtcpVisitor, Enabled: Bind("keepTunnel.Checked"), Text: i18n.SprintfColon("Retry Count")},
+			NumberEdit{Visible: xtcpVisitor, Enabled: Bind("keepTunnel.Checked"), Value: Bind("MaxRetriesAnHour"), Suffix: i18n.SprintfLSpace("Times/Hour")},
+			Label{Visible: xtcpVisitor, Enabled: Bind("keepTunnel.Checked"), Text: i18n.SprintfColon("Retry Interval")},
+			NumberEdit{Visible: xtcpVisitor, Enabled: Bind("keepTunnel.Checked"), Value: Bind("MinRetryInterval"), Suffix: i18n.SprintfLSpace("s")},
+			Label{Visible: xtcpVisitor, Text: i18n.SprintfColon("Fallback")},
+			ComboBox{
+				Name:     "fallback",
+				Editable: true,
+				Visible:  xtcpVisitor,
+				Model:    pd.visitors,
+				Value:    Bind("FallbackTo"),
+			},
+			Label{Visible: xtcpVisitor, Enabled: Bind("fallback.Value != ''"), Text: i18n.SprintfColon("Fallback Timeout")},
+			NumberEdit{Visible: xtcpVisitor, Enabled: Bind("fallback.Value != ''"), Value: Bind("FallbackTimeoutMs"), Suffix: i18n.SprintfLSpace("ms")},
 			Label{Visible: Bind("vm.MuxVisible || vm.HTTPVisible"), Text: i18n.SprintfColon("HTTP User")},
 			LineEdit{Visible: Bind("vm.MuxVisible || vm.HTTPVisible"), Text: Bind("HTTPUser")},
 			Label{Visible: Bind("vm.MuxVisible || vm.HTTPVisible"), Text: i18n.SprintfColon("HTTP Password")},
@@ -327,7 +357,7 @@ func (pd *EditProxyDialog) healthCheckProxyPage() TabPage {
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
 			Label{Text: i18n.SprintfColon("Check Type"), Enabled: Bind("vm.HealthCheckEnable")},
-			NewRadioButtonGroup("HealthCheckType", &DataBinder{DataSource: pd.binder, AutoSubmit: true}, []RadioButton{
+			NewRadioButtonGroup("HealthCheckType", &DataBinder{DataSource: pd.binder, AutoSubmit: true}, nil, []RadioButton{
 				{Text: "tcp", Value: "tcp", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType, MaxSize: Size{Width: 80}},
 				{Text: "http", Value: "http", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType, MaxSize: Size{Width: 80}},
 				{Text: i18n.Sprintf("None"), Value: "", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType, MaxSize: Size{Width: 80}},
@@ -437,7 +467,7 @@ func (pd *EditProxyDialog) switchType() {
 		pd.viewModel.RoleVisible = true
 		pd.viewModel.SKVisible = true
 		// For visitor
-		if pd.roleView.Checked() {
+		if pd.binder.Visitor {
 			pd.viewModel.ServerNameVisible = true
 			pd.viewModel.BindAddrVisible = true
 			pd.viewModel.BindPortVisible = true

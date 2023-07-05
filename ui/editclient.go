@@ -138,7 +138,7 @@ func (cd *EditClientDialog) authConfPage() TabPage {
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
 			Label{Text: i18n.SprintfColon("Auth Method")},
-			NewRadioButtonGroup("AuthMethod", nil, []RadioButton{
+			NewRadioButtonGroup("AuthMethod", nil, nil, []RadioButton{
 				{Name: "tokenCheck", Text: "Token", Value: consts.AuthToken},
 				{Name: "oidcCheck", Text: "OIDC", Value: consts.AuthOIDC},
 				{Name: "noAuthCheck", Text: i18n.Sprintf("None"), Value: ""},
@@ -207,7 +207,7 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 			NewBrowseLineEdit(nil, true, Bind("adminPort.Text != ''"), Bind("AssetsDir"),
 				i18n.Sprintf("Select a local directory that the admin server will load resources from."), "", false),
 			Label{Text: i18n.SprintfColon("Auto Delete")},
-			NewRadioButtonGroup("DeleteMethod", nil, []RadioButton{
+			NewRadioButtonGroup("DeleteMethod", nil, nil, []RadioButton{
 				{Name: "absCheck", Text: i18n.Sprintf("Absolute"), Value: consts.DeleteAbsolute},
 				{Name: "relCheck", Text: i18n.Sprintf("Relative"), Value: consts.DeleteRelative},
 				{Name: "noDelCheck", Text: i18n.Sprintf("None"), Value: ""},
@@ -276,7 +276,7 @@ func (cd *EditClientDialog) tlsConfPage() TabPage {
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
 			Label{Text: "TLS:"},
-			NewRadioButtonGroup("TLSEnable", nil, []RadioButton{
+			NewRadioButtonGroup("TLSEnable", nil, nil, []RadioButton{
 				{Name: "tlsCheck", Text: i18n.Sprintf("On"), Value: true},
 				{Text: i18n.Sprintf("Off"), Value: false},
 			}),
@@ -301,7 +301,7 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
 			Label{Text: i18n.SprintfColon("TCP Mux")},
-			NewRadioButtonGroup("TCPMux", nil, []RadioButton{
+			NewRadioButtonGroup("TCPMux", nil, nil, []RadioButton{
 				{Name: "muxCheck", Text: i18n.Sprintf("On"), Value: true},
 				{Text: i18n.Sprintf("Off"), Value: false},
 			}),
