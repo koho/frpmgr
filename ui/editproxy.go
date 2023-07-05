@@ -35,7 +35,6 @@ type EditProxyDialog struct {
 	remotePortView *walk.LineEdit
 	customText     *walk.TextEdit
 	typeView       *walk.ComboBox
-	roleView       *walk.CheckBox
 	pluginView     *walk.ComboBox
 }
 
