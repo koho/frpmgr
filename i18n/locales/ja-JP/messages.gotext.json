@@ -780,6 +780,11 @@
             "translation": "役割"
         },
         {
+            "id": "Server",
+            "message": "Server",
+            "translation": "サーバ"
+        },
+        {
             "id": "Visitor",
             "message": "Visitor",
             "translation": "ビジター"
@@ -805,6 +810,11 @@
             "translation": "リモートポート"
         },
         {
+            "id": "Allow Users",
+            "message": "Allow Users",
+            "translation": "ユーザーを許可する"
+        },
+        {
             "id": "Bind Address",
             "message": "Bind Address",
             "translation": "バインドアドレス"
@@ -818,6 +828,11 @@
             "id": "Server Name",
             "message": "Server Name",
             "translation": "サーバー名"
+        },
+        {
+            "id": "Server User",
+            "message": "Server User",
+            "translation": "サーバーユーザー"
         },
         {
             "id": "Subdomain",
@@ -850,11 +865,6 @@
             "translation": "クライアント"
         },
         {
-            "id": "Server",
-            "message": "Server",
-            "translation": "サーバ"
-        },
-        {
             "id": "Bandwidth",
             "message": "Bandwidth",
             "translation": "帯域幅"
@@ -870,6 +880,16 @@
             "translation": "空"
         },
         {
+            "id": "default",
+            "message": "default",
+            "translation": "既定値"
+        },
+        {
+            "id": "Keep Tunnel",
+            "message": "Keep Tunnel",
+            "translation": "トンネルを維持する"
+        },
+        {
             "id": "Encryption",
             "message": "Encryption",
             "translation": "暗号化"
@@ -878,6 +898,36 @@
             "id": "Compression",
             "message": "Compression",
             "translation": "圧縮"
+        },
+        {
+            "id": "Retry Count",
+            "message": "Retry Count",
+            "translation": "リトライ回数"
+        },
+        {
+            "id": "Times/Hour",
+            "message": "Times/Hour",
+            "translation": "回/時間"
+        },
+        {
+            "id": "Retry Interval",
+            "message": "Retry Interval",
+            "translation": "再試行間隔"
+        },
+        {
+            "id": "Fallback",
+            "message": "Fallback",
+            "translation": "代替"
+        },
+        {
+            "id": "Fallback Timeout",
+            "message": "Fallback Timeout",
+            "translation": "フォールバックタイムアウト"
+        },
+        {
+            "id": "ms",
+            "message": "ms",
+            "translation": "ミリ秒"
         },
         {
             "id": "HTTP User",

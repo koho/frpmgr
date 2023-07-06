@@ -45,7 +45,7 @@ func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {
 		pp.binder.Plugin = consts.PluginHttpProxy
 		widgets = append([]Widget{
 			Label{Text: i18n.SprintfColon("Type")},
-			NewRadioButtonGroup("Plugin", nil, []RadioButton{
+			NewRadioButtonGroup("Plugin", nil, nil, []RadioButton{
 				{Text: "HTTP", Value: consts.PluginHttpProxy},
 				{Text: "SOCKS5", Value: consts.PluginSocks5},
 			}),

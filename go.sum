@@ -216,8 +216,8 @@ github.com/klauspost/cpuid/v2 v2.0.6 h1:dQ5ueTiftKxp0gyjKSx5+8BtPWkyQbd95m8Gys/R
 github.com/klauspost/cpuid/v2 v2.0.6/go.mod h1:FInQzS24/EEf25PyTYn52gqo7WaD8xa0213Md/qVLRg=
 github.com/klauspost/reedsolomon v1.9.15 h1:g2erWKD2M6rgnPf89fCji6jNlhMKMdXcuNHMW1SYCIo=
 github.com/klauspost/reedsolomon v1.9.15/go.mod h1:eqPAcE7xar5CIzcdfwydOEdcmchAKAP/qs14y4GCBOk=
-github.com/koho/frpmgr v0.0.0-20230311212131-f5c521a0f74f h1:0tR6RReLW5WI6zogwTcGImfwNgnFxZFBTFkT/BZhtn4=
-github.com/koho/frpmgr v0.0.0-20230311212131-f5c521a0f74f/go.mod h1:CdksCbC3x4Swi/ePNXCeg08K1i3XdIVdy3o7elo92k8=
+github.com/koho/frpmgr v0.0.0-20230706031048-8ce4b7425034 h1:JI3LTSvET4QfjocImsiikinU/CFPCPHvU2iT1auQBpU=
+github.com/koho/frpmgr v0.0.0-20230706031048-8ce4b7425034/go.mod h1:CdksCbC3x4Swi/ePNXCeg08K1i3XdIVdy3o7elo92k8=
 github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORNo=
 github.com/kr/pretty v0.2.1/go.mod h1:ipq/a2n7PKx3OHsz4KJII5eveXtPO4qwEXGdVfWzfnI=
 github.com/kr/pretty v0.3.0/go.mod h1:640gp4NfQd8pI5XOwp5fnNeVWj67G7CFk/SaSQn7NBk=

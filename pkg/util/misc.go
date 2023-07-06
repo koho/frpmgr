@@ -56,7 +56,7 @@ func prune(inValue reflect.Value, ret reflect.Value, value string, tag string) e
 		for i := 0; i < inValue.NumField(); i++ {
 			f := inValue.Type().Field(i)
 			if key, ok := f.Tag.Lookup(tag); ok {
-				if key == value {
+				if key == "*" || key == value {
 					fValue = inValue.Field(i)
 					fRet = ret.Field(i)
 					fRet.Set(fValue)

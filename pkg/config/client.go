@@ -175,11 +175,13 @@ type HealthCheckConf struct {
 type Proxy struct {
 	BaseProxyConf     `ini:",extends"`
 	RemotePort        string `ini:"remote_port,omitempty" tcp:"true" udp:"true"`
-	Role              string `ini:"role,omitempty" stcp:"true" xtcp:"true" sudp:"true" visitor:"true"`
-	SK                string `ini:"sk,omitempty" stcp:"true" xtcp:"true" sudp:"true" visitor:"true"`
-	ServerName        string `ini:"server_name,omitempty" visitor:"true"`
-	BindAddr          string `ini:"bind_addr,omitempty" visitor:"true"`
-	BindPort          string `ini:"bind_port,omitempty" visitor:"true"`
+	Role              string `ini:"role,omitempty" stcp:"true" xtcp:"true" sudp:"true" visitor:"*"`
+	SK                string `ini:"sk,omitempty" stcp:"true" xtcp:"true" sudp:"true" visitor:"*"`
+	AllowUsers        string `ini:"allow_users,omitempty" stcp:"true" xtcp:"true" sudp:"true"`
+	ServerUser        string `ini:"server_user,omitempty" visitor:"*"`
+	ServerName        string `ini:"server_name,omitempty" visitor:"*"`
+	BindAddr          string `ini:"bind_addr,omitempty" visitor:"*"`
+	BindPort          string `ini:"bind_port,omitempty" visitor:"*"`
 	CustomDomains     string `ini:"custom_domains,omitempty" http:"true" https:"true" tcpmux:"true"`
 	SubDomain         string `ini:"subdomain,omitempty" http:"true" https:"true" tcpmux:"true"`
 	Locations         string `ini:"locations,omitempty" http:"true"`
@@ -188,6 +190,13 @@ type Proxy struct {
 	HostHeaderRewrite string `ini:"host_header_rewrite,omitempty" http:"true"`
 	Multiplexer       string `ini:"multiplexer,omitempty" tcpmux:"true"`
 	RouteByHTTPUser   string `ini:"route_by_http_user,omitempty" http:"true" tcpmux:"true"`
+	// "kcp" or "quic"
+	Protocol          string `ini:"protocol,omitempty" visitor:"xtcp"`
+	KeepTunnelOpen    bool   `ini:"keep_tunnel_open,omitempty" visitor:"xtcp"`
+	MaxRetriesAnHour  int    `ini:"max_retries_an_hour,omitempty" visitor:"xtcp"`
+	MinRetryInterval  int    `ini:"min_retry_interval,omitempty" visitor:"xtcp"`
+	FallbackTo        string `ini:"fallback_to,omitempty" visitor:"xtcp"`
+	FallbackTimeoutMs int    `ini:"fallback_timeout_ms,omitempty" visitor:"xtcp"`
 }
 
 // GetAlias returns the alias of this proxy.
@@ -342,12 +351,20 @@ func (conf *ClientConfig) Complete(read bool) {
 		if proxy.IsVisitor() {
 			var base = proxy.BaseProxyConf
 			// Visitor
-			if p, err := util.PruneByTag(*proxy, "true", "visitor"); err == nil {
+			if p, err := util.PruneByTag(*proxy, proxy.Type, "visitor"); err == nil {
 				*proxy = p.(Proxy)
 			}
 			proxy.BaseProxyConf = BaseProxyConf{
 				Name: base.Name, Type: base.Type, UseEncryption: base.UseEncryption,
 				UseCompression: base.UseCompression, Disabled: base.Disabled,
+			}
+			// Reset xtcp visitor parameters
+			if !proxy.KeepTunnelOpen {
+				proxy.MaxRetriesAnHour = 0
+				proxy.MinRetryInterval = 0
+			}
+			if proxy.FallbackTo == "" {
+				proxy.FallbackTimeoutMs = 0
 			}
 		} else {
 			var base = proxy.BaseProxyConf

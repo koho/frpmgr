@@ -410,7 +410,7 @@ func (pv *ProxyView) onEdit(current bool, fill *config.Proxy) {
 		if conf == nil {
 			return
 		}
-		ep := NewEditProxyDialog(pv.model.conf.Name, proxy, true)
+		ep := NewEditProxyDialog(pv.model.conf.Name, proxy, pv.visitors(proxy), true)
 		if ret, _ := ep.Run(pv.Form()); ret == walk.DlgCmdOK {
 			if conf.CountStart() == 0 {
 				ep.Proxy.Disabled = false
@@ -419,7 +419,7 @@ func (pv *ProxyView) onEdit(current bool, fill *config.Proxy) {
 			pv.table.SetCurrentIndex(idx)
 		}
 	} else {
-		ep := NewEditProxyDialog(pv.model.conf.Name, fill, false)
+		ep := NewEditProxyDialog(pv.model.conf.Name, fill, pv.visitors(nil), false)
 		if ret, _ := ep.Run(pv.Form()); ret == walk.DlgCmdOK {
 			if pv.model.data.AddItem(ep.Proxy) {
 				if pv.model.data.CountStart() == 0 {
@@ -522,4 +522,14 @@ func (pv *ProxyView) scrollToBottom() {
 	if tm := pv.table.TableModel(); tm != nil && tm.RowCount() > 0 {
 		pv.table.EnsureItemVisible(tm.RowCount() - 1)
 	}
+}
+
+// visitors returns a list of visitor names except the given proxy.
+func (pv *ProxyView) visitors(except *config.Proxy) (visitors []string) {
+	for _, proxy := range pv.model.data.Proxies {
+		if proxy != except && proxy.IsVisitor() {
+			visitors = append(visitors, proxy.Name)
+		}
+	}
+	return
 }
