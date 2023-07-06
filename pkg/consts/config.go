@@ -10,9 +10,10 @@ const (
 	ProtoKCP       = "kcp"
 	ProtoQUIC      = "quic"
 	ProtoWebsocket = "websocket"
+	ProtoWSS       = "wss"
 )
 
-var Protocols = []string{ProtoTCP, ProtoKCP, ProtoQUIC, ProtoWebsocket}
+var Protocols = []string{ProtoTCP, ProtoKCP, ProtoQUIC, ProtoWebsocket, ProtoWSS}
 
 // Proxy types
 const (
