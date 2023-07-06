@@ -865,9 +865,9 @@
             "translation": "프록시 버전"
         },
         {
-            "id": "Empty",
-            "message": "Empty",
-            "translation": "비어 있는"
+            "id": "auto",
+            "message": "auto",
+            "translation": "자동"
         },
         {
             "id": "default",

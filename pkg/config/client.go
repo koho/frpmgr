@@ -226,6 +226,10 @@ func (p *Proxy) IsVisitor() bool {
 
 // Marshal returns the encoded proxy.
 func (p *Proxy) Marshal() ([]byte, error) {
+	// We must complete the proxy.
+	// Otherwise, it contains redundant parameters.
+	p.Complete()
+	// Serialize to ini format
 	cfg := ini.Empty()
 	tp, err := cfg.NewSection(p.Name)
 	if err != nil {
@@ -242,6 +246,51 @@ func (p *Proxy) Marshal() ([]byte, error) {
 		return nil, err
 	}
 	return proxyBuffer.Bytes(), nil
+}
+
+// Complete removes redundant parameters base on the proxy type.
+func (p *Proxy) Complete() {
+	var base = p.BaseProxyConf
+	if p.IsVisitor() {
+		// Visitor
+		if vp, err := util.PruneByTag(*p, p.Type, "visitor"); err == nil {
+			*p = vp.(Proxy)
+		}
+		p.BaseProxyConf = BaseProxyConf{
+			Name: base.Name, Type: base.Type, UseEncryption: base.UseEncryption,
+			UseCompression: base.UseCompression, Disabled: base.Disabled,
+		}
+		// Reset xtcp visitor parameters
+		if !p.KeepTunnelOpen {
+			p.MaxRetriesAnHour = 0
+			p.MinRetryInterval = 0
+		}
+		if p.FallbackTo == "" {
+			p.FallbackTimeoutMs = 0
+		}
+	} else {
+		// Plugins
+		if base.Plugin != "" {
+			if pluginParams, err := util.PruneByTag(base.PluginParams, "true", base.Plugin); err == nil {
+				base.PluginParams = pluginParams.(PluginParams)
+			}
+		} else {
+			base.PluginParams = PluginParams{}
+		}
+		// Health Check
+		if base.HealthCheckType != "" {
+			if healthCheckConf, err := util.PruneByTag(base.HealthCheckConf, "true", base.HealthCheckType); err == nil {
+				base.HealthCheckConf = healthCheckConf.(HealthCheckConf)
+			}
+		} else {
+			base.HealthCheckConf = HealthCheckConf{}
+		}
+		// Proxy type
+		if typedProxy, err := util.PruneByTag(*p, "true", p.Type); err == nil {
+			*p = typedProxy.(Proxy)
+		}
+		p.BaseProxyConf = base
+	}
 }
 
 type ClientConfig struct {
@@ -348,48 +397,9 @@ func (conf *ClientConfig) Complete(read bool) {
 	}
 	// Proxies
 	for _, proxy := range conf.Proxies {
-		if proxy.IsVisitor() {
-			var base = proxy.BaseProxyConf
-			// Visitor
-			if p, err := util.PruneByTag(*proxy, proxy.Type, "visitor"); err == nil {
-				*proxy = p.(Proxy)
-			}
-			proxy.BaseProxyConf = BaseProxyConf{
-				Name: base.Name, Type: base.Type, UseEncryption: base.UseEncryption,
-				UseCompression: base.UseCompression, Disabled: base.Disabled,
-			}
-			// Reset xtcp visitor parameters
-			if !proxy.KeepTunnelOpen {
-				proxy.MaxRetriesAnHour = 0
-				proxy.MinRetryInterval = 0
-			}
-			if proxy.FallbackTo == "" {
-				proxy.FallbackTimeoutMs = 0
-			}
-		} else {
-			var base = proxy.BaseProxyConf
-			// Plugins
-			if base.Plugin != "" {
-				if pluginParams, err := util.PruneByTag(base.PluginParams, "true", base.Plugin); err == nil {
-					base.PluginParams = pluginParams.(PluginParams)
-				}
-			} else {
-				base.PluginParams = PluginParams{}
-			}
-			// Health Check
-			if base.HealthCheckType != "" {
-				if healthCheckConf, err := util.PruneByTag(base.HealthCheckConf, "true", base.HealthCheckType); err == nil {
-					base.HealthCheckConf = healthCheckConf.(HealthCheckConf)
-				}
-			} else {
-				base.HealthCheckConf = HealthCheckConf{}
-			}
-			// Proxy type
-			if p, err := util.PruneByTag(*proxy, "true", proxy.Type); err == nil {
-				*proxy = p.(Proxy)
-			}
-			proxy.BaseProxyConf = base
-		}
+		// Complete proxy
+		proxy.Complete()
+		// Check proxy status
 		if read && len(conf.Start) > 0 {
 			proxy.Disabled = !funk.Subset(proxy.GetAlias(), conf.Start)
 		}

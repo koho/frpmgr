@@ -875,9 +875,9 @@
             "translation": "プロキシ版"
         },
         {
-            "id": "Empty",
-            "message": "Empty",
-            "translation": "空"
+            "id": "auto",
+            "message": "auto",
+            "translation": "自動"
         },
         {
             "id": "default",

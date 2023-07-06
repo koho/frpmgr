@@ -865,9 +865,9 @@
             "translation": "Versión de proxy"
         },
         {
-            "id": "Empty",
-            "message": "Empty",
-            "translation": "Vacío"
+            "id": "auto",
+            "message": "auto",
+            "translation": "auto"
         },
         {
             "id": "default",

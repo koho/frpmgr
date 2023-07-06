@@ -245,7 +245,7 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 			Label{Visible: Bind("vm.PluginEnable"), Text: i18n.SprintfColon("Proxy Version")},
 			ComboBox{
 				Visible:       Bind("vm.PluginEnable"),
-				Model:         NewDefaultListModel([]string{"v1", "v2"}, "", i18n.Sprintf("Empty")),
+				Model:         NewDefaultListModel([]string{"v1", "v2"}, "", i18n.Sprintf("auto")),
 				BindingMember: "Name",
 				DisplayMember: "DisplayName",
 				Value:         Bind("ProxyProtocolVersion"),

@@ -1155,9 +1155,9 @@
             "fuzzy": true
         },
         {
-            "id": "Empty",
-            "message": "Empty",
-            "translation": "Empty",
+            "id": "auto",
+            "message": "auto",
+            "translation": "auto",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
