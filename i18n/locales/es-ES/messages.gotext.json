@@ -770,6 +770,11 @@
             "translation": "Role"
         },
         {
+            "id": "Server",
+            "message": "Server",
+            "translation": "Servidor"
+        },
+        {
             "id": "Visitor",
             "message": "Visitor",
             "translation": "Visitante"
@@ -795,6 +800,11 @@
             "translation": "Puerto remoto"
         },
         {
+            "id": "Allow Users",
+            "message": "Allow Users",
+            "translation": "Permitir usuarios"
+        },
+        {
             "id": "Bind Address",
             "message": "Bind Address",
             "translation": "Dirección de enlace"
@@ -808,6 +818,11 @@
             "id": "Server Name",
             "message": "Server Name",
             "translation": "Nombre del servidor"
+        },
+        {
+            "id": "Server User",
+            "message": "Server User",
+            "translation": "Usuario del servidor"
         },
         {
             "id": "Subdomain",
@@ -840,11 +855,6 @@
             "translation": "Cliente"
         },
         {
-            "id": "Server",
-            "message": "Server",
-            "translation": "Servidor"
-        },
-        {
             "id": "Bandwidth",
             "message": "Bandwidth",
             "translation": "Banda ancha"
@@ -860,6 +870,16 @@
             "translation": "Vacío"
         },
         {
+            "id": "default",
+            "message": "default",
+            "translation": "por defecto"
+        },
+        {
+            "id": "Keep Tunnel",
+            "message": "Keep Tunnel",
+            "translation": "Mantener túnel"
+        },
+        {
             "id": "Encryption",
             "message": "Encryption",
             "translation": "Cifrado"
@@ -868,6 +888,36 @@
             "id": "Compression",
             "message": "Compression",
             "translation": "Compresión"
+        },
+        {
+            "id": "Retry Count",
+            "message": "Retry Count",
+            "translation": "Número de reintentos"
+        },
+        {
+            "id": "Times/Hour",
+            "message": "Times/Hour",
+            "translation": "Veces/Hora"
+        },
+        {
+            "id": "Retry Interval",
+            "message": "Retry Interval",
+            "translation": "Intervalo de reintento"
+        },
+        {
+            "id": "Fallback",
+            "message": "Fallback",
+            "translation": "Repuesto"
+        },
+        {
+            "id": "Fallback Timeout",
+            "message": "Fallback Timeout",
+            "translation": "Interruptor de respaldo"
+        },
+        {
+            "id": "ms",
+            "message": "ms",
+            "translation": "milisegundo"
         },
         {
             "id": "HTTP User",

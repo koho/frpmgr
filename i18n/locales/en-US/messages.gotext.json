@@ -1022,6 +1022,13 @@
             "fuzzy": true
         },
         {
+            "id": "Server",
+            "message": "Server",
+            "translation": "Server",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Visitor",
             "message": "Visitor",
             "translation": "Visitor",
@@ -1057,6 +1064,13 @@
             "fuzzy": true
         },
         {
+            "id": "Allow Users",
+            "message": "Allow Users",
+            "translation": "Allow Users",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Bind Address",
             "message": "Bind Address",
             "translation": "Bind Address",
@@ -1074,6 +1088,13 @@
             "id": "Server Name",
             "message": "Server Name",
             "translation": "Server Name",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Server User",
+            "message": "Server User",
+            "translation": "Server User",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1120,13 +1141,6 @@
             "fuzzy": true
         },
         {
-            "id": "Server",
-            "message": "Server",
-            "translation": "Server",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "Bandwidth",
             "message": "Bandwidth",
             "translation": "Bandwidth",
@@ -1148,6 +1162,20 @@
             "fuzzy": true
         },
         {
+            "id": "default",
+            "message": "default",
+            "translation": "default",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Keep Tunnel",
+            "message": "Keep Tunnel",
+            "translation": "Keep Tunnel",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Encryption",
             "message": "Encryption",
             "translation": "Encryption",
@@ -1158,6 +1186,48 @@
             "id": "Compression",
             "message": "Compression",
             "translation": "Compression",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Retry Count",
+            "message": "Retry Count",
+            "translation": "Retry Count",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Times/Hour",
+            "message": "Times/Hour",
+            "translation": "Times/Hour",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Retry Interval",
+            "message": "Retry Interval",
+            "translation": "Retry Interval",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Fallback",
+            "message": "Fallback",
+            "translation": "Fallback",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Fallback Timeout",
+            "message": "Fallback Timeout",
+            "translation": "Fallback Timeout",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "ms",
+            "message": "ms",
+            "translation": "ms",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

@@ -45,103 +45,106 @@ func init() {
 var messageKeyToIndex = map[string]int{
 	"* Leave blank to record no log and delete the original log file.": 71,
 	"* Refer to the [common] section of the FRP configuration file.":   118,
-	"* Refer to the parameters supported by FRP.":                      164,
-	"* Support batch import, one link per line.":                       225,
-	"A selection is required.":                                         240,
+	"* Refer to the parameters supported by FRP.":                      174,
+	"* Support batch import, one link per line.":                       235,
+	"A selection is required.":                                         250,
 	"About":                                                            15,
 	"Absolute":                                                         83,
-	"Add":                                                              189,
+	"Add":                                                              199,
 	"Admin":                                                            76,
 	"Admin Address":                                                    77,
 	"Admin Port":                                                       78,
 	"Advanced":                                                         109,
 	"All":                                                              34,
 	"All Files":                                                        3,
+	"Allow Users":                                                      132,
 	"An error occurred while checking for a software update.": 21,
 	"Another config already exists with the name \"%s\".":     47,
 	"Are you sure you would like to delete config \"%s\"?":    50,
-	"Are you sure you would like to delete proxy \"%s\"?":     219,
-	"Are you sure you would like to disable proxy \"%s\"?":    221,
+	"Are you sure you would like to delete proxy \"%s\"?":     229,
+	"Are you sure you would like to disable proxy \"%s\"?":    231,
 	"Assets":                 80,
 	"Audience":               64,
 	"Auth":                   59,
 	"Auth Method":            60,
 	"Authentication":         67,
 	"Auto Delete":            82,
-	"Bandwidth":              141,
+	"Bandwidth":              143,
 	"Basic":                  53,
-	"Behavior":               172,
-	"Bind Address":           131,
-	"Bind Port":              132,
+	"Behavior":               182,
+	"Bind Address":           133,
+	"Bind Port":              134,
 	"Built on: %s":           2,
 	"Cancel":                 24,
 	"Certificate":            103,
 	"Certificate Files":      5,
 	"Certificate Key":        105,
-	"Change Password":        196,
-	"Check Interval":         163,
-	"Check Timeout":          161,
-	"Check Type":             160,
+	"Change Password":        206,
+	"Check Interval":         173,
+	"Check Timeout":          171,
+	"Check Type":             170,
 	"Check for updates":      18,
 	"Checking for updates":   17,
-	"Client":                 139,
+	"Client":                 142,
 	"Common Only":            35,
-	"Compression":            145,
+	"Compression":            149,
 	"Config already exists":  119,
 	"Config already removed": 28,
 	"Configuration":          25,
 	"Configuration Files":    4,
 	"Connection":             88,
-	"Copy":                   184,
-	"Copy Access Address":    217,
+	"Copy":                   194,
+	"Copy Access Address":    227,
 	"Copy Share Link":        41,
 	"Create a Copy":          33,
 	"Custom":                 116,
-	"Custom Domains":         135,
+	"Custom Domains":         138,
 	"Custom Options":         117,
 	"Days":                   87,
-	"Defaults":               201,
-	"Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.": 202,
+	"Defaults":               211,
+	"Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.": 212,
 	"Delete":                        43,
 	"Delete Date":                   85,
 	"Delete Days":                   86,
 	"Delete config \"%s\"":          49,
-	"Delete proxy \"%s\"":           218,
+	"Delete proxy \"%s\"":           228,
 	"Dial Timeout":                  96,
-	"Direct Edit":                   215,
-	"Disable":                       222,
+	"Direct Edit":                   225,
+	"Disable":                       232,
 	"Disable auto-start at boot":    115,
-	"Disable proxy \"%s\"":          220,
-	"Domains":                       216,
-	"Download":                      229,
+	"Disable proxy \"%s\"":          230,
+	"Domains":                       226,
+	"Download":                      239,
 	"Download updates":              16,
 	"Edit":                          30,
 	"Edit Client - %s":              52,
 	"Edit Proxy - %s":               122,
-	"Empty":                         143,
-	"Enable":                        213,
-	"Encryption":                    144,
-	"Enter Administration Password": 232,
-	"Enter Password":                230,
+	"Empty":                         145,
+	"Enable":                        223,
+	"Encryption":                    148,
+	"Enter Administration Password": 242,
+	"Enter Password":                240,
 	"Exit after login failure":      114,
 	"Export All Configs to ZIP":     42,
-	"External Address":              173,
-	"FRP Manager":                   224,
+	"External Address":              183,
+	"FRP Manager":                   234,
 	"FRP version: %s":               1,
-	"Failure Count":                 162,
+	"Failure Count":                 172,
+	"Fallback":                      153,
+	"Fallback Timeout":              154,
 	"For FRP configuration documentation, please visit the FRP project page:": 20,
 	"For comments or to report bugs, please visit the project page:":          19,
-	"Group":                                  157,
-	"Group Key":                              158,
-	"HTTP File Server":                       212,
-	"HTTP Password":                          147,
+	"Group":                                  167,
+	"Group Key":                              168,
+	"HTTP File Server":                       222,
+	"HTTP Password":                          157,
 	"HTTP Proxy":                             90,
-	"HTTP User":                              146,
-	"Health Check":                           159,
+	"HTTP User":                              156,
+	"Health Check":                           169,
 	"Heart Beats":                            68,
 	"Heartbeat":                              92,
 	"Host Name":                              102,
-	"Host Rewrite":                           148,
+	"Host Rewrite":                           158,
 	"Idle Timeout":                           98,
 	"Import Config":                          36,
 	"Import Config from File":                27,
@@ -150,143 +153,150 @@ var messageKeyToIndex = map[string]int{
 	"Import from URL":                        38,
 	"Imported %d of %d configs.":             46,
 	"Interval":                               93,
-	"Invalid Input":                          234,
-	"Item":                                   169,
+	"Invalid Input":                          244,
+	"Item":                                   179,
+	"Keep Tunnel":                            147,
 	"Keepalive":                              97,
 	"Key Files":                              6,
-	"Languages":                              197,
-	"Latest":                                 168,
+	"Languages":                              207,
+	"Latest":                                 178,
 	"Level":                                  74,
-	"Load Balance":                           156,
-	"Local Address":                          128,
-	"Local Directory":                        188,
-	"Local Path":                             153,
-	"Local Port":                             129,
-	"Locations":                              136,
+	"Load Balance":                           166,
+	"Local Address":                          129,
+	"Local Directory":                        198,
+	"Local Path":                             163,
+	"Local Port":                             130,
+	"Locations":                              139,
 	"Log":                                    70,
 	"Log File":                               72,
 	"Log Files":                              7,
-	"Log Level":                              208,
-	"Log retention":                          209,
+	"Log Level":                              218,
+	"Log retention":                          219,
 	"Manual Settings":                        45,
-	"Master password":                        193,
+	"Master password":                        203,
 	"Max Days":                               75,
 	"Max Streams":                            99,
-	"Multiplexer":                            137,
+	"Multiplexer":                            140,
 	"Mux Keepalive":                          111,
 	"NAT Discovery":                          40,
-	"NAT Type":                               171,
+	"NAT Type":                               181,
 	"Name":                                   54,
 	"New Client":                             51,
 	"New Config":                             44,
 	"New Configuration":                      26,
 	"New Proxy":                              121,
 	"New Version!":                           14,
-	"New master password":                    205,
-	"No":                                     175,
+	"New master password":                    215,
+	"No":                                     185,
 	"None":                                   61,
 	"Not a number":                           12,
 	"Number out of allowed range":            8,
 	"OK":                                     23,
 	"Off":                                    101,
 	"On":                                     100,
-	"Open Config":                            214,
+	"Open Config":                            224,
 	"Open File":                              31,
-	"Open Log Folder":                        167,
-	"Open Port":                              191,
+	"Open Log Folder":                        177,
+	"Open Port":                              201,
 	"Other Options":                          113,
-	"Passive Port Range":                     223,
+	"Passive Port Range":                     233,
 	"Password":                               79,
-	"Password is set.":                       207,
+	"Password is set.":                       217,
 	"Password mismatch":                      10,
-	"Password removed.":                      204,
+	"Password removed.":                      214,
 	"Please check and try again.":            11,
-	"Please enter a number from %.f to %.f.": 235,
-	"Please enter a number from %s to %s.":   236,
+	"Please enter a number from %.f to %.f.": 245,
+	"Please enter a number from %s to %s.":   246,
 	"Please enter a number greater than %d.": 9,
 	"Please enter a valid number.":           13,
-	"Please enter the correct URL list.":     228,
-	"Please select one of the provided options.": 239,
-	"Plugin":                                 149,
-	"Plugin Name":                            150,
+	"Please enter the correct URL list.":     238,
+	"Please select one of the provided options.": 249,
+	"Plugin":                                 159,
+	"Plugin Name":                            160,
 	"Pool Count":                             91,
-	"Port":                                   190,
-	"Preferences":                            192,
+	"Port":                                   200,
+	"Preferences":                            202,
 	"Protocol":                               89,
-	"Proxy Version":                          142,
-	"Proxy already exists":                   165,
-	"Public Network":                         176,
-	"Quick Add":                              210,
+	"Proxy Version":                          144,
+	"Proxy already exists":                   175,
+	"Public Network":                         186,
+	"Quick Add":                              220,
 	"Random":                                 123,
-	"Re-enter password":                      206,
-	"Ready":                                  227,
+	"Re-enter password":                      216,
+	"Ready":                                  237,
 	"Relative":                               84,
-	"Remote Address":                         183,
-	"Remote Desktop":                         211,
-	"Remote Port":                            130,
-	"Rename automatically":                   226,
+	"Remote Address":                         193,
+	"Remote Desktop":                         221,
+	"Remote Port":                            131,
+	"Rename automatically":                   236,
+	"Retry Count":                            150,
+	"Retry Interval":                         152,
 	"Role":                                   125,
-	"Route User":                             138,
-	"Running":                                178,
+	"Route User":                             141,
+	"Running":                                188,
 	"STUN Server":                            58,
 	"Scope":                                  65,
 	"Secret":                                 63,
-	"Secret Key":                             127,
+	"Secret Key":                             128,
 	"Select Certificate File":                104,
 	"Select Certificate Key File":            106,
 	"Select Log File":                        73,
 	"Select Trusted CA File":                 108,
-	"Select Unix Path":                       152,
-	"Select a folder for directory listing.": 154,
+	"Select Unix Path":                       162,
+	"Select a folder for directory listing.": 164,
 	"Select a local directory that the admin server will load resources from.": 81,
-	"Select language":                        200,
-	"Selection Required":                     238,
-	"Server":                                 140,
+	"Select language":                        210,
+	"Selection Required":                     248,
+	"Server":                                 126,
 	"Server Address":                         55,
-	"Server Name":                            133,
+	"Server Name":                            135,
 	"Server Port":                            56,
-	"Service":                                186,
-	"Set Defaults":                           203,
+	"Server User":                            136,
+	"Service":                                196,
+	"Set Defaults":                           213,
 	"Show in Folder":                         32,
 	"Source Address":                         112,
-	"Start":                                  185,
-	"Starting":                               180,
-	"Status":                                 182,
-	"Stop":                                   187,
-	"Stopped":                                179,
-	"Stopping":                               181,
-	"Strip Prefix":                           155,
-	"Subdomain":                              134,
+	"Start":                                  195,
+	"Starting":                               190,
+	"Status":                                 192,
+	"Stop":                                   197,
+	"Stopped":                                189,
+	"Stopping":                               191,
+	"Strip Prefix":                           165,
+	"Subdomain":                              137,
 	"TCP Mux":                                110,
 	"The config \"%s\" already removed.":     29,
 	"The config name \"%s\" already exists.": 120,
-	"The current display language is":        198,
+	"The current display language is":        208,
 	"The file \"%s\" is not a valid ZIP file.":      48,
-	"The password is incorrect. Re-enter password.": 233,
-	"The proxy name \"%s\" already exists.":         166,
-	"The text does not match the required pattern.": 237,
+	"The password is incorrect. Re-enter password.": 243,
+	"The proxy name \"%s\" already exists.":         176,
+	"The text does not match the required pattern.": 247,
 	"There are currently no updates available.":     22,
 	"Timeout":             95,
+	"Times/Hour":          151,
 	"Token":               62,
 	"Token Endpoint":      66,
 	"Trusted CA":          107,
 	"Type":                124,
-	"Unix Path":           151,
-	"Unknown":             177,
-	"Use master password": 195,
+	"Unix Path":           161,
+	"Unknown":             187,
+	"Use master password": 205,
 	"User":                57,
-	"Value":               170,
+	"Value":               180,
 	"Version: %s":         0,
-	"Visitor":             126,
+	"Visitor":             127,
 	"Work Conns":          69,
-	"Yes":                 174,
-	"You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.": 194,
-	"You must enter an administration password to operate the %s.":                                                                  231,
-	"You must restart program to apply the modification.":                                                                           199,
-	"s": 94,
+	"Yes":                 184,
+	"You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.": 204,
+	"You must enter an administration password to operate the %s.":                                                                  241,
+	"You must restart program to apply the modification.":                                                                           209,
+	"default": 146,
+	"ms":      155,
+	"s":       94,
 }
 
-var en_USIndex = []uint32{ // 242 elements
+var en_USIndex = []uint32{ // 252 elements
 	// Entry 0 - 1F
 	0x00000000, 0x0000000f, 0x00000022, 0x00000032,
 	0x0000003c, 0x00000050, 0x00000062, 0x0000006c,
@@ -322,43 +332,45 @@ var en_USIndex = []uint32{ // 242 elements
 	0x00000762, 0x00000771, 0x0000077f, 0x00000798,
 	0x000007b3, 0x000007ba, 0x000007c9, 0x00000808,
 	0x0000081e, 0x00000846, 0x00000850, 0x00000863,
-	0x0000086a, 0x0000086f, 0x00000874, 0x0000087c,
+	0x0000086a, 0x0000086f, 0x00000874, 0x0000087b,
 	// Entry 80 - 9F
-	0x00000887, 0x00000895, 0x000008a0, 0x000008ac,
-	0x000008b9, 0x000008c3, 0x000008cf, 0x000008d9,
-	0x000008e8, 0x000008f2, 0x000008fe, 0x00000909,
-	0x00000910, 0x00000917, 0x00000921, 0x0000092f,
-	0x00000935, 0x00000940, 0x0000094c, 0x00000956,
-	0x00000964, 0x00000971, 0x00000978, 0x00000984,
-	0x0000098e, 0x0000099f, 0x000009aa, 0x000009d1,
-	0x000009de, 0x000009eb, 0x000009f1, 0x000009fb,
+	0x00000883, 0x0000088e, 0x0000089c, 0x000008a7,
+	0x000008b3, 0x000008bf, 0x000008cc, 0x000008d6,
+	0x000008e2, 0x000008ee, 0x000008f8, 0x00000907,
+	0x00000911, 0x0000091d, 0x00000928, 0x0000092f,
+	0x00000939, 0x00000947, 0x0000094d, 0x00000955,
+	0x00000961, 0x0000096c, 0x00000978, 0x00000984,
+	0x0000098f, 0x0000099e, 0x000009a7, 0x000009b8,
+	0x000009bb, 0x000009c5, 0x000009d3, 0x000009e0,
 	// Entry A0 - BF
-	0x00000a08, 0x00000a13, 0x00000a21, 0x00000a2f,
-	0x00000a3e, 0x00000a6a, 0x00000a7f, 0x00000aa6,
-	0x00000ab6, 0x00000abd, 0x00000ac2, 0x00000ac8,
-	0x00000ad1, 0x00000ada, 0x00000aeb, 0x00000aef,
-	0x00000af2, 0x00000b01, 0x00000b09, 0x00000b11,
-	0x00000b19, 0x00000b22, 0x00000b2b, 0x00000b32,
-	0x00000b41, 0x00000b46, 0x00000b4c, 0x00000b54,
-	0x00000b59, 0x00000b69, 0x00000b6d, 0x00000b72,
+	0x000009e7, 0x000009f3, 0x000009fd, 0x00000a0e,
+	0x00000a19, 0x00000a40, 0x00000a4d, 0x00000a5a,
+	0x00000a60, 0x00000a6a, 0x00000a77, 0x00000a82,
+	0x00000a90, 0x00000a9e, 0x00000aad, 0x00000ad9,
+	0x00000aee, 0x00000b15, 0x00000b25, 0x00000b2c,
+	0x00000b31, 0x00000b37, 0x00000b40, 0x00000b49,
+	0x00000b5a, 0x00000b5e, 0x00000b61, 0x00000b70,
+	0x00000b78, 0x00000b80, 0x00000b88, 0x00000b91,
 	// Entry C0 - DF
-	0x00000b7c, 0x00000b88, 0x00000b98, 0x00000c15,
-	0x00000c29, 0x00000c39, 0x00000c43, 0x00000c63,
-	0x00000c97, 0x00000ca7, 0x00000cb0, 0x00000d27,
-	0x00000d34, 0x00000d46, 0x00000d5a, 0x00000d6c,
-	0x00000d7d, 0x00000d87, 0x00000d95, 0x00000d9f,
-	0x00000dae, 0x00000dbf, 0x00000dc6, 0x00000dd2,
-	0x00000dde, 0x00000de6, 0x00000dfa, 0x00000e0f,
-	0x00000e44, 0x00000e5a, 0x00000e90, 0x00000e98,
+	0x00000b9a, 0x00000ba1, 0x00000bb0, 0x00000bb5,
+	0x00000bbb, 0x00000bc3, 0x00000bc8, 0x00000bd8,
+	0x00000bdc, 0x00000be1, 0x00000beb, 0x00000bf7,
+	0x00000c07, 0x00000c84, 0x00000c98, 0x00000ca8,
+	0x00000cb2, 0x00000cd2, 0x00000d06, 0x00000d16,
+	0x00000d1f, 0x00000d96, 0x00000da3, 0x00000db5,
+	0x00000dc9, 0x00000ddb, 0x00000dec, 0x00000df6,
+	0x00000e04, 0x00000e0e, 0x00000e1d, 0x00000e2e,
 	// Entry E0 - FF
-	0x00000eab, 0x00000eb7, 0x00000ee2, 0x00000ef7,
-	0x00000efd, 0x00000f20, 0x00000f29, 0x00000f38,
-	0x00000f78, 0x00000f96, 0x00000fc4, 0x00000fd2,
-	0x00000fff, 0x0000102a, 0x00001058, 0x0000106b,
-	0x00001096, 0x000010af,
-} // Size: 992 bytes
+	0x00000e35, 0x00000e41, 0x00000e4d, 0x00000e55,
+	0x00000e69, 0x00000e7e, 0x00000eb3, 0x00000ec9,
+	0x00000eff, 0x00000f07, 0x00000f1a, 0x00000f26,
+	0x00000f51, 0x00000f66, 0x00000f6c, 0x00000f8f,
+	0x00000f98, 0x00000fa7, 0x00000fe7, 0x00001005,
+	0x00001033, 0x00001041, 0x0000106e, 0x00001099,
+	0x000010c7, 0x000010da, 0x00001105, 0x0000111e,
+} // Size: 1032 bytes
 
-const en_USData string = "" + // Size: 4271 bytes
+const en_USData string = "" + // Size: 4382 bytes
 	"\x02Version: %[1]s\x02FRP version: %[1]s\x02Built on: %[1]s\x02All Files" +
 	"\x02Configuration Files\x02Certificate Files\x02Key Files\x02Log Files" +
 	"\x02Number out of allowed range\x02Please enter a number greater than %[" +
@@ -394,44 +406,46 @@ const en_USData string = "" + // Size: 4271 bytes
 	"after login failure\x02Disable auto-start at boot\x02Custom\x02Custom Op" +
 	"tions\x02* Refer to the [common] section of the FRP configuration file." +
 	"\x02Config already exists\x02The config name \x22%[1]s\x22 already exist" +
-	"s.\x02New Proxy\x02Edit Proxy - %[1]s\x02Random\x02Type\x02Role\x02Visit" +
-	"or\x02Secret Key\x02Local Address\x02Local Port\x02Remote Port\x02Bind A" +
-	"ddress\x02Bind Port\x02Server Name\x02Subdomain\x02Custom Domains\x02Loc" +
-	"ations\x02Multiplexer\x02Route User\x02Client\x02Server\x02Bandwidth\x02" +
-	"Proxy Version\x02Empty\x02Encryption\x02Compression\x02HTTP User\x02HTTP" +
-	" Password\x02Host Rewrite\x02Plugin\x02Plugin Name\x02Unix Path\x02Selec" +
-	"t Unix Path\x02Local Path\x02Select a folder for directory listing.\x02S" +
-	"trip Prefix\x02Load Balance\x02Group\x02Group Key\x02Health Check\x02Che" +
-	"ck Type\x02Check Timeout\x02Failure Count\x02Check Interval\x02* Refer t" +
-	"o the parameters supported by FRP.\x02Proxy already exists\x02The proxy " +
-	"name \x22%[1]s\x22 already exists.\x02Open Log Folder\x02Latest\x02Item" +
-	"\x02Value\x02NAT Type\x02Behavior\x02External Address\x02Yes\x02No\x02Pu" +
-	"blic Network\x02Unknown\x02Running\x02Stopped\x02Starting\x02Stopping" +
-	"\x02Status\x02Remote Address\x02Copy\x02Start\x02Service\x02Stop\x02Loca" +
-	"l Directory\x02Add\x02Port\x02Open Port\x02Preferences\x02Master passwor" +
-	"d\x02You can set a password to restrict access to this program.\x0aYou w" +
-	"ill be asked to enter it the next time you use this program.\x02Use mast" +
-	"er password\x02Change Password\x02Languages\x02The current display langu" +
-	"age is\x02You must restart program to apply the modification.\x02Select " +
-	"language\x02Defaults\x02Define the default value when creating a new con" +
-	"figuration.\x0aThe value here will not affect the existing configuration" +
-	".\x02Set Defaults\x02Password removed.\x02New master password\x02Re-ente" +
-	"r password\x02Password is set.\x02Log Level\x02Log retention\x02Quick Ad" +
-	"d\x02Remote Desktop\x02HTTP File Server\x02Enable\x02Open Config\x02Dire" +
-	"ct Edit\x02Domains\x02Copy Access Address\x02Delete proxy \x22%[1]s\x22" +
-	"\x02Are you sure you would like to delete proxy \x22%[1]s\x22?\x02Disabl" +
-	"e proxy \x22%[1]s\x22\x02Are you sure you would like to disable proxy " +
-	"\x22%[1]s\x22?\x02Disable\x02Passive Port Range\x02FRP Manager\x02* Supp" +
-	"ort batch import, one link per line.\x02Rename automatically\x02Ready" +
-	"\x02Please enter the correct URL list.\x02Download\x02Enter Password\x02" +
-	"You must enter an administration password to operate the %[1]s.\x02Enter" +
-	" Administration Password\x02The password is incorrect. Re-enter password" +
-	".\x02Invalid Input\x02Please enter a number from %.[1]f to %.[2]f.\x02Pl" +
-	"ease enter a number from %[1]s to %[2]s.\x02The text does not match the " +
-	"required pattern.\x02Selection Required\x02Please select one of the prov" +
-	"ided options.\x02A selection is required."
+	"s.\x02New Proxy\x02Edit Proxy - %[1]s\x02Random\x02Type\x02Role\x02Serve" +
+	"r\x02Visitor\x02Secret Key\x02Local Address\x02Local Port\x02Remote Port" +
+	"\x02Allow Users\x02Bind Address\x02Bind Port\x02Server Name\x02Server Us" +
+	"er\x02Subdomain\x02Custom Domains\x02Locations\x02Multiplexer\x02Route U" +
+	"ser\x02Client\x02Bandwidth\x02Proxy Version\x02Empty\x02default\x02Keep " +
+	"Tunnel\x02Encryption\x02Compression\x02Retry Count\x02Times/Hour\x02Retr" +
+	"y Interval\x02Fallback\x02Fallback Timeout\x02ms\x02HTTP User\x02HTTP Pa" +
+	"ssword\x02Host Rewrite\x02Plugin\x02Plugin Name\x02Unix Path\x02Select U" +
+	"nix Path\x02Local Path\x02Select a folder for directory listing.\x02Stri" +
+	"p Prefix\x02Load Balance\x02Group\x02Group Key\x02Health Check\x02Check " +
+	"Type\x02Check Timeout\x02Failure Count\x02Check Interval\x02* Refer to t" +
+	"he parameters supported by FRP.\x02Proxy already exists\x02The proxy nam" +
+	"e \x22%[1]s\x22 already exists.\x02Open Log Folder\x02Latest\x02Item\x02" +
+	"Value\x02NAT Type\x02Behavior\x02External Address\x02Yes\x02No\x02Public" +
+	" Network\x02Unknown\x02Running\x02Stopped\x02Starting\x02Stopping\x02Sta" +
+	"tus\x02Remote Address\x02Copy\x02Start\x02Service\x02Stop\x02Local Direc" +
+	"tory\x02Add\x02Port\x02Open Port\x02Preferences\x02Master password\x02Yo" +
+	"u can set a password to restrict access to this program.\x0aYou will be " +
+	"asked to enter it the next time you use this program.\x02Use master pass" +
+	"word\x02Change Password\x02Languages\x02The current display language is" +
+	"\x02You must restart program to apply the modification.\x02Select langua" +
+	"ge\x02Defaults\x02Define the default value when creating a new configura" +
+	"tion.\x0aThe value here will not affect the existing configuration.\x02S" +
+	"et Defaults\x02Password removed.\x02New master password\x02Re-enter pass" +
+	"word\x02Password is set.\x02Log Level\x02Log retention\x02Quick Add\x02R" +
+	"emote Desktop\x02HTTP File Server\x02Enable\x02Open Config\x02Direct Edi" +
+	"t\x02Domains\x02Copy Access Address\x02Delete proxy \x22%[1]s\x22\x02Are" +
+	" you sure you would like to delete proxy \x22%[1]s\x22?\x02Disable proxy" +
+	" \x22%[1]s\x22\x02Are you sure you would like to disable proxy \x22%[1]s" +
+	"\x22?\x02Disable\x02Passive Port Range\x02FRP Manager\x02* Support batch" +
+	" import, one link per line.\x02Rename automatically\x02Ready\x02Please e" +
+	"nter the correct URL list.\x02Download\x02Enter Password\x02You must ent" +
+	"er an administration password to operate the %[1]s.\x02Enter Administrat" +
+	"ion Password\x02The password is incorrect. Re-enter password.\x02Invalid" +
+	" Input\x02Please enter a number from %.[1]f to %.[2]f.\x02Please enter a" +
+	" number from %[1]s to %[2]s.\x02The text does not match the required pat" +
+	"tern.\x02Selection Required\x02Please select one of the provided options" +
+	".\x02A selection is required."
 
-var es_ESIndex = []uint32{ // 242 elements
+var es_ESIndex = []uint32{ // 252 elements
 	// Entry 0 - 1F
 	0x00000000, 0x00000010, 0x00000024, 0x00000041,
 	0x00000054, 0x0000006f, 0x00000087, 0x00000096,
@@ -467,43 +481,45 @@ var es_ESIndex = []uint32{ // 242 elements
 	0x0000099f, 0x000009b7, 0x000009c6, 0x000009f4,
 	0x00000a21, 0x00000a29, 0x00000a41, 0x00000a87,
 	0x00000aa3, 0x00000ad2, 0x00000ade, 0x00000af3,
-	0x00000afd, 0x00000b02, 0x00000b07, 0x00000b11,
+	0x00000afd, 0x00000b02, 0x00000b07, 0x00000b10,
 	// Entry 80 - 9F
-	0x00000b1f, 0x00000b30, 0x00000b3d, 0x00000b4b,
-	0x00000b60, 0x00000b71, 0x00000b85, 0x00000b90,
-	0x00000ba8, 0x00000bb1, 0x00000bbd, 0x00000bcd,
-	0x00000bd5, 0x00000bde, 0x00000bea, 0x00000bfc,
-	0x00000c03, 0x00000c0b, 0x00000c17, 0x00000c24,
-	0x00000c35, 0x00000c49, 0x00000c52, 0x00000c59,
-	0x00000c63, 0x00000c7e, 0x00000c89, 0x00000cbe,
-	0x00000cce, 0x00000ce2, 0x00000ce8, 0x00000cf7,
+	0x00000b1a, 0x00000b28, 0x00000b39, 0x00000b46,
+	0x00000b54, 0x00000b66, 0x00000b7b, 0x00000b8c,
+	0x00000ba0, 0x00000bb5, 0x00000bc0, 0x00000bd8,
+	0x00000be1, 0x00000bed, 0x00000bfd, 0x00000c05,
+	0x00000c11, 0x00000c23, 0x00000c2a, 0x00000c36,
+	0x00000c46, 0x00000c4e, 0x00000c5a, 0x00000c70,
+	0x00000c7b, 0x00000c92, 0x00000c9b, 0x00000cb3,
+	0x00000cbf, 0x00000ccc, 0x00000cdd, 0x00000cf1,
 	// Entry A0 - BF
-	0x00000d08, 0x00000d0d, 0x00000d21, 0x00000d34,
-	0x00000d3e, 0x00000d6c, 0x00000d7f, 0x00000da5,
-	0x00000db4, 0x00000dbc, 0x00000dc2, 0x00000dcc,
-	0x00000dd8, 0x00000de7, 0x00000dfa, 0x00000dfe,
-	0x00000e01, 0x00000e0e, 0x00000e1a, 0x00000e21,
-	0x00000e2a, 0x00000e35, 0x00000e3c, 0x00000e43,
-	0x00000e55, 0x00000e5c, 0x00000e65, 0x00000e6e,
-	0x00000e79, 0x00000e8a, 0x00000e92, 0x00000e99,
+	0x00000cfa, 0x00000d01, 0x00000d0b, 0x00000d26,
+	0x00000d31, 0x00000d66, 0x00000d76, 0x00000d8a,
+	0x00000d90, 0x00000d9f, 0x00000db0, 0x00000db5,
+	0x00000dc9, 0x00000ddc, 0x00000de6, 0x00000e14,
+	0x00000e27, 0x00000e4d, 0x00000e5c, 0x00000e64,
+	0x00000e6a, 0x00000e74, 0x00000e80, 0x00000e8f,
+	0x00000ea2, 0x00000ea6, 0x00000ea9, 0x00000eb6,
+	0x00000ec2, 0x00000ec9, 0x00000ed2, 0x00000edd,
 	// Entry C0 - DF
-	0x00000ea8, 0x00000eb5, 0x00000ec9, 0x00000f59,
-	0x00000f72, 0x00000f89, 0x00000f91, 0x00000fb7,
-	0x00000ff1, 0x00001006, 0x00001016, 0x00001091,
-	0x000010a0, 0x000010b7, 0x000010d1, 0x000010f1,
-	0x00001113, 0x00001125, 0x0000113d, 0x0000114d,
-	0x0000115f, 0x00001179, 0x00001183, 0x00001198,
-	0x000011a9, 0x000011b2, 0x000011ce, 0x000011e5,
-	0x0000121c, 0x00001237, 0x00001270, 0x0000127d,
+	0x00000ee4, 0x00000eeb, 0x00000efd, 0x00000f04,
+	0x00000f0d, 0x00000f16, 0x00000f21, 0x00000f32,
+	0x00000f3a, 0x00000f41, 0x00000f50, 0x00000f5d,
+	0x00000f71, 0x00001001, 0x0000101a, 0x00001031,
+	0x00001039, 0x0000105f, 0x00001099, 0x000010ae,
+	0x000010be, 0x00001139, 0x00001148, 0x0000115f,
+	0x00001179, 0x00001199, 0x000011bb, 0x000011cd,
+	0x000011e5, 0x000011f5, 0x00001207, 0x00001221,
 	// Entry E0 - FF
-	0x00001295, 0x000012aa, 0x000012e1, 0x000012fc,
-	0x00001302, 0x00001327, 0x00001331, 0x0000134b,
-	0x0000138f, 0x000013b9, 0x000013f8, 0x00001409,
-	0x00001430, 0x00001455, 0x00001484, 0x00001499,
-	0x000014c8, 0x000014e4,
-} // Size: 992 bytes
+	0x0000122b, 0x00001240, 0x00001251, 0x0000125a,
+	0x00001276, 0x0000128d, 0x000012c4, 0x000012df,
+	0x00001318, 0x00001325, 0x0000133d, 0x00001352,
+	0x00001389, 0x000013a4, 0x000013aa, 0x000013cf,
+	0x000013d9, 0x000013f3, 0x00001437, 0x00001461,
+	0x000014a0, 0x000014b1, 0x000014d8, 0x000014fd,
+	0x0000152c, 0x00001541, 0x00001570, 0x0000158c,
+} // Size: 1032 bytes
 
-const es_ESData string = "" + // Size: 5348 bytes
+const es_ESData string = "" + // Size: 5516 bytes
 	"\x02Versión: %[1]s\x02Versión FRP: %[1]s\x02Fecha de compilación: %[1]s" +
 	"\x02Todos los archivos\x02Archivos de configuración\x02Archivos de certi" +
 	"ficado\x02Archivos clave\x02Archivos de registro\x02Número fuera del ran" +
@@ -548,48 +564,51 @@ const es_ESData string = "" + // Size: 5348 bytes
 	"izadas\x02* Consulte la sección [common] del archivo de configuración de" +
 	" FRP.\x02La configuración ya existe\x02El nombre de configuración \x22%[" +
 	"1]s\x22 ya existe.\x02Nuevo Proxy\x02Editar Proxy - %[1]s\x02Aleatorio" +
-	"\x02Tipo\x02Role\x02Visitante\x02Llave secreta\x02Dirección local\x02Pue" +
-	"rto local\x02Puerto remoto\x02Dirección de enlace\x02Puerto de enlace" +
-	"\x02Nombre del servidor\x02Subdominio\x02Dominios personalizados\x02Ruta" +
-	" URL\x02Multiplexor\x02Usuario de ruta\x02Cliente\x02Servidor\x02Banda a" +
-	"ncha\x02Versión de proxy\x02Vacío\x02Cifrado\x02Compresión\x02Usuario HT" +
-	"TP\x02Contraseña HTTP\x02Reescritura de host\x02Enchufar\x02Nombre\x02Ru" +
-	"ta Unix\x02Seleccione la ruta de Unix\x02Ruta local\x02Seleccione una ca" +
-	"rpeta para la lista de directorios.\x02Prefijo de tira\x02Equilibrio de " +
-	"carga\x02Grupo\x02Clave de grupo\x02Chequeo de salud\x02Tipo\x02Se acabó" +
-	" el tiempo\x02Recuento de fallas\x02Intervalo\x02* Consulte los parámetr" +
-	"os admitidos por FRP.\x02El proxy ya existe\x02El nombre de proxy \x22%[" +
-	"1]s\x22 ya existe.\x02Abrir registro\x02Último\x02Ítem\x02Valorizar\x02T" +
-	"ipo de NAT\x02Comportamiento\x02Dirección externa\x02Sí\x02No\x02Red púb" +
-	"lica\x02Desconocido\x02Correr\x02Detenido\x02Comenzando\x02Parada\x02Est" +
-	"ado\x02Dirección remota\x02Copiar\x02Comienzo\x02Servicio\x02Deténgase" +
-	"\x02Directorio local\x02Agregar\x02Puerto\x02Puerto abierto\x02Preferenc" +
-	"ias\x02Contraseña maestra\x02Puede establecer una contraseña para restri" +
-	"ngir el acceso a este programa.\x0aSe le pedirá que lo ingrese la próxim" +
-	"a vez que use este programa.\x02Usar contraseña maestra\x02Cambiar la co" +
-	"ntraseña\x02Idiomas\x02El idioma de visualización actual es\x02Debe rein" +
-	"iciar el programa para aplicar la modificación.\x02Seleccione el idioma" +
-	"\x02Predeterminados\x02Defina el valor predeterminado al crear una nueva" +
-	" configuración.\x0aEl valor aquí no afectará la configuración existente." +
-	"\x02Valor ajustado\x02Contraseña eliminada.\x02Nueva contraseña maestra" +
-	"\x02Escriba la contraseña otra vez\x02La contraseña está configurada." +
-	"\x02Nivel de registro\x02Retención de registros\x02Añadir rápido\x02Escr" +
-	"itorio remoto\x02Servidor de archivos HTTP\x02Habilitar\x02Abrir configu" +
-	"ración\x02Edición directa\x02Dominios\x02Copiar dirección de acceso\x02E" +
-	"liminar proxy \x22%[1]s\x22\x02¿Está seguro de que desea eliminar el pro" +
-	"xy \x22%[1]s\x22?\x02Deshabilitar proxy \x22%[1]s\x22\x02¿Está seguro de" +
-	" que desea desactivar el proxy \x22%[1]s\x22?\x02Deshabilitar\x02Gama de" +
-	" puertos pasivos\x02Administrador de FRP\x02* Admite importación por lot" +
-	"es, un enlace por línea.\x02Renombrar automáticamente\x02Listo\x02Introd" +
-	"uzca la lista de URL correcta.\x02Descargar\x02Introducir la contraseña" +
-	"\x02Debe ingresar una contraseña de administración para operar %[1]s." +
-	"\x02Ingrese la contraseña de administración\x02La contraseña es incorrec" +
-	"ta. Escriba la contraseña otra vez.\x02Entrada invalida\x02Ingrese un nú" +
-	"mero de %.[1]f a %.[2]f.\x02Ingrese un número de %[1]s a %[2]s.\x02El te" +
-	"xto no coincide con el patrón requerido.\x02Selección requerida\x02Selec" +
-	"cione una de las opciones proporcionadas.\x02Se requiere una selección."
+	"\x02Tipo\x02Role\x02Servidor\x02Visitante\x02Llave secreta\x02Dirección " +
+	"local\x02Puerto local\x02Puerto remoto\x02Permitir usuarios\x02Dirección" +
+	" de enlace\x02Puerto de enlace\x02Nombre del servidor\x02Usuario del ser" +
+	"vidor\x02Subdominio\x02Dominios personalizados\x02Ruta URL\x02Multiplexo" +
+	"r\x02Usuario de ruta\x02Cliente\x02Banda ancha\x02Versión de proxy\x02Va" +
+	"cío\x02por defecto\x02Mantener túnel\x02Cifrado\x02Compresión\x02Número " +
+	"de reintentos\x02Veces/Hora\x02Intervalo de reintento\x02Repuesto\x02Int" +
+	"erruptor de respaldo\x02milisegundo\x02Usuario HTTP\x02Contraseña HTTP" +
+	"\x02Reescritura de host\x02Enchufar\x02Nombre\x02Ruta Unix\x02Seleccione" +
+	" la ruta de Unix\x02Ruta local\x02Seleccione una carpeta para la lista d" +
+	"e directorios.\x02Prefijo de tira\x02Equilibrio de carga\x02Grupo\x02Cla" +
+	"ve de grupo\x02Chequeo de salud\x02Tipo\x02Se acabó el tiempo\x02Recuent" +
+	"o de fallas\x02Intervalo\x02* Consulte los parámetros admitidos por FRP." +
+	"\x02El proxy ya existe\x02El nombre de proxy \x22%[1]s\x22 ya existe." +
+	"\x02Abrir registro\x02Último\x02Ítem\x02Valorizar\x02Tipo de NAT\x02Comp" +
+	"ortamiento\x02Dirección externa\x02Sí\x02No\x02Red pública\x02Desconocid" +
+	"o\x02Correr\x02Detenido\x02Comenzando\x02Parada\x02Estado\x02Dirección r" +
+	"emota\x02Copiar\x02Comienzo\x02Servicio\x02Deténgase\x02Directorio local" +
+	"\x02Agregar\x02Puerto\x02Puerto abierto\x02Preferencias\x02Contraseña ma" +
+	"estra\x02Puede establecer una contraseña para restringir el acceso a est" +
+	"e programa.\x0aSe le pedirá que lo ingrese la próxima vez que use este p" +
+	"rograma.\x02Usar contraseña maestra\x02Cambiar la contraseña\x02Idiomas" +
+	"\x02El idioma de visualización actual es\x02Debe reiniciar el programa p" +
+	"ara aplicar la modificación.\x02Seleccione el idioma\x02Predeterminados" +
+	"\x02Defina el valor predeterminado al crear una nueva configuración.\x0a" +
+	"El valor aquí no afectará la configuración existente.\x02Valor ajustado" +
+	"\x02Contraseña eliminada.\x02Nueva contraseña maestra\x02Escriba la cont" +
+	"raseña otra vez\x02La contraseña está configurada.\x02Nivel de registro" +
+	"\x02Retención de registros\x02Añadir rápido\x02Escritorio remoto\x02Serv" +
+	"idor de archivos HTTP\x02Habilitar\x02Abrir configuración\x02Edición dir" +
+	"ecta\x02Dominios\x02Copiar dirección de acceso\x02Eliminar proxy \x22%[1" +
+	"]s\x22\x02¿Está seguro de que desea eliminar el proxy \x22%[1]s\x22?\x02" +
+	"Deshabilitar proxy \x22%[1]s\x22\x02¿Está seguro de que desea desactivar" +
+	" el proxy \x22%[1]s\x22?\x02Deshabilitar\x02Gama de puertos pasivos\x02A" +
+	"dministrador de FRP\x02* Admite importación por lotes, un enlace por lín" +
+	"ea.\x02Renombrar automáticamente\x02Listo\x02Introduzca la lista de URL " +
+	"correcta.\x02Descargar\x02Introducir la contraseña\x02Debe ingresar una " +
+	"contraseña de administración para operar %[1]s.\x02Ingrese la contraseña" +
+	" de administración\x02La contraseña es incorrecta. Escriba la contraseña" +
+	" otra vez.\x02Entrada invalida\x02Ingrese un número de %.[1]f a %.[2]f." +
+	"\x02Ingrese un número de %[1]s a %[2]s.\x02El texto no coincide con el p" +
+	"atrón requerido.\x02Selección requerida\x02Seleccione una de las opcione" +
+	"s proporcionadas.\x02Se requiere una selección."
 
-var ja_JPIndex = []uint32{ // 242 elements
+var ja_JPIndex = []uint32{ // 252 elements
 	// Entry 0 - 1F
 	0x00000000, 0x00000018, 0x00000034, 0x0000004f,
 	0x00000068, 0x0000007b, 0x00000091, 0x000000a7,
@@ -625,43 +644,45 @@ var ja_JPIndex = []uint32{ // 242 elements
 	0x00000b19, 0x00000b2f, 0x00000b45, 0x00000b64,
 	0x00000b8f, 0x00000b9c, 0x00000bb8, 0x00000c0b,
 	0x00000c2d, 0x00000c5b, 0x00000c71, 0x00000c8f,
-	0x00000c9c, 0x00000ca6, 0x00000cad, 0x00000cba,
+	0x00000c9c, 0x00000ca6, 0x00000cad, 0x00000cb7,
 	// Entry 80 - 9F
-	0x00000cc4, 0x00000cdd, 0x00000cf3, 0x00000d09,
-	0x00000d22, 0x00000d38, 0x00000d48, 0x00000d5b,
-	0x00000d74, 0x00000d8b, 0x00000da1, 0x00000db7,
-	0x00000dca, 0x00000dd4, 0x00000dde, 0x00000dee,
-	0x00000df2, 0x00000dfc, 0x00000e03, 0x00000e15,
-	0x00000e2a, 0x00000e43, 0x00000e53, 0x00000e66,
-	0x00000e72, 0x00000e87, 0x00000e9a, 0x00000eda,
-	0x00000ef9, 0x00000f06, 0x00000f13, 0x00000f29,
+	0x00000cc4, 0x00000cce, 0x00000ce7, 0x00000cfd,
+	0x00000d13, 0x00000d2f, 0x00000d48, 0x00000d5e,
+	0x00000d6e, 0x00000d87, 0x00000d9a, 0x00000db3,
+	0x00000dca, 0x00000de0, 0x00000df6, 0x00000e09,
+	0x00000e13, 0x00000e23, 0x00000e27, 0x00000e31,
+	0x00000e4d, 0x00000e57, 0x00000e5e, 0x00000e71,
+	0x00000e7c, 0x00000e8c, 0x00000e93, 0x00000ebb,
+	0x00000ec5, 0x00000ed7, 0x00000eec, 0x00000f05,
 	// Entry A0 - BF
-	0x00000f36, 0x00000f40, 0x00000f53, 0x00000f5d,
-	0x00000f70, 0x00000faa, 0x00000fd2, 0x00001006,
-	0x00001022, 0x00001029, 0x00001030, 0x00001034,
-	0x00001042, 0x00001049, 0x0000105c, 0x00001063,
-	0x0000106d, 0x00001089, 0x00001099, 0x000010a9,
-	0x000010b0, 0x000010b7, 0x000010be, 0x000010c5,
-	0x000010de, 0x000010e8, 0x000010f2, 0x000010ff,
-	0x00001109, 0x00001116, 0x0000111d, 0x00001127,
+	0x00000f15, 0x00000f28, 0x00000f34, 0x00000f49,
+	0x00000f5c, 0x00000f9c, 0x00000fbb, 0x00000fc8,
+	0x00000fd5, 0x00000feb, 0x00000ff8, 0x00001002,
+	0x00001015, 0x0000101f, 0x00001032, 0x0000106c,
+	0x00001094, 0x000010c8, 0x000010e4, 0x000010eb,
+	0x000010f2, 0x000010f6, 0x00001104, 0x0000110b,
+	0x0000111e, 0x00001125, 0x0000112f, 0x0000114b,
+	0x0000115b, 0x0000116b, 0x00001172, 0x00001179,
 	// Entry C0 - DF
-	0x00001137, 0x00001144, 0x00001160, 0x0000121c,
-	0x00001247, 0x00001266, 0x0000126d, 0x00001286,
-	0x000012de, 0x000012f4, 0x00001304, 0x00001393,
-	0x000013ac, 0x000013d7, 0x000013fc, 0x00001406,
-	0x00001434, 0x00001444, 0x00001451, 0x00001464,
-	0x00001483, 0x000014a1, 0x000014a8, 0x000014b8,
-	0x000014c5, 0x000014d5, 0x000014fa, 0x00001522,
-	0x00001559, 0x00001581, 0x000015c4, 0x000015cb,
+	0x00001180, 0x00001187, 0x000011a0, 0x000011aa,
+	0x000011b4, 0x000011c1, 0x000011cb, 0x000011d8,
+	0x000011df, 0x000011e9, 0x000011f9, 0x00001206,
+	0x00001222, 0x000012de, 0x00001309, 0x00001328,
+	0x0000132f, 0x00001348, 0x000013a0, 0x000013b6,
+	0x000013c6, 0x00001455, 0x0000146e, 0x00001499,
+	0x000014be, 0x000014c8, 0x000014f6, 0x00001506,
+	0x00001513, 0x00001526, 0x00001545, 0x00001563,
 	// Entry E0 - FF
-	0x000015e7, 0x000015fb, 0x0000165a, 0x00001676,
-	0x0000167d, 0x000016b1, 0x000016c4, 0x000016e3,
-	0x0000173e, 0x00001760, 0x000017aa, 0x000017b7,
-	0x000017fa, 0x0000183b, 0x00001878, 0x00001885,
-	0x000018d1, 0x000018ea,
-} // Size: 992 bytes
+	0x0000156a, 0x0000157a, 0x00001587, 0x00001597,
+	0x000015bc, 0x000015e4, 0x0000161b, 0x00001643,
+	0x00001686, 0x0000168d, 0x000016a9, 0x000016bd,
+	0x0000171c, 0x00001738, 0x0000173f, 0x00001773,
+	0x00001786, 0x000017a5, 0x00001800, 0x00001822,
+	0x0000186c, 0x00001879, 0x000018bc, 0x000018fd,
+	0x0000193a, 0x00001947, 0x00001993, 0x000019ac,
+} // Size: 1032 bytes
 
-const ja_JPData string = "" + // Size: 6378 bytes
+const ja_JPData string = "" + // Size: 6572 bytes
 	"\x02バージョン：%[1]s\x02FRP バージョン：%[1]s\x02コンパイル日：%[1]s\x02すべてのファイル\x02設定ファイル" +
 	"\x02証明書ファイル\x02秘密鍵ファイル\x02ログファイル\x02許容範囲外の数値\x02%[1]d より大きい数値を入力してください。" +
 	"\x02パスワードの不一致\x02もう一度確認してください。\x02数字ではありません\x02有効な数値を入力してください。\x02新しいバージ" +
@@ -686,31 +707,33 @@ const ja_JPData string = "" + // Size: 6378 bytes
 	"\x02多重化接続を維持\x02送信元アドレス\x02別のオプション\x02ログイン失敗後に終了\x02起動時に自動起動を無効にする\x02カス" +
 	"タム\x02カスタムオプション\x02* FRP 設定ファイルの [common] セクションを参照してください。\x02設定はすでに存在し" +
 	"ます\x02設定名 \x22%[1]s\x22 は既に存在します。\x02新しいプロキシ\x02プロキシの編集 - %[1]s\x02ランダ" +
-	"ム\x02タイプ\x02役割\x02ビジター\x02秘密鍵\x02ローカルアドレス\x02ローカルポート\x02リモートポート\x02バイン" +
-	"ドアドレス\x02バインドポート\x02サーバー名\x02サブドメイン\x02カスタムドメイン\x02URL ルーティング\x02マルチプレ" +
-	"クサ\x02ルートユーザー\x02クライアント\x02サーバ\x02帯域幅\x02プロキシ版\x02空\x02暗号化\x02圧縮\x02HT" +
-	"TP ユーザー\x02HTTP パスワード\x02ホストの書き換え\x02プラグイン\x02プラグイン名\x02Unix パス\x02Unix " +
-	"パスを選択\x02ローカルパス\x02ディレクトリリストのフォルダを選択します。\x02プレフィックスを削除\x02負荷平衡\x02グループ" +
-	"\x02グループ秘密鍵\x02健康診断\x02タイプ\x02タイムアウト\x02失敗数\x02チェック間隔\x02* FRP 対応のパラメータを" +
-	"ご参照ください。\x02プロキシはすでに存在します\x02プロキシ名 \x22%[1]s\x22 は既に存在します。\x02ログフォルダを開" +
-	"く\x02最新\x02項目\x02値\x02NAT タイプ\x02挙動\x02外部アドレス\x02はい\x02いいえ\x02公共のネットワー" +
-	"ク\x02わからない\x02ランニング\x02停止\x02起動\x02停止\x02状態\x02リモートアドレス\x02コピー\x02始める" +
-	"\x02サービス\x02止まる\x02フォルダ\x02追加\x02ポート\x02ポート開放\x02環境設定\x02マスターパスワード\x02パス" +
-	"ワードを設定して、このプログラムへのアクセスを制限できます。\x0a次回このプログラムを使用するときに入力するよう求められます。\x02マス" +
-	"ターパスワードを使用する\x02パスワードを変更する\x02言語\x02現在の表示言語は\x02変更を適用するには、プログラムを再起動する必" +
-	"要があります。\x02言語を選択する\x02デフォルト\x02新しい設定を作成するときのデフォルト値を定義します。\x0aここでの値は、既存" +
-	"の設定には影響しません。\x02デフォルトの設定\x02パスワードが解除されました。\x02新しいマスターパスワード\x02再入力\x02パ" +
-	"スワードが設定されています。\x02ログレベル\x02ログ保持\x02クイック追加\x02リモートデスクトップ\x02HTTP ファイルサー" +
-	"バー\x02有効\x02設定を開く\x02直接編集\x02ドメイン名\x02アクセスアドレスのコピー\x02プロキシ \x22%[1]s" +
-	"\x22 を削除します\x02本当にプロキシ \x22%[1]s\x22 を削除しますか？\x02プロキシ \x22%[1]s\x22 を無効に" +
-	"する\x02プロキシ \x22%[1]s\x22 を無効にしてもよろしいですか？\x02無効\x02パッシブポート範囲\x02FRP マネー" +
-	"ジャ\x02* バッチインポートをサポートします、1行に1つのリンクがあります。\x02自動的に名前を変更\x02準備\x02正しいURLリ" +
-	"ストを入力してください。\x02ダウンロード\x02パスワードを入力する\x02%[1]s を操作するには、管理パスワードを入力する必要があ" +
-	"ります。\x02管理者パスワードを入力\x02パスワードが正しくありません。 パスワード再入力。\x02無効入力\x02%.[1]f から " +
-	"%.[2]f までの数字を入力してください。\x02%[1]s から %[2]s までの数値を入力してください。\x02テキストが必要なパターン" +
-	"と一致しません。\x02選択必須\x02提供されたオプションのいずれかを選択してください。\x02選択が必要です。"
+	"ム\x02タイプ\x02役割\x02サーバ\x02ビジター\x02秘密鍵\x02ローカルアドレス\x02ローカルポート\x02リモートポート" +
+	"\x02ユーザーを許可する\x02バインドアドレス\x02バインドポート\x02サーバー名\x02サーバーユーザー\x02サブドメイン\x02カ" +
+	"スタムドメイン\x02URL ルーティング\x02マルチプレクサ\x02ルートユーザー\x02クライアント\x02帯域幅\x02プロキシ版" +
+	"\x02空\x02既定値\x02トンネルを維持する\x02暗号化\x02圧縮\x02リトライ回数\x02回/時間\x02再試行間隔\x02代替" +
+	"\x02フォールバックタイムアウト\x02ミリ秒\x02HTTP ユーザー\x02HTTP パスワード\x02ホストの書き換え\x02プラグイン" +
+	"\x02プラグイン名\x02Unix パス\x02Unix パスを選択\x02ローカルパス\x02ディレクトリリストのフォルダを選択します。" +
+	"\x02プレフィックスを削除\x02負荷平衡\x02グループ\x02グループ秘密鍵\x02健康診断\x02タイプ\x02タイムアウト\x02失敗" +
+	"数\x02チェック間隔\x02* FRP 対応のパラメータをご参照ください。\x02プロキシはすでに存在します\x02プロキシ名 \x22%" +
+	"[1]s\x22 は既に存在します。\x02ログフォルダを開く\x02最新\x02項目\x02値\x02NAT タイプ\x02挙動\x02外部ア" +
+	"ドレス\x02はい\x02いいえ\x02公共のネットワーク\x02わからない\x02ランニング\x02停止\x02起動\x02停止\x02状" +
+	"態\x02リモートアドレス\x02コピー\x02始める\x02サービス\x02止まる\x02フォルダ\x02追加\x02ポート\x02ポート" +
+	"開放\x02環境設定\x02マスターパスワード\x02パスワードを設定して、このプログラムへのアクセスを制限できます。\x0a次回このプログ" +
+	"ラムを使用するときに入力するよう求められます。\x02マスターパスワードを使用する\x02パスワードを変更する\x02言語\x02現在の表示" +
+	"言語は\x02変更を適用するには、プログラムを再起動する必要があります。\x02言語を選択する\x02デフォルト\x02新しい設定を作成する" +
+	"ときのデフォルト値を定義します。\x0aここでの値は、既存の設定には影響しません。\x02デフォルトの設定\x02パスワードが解除されました" +
+	"。\x02新しいマスターパスワード\x02再入力\x02パスワードが設定されています。\x02ログレベル\x02ログ保持\x02クイック追加" +
+	"\x02リモートデスクトップ\x02HTTP ファイルサーバー\x02有効\x02設定を開く\x02直接編集\x02ドメイン名\x02アクセスア" +
+	"ドレスのコピー\x02プロキシ \x22%[1]s\x22 を削除します\x02本当にプロキシ \x22%[1]s\x22 を削除しますか？" +
+	"\x02プロキシ \x22%[1]s\x22 を無効にする\x02プロキシ \x22%[1]s\x22 を無効にしてもよろしいですか？\x02無" +
+	"効\x02パッシブポート範囲\x02FRP マネージャ\x02* バッチインポートをサポートします、1行に1つのリンクがあります。\x02自" +
+	"動的に名前を変更\x02準備\x02正しいURLリストを入力してください。\x02ダウンロード\x02パスワードを入力する\x02%[1]s" +
+	" を操作するには、管理パスワードを入力する必要があります。\x02管理者パスワードを入力\x02パスワードが正しくありません。 パスワード再入力" +
+	"。\x02無効入力\x02%.[1]f から %.[2]f までの数字を入力してください。\x02%[1]s から %[2]s までの数値を" +
+	"入力してください。\x02テキストが必要なパターンと一致しません。\x02選択必須\x02提供されたオプションのいずれかを選択してください。" +
+	"\x02選択が必要です。"
 
-var ko_KRIndex = []uint32{ // 242 elements
+var ko_KRIndex = []uint32{ // 252 elements
 	// Entry 0 - 1F
 	0x00000000, 0x0000000e, 0x00000020, 0x00000035,
 	0x00000043, 0x00000051, 0x00000062, 0x00000070,
@@ -746,43 +769,45 @@ var ko_KRIndex = []uint32{ // 242 elements
 	0x00000920, 0x0000092e, 0x0000093c, 0x00000958,
 	0x0000097e, 0x00000985, 0x0000099d, 0x000009d8,
 	0x000009f7, 0x00000a2e, 0x00000a3c, 0x00000a55,
-	0x00000a62, 0x00000a69, 0x00000a70, 0x00000a7a,
+	0x00000a62, 0x00000a69, 0x00000a70, 0x00000a77,
 	// Entry 80 - 9F
-	0x00000a85, 0x00000a93, 0x00000aa1, 0x00000aaf,
-	0x00000ac0, 0x00000ad1, 0x00000adf, 0x00000af0,
-	0x00000b0b, 0x00000b19, 0x00000b29, 0x00000b3a,
-	0x00000b4a, 0x00000b51, 0x00000b5b, 0x00000b6c,
-	0x00000b7a, 0x00000b84, 0x00000b8b, 0x00000b9a,
-	0x00000bac, 0x00000bc0, 0x00000bcd, 0x00000be1,
-	0x00000bed, 0x00000c00, 0x00000c0e, 0x00000c4a,
-	0x00000c5e, 0x00000c6c, 0x00000c73, 0x00000c85,
+	0x00000a81, 0x00000a8c, 0x00000a9a, 0x00000aa8,
+	0x00000ab6, 0x00000ac7, 0x00000ad8, 0x00000ae9,
+	0x00000af7, 0x00000b08, 0x00000b19, 0x00000b34,
+	0x00000b42, 0x00000b52, 0x00000b63, 0x00000b73,
+	0x00000b7d, 0x00000b8e, 0x00000b9c, 0x00000ba6,
+	0x00000bb4, 0x00000bbe, 0x00000bc5, 0x00000bd6,
+	0x00000be1, 0x00000bf2, 0x00000bf9, 0x00000c0e,
+	0x00000c18, 0x00000c27, 0x00000c39, 0x00000c4d,
 	// Entry A0 - BF
-	0x00000c93, 0x00000c9a, 0x00000ca8, 0x00000cb6,
-	0x00000cbd, 0x00000cfb, 0x00000d1d, 0x00000d57,
-	0x00000d6c, 0x00000d73, 0x00000d7a, 0x00000d7e,
-	0x00000d89, 0x00000d90, 0x00000d9e, 0x00000da2,
-	0x00000dac, 0x00000dc0, 0x00000dd4, 0x00000dde,
-	0x00000de8, 0x00000def, 0x00000df6, 0x00000dfd,
-	0x00000e0b, 0x00000e12, 0x00000e19, 0x00000e23,
-	0x00000e2a, 0x00000e3e, 0x00000e4b, 0x00000e52,
+	0x00000c5a, 0x00000c6e, 0x00000c7a, 0x00000c8d,
+	0x00000c9b, 0x00000cd7, 0x00000ceb, 0x00000cf9,
+	0x00000d00, 0x00000d12, 0x00000d20, 0x00000d27,
+	0x00000d35, 0x00000d43, 0x00000d4a, 0x00000d88,
+	0x00000daa, 0x00000de4, 0x00000df9, 0x00000e00,
+	0x00000e07, 0x00000e0b, 0x00000e16, 0x00000e1d,
+	0x00000e2b, 0x00000e2f, 0x00000e39, 0x00000e4d,
+	0x00000e61, 0x00000e6b, 0x00000e75, 0x00000e7c,
 	// Entry C0 - DF
-	0x00000e60, 0x00000e67, 0x00000e7e, 0x00000f3a,
-	0x00000f58, 0x00000f6c, 0x00000f73, 0x00000f8b,
-	0x00000fd7, 0x00000fe5, 0x00000fef, 0x00001067,
-	0x0000107e, 0x0000109f, 0x000010ba, 0x000010d1,
-	0x000010fc, 0x0000110a, 0x00001118, 0x00001126,
-	0x0000113a, 0x0000114d, 0x00001154, 0x00001162,
-	0x00001170, 0x0000117a, 0x00001192, 0x000011ab,
-	0x000011da, 0x000011f9, 0x0000122e, 0x00001235,
+	0x00000e83, 0x00000e8a, 0x00000e98, 0x00000e9f,
+	0x00000ea6, 0x00000eb0, 0x00000eb7, 0x00000ecb,
+	0x00000ed8, 0x00000edf, 0x00000eed, 0x00000ef4,
+	0x00000f0b, 0x00000fc7, 0x00000fe5, 0x00000ff9,
+	0x00001000, 0x00001018, 0x00001064, 0x00001072,
+	0x0000107c, 0x000010f4, 0x0000110b, 0x0000112c,
+	0x00001147, 0x0000115e, 0x00001189, 0x00001197,
+	0x000011a5, 0x000011b3, 0x000011c7, 0x000011da,
 	// Entry E0 - FF
-	0x0000124d, 0x0000125b, 0x000012a4, 0x000012c2,
-	0x000012d0, 0x000012f9, 0x00001306, 0x00001317,
-	0x0000135e, 0x00001379, 0x000013cc, 0x000013dd,
-	0x00001415, 0x0000144f, 0x00001488, 0x00001496,
-	0x000014c9, 0x000014e4,
-} // Size: 992 bytes
+	0x000011e1, 0x000011ef, 0x000011fd, 0x00001207,
+	0x0000121f, 0x00001238, 0x00001267, 0x00001286,
+	0x000012bb, 0x000012c2, 0x000012da, 0x000012e8,
+	0x00001331, 0x0000134f, 0x0000135d, 0x00001386,
+	0x00001393, 0x000013a4, 0x000013eb, 0x00001406,
+	0x00001459, 0x0000146a, 0x000014a2, 0x000014dc,
+	0x00001515, 0x00001523, 0x00001556, 0x00001571,
+} // Size: 1032 bytes
 
-const ko_KRData string = "" + // Size: 5348 bytes
+const ko_KRData string = "" + // Size: 5489 bytes
 	"\x02버전: %[1]s\x02FRP 버전: %[1]s\x02빌드 날짜: %[1]s\x02모든 파일\x02구성 파일\x02인증서 " +
 	"파일\x02열쇠 파일\x02로그 파일\x02허용 범위를 벗어난 숫자\x02%[1]d보다 큰 숫자를 입력하세요.\x02암호 불일" +
 	"치\x02확인하고 다시 시도해 주세요.\x02숫자가 아님\x02유효한 숫자를 입력하세요.\x02새로운 버전!\x02에 대한" +
@@ -806,31 +831,32 @@ const ko_KRData string = "" + // Size: 5348 bytes
 	"기 중\x02소스 주소\x02다른 옵션\x02로그인 실패 후 종료\x02부팅 시 자동 시작 비활성화\x02관습\x02사용자 지" +
 	"정 옵션\x02* FRP 설정 파일의 [common] 부분을 참고하세요.\x02구성이 이미 있습니다.\x02구성 이름 \x22" +
 	"%[1]s\x22 이(가) 이미 존재합니다.\x02새 프록시\x02프록시 편집 - %[1]s\x02무작위의\x02유형\x02역할" +
-	"\x02방문객\x02비밀 키\x02지역 주소\x02로컬 포트\x02원격 포트\x02바인드 주소\x02바인드 포트\x02서버 이름" +
-	"\x02하위 도메인\x02사용자 정의 도메인\x02URL 라우팅\x02멀티플렉서\x02경로 사용자\x02클라이언트\x02서버" +
-	"\x02대역폭\x02프록시 버전\x02비어 있는\x02암호화\x02압축\x02HTTP 사용자\x02HTTP 비밀번호\x02호스트 " +
-	"재작성\x02플러그인\x02플러그인 이름\x02Unix 경로\x02선택 Unix 경로\x02로컬 경로\x02디렉토리 목록에 대" +
-	"한 폴더를 선택하십시오.\x02스트립 접두사\x02부하 분산\x02그룹\x02그룹 비밀 키\x02건강 체크\x02유형\x02시" +
-	"간 초과\x02실패 횟수\x02간격\x02* FRP 에서 지원하는 매개변수를 참조하십시오.\x02프록시가 이미 있습니다." +
-	"\x02프록시 이름 \x22%[1]s\x22 이(가) 이미 존재합니다.\x02로그 폴더 열기\x02최신\x02안건\x02값\x02" +
-	"NAT 유형\x02행실\x02외부 주소\x02예\x02아니요\x02공용 네트워크\x02알려지지 않은\x02달리기\x02중지됨" +
-	"\x02시작\x02멎는\x02상태\x02원격 주소\x02복사\x02시작\x02서비스\x02중지\x02로컬 디렉토리\x02추가하다" +
-	"\x02포트\x02오픈 포트\x02옵션\x02마스터 비밀번호\x02이 프로그램에 대한 액세스를 제한하기 위해 암호를 설정할 수 있" +
-	"습니다.\x0a다음에 이 프로그램을 사용할 때 입력하라는 메시지가 표시됩니다.\x02마스터 비밀번호 사용\x02비밀번호 변경" +
-	"\x02언어\x02현재 표시 언어는\x02수정 사항을 적용하려면 프로그램을 재시작해야 합니다.\x02언어 선택\x02기본값\x02" +
-	"새 구성을 만들 때 기본값을 정의합니다.\x0a여기의 값은 기존 구성에 영향을 주지 않습니다.\x02기본값으로 설정\x02암호" +
-	"가 제거되었습니다.\x02새 마스터 비밀번호\x02비밀번호 재입력\x02비밀번호가 설정되어 있습니다.\x02로그 수준\x02로" +
-	"그 보존\x02빠른 추가\x02원격 데스크탑\x02HTTP 파일 서버\x02켜다\x02구성 열기\x02직접 편집\x02도메인" +
-	"\x02액세스 주소 복사\x02프록시 \x22%[1]s\x22 삭제\x02\x22%[1]s\x22 프록시를 삭제하시겠습니까?" +
-	"\x02프록시 \x22%[1]s\x22 비활성화\x02\x22%[1]s\x22 프록시를 비활성화하시겠습니까?\x02폐쇄\x02패시" +
-	"브 포트 범위\x02FRP 관리자\x02* 한 줄에 하나의 링크로 일괄 가져오기를 지원합니다.\x02자동으로 이름 바꾸기" +
-	"\x02준비가 된\x02올바른 URL 목록을 입력하세요.\x02다운로드\x02암호를 입력\x02%[1]s을(를) 작동하려면 관리 " +
-	"암호를 입력해야 합니다.\x02관리 비밀번호 입력\x02비밀번호가 올바르지 않습니다. 비밀번호를 다시 입력하세요.\x02잘못된" +
-	" 입력\x02%.[1]f에서 %.[2]f까지의 숫자를 입력하세요.\x02%[1]s에서 %[2]s 사이의 숫자를 입력하십시오." +
-	"\x02텍스트가 필수 패턴과 일치하지 않습니다.\x02선택 필수\x02제공된 옵션 중 하나를 선택하십시오.\x02선택이 필요합니다" +
-	"."
+	"\x02서버\x02방문객\x02비밀 키\x02지역 주소\x02로컬 포트\x02원격 포트\x02사용자 허용\x02바인드 주소\x02" +
+	"바인드 포트\x02서버 이름\x02서버 사용자\x02하위 도메인\x02사용자 정의 도메인\x02URL 라우팅\x02멀티플렉서" +
+	"\x02경로 사용자\x02클라이언트\x02대역폭\x02프록시 버전\x02비어 있는\x02기본값\x02터널 유지\x02암호화\x02" +
+	"압축\x02재시도 횟수\x02회/시간\x02재시도 간격\x02폴백\x02대체 시간 초과\x02밀리초\x02HTTP 사용자" +
+	"\x02HTTP 비밀번호\x02호스트 재작성\x02플러그인\x02플러그인 이름\x02Unix 경로\x02선택 Unix 경로\x02" +
+	"로컬 경로\x02디렉토리 목록에 대한 폴더를 선택하십시오.\x02스트립 접두사\x02부하 분산\x02그룹\x02그룹 비밀 키" +
+	"\x02건강 체크\x02유형\x02시간 초과\x02실패 횟수\x02간격\x02* FRP 에서 지원하는 매개변수를 참조하십시오." +
+	"\x02프록시가 이미 있습니다.\x02프록시 이름 \x22%[1]s\x22 이(가) 이미 존재합니다.\x02로그 폴더 열기\x02" +
+	"최신\x02안건\x02값\x02NAT 유형\x02행실\x02외부 주소\x02예\x02아니요\x02공용 네트워크\x02알려지지 " +
+	"않은\x02달리기\x02중지됨\x02시작\x02멎는\x02상태\x02원격 주소\x02복사\x02시작\x02서비스\x02중지" +
+	"\x02로컬 디렉토리\x02추가하다\x02포트\x02오픈 포트\x02옵션\x02마스터 비밀번호\x02이 프로그램에 대한 액세스를 " +
+	"제한하기 위해 암호를 설정할 수 있습니다.\x0a다음에 이 프로그램을 사용할 때 입력하라는 메시지가 표시됩니다.\x02마스터 " +
+	"비밀번호 사용\x02비밀번호 변경\x02언어\x02현재 표시 언어는\x02수정 사항을 적용하려면 프로그램을 재시작해야 합니다." +
+	"\x02언어 선택\x02기본값\x02새 구성을 만들 때 기본값을 정의합니다.\x0a여기의 값은 기존 구성에 영향을 주지 않습니다." +
+	"\x02기본값으로 설정\x02암호가 제거되었습니다.\x02새 마스터 비밀번호\x02비밀번호 재입력\x02비밀번호가 설정되어 있습니" +
+	"다.\x02로그 수준\x02로그 보존\x02빠른 추가\x02원격 데스크탑\x02HTTP 파일 서버\x02켜다\x02구성 열기" +
+	"\x02직접 편집\x02도메인\x02액세스 주소 복사\x02프록시 \x22%[1]s\x22 삭제\x02\x22%[1]s\x22 프" +
+	"록시를 삭제하시겠습니까?\x02프록시 \x22%[1]s\x22 비활성화\x02\x22%[1]s\x22 프록시를 비활성화하시겠습" +
+	"니까?\x02폐쇄\x02패시브 포트 범위\x02FRP 관리자\x02* 한 줄에 하나의 링크로 일괄 가져오기를 지원합니다." +
+	"\x02자동으로 이름 바꾸기\x02준비가 된\x02올바른 URL 목록을 입력하세요.\x02다운로드\x02암호를 입력\x02%[1]" +
+	"s을(를) 작동하려면 관리 암호를 입력해야 합니다.\x02관리 비밀번호 입력\x02비밀번호가 올바르지 않습니다. 비밀번호를 다시 " +
+	"입력하세요.\x02잘못된 입력\x02%.[1]f에서 %.[2]f까지의 숫자를 입력하세요.\x02%[1]s에서 %[2]s 사이의" +
+	" 숫자를 입력하십시오.\x02텍스트가 필수 패턴과 일치하지 않습니다.\x02선택 필수\x02제공된 옵션 중 하나를 선택하십시오." +
+	"\x02선택이 필요합니다."
 
-var zh_CNIndex = []uint32{ // 242 elements
+var zh_CNIndex = []uint32{ // 252 elements
 	// Entry 0 - 1F
 	0x00000000, 0x0000000f, 0x00000022, 0x00000037,
 	0x00000044, 0x00000051, 0x0000005e, 0x0000006b,
@@ -868,41 +894,43 @@ var zh_CNIndex = []uint32{ // 242 elements
 	0x0000080d, 0x0000082e, 0x0000083b, 0x00000850,
 	0x0000085d, 0x00000864, 0x0000086b, 0x00000875,
 	// Entry 80 - 9F
-	0x0000087c, 0x00000889, 0x00000896, 0x000008a3,
-	0x000008b0, 0x000008bd, 0x000008ca, 0x000008d4,
-	0x000008e4, 0x000008ef, 0x000008f9, 0x00000906,
-	0x00000910, 0x0000091a, 0x00000927, 0x00000934,
-	0x00000938, 0x00000945, 0x00000952, 0x0000095e,
-	0x0000096a, 0x00000976, 0x0000097d, 0x0000098a,
-	0x00000996, 0x000009a9, 0x000009b6, 0x000009e4,
-	0x000009f1, 0x000009fe, 0x00000a0b, 0x00000a18,
+	0x0000087f, 0x00000886, 0x00000893, 0x000008a0,
+	0x000008ad, 0x000008ba, 0x000008c7, 0x000008d4,
+	0x000008e1, 0x000008ee, 0x000008f8, 0x00000908,
+	0x00000913, 0x0000091d, 0x0000092a, 0x00000934,
+	0x00000941, 0x0000094e, 0x00000952, 0x00000959,
+	0x00000966, 0x00000973, 0x00000980, 0x0000098d,
+	0x00000998, 0x000009a5, 0x000009ac, 0x000009b9,
+	0x000009c0, 0x000009cc, 0x000009d8, 0x000009e4,
 	// Entry A0 - BF
-	0x00000a25, 0x00000a32, 0x00000a3f, 0x00000a4c,
-	0x00000a59, 0x00000a79, 0x00000a89, 0x00000aaa,
-	0x00000ac0, 0x00000ac7, 0x00000ace, 0x00000ad2,
-	0x00000add, 0x00000ae4, 0x00000af1, 0x00000af5,
-	0x00000af9, 0x00000b00, 0x00000b07, 0x00000b14,
-	0x00000b1e, 0x00000b2b, 0x00000b38, 0x00000b3f,
-	0x00000b4c, 0x00000b53, 0x00000b5a, 0x00000b61,
-	0x00000b68, 0x00000b75, 0x00000b7c, 0x00000b83,
+	0x000009eb, 0x000009f8, 0x00000a04, 0x00000a17,
+	0x00000a24, 0x00000a52, 0x00000a5f, 0x00000a6c,
+	0x00000a79, 0x00000a86, 0x00000a93, 0x00000aa0,
+	0x00000aad, 0x00000aba, 0x00000ac7, 0x00000ae7,
+	0x00000af7, 0x00000b18, 0x00000b2e, 0x00000b35,
+	0x00000b3c, 0x00000b40, 0x00000b4b, 0x00000b52,
+	0x00000b5f, 0x00000b63, 0x00000b67, 0x00000b6e,
+	0x00000b75, 0x00000b82, 0x00000b8c, 0x00000b99,
 	// Entry C0 - DF
-	0x00000b90, 0x00000b97, 0x00000ba1, 0x00000c0f,
-	0x00000c1f, 0x00000c2c, 0x00000c33, 0x00000c49,
-	0x00000c7a, 0x00000c87, 0x00000c91, 0x00000ce1,
-	0x00000cf1, 0x00000d04, 0x00000d11, 0x00000d1e,
-	0x00000d31, 0x00000d3e, 0x00000d4b, 0x00000d58,
-	0x00000d65, 0x00000d77, 0x00000d7e, 0x00000d91,
-	0x00000d9e, 0x00000da5, 0x00000db8, 0x00000dd0,
-	0x00000df7, 0x00000e0f, 0x00000e36, 0x00000e3d,
+	0x00000ba6, 0x00000bad, 0x00000bba, 0x00000bc1,
+	0x00000bc8, 0x00000bcf, 0x00000bd6, 0x00000be3,
+	0x00000bea, 0x00000bf1, 0x00000bfe, 0x00000c05,
+	0x00000c0f, 0x00000c7d, 0x00000c8d, 0x00000c9a,
+	0x00000ca1, 0x00000cb7, 0x00000ce8, 0x00000cf5,
+	0x00000cff, 0x00000d4f, 0x00000d5f, 0x00000d72,
+	0x00000d7f, 0x00000d8c, 0x00000d9f, 0x00000dac,
+	0x00000db9, 0x00000dc6, 0x00000dd3, 0x00000de5,
 	// Entry E0 - FF
-	0x00000e50, 0x00000e5e, 0x00000e8b, 0x00000e9b,
-	0x00000ea8, 0x00000ec9, 0x00000ed0, 0x00000edd,
-	0x00000f0b, 0x00000f1e, 0x00000f40, 0x00000f4d,
-	0x00000f7f, 0x00000faf, 0x00000fd4, 0x00000fde,
-	0x00000ffd, 0x0000100d,
-} // Size: 992 bytes
+	0x00000dec, 0x00000dff, 0x00000e0c, 0x00000e13,
+	0x00000e26, 0x00000e3e, 0x00000e65, 0x00000e7d,
+	0x00000ea4, 0x00000eab, 0x00000ebe, 0x00000ecc,
+	0x00000ef9, 0x00000f09, 0x00000f16, 0x00000f37,
+	0x00000f3e, 0x00000f4b, 0x00000f79, 0x00000f8c,
+	0x00000fae, 0x00000fbb, 0x00000fed, 0x0000101d,
+	0x00001042, 0x0000104c, 0x0000106b, 0x0000107b,
+} // Size: 1032 bytes
 
-const zh_CNData string = "" + // Size: 4109 bytes
+const zh_CNData string = "" + // Size: 4219 bytes
 	"\x02版本：%[1]s\x02FRP 版本：%[1]s\x02构建日期：%[1]s\x02所有文件\x02配置文件\x02证书文件\x02密钥" +
 	"文件\x02日志文件\x02数值超出允许范围\x02请输入一个大于 %[1]d 的数字。\x02密码不匹配\x02请检查并重试。\x02不是" +
 	"数字\x02请输入一个有效的数字。\x02发现更新！\x02关于\x02下载更新\x02正在检查更新\x02检查更新\x02如有任何意见或报" +
@@ -921,25 +949,26 @@ const zh_CNData string = "" + // Size: 4109 bytes
 	"择证书文件\x02密钥文件\x02选择证书密钥文件\x02受信任证书\x02选择受信任的证书\x02高级\x02多路复用\x02复用器心跳" +
 	"\x02使用源地址\x02其他选项\x02初次登录失败后退出\x02禁用开机自启动\x02自定义\x02自定义参数\x02* 参考 FRP 配置" +
 	"文件的 [common] 部分。\x02配置已存在\x02配置名「%[1]s」已存在。\x02新建代理\x02编辑代理 - %[1]s" +
-	"\x02随机名称\x02类型\x02角色\x02访问者\x02私钥\x02本地地址\x02本地端口\x02远程端口\x02绑定地址\x02绑定端" +
-	"口\x02服务名称\x02子域名\x02自定义域名\x02URL 路由\x02复用器\x02路由用户\x02客户端\x02服务端\x02带宽" +
-	"限流\x02代理版本\x02空\x02加密传输\x02压缩传输\x02HTTP 用户\x02HTTP 密码\x02Host 替换\x02插件" +
-	"\x02插件名称\x02Unix 路径\x02选择 Unix 路径\x02本地路径\x02选择需要显示目录列表的文件夹。\x02移除前缀\x02" +
-	"负载均衡\x02分组名称\x02分组密钥\x02健康检查\x02检查类型\x02检查超时\x02错误次数\x02检查周期\x02* 参考 F" +
-	"RP 支持的参数。\x02代理已存在\x02代理名「%[1]s」已存在。\x02打开日志文件夹\x02最新\x02项目\x02值\x02NAT " +
-	"类型\x02行为\x02外部地址\x02是\x02否\x02公网\x02未知\x02正在运行\x02已停止\x02正在启动\x02正在停止" +
-	"\x02状态\x02远程地址\x02复制\x02启动\x02服务\x02停止\x02本地目录\x02添加\x02端口\x02打开端口\x02选项" +
-	"\x02主密码\x02您可以设置密码来限制访问此程序。\x0a在下次使用此程序时，您将被要求输入密码。\x02使用主密码\x02修改密码\x02" +
-	"语言\x02目前的显示语言\x02您必须重新启动程序才能应用修改。\x02选择语言\x02默认值\x02定义新建配置时的默认值。\x0a此处" +
-	"的值不会影响现有的配置。\x02设置默认值\x02密码已删除。\x02新主密码\x02确认密码\x02密码已设定。\x02日志级别\x02日" +
-	"志保留\x02快速添加\x02远程桌面\x02HTTP 文件服务\x02启用\x02打开配置文件\x02直接编辑\x02域名\x02复制访问" +
-	"地址\x02删除代理「%[1]s」\x02确定要删除代理「%[1]s」吗？\x02禁用代理「%[1]s」\x02确定要禁用代理「%[1]s」" +
-	"吗？\x02禁用\x02被动端口范围\x02FRP 管理器\x02* 支持批量导入，每行一个链接。\x02自动重命名\x02准备就绪\x02" +
-	"请输入正确的 URL 列表。\x02下载\x02输入密码\x02您必须输入管理密码来使用 %[1]s。\x02输入管理密码\x02密码错误。" +
-	"请重新输入。\x02输入无效\x02请输入一个从 %.[1]f 到 %.[2]f 的数字。\x02请输入一个从 %[1]s 到 %[2]s " +
-	"的数字。\x02文本与要求的模式不匹配。\x02必填项\x02请选择其中一个选项。\x02需要选择。"
+	"\x02随机名称\x02类型\x02角色\x02服务端\x02访问者\x02私钥\x02本地地址\x02本地端口\x02远程端口\x02允许用户" +
+	"\x02绑定地址\x02绑定端口\x02服务名称\x02服务用户\x02子域名\x02自定义域名\x02URL 路由\x02复用器\x02路由用" +
+	"户\x02客户端\x02带宽限流\x02代理版本\x02空\x02默认\x02隧道保活\x02加密传输\x02压缩传输\x02重试次数" +
+	"\x02次/小时\x02重试间隔\x02备用\x02备用超时\x02毫秒\x02HTTP 用户\x02HTTP 密码\x02Host 替换" +
+	"\x02插件\x02插件名称\x02Unix 路径\x02选择 Unix 路径\x02本地路径\x02选择需要显示目录列表的文件夹。\x02移除" +
+	"前缀\x02负载均衡\x02分组名称\x02分组密钥\x02健康检查\x02检查类型\x02检查超时\x02错误次数\x02检查周期\x02" +
+	"* 参考 FRP 支持的参数。\x02代理已存在\x02代理名「%[1]s」已存在。\x02打开日志文件夹\x02最新\x02项目\x02值" +
+	"\x02NAT 类型\x02行为\x02外部地址\x02是\x02否\x02公网\x02未知\x02正在运行\x02已停止\x02正在启动" +
+	"\x02正在停止\x02状态\x02远程地址\x02复制\x02启动\x02服务\x02停止\x02本地目录\x02添加\x02端口\x02打开" +
+	"端口\x02选项\x02主密码\x02您可以设置密码来限制访问此程序。\x0a在下次使用此程序时，您将被要求输入密码。\x02使用主密码" +
+	"\x02修改密码\x02语言\x02目前的显示语言\x02您必须重新启动程序才能应用修改。\x02选择语言\x02默认值\x02定义新建配置时的" +
+	"默认值。\x0a此处的值不会影响现有的配置。\x02设置默认值\x02密码已删除。\x02新主密码\x02确认密码\x02密码已设定。" +
+	"\x02日志级别\x02日志保留\x02快速添加\x02远程桌面\x02HTTP 文件服务\x02启用\x02打开配置文件\x02直接编辑" +
+	"\x02域名\x02复制访问地址\x02删除代理「%[1]s」\x02确定要删除代理「%[1]s」吗？\x02禁用代理「%[1]s」\x02确定" +
+	"要禁用代理「%[1]s」吗？\x02禁用\x02被动端口范围\x02FRP 管理器\x02* 支持批量导入，每行一个链接。\x02自动重命名" +
+	"\x02准备就绪\x02请输入正确的 URL 列表。\x02下载\x02输入密码\x02您必须输入管理密码来使用 %[1]s。\x02输入管理密" +
+	"码\x02密码错误。请重新输入。\x02输入无效\x02请输入一个从 %.[1]f 到 %.[2]f 的数字。\x02请输入一个从 %[1]" +
+	"s 到 %[2]s 的数字。\x02文本与要求的模式不匹配。\x02必填项\x02请选择其中一个选项。\x02需要选择。"
 
-var zh_TWIndex = []uint32{ // 242 elements
+var zh_TWIndex = []uint32{ // 252 elements
 	// Entry 0 - 1F
 	0x00000000, 0x0000000f, 0x00000022, 0x00000037,
 	0x00000044, 0x00000051, 0x0000005e, 0x0000006b,
@@ -977,41 +1006,43 @@ var zh_TWIndex = []uint32{ // 242 elements
 	0x0000080d, 0x0000082e, 0x0000083b, 0x00000850,
 	0x0000085d, 0x00000864, 0x0000086b, 0x00000875,
 	// Entry 80 - 9F
-	0x0000087c, 0x00000889, 0x00000896, 0x000008a3,
-	0x000008b0, 0x000008bd, 0x000008ca, 0x000008d4,
-	0x000008e4, 0x000008ef, 0x000008f9, 0x00000906,
-	0x00000910, 0x0000091a, 0x00000927, 0x00000934,
-	0x00000938, 0x00000945, 0x00000952, 0x0000095e,
-	0x0000096a, 0x00000976, 0x0000097d, 0x0000098a,
-	0x00000996, 0x000009a9, 0x000009b6, 0x000009e4,
-	0x000009f1, 0x000009fe, 0x00000a0b, 0x00000a18,
+	0x0000087f, 0x00000886, 0x00000893, 0x000008a0,
+	0x000008ad, 0x000008ba, 0x000008c7, 0x000008d4,
+	0x000008e1, 0x000008ee, 0x000008f8, 0x00000908,
+	0x00000913, 0x0000091d, 0x0000092a, 0x00000934,
+	0x00000941, 0x0000094e, 0x00000952, 0x00000959,
+	0x00000966, 0x00000973, 0x00000980, 0x0000098d,
+	0x00000998, 0x000009a5, 0x000009ac, 0x000009b9,
+	0x000009c0, 0x000009cc, 0x000009d8, 0x000009e4,
 	// Entry A0 - BF
-	0x00000a25, 0x00000a32, 0x00000a3f, 0x00000a4c,
-	0x00000a59, 0x00000a79, 0x00000a89, 0x00000aaa,
-	0x00000ac0, 0x00000ac7, 0x00000ace, 0x00000ad2,
-	0x00000add, 0x00000ae4, 0x00000af1, 0x00000af5,
-	0x00000af9, 0x00000b00, 0x00000b07, 0x00000b14,
-	0x00000b1e, 0x00000b2b, 0x00000b38, 0x00000b3f,
-	0x00000b4c, 0x00000b53, 0x00000b5a, 0x00000b61,
-	0x00000b68, 0x00000b75, 0x00000b7c, 0x00000b83,
+	0x000009eb, 0x000009f8, 0x00000a04, 0x00000a17,
+	0x00000a24, 0x00000a52, 0x00000a5f, 0x00000a6c,
+	0x00000a79, 0x00000a86, 0x00000a93, 0x00000aa0,
+	0x00000aad, 0x00000aba, 0x00000ac7, 0x00000ae7,
+	0x00000af7, 0x00000b18, 0x00000b2e, 0x00000b35,
+	0x00000b3c, 0x00000b40, 0x00000b4b, 0x00000b52,
+	0x00000b5f, 0x00000b63, 0x00000b67, 0x00000b6e,
+	0x00000b75, 0x00000b82, 0x00000b8c, 0x00000b99,
 	// Entry C0 - DF
-	0x00000b90, 0x00000b97, 0x00000ba1, 0x00000c0f,
-	0x00000c1f, 0x00000c2c, 0x00000c33, 0x00000c49,
-	0x00000c7a, 0x00000c87, 0x00000c91, 0x00000ce1,
-	0x00000cf1, 0x00000d04, 0x00000d11, 0x00000d1e,
-	0x00000d31, 0x00000d3e, 0x00000d4b, 0x00000d58,
-	0x00000d65, 0x00000d77, 0x00000d7e, 0x00000d91,
-	0x00000d9e, 0x00000da5, 0x00000db8, 0x00000dd0,
-	0x00000df7, 0x00000e0f, 0x00000e36, 0x00000e3d,
+	0x00000ba6, 0x00000bad, 0x00000bba, 0x00000bc1,
+	0x00000bc8, 0x00000bcf, 0x00000bd6, 0x00000be3,
+	0x00000bea, 0x00000bf1, 0x00000bfe, 0x00000c05,
+	0x00000c0f, 0x00000c7d, 0x00000c8d, 0x00000c9a,
+	0x00000ca1, 0x00000cb7, 0x00000ce8, 0x00000cf5,
+	0x00000cff, 0x00000d4f, 0x00000d5f, 0x00000d72,
+	0x00000d7f, 0x00000d8c, 0x00000d9f, 0x00000dac,
+	0x00000db9, 0x00000dc6, 0x00000dd3, 0x00000de5,
 	// Entry E0 - FF
-	0x00000e50, 0x00000e5e, 0x00000e8b, 0x00000e9b,
-	0x00000ea8, 0x00000ec9, 0x00000ed0, 0x00000edd,
-	0x00000f0b, 0x00000f1e, 0x00000f40, 0x00000f4d,
-	0x00000f7f, 0x00000faf, 0x00000fd4, 0x00000fde,
-	0x00000ffd, 0x0000100d,
-} // Size: 992 bytes
+	0x00000dec, 0x00000dff, 0x00000e0c, 0x00000e13,
+	0x00000e26, 0x00000e3e, 0x00000e65, 0x00000e7d,
+	0x00000ea4, 0x00000eab, 0x00000ebe, 0x00000ecc,
+	0x00000ef9, 0x00000f09, 0x00000f16, 0x00000f37,
+	0x00000f3e, 0x00000f4b, 0x00000f79, 0x00000f8c,
+	0x00000fae, 0x00000fbb, 0x00000fed, 0x0000101d,
+	0x00001042, 0x0000104c, 0x0000106b, 0x0000107b,
+} // Size: 1032 bytes
 
-const zh_TWData string = "" + // Size: 4109 bytes
+const zh_TWData string = "" + // Size: 4219 bytes
 	"\x02版本：%[1]s\x02FRP 版本：%[1]s\x02構建日期：%[1]s\x02所有文件\x02配置文件\x02證書文件\x02密鑰" +
 	"文件\x02日誌文件\x02數值超出允許範圍\x02請輸入一個大於 %[1]d 的數字。\x02密碼不匹配\x02請檢查並重試。\x02不是" +
 	"數字\x02請輸入一個有效的數字。\x02發現更新！\x02關於\x02下載更新\x02正在檢查更新\x02檢查更新\x02如有任何意見或報" +
@@ -1030,22 +1061,23 @@ const zh_TWData string = "" + // Size: 4109 bytes
 	"擇證書文件\x02密鑰文件\x02選擇證書密鑰文件\x02受信任證書\x02選擇受信任的證書\x02高級\x02多路復用\x02復用器心跳" +
 	"\x02使用源地址\x02其他選項\x02初次登錄失敗後退出\x02禁用開機自啟動\x02自定義\x02自定義參數\x02* 參考 FRP 配置" +
 	"文件的 [common] 部分。\x02配置已存在\x02配置名「%[1]s」已存在。\x02新建代理\x02編輯代理 - %[1]s" +
-	"\x02隨機名稱\x02類型\x02角色\x02訪問者\x02私鑰\x02本地地址\x02本地端口\x02遠程端口\x02綁定地址\x02綁定端" +
-	"口\x02服務名稱\x02子域名\x02自定義域名\x02URL 路由\x02復用器\x02路由用戶\x02客戶端\x02服務端\x02帶寬" +
-	"限流\x02代理版本\x02空\x02加密傳輸\x02壓縮傳輸\x02HTTP 用戶\x02HTTP 密碼\x02Host 替換\x02插件" +
-	"\x02插件名稱\x02Unix 路徑\x02選擇 Unix 路徑\x02本地路徑\x02選擇需要顯示目錄列表的文件夾。\x02移除前綴\x02" +
-	"負載均衡\x02分組名稱\x02分組密鑰\x02健康檢查\x02檢查類型\x02檢查超時\x02錯誤次數\x02檢查週期\x02* 參考 F" +
-	"RP 支持的參數。\x02代理已存在\x02代理名「%[1]s」已存在。\x02打開日誌文件夾\x02最新\x02項目\x02值\x02NAT " +
-	"類型\x02行為\x02外部地址\x02是\x02否\x02公網\x02未知\x02正在運行\x02已停止\x02正在啟動\x02正在停止" +
-	"\x02狀態\x02遠程地址\x02複製\x02啟動\x02服務\x02停止\x02本地目錄\x02添加\x02端口\x02打開端口\x02選項" +
-	"\x02主密碼\x02您可以設置密碼來限制訪問此程式。\x0a在下次使用此程式時，您將被要求輸入密碼。\x02使用主密碼\x02修改密碼\x02" +
-	"語言\x02目前的顯示語言\x02您必須重新啟動程式才能應用修改。\x02選擇語言\x02默認值\x02定義新建配置時的默認值。\x0a此處" +
-	"的值不會影響現有的配置。\x02設置默認值\x02密碼已刪除。\x02新主密碼\x02確認密碼\x02密碼已設定。\x02日誌級別\x02日" +
-	"誌保留\x02快速添加\x02遠程桌面\x02HTTP 文件服務\x02啟用\x02打開配置文件\x02直接編輯\x02域名\x02複製訪問" +
-	"地址\x02刪除代理「%[1]s」\x02確定要刪除代理「%[1]s」嗎？\x02禁用代理「%[1]s」\x02確定要禁用代理「%[1]s」" +
-	"嗎？\x02禁用\x02被動端口範圍\x02FRP 管理器\x02* 支持批量導入，每行一個鏈接。\x02自動重命名\x02準備就緒\x02" +
-	"請輸入正確的 URL 列表。\x02下載\x02輸入密碼\x02您必須輸入管理密碼來使用 %[1]s。\x02輸入管理密碼\x02密碼錯誤。" +
-	"請重新輸入。\x02輸入無效\x02請輸入一個從 %.[1]f 到 %.[2]f 的數字。\x02請輸入一個從 %[1]s 到 %[2]s " +
-	"的數字。\x02文本與要求的模式不匹配。\x02必填項\x02請選擇其中一個選項。\x02需要選擇。"
+	"\x02隨機名稱\x02類型\x02角色\x02服務端\x02訪問者\x02私鑰\x02本地地址\x02本地端口\x02遠程端口\x02允許用戶" +
+	"\x02綁定地址\x02綁定端口\x02服務名稱\x02服務用戶\x02子域名\x02自定義域名\x02URL 路由\x02復用器\x02路由用" +
+	"戶\x02客戶端\x02帶寬限流\x02代理版本\x02空\x02默認\x02隧道保活\x02加密傳輸\x02壓縮傳輸\x02重試次數" +
+	"\x02次/小時\x02重試間隔\x02備用\x02備用超時\x02毫秒\x02HTTP 用戶\x02HTTP 密碼\x02Host 替換" +
+	"\x02插件\x02插件名稱\x02Unix 路徑\x02選擇 Unix 路徑\x02本地路徑\x02選擇需要顯示目錄列表的文件夾。\x02移除" +
+	"前綴\x02負載均衡\x02分組名稱\x02分組密鑰\x02健康檢查\x02檢查類型\x02檢查超時\x02錯誤次數\x02檢查週期\x02" +
+	"* 參考 FRP 支持的參數。\x02代理已存在\x02代理名「%[1]s」已存在。\x02打開日誌文件夾\x02最新\x02項目\x02值" +
+	"\x02NAT 類型\x02行為\x02外部地址\x02是\x02否\x02公網\x02未知\x02正在運行\x02已停止\x02正在啟動" +
+	"\x02正在停止\x02狀態\x02遠程地址\x02複製\x02啟動\x02服務\x02停止\x02本地目錄\x02添加\x02端口\x02打開" +
+	"端口\x02選項\x02主密碼\x02您可以設置密碼來限制訪問此程式。\x0a在下次使用此程式時，您將被要求輸入密碼。\x02使用主密碼" +
+	"\x02修改密碼\x02語言\x02目前的顯示語言\x02您必須重新啟動程式才能應用修改。\x02選擇語言\x02默認值\x02定義新建配置時的" +
+	"默認值。\x0a此處的值不會影響現有的配置。\x02設置默認值\x02密碼已刪除。\x02新主密碼\x02確認密碼\x02密碼已設定。" +
+	"\x02日誌級別\x02日誌保留\x02快速添加\x02遠程桌面\x02HTTP 文件服務\x02啟用\x02打開配置文件\x02直接編輯" +
+	"\x02域名\x02複製訪問地址\x02刪除代理「%[1]s」\x02確定要刪除代理「%[1]s」嗎？\x02禁用代理「%[1]s」\x02確定" +
+	"要禁用代理「%[1]s」嗎？\x02禁用\x02被動端口範圍\x02FRP 管理器\x02* 支持批量導入，每行一個鏈接。\x02自動重命名" +
+	"\x02準備就緒\x02請輸入正確的 URL 列表。\x02下載\x02輸入密碼\x02您必須輸入管理密碼來使用 %[1]s。\x02輸入管理密" +
+	"碼\x02密碼錯誤。請重新輸入。\x02輸入無效\x02請輸入一個從 %.[1]f 到 %.[2]f 的數字。\x02請輸入一個從 %[1]" +
+	"s 到 %[2]s 的數字。\x02文本與要求的模式不匹配。\x02必填項\x02請選擇其中一個選項。\x02需要選擇。"
 
-	// Total table size 35515 bytes (34KiB); checksum: 3D1B5351
+	// Total table size 36589 bytes (35KiB); checksum: CD558621

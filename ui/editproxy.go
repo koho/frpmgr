@@ -253,7 +253,7 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 			Label{Visible: xtcpVisitor, Text: i18n.SprintfColon("Protocol")},
 			ComboBox{
 				Visible:       xtcpVisitor,
-				Model:         NewDefaultListModel([]string{consts.ProtoQUIC, consts.ProtoKCP}, "", i18n.Sprintf("Default")),
+				Model:         NewDefaultListModel([]string{consts.ProtoQUIC, consts.ProtoKCP}, "", i18n.Sprintf("default")),
 				BindingMember: "Name",
 				DisplayMember: "DisplayName",
 				Value:         Bind("Protocol"),

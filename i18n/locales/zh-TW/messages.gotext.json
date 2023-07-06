@@ -770,6 +770,11 @@
             "translation": "角色"
         },
         {
+            "id": "Server",
+            "message": "Server",
+            "translation": "服務端"
+        },
+        {
             "id": "Visitor",
             "message": "Visitor",
             "translation": "訪問者"
@@ -795,6 +800,11 @@
             "translation": "遠程端口"
         },
         {
+            "id": "Allow Users",
+            "message": "Allow Users",
+            "translation": "允許用戶"
+        },
+        {
             "id": "Bind Address",
             "message": "Bind Address",
             "translation": "綁定地址"
@@ -808,6 +818,11 @@
             "id": "Server Name",
             "message": "Server Name",
             "translation": "服務名稱"
+        },
+        {
+            "id": "Server User",
+            "message": "Server User",
+            "translation": "服務用戶"
         },
         {
             "id": "Subdomain",
@@ -840,11 +855,6 @@
             "translation": "客戶端"
         },
         {
-            "id": "Server",
-            "message": "Server",
-            "translation": "服務端"
-        },
-        {
             "id": "Bandwidth",
             "message": "Bandwidth",
             "translation": "帶寬限流"
@@ -860,6 +870,16 @@
             "translation": "空"
         },
         {
+            "id": "default",
+            "message": "default",
+            "translation": "默認"
+        },
+        {
+            "id": "Keep Tunnel",
+            "message": "Keep Tunnel",
+            "translation": "隧道保活"
+        },
+        {
             "id": "Encryption",
             "message": "Encryption",
             "translation": "加密傳輸"
@@ -868,6 +888,36 @@
             "id": "Compression",
             "message": "Compression",
             "translation": "壓縮傳輸"
+        },
+        {
+            "id": "Retry Count",
+            "message": "Retry Count",
+            "translation": "重試次數"
+        },
+        {
+            "id": "Times/Hour",
+            "message": "Times/Hour",
+            "translation": "次/小時"
+        },
+        {
+            "id": "Retry Interval",
+            "message": "Retry Interval",
+            "translation": "重試間隔"
+        },
+        {
+            "id": "Fallback",
+            "message": "Fallback",
+            "translation": "備用"
+        },
+        {
+            "id": "Fallback Timeout",
+            "message": "Fallback Timeout",
+            "translation": "備用超時"
+        },
+        {
+            "id": "ms",
+            "message": "ms",
+            "translation": "毫秒"
         },
         {
             "id": "HTTP User",
