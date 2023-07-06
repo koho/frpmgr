@@ -83,6 +83,7 @@ var (
 		LogLevel:   "info",
 		LogMaxDays: 3,
 		TCPMux:     true,
+		TLSEnable:  true,
 	}}
 	// The config list contains all the loaded configs
 	confList  []*Conf

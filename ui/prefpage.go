@@ -250,9 +250,10 @@ func (pp *PrefPage) setDefaultValue() (int, error) {
 					},
 				},
 				Composite{
-					Layout: VBox{MarginsZero: true, SpacingZero: true, Alignment: AlignHNearVNear},
+					Layout: Grid{MarginsZero: true, SpacingZero: true, Columns: 2},
 					Children: []Widget{
 						CheckBox{Text: i18n.Sprintf("TCP Mux"), Checked: Bind("TCPMux")},
+						CheckBox{Text: "TLS", Checked: Bind("TLSEnable")},
 						CheckBox{Text: i18n.Sprintf("Disable auto-start at boot"), Checked: Bind("ManualStart")},
 					},
 				},

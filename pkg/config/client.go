@@ -71,7 +71,7 @@ type ClientCommon struct {
 	HeartbeatTimeout        int64    `ini:"heartbeat_timeout,omitempty"`
 	TCPMux                  bool     `ini:"tcp_mux"`
 	TCPMuxKeepaliveInterval int64    `ini:"tcp_mux_keepalive_interval,omitempty"`
-	TLSEnable               bool     `ini:"tls_enable,omitempty"`
+	TLSEnable               bool     `ini:"tls_enable"`
 	TLSCertFile             string   `ini:"tls_cert_file,omitempty"`
 	TLSKeyFile              string   `ini:"tls_key_file,omitempty"`
 	TLSTrustedCaFile        string   `ini:"tls_trusted_ca_file,omitempty"`
@@ -512,6 +512,7 @@ func NewDefaultClientConfig() *ClientConfig {
 			ServerPort: "7000",
 			LogLevel:   "info",
 			TCPMux:     true,
+			TLSEnable:  true,
 			AutoDelete: AutoDelete{DeleteMethod: consts.DeleteRelative},
 		},
 		Proxies: make([]*Proxy, 0),
