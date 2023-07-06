@@ -1,6 +1,7 @@
 package services
 
 import (
+	"context"
 	"time"
 
 	_ "github.com/fatedier/frp/assets/frpc"
@@ -37,7 +38,7 @@ func (s *FrpClientService) Run() {
 
 	// There's no guarantee that this function will return after a close call.
 	// So we can't wait for the Run function to finish.
-	if err := s.svr.Run(); err != nil {
+	if err := s.svr.Run(context.Background()); err != nil {
 		log.Error("run service error: %v", err)
 	}
 }
