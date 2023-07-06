@@ -60,4 +60,4 @@ require (
 	k8s.io/apimachinery v0.26.1 // indirect
 )
 
-replace github.com/lxn/walk => github.com/koho/frpmgr v0.0.0-20230311212131-f5c521a0f74f
+replace github.com/lxn/walk => github.com/koho/frpmgr v0.0.0-20230706031048-8ce4b7425034
