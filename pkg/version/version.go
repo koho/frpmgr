@@ -1,9 +1,13 @@
 package version
 
+import (
+	"github.com/fatedier/frp/pkg/util/version"
+)
+
 var (
 	Number = "1.14.0"
 	// FRPVersion is the version of FRP used by this program
-	FRPVersion = ""
+	FRPVersion = version.Full()
 	// BuildDate is the day that this program was built
 	BuildDate = ""
 )

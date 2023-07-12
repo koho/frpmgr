@@ -23,10 +23,9 @@ set VERSION=%VERSION:"=%
 	set MOD=github.com/koho/frpmgr
 	set GO111MODULE=on
 	set CGO_ENABLED=0
-	for /f "tokens=2 delims=@" %%y in ('go mod graph ^| findstr %MOD% ^| findstr frp@') do (set FRP_VERSION=%%y)
 	for %%a in (%ARCHS%) do (
 		set GOARCH=%%a
-		go build -trimpath -ldflags="-H windowsgui -s -w -X %MOD%/pkg/version.FRPVersion=%FRP_VERSION:~1% -X %MOD%/pkg/version.BuildDate=%BUILD_DATE%" -o bin/x!GOARCH:~-2!/frpmgr.exe ./cmd/frpmgr || goto :error
+		go build -trimpath -ldflags="-H windowsgui -s -w -X %MOD%/pkg/version.BuildDate=%BUILD_DATE%" -o bin/x!GOARCH:~-2!/frpmgr.exe ./cmd/frpmgr || goto :error
 	)
 
 :installer
