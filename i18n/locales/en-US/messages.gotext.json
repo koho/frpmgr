@@ -1148,9 +1148,9 @@
             "fuzzy": true
         },
         {
-            "id": "Proxy Version",
-            "message": "Proxy Version",
-            "translation": "Proxy Version",
+            "id": "Proxy Protocol",
+            "message": "Proxy Protocol",
+            "translation": "Proxy Protocol",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

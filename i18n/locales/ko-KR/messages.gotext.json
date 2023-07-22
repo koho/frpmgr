@@ -860,9 +860,9 @@
             "translation": "대역폭"
         },
         {
-            "id": "Proxy Version",
-            "message": "Proxy Version",
-            "translation": "프록시 버전"
+            "id": "Proxy Protocol",
+            "message": "Proxy Protocol",
+            "translation": "프록시 프로토콜"
         },
         {
             "id": "auto",

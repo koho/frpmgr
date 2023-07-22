@@ -860,9 +860,9 @@
             "translation": "帶寬限流"
         },
         {
-            "id": "Proxy Version",
-            "message": "Proxy Version",
-            "translation": "代理版本"
+            "id": "Proxy Protocol",
+            "message": "Proxy Protocol",
+            "translation": "代理協議"
         },
         {
             "id": "auto",
