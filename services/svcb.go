@@ -38,8 +38,11 @@ func NewFrpClientSVCBService(cfgFile string) (*FrpClientSVCBService, error) {
 
 	service.serverAddr = cfg.ServerAddr
 	// Expand server address buffer, so that
-	// there's no out of bound error for concurrent access.
+	// there's no out-of-bound error for concurrent access.
 	service.addrBuf = make([]byte, 255)
+	for i := range service.addrBuf {
+		service.addrBuf[i] = '.'
+	}
 	copy(service.addrBuf, cfg.ServerAddr)
 	newAddr := service.addrBuf[:len(cfg.ServerAddr)]
 	cfg.ServerAddr = *(*string)(unsafe.Pointer(&newAddr))
@@ -79,8 +82,7 @@ func (s *FrpClientSVCBService) Run() {
 					return
 				}
 				log.Warn("lookup %s SVCB error: %v", s.serverAddr, err)
-				timer.Reset(util.RandomDuration(5*time.Second, 0.9, 1.1))
-				continue
+				goto next
 			}
 			if newIP != ip {
 				ip = newIP
@@ -94,6 +96,7 @@ func (s *FrpClientSVCBService) Run() {
 				run = true
 				go s.FrpClientService.Run()
 			}
+		next:
 			timer.Reset(5 * time.Minute)
 		case <-s.ctx.Done():
 			return
