@@ -159,7 +159,7 @@ func (m *LogModel) Reset() error {
 	}
 	lines := make([]*TextLine, 0)
 	for _, line := range textLines {
-		lines = append(lines, &TextLine{Text: line})
+		lines = append(lines, &TextLine{Text: strings.ReplaceAll(line, "\x00", "")})
 	}
 	m.lines = lines
 	return nil

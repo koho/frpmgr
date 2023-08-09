@@ -78,9 +78,19 @@ type ClientCommon struct {
 	TLSServerName           string   `ini:"tls_server_name,omitempty"`
 	UDPPacketSize           int64    `ini:"udp_packet_size,omitempty"`
 	Start                   []string `ini:"start,omitempty"`
+
 	// ManualStart defines whether to start the config on system boot.
 	ManualStart bool `ini:"frpmgr_manual_start,omitempty"`
-	AutoDelete  `ini:",extends"`
+	// SVCBEnable resolves the SVCB record of server address.
+	// By enabling this feature, the server address and port
+	// can be updated dynamically.
+	//
+	// WARNING: This is an experimental feature.
+	// It may affect the stability of the service.
+	SVCBEnable bool `ini:"frpmgr_svcb_enable,omitempty"`
+	// AutoDelete is a mechanism for temporary use.
+	// The config will be stopped and deleted at some point.
+	AutoDelete `ini:",extends"`
 	// Custom collects all the unparsed options.
 	Custom map[string]string `ini:"-"`
 }
