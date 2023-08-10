@@ -715,6 +715,11 @@
             "translation": "カスタム"
         },
         {
+            "id": "Experimental Features",
+            "message": "Experimental Features",
+            "translation": "実験的な機能"
+        },
+        {
             "id": "Custom Options",
             "message": "Custom Options",
             "translation": "カスタムオプション"
@@ -723,6 +728,11 @@
             "id": "* Refer to the [common] section of the FRP configuration file.",
             "message": "* Refer to the [common] section of the FRP configuration file.",
             "translation": "* FRP 設定ファイルの [common] セクションを参照してください。"
+        },
+        {
+            "id": "* The following features may affect the stability of the service.",
+            "message": "* The following features may affect the stability of the service.",
+            "translation": "* 以下の機能はサービスの安定性に影響を与える可能性があります。"
         },
         {
             "id": "Config already exists",

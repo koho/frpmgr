@@ -363,6 +363,7 @@ func (cd *EditClientDialog) experimentDialog() Dialog {
 		CheckBox{Checked: Bind("SVCBEnable"), Text: "SVCB", Alignment: AlignHNearVNear},
 		VSpacer{},
 	)
+	expDialog.MinSize = Size{Width: 300}
 	expDialog.FixedSize = true
 	return expDialog
 }

@@ -939,6 +939,13 @@
             "fuzzy": true
         },
         {
+            "id": "Experimental Features",
+            "message": "Experimental Features",
+            "translation": "Experimental Features",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Custom Options",
             "message": "Custom Options",
             "translation": "Custom Options",
@@ -949,6 +956,13 @@
             "id": "* Refer to the [common] section of the FRP configuration file.",
             "message": "* Refer to the [common] section of the FRP configuration file.",
             "translation": "* Refer to the [common] section of the FRP configuration file.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "* The following features may affect the stability of the service.",
+            "message": "* The following features may affect the stability of the service.",
+            "translation": "* The following features may affect the stability of the service.",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

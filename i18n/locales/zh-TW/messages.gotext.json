@@ -705,6 +705,11 @@
             "translation": "自定義"
         },
         {
+            "id": "Experimental Features",
+            "message": "Experimental Features",
+            "translation": "實驗性功能"
+        },
+        {
             "id": "Custom Options",
             "message": "Custom Options",
             "translation": "自定義參數"
@@ -713,6 +718,11 @@
             "id": "* Refer to the [common] section of the FRP configuration file.",
             "message": "* Refer to the [common] section of the FRP configuration file.",
             "translation": "* 參考 FRP 配置文件的 [common] 部分。"
+        },
+        {
+            "id": "* The following features may affect the stability of the service.",
+            "message": "* The following features may affect the stability of the service.",
+            "translation": "* 以下功能可能會影響服務的穩定性。"
         },
         {
             "id": "Config already exists",
