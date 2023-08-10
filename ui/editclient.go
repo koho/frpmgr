@@ -324,9 +324,23 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 					CheckBox{Text: i18n.Sprintf("Exit after login failure"), Checked: Bind("LoginFailExit")},
 					CheckBox{Text: i18n.Sprintf("Disable auto-start at boot"), Checked: Bind("ManualStart")},
 					VSpacer{Size: 4},
-					LinkLabel{Text: fmt.Sprintf("<a>%s</a>", i18n.SprintfEllipsis("Custom")), OnLinkActivated: func(link *walk.LinkLabelLink) {
-						cd.customConfDialog().Run(cd.Form())
-					}},
+					Composite{
+						Layout: HBox{MarginsZero: true, Spacing: 18},
+						Children: []Widget{
+							LinkLabel{
+								Text: fmt.Sprintf("<a>%s</a>", i18n.SprintfEllipsis("Custom")),
+								OnLinkActivated: func(link *walk.LinkLabelLink) {
+									cd.customConfDialog().Run(cd.Form())
+								},
+							},
+							LinkLabel{
+								Text: fmt.Sprintf("<a>%s</a>", i18n.SprintfEllipsis("Experimental Features")),
+								OnLinkActivated: func(link *walk.LinkLabelLink) {
+									cd.experimentDialog().Run(cd.Form())
+								},
+							},
+						},
+					},
 				},
 			},
 		},
@@ -340,6 +354,17 @@ func (cd *EditClientDialog) customConfDialog() Dialog {
 	)
 	customDialog.MinSize = Size{Width: 420, Height: 280}
 	return customDialog
+}
+
+func (cd *EditClientDialog) experimentDialog() Dialog {
+	expDialog := NewBasicDialog(nil, i18n.Sprintf("Experimental Features"),
+		loadSysIcon("imageres", consts.IconExperiment, 32), DataBinder{DataSource: cd.binder}, nil,
+		Label{Text: i18n.Sprintf("* The following features may affect the stability of the service.")},
+		CheckBox{Checked: Bind("SVCBEnable"), Text: "SVCB", Alignment: AlignHNearVNear},
+		VSpacer{},
+	)
+	expDialog.FixedSize = true
+	return expDialog
 }
 
 func (cd *EditClientDialog) shutdownService(wait bool) error {
