@@ -967,6 +967,13 @@
             "fuzzy": true
         },
         {
+            "id": "Use server SVCB records",
+            "message": "Use server SVCB records",
+            "translation": "Use server SVCB records",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Config already exists",
             "message": "Config already exists",
             "translation": "Config already exists",

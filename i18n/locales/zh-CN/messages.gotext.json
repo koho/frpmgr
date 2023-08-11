@@ -725,6 +725,11 @@
             "translation": "* 以下功能可能会影响服务的稳定性。"
         },
         {
+            "id": "Use server SVCB records",
+            "message": "Use server SVCB records",
+            "translation": "使用服务器 SVCB 记录"
+        },
+        {
             "id": "Config already exists",
             "message": "Config already exists",
             "translation": "配置已存在"

@@ -360,10 +360,10 @@ func (cd *EditClientDialog) experimentDialog() Dialog {
 	expDialog := NewBasicDialog(nil, i18n.Sprintf("Experimental Features"),
 		loadSysIcon("imageres", consts.IconExperiment, 32), DataBinder{DataSource: cd.binder}, nil,
 		Label{Text: i18n.Sprintf("* The following features may affect the stability of the service.")},
-		CheckBox{Checked: Bind("SVCBEnable"), Text: "SVCB", Alignment: AlignHNearVNear},
+		CheckBox{Checked: Bind("SVCBEnable"), Text: i18n.Sprintf("Use server SVCB records"), Alignment: AlignHNearVNear},
 		VSpacer{},
 	)
-	expDialog.MinSize = Size{Width: 300}
+	expDialog.MinSize = Size{Width: 300, Height: 180}
 	expDialog.FixedSize = true
 	return expDialog
 }

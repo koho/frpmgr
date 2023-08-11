@@ -735,6 +735,11 @@
             "translation": "* 以下の機能はサービスの安定性に影響を与える可能性があります。"
         },
         {
+            "id": "Use server SVCB records",
+            "message": "Use server SVCB records",
+            "translation": "サーバーSVCBレコードを使用する"
+        },
+        {
             "id": "Config already exists",
             "message": "Config already exists",
             "translation": "設定はすでに存在します"

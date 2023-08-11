@@ -725,6 +725,11 @@
             "translation": "* Las siguientes características pueden afectar la estabilidad del servicio."
         },
         {
+            "id": "Use server SVCB records",
+            "message": "Use server SVCB records",
+            "translation": "Usar registros SVCB del servidor"
+        },
+        {
             "id": "Config already exists",
             "message": "Config already exists",
             "translation": "La configuración ya existe"
