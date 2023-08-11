@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"math/rand"
 	"net"
 	"reflect"
 	"time"
@@ -15,6 +16,8 @@ import (
 
 	"github.com/koho/frpmgr/pkg/util"
 )
+
+const defaultDnsCheckInterval = 300 * time.Second
 
 type FrpClientSVCBService struct {
 	*FrpClientService
@@ -70,6 +73,7 @@ func (s *FrpClientSVCBService) Run() {
 	var run bool
 	var ip string
 	var port uint16
+	var tryCnt int
 
 	timer := time.NewTimer(time.Duration(0))
 	defer timer.Stop()
@@ -82,8 +86,18 @@ func (s *FrpClientSVCBService) Run() {
 					return
 				}
 				log.Warn("lookup %s SVCB error: %v", s.serverAddr, err)
-				goto next
+				// Backs off if the resolution has failed in some way.
+				timer.Reset(s.backoff(tryCnt))
+				// Prevent counter overflow.
+				if tryCnt < tryCnt+1 {
+					tryCnt++
+				}
+				continue
 			}
+			// As the domain has been resolved, removes the need for backoff
+			// for the next retry by resetting the try count.
+			tryCnt = 0
+
 			if newIP != ip {
 				ip = newIP
 				s.setAddress(newIP)
@@ -96,8 +110,7 @@ func (s *FrpClientSVCBService) Run() {
 				run = true
 				go s.FrpClientService.Run()
 			}
-		next:
-			timer.Reset(5 * time.Minute)
+			timer.Reset(defaultDnsCheckInterval)
 		case <-s.ctx.Done():
 			return
 		}
@@ -122,4 +135,27 @@ func (s *FrpClientSVCBService) setPort(port uint16) {
 func (s *FrpClientSVCBService) Stop(wait bool) {
 	s.cancel()
 	s.FrpClientService.Stop(wait)
+}
+
+// backoff returns the amount of time to wait before the next retry given the
+// number of retries.
+func (s *FrpClientSVCBService) backoff(retries int) time.Duration {
+	baseDelay, multiplier, jitter, maxDelay := 1.0*time.Second, 1.6, 0.2, defaultDnsCheckInterval
+	if retries == 0 {
+		return baseDelay
+	}
+	backoff, max := float64(baseDelay), float64(maxDelay)
+	for backoff < max && retries > 0 {
+		backoff *= multiplier
+		retries--
+	}
+	if backoff > max {
+		backoff = max
+	}
+	// Randomize backoff delays
+	backoff *= 1 + jitter*(rand.Float64()*2-1)
+	if backoff < 0 {
+		return 0
+	}
+	return time.Duration(backoff)
 }
