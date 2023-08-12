@@ -705,6 +705,11 @@
             "translation": "Disfraz"
         },
         {
+            "id": "Experimental Features",
+            "message": "Experimental Features",
+            "translation": "Características experimentales"
+        },
+        {
             "id": "Custom Options",
             "message": "Custom Options",
             "translation": "Opciones personalizadas"
@@ -713,6 +718,16 @@
             "id": "* Refer to the [common] section of the FRP configuration file.",
             "message": "* Refer to the [common] section of the FRP configuration file.",
             "translation": "* Consulte la sección [common] del archivo de configuración de FRP."
+        },
+        {
+            "id": "* The following features may affect the stability of the service.",
+            "message": "* The following features may affect the stability of the service.",
+            "translation": "* Las siguientes características pueden afectar la estabilidad del servicio."
+        },
+        {
+            "id": "Use server SVCB records",
+            "message": "Use server SVCB records",
+            "translation": "Usar registros SVCB del servidor"
         },
         {
             "id": "Config already exists",
