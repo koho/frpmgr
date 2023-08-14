@@ -18,9 +18,9 @@ jobs:
       - name: Setup Go environment
         uses: actions/setup-go@v4
         with:
-          go-version: '1.20'
+          go-version: '1.21'
 
       - name: Run
         uses: golangci/golangci-lint-action@v3
         with:
-          version: v1.52
+          version: v1.54
