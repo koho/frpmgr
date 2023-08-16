@@ -102,6 +102,9 @@ func (s *FrpClientSVCBService) Run() {
 				ip = newIP
 				s.setAddress(newIP)
 			}
+			if newPort == 0 {
+				newPort = 7000
+			}
 			if newPort != port {
 				port = newPort
 				s.setPort(newPort)

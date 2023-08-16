@@ -9,6 +9,7 @@ import (
 	"net"
 	"net/http"
 	"path"
+	"strings"
 	"syscall"
 	"time"
 	"unsafe"
@@ -120,22 +121,27 @@ func ResolveSVCB(ctx context.Context, host string, server string) (string, uint1
 	if !ok {
 		return "", 0, fmt.Errorf("record not found")
 	}
+	if rr.Priority == 0 {
+		return "", 0, fmt.Errorf("not a service mode record")
+	}
 
 	var ip string
 	var port uint16
 	for _, v := range rr.Value {
 		switch v := v.(type) {
 		case *dns.SVCBIPv4Hint:
-			ip = v.Hint[0].String()
+			if len(v.Hint) > 0 {
+				ip = v.Hint[0].String()
+			}
 		case *dns.SVCBPort:
 			port = v.Port
 		}
 	}
-	if port == 0 {
-		return "", 0, fmt.Errorf("missing port in record")
-	}
 	if ip == "" {
-		return rr.Target, port, nil
+		if rr.Target == "." {
+			return strings.TrimSuffix(rr.Hdr.Name, "."), port, nil
+		}
+		return strings.TrimSuffix(rr.Target, "."), port, nil
 	}
 	return ip, port, nil
 }
