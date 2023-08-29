@@ -28,6 +28,15 @@ set VERSION=%VERSION:"=%
 		go build -trimpath -ldflags="-H windowsgui -s -w -X %MOD%/pkg/version.BuildDate=%BUILD_DATE%" -o bin/x!GOARCH:~-2!/frpmgr.exe ./cmd/frpmgr || goto :error
 	)
 
+:archive
+	echo [+] Creating archives
+	for %%a in (%ARCHS%) do (
+		set ARCH=%%a
+		tar -ac -C bin\x!ARCH:~-2! -f bin\temp.zip frpmgr.exe || goto :error
+		tar -ac -C cmd\frpmgr -f bin\frpmgr-%VERSION%-x!ARCH:~-2!.zip @..\..\bin\temp.zip lang.config || goto :error
+		del bin\temp.zip || goto :error
+	)
+
 :installer
 	echo [+] Building installer
 	call installer/build.bat %VERSION% || goto :error
