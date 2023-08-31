@@ -25,7 +25,7 @@ set VERSION=%VERSION:"=%
 	set CGO_ENABLED=0
 	for %%a in (%ARCHS%) do (
 		set GOARCH=%%a
-		go build -trimpath -ldflags="-H windowsgui -s -w -X %MOD%/pkg/version.BuildDate=%BUILD_DATE%" -o bin/x!GOARCH:~-2!/frpmgr.exe ./cmd/frpmgr || goto :error
+		go build -trimpath -ldflags="-H windowsgui -s -w -X %MOD%/pkg/version.BuildDate=%BUILD_DATE%" -o bin\x!GOARCH:~-2!\frpmgr.exe .\cmd\frpmgr || goto :error
 	)
 
 :archive
@@ -39,7 +39,7 @@ set VERSION=%VERSION:"=%
 
 :installer
 	echo [+] Building installer
-	call installer/build.bat %VERSION% || goto :error
+	call installer\build.bat %VERSION% || goto :error
 
 :success
 	echo [+] Success
