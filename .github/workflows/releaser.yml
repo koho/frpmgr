@@ -36,7 +36,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: assets
-          path: bin/*.exe
+          path: |
+            bin/*.exe
+            bin/*.zip
 
   release:
     name: Release
@@ -49,7 +51,7 @@ jobs:
           name: assets
 
       - name: Calculate SHA256 checksum
-        run: sha256sum *.exe > frpmgr-${{ needs.build.outputs.version }}-sha256-checksums.txt
+        run: sha256sum *.exe *.zip > frpmgr-${{ needs.build.outputs.version }}-sha256-checksums.txt
 
       - name: Upload release assets
         uses: shogo82148/actions-upload-release-asset@v1
@@ -59,4 +61,5 @@ jobs:
           upload_url: ${{ github.event.release.upload_url }}
           asset_path: |
             ./*.exe
+            ./*.zip
             ./*.txt
