@@ -3,6 +3,7 @@ package services
 import (
 	"crypto/md5"
 	"fmt"
+	"io"
 	"net"
 	"os"
 	"path/filepath"
@@ -16,12 +17,15 @@ import (
 )
 
 type Service interface {
+	io.Closer
 	// Run service in blocking mode.
 	Run()
 	// Reload config file.
 	Reload() error
 	// Stop service and cleanup resources.
 	Stop(wait bool)
+	// Done returns a channel that's closed when service exits.
+	Done() <-chan struct{}
 }
 
 func ServiceNameOfClient(name string) string {
@@ -79,6 +83,7 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 	if err != nil {
 		return
 	}
+	defer svr.Close()
 
 	go svr.Run()
 
@@ -103,6 +108,8 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 		case <-expired:
 			svr.Stop(false)
 			deleteFrpConfig(args[0], service.configPath, cc)
+			return
+		case <-svr.Done():
 			return
 		}
 	}

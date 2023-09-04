@@ -61,3 +61,11 @@ func (s *FrpClientService) Reload() error {
 	}
 	return s.svr.ReloadConf(pxyCfgs, visitorCfgs)
 }
+
+func (s *FrpClientService) Close() error {
+	return nil
+}
+
+func (s *FrpClientService) Done() <-chan struct{} {
+	return nil
+}
