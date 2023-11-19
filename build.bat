@@ -32,9 +32,7 @@ set VERSION=%VERSION:"=%
 	echo [+] Creating archives
 	for %%a in (%ARCHS%) do (
 		set ARCH=%%a
-		tar -ac -C bin\x!ARCH:~-2! -f bin\temp.zip frpmgr.exe || goto :error
-		tar -ac -C cmd\frpmgr -f bin\frpmgr-%VERSION%-x!ARCH:~-2!.zip @..\..\bin\temp.zip lang.config || goto :error
-		del bin\temp.zip || goto :error
+		tar -ac -C bin\x!ARCH:~-2! -f bin\frpmgr-%VERSION%-x!ARCH:~-2!.zip frpmgr.exe || goto :error
 	)
 
 :installer
