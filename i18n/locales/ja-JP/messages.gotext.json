@@ -317,7 +317,7 @@
         {
             "id": "Another config already exists with the name \"{BaseName}\".",
             "message": "Another config already exists with the name \"{BaseName}\".",
-            "translation": "\"{BaseName}\" という名前の別の設定が既に存在します。",
+            "translation": "「{BaseName}」という名前の別の設定が既に存在します。",
             "placeholders": [
                 {
                     "id": "BaseName",
@@ -332,7 +332,7 @@
         {
             "id": "The file \"{Path}\" is not a valid ZIP file.",
             "message": "The file \"{Path}\" is not a valid ZIP file.",
-            "translation": "ファイル \"{Path}\" は有効なZIPファイルではありません。",
+            "translation": "ファイル「{Path}」は有効な ZIP ファイルではありません。",
             "placeholders": [
                 {
                     "id": "Path",
@@ -347,7 +347,7 @@
         {
             "id": "Delete config \"{Name}\"",
             "message": "Delete config \"{Name}\"",
-            "translation": "設定 \"{Name}\" を削除",
+            "translation": "設定「{Name}」を削除",
             "placeholders": [
                 {
                     "id": "Name",
@@ -362,7 +362,7 @@
         {
             "id": "Are you sure you would like to delete config \"{Name}\"?",
             "message": "Are you sure you would like to delete config \"{Name}\"?",
-            "translation": "本当に設定 \"{Name}\" を削除しますか？",
+            "translation": "設定「{Name}」を削除してもよろしいですか?",
             "placeholders": [
                 {
                     "id": "Name",
@@ -747,7 +747,7 @@
         {
             "id": "The config name \"{Name}\" already exists.",
             "message": "The config name \"{Name}\" already exists.",
-            "translation": "設定名 \"{Name}\" は既に存在します。",
+            "translation": "設定名「{Name}」はすでに存在します。",
             "placeholders": [
                 {
                     "id": "Name",
@@ -1047,7 +1047,7 @@
         {
             "id": "The proxy name \"{Name}\" already exists.",
             "message": "The proxy name \"{Name}\" already exists.",
-            "translation": "プロキシ名 \"{Name}\" は既に存在します。",
+            "translation": "プロキシ名「{Name}」はすでに存在します。",
             "placeholders": [
                 {
                     "id": "Name",
@@ -1158,6 +1158,36 @@
             "id": "Service",
             "message": "Service",
             "translation": "サービス"
+        },
+        {
+            "id": "Stop config \"{Name}\"",
+            "message": "Stop config \"{Name}\"",
+            "translation": "設定「{Name}」を停止します",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "conf.Name"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure you would like to stop config \"{Name}\"?",
+            "message": "Are you sure you would like to stop config \"{Name}\"?",
+            "translation": "設定「{Name}」を停止してもよろしいですか?",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "conf.Name"
+                }
+            ]
         },
         {
             "id": "Stop",
@@ -1317,7 +1347,7 @@
         {
             "id": "Delete proxy \"{Name}\"",
             "message": "Delete proxy \"{Name}\"",
-            "translation": "プロキシ \"{Name}\" を削除します",
+            "translation": "プロキシ「{Name}」を削除します",
             "placeholders": [
                 {
                     "id": "Name",
@@ -1332,7 +1362,7 @@
         {
             "id": "Are you sure you would like to delete proxy \"{Name}\"?",
             "message": "Are you sure you would like to delete proxy \"{Name}\"?",
-            "translation": "本当にプロキシ \"{Name}\" を削除しますか？",
+            "translation": "プロキシ「{Name}」を削除してもよろしいですか?",
             "placeholders": [
                 {
                     "id": "Name",
@@ -1347,7 +1377,7 @@
         {
             "id": "Disable proxy \"{Name}\"",
             "message": "Disable proxy \"{Name}\"",
-            "translation": "プロキシ \"{Name}\" を無効にする",
+            "translation": "プロキシ「{Name}」を無効にする",
             "placeholders": [
                 {
                     "id": "Name",
@@ -1362,7 +1392,7 @@
         {
             "id": "Are you sure you would like to disable proxy \"{Name}\"?",
             "message": "Are you sure you would like to disable proxy \"{Name}\"?",
-            "translation": "プロキシ \"{Name}\" を無効にしてもよろしいですか？",
+            "translation": "プロキシ「{Name}」を無効にしてもよろしいですか?",
             "placeholders": [
                 {
                     "id": "Name",
