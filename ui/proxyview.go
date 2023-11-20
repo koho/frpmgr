@@ -443,10 +443,12 @@ func (pv *ProxyView) onToggleProxy() {
 			return
 		}
 		oldConf := pv.model.conf.Name
-		if walk.MsgBox(pv.Form(), i18n.Sprintf("Disable proxy \"%s\"", proxy.Name),
-			i18n.Sprintf("Are you sure you would like to disable proxy \"%s\"?", proxy.Name),
-			walk.MsgBoxYesNo|walk.MsgBoxIconQuestion) == walk.DlgCmdNo {
-			return
+		if cc := getCurrentConf(); cc != nil && cc.State == consts.StateStarted {
+			if walk.MsgBox(pv.Form(), i18n.Sprintf("Disable proxy \"%s\"", proxy.Name),
+				i18n.Sprintf("Are you sure you would like to disable proxy \"%s\"?", proxy.Name),
+				walk.MsgBoxYesNo|walk.MsgBoxIconQuestion) == walk.DlgCmdNo {
+				return
+			}
 		}
 		if !hasConf(oldConf) {
 			warnConfigRemoved(pv.Form(), oldConf)
