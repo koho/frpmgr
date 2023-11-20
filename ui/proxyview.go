@@ -389,7 +389,7 @@ func (pv *ProxyView) onDelete() {
 	oldConf := pv.model.conf.Name
 	if walk.MsgBox(pv.Form(), i18n.Sprintf("Delete proxy \"%s\"", proxy.Name),
 		i18n.Sprintf("Are you sure you would like to delete proxy \"%s\"?", proxy.Name),
-		walk.MsgBoxOKCancel|walk.MsgBoxIconWarning) == walk.DlgCmdCancel {
+		walk.MsgBoxYesNo|walk.MsgBoxIconWarning) == walk.DlgCmdNo {
 		return
 	}
 	if !hasConf(oldConf) {
@@ -445,7 +445,7 @@ func (pv *ProxyView) onToggleProxy() {
 		oldConf := pv.model.conf.Name
 		if walk.MsgBox(pv.Form(), i18n.Sprintf("Disable proxy \"%s\"", proxy.Name),
 			i18n.Sprintf("Are you sure you would like to disable proxy \"%s\"?", proxy.Name),
-			walk.MsgBoxOKCancel|walk.MsgBoxIconWarning) == walk.DlgCmdCancel {
+			walk.MsgBoxYesNo|walk.MsgBoxIconQuestion) == walk.DlgCmdNo {
 			return
 		}
 		if !hasConf(oldConf) {

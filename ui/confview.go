@@ -503,7 +503,7 @@ func (cv *ConfView) onDelete() {
 	if conf := getCurrentConf(); conf != nil {
 		if walk.MsgBox(cv.Form(), i18n.Sprintf("Delete config \"%s\"", conf.Name),
 			i18n.Sprintf("Are you sure you would like to delete config \"%s\"?", conf.Name),
-			walk.MsgBoxOKCancel|walk.MsgBoxIconWarning) == walk.DlgCmdCancel {
+			walk.MsgBoxYesNo|walk.MsgBoxIconWarning) == walk.DlgCmdNo {
 			return
 		}
 		if !hasConf(conf.Name) {

@@ -126,7 +126,7 @@ func (pv *PanelView) ToggleService() {
 	if conf.State == consts.StateStarted {
 		if walk.MsgBox(pv.Form(), i18n.Sprintf("Stop config \"%s\"", conf.Name),
 			i18n.Sprintf("Are you sure you would like to stop config \"%s\"?", conf.Name),
-			walk.MsgBoxOKCancel|walk.MsgBoxIconQuestion) == walk.DlgCmdCancel {
+			walk.MsgBoxYesNo|walk.MsgBoxIconQuestion) == walk.DlgCmdNo {
 			return
 		}
 		err = pv.StopService(conf)
