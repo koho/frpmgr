@@ -31,7 +31,7 @@ type FrpClientSVCBService struct {
 
 func NewFrpClientSVCBService(cfgFile string) (*FrpClientSVCBService, error) {
 	service := new(FrpClientSVCBService)
-	cfg, pxyCfgs, visitorCfgs, err := config.ParseClientConfig(cfgFile)
+	cfg, pxyCfgs, visitorCfgs, _, err := config.LoadClientConfig(cfgFile, false)
 	if err != nil {
 		return nil, err
 	}
@@ -50,12 +50,16 @@ func NewFrpClientSVCBService(cfgFile string) (*FrpClientSVCBService, error) {
 	newAddr := service.addrBuf[:len(cfg.ServerAddr)]
 	cfg.ServerAddr = *(*string)(unsafe.Pointer(&newAddr))
 
-	svr, err := client.NewService(cfg, pxyCfgs, visitorCfgs, cfgFile)
+	svr, err := client.NewService(client.ServiceOptions{
+		Common:         cfg,
+		ProxyCfgs:      pxyCfgs,
+		VisitorCfgs:    visitorCfgs,
+		ConfigFilePath: cfgFile,
+	})
 	if err != nil {
 		return nil, err
 	}
-	log.InitLog(cfg.LogWay, cfg.LogFile, cfg.LogLevel,
-		cfg.LogMaxDays, cfg.DisableLogColor)
+	log.InitLog(cfg.Log.To, cfg.Log.Level, cfg.Log.MaxDays, cfg.Log.DisablePrintColor)
 
 	service.ctx, service.cancel = context.WithCancel(context.Background())
 	service.cfg = reflect.ValueOf(svr).Elem().FieldByName("cfg")

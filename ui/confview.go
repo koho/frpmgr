@@ -9,7 +9,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	frpConfig "github.com/fatedier/frp/pkg/config"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"github.com/thoas/go-funk"
@@ -551,7 +550,7 @@ func (cv *ConfView) onNATDiscovery() {
 		if appConf.Defaults.NatHoleSTUNServer != "" {
 			stunServer = appConf.Defaults.NatHoleSTUNServer
 		} else {
-			stunServer = frpConfig.GetDefaultClientConf().NatHoleSTUNServer
+			stunServer = consts.DefaultSTUNServer
 		}
 	}
 	if _, err := NewNATDiscoveryDialog(stunServer).Run(cv.Form()); err != nil {

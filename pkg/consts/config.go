@@ -1,8 +1,9 @@
 package consts
 
-import "github.com/fatedier/frp/pkg/config"
-
-const RangePrefix = "range:"
+const (
+	RangePrefix       = "range:"
+	DefaultSTUNServer = "stun.easyvoip.com:3478"
+)
 
 // Protocols
 const (
@@ -69,10 +70,7 @@ const (
 // Bandwidth
 var (
 	Bandwidth     = []string{"MB", "KB"}
-	BandwidthMode = []string{
-		config.BandwidthLimitModeClient,
-		config.BandwidthLimitModeServer,
-	}
+	BandwidthMode = []string{"client", "server"}
 )
 
 // Log level
