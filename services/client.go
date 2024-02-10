@@ -16,16 +16,20 @@ type FrpClientService struct {
 }
 
 func NewFrpClientService(cfgFile string) (*FrpClientService, error) {
-	cfg, pxyCfgs, visitorCfgs, err := config.ParseClientConfig(cfgFile)
+	cfg, pxyCfgs, visitorCfgs, _, err := config.LoadClientConfig(cfgFile, false)
 	if err != nil {
 		return nil, err
 	}
-	svr, err := client.NewService(cfg, pxyCfgs, visitorCfgs, cfgFile)
+	svr, err := client.NewService(client.ServiceOptions{
+		Common:         cfg,
+		ProxyCfgs:      pxyCfgs,
+		VisitorCfgs:    visitorCfgs,
+		ConfigFilePath: cfgFile,
+	})
 	if err != nil {
 		return nil, err
 	}
-	log.InitLog(cfg.LogWay, cfg.LogFile, cfg.LogLevel,
-		cfg.LogMaxDays, cfg.DisableLogColor)
+	log.InitLog(cfg.Log.To, cfg.Log.Level, cfg.Log.MaxDays, cfg.Log.DisablePrintColor)
 	return &FrpClientService{svr: svr, file: cfgFile}, nil
 }
 
@@ -55,9 +59,9 @@ func (s *FrpClientService) Stop(wait bool) {
 
 // Reload creates or updates or removes proxies of frpc.
 func (s *FrpClientService) Reload() error {
-	_, pxyCfgs, visitorCfgs, err := config.ParseClientConfig(s.file)
+	_, pxyCfgs, visitorCfgs, _, err := config.LoadClientConfig(s.file, false)
 	if err != nil {
 		return err
 	}
-	return s.svr.ReloadConf(pxyCfgs, visitorCfgs)
+	return s.svr.UpdateAllConfigurer(pxyCfgs, visitorCfgs)
 }
