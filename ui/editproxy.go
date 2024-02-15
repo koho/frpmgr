@@ -205,7 +205,14 @@ func (pd *EditProxyDialog) basicProxyPage() TabPage {
 			Label{Visible: Bind("vm.DomainVisible"), Text: i18n.SprintfColon("Custom Domains")},
 			LineEdit{Visible: Bind("vm.DomainVisible"), Text: Bind("CustomDomains")},
 			Label{Visible: Bind("vm.HTTPVisible"), Text: i18n.SprintfColon("Locations")},
-			LineEdit{Visible: Bind("vm.HTTPVisible"), Text: Bind("Locations")},
+			Composite{
+				Visible: Bind("vm.HTTPVisible"),
+				Layout:  HBox{MarginsZero: true},
+				Children: []Widget{
+					LineEdit{Text: Bind("Locations")},
+					ToolButton{Text: "H", ToolTipText: i18n.Sprintf("Request headers")},
+				},
+			},
 			Label{Visible: Bind("vm.MuxVisible"), Text: i18n.SprintfColon("Multiplexer")},
 			ComboBox{
 				Visible: Bind("vm.MuxVisible"),
@@ -324,7 +331,14 @@ func (pd *EditProxyDialog) pluginProxyPage() TabPage {
 			Label{Visible: Bind("vm.PluginAuthVisible"), Text: i18n.SprintfColon("Password")},
 			LineEdit{Visible: Bind("vm.PluginAuthVisible"), Text: Bind("PluginPasswd"), PasswordMode: true},
 			Label{Visible: Bind("vm.PluginHTTPFwdVisible"), Text: i18n.SprintfColon("Local Address")},
-			LineEdit{Visible: Bind("vm.PluginHTTPFwdVisible"), Text: Bind("PluginLocalAddr")},
+			Composite{
+				Visible: Bind("vm.PluginHTTPFwdVisible"),
+				Layout:  HBox{MarginsZero: true},
+				Children: []Widget{
+					LineEdit{Text: Bind("PluginLocalAddr")},
+					ToolButton{Text: "H", ToolTipText: i18n.Sprintf("Request headers")},
+				},
+			},
 			Label{Visible: Bind("vm.PluginCertVisible"), Text: i18n.SprintfColon("Certificate")},
 			NewBrowseLineEdit(nil, Bind("vm.PluginCertVisible"), true, Bind("PluginCrtPath"),
 				i18n.Sprintf("Select Certificate File"), consts.FilterCert, true),
@@ -375,11 +389,11 @@ func (pd *EditProxyDialog) healthCheckProxyPage() TabPage {
 
 func (pd *EditProxyDialog) customProxyPage() TabPage {
 	return TabPage{
-		Title:  i18n.Sprintf("Custom"),
+		Title:  i18n.Sprintf("Metadata"),
 		Layout: VBox{},
 		Children: []Widget{
 			Label{Text: i18n.Sprintf("* Refer to the parameters supported by FRP.")},
-			TextEdit{AssignTo: &pd.customText, Text: util.Map2String(pd.binder.Custom), VScroll: true},
+			TextEdit{AssignTo: &pd.customText, Text: util.Map2String(pd.binder.Metas), VScroll: true},
 		},
 	}
 }
@@ -411,7 +425,7 @@ func (pd *EditProxyDialog) onSave() {
 		return
 	}
 	// Update custom options
-	pd.binder.Proxy.Custom = util.String2Map(pd.customText.Text())
+	pd.binder.Proxy.Metas = util.String2Map(pd.customText.Text())
 	// Update role
 	if pd.binder.Visitor {
 		pd.binder.Proxy.Role = "visitor"

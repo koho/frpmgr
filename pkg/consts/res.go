@@ -1,9 +1,13 @@
 package consts
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"github.com/lxn/win"
+	"github.com/samber/lo"
 	"golang.org/x/sys/windows"
 
 	"github.com/koho/frpmgr/i18n"
@@ -88,10 +92,17 @@ var (
 	TextLarge   = Font{Family: defaultFontFamily, PointSize: 16}
 )
 
+var (
+	SupportedConfigFormats = []string{".ini", ".toml", ".json", ".yml", ".yaml"}
+	cfgPatterns            = lo.Map(append([]string{".zip"}, SupportedConfigFormats...), func(item string, index int) string {
+		return "*" + item
+	})
+)
+
 // Filters
 var (
 	FilterAllFiles = i18n.Sprintf("All Files") + " (*.*)|*.*"
-	FilterConfig   = i18n.Sprintf("Configuration Files") + " (*.zip, *.ini)|*.zip;*.ini|"
+	FilterConfig   = i18n.Sprintf("Configuration Files") + fmt.Sprintf(" (%s)|%s|", strings.Join(cfgPatterns, ", "), strings.Join(cfgPatterns, ";"))
 	FilterZip      = i18n.Sprintf("Configuration Files") + " (*.zip)|*.zip"
 	FilterCert     = i18n.Sprintf("Certificate Files") + " (*.crt, *.cer)|*.crt;*.cer|"
 	FilterKey      = i18n.Sprintf("Key Files") + " (*.key)|*.key|"

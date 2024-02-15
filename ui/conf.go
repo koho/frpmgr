@@ -73,17 +73,18 @@ func (conf *Conf) Delete() (bool, error) {
 // Save config to the disk. The config will be completed before saving
 func (conf *Conf) Save() error {
 	conf.Data.Complete(false)
-	conf.Path = PathOfConf(conf.Name + ".ini")
+	conf.Path = PathOfConf(conf.Name + ".conf")
 	return conf.Data.Save(conf.Path)
 }
 
 var (
 	appConf = config.App{Defaults: config.ClientCommon{
-		ServerPort: "7000",
-		LogLevel:   "info",
-		LogMaxDays: 3,
-		TCPMux:     true,
-		TLSEnable:  true,
+		ServerPort:                "7000",
+		LogLevel:                  "info",
+		LogMaxDays:                3,
+		TCPMux:                    true,
+		TLSEnable:                 true,
+		DisableCustomTLSFirstByte: true,
 	}}
 	// The config list contains all the loaded configs
 	confList  []*Conf
@@ -94,14 +95,14 @@ var (
 func loadAllConfs() error {
 	_ = config.UnmarshalAppConfFromIni(config.DefaultAppFile, &appConf)
 	// Find all config files in `profiles` directory
-	files, err := filepath.Glob(PathOfConf("*.ini"))
+	files, err := filepath.Glob(PathOfConf("*.conf"))
 	if err != nil {
 		return err
 	}
 	confList = make([]*Conf, 0)
 	for _, f := range files {
 		c := NewConf(f, nil)
-		if conf, err := config.UnmarshalClientConfFromIni(f); err == nil {
+		if conf, err := config.UnmarshalClientConf(f); err == nil {
 			c.Data = conf
 			if conf.DeleteAfterDays > 0 {
 				if t, err := config.Expiry(f, conf.AutoDelete); err == nil && t <= 0 {

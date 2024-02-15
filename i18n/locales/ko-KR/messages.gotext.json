@@ -455,6 +455,11 @@
             "translation": "토큰 URL"
         },
         {
+            "id": "Parameters",
+            "message": "Parameters",
+            "translation": "매개변수"
+        },
+        {
             "id": "Authentication",
             "message": "Authentication",
             "translation": "입증"
@@ -510,11 +515,6 @@
             "translation": "관리자 주소"
         },
         {
-            "id": "Admin Port",
-            "message": "Admin Port",
-            "translation": "관리 포트"
-        },
-        {
             "id": "Password",
             "message": "Password",
             "translation": "비밀번호"
@@ -528,6 +528,11 @@
             "id": "Select a local directory that the admin server will load resources from.",
             "message": "Select a local directory that the admin server will load resources from.",
             "translation": "관리 서버가 리소스를 로드할 로컬 디렉토리를 선택하십시오."
+        },
+        {
+            "id": "Other Options",
+            "message": "Other Options",
+            "translation": "다른 옵션"
         },
         {
             "id": "Auto Delete",
@@ -578,6 +583,11 @@
             "id": "Pool Count",
             "message": "Pool Count",
             "translation": "연결 수"
+        },
+        {
+            "id": "UDP Packet Size",
+            "message": "UDP Packet Size",
+            "translation": "UDP 패킷 크기"
         },
         {
             "id": "Heartbeat",
@@ -665,6 +675,11 @@
             "translation": "신뢰할 수 있는 CA 파일 선택"
         },
         {
+            "id": "Disable custom first byte",
+            "message": "Disable custom first byte",
+            "translation": "맞춤 첫 번째 바이트 비활성화"
+        },
+        {
             "id": "Advanced",
             "message": "Advanced",
             "translation": "고급의"
@@ -685,11 +700,6 @@
             "translation": "소스 주소"
         },
         {
-            "id": "Other Options",
-            "message": "Other Options",
-            "translation": "다른 옵션"
-        },
-        {
             "id": "Exit after login failure",
             "message": "Exit after login failure",
             "translation": "로그인 실패 후 종료"
@@ -700,9 +710,9 @@
             "translation": "부팅 시 자동 시작 비활성화"
         },
         {
-            "id": "Custom",
-            "message": "Custom",
-            "translation": "관습"
+            "id": "Metadata",
+            "message": "Metadata",
+            "translation": "메타데이터"
         },
         {
             "id": "Experimental Features",
@@ -728,6 +738,11 @@
             "id": "Use server SVCB records",
             "message": "Use server SVCB records",
             "translation": "서버 SVCB 기록 사용"
+        },
+        {
+            "id": "Clear All",
+            "message": "Clear All",
+            "translation": "모두 지우기"
         },
         {
             "id": "Config already exists",
@@ -853,6 +868,11 @@
             "id": "Locations",
             "message": "Locations",
             "translation": "URL 라우팅"
+        },
+        {
+            "id": "Request headers",
+            "message": "Request headers",
+            "translation": "요청 헤더"
         },
         {
             "id": "Multiplexer",
@@ -1333,6 +1353,11 @@
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "액세스 주소 복사"
+        },
+        {
+            "id": "This feature only supports text in INI or TOML format.",
+            "message": "This feature only supports text in INI or TOML format.",
+            "translation": "이 기능은 INI 또는 TOML 형식의 텍스트만 지원합니다."
         },
         {
             "id": "Delete proxy \"{Name}\"",

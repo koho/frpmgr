@@ -465,6 +465,11 @@
             "translation": "トークンのURL"
         },
         {
+            "id": "Parameters",
+            "message": "Parameters",
+            "translation": "パラメーター"
+        },
+        {
             "id": "Authentication",
             "message": "Authentication",
             "translation": "認証"
@@ -520,11 +525,6 @@
             "translation": "管理者アドレス"
         },
         {
-            "id": "Admin Port",
-            "message": "Admin Port",
-            "translation": "管理ポート"
-        },
-        {
             "id": "Password",
             "message": "Password",
             "translation": "パスワード"
@@ -538,6 +538,11 @@
             "id": "Select a local directory that the admin server will load resources from.",
             "message": "Select a local directory that the admin server will load resources from.",
             "translation": "管理サーバーがリソースをロードするローカルディレクトリを選択します。"
+        },
+        {
+            "id": "Other Options",
+            "message": "Other Options",
+            "translation": "別のオプション"
         },
         {
             "id": "Auto Delete",
@@ -588,6 +593,11 @@
             "id": "Pool Count",
             "message": "Pool Count",
             "translation": "接続プールの数"
+        },
+        {
+            "id": "UDP Packet Size",
+            "message": "UDP Packet Size",
+            "translation": "UDPパケットサイズ"
         },
         {
             "id": "Heartbeat",
@@ -675,6 +685,11 @@
             "translation": "信頼できる CA ファイルを選択します"
         },
         {
+            "id": "Disable custom first byte",
+            "message": "Disable custom first byte",
+            "translation": "カスタムの先頭バイトを無効にする"
+        },
+        {
             "id": "Advanced",
             "message": "Advanced",
             "translation": "高度"
@@ -695,11 +710,6 @@
             "translation": "送信元アドレス"
         },
         {
-            "id": "Other Options",
-            "message": "Other Options",
-            "translation": "別のオプション"
-        },
-        {
             "id": "Exit after login failure",
             "message": "Exit after login failure",
             "translation": "ログイン失敗後に終了"
@@ -710,9 +720,9 @@
             "translation": "起動時に自動起動を無効にする"
         },
         {
-            "id": "Custom",
-            "message": "Custom",
-            "translation": "カスタム"
+            "id": "Metadata",
+            "message": "Metadata",
+            "translation": "メタデータ"
         },
         {
             "id": "Experimental Features",
@@ -738,6 +748,11 @@
             "id": "Use server SVCB records",
             "message": "Use server SVCB records",
             "translation": "サーバーSVCBレコードを使用する"
+        },
+        {
+            "id": "Clear All",
+            "message": "Clear All",
+            "translation": "すべてクリア"
         },
         {
             "id": "Config already exists",
@@ -863,6 +878,11 @@
             "id": "Locations",
             "message": "Locations",
             "translation": "URL ルーティング"
+        },
+        {
+            "id": "Request headers",
+            "message": "Request headers",
+            "translation": "リクエストヘッダー"
         },
         {
             "id": "Multiplexer",
@@ -1343,6 +1363,11 @@
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "アクセスアドレスのコピー"
+        },
+        {
+            "id": "This feature only supports text in INI or TOML format.",
+            "message": "This feature only supports text in INI or TOML format.",
+            "translation": "この機能は、INI または TOML 形式のテキストのみをサポートします。"
         },
         {
             "id": "Delete proxy \"{Name}\"",

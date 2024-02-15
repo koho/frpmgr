@@ -589,6 +589,13 @@
             "fuzzy": true
         },
         {
+            "id": "Parameters",
+            "message": "Parameters",
+            "translation": "Parameters",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Authentication",
             "message": "Authentication",
             "translation": "Authentication",
@@ -666,13 +673,6 @@
             "fuzzy": true
         },
         {
-            "id": "Admin Port",
-            "message": "Admin Port",
-            "translation": "Admin Port",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "Password",
             "message": "Password",
             "translation": "Password",
@@ -690,6 +690,13 @@
             "id": "Select a local directory that the admin server will load resources from.",
             "message": "Select a local directory that the admin server will load resources from.",
             "translation": "Select a local directory that the admin server will load resources from.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Other Options",
+            "message": "Other Options",
+            "translation": "Other Options",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -760,6 +767,13 @@
             "id": "Pool Count",
             "message": "Pool Count",
             "translation": "Pool Count",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "UDP Packet Size",
+            "message": "UDP Packet Size",
+            "translation": "UDP Packet Size",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -883,6 +897,13 @@
             "fuzzy": true
         },
         {
+            "id": "Disable custom first byte",
+            "message": "Disable custom first byte",
+            "translation": "Disable custom first byte",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Advanced",
             "message": "Advanced",
             "translation": "Advanced",
@@ -911,13 +932,6 @@
             "fuzzy": true
         },
         {
-            "id": "Other Options",
-            "message": "Other Options",
-            "translation": "Other Options",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "Exit after login failure",
             "message": "Exit after login failure",
             "translation": "Exit after login failure",
@@ -932,9 +946,9 @@
             "fuzzy": true
         },
         {
-            "id": "Custom",
-            "message": "Custom",
-            "translation": "Custom",
+            "id": "Metadata",
+            "message": "Metadata",
+            "translation": "Metadata",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -970,6 +984,13 @@
             "id": "Use server SVCB records",
             "message": "Use server SVCB records",
             "translation": "Use server SVCB records",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Clear All",
+            "message": "Clear All",
+            "translation": "Clear All",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1137,6 +1158,13 @@
             "id": "Locations",
             "message": "Locations",
             "translation": "Locations",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Request headers",
+            "message": "Request headers",
+            "translation": "Request headers",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1797,6 +1825,13 @@
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "Copy Access Address",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "This feature only supports text in INI or TOML format.",
+            "message": "This feature only supports text in INI or TOML format.",
+            "translation": "This feature only supports text in INI or TOML format.",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

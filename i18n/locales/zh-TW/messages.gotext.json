@@ -455,6 +455,11 @@
             "translation": "令牌地址"
         },
         {
+            "id": "Parameters",
+            "message": "Parameters",
+            "translation": "參數"
+        },
+        {
             "id": "Authentication",
             "message": "Authentication",
             "translation": "鑑權"
@@ -510,11 +515,6 @@
             "translation": "管理地址"
         },
         {
-            "id": "Admin Port",
-            "message": "Admin Port",
-            "translation": "管理端口"
-        },
-        {
             "id": "Password",
             "message": "Password",
             "translation": "密碼"
@@ -528,6 +528,11 @@
             "id": "Select a local directory that the admin server will load resources from.",
             "message": "Select a local directory that the admin server will load resources from.",
             "translation": "選擇管理服務器使用的靜態資源目錄。"
+        },
+        {
+            "id": "Other Options",
+            "message": "Other Options",
+            "translation": "其他選項"
         },
         {
             "id": "Auto Delete",
@@ -578,6 +583,11 @@
             "id": "Pool Count",
             "message": "Pool Count",
             "translation": "連接池數量"
+        },
+        {
+            "id": "UDP Packet Size",
+            "message": "UDP Packet Size",
+            "translation": "UDP 包大小"
         },
         {
             "id": "Heartbeat",
@@ -665,6 +675,11 @@
             "translation": "選擇受信任的證書"
         },
         {
+            "id": "Disable custom first byte",
+            "message": "Disable custom first byte",
+            "translation": "停用自訂首字節"
+        },
+        {
             "id": "Advanced",
             "message": "Advanced",
             "translation": "高級"
@@ -685,11 +700,6 @@
             "translation": "使用源地址"
         },
         {
-            "id": "Other Options",
-            "message": "Other Options",
-            "translation": "其他選項"
-        },
-        {
             "id": "Exit after login failure",
             "message": "Exit after login failure",
             "translation": "初次登錄失敗後退出"
@@ -700,9 +710,9 @@
             "translation": "禁用開機自啟動"
         },
         {
-            "id": "Custom",
-            "message": "Custom",
-            "translation": "自定義"
+            "id": "Metadata",
+            "message": "Metadata",
+            "translation": "元數據"
         },
         {
             "id": "Experimental Features",
@@ -728,6 +738,11 @@
             "id": "Use server SVCB records",
             "message": "Use server SVCB records",
             "translation": "使用服務器 SVCB 記錄"
+        },
+        {
+            "id": "Clear All",
+            "message": "Clear All",
+            "translation": "全部清除"
         },
         {
             "id": "Config already exists",
@@ -853,6 +868,11 @@
             "id": "Locations",
             "message": "Locations",
             "translation": "URL 路由"
+        },
+        {
+            "id": "Request headers",
+            "message": "Request headers",
+            "translation": "請求頭"
         },
         {
             "id": "Multiplexer",
@@ -1333,6 +1353,11 @@
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "複製訪問地址"
+        },
+        {
+            "id": "This feature only supports text in INI or TOML format.",
+            "message": "This feature only supports text in INI or TOML format.",
+            "translation": "此功能僅支援 INI 或 TOML 格式的文字。"
         },
         {
             "id": "Delete proxy \"{Name}\"",

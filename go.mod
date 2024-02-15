@@ -8,6 +8,7 @@ require (
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e
 	github.com/miekg/dns v1.1.58
+	github.com/samber/lo v1.38.1
 	github.com/thoas/go-funk v0.9.3
 	golang.org/x/sys v0.17.0
 	golang.org/x/text v0.14.0
@@ -42,7 +43,6 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/quic-go/qtls-go1-20 v0.3.1 // indirect
 	github.com/quic-go/quic-go v0.37.7 // indirect
-	github.com/samber/lo v1.38.1 // indirect
 	github.com/spf13/cobra v1.8.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/templexxx/cpufeat v0.0.0-20180724012125-cef66df7f161 // indirect
