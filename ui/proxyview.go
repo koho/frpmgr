@@ -170,9 +170,9 @@ func (pv *ProxyView) createToolbar() ToolBar {
 					Action{
 						AssignTo: &pv.vpnAction,
 						Text:     "OpenVPN",
-						Image:    loadSysIcon("shell32", consts.IconVpn, 16),
+						Image:    loadSysIcon("shell32", consts.IconLock, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewSimpleProxyDialog("OpenVPN", loadSysIcon("shell32", consts.IconVpn, 32),
+							pv.onQuickAdd(NewSimpleProxyDialog("OpenVPN", loadSysIcon("shell32", consts.IconLock, 32),
 								"openvpn", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, ":1194"))
 						},
 					},

@@ -209,9 +209,13 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 					LineEdit{Text: Bind("AdminAddr"), StretchFactor: 2},
 					Label{Text: ":"},
 					LineEdit{Name: "adminPort", Text: Bind("AdminPort", consts.ValidateInteger)},
-					ToolButton{Image: loadSysIcon("shell32", consts.IconVpn, 16), ToolTipText: "TLS", OnClicked: func() {
-						cd.adminTLSDialog().Run(cd.Form())
-					}},
+					ToolButton{
+						Enabled:     Bind("adminPort.Text != ''"),
+						Image:       loadSysIcon("shell32", consts.IconLock, 16),
+						ToolTipText: "TLS", OnClicked: func() {
+							cd.adminTLSDialog().Run(cd.Form())
+						},
+					},
 				},
 			},
 			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("User")},
@@ -397,7 +401,7 @@ func (cd *EditClientDialog) experimentDialog() Dialog {
 func (cd *EditClientDialog) adminTLSDialog() Dialog {
 	var widgets [4]*walk.LineEdit
 	customDialog := NewBasicDialog(nil, "TLS",
-		loadSysIcon("shell32", consts.IconVpn, 32),
+		loadSysIcon("shell32", consts.IconLock, 32),
 		DataBinder{DataSource: &cd.binder.AdminTLS}, nil,
 		Label{Text: i18n.SprintfColon("Host Name")},
 		LineEdit{AssignTo: &widgets[0], Text: Bind("ServerName")},

@@ -51,7 +51,7 @@ const (
 	IconHttpFile     = 69
 	IconHttpProxy    = 114
 	IconOpenPort     = 135
-	IconVpn          = 47
+	IconLock         = 47
 	IconNewVersion1  = -1028
 	IconNewVersion2  = 1
 	IconUpdate       = -47

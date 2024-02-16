@@ -417,6 +417,8 @@ func (conf *ClientConfig) Complete(read bool) {
 		conf.AdminUser = ""
 		conf.AdminPwd = ""
 		conf.AssetsDir = ""
+		conf.AdminTLS = v1.TLSConfig{}
+		conf.PprofEnable = false
 	}
 	conf.AutoDelete = conf.AutoDelete.Complete()
 	if !conf.TCPMux {
