@@ -246,6 +246,17 @@ namespace actions
                     session.Log(e.Message);
                 }
             }
+            foreach (string profile in Directory.GetFiles(profilePath, "*.ini"))
+            {
+                try
+                {
+                    File.Move(profile, Path.Combine(profilePath, Path.GetFileNameWithoutExtension(profile) + ".conf"));
+                }
+                catch (Exception e)
+                {
+                    session.Log(e.Message);
+                }
+            }
             return ActionResult.Success;
         }
 
