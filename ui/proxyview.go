@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	frpconfig "github.com/fatedier/frp/pkg/config"
-	v1 "github.com/fatedier/frp/pkg/config/v1"
+	"github.com/fatedier/frp/pkg/config/v1"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 
