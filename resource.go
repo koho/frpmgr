@@ -6,7 +6,7 @@ package main
 
 import (
 	"fmt"
-	"log"
+	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
@@ -15,14 +15,15 @@ import (
 )
 
 var (
-	versionArray = strings.ReplaceAll(version.Number, ".", ",") + ",0"
+	versionArray = strings.ReplaceAll(version.Number, ".", ",")
 	archMap      = map[string]string{"amd64": "pe-x86-64", "386": "pe-i386"}
 )
 
 func main() {
 	rcFiles, err := filepath.Glob("cmd/*/*.rc")
 	if err != nil {
-		log.Fatal(err)
+		println(err.Error())
+		os.Exit(1)
 	}
 	for _, rc := range rcFiles {
 		for goArch, resArch := range archMap {
@@ -30,7 +31,7 @@ func main() {
 			res, err := exec.Command("windres", "-DVERSION_ARRAY="+versionArray, "-DVERSION_STR="+version.Number,
 				"-i", rc, "-o", output, "-O", "coff", "-c", "65001", "-F", resArch).CombinedOutput()
 			if err != nil {
-				log.Fatalf("Failed to compile resource: %s", string(res))
+				println(err.Error(), string(res))
 			}
 		}
 	}

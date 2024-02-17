@@ -43,7 +43,7 @@ if "%WIX%"=="" (
 		"%WindowsSdkVerBinPath%x86\MsiTran" -g %MSI_FILE% !WIX_LANG_MSI! %PLAT_DIR%\!LANG_CODE! || goto :error
 		"%WindowsSdkVerBinPath%x86\MsiDb" -d %MSI_FILE% -r %PLAT_DIR%\!LANG_CODE! || goto :error
 	)
-	windres -DARCH=%ARCH% -DVERSION_ARRAY=%VERSION:.=,%,0 -DVERSION_STR=%VERSION% -DMSI_FILE=%MSI_FILE:\=\\% -i setup\resource.rc -o %PLAT_DIR%\rsrc.o -O coff -c 65001 -F !RES%ARCH%! || goto :error
+	windres -DARCH=%ARCH% -DVERSION_ARRAY=%VERSION:.=,% -DVERSION_STR=%VERSION% -DMSI_FILE=%MSI_FILE:\=\\% -i setup\resource.rc -o %PLAT_DIR%\rsrc.o -O coff -c 65001 -F !RES%ARCH%! || goto :error
 	cl /Fe..\bin\frpmgr-%VERSION%-setup-%ARCH%.exe /Fo%PLAT_DIR%\setup.obj /utf-8 setup\setup.c /link /subsystem:windows %PLAT_DIR%\rsrc.o shlwapi.lib msi.lib user32.lib advapi32.lib
 	goto :eof
 
