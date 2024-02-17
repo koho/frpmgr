@@ -28,9 +28,11 @@ jobs:
       - name: Add commit hash to version number
         shell: powershell
         if: github.event_name == 'pull_request'
+        env:
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           $versionFile = ".\pkg\version\version.go"
-          $rev = [Int16]("0x" + $env:GITHUB_SHA.Substring(0, 4))
+          $rev = [UInt16]("0x" + $env:HEAD_SHA.Substring(0, 4))
           $version = (findstr /r "Number.*=.*[0-9.]*" $versionFile | Select-Object -First 1 | ConvertFrom-StringData).Get_Item("Number")
           $newVersion = $version.Substring(0, $version.Length - 1) + ".$rev" + '"'
           (Get-Content $versionFile).Replace($version, $newVersion) | Set-Content $versionFile
