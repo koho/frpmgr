@@ -125,7 +125,11 @@ func (pd *EditProxyDialog) View() Dialog {
 					Children: []Widget{
 						LineEdit{AssignTo: &pd.nameView, Text: Bind("Name", consts.ValidateNonEmpty)},
 						PushButton{Text: i18n.SprintfLSpace("Random"), Image: loadResourceIcon(consts.IconRefresh, 16), OnClicked: func() {
-							pd.nameView.SetText(funk.RandomString(8))
+							rs := funk.RandomString(8)
+							if strings.HasPrefix(pd.nameView.Text(), consts.RangePrefix) {
+								rs = consts.RangePrefix + rs
+							}
+							pd.nameView.SetText(rs)
 						}},
 					},
 				},
