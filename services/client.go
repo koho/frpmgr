@@ -65,3 +65,11 @@ func (s *FrpClientService) Reload() error {
 	}
 	return s.svr.UpdateAllConfigurer(pxyCfgs, visitorCfgs)
 }
+
+func (s *FrpClientService) Close() error {
+	return nil
+}
+
+func (s *FrpClientService) Done() <-chan struct{} {
+	return nil
+}
