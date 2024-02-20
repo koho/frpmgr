@@ -8,7 +8,7 @@ require (
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e
 	github.com/miekg/dns v1.1.58
-	github.com/samber/lo v1.38.1
+	github.com/samber/lo v1.39.0
 	github.com/thoas/go-funk v0.9.3
 	golang.org/x/sys v0.17.0
 	golang.org/x/text v0.14.0
