@@ -22,6 +22,8 @@ type Service interface {
 	Reload() error
 	// Stop service and cleanup resources.
 	Stop(wait bool)
+	// Done returns a channel that's closed when work done.
+	Done() <-chan struct{}
 }
 
 func ServiceNameOfClient(name string) string {
@@ -50,7 +52,7 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 		changes <- svc.Status{State: svc.StopPending}
 	}()
 
-	cc, err := config.UnmarshalClientConfFromIni(service.configPath)
+	cc, err := config.UnmarshalClientConf(service.configPath)
 	if err != nil {
 		return
 	}
@@ -100,6 +102,8 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 				changes <- c.CurrentStatus
 			default:
 			}
+		case <-svr.Done():
+			return
 		case <-expired:
 			svr.Stop(false)
 			deleteFrpConfig(args[0], service.configPath, cc)

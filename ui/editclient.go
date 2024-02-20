@@ -61,7 +61,7 @@ func NewEditClientDialog(conf *Conf, name string) *EditClientDialog {
 	v.data = data
 	v.binder = &editClientBinder{
 		Name:         v.Conf.Name,
-		CustomText:   util.Map2String(data.Custom),
+		CustomText:   util.Map2String(data.Metas),
 		ClientCommon: v.data.ClientCommon,
 	}
 	if name != "" {
@@ -154,7 +154,14 @@ func (cd *EditClientDialog) authConfPage() TabPage {
 			Label{Visible: Bind("oidcCheck.Checked"), Text: i18n.SprintfColon("Scope")},
 			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCScope")},
 			Label{Visible: Bind("oidcCheck.Checked"), Text: i18n.SprintfColon("Token Endpoint")},
-			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCTokenEndpoint")},
+			Composite{
+				Visible: Bind("oidcCheck.Checked"),
+				Layout:  HBox{MarginsZero: true},
+				Children: []Widget{
+					LineEdit{Text: Bind("OIDCTokenEndpoint")},
+					ToolButton{Text: "#", ToolTipText: i18n.Sprintf("Parameters")},
+				},
+			},
 			Label{Visible: Bind("!noAuthCheck.Checked"), Text: i18n.SprintfColon("Authentication")},
 			Composite{
 				Visible: Bind("!noAuthCheck.Checked"),
@@ -196,9 +203,21 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
 			Label{Text: i18n.SprintfColon("Admin Address")},
-			LineEdit{Text: Bind("AdminAddr")},
-			Label{Text: i18n.SprintfColon("Admin Port")},
-			LineEdit{Name: "adminPort", Text: Bind("AdminPort", consts.ValidateInteger)},
+			Composite{
+				Layout: HBox{MarginsZero: true},
+				Children: []Widget{
+					LineEdit{Text: Bind("AdminAddr"), StretchFactor: 2},
+					Label{Text: ":"},
+					LineEdit{Name: "adminPort", Text: Bind("AdminPort", consts.ValidateInteger)},
+					ToolButton{
+						Enabled:     Bind("adminPort.Text != ''"),
+						Image:       loadSysIcon("shell32", consts.IconLock, 16),
+						ToolTipText: "TLS", OnClicked: func() {
+							cd.adminTLSDialog().Run(cd.Form())
+						},
+					},
+				},
+			},
 			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("User")},
 			LineEdit{Enabled: Bind("adminPort.Text != ''"), Text: Bind("AdminUser")},
 			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("Password")},
@@ -206,6 +225,8 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("Assets")},
 			NewBrowseLineEdit(nil, true, Bind("adminPort.Text != ''"), Bind("AssetsDir"),
 				i18n.Sprintf("Select a local directory that the admin server will load resources from."), "", false),
+			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("Other Options")},
+			CheckBox{Enabled: Bind("adminPort.Text != ''"), Text: "Pprof", Checked: Bind("PprofEnable")},
 			Label{Text: i18n.SprintfColon("Auto Delete")},
 			NewRadioButtonGroup("DeleteMethod", nil, nil, []RadioButton{
 				{Name: "absCheck", Text: i18n.Sprintf("Absolute"), Value: consts.DeleteAbsolute},
@@ -239,7 +260,14 @@ func (cd *EditClientDialog) connectionConfPage() TabPage {
 			Label{Text: i18n.SprintfColon("HTTP Proxy")},
 			LineEdit{Text: Bind("HTTPProxy")},
 			Label{Text: i18n.SprintfColon("Pool Count")},
-			NumberEdit{Value: Bind("PoolCount")},
+			Composite{
+				Layout: HBox{MarginsZero: true},
+				Children: []Widget{
+					NumberEdit{Value: Bind("PoolCount")},
+					Label{Text: i18n.SprintfColon("UDP Packet Size")},
+					NumberEdit{Value: Bind("UDPPacketSize")},
+				},
+			},
 			Label{Text: i18n.SprintfColon("Heartbeat")},
 			Composite{
 				Layout: HBox{MarginsZero: true},
@@ -291,6 +319,8 @@ func (cd *EditClientDialog) tlsConfPage() TabPage {
 			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Trusted CA"), AlwaysConsumeSpace: true},
 			NewBrowseLineEdit(nil, Bind("tlsCheck.Checked"), true, Bind("TLSTrustedCaFile"),
 				i18n.Sprintf("Select Trusted CA File"), consts.FilterCert, true),
+			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Other Options")},
+			CheckBox{Visible: Bind("tlsCheck.Checked"), Text: i18n.Sprintf("Disable custom first byte"), Checked: Bind("DisableCustomTLSFirstByte")},
 		},
 	}
 }
@@ -328,7 +358,7 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 						Layout: HBox{MarginsZero: true, Spacing: 18},
 						Children: []Widget{
 							LinkLabel{
-								Text: fmt.Sprintf("<a>%s</a>", i18n.SprintfEllipsis("Custom")),
+								Text: fmt.Sprintf("<a>%s</a>", i18n.SprintfEllipsis("Metadata")),
 								OnLinkActivated: func(link *walk.LinkLabelLink) {
 									cd.customConfDialog().Run(cd.Form())
 								},
@@ -366,6 +396,36 @@ func (cd *EditClientDialog) experimentDialog() Dialog {
 	expDialog.MinSize = Size{Width: 300, Height: 180}
 	expDialog.FixedSize = true
 	return expDialog
+}
+
+func (cd *EditClientDialog) adminTLSDialog() Dialog {
+	var widgets [4]*walk.LineEdit
+	customDialog := NewBasicDialog(nil, "TLS",
+		loadSysIcon("shell32", consts.IconLock, 32),
+		DataBinder{DataSource: &cd.binder.AdminTLS}, nil,
+		Label{Text: i18n.SprintfColon("Host Name")},
+		LineEdit{AssignTo: &widgets[0], Text: Bind("ServerName")},
+		Label{Text: i18n.SprintfColon("Certificate")},
+		NewBrowseLineEdit(&widgets[1], true, true, Bind("CertFile"),
+			i18n.Sprintf("Select Certificate File"), consts.FilterCert, true),
+		Label{Text: i18n.SprintfColon("Certificate Key")},
+		NewBrowseLineEdit(&widgets[2], true, true, Bind("KeyFile"),
+			i18n.Sprintf("Select Certificate Key File"), consts.FilterKey, true),
+		Label{Text: i18n.SprintfColon("Trusted CA")},
+		NewBrowseLineEdit(&widgets[3], true, true, Bind("TrustedCaFile"),
+			i18n.Sprintf("Select Trusted CA File"), consts.FilterCert, true),
+		VSpacer{Size: 4},
+	)
+	customDialog.MinSize = Size{Width: 350}
+	customDialog.FixedSize = true
+	buttons := customDialog.Children[len(customDialog.Children)-1].(Composite)
+	buttons.Children = append([]Widget{PushButton{Text: i18n.Sprintf("Clear All"), OnClicked: func() {
+		for _, widget := range widgets {
+			widget.SetText("")
+		}
+	}}}, buttons.Children...)
+	customDialog.Children[len(customDialog.Children)-1] = buttons
+	return customDialog
 }
 
 func (cd *EditClientDialog) shutdownService(wait bool) error {
@@ -439,7 +499,7 @@ func (cd *EditClientDialog) onSave() {
 	cd.Conf.Name = newConf.Name
 	// The order matters
 	cd.data.ClientCommon = newConf.ClientCommon
-	cd.data.Custom = util.String2Map(newConf.CustomText)
+	cd.data.Metas = util.String2Map(newConf.CustomText)
 	cd.Accept()
 }
 

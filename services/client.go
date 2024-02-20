@@ -7,12 +7,15 @@ import (
 	_ "github.com/fatedier/frp/assets/frpc"
 	"github.com/fatedier/frp/client"
 	"github.com/fatedier/frp/pkg/config"
+	"github.com/fatedier/frp/pkg/config/v1"
 	"github.com/fatedier/frp/pkg/util/log"
 )
 
 type FrpClientService struct {
 	svr  *client.Service
 	file string
+	cfg  *v1.ClientCommonConfig
+	done chan struct{}
 }
 
 func NewFrpClientService(cfgFile string) (*FrpClientService, error) {
@@ -30,11 +33,12 @@ func NewFrpClientService(cfgFile string) (*FrpClientService, error) {
 		return nil, err
 	}
 	log.InitLog(cfg.Log.To, cfg.Log.Level, cfg.Log.MaxDays, cfg.Log.DisablePrintColor)
-	return &FrpClientService{svr: svr, file: cfgFile}, nil
+	return &FrpClientService{svr: svr, file: cfgFile, cfg: cfg, done: make(chan struct{})}, nil
 }
 
 // Run starts frp client service in blocking mode.
 func (s *FrpClientService) Run() {
+	defer close(s.done)
 	if s.file != "" {
 		log.Trace("start frpc service for config file [%s]", s.file)
 		defer log.Trace("frpc service for config file [%s] stopped", s.file)
@@ -64,4 +68,8 @@ func (s *FrpClientService) Reload() error {
 		return err
 	}
 	return s.svr.UpdateAllConfigurer(pxyCfgs, visitorCfgs)
+}
+
+func (s *FrpClientService) Done() <-chan struct{} {
+	return s.done
 }

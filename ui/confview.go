@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 
 	"github.com/lxn/walk"
@@ -285,7 +286,7 @@ func (cv *ConfView) onURLImport() {
 			} else {
 				total++
 				if newPath, ok := cv.checkConfName(item.Filename, item.Rename); ok {
-					conf, err := config.UnmarshalClientConfFromIni(item.Data)
+					conf, err := config.UnmarshalClientConf(item.Data)
 					if err != nil {
 						showError(err, cv.Form())
 						continue
@@ -306,7 +307,8 @@ func (cv *ConfView) onURLImport() {
 func (cv *ConfView) checkConfName(filename string, rename bool) (string, bool) {
 	suffix := ""
 checkName:
-	newPath := PathOfConf(util.AddFileSuffix(filename, suffix))
+	baseName, _ := util.SplitExt(util.AddFileSuffix(filename, suffix))
+	newPath := PathOfConf(baseName + ".conf")
 	if _, err := os.Stat(newPath); err == nil {
 		if rename {
 			suffix = "_" + funk.RandomString(4)
@@ -349,8 +351,12 @@ func (cv *ConfView) ImportFiles(files []string) {
 			if dir, err := util.IsDirectory(path); err != nil || dir {
 				continue
 			}
-			switch strings.ToLower(filepath.Ext(path)) {
-			case ".ini":
+			ext := strings.ToLower(filepath.Ext(path))
+			if ext == ".zip" {
+				subTotal, subImported := cv.importZip(path, nil, false)
+				total += subTotal
+				imported += subImported
+			} else if slices.Contains(consts.SupportedConfigFormats, ext) {
 				total++
 				newPath, ok := cv.checkConfName(path, false)
 				if !ok {
@@ -361,7 +367,7 @@ func (cv *ConfView) ImportFiles(files []string) {
 					continue
 				}
 				// Verify config before copying file
-				conf, err := config.UnmarshalClientConfFromIni(path)
+				conf, err := config.UnmarshalClientConf(path)
 				if err != nil {
 					showError(err, cv.Form())
 					continue
@@ -372,10 +378,6 @@ func (cv *ConfView) ImportFiles(files []string) {
 				}
 				addConf(NewConf(newPath, conf))
 				imported++
-			case ".zip":
-				subTotal, subImported := cv.importZip(path, nil, false)
-				total += subTotal
-				imported += subImported
 			}
 		}
 		return
@@ -393,7 +395,7 @@ func (cv *ConfView) importZip(path string, data []byte, rename bool) (total, imp
 		if err != nil {
 			return err
 		}
-		conf, err := config.UnmarshalClientConfFromIni(src)
+		conf, err := config.UnmarshalClientConf(src)
 		if err != nil {
 			return err
 		}
@@ -429,7 +431,7 @@ func (cv *ConfView) importZip(path string, data []byte, rename bool) (total, imp
 		if file.FileInfo().IsDir() {
 			continue
 		}
-		if strings.ToLower(filepath.Ext(file.Name)) != ".ini" {
+		if !slices.Contains(consts.SupportedConfigFormats, strings.ToLower(filepath.Ext(file.Name))) {
 			continue
 		}
 		total++
@@ -465,7 +467,7 @@ func (cv *ConfView) onClipboardImport() {
 			name = string(bytes.TrimSpace(content[1:i]))
 		}
 	}
-	conf, err := config.UnmarshalClientConfFromIni([]byte(text))
+	conf, err := config.UnmarshalClientConf([]byte(text))
 	if err != nil {
 		showError(err, cv.Form())
 		return

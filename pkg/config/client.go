@@ -3,8 +3,11 @@ package config
 import (
 	"bytes"
 	"fmt"
+	"os"
 	"strings"
 
+	"github.com/fatedier/frp/pkg/config"
+	"github.com/fatedier/frp/pkg/config/v1"
 	frputil "github.com/fatedier/frp/pkg/util/util"
 	"github.com/thoas/go-funk"
 	"gopkg.in/ini.v1"
@@ -13,16 +16,32 @@ import (
 	"github.com/koho/frpmgr/pkg/util"
 )
 
+type ClientConfigV1 struct {
+	v1.ClientCommonConfig
+
+	Proxies  []v1.TypedProxyConfig   `json:"proxies,omitempty"`
+	Visitors []v1.TypedVisitorConfig `json:"visitors,omitempty"`
+
+	Internal Internal `json:"frpmgr,omitempty"`
+}
+
+type Internal struct {
+	ManualStart bool       `json:"manualStart,omitempty"`
+	SVCBEnable  bool       `json:"svcbEnable,omitempty"`
+	AutoDelete  AutoDelete `json:"autoDelete,omitempty"`
+}
+
 type ClientAuth struct {
-	AuthMethod               string `ini:"authentication_method,omitempty"`
-	AuthenticateHeartBeats   bool   `ini:"authenticate_heartbeats,omitempty" token:"true" oidc:"true"`
-	AuthenticateNewWorkConns bool   `ini:"authenticate_new_work_conns,omitempty" token:"true" oidc:"true"`
-	Token                    string `ini:"token,omitempty" token:"true"`
-	OIDCClientId             string `ini:"oidc_client_id,omitempty" oidc:"true"`
-	OIDCClientSecret         string `ini:"oidc_client_secret,omitempty" oidc:"true"`
-	OIDCAudience             string `ini:"oidc_audience,omitempty" oidc:"true"`
-	OIDCScope                string `ini:"oidc_scope,omitempty" oidc:"true"`
-	OIDCTokenEndpoint        string `ini:"oidc_token_endpoint_url,omitempty" oidc:"true"`
+	AuthMethod                   string            `ini:"authentication_method,omitempty"`
+	AuthenticateHeartBeats       bool              `ini:"authenticate_heartbeats,omitempty" token:"true" oidc:"true"`
+	AuthenticateNewWorkConns     bool              `ini:"authenticate_new_work_conns,omitempty" token:"true" oidc:"true"`
+	Token                        string            `ini:"token,omitempty" token:"true"`
+	OIDCClientId                 string            `ini:"oidc_client_id,omitempty" oidc:"true"`
+	OIDCClientSecret             string            `ini:"oidc_client_secret,omitempty" oidc:"true"`
+	OIDCAudience                 string            `ini:"oidc_audience,omitempty" oidc:"true"`
+	OIDCScope                    string            `ini:"oidc_scope,omitempty" oidc:"true"`
+	OIDCTokenEndpoint            string            `ini:"oidc_token_endpoint_url,omitempty" oidc:"true"`
+	OIDCAdditionalEndpointParams map[string]string `ini:"-" oidc:"true"`
 }
 
 func (ca ClientAuth) Complete() ClientAuth {
@@ -43,41 +62,45 @@ func (ca ClientAuth) Complete() ClientAuth {
 }
 
 type ClientCommon struct {
-	ClientAuth              `ini:",extends"`
-	ServerAddress           string   `ini:"server_addr,omitempty"`
-	ServerPort              string   `ini:"server_port,omitempty"`
-	NatHoleSTUNServer       string   `ini:"nat_hole_stun_server,omitempty"`
-	DialServerTimeout       int64    `ini:"dial_server_timeout,omitempty"`
-	DialServerKeepAlive     int64    `ini:"dial_server_keepalive,omitempty"`
-	ConnectServerLocalIP    string   `ini:"connect_server_local_ip,omitempty"`
-	HTTPProxy               string   `ini:"http_proxy,omitempty"`
-	LogFile                 string   `ini:"log_file,omitempty"`
-	LogLevel                string   `ini:"log_level,omitempty"`
-	LogMaxDays              uint     `ini:"log_max_days,omitempty"`
-	AdminAddr               string   `ini:"admin_addr,omitempty"`
-	AdminPort               string   `ini:"admin_port,omitempty"`
-	AdminUser               string   `ini:"admin_user,omitempty"`
-	AdminPwd                string   `ini:"admin_pwd,omitempty"`
-	AssetsDir               string   `ini:"assets_dir,omitempty"`
-	PoolCount               uint     `ini:"pool_count,omitempty"`
-	DNSServer               string   `ini:"dns_server,omitempty"`
-	Protocol                string   `ini:"protocol,omitempty"`
-	QUICKeepalivePeriod     int      `ini:"quic_keepalive_period,omitempty"`
-	QUICMaxIdleTimeout      int      `ini:"quic_max_idle_timeout,omitempty"`
-	QUICMaxIncomingStreams  int      `ini:"quic_max_incoming_streams,omitempty"`
-	LoginFailExit           bool     `ini:"login_fail_exit"`
-	User                    string   `ini:"user,omitempty"`
-	HeartbeatInterval       int64    `ini:"heartbeat_interval,omitempty"`
-	HeartbeatTimeout        int64    `ini:"heartbeat_timeout,omitempty"`
-	TCPMux                  bool     `ini:"tcp_mux"`
-	TCPMuxKeepaliveInterval int64    `ini:"tcp_mux_keepalive_interval,omitempty"`
-	TLSEnable               bool     `ini:"tls_enable"`
-	TLSCertFile             string   `ini:"tls_cert_file,omitempty"`
-	TLSKeyFile              string   `ini:"tls_key_file,omitempty"`
-	TLSTrustedCaFile        string   `ini:"tls_trusted_ca_file,omitempty"`
-	TLSServerName           string   `ini:"tls_server_name,omitempty"`
-	UDPPacketSize           int64    `ini:"udp_packet_size,omitempty"`
-	Start                   []string `ini:"start,omitempty"`
+	v1.APIMetadata            `ini:"-"`
+	ClientAuth                `ini:",extends"`
+	ServerAddress             string       `ini:"server_addr,omitempty"`
+	ServerPort                string       `ini:"server_port,omitempty"`
+	NatHoleSTUNServer         string       `ini:"nat_hole_stun_server,omitempty"`
+	DialServerTimeout         int64        `ini:"dial_server_timeout,omitempty"`
+	DialServerKeepAlive       int64        `ini:"dial_server_keepalive,omitempty"`
+	ConnectServerLocalIP      string       `ini:"connect_server_local_ip,omitempty"`
+	HTTPProxy                 string       `ini:"http_proxy,omitempty"`
+	LogFile                   string       `ini:"log_file,omitempty"`
+	LogLevel                  string       `ini:"log_level,omitempty"`
+	LogMaxDays                uint         `ini:"log_max_days,omitempty"`
+	AdminAddr                 string       `ini:"admin_addr,omitempty"`
+	AdminPort                 string       `ini:"admin_port,omitempty"`
+	AdminUser                 string       `ini:"admin_user,omitempty"`
+	AdminPwd                  string       `ini:"admin_pwd,omitempty"`
+	AdminTLS                  v1.TLSConfig `ini:"-"`
+	AssetsDir                 string       `ini:"assets_dir,omitempty"`
+	PoolCount                 uint         `ini:"pool_count,omitempty"`
+	DNSServer                 string       `ini:"dns_server,omitempty"`
+	Protocol                  string       `ini:"protocol,omitempty"`
+	QUICKeepalivePeriod       int          `ini:"quic_keepalive_period,omitempty"`
+	QUICMaxIdleTimeout        int          `ini:"quic_max_idle_timeout,omitempty"`
+	QUICMaxIncomingStreams    int          `ini:"quic_max_incoming_streams,omitempty"`
+	LoginFailExit             bool         `ini:"login_fail_exit"`
+	User                      string       `ini:"user,omitempty"`
+	HeartbeatInterval         int64        `ini:"heartbeat_interval,omitempty"`
+	HeartbeatTimeout          int64        `ini:"heartbeat_timeout,omitempty"`
+	TCPMux                    bool         `ini:"tcp_mux"`
+	TCPMuxKeepaliveInterval   int64        `ini:"tcp_mux_keepalive_interval,omitempty"`
+	TLSEnable                 bool         `ini:"tls_enable"`
+	TLSCertFile               string       `ini:"tls_cert_file,omitempty"`
+	TLSKeyFile                string       `ini:"tls_key_file,omitempty"`
+	TLSTrustedCaFile          string       `ini:"tls_trusted_ca_file,omitempty"`
+	TLSServerName             string       `ini:"tls_server_name,omitempty"`
+	UDPPacketSize             int64        `ini:"udp_packet_size,omitempty"`
+	Start                     []string     `ini:"start,omitempty"`
+	PprofEnable               bool         `ini:"pprof_enable,omitempty"`
+	DisableCustomTLSFirstByte bool         `ini:"disable_custom_tls_first_byte"`
 
 	// ManualStart defines whether to start the config on system boot.
 	ManualStart bool `ini:"frpmgr_manual_start,omitempty"`
@@ -91,8 +114,8 @@ type ClientCommon struct {
 	// AutoDelete is a mechanism for temporary use.
 	// The config will be stopped and deleted at some point.
 	AutoDelete `ini:",extends"`
-	// Custom collects all the unparsed options.
-	Custom map[string]string `ini:"-"`
+	// Client meta info
+	Metas map[string]string `ini:"-"`
 }
 
 // BaseProxyConf provides configuration info that is common to all types.
@@ -144,24 +167,25 @@ type BaseProxyConf struct {
 	HealthCheckType string `ini:"health_check_type,omitempty"` // tcp | http
 	// Health checking parameters.
 	HealthCheckConf `ini:",extends"`
-	// Custom collects all the unparsed options.
-	Custom map[string]string `ini:"-"`
+	// Meta info for each proxy
+	Metas map[string]string `ini:"-"`
 	// Disabled defines whether to start the proxy.
 	Disabled bool `ini:"-"`
 }
 
 type PluginParams struct {
-	PluginLocalAddr         string `ini:"plugin_local_addr,omitempty" http2https:"true" https2https:"true" https2http:"true"`
-	PluginCrtPath           string `ini:"plugin_crt_path,omitempty" https2https:"true" https2http:"true"`
-	PluginKeyPath           string `ini:"plugin_key_path,omitempty" https2https:"true" https2http:"true"`
-	PluginHostHeaderRewrite string `ini:"plugin_host_header_rewrite,omitempty" http2https:"true" https2https:"true" https2http:"true"`
-	PluginHttpUser          string `ini:"plugin_http_user,omitempty" http_proxy:"true" static_file:"true"`
-	PluginHttpPasswd        string `ini:"plugin_http_passwd,omitempty" http_proxy:"true" static_file:"true"`
-	PluginUser              string `ini:"plugin_user,omitempty" socks5:"true"`
-	PluginPasswd            string `ini:"plugin_passwd,omitempty" socks5:"true"`
-	PluginLocalPath         string `ini:"plugin_local_path,omitempty" static_file:"true"`
-	PluginStripPrefix       string `ini:"plugin_strip_prefix,omitempty" static_file:"true"`
-	PluginUnixPath          string `ini:"plugin_unix_path,omitempty" unix_domain_socket:"true"`
+	PluginLocalAddr         string            `ini:"plugin_local_addr,omitempty" http2https:"true" https2https:"true" https2http:"true"`
+	PluginCrtPath           string            `ini:"plugin_crt_path,omitempty" https2https:"true" https2http:"true"`
+	PluginKeyPath           string            `ini:"plugin_key_path,omitempty" https2https:"true" https2http:"true"`
+	PluginHostHeaderRewrite string            `ini:"plugin_host_header_rewrite,omitempty" http2https:"true" https2https:"true" https2http:"true"`
+	PluginHttpUser          string            `ini:"plugin_http_user,omitempty" http_proxy:"true" static_file:"true"`
+	PluginHttpPasswd        string            `ini:"plugin_http_passwd,omitempty" http_proxy:"true" static_file:"true"`
+	PluginUser              string            `ini:"plugin_user,omitempty" socks5:"true"`
+	PluginPasswd            string            `ini:"plugin_passwd,omitempty" socks5:"true"`
+	PluginLocalPath         string            `ini:"plugin_local_path,omitempty" static_file:"true"`
+	PluginStripPrefix       string            `ini:"plugin_strip_prefix,omitempty" static_file:"true"`
+	PluginUnixPath          string            `ini:"plugin_unix_path,omitempty" unix_domain_socket:"true"`
+	PluginHeaders           map[string]string `ini:"-" http2https:"true" https2https:"true" https2http:"true"`
 }
 
 // HealthCheckConf configures health checking. This can be useful for load
@@ -184,22 +208,23 @@ type HealthCheckConf struct {
 
 type Proxy struct {
 	BaseProxyConf     `ini:",extends"`
-	RemotePort        string `ini:"remote_port,omitempty" tcp:"true" udp:"true"`
-	Role              string `ini:"role,omitempty" stcp:"true" xtcp:"true" sudp:"true" visitor:"*"`
-	SK                string `ini:"sk,omitempty" stcp:"true" xtcp:"true" sudp:"true" visitor:"*"`
-	AllowUsers        string `ini:"allow_users,omitempty" stcp:"true" xtcp:"true" sudp:"true"`
-	ServerUser        string `ini:"server_user,omitempty" visitor:"*"`
-	ServerName        string `ini:"server_name,omitempty" visitor:"*"`
-	BindAddr          string `ini:"bind_addr,omitempty" visitor:"*"`
-	BindPort          string `ini:"bind_port,omitempty" visitor:"*"`
-	CustomDomains     string `ini:"custom_domains,omitempty" http:"true" https:"true" tcpmux:"true"`
-	SubDomain         string `ini:"subdomain,omitempty" http:"true" https:"true" tcpmux:"true"`
-	Locations         string `ini:"locations,omitempty" http:"true"`
-	HTTPUser          string `ini:"http_user,omitempty" http:"true" tcpmux:"true"`
-	HTTPPwd           string `ini:"http_pwd,omitempty" http:"true" tcpmux:"true"`
-	HostHeaderRewrite string `ini:"host_header_rewrite,omitempty" http:"true"`
-	Multiplexer       string `ini:"multiplexer,omitempty" tcpmux:"true"`
-	RouteByHTTPUser   string `ini:"route_by_http_user,omitempty" http:"true" tcpmux:"true"`
+	RemotePort        string            `ini:"remote_port,omitempty" tcp:"true" udp:"true"`
+	Role              string            `ini:"role,omitempty" stcp:"true" xtcp:"true" sudp:"true" visitor:"*"`
+	SK                string            `ini:"sk,omitempty" stcp:"true" xtcp:"true" sudp:"true" visitor:"*"`
+	AllowUsers        string            `ini:"allow_users,omitempty" stcp:"true" xtcp:"true" sudp:"true"`
+	ServerUser        string            `ini:"server_user,omitempty" visitor:"*"`
+	ServerName        string            `ini:"server_name,omitempty" visitor:"*"`
+	BindAddr          string            `ini:"bind_addr,omitempty" visitor:"*"`
+	BindPort          string            `ini:"bind_port,omitempty" visitor:"*"`
+	CustomDomains     string            `ini:"custom_domains,omitempty" http:"true" https:"true" tcpmux:"true"`
+	SubDomain         string            `ini:"subdomain,omitempty" http:"true" https:"true" tcpmux:"true"`
+	Locations         string            `ini:"locations,omitempty" http:"true"`
+	HTTPUser          string            `ini:"http_user,omitempty" http:"true" tcpmux:"true"`
+	HTTPPwd           string            `ini:"http_pwd,omitempty" http:"true" tcpmux:"true"`
+	HostHeaderRewrite string            `ini:"host_header_rewrite,omitempty" http:"true"`
+	Headers           map[string]string `ini:"-" http:"true"`
+	Multiplexer       string            `ini:"multiplexer,omitempty" tcpmux:"true"`
+	RouteByHTTPUser   string            `ini:"route_by_http_user,omitempty" http:"true" tcpmux:"true"`
 	// "kcp" or "quic"
 	Protocol          string `ini:"protocol,omitempty" visitor:"xtcp"`
 	KeepTunnelOpen    bool   `ini:"keep_tunnel_open,omitempty" visitor:"xtcp"`
@@ -247,9 +272,6 @@ func (p *Proxy) Marshal() ([]byte, error) {
 	}
 	if err = tp.ReflectFrom(p); err != nil {
 		return nil, err
-	}
-	for k, v := range p.Custom {
-		tp.Key(k).SetValue(v)
 	}
 	proxyBuffer := bytes.NewBuffer(nil)
 	if _, err = cfg.WriteTo(proxyBuffer); err != nil {
@@ -361,8 +383,11 @@ func (conf *ClientConfig) Save(path string) error {
 	if err = common.ReflectFrom(&conf.ClientCommon); err != nil {
 		return err
 	}
-	for k, v := range conf.ClientCommon.Custom {
-		common.Key(k).SetValue(v)
+	for k, v := range conf.ClientCommon.Metas {
+		common.Key("meta_" + k).SetValue(v)
+	}
+	for k, v := range conf.OIDCAdditionalEndpointParams {
+		common.Key("oidc_additional_" + k).SetValue(v)
 	}
 	for _, proxy := range conf.Proxies {
 		p, err := cfg.NewSection(proxy.Name)
@@ -372,8 +397,14 @@ func (conf *ClientConfig) Save(path string) error {
 		if err = p.ReflectFrom(&proxy); err != nil {
 			return err
 		}
-		for k, v := range proxy.Custom {
-			p.Key(k).SetValue(v)
+		for k, v := range proxy.Metas {
+			p.Key("meta_" + k).SetValue(v)
+		}
+		for k, v := range proxy.Headers {
+			p.Key("header_" + k).SetValue(v)
+		}
+		for k, v := range proxy.PluginHeaders {
+			p.Key("plugin_header_" + k).SetValue(v)
 		}
 	}
 	return cfg.SaveTo(path)
@@ -386,6 +417,8 @@ func (conf *ClientConfig) Complete(read bool) {
 		conf.AdminUser = ""
 		conf.AdminPwd = ""
 		conf.AssetsDir = ""
+		conf.AdminTLS = v1.TLSConfig{}
+		conf.PprofEnable = false
 	}
 	conf.AutoDelete = conf.AutoDelete.Complete()
 	if !conf.TCPMux {
@@ -461,12 +494,9 @@ func NewProxyFromIni(name string, section *ini.Section) (*Proxy, error) {
 	if err := section.MapTo(&proxy); err != nil {
 		return nil, err
 	}
-	proxy.Custom = make(map[string]string)
-	for _, key := range section.Keys() {
-		if util.GetFieldNameByTag(Proxy{}, "ini", key.Name()) == "" {
-			proxy.Custom[key.Name()] = key.String()
-		}
-	}
+	proxy.Metas = util.GetMapWithoutPrefix(section.KeysHash(), "meta_")
+	proxy.Headers = util.GetMapWithoutPrefix(section.KeysHash(), "header_")
+	proxy.PluginHeaders = util.GetMapWithoutPrefix(section.KeysHash(), "plugin_header_")
 	return proxy, nil
 }
 
@@ -519,13 +549,8 @@ func UnmarshalClientConfFromIni(source interface{}) (*ClientConfig, error) {
 	if err = common.MapTo(&conf.ClientCommon); err != nil {
 		return nil, err
 	}
-	// Load unparsed options
-	conf.ClientCommon.Custom = make(map[string]string)
-	for _, key := range common.Keys() {
-		if util.GetFieldNameByTag(ClientCommon{}, "ini", key.Name()) == "" {
-			conf.ClientCommon.Custom[key.Name()] = key.String()
-		}
-	}
+	conf.Metas = util.GetMapWithoutPrefix(common.KeysHash(), "meta_")
+	conf.OIDCAdditionalEndpointParams = util.GetMapWithoutPrefix(common.KeysHash(), "oidc_additional_")
 	// Load all proxies
 	for _, section := range cfg.Sections() {
 		name := section.Name()
@@ -542,15 +567,48 @@ func UnmarshalClientConfFromIni(source interface{}) (*ClientConfig, error) {
 	return conf, nil
 }
 
+func UnmarshalClientConf(source interface{}) (*ClientConfig, error) {
+	var cfg ClientConfigV1
+	var b []byte
+	var err error
+	if path, ok := source.(string); ok {
+		b, err = os.ReadFile(path)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		b = source.([]byte)
+	}
+	if config.DetectLegacyINIFormat(b) {
+		return UnmarshalClientConfFromIni(source)
+	}
+	if err = config.LoadConfigure(b, &cfg, false); err != nil {
+		return nil, err
+	}
+	var r ClientConfig
+	r.ClientCommon = ClientCommonFromV1(cfg.ClientCommonConfig)
+	r.ManualStart = cfg.Internal.ManualStart
+	r.SVCBEnable = cfg.Internal.SVCBEnable
+	r.AutoDelete = cfg.Internal.AutoDelete
+	for _, v := range cfg.Proxies {
+		r.Proxies = append(r.Proxies, ClientProxyFromV1(v))
+	}
+	for _, v := range cfg.Visitors {
+		r.Proxies = append(r.Proxies, ClientVisitorFromV1(v))
+	}
+	return &r, nil
+}
+
 func NewDefaultClientConfig() *ClientConfig {
 	return &ClientConfig{
 		ClientCommon: ClientCommon{
-			ClientAuth: ClientAuth{AuthMethod: consts.AuthToken},
-			ServerPort: "7000",
-			LogLevel:   "info",
-			TCPMux:     true,
-			TLSEnable:  true,
-			AutoDelete: AutoDelete{DeleteMethod: consts.DeleteRelative},
+			ClientAuth:                ClientAuth{AuthMethod: consts.AuthToken},
+			ServerPort:                "7000",
+			LogLevel:                  "info",
+			TCPMux:                    true,
+			TLSEnable:                 true,
+			DisableCustomTLSFirstByte: true,
+			AutoDelete:                AutoDelete{DeleteMethod: consts.DeleteRelative},
 		},
 		Proxies: make([]*Proxy, 0),
 	}

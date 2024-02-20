@@ -455,6 +455,11 @@
             "translation": "Dirección de token"
         },
         {
+            "id": "Parameters",
+            "message": "Parameters",
+            "translation": "Parámetros"
+        },
+        {
             "id": "Authentication",
             "message": "Authentication",
             "translation": "Autenticación"
@@ -510,11 +515,6 @@
             "translation": "Dirección"
         },
         {
-            "id": "Admin Port",
-            "message": "Admin Port",
-            "translation": "Puerto"
-        },
-        {
             "id": "Password",
             "message": "Password",
             "translation": "Clave"
@@ -528,6 +528,11 @@
             "id": "Select a local directory that the admin server will load resources from.",
             "message": "Select a local directory that the admin server will load resources from.",
             "translation": "Seleccione un directorio local desde el que el servidor de administración cargará los recursos."
+        },
+        {
+            "id": "Other Options",
+            "message": "Other Options",
+            "translation": "Otras opciones"
         },
         {
             "id": "Auto Delete",
@@ -578,6 +583,11 @@
             "id": "Pool Count",
             "message": "Pool Count",
             "translation": "Conectar cuenta"
+        },
+        {
+            "id": "UDP Packet Size",
+            "message": "UDP Packet Size",
+            "translation": "Tamaño del paquete UDP"
         },
         {
             "id": "Heartbeat",
@@ -665,6 +675,11 @@
             "translation": "Seleccionar archivo CA de confianza"
         },
         {
+            "id": "Disable custom first byte",
+            "message": "Disable custom first byte",
+            "translation": "Desactivar primer byte personalizado"
+        },
+        {
             "id": "Advanced",
             "message": "Advanced",
             "translation": "Avanzado"
@@ -685,11 +700,6 @@
             "translation": "Dirección de la fuente"
         },
         {
-            "id": "Other Options",
-            "message": "Other Options",
-            "translation": "Otras opciones"
-        },
-        {
             "id": "Exit after login failure",
             "message": "Exit after login failure",
             "translation": "Salir después de fallar el inicio de sesión"
@@ -700,9 +710,9 @@
             "translation": "Desactivar el inicio automático al arrancar"
         },
         {
-            "id": "Custom",
-            "message": "Custom",
-            "translation": "Disfraz"
+            "id": "Metadata",
+            "message": "Metadata",
+            "translation": "Metadatos"
         },
         {
             "id": "Experimental Features",
@@ -728,6 +738,11 @@
             "id": "Use server SVCB records",
             "message": "Use server SVCB records",
             "translation": "Usar registros SVCB del servidor"
+        },
+        {
+            "id": "Clear All",
+            "message": "Clear All",
+            "translation": "Limpiar todo"
         },
         {
             "id": "Config already exists",
@@ -853,6 +868,11 @@
             "id": "Locations",
             "message": "Locations",
             "translation": "Ruta URL"
+        },
+        {
+            "id": "Request headers",
+            "message": "Request headers",
+            "translation": "Solicitar encabezados"
         },
         {
             "id": "Multiplexer",
@@ -1333,6 +1353,11 @@
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "Copiar dirección de acceso"
+        },
+        {
+            "id": "This feature only supports text in INI or TOML format.",
+            "message": "This feature only supports text in INI or TOML format.",
+            "translation": "Esta función solo admite texto en formato INI o TOML."
         },
         {
             "id": "Delete proxy \"{Name}\"",

@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 
+	frpconfig "github.com/fatedier/frp/pkg/config"
+	"github.com/fatedier/frp/pkg/config/v1"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 
@@ -168,9 +170,9 @@ func (pv *ProxyView) createToolbar() ToolBar {
 					Action{
 						AssignTo: &pv.vpnAction,
 						Text:     "OpenVPN",
-						Image:    loadSysIcon("shell32", consts.IconVpn, 16),
+						Image:    loadSysIcon("shell32", consts.IconLock, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewSimpleProxyDialog("OpenVPN", loadSysIcon("shell32", consts.IconVpn, 32),
+							pv.onQuickAdd(NewSimpleProxyDialog("OpenVPN", loadSysIcon("shell32", consts.IconLock, 32),
 								"openvpn", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, ":1194"))
 						},
 					},
@@ -372,9 +374,31 @@ func (pv *ProxyView) onClipboardImport() {
 	if err != nil || strings.TrimSpace(text) == "" {
 		return
 	}
-	proxy, err := config.UnmarshalProxyFromIni([]byte(text))
+	var proxy *config.Proxy
+	if strings.HasPrefix(text, "[[proxies]]") {
+		var proxies struct {
+			C []v1.TypedProxyConfig `json:"proxies"`
+		}
+		if err = frpconfig.LoadConfigure([]byte(text), &proxies, false); err == nil && len(proxies.C) > 0 {
+			proxy = config.ClientProxyFromV1(proxies.C[0])
+		}
+	} else if strings.HasPrefix(text, "[[visitors]]") {
+		var visitors struct {
+			C []v1.TypedVisitorConfig `json:"visitors"`
+		}
+		if err = frpconfig.LoadConfigure([]byte(text), &visitors, false); err == nil && len(visitors.C) > 0 {
+			proxy = config.ClientVisitorFromV1(visitors.C[0])
+		}
+	} else if strings.HasPrefix(text, "[") {
+		proxy, err = config.UnmarshalProxyFromIni([]byte(text))
+	} else {
+		err = fmt.Errorf(i18n.Sprintf("This feature only supports text in INI or TOML format."))
+	}
 	if err != nil {
 		showError(err, pv.Form())
+		return
+	}
+	if proxy == nil {
 		return
 	}
 	pv.onEdit(false, proxy)

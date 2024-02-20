@@ -29,7 +29,7 @@ func TestUnmarshalClientConfFromIni(t *testing.T) {
 	expected.ServerPort = "7001"
 	expected.Token = "123456"
 	expected.ManualStart = true
-	expected.Custom = map[string]string{"meta_1": "value"}
+	expected.Metas = map[string]string{"1": "value"}
 	expected.DeleteMethod = "absolute"
 	expected.DeleteAfterDate = time.Date(2023, 3, 23, 0, 0, 0, 0, time.UTC)
 	expected.Proxies = append(expected.Proxies, &Proxy{
@@ -38,7 +38,7 @@ func TestUnmarshalClientConfFromIni(t *testing.T) {
 			Type:      "tcp",
 			LocalIP:   "192.168.1.1",
 			LocalPort: "22",
-			Custom:    map[string]string{"meta_2": "value"},
+			Metas:     map[string]string{"2": "value"},
 		},
 		RemotePort: "6000",
 	})
