@@ -70,6 +70,7 @@ type TableView struct {
 	SelectionHiddenWithoutFocus bool
 	StyleCell                   func(style *walk.CellStyle)
 	LayoutItem                  func() walk.LayoutItem
+	Editable                    bool
 }
 
 type tvStyler struct {
@@ -99,9 +100,9 @@ func (tv TableView) Create(builder *Builder) error {
 	var w *walk.TableView
 	var err error
 	if tv.NotSortableByHeaderClick {
-		w, err = walk.NewTableViewWithCfg(builder.Parent(), &walk.TableViewCfg{Style: win.LVS_NOSORTHEADER, LayoutItem: tv.LayoutItem})
+		w, err = walk.NewTableViewWithCfg(builder.Parent(), &walk.TableViewCfg{Style: win.LVS_NOSORTHEADER, LayoutItem: tv.LayoutItem, Editable: tv.Editable})
 	} else {
-		w, err = walk.NewTableViewWithCfg(builder.Parent(), &walk.TableViewCfg{CustomHeaderHeight: tv.CustomHeaderHeight, CustomRowHeight: tv.CustomRowHeight, LayoutItem: tv.LayoutItem})
+		w, err = walk.NewTableViewWithCfg(builder.Parent(), &walk.TableViewCfg{CustomHeaderHeight: tv.CustomHeaderHeight, CustomRowHeight: tv.CustomRowHeight, LayoutItem: tv.LayoutItem, Editable: tv.Editable})
 	}
 	if err != nil {
 		return err

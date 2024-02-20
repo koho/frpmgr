@@ -26,6 +26,7 @@ var (
 	tableViewFrozenLVWndProcPtr uintptr
 	tableViewNormalLVWndProcPtr uintptr
 	tableViewHdrWndProcPtr      uintptr
+	editBoxWndProcPtr           uintptr
 )
 
 func init() {
@@ -34,6 +35,7 @@ func init() {
 		tableViewFrozenLVWndProcPtr = syscall.NewCallback(tableViewFrozenLVWndProc)
 		tableViewNormalLVWndProcPtr = syscall.NewCallback(tableViewNormalLVWndProc)
 		tableViewHdrWndProcPtr = syscall.NewCallback(tableViewHdrWndProc)
+		editBoxWndProcPtr = syscall.NewCallback(editBoxWndProc)
 	})
 }
 
@@ -47,6 +49,7 @@ type TableViewCfg struct {
 	CustomHeaderHeight int // in native pixels?
 	CustomRowHeight    int // in native pixels?
 	LayoutItem         func() LayoutItem
+	Editable           bool
 }
 
 // TableView is a model based widget for record centric, tabular data.
@@ -63,6 +66,7 @@ type TableView struct {
 	hwndNormalHdr                      win.HWND
 	normalLVOrigWndProcPtr             uintptr
 	normalHdrOrigWndProcPtr            uintptr
+	editBoxOrigWndProcPtr              uintptr
 	state                              *tableViewState
 	columns                            *TableViewColumnList
 	model                              TableModel
@@ -85,6 +89,7 @@ type TableView struct {
 	selectedIndexes                    []int
 	prevIndex                          int
 	currentIndex                       int
+	editIndex, editSubIndex            int
 	itemIndexOfLastMouseButtonDown     int
 	hwndItemChanged                    win.HWND
 	currentIndexChangedPublisher       EventPublisher
@@ -129,6 +134,8 @@ type TableView struct {
 	currentItemID                      interface{}
 	restoringCurrentItemOnReset        bool
 	layoutItem                         func() LayoutItem
+	editable                           bool
+	hwndEdit                           win.HWND
 }
 
 // NewTableView creates and returns a *TableView as child of the specified
@@ -155,6 +162,9 @@ func NewTableViewWithCfg(parent Container, cfg *TableViewCfg) (*TableView, error
 		scrollbarOrientation:        Horizontal | Vertical,
 		restoringCurrentItemOnReset: true,
 		layoutItem:                  cfg.LayoutItem,
+		editable:                    cfg.Editable,
+		editIndex:                   -1,
+		editSubIndex:                -1,
 	}
 
 	tv.columns = newTableViewColumnList(tv)
@@ -342,6 +352,11 @@ func (tv *TableView) Dispose() {
 	tv.columns.unsetColumnsTV()
 
 	tv.disposeImageListAndCaches()
+
+	if tv.hwndEdit != 0 {
+		win.DestroyWindow(tv.hwndEdit)
+		tv.hwndEdit = 0
+	}
 
 	if tv.hWnd != 0 {
 		if !win.KillTimer(tv.hWnd, tableViewCurrentIndexChangedTimerId) {
@@ -735,6 +750,11 @@ func (tv *TableView) attachModel() {
 			tv.SetCurrentIndex(-1)
 		}
 
+		if tv.hwndEdit != 0 {
+			win.DestroyWindow(tv.hwndEdit)
+			tv.hwndEdit = 0
+		}
+
 		tv.itemCountChangedPublisher.Publish()
 	})
 
@@ -763,6 +783,16 @@ func (tv *TableView) attachModel() {
 			tv.SetCurrentIndex(i)
 		}
 
+		if tv.hwndEdit != 0 {
+			win.DestroyWindow(tv.hwndEdit)
+			tv.hwndEdit = 0
+		}
+		if tv.editable {
+			var act win.NMITEMACTIVATE
+			act.Hdr.Code = win.LVN_ITEMACTIVATE
+			act.IItem = int32(to)
+			win.SendMessage(tv.hwndNormalLV, win.WM_NOTIFY, 0, uintptr(unsafe.Pointer(&act)))
+		}
 		tv.itemCountChangedPublisher.Publish()
 	})
 
@@ -781,6 +811,11 @@ func (tv *TableView) attachModel() {
 
 		if index != i {
 			tv.SetCurrentIndex(index)
+		}
+
+		if tv.hwndEdit != 0 {
+			win.DestroyWindow(tv.hwndEdit)
+			tv.hwndEdit = 0
 		}
 
 		tv.itemCountChangedPublisher.Publish()
@@ -1961,6 +1996,16 @@ func (tv *TableView) lvWndProc(origWndProcPtr uintptr, hwnd win.HWND, msg uint32
 	var maybeStretchLastColumn bool
 
 	switch msg {
+	case win.WM_CLOSE:
+		// Prevent table view from disappearing after pressing ESC in an edit box
+		return 0
+	case win.WM_HSCROLL, win.WM_VSCROLL, win.WM_MOUSEWHEEL:
+		// Prevent graphical glitches with the edit box
+		var nmh win.NMHDR
+		nmh.Code = win.NM_RETURN
+		nmh.IdFrom = 0
+		nmh.HwndFrom = hwnd
+		win.SendMessage(hwnd, win.WM_NOTIFY, nmh.IdFrom, uintptr(unsafe.Pointer(&nmh)))
 	case win.WM_ERASEBKGND:
 		maybeStretchLastColumn = true
 
@@ -1989,7 +2034,7 @@ func (tv *TableView) lvWndProc(origWndProcPtr uintptr, hwnd win.HWND, msg uint32
 			if tv.MultiSelection() {
 				tv.publishNextSelClear = true
 			} else {
-				if tv.CheckBoxes() {
+				if tv.CheckBoxes() || tv.editable {
 					if tv.currentIndex > -1 {
 						tv.SetCurrentIndex(-1)
 					}
@@ -2422,10 +2467,68 @@ func (tv *TableView) lvWndProc(origWndProcPtr uintptr, hwnd win.HWND, msg uint32
 				tv.currentItemChangedPublisher.Publish()
 			}
 
+			if tv.editable && tv.hwndEdit == 0 {
+				var rect = win.RECT{
+					Left: win.LVIR_LABEL,
+					Top:  nmia.ISubItem,
+				}
+				if win.SendMessage(hwnd, win.LVM_GETSUBITEMRECT, uintptr(nmia.IItem), uintptr(unsafe.Pointer(&rect))) != 0 {
+					var text string
+					if format := tv.columns.items[nmia.ISubItem].formatFunc; format != nil {
+						text = format(tv.model.Value(int(nmia.IItem), int(nmia.ISubItem)))
+					}
+					tv.hwndEdit = win.CreateWindowEx(0, syscall.StringToUTF16Ptr("EDIT"), syscall.StringToUTF16Ptr(text),
+						win.WS_BORDER|win.WS_CHILD|win.WS_VISIBLE|win.ES_AUTOHSCROLL|win.ES_LEFT|win.ES_MULTILINE|win.ES_WANTRETURN,
+						rect.Left, rect.Top, rect.Right-rect.Left, rect.Bottom-rect.Top,
+						hwnd, 0, win.GetModuleHandle(nil), nil)
+					if tv.hwndEdit != 0 {
+						tv.editIndex = int(nmia.IItem)
+						tv.editSubIndex = int(nmia.ISubItem)
+						hFont := uintptr(tv.parent.Font().handleForDPI(tv.DPI()))
+						win.SendMessage(tv.hwndEdit, win.WM_SETFONT, hFont, 0)
+						win.SendMessage(tv.hwndEdit, win.EM_SETSEL, 0, ^uintptr(0))
+						win.SetFocus(tv.hwndEdit)
+						tv.editBoxOrigWndProcPtr = win.SetWindowLongPtr(tv.hwndEdit, win.GWLP_WNDPROC, editBoxWndProcPtr)
+					}
+				}
+			}
+
 			tv.itemActivatedPublisher.Publish()
 
 		case win.HDN_ITEMCHANGING:
 			tv.updateLVSizes()
+			if tv.hwndEdit != 0 {
+				var rect = win.RECT{
+					Left: win.LVIR_LABEL,
+					Top:  int32(tv.editSubIndex),
+				}
+				if win.SendMessage(hwnd, win.LVM_GETSUBITEMRECT, uintptr(tv.editIndex), uintptr(unsafe.Pointer(&rect))) != 0 {
+					win.MoveWindow(tv.hwndEdit, rect.Left, rect.Top, rect.Right-rect.Left, rect.Bottom-rect.Top, true)
+					win.RedrawWindow(tv.hwndEdit, nil, 0, win.RDW_ERASE|win.RDW_INVALIDATE|win.RDW_UPDATENOW)
+				}
+			}
+		case win.NM_CLICK, win.NM_RETURN:
+			if tv.hwndEdit != 0 {
+				text := ""
+				charCnt := win.SendMessage(tv.hwndEdit, win.WM_GETTEXTLENGTH, 0, 0)
+				if charCnt > 0 {
+					charCnt++
+					buf := make([]byte, charCnt*2)
+					win.SendMessage(tv.hwndEdit, win.WM_GETTEXT, charCnt, uintptr(unsafe.Pointer(&buf[0])))
+					sh := (*reflect.SliceHeader)(unsafe.Pointer(&buf))
+					sh.Len = int(charCnt)
+					sh.Cap = sh.Len
+					text = syscall.UTF16ToString(*(*[]uint16)(unsafe.Pointer(sh)))
+				}
+				mv := reflect.ValueOf(tv.model.Value(tv.editIndex, tv.editSubIndex))
+				if mv.Kind() == reflect.Pointer {
+					if e := mv.Elem(); e.CanSet() {
+						e.SetString(text)
+					}
+				}
+				win.DestroyWindow(tv.hwndEdit)
+				tv.hwndEdit = 0
+			}
 		}
 
 	case win.WM_UPDATEUISTATE:
@@ -2487,6 +2590,32 @@ func (tv *TableView) lvWndProc(origWndProcPtr uintptr, hwnd win.HWND, msg uint32
 	}
 
 	return win.CallWindowProc(origWndProcPtr, hwnd, msg, wp, lp)
+}
+
+func editBoxWndProc(hwnd win.HWND, msg uint32, wp, lp uintptr) uintptr {
+	tv := (*TableView)(unsafe.Pointer(windowFromHandle(win.GetParent(win.GetParent(hwnd))).AsWindowBase()))
+	switch msg {
+	case win.WM_CHAR:
+		switch wp {
+		case win.VK_RETURN:
+			var nmh win.NMHDR
+			nmh.Code = win.NM_RETURN
+			nmh.IdFrom = 0
+			nmh.HwndFrom = hwnd
+			win.SendMessage(win.GetParent(hwnd), win.WM_NOTIFY, nmh.IdFrom, uintptr(unsafe.Pointer(&nmh)))
+			return 0
+		case win.VK_ESCAPE:
+			win.DestroyWindow(hwnd)
+			tv.hwndEdit = 0
+			return 0
+		}
+	case win.WM_NCDESTROY:
+		// Restore original function during destruction
+		if tv.editBoxOrigWndProcPtr != 0 {
+			win.SetWindowLongPtr(hwnd, win.GWLP_WNDPROC, tv.editBoxOrigWndProcPtr)
+		}
+	}
+	return win.CallWindowProc(tv.editBoxOrigWndProcPtr, hwnd, msg, wp, lp)
 }
 
 func tableViewHdrWndProc(hwnd win.HWND, msg uint32, wp, lp uintptr) uintptr {
@@ -2680,6 +2809,9 @@ func (tv *TableView) WndProc(hwnd win.HWND, msg uint32, wp, lp uintptr) uintptr 
 		// clean-up code in the WM_NCDESTROY handlers of some windows from
 		// being called. To fix this, we restore the original window
 		// procedures here.
+		if tv.editBoxOrigWndProcPtr != 0 && tv.hwndEdit != 0 {
+			win.SetWindowLongPtr(tv.hwndEdit, win.GWLP_WNDPROC, tv.editBoxOrigWndProcPtr)
+		}
 		if tv.frozenHdrOrigWndProcPtr != 0 {
 			win.SetWindowLongPtr(tv.hwndFrozenHdr, win.GWLP_WNDPROC, tv.frozenHdrOrigWndProcPtr)
 		}
