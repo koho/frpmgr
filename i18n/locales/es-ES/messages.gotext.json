@@ -167,6 +167,31 @@
             "translation": "Cancelar"
         },
         {
+            "id": "Name",
+            "message": "Name",
+            "translation": "Nombre"
+        },
+        {
+            "id": "Value",
+            "message": "Value",
+            "translation": "Valorizar"
+        },
+        {
+            "id": "Add",
+            "message": "Add",
+            "translation": "Agregar"
+        },
+        {
+            "id": "Delete",
+            "message": "Delete",
+            "translation": "Borrar"
+        },
+        {
+            "id": "Clear All",
+            "message": "Clear All",
+            "translation": "Limpiar todo"
+        },
+        {
             "id": "Configuration",
             "message": "Configuration",
             "translation": "Configuración"
@@ -265,11 +290,6 @@
             "id": "Export All Configs to ZIP",
             "message": "Export All Configs to ZIP",
             "translation": "Exportar todas las configuraciones a ZIP"
-        },
-        {
-            "id": "Delete",
-            "message": "Delete",
-            "translation": "Borrar"
         },
         {
             "id": "New Config",
@@ -388,11 +408,6 @@
             "id": "Basic",
             "message": "Basic",
             "translation": "Básico"
-        },
-        {
-            "id": "Name",
-            "message": "Name",
-            "translation": "Nombre"
         },
         {
             "id": "Server Address",
@@ -720,16 +735,6 @@
             "translation": "Características experimentales"
         },
         {
-            "id": "Custom Options",
-            "message": "Custom Options",
-            "translation": "Opciones personalizadas"
-        },
-        {
-            "id": "* Refer to the [common] section of the FRP configuration file.",
-            "message": "* Refer to the [common] section of the FRP configuration file.",
-            "translation": "* Consulte la sección [common] del archivo de configuración de FRP."
-        },
-        {
             "id": "* The following features may affect the stability of the service.",
             "message": "* The following features may affect the stability of the service.",
             "translation": "* Las siguientes características pueden afectar la estabilidad del servicio."
@@ -738,11 +743,6 @@
             "id": "Use server SVCB records",
             "message": "Use server SVCB records",
             "translation": "Usar registros SVCB del servidor"
-        },
-        {
-            "id": "Clear All",
-            "message": "Clear All",
-            "translation": "Limpiar todo"
         },
         {
             "id": "Config already exists",
@@ -1045,11 +1045,6 @@
             "translation": "Intervalo"
         },
         {
-            "id": "* Refer to the parameters supported by FRP.",
-            "message": "* Refer to the parameters supported by FRP.",
-            "translation": "* Consulte los parámetros admitidos por FRP."
-        },
-        {
             "id": "Proxy already exists",
             "message": "Proxy already exists",
             "translation": "El proxy ya existe"
@@ -1083,11 +1078,6 @@
             "id": "Item",
             "message": "Item",
             "translation": "Ítem"
-        },
-        {
-            "id": "Value",
-            "message": "Value",
-            "translation": "Valorizar"
         },
         {
             "id": "NAT Type",
@@ -1208,11 +1198,6 @@
             "id": "Local Directory",
             "message": "Local Directory",
             "translation": "Directorio local"
-        },
-        {
-            "id": "Add",
-            "message": "Add",
-            "translation": "Agregar"
         },
         {
             "id": "Port",

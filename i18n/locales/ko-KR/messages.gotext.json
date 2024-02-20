@@ -167,6 +167,31 @@
             "translation": "취소"
         },
         {
+            "id": "Name",
+            "message": "Name",
+            "translation": "이름"
+        },
+        {
+            "id": "Value",
+            "message": "Value",
+            "translation": "값"
+        },
+        {
+            "id": "Add",
+            "message": "Add",
+            "translation": "추가하다"
+        },
+        {
+            "id": "Delete",
+            "message": "Delete",
+            "translation": "삭제"
+        },
+        {
+            "id": "Clear All",
+            "message": "Clear All",
+            "translation": "모두 지우기"
+        },
+        {
             "id": "Configuration",
             "message": "Configuration",
             "translation": "구성"
@@ -265,11 +290,6 @@
             "id": "Export All Configs to ZIP",
             "message": "Export All Configs to ZIP",
             "translation": "모든 구성을 ZIP 으로 내보내기"
-        },
-        {
-            "id": "Delete",
-            "message": "Delete",
-            "translation": "삭제"
         },
         {
             "id": "New Config",
@@ -388,11 +408,6 @@
             "id": "Basic",
             "message": "Basic",
             "translation": "기초적인"
-        },
-        {
-            "id": "Name",
-            "message": "Name",
-            "translation": "이름"
         },
         {
             "id": "Server Address",
@@ -720,16 +735,6 @@
             "translation": "실험적 기능"
         },
         {
-            "id": "Custom Options",
-            "message": "Custom Options",
-            "translation": "사용자 지정 옵션"
-        },
-        {
-            "id": "* Refer to the [common] section of the FRP configuration file.",
-            "message": "* Refer to the [common] section of the FRP configuration file.",
-            "translation": "* FRP 설정 파일의 [common] 부분을 참고하세요."
-        },
-        {
             "id": "* The following features may affect the stability of the service.",
             "message": "* The following features may affect the stability of the service.",
             "translation": "* 다음 기능은 서비스의 안정성에 영향을 미칠 수 있습니다."
@@ -738,11 +743,6 @@
             "id": "Use server SVCB records",
             "message": "Use server SVCB records",
             "translation": "서버 SVCB 기록 사용"
-        },
-        {
-            "id": "Clear All",
-            "message": "Clear All",
-            "translation": "모두 지우기"
         },
         {
             "id": "Config already exists",
@@ -1045,11 +1045,6 @@
             "translation": "간격"
         },
         {
-            "id": "* Refer to the parameters supported by FRP.",
-            "message": "* Refer to the parameters supported by FRP.",
-            "translation": "* FRP 에서 지원하는 매개변수를 참조하십시오."
-        },
-        {
             "id": "Proxy already exists",
             "message": "Proxy already exists",
             "translation": "프록시가 이미 있습니다."
@@ -1083,11 +1078,6 @@
             "id": "Item",
             "message": "Item",
             "translation": "안건"
-        },
-        {
-            "id": "Value",
-            "message": "Value",
-            "translation": "값"
         },
         {
             "id": "NAT Type",
@@ -1208,11 +1198,6 @@
             "id": "Local Directory",
             "message": "Local Directory",
             "translation": "로컬 디렉토리"
-        },
-        {
-            "id": "Add",
-            "message": "Add",
-            "translation": "추가하다"
         },
         {
             "id": "Port",

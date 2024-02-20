@@ -40,8 +40,6 @@ type EditClientDialog struct {
 type editClientBinder struct {
 	// Name of this config
 	Name string
-	// CustomText contains the user-defined parameters
-	CustomText string
 	// Common settings
 	config.ClientCommon
 }
@@ -61,7 +59,6 @@ func NewEditClientDialog(conf *Conf, name string) *EditClientDialog {
 	v.data = data
 	v.binder = &editClientBinder{
 		Name:         v.Conf.Name,
-		CustomText:   util.Map2String(data.Metas),
 		ClientCommon: v.data.ClientCommon,
 	}
 	if name != "" {
@@ -159,7 +156,9 @@ func (cd *EditClientDialog) authConfPage() TabPage {
 				Layout:  HBox{MarginsZero: true},
 				Children: []Widget{
 					LineEdit{Text: Bind("OIDCTokenEndpoint")},
-					ToolButton{Text: "#", ToolTipText: i18n.Sprintf("Parameters")},
+					ToolButton{Text: "#", ToolTipText: i18n.Sprintf("Parameters"), OnClicked: func() {
+						NewAttributeDialog(i18n.Sprintf("Parameters"), &cd.binder.OIDCAdditionalEndpointParams).Run(cd.Form())
+					}},
 				},
 			},
 			Label{Visible: Bind("!noAuthCheck.Checked"), Text: i18n.SprintfColon("Authentication")},
@@ -360,7 +359,7 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 							LinkLabel{
 								Text: fmt.Sprintf("<a>%s</a>", i18n.SprintfEllipsis("Metadata")),
 								OnLinkActivated: func(link *walk.LinkLabelLink) {
-									cd.customConfDialog().Run(cd.Form())
+									NewAttributeDialog(i18n.Sprintf("Metadata"), &cd.binder.Metas).Run(cd.Form())
 								},
 							},
 							LinkLabel{
@@ -377,30 +376,21 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 	}
 }
 
-func (cd *EditClientDialog) customConfDialog() Dialog {
-	customDialog := NewBasicDialog(nil, i18n.Sprintf("Custom Options"), cd.Icon(), DataBinder{DataSource: cd.binder}, nil,
-		Label{Text: i18n.Sprintf("* Refer to the [common] section of the FRP configuration file.")},
-		TextEdit{Text: Bind("CustomText"), VScroll: true},
-	)
-	customDialog.MinSize = Size{Width: 420, Height: 280}
-	return customDialog
-}
-
 func (cd *EditClientDialog) experimentDialog() Dialog {
-	expDialog := NewBasicDialog(nil, i18n.Sprintf("Experimental Features"),
+	dlg := NewBasicDialog(nil, i18n.Sprintf("Experimental Features"),
 		loadSysIcon("imageres", consts.IconExperiment, 32), DataBinder{DataSource: cd.binder}, nil,
 		Label{Text: i18n.Sprintf("* The following features may affect the stability of the service.")},
 		CheckBox{Checked: Bind("SVCBEnable"), Text: i18n.Sprintf("Use server SVCB records"), Alignment: AlignHNearVNear},
 		VSpacer{},
 	)
-	expDialog.MinSize = Size{Width: 300, Height: 180}
-	expDialog.FixedSize = true
-	return expDialog
+	dlg.MinSize = Size{Width: 300, Height: 180}
+	dlg.FixedSize = true
+	return dlg
 }
 
 func (cd *EditClientDialog) adminTLSDialog() Dialog {
 	var widgets [4]*walk.LineEdit
-	customDialog := NewBasicDialog(nil, "TLS",
+	dlg := NewBasicDialog(nil, "TLS",
 		loadSysIcon("shell32", consts.IconLock, 32),
 		DataBinder{DataSource: &cd.binder.AdminTLS}, nil,
 		Label{Text: i18n.SprintfColon("Host Name")},
@@ -416,16 +406,16 @@ func (cd *EditClientDialog) adminTLSDialog() Dialog {
 			i18n.Sprintf("Select Trusted CA File"), consts.FilterCert, true),
 		VSpacer{Size: 4},
 	)
-	customDialog.MinSize = Size{Width: 350}
-	customDialog.FixedSize = true
-	buttons := customDialog.Children[len(customDialog.Children)-1].(Composite)
+	dlg.MinSize = Size{Width: 350}
+	dlg.FixedSize = true
+	buttons := dlg.Children[len(dlg.Children)-1].(Composite)
 	buttons.Children = append([]Widget{PushButton{Text: i18n.Sprintf("Clear All"), OnClicked: func() {
 		for _, widget := range widgets {
 			widget.SetText("")
 		}
 	}}}, buttons.Children...)
-	customDialog.Children[len(customDialog.Children)-1] = buttons
-	return customDialog
+	dlg.Children[len(dlg.Children)-1] = buttons
+	return dlg
 }
 
 func (cd *EditClientDialog) shutdownService(wait bool) error {
@@ -497,9 +487,7 @@ func (cd *EditClientDialog) onSave() {
 		cd.Added = true
 	}
 	cd.Conf.Name = newConf.Name
-	// The order matters
 	cd.data.ClientCommon = newConf.ClientCommon
-	cd.data.Metas = util.String2Map(newConf.CustomText)
 	cd.Accept()
 }
 
