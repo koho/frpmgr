@@ -1,13 +1,13 @@
 package ui
 
 import (
+	"slices"
 	"sort"
 	"sync"
 	"time"
 
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
-	"github.com/thoas/go-funk"
 
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/util"
@@ -193,14 +193,14 @@ func (lp *LogPage) onVisibleChanged() {
 		}
 		// Switch to current config log first
 		if conf := getCurrentConf(); conf != nil {
-			if i := funk.IndexOf(lp.nameModel.items, func(c *Conf) bool { return c.Name == conf.Name }); i >= 0 {
+			if i := slices.IndexFunc(lp.nameModel.items, func(c *Conf) bool { return c.Name == conf.Name }); i >= 0 {
 				lp.nameView.SetCurrentIndex(i)
 				return
 			}
 		}
 		// Select previous config log
 		if preName != "" {
-			if i := funk.IndexOf(lp.nameModel.items, func(c *Conf) bool { return c.Name == preName }); i >= 0 {
+			if i := slices.IndexFunc(lp.nameModel.items, func(c *Conf) bool { return c.Name == preName }); i >= 0 {
 				lp.nameView.SetCurrentIndex(i)
 				return
 			}

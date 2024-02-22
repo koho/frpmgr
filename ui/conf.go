@@ -3,10 +3,10 @@ package ui
 import (
 	"os"
 	"path/filepath"
+	"slices"
 	"sync"
 
 	"github.com/lxn/walk"
-	"github.com/thoas/go-funk"
 
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
@@ -146,7 +146,7 @@ func deleteConf(conf *Conf) bool {
 
 // Check whether a config exists with the given name
 func hasConf(name string) bool {
-	return funk.Contains(confList, func(e *Conf) bool { return e.Name == name })
+	return slices.ContainsFunc(confList, func(e *Conf) bool { return e.Name == name })
 }
 
 // ConfBinder is the view model of the current selected config

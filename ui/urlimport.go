@@ -10,7 +10,7 @@ import (
 
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
-	"github.com/thoas/go-funk"
+	"github.com/samber/lo"
 
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/consts"
@@ -83,8 +83,9 @@ func (ud *URLImportDialog) onImport() {
 		return
 	}
 	urls := strings.Split(ud.viewModel.URLs, "\n")
-	urls = funk.FilterString(funk.Map(urls, strings.TrimSpace).([]string), func(s string) bool {
-		return s != ""
+	urls = lo.FilterMap(urls, func(s string, i int) (string, bool) {
+		s = strings.TrimSpace(s)
+		return s, s != ""
 	})
 	if len(urls) == 0 {
 		showWarningMessage(ud.Form(),

@@ -1,11 +1,12 @@
 package ui
 
 import (
+	"slices"
 	"strings"
 
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
-	"github.com/thoas/go-funk"
+	"github.com/samber/lo"
 
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
@@ -125,7 +126,7 @@ func (pd *EditProxyDialog) View() Dialog {
 					Children: []Widget{
 						LineEdit{AssignTo: &pd.nameView, Text: Bind("Name", consts.ValidateNonEmpty)},
 						PushButton{Text: i18n.SprintfLSpace("Random"), Image: loadResourceIcon(consts.IconRefresh, 16), OnClicked: func() {
-							rs := funk.RandomString(8)
+							rs := lo.RandomString(8, lo.AlphanumericCharset)
 							if strings.HasPrefix(pd.nameView.Text(), consts.RangePrefix) {
 								rs = consts.RangePrefix + rs
 							}
@@ -158,9 +159,9 @@ func (pd *EditProxyDialog) View() Dialog {
 		},
 	)
 	dlg.Layout = VBox{Margins: Margins{Left: 7, Top: 9, Right: 7, Bottom: 9}}
-	minWidth := int(funk.Sum(funk.Map(pages, func(page TabPage) int {
+	minWidth := lo.Sum(lo.Map(pages, func(page TabPage, i int) int {
 		return calculateStringWidth(page.Title.(string)) + 20
-	})) + 20)
+	})) + 20
 	// Keep a better aspect ratio
 	if minWidth < 350 {
 		minWidth += 30
@@ -464,7 +465,7 @@ func (pd *EditProxyDialog) onSave() {
 
 func (pd *EditProxyDialog) hasProxy(name string) bool {
 	if conf := getCurrentConf(); conf != nil {
-		if funk.Contains(conf.Data.Items(), func(proxy *config.Proxy) bool { return proxy.Name == name }) {
+		if slices.ContainsFunc(conf.Data.Items().([]*config.Proxy), func(proxy *config.Proxy) bool { return proxy.Name == name }) {
 			showWarningMessage(pd.Form(), i18n.Sprintf("Proxy already exists"), i18n.Sprintf("The proxy name \"%s\" already exists.", name))
 			return true
 		}

@@ -12,7 +12,7 @@ import (
 
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
-	"github.com/thoas/go-funk"
+	"github.com/samber/lo"
 
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
@@ -311,7 +311,7 @@ checkName:
 	newPath := PathOfConf(baseName + ".conf")
 	if _, err := os.Stat(newPath); err == nil {
 		if rename {
-			suffix = "_" + funk.RandomString(4)
+			suffix = "_" + lo.RandomString(4, lo.AlphanumericCharset)
 			goto checkName
 		}
 		return newPath, false
@@ -534,10 +534,10 @@ func (cv *ConfView) onExport() {
 		dlg.FilePath += ".zip"
 	}
 
-	files := funk.Map(confList, func(conf *Conf) string {
+	files := lo.Map(confList, func(conf *Conf, i int) string {
 		return conf.Path
 	})
-	if err := util.ZipFiles(dlg.FilePath, files.([]string)); err != nil {
+	if err := util.ZipFiles(dlg.FilePath, files); err != nil {
 		showError(err, cv.Form())
 	}
 }
@@ -563,18 +563,18 @@ func (cv *ConfView) onNATDiscovery() {
 // reset config listview with selected name
 func (cv *ConfView) reset(selectName string) {
 	// Make sure `sel` is a valid index
-	sel := funk.MaxInt([]int{cv.listView.CurrentIndex(), 0})
+	sel := max(cv.listView.CurrentIndex(), 0)
 	// Refresh the whole config list
 	// The confList will be sorted
 	cv.model = NewConfListModel(confList)
 	cv.listView.SetModel(cv.model)
 	if selectName != "" {
-		if idx := funk.IndexOf(cv.model.items, func(conf *Conf) bool { return conf.Name == selectName }); idx >= 0 {
+		if idx := slices.IndexFunc(cv.model.items, func(conf *Conf) bool { return conf.Name == selectName }); idx >= 0 {
 			sel = idx
 		}
 	}
 	// Make sure the final selected index is valid
-	if selectIdx := funk.MinInt([]int{sel, len(cv.model.items) - 1}); selectIdx >= 0 {
+	if selectIdx := min(sel, len(cv.model.items)-1); selectIdx >= 0 {
 		cv.listView.SetCurrentIndex(selectIdx)
 	}
 }

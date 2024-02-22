@@ -9,7 +9,7 @@ import (
 
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
-	"github.com/thoas/go-funk"
+	"github.com/samber/lo"
 
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
@@ -94,9 +94,9 @@ func (cd *EditClientDialog) View() Dialog {
 		},
 	)
 	dlg.Layout = VBox{Margins: Margins{Left: 7, Top: 9, Right: 7, Bottom: 9}}
-	minWidth := int(funk.Sum(funk.Map(pages, func(page TabPage) int {
+	minWidth := lo.Sum(lo.Map(pages, func(page TabPage, i int) int {
 		return calculateStringWidth(page.Title.(string)) + 19
-	})) + 70)
+	})) + 70
 	dlg.MinSize = Size{Width: minWidth, Height: 380}
 	return dlg
 }
@@ -470,13 +470,13 @@ func (cd *EditClientDialog) onSave() {
 				// Rename old log files
 				// The service should be stopped first
 				cd.shutdownService(true)
-				util.RenameFiles(logs, funk.Map(funk.Zip(logs, dates), func(t funk.Tuple) string {
-					if t.Element2 == "" {
+				util.RenameFiles(logs, lo.Map(dates, func(item string, i int) string {
+					if item == "" {
 						return newConf.LogFile
 					} else {
-						return filepath.Join(filepath.Dir(newConf.LogFile), baseName+"."+t.Element2.(string)+ext)
+						return filepath.Join(filepath.Dir(newConf.LogFile), baseName+"."+item+ext)
 					}
-				}).([]string))
+				}))
 			}
 		}
 	} else if cd.hasConf(newConf.Name) {

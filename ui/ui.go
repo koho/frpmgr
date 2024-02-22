@@ -8,7 +8,7 @@ import (
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"github.com/lxn/win"
-	"github.com/thoas/go-funk"
+	"github.com/samber/lo"
 	"golang.org/x/sys/windows"
 
 	"github.com/koho/frpmgr/i18n"
@@ -202,11 +202,11 @@ func calculateHeadColumnTextWidth(widgets []Widget, columns int) int {
 
 // calculateStringWidth returns the estimated display width of the given string
 func calculateStringWidth(str string) int {
-	return int(funk.Sum(funk.Map(util.RuneSizeInString(str), func(s int) int {
+	return lo.Sum(lo.Map(util.RuneSizeInString(str), func(s int, i int) int {
 		// For better estimation, reduce size for non-ascii character
 		if s > 1 {
 			return s - 1
 		}
 		return s
-	})) * 6)
+	})) * 6
 }

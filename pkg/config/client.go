@@ -4,12 +4,13 @@ import (
 	"bytes"
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 
 	"github.com/fatedier/frp/pkg/config"
 	"github.com/fatedier/frp/pkg/config/v1"
 	frputil "github.com/fatedier/frp/pkg/util/util"
-	"github.com/thoas/go-funk"
+	"github.com/samber/lo"
 	"gopkg.in/ini.v1"
 
 	"github.com/koho/frpmgr/pkg/consts"
@@ -366,7 +367,7 @@ func (conf *ClientConfig) DeleteItem(index int) {
 
 func (conf *ClientConfig) AddItem(item interface{}) bool {
 	if proxy, ok := item.(*Proxy); ok {
-		if !funk.Contains(conf.Proxies, func(p *Proxy) bool { return p.Name == proxy.Name }) {
+		if !slices.ContainsFunc(conf.Proxies, func(p *Proxy) bool { return p.Name == proxy.Name }) {
 			conf.Proxies = append(conf.Proxies, proxy)
 			return true
 		}
@@ -444,7 +445,7 @@ func (conf *ClientConfig) Complete(read bool) {
 		proxy.Complete()
 		// Check proxy status
 		if read && len(conf.Start) > 0 {
-			proxy.Disabled = !funk.Subset(proxy.GetAlias(), conf.Start)
+			proxy.Disabled = !lo.Every(conf.Start, proxy.GetAlias())
 		}
 	}
 	if !read {
@@ -485,7 +486,7 @@ func (conf *ClientConfig) gatherStart() []string {
 
 // CountStart returns the number of enabled proxies.
 func (conf *ClientConfig) CountStart() int {
-	return len(funk.Filter(conf.Proxies, func(proxy *Proxy) bool { return !proxy.Disabled }).([]*Proxy))
+	return len(lo.Filter(conf.Proxies, func(proxy *Proxy, i int) bool { return !proxy.Disabled }))
 }
 
 // NewProxyFromIni creates a proxy object from ini section

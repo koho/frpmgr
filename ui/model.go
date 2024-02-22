@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/lxn/walk"
-	"github.com/thoas/go-funk"
+	"github.com/samber/lo"
 
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/util"
@@ -76,10 +76,10 @@ func NewProxyModel(conf *Conf) *ProxyModel {
 	m := new(ProxyModel)
 	m.conf = conf
 	m.data = conf.Data.(*config.ClientConfig)
-	m.items = funk.Map(m.data.Proxies, func(p *config.Proxy) ProxyItem {
+	m.items = lo.Map(m.data.Proxies, func(p *config.Proxy, i int) ProxyItem {
 		pi := ProxyItem{Proxy: p, DisplayLocalIP: p.LocalIP, DisplayLocalPort: p.LocalPort}
 		// Combine subdomain and custom domains to form a list of domains
-		pi.Domains = strings.Join(funk.FilterString([]string{p.SubDomain, p.CustomDomains}, func(s string) bool {
+		pi.Domains = strings.Join(lo.Filter([]string{p.SubDomain, p.CustomDomains}, func(s string, i int) bool {
 			return strings.TrimSpace(s) != ""
 		}), ",")
 		// Show bind address and server name for visitor
@@ -89,7 +89,7 @@ func NewProxyModel(conf *Conf) *ProxyModel {
 			pi.DisplayLocalPort = p.BindPort
 		}
 		return pi
-	}).([]ProxyItem)
+	})
 	return m
 }
 
