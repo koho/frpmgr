@@ -1,6 +1,6 @@
 module github.com/koho/frpmgr
 
-go 1.20
+go 1.21
 
 require (
 	github.com/fatedier/frp v0.54.0
@@ -65,4 +65,4 @@ require (
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
 
-replace github.com/lxn/walk => github.com/koho/frpmgr v0.0.0-20230706031048-8ce4b7425034
+replace github.com/lxn/walk => github.com/koho/frpmgr v0.0.0-20240220091212-e20ed8336c00

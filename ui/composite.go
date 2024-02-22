@@ -98,3 +98,58 @@ func AlignGrid(page TabPage, n int) TabPage {
 	page.Children[0] = head
 	return page
 }
+
+// NewAttributeTable returns a two-column table view. The first column is name and the second column is value.
+// It provides the ability to edit cells by double-clicking.
+func NewAttributeTable(m *AttributeModel, nameWidth, valueWidth int) Composite {
+	var tv *walk.TableView
+	fc := func(value interface{}) string {
+		return *value.(*string)
+	}
+	return Composite{
+		Layout: HBox{MarginsZero: true},
+		Children: []Widget{
+			TableView{
+				AssignTo: &tv,
+				Columns: []TableViewColumn{
+					{Title: i18n.Sprintf("Name"), Width: nameWidth, FormatFunc: fc},
+					{Title: i18n.Sprintf("Value"), Width: valueWidth, FormatFunc: fc},
+				},
+				Model:    m,
+				Editable: true,
+			},
+			Composite{
+				Layout: VBox{MarginsZero: true},
+				Children: []Widget{
+					PushButton{Text: i18n.Sprintf("Add"), OnClicked: func() {
+						m.Add("", "")
+					}},
+					PushButton{Text: i18n.Sprintf("Delete"), OnClicked: func() {
+						if i := tv.CurrentIndex(); i >= 0 {
+							m.Delete(i)
+						}
+					}},
+					VSpacer{Size: 16},
+					PushButton{Text: i18n.Sprintf("Clear All"), OnClicked: func() {
+						m.Clear()
+					}},
+					VSpacer{},
+				},
+			},
+		},
+	}
+}
+
+// NewAttributeDialog returns a dialog box with data displayed in the attribute table.
+func NewAttributeDialog(title string, data *map[string]string) Dialog {
+	var p *walk.Dialog
+	m := NewAttributeModel(*data)
+	dlg := NewBasicDialog(&p, title, loadSysIcon("shell32", consts.IconFile, 32), DataBinder{}, func() {
+		*data = m.AsMap()
+		p.Accept()
+	},
+		NewAttributeTable(m, 120, 120),
+	)
+	dlg.MinSize = Size{Width: 420, Height: 280}
+	return dlg
+}

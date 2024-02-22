@@ -63,6 +63,7 @@ const (
 	IconLanguage     = 89
 	IconNat          = 0
 	IconExperiment   = 106
+	IconFile         = 70
 )
 
 // Colors

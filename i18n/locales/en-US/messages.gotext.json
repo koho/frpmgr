@@ -217,6 +217,41 @@
             "fuzzy": true
         },
         {
+            "id": "Name",
+            "message": "Name",
+            "translation": "Name",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Value",
+            "message": "Value",
+            "translation": "Value",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Add",
+            "message": "Add",
+            "translation": "Add",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Delete",
+            "message": "Delete",
+            "translation": "Delete",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Clear All",
+            "message": "Clear All",
+            "translation": "Clear All",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Configuration",
             "message": "Configuration",
             "translation": "Configuration",
@@ -349,13 +384,6 @@
             "id": "Export All Configs to ZIP",
             "message": "Export All Configs to ZIP",
             "translation": "Export All Configs to ZIP",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Delete",
-            "message": "Delete",
-            "translation": "Delete",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -494,13 +522,6 @@
             "id": "Basic",
             "message": "Basic",
             "translation": "Basic",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Name",
-            "message": "Name",
-            "translation": "Name",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -960,20 +981,6 @@
             "fuzzy": true
         },
         {
-            "id": "Custom Options",
-            "message": "Custom Options",
-            "translation": "Custom Options",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "* Refer to the [common] section of the FRP configuration file.",
-            "message": "* Refer to the [common] section of the FRP configuration file.",
-            "translation": "* Refer to the [common] section of the FRP configuration file.",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "* The following features may affect the stability of the service.",
             "message": "* The following features may affect the stability of the service.",
             "translation": "* The following features may affect the stability of the service.",
@@ -984,13 +991,6 @@
             "id": "Use server SVCB records",
             "message": "Use server SVCB records",
             "translation": "Use server SVCB records",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Clear All",
-            "message": "Clear All",
-            "translation": "Clear All",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1407,13 +1407,6 @@
             "fuzzy": true
         },
         {
-            "id": "* Refer to the parameters supported by FRP.",
-            "message": "* Refer to the parameters supported by FRP.",
-            "translation": "* Refer to the parameters supported by FRP.",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "Proxy already exists",
             "message": "Proxy already exists",
             "translation": "Proxy already exists",
@@ -1455,13 +1448,6 @@
             "id": "Item",
             "message": "Item",
             "translation": "Item",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Value",
-            "message": "Value",
-            "translation": "Value",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1622,13 +1608,6 @@
             "id": "Local Directory",
             "message": "Local Directory",
             "translation": "Local Directory",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Add",
-            "message": "Add",
-            "translation": "Add",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

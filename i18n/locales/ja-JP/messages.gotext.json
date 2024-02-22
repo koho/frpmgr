@@ -167,6 +167,31 @@
             "translation": "キャンセル"
         },
         {
+            "id": "Name",
+            "message": "Name",
+            "translation": "名前"
+        },
+        {
+            "id": "Value",
+            "message": "Value",
+            "translation": "値"
+        },
+        {
+            "id": "Add",
+            "message": "Add",
+            "translation": "追加"
+        },
+        {
+            "id": "Delete",
+            "message": "Delete",
+            "translation": "削除"
+        },
+        {
+            "id": "Clear All",
+            "message": "Clear All",
+            "translation": "すべてクリア"
+        },
+        {
             "id": "Configuration",
             "message": "Configuration",
             "translation": "設定"
@@ -265,11 +290,6 @@
             "id": "Export All Configs to ZIP",
             "message": "Export All Configs to ZIP",
             "translation": "すべての設定をZIPにエクスポート"
-        },
-        {
-            "id": "Delete",
-            "message": "Delete",
-            "translation": "削除"
         },
         {
             "id": "New Config",
@@ -398,11 +418,6 @@
             "id": "Basic",
             "message": "Basic",
             "translation": "基本"
-        },
-        {
-            "id": "Name",
-            "message": "Name",
-            "translation": "名前"
         },
         {
             "id": "Server Address",
@@ -730,16 +745,6 @@
             "translation": "実験的な機能"
         },
         {
-            "id": "Custom Options",
-            "message": "Custom Options",
-            "translation": "カスタムオプション"
-        },
-        {
-            "id": "* Refer to the [common] section of the FRP configuration file.",
-            "message": "* Refer to the [common] section of the FRP configuration file.",
-            "translation": "* FRP 設定ファイルの [common] セクションを参照してください。"
-        },
-        {
             "id": "* The following features may affect the stability of the service.",
             "message": "* The following features may affect the stability of the service.",
             "translation": "* 以下の機能はサービスの安定性に影響を与える可能性があります。"
@@ -748,11 +753,6 @@
             "id": "Use server SVCB records",
             "message": "Use server SVCB records",
             "translation": "サーバーSVCBレコードを使用する"
-        },
-        {
-            "id": "Clear All",
-            "message": "Clear All",
-            "translation": "すべてクリア"
         },
         {
             "id": "Config already exists",
@@ -1055,11 +1055,6 @@
             "translation": "チェック間隔"
         },
         {
-            "id": "* Refer to the parameters supported by FRP.",
-            "message": "* Refer to the parameters supported by FRP.",
-            "translation": "* FRP 対応のパラメータをご参照ください。"
-        },
-        {
             "id": "Proxy already exists",
             "message": "Proxy already exists",
             "translation": "プロキシはすでに存在します"
@@ -1093,11 +1088,6 @@
             "id": "Item",
             "message": "Item",
             "translation": "項目"
-        },
-        {
-            "id": "Value",
-            "message": "Value",
-            "translation": "値"
         },
         {
             "id": "NAT Type",
@@ -1218,11 +1208,6 @@
             "id": "Local Directory",
             "message": "Local Directory",
             "translation": "フォルダ"
-        },
-        {
-            "id": "Add",
-            "message": "Add",
-            "translation": "追加"
         },
         {
             "id": "Port",

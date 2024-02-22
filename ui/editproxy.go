@@ -10,7 +10,6 @@ import (
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
-	"github.com/koho/frpmgr/pkg/util"
 	"github.com/koho/frpmgr/services"
 )
 
@@ -28,12 +27,12 @@ type EditProxyDialog struct {
 	dbs       [2]*walk.DataBinder
 	vmDB      *walk.DataBinder
 	viewModel proxyViewModel
+	metaModel *AttributeModel
 
 	// Views
 	nameView       *walk.LineEdit
 	localPortView  *walk.LineEdit
 	remotePortView *walk.LineEdit
-	customText     *walk.TextEdit
 	typeView       *walk.ComboBox
 	pluginView     *walk.ComboBox
 }
@@ -88,6 +87,7 @@ func NewEditProxyDialog(configName string, proxy *config.Proxy, visitors []strin
 	if v.Proxy.BandwidthLimitMode == "" {
 		v.binder.BandwidthLimitMode = consts.BandwidthMode[0]
 	}
+	v.metaModel = NewAttributeModel(v.binder.Metas)
 	return v
 }
 
@@ -98,7 +98,7 @@ func (pd *EditProxyDialog) View() Dialog {
 		pd.pluginProxyPage(),
 		pd.loadBalanceProxyPage(),
 		pd.healthCheckProxyPage(),
-		pd.customProxyPage(),
+		pd.metadataProxyPage(),
 	}
 	title := i18n.Sprintf("New Proxy")
 	if pd.exist && pd.Proxy.Name != "" {
@@ -214,7 +214,9 @@ func (pd *EditProxyDialog) basicProxyPage() TabPage {
 				Layout:  HBox{MarginsZero: true},
 				Children: []Widget{
 					LineEdit{Text: Bind("Locations")},
-					ToolButton{Text: "H", ToolTipText: i18n.Sprintf("Request headers")},
+					ToolButton{Text: "H", ToolTipText: i18n.Sprintf("Request headers"), OnClicked: func() {
+						NewAttributeDialog(i18n.Sprintf("Request headers"), &pd.binder.Headers).Run(pd.Form())
+					}},
 				},
 			},
 			Label{Visible: Bind("vm.MuxVisible"), Text: i18n.SprintfColon("Multiplexer")},
@@ -340,7 +342,9 @@ func (pd *EditProxyDialog) pluginProxyPage() TabPage {
 				Layout:  HBox{MarginsZero: true},
 				Children: []Widget{
 					LineEdit{Text: Bind("PluginLocalAddr")},
-					ToolButton{Text: "H", ToolTipText: i18n.Sprintf("Request headers")},
+					ToolButton{Text: "H", ToolTipText: i18n.Sprintf("Request headers"), OnClicked: func() {
+						NewAttributeDialog(i18n.Sprintf("Request headers"), &pd.binder.PluginHeaders).Run(pd.Form())
+					}},
 				},
 			},
 			Label{Visible: Bind("vm.PluginCertVisible"), Text: i18n.SprintfColon("Certificate")},
@@ -391,13 +395,12 @@ func (pd *EditProxyDialog) healthCheckProxyPage() TabPage {
 	}, 0)
 }
 
-func (pd *EditProxyDialog) customProxyPage() TabPage {
+func (pd *EditProxyDialog) metadataProxyPage() TabPage {
 	return TabPage{
 		Title:  i18n.Sprintf("Metadata"),
 		Layout: VBox{},
 		Children: []Widget{
-			Label{Text: i18n.Sprintf("* Refer to the parameters supported by FRP.")},
-			TextEdit{AssignTo: &pd.customText, Text: util.Map2String(pd.binder.Metas), VScroll: true},
+			NewAttributeTable(pd.metaModel, 0, 0),
 		},
 	}
 }
@@ -428,8 +431,8 @@ func (pd *EditProxyDialog) onSave() {
 	} else if pd.hasProxy(pd.binder.Name) {
 		return
 	}
-	// Update custom options
-	pd.binder.Proxy.Metas = util.String2Map(pd.customText.Text())
+	// Update metadata
+	pd.binder.Proxy.Metas = pd.metaModel.AsMap()
 	// Update role
 	if pd.binder.Visitor {
 		pd.binder.Proxy.Role = "visitor"

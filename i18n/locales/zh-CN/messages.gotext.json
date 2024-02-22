@@ -167,6 +167,31 @@
             "translation": "取消"
         },
         {
+            "id": "Name",
+            "message": "Name",
+            "translation": "名称"
+        },
+        {
+            "id": "Value",
+            "message": "Value",
+            "translation": "值"
+        },
+        {
+            "id": "Add",
+            "message": "Add",
+            "translation": "添加"
+        },
+        {
+            "id": "Delete",
+            "message": "Delete",
+            "translation": "删除"
+        },
+        {
+            "id": "Clear All",
+            "message": "Clear All",
+            "translation": "全部清除"
+        },
+        {
             "id": "Configuration",
             "message": "Configuration",
             "translation": "配置"
@@ -265,11 +290,6 @@
             "id": "Export All Configs to ZIP",
             "message": "Export All Configs to ZIP",
             "translation": "导出所有配置 (ZIP 压缩包)"
-        },
-        {
-            "id": "Delete",
-            "message": "Delete",
-            "translation": "删除"
         },
         {
             "id": "New Config",
@@ -388,11 +408,6 @@
             "id": "Basic",
             "message": "Basic",
             "translation": "基本"
-        },
-        {
-            "id": "Name",
-            "message": "Name",
-            "translation": "名称"
         },
         {
             "id": "Server Address",
@@ -720,16 +735,6 @@
             "translation": "实验性功能"
         },
         {
-            "id": "Custom Options",
-            "message": "Custom Options",
-            "translation": "自定义参数"
-        },
-        {
-            "id": "* Refer to the [common] section of the FRP configuration file.",
-            "message": "* Refer to the [common] section of the FRP configuration file.",
-            "translation": "* 参考 FRP 配置文件的 [common] 部分。"
-        },
-        {
             "id": "* The following features may affect the stability of the service.",
             "message": "* The following features may affect the stability of the service.",
             "translation": "* 以下功能可能会影响服务的稳定性。"
@@ -738,11 +743,6 @@
             "id": "Use server SVCB records",
             "message": "Use server SVCB records",
             "translation": "使用服务器 SVCB 记录"
-        },
-        {
-            "id": "Clear All",
-            "message": "Clear All",
-            "translation": "全部清除"
         },
         {
             "id": "Config already exists",
@@ -1045,11 +1045,6 @@
             "translation": "检查周期"
         },
         {
-            "id": "* Refer to the parameters supported by FRP.",
-            "message": "* Refer to the parameters supported by FRP.",
-            "translation": "* 参考 FRP 支持的参数。"
-        },
-        {
             "id": "Proxy already exists",
             "message": "Proxy already exists",
             "translation": "代理已存在"
@@ -1083,11 +1078,6 @@
             "id": "Item",
             "message": "Item",
             "translation": "项目"
-        },
-        {
-            "id": "Value",
-            "message": "Value",
-            "translation": "值"
         },
         {
             "id": "NAT Type",
@@ -1208,11 +1198,6 @@
             "id": "Local Directory",
             "message": "Local Directory",
             "translation": "本地目录"
-        },
-        {
-            "id": "Add",
-            "message": "Add",
-            "translation": "添加"
         },
         {
             "id": "Port",
