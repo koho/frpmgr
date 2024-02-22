@@ -26,7 +26,7 @@ const (
 const (
 	IconLogo         = 7
 	IconOpen         = 22
-	IconRefresh      = 23
+	IconRandom       = 204
 	IconCopy         = 24
 	IconCopyActive   = 25
 	IconSysCopy      = 134
@@ -37,7 +37,7 @@ const (
 	IconClipboard    = 260
 	IconDelete       = 131
 	IconExport       = -174
-	IconQuickAdd     = 111
+	IconQuickAdd     = 263
 	IconEdit         = 269
 	IconEnable       = 27
 	IconDisable      = 28

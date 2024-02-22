@@ -108,7 +108,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 			},
 			Menu{
 				Text:  i18n.Sprintf("Quick Add"),
-				Image: loadSysIcon("imageres", consts.IconQuickAdd, 16),
+				Image: loadSysIcon("shell32", consts.IconQuickAdd, 16),
 				Items: []MenuItem{
 					Action{
 						AssignTo: &pv.portAction,
@@ -272,7 +272,7 @@ func (pv *ProxyView) createProxyTable() TableView {
 			ActionRef{Action: &pv.newAction},
 			Menu{
 				Text:  i18n.Sprintf("Quick Add"),
-				Image: loadSysIcon("imageres", consts.IconQuickAdd, 16),
+				Image: loadSysIcon("shell32", consts.IconQuickAdd, 16),
 				Items: []MenuItem{
 					ActionRef{Action: &pv.portAction},
 					ActionRef{Action: &pv.rdAction},

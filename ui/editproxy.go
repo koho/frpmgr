@@ -125,7 +125,7 @@ func (pd *EditProxyDialog) View() Dialog {
 					Layout: HBox{MarginsZero: true},
 					Children: []Widget{
 						LineEdit{AssignTo: &pd.nameView, Text: Bind("Name", consts.ValidateNonEmpty)},
-						PushButton{Text: i18n.SprintfLSpace("Random"), Image: loadResourceIcon(consts.IconRefresh, 16), OnClicked: func() {
+						PushButton{Text: i18n.SprintfLSpace("Random"), Image: loadSysIcon("imageres", consts.IconRandom, 16), OnClicked: func() {
 							rs := lo.RandomString(8, lo.AlphanumericCharset)
 							if strings.HasPrefix(pd.nameView.Text(), consts.RangePrefix) {
 								rs = consts.RangePrefix + rs
