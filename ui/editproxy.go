@@ -105,7 +105,7 @@ func (pd *EditProxyDialog) View() Dialog {
 	if pd.exist && pd.Proxy.Name != "" {
 		title = i18n.Sprintf("Edit Proxy - %s", pd.Proxy.Name)
 	}
-	dlg := NewBasicDialog(&pd.Dialog, title, loadSysIcon("imageres", consts.IconEditDialog, 32), DataBinder{
+	dlg := NewBasicDialog(&pd.Dialog, title, loadIcon(consts.IconEditDialog, 32), DataBinder{
 		AssignTo:   &pd.vmDB,
 		Name:       "vm",
 		DataSource: &pd.viewModel,
@@ -125,7 +125,7 @@ func (pd *EditProxyDialog) View() Dialog {
 					Layout: HBox{MarginsZero: true},
 					Children: []Widget{
 						LineEdit{AssignTo: &pd.nameView, Text: Bind("Name", consts.ValidateNonEmpty)},
-						PushButton{Text: i18n.SprintfLSpace("Random"), Image: loadSysIcon("imageres", consts.IconRandom, 16), OnClicked: func() {
+						PushButton{Text: i18n.SprintfLSpace("Random"), Image: loadIcon(consts.IconRandom, 16), OnClicked: func() {
 							rs := lo.RandomString(8, lo.AlphanumericCharset)
 							if strings.HasPrefix(pd.nameView.Text(), consts.RangePrefix) {
 								rs = consts.RangePrefix + rs

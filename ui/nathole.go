@@ -27,7 +27,7 @@ func NewNATDiscoveryDialog(serverAddr string) *NATDiscoveryDialog {
 }
 
 func (nd *NATDiscoveryDialog) Run(owner walk.Form) (int, error) {
-	dlg := NewBasicDialog(&nd.Dialog, i18n.Sprintf("NAT Discovery"), loadSysIcon("firewallcontrolpanel", consts.IconNat, 32),
+	dlg := NewBasicDialog(&nd.Dialog, i18n.Sprintf("NAT Discovery"), loadIcon(consts.IconNat, 32),
 		DataBinder{}, nil,
 		VSpacer{Size: 1},
 		Composite{

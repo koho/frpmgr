@@ -84,7 +84,7 @@ func (cd *EditClientDialog) View() Dialog {
 	if cd.Conf.Name != "" {
 		title = i18n.Sprintf("Edit Client - %s", cd.Conf.Name)
 	}
-	dlg := NewBasicDialog(&cd.Dialog, title, loadSysIcon("imageres", consts.IconEditDialog, 32), DataBinder{
+	dlg := NewBasicDialog(&cd.Dialog, title, loadIcon(consts.IconEditDialog, 32), DataBinder{
 		AssignTo:   &cd.db,
 		Name:       "common",
 		DataSource: cd.binder,
@@ -210,7 +210,7 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 					LineEdit{Name: "adminPort", Text: Bind("AdminPort", consts.ValidateInteger)},
 					ToolButton{
 						Enabled:     Bind("adminPort.Text != ''"),
-						Image:       loadSysIcon("shell32", consts.IconLock, 16),
+						Image:       loadIcon(consts.IconLock, 16),
 						ToolTipText: "TLS", OnClicked: func() {
 							cd.adminTLSDialog().Run(cd.Form())
 						},
@@ -378,7 +378,7 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 
 func (cd *EditClientDialog) experimentDialog() Dialog {
 	dlg := NewBasicDialog(nil, i18n.Sprintf("Experimental Features"),
-		loadSysIcon("imageres", consts.IconExperiment, 32), DataBinder{DataSource: cd.binder}, nil,
+		loadIcon(consts.IconExperiment, 32), DataBinder{DataSource: cd.binder}, nil,
 		Label{Text: i18n.Sprintf("* The following features may affect the stability of the service.")},
 		CheckBox{Checked: Bind("SVCBEnable"), Text: i18n.Sprintf("Use server SVCB records"), Alignment: AlignHNearVNear},
 		VSpacer{},
@@ -391,7 +391,7 @@ func (cd *EditClientDialog) experimentDialog() Dialog {
 func (cd *EditClientDialog) adminTLSDialog() Dialog {
 	var widgets [4]*walk.LineEdit
 	dlg := NewBasicDialog(nil, "TLS",
-		loadSysIcon("shell32", consts.IconLock, 32),
+		loadIcon(consts.IconLock, 32),
 		DataBinder{DataSource: &cd.binder.AdminTLS}, nil,
 		Label{Text: i18n.SprintfColon("Host Name")},
 		LineEdit{AssignTo: &widgets[0], Text: Bind("ServerName")},

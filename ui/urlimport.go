@@ -54,7 +54,7 @@ func NewURLImportDialog() *URLImportDialog {
 }
 
 func (ud *URLImportDialog) Run(owner walk.Form) (int, error) {
-	return NewBasicDialog(&ud.Dialog, i18n.Sprintf("Import from URL"), loadSysIcon("imageres", consts.IconURLImport, 32),
+	return NewBasicDialog(&ud.Dialog, i18n.Sprintf("Import from URL"), loadIcon(consts.IconURLImport, 32),
 		DataBinder{AssignTo: &ud.db, DataSource: &ud.viewModel, Name: "vm"}, ud.onImport,
 		Label{Text: i18n.Sprintf("* Support batch import, one link per line.")},
 		TextEdit{

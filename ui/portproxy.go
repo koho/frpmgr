@@ -59,7 +59,7 @@ func (pp *PortProxyDialog) Run(owner walk.Form) (int, error) {
 		LineEdit{Text: Bind("LocalAddr", consts.ValidateNonEmpty), StretchFactor: 2},
 		LineEdit{Text: Bind("LocalPort", consts.ValidatePortRange...), StretchFactor: 1},
 	}
-	return NewBasicDialog(&pp.Dialog, i18n.Sprintf("Open Port"), loadSysIcon("shell32", consts.IconOpenPort, 32), DataBinder{
+	return NewBasicDialog(&pp.Dialog, i18n.Sprintf("Open Port"), loadIcon(consts.IconOpenPort, 32), DataBinder{
 		AssignTo:       &pp.db,
 		DataSource:     pp.binder,
 		ErrorPresenter: validators.SilentToolTipErrorPresenter{},

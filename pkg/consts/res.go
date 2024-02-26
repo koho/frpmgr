@@ -22,76 +22,91 @@ const (
 	ShareLinkScheme = "frp://"
 )
 
+type Icon struct {
+	Dll   string
+	Index int
+}
+
 // Icons
-const (
-	IconLogo         = 7
-	IconOpen         = 22
-	IconRandom       = 204
-	IconCopy         = 24
-	IconCopyActive   = 25
-	IconSysCopy      = 134
-	IconNewConf      = 149
-	IconCreate       = 205
-	IconFileImport   = 132
-	IconURLImport    = 175
-	IconClipboard    = 260
-	IconDelete       = 131
-	IconExport       = -174
-	IconQuickAdd     = 263
-	IconEdit         = 269
-	IconEnable       = 27
-	IconDisable      = 28
-	IconEditDialog   = -114
-	IconRemote       = 20
-	IconSSH          = 26
-	IconVNC          = 105
-	IconWeb          = 13
-	IconDns          = 139
-	IconFtp          = 137
-	IconHttpFile     = 69
-	IconHttpProxy    = 114
-	IconOpenPort     = 135
-	IconLock         = 47
-	IconNewVersion1  = -1028
-	IconNewVersion2  = 1
-	IconUpdate       = -47
-	IconStateRunning = 101
-	IconStateStopped = 21
-	IconStateWorking = 238
-	IconDefaults     = 156
-	IconKey          = 29
-	IconLanguage     = 89
-	IconNat          = 0
-	IconExperiment   = 106
-	IconFile         = 70
+var (
+	IconLogo         = Icon{Index: 7}
+	IconOpen         = Icon{"imageres", -5339}
+	IconRandom       = Icon{"imageres", -1024}
+	IconSysCopy      = Icon{"shell32", -243}
+	IconNewConf      = Icon{"shell32", -258}
+	IconCreate       = Icon{"shell32", -319}
+	IconFileImport   = Icon{"shell32", -241}
+	IconURLImport    = Icon{"imageres", -184}
+	IconClipboard    = Icon{"shell32", -16763}
+	IconDelete       = Icon{"shell32", -240}
+	IconExport       = Icon{"imageres", -174}
+	IconQuickAdd     = Icon{"shell32", -16769}
+	IconEdit         = Icon{"shell32", -16775}
+	IconEnable       = Icon{"shell32", -16810}
+	IconDisable      = Icon{"imageres", -1027}
+	IconEditDialog   = Icon{"imageres", -114}
+	IconRemote       = Icon{"imageres", -25}
+	IconSSH          = Icon{"imageres", -5372}
+	IconVNC          = Icon{"imageres", -110}
+	IconWeb          = Icon{"shell32", -14}
+	IconDns          = Icon{"imageres", -145}
+	IconFtp          = Icon{"imageres", -143}
+	IconHttpFile     = Icon{"imageres", -73}
+	IconHttpProxy    = Icon{"imageres", -120}
+	IconOpenPort     = Icon{"shell32", -244}
+	IconLock         = Icon{"shell32", -48}
+	IconNewVersion1  = Icon{"imageres", -1028}
+	IconNewVersion2  = Icon{"imageres", 1}
+	IconUpdate       = Icon{"shell32", -47}
+	IconStateRunning = Icon{"imageres", -106}
+	IconStateStopped = Icon{Index: 21}
+	IconStateWorking = Icon{"shell32", -16739}
+	IconDefaults     = Icon{"imageres", -165}
+	IconKey          = Icon{"imageres", -5360}
+	IconLanguage     = Icon{"imageres", -94}
+	IconNat          = Icon{"firewallcontrolpanel", 0}
+	IconExperiment   = Icon{"imageres", -111}
+	IconFile         = Icon{"shell32", -152}
 )
 
 // Colors
 var (
-	ColorBlue     = walk.RGB(0, 38, 247)
-	ColorDarkBlue = walk.RGB(11, 53, 137)
-	ColorGray     = walk.RGB(109, 109, 109)
-	ColorGrayBG   = walk.Color(win.GetSysColor(win.COLOR_BTNFACE))
+	ColorBlue      = walk.RGB(0, 38, 247)
+	ColorDarkBlue  = walk.RGB(11, 53, 137)
+	ColorLightBlue = walk.RGB(49, 94, 251)
+	ColorGray      = walk.RGB(109, 109, 109)
+	ColorDarkGray  = walk.RGB(85, 85, 85)
+	ColorGrayBG    = walk.Color(win.GetSysColor(win.COLOR_BTNFACE))
 )
 
 // Text
 var (
-	defaultFontFamily = func() string {
-		versionInfo := windows.RtlGetVersion()
+	TextRegular Font
+	TextMedium  Font
+	TextLarge   Font
+)
+
+func init() {
+	var defaultFontFamily string
+	versionInfo := windows.RtlGetVersion()
+	if versionInfo.MajorVersion > 6 || (versionInfo.MajorVersion == 6 && versionInfo.MinorVersion > 1) {
+		// > Windows 7
+		defaultFontFamily = "Microsoft YaHei UI"
+	} else {
+		// <= Windows 7
 		// Microsoft YaHei UI is not included in Windows 7
 		// Fallback to Microsoft YaHei instead
-		if versionInfo.MajorVersion > 6 || (versionInfo.MajorVersion == 6 && versionInfo.MinorVersion > 1) {
-			// > Windows 7
-			return "Microsoft YaHei UI"
-		} else {
-			// <= Windows 7
-			return "Microsoft YaHei"
-		}
-	}()
+		defaultFontFamily = "Microsoft YaHei"
+		// Fallback icons
+		IconKey.Index = -82
+		IconOpen = Icon{"shell32", -46}
+		IconSSH.Index = -100
+		IconEnable.Index = -253
+	}
 	TextRegular = Font{Family: defaultFontFamily, PointSize: 9}
-	TextMedium  = Font{Family: defaultFontFamily, PointSize: 10}
-	TextLarge   = Font{Family: defaultFontFamily, PointSize: 16}
-)
+	TextMedium = Font{Family: defaultFontFamily, PointSize: 10}
+	TextLarge = Font{Family: defaultFontFamily, PointSize: 16}
+}
 
 var (
 	SupportedConfigFormats = []string{".ini", ".toml", ".json", ".yml", ".yaml"}
@@ -125,4 +140,5 @@ const (
 	DialogStatic1  = 2001
 	DialogStatic2  = 2002
 	DialogEdit     = 2003
+	DialogIcon     = 2004
 )

@@ -2,6 +2,7 @@ package ui
 
 import (
 	"fmt"
+	"path/filepath"
 	"syscall"
 	"unsafe"
 
@@ -14,10 +15,10 @@ import (
 	"github.com/koho/frpmgr/pkg/sec"
 )
 
+const stmSetIcon = 0x0170
+
 // ValidateDialog validates the administration password.
-type ValidateDialog struct {
-	*walk.Dialog
-}
+type ValidateDialog struct{}
 
 func NewValidateDialog() *ValidateDialog {
 	return &ValidateDialog{}
@@ -28,7 +29,15 @@ func (vd *ValidateDialog) Run() (int, error) {
 	if err != nil {
 		return -1, err
 	}
-	return win.DialogBoxParam(win.GetModuleHandle(nil), name, 0, syscall.NewCallback(vd.proc), 0), nil
+	system32, err := windows.GetSystemDirectory()
+	if err != nil {
+		return -1, err
+	}
+	icon, err := syscall.UTF16PtrFromString(filepath.Join(system32, consts.IconKey.Dll+".dll"))
+	if err != nil {
+		return -1, err
+	}
+	return win.DialogBoxParam(win.GetModuleHandle(nil), name, 0, syscall.NewCallback(vd.proc), uintptr(unsafe.Pointer(icon))), nil
 }
 
 func (vd *ValidateDialog) proc(h win.HWND, msg uint32, wp, lp uintptr) uintptr {
@@ -40,6 +49,12 @@ func (vd *ValidateDialog) proc(h win.HWND, msg uint32, wp, lp uintptr) uintptr {
 		SetWindowText(win.GetDlgItem(h, consts.DialogStatic2), i18n.SprintfColon("Password"))
 		SetWindowText(win.GetDlgItem(h, win.IDOK), i18n.Sprintf("OK"))
 		SetWindowText(win.GetDlgItem(h, win.IDCANCEL), i18n.Sprintf("Cancel"))
+		size := walk.SizeFrom96DPI(walk.Size{Width: 32, Height: 32}, int(win.GetDpiForWindow(h)))
+		var hIcon win.HICON
+		win.SHDefExtractIcon((*uint16)(unsafe.Pointer(lp)), int32(consts.IconKey.Index), 0, nil, &hIcon, win.MAKELONG(0, uint16(size.Width)))
+		if hIcon != 0 {
+			win.SendDlgItemMessage(h, consts.DialogIcon, stmSetIcon, uintptr(hIcon), 0)
+		}
 		return win.TRUE
 	case win.WM_COMMAND:
 		switch win.LOWORD(uint32(wp)) {

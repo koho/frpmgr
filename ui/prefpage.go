@@ -47,7 +47,7 @@ func (pp *PrefPage) passwordSection() GroupBox {
 		Title:  i18n.Sprintf("Master password"),
 		Layout: Grid{Alignment: AlignHNearVCenter, Columns: 2},
 		Children: []Widget{
-			ImageView{Image: loadResourceIcon(consts.IconKey, 32)},
+			ImageView{Image: loadIcon(consts.IconKey, 32)},
 			Label{Text: i18n.Sprintf("You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.")},
 			CheckBox{
 				AssignTo: &pp.usePassword,
@@ -93,7 +93,7 @@ func (pp *PrefPage) languageSection() GroupBox {
 		Title:  i18n.Sprintf("Languages"),
 		Layout: Grid{Alignment: AlignHNearVCenter, Columns: 2},
 		Children: []Widget{
-			ImageView{Image: loadSysIcon("imageres", consts.IconLanguage, 32)},
+			ImageView{Image: loadIcon(consts.IconLanguage, 32)},
 			Composite{
 				Layout: VBox{MarginsZero: true},
 				Children: []Widget{
@@ -136,7 +136,7 @@ func (pp *PrefPage) defaultSection() GroupBox {
 		Title:  i18n.Sprintf("Defaults"),
 		Layout: Grid{Alignment: AlignHNearVCenter, Columns: 2, Spacing: 10, Margins: Margins{Left: 9, Top: 9, Right: 9, Bottom: 16}},
 		Children: []Widget{
-			ImageView{Image: loadSysIcon("imageres", consts.IconDefaults, 32)},
+			ImageView{Image: loadIcon(consts.IconDefaults, 32)},
 			Label{Text: i18n.Sprintf("Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.")},
 			Composite{
 				Row: 1, Column: 1,
@@ -179,7 +179,7 @@ func (pp *PrefPage) changePassword() string {
 	var vm struct {
 		Password string
 	}
-	NewBasicDialog(nil, i18n.Sprintf("Master password"), loadResourceIcon(consts.IconKey, 32),
+	NewBasicDialog(nil, i18n.Sprintf("Master password"), loadIcon(consts.IconKey, 32),
 		DataBinder{
 			AssignTo:       &db,
 			DataSource:     &vm,
@@ -215,7 +215,7 @@ func (pp *PrefPage) switchLanguage(lc string) {
 
 func (pp *PrefPage) setDefaultValue() (int, error) {
 	dlg := NewBasicDialog(nil, i18n.Sprintf("Defaults"),
-		loadSysIcon("imageres", consts.IconDefaults, 32),
+		loadIcon(consts.IconDefaults, 32),
 		DataBinder{DataSource: &appConf.Defaults}, nil, Composite{
 			Layout: Grid{Columns: 2, MarginsZero: true},
 			Children: []Widget{

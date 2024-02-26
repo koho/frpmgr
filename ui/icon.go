@@ -6,25 +6,28 @@ import (
 	"github.com/koho/frpmgr/pkg/consts"
 )
 
-var cachedSystemIconsForWidthAndDllIdx = make(map[widthDllIdx]*walk.Icon)
+var cachedIconsForWidthAndId = make(map[widthAndId]*walk.Icon)
 
-func loadSysIcon(dll string, index int32, size int) (icon *walk.Icon) {
-	icon = cachedSystemIconsForWidthAndDllIdx[widthDllIdx{size, index, dll}]
+func loadIcon(id consts.Icon, size int) (icon *walk.Icon) {
+	icon = cachedIconsForWidthAndId[widthAndId{size, id}]
 	if icon != nil {
 		return
 	}
 	var err error
-	icon, err = walk.NewIconFromSysDLLWithSize(dll, int(index), size)
+	if id.Dll == "" {
+		icon, err = walk.NewIconFromResourceIdWithSize(id.Index, walk.Size{Width: size, Height: size})
+	} else {
+		icon, err = walk.NewIconFromSysDLLWithSize(id.Dll, id.Index, size)
+	}
 	if err == nil {
-		cachedSystemIconsForWidthAndDllIdx[widthDllIdx{size, index, dll}] = icon
+		cachedIconsForWidthAndId[widthAndId{size, id}] = icon
 	}
 	return
 }
 
-type widthDllIdx struct {
+type widthAndId struct {
 	width int
-	idx   int32
-	dll   string
+	icon  consts.Icon
 }
 
 type widthAndState struct {
@@ -41,31 +44,51 @@ func iconForState(state consts.ServiceState, size int) (icon *walk.Icon) {
 	}
 	switch state {
 	case consts.StateStarted:
-		icon = loadSysIcon("imageres", consts.IconStateRunning, size)
+		icon = loadIcon(consts.IconStateRunning, size)
 	case consts.StateStopped, consts.StateUnknown:
-		icon = loadResourceIcon(consts.IconStateStopped, size)
+		icon = loadIcon(consts.IconStateStopped, size)
 	default:
-		icon = loadSysIcon("shell32", consts.IconStateWorking, size)
+		icon = loadIcon(consts.IconStateWorking, size)
 	}
 	cachedIconsForWidthAndState[widthAndState{size, state}] = icon
 	return
 }
 
 func loadLogoIcon(size int) *walk.Icon {
-	return loadResourceIcon(consts.IconLogo, size)
+	return loadIcon(consts.IconLogo, size)
 }
 
-var cachedResourceIcons = make(map[widthDllIdx]*walk.Icon)
-
-func loadResourceIcon(id int, size int) (icon *walk.Icon) {
-	icon = cachedResourceIcons[widthDllIdx{width: size, idx: int32(id)}]
-	if icon != nil {
-		return
-	}
-	var err error
-	icon, err = walk.NewIconFromResourceIdWithSize(id, walk.Size{Width: size, Height: size})
-	if err == nil {
-		cachedResourceIcons[widthDllIdx{width: size, idx: int32(id)}] = icon
+func loadShieldIcon(size int) (icon *walk.Icon) {
+	icon = loadIcon(consts.IconNewVersion1, size)
+	if icon == nil {
+		icon = loadIcon(consts.IconNewVersion2, size)
 	}
 	return
+}
+
+func drawCopyIcon(canvas *walk.Canvas, color walk.Color) error {
+	brush, err := walk.NewSolidColorBrush(color)
+	if err != nil {
+		return err
+	}
+	defer brush.Dispose()
+
+	pen, err := walk.NewGeometricPen(walk.PenSolid|walk.PenInsideFrame|walk.PenCapSquare|walk.PenJoinMiter, 2, brush)
+	if err != nil {
+		return err
+	}
+	defer pen.Dispose()
+
+	if err = canvas.DrawRectangle(pen, walk.Rectangle{X: 5, Y: 5, Width: 8, Height: 9}); err != nil {
+		return err
+	}
+	// Outer line: (2, 2) -> (10, 2)
+	if err = canvas.DrawLine(pen, walk.Point{X: 3, Y: 3}, walk.Point{X: 9, Y: 3}); err != nil {
+		return err
+	}
+	// Outer line: (2, 2) -> (2, 11)
+	if err = canvas.DrawLine(pen, walk.Point{X: 3, Y: 3}, walk.Point{X: 3, Y: 10}); err != nil {
+		return err
+	}
+	return nil
 }

@@ -29,7 +29,6 @@ type PanelView struct {
 	addressText *walk.Label
 	toggleBtn   *walk.PushButton
 	svcOpenBtn  *walk.PushButton
-	copyImage   *walk.ImageView
 }
 
 func NewPanelView() *PanelView {
@@ -37,6 +36,14 @@ func NewPanelView() *PanelView {
 }
 
 func (pv *PanelView) View() Widget {
+	var cpIcon *walk.CustomWidget
+	cpIconColor := consts.ColorDarkGray
+	setCopyIconColor := func(button walk.MouseButton, color walk.Color) {
+		if button == walk.LeftButton {
+			cpIconColor = color
+			cpIcon.Invalidate()
+		}
+	}
 	return GroupBox{
 		AssignTo: &pv.GroupBox,
 		Title:    "",
@@ -61,18 +68,23 @@ func (pv *PanelView) View() Widget {
 				Children: []Widget{
 					Label{AssignTo: &pv.addressText},
 					HSpacer{Size: 5},
-					ImageView{
-						AssignTo:    &pv.copyImage,
-						Image:       loadResourceIcon(consts.IconCopy, 16),
-						ToolTipText: i18n.Sprintf("Copy"),
+					CustomWidget{
+						AssignTo:            &cpIcon,
+						Background:          TransparentBrush{},
+						ClearsBackground:    true,
+						InvalidatesOnResize: true,
+						MinSize:             Size{Width: 16, Height: 16},
+						ToolTipText:         i18n.Sprintf("Copy"),
+						Paint: func(canvas *walk.Canvas, updateBounds walk.Rectangle) error {
+							return drawCopyIcon(canvas, cpIconColor)
+						},
 						OnMouseDown: func(x, y int, button walk.MouseButton) {
-							if button == walk.LeftButton {
-								pv.copyImage.SetImage(loadResourceIcon(consts.IconCopyActive, 16))
-							}
+							setCopyIconColor(button, consts.ColorLightBlue)
 						},
 						OnMouseUp: func(x, y int, button walk.MouseButton) {
-							if button == walk.LeftButton {
-								pv.copyImage.SetImage(loadResourceIcon(consts.IconCopy, 16))
+							setCopyIconColor(button, consts.ColorDarkGray)
+							bounds := cpIcon.ClientBoundsPixels()
+							if x >= 0 && x <= bounds.Right() && y >= 0 && y <= bounds.Bottom() {
 								walk.Clipboard().SetText(pv.addressText.Text())
 							}
 						},

@@ -161,27 +161,27 @@ func (cv *ConfView) View() Widget {
 							Menu{
 								OnTriggered: cv.editNew,
 								Text:        i18n.Sprintf("New Config"),
-								Image:       loadSysIcon("shell32", consts.IconNewConf, 16),
+								Image:       loadIcon(consts.IconNewConf, 16),
 								Items: []MenuItem{
 									Action{
 										AssignTo:    &cv.tbAddAction,
 										Text:        i18n.Sprintf("Manual Settings"),
-										Image:       loadSysIcon("shell32", consts.IconCreate, 16),
+										Image:       loadIcon(consts.IconCreate, 16),
 										OnTriggered: cv.editNew,
 									},
 									Action{
 										Text:        i18n.SprintfEllipsis("Import from File"),
-										Image:       loadSysIcon("shell32", consts.IconFileImport, 16),
+										Image:       loadIcon(consts.IconFileImport, 16),
 										OnTriggered: cv.onFileImport,
 									},
 									Action{
 										Text:        i18n.SprintfEllipsis("Import from URL"),
-										Image:       loadSysIcon("imageres", consts.IconURLImport, 16),
+										Image:       loadIcon(consts.IconURLImport, 16),
 										OnTriggered: cv.onURLImport,
 									},
 									Action{
 										Text:        i18n.Sprintf("Import from Clipboard"),
-										Image:       loadSysIcon("shell32", consts.IconClipboard, 16),
+										Image:       loadIcon(consts.IconClipboard, 16),
 										OnTriggered: cv.onClipboardImport,
 									},
 								},
@@ -190,14 +190,14 @@ func (cv *ConfView) View() Widget {
 							Action{
 								Enabled:     Bind("conf.Selected"),
 								AssignTo:    &cv.tbDeleteAction,
-								Image:       loadSysIcon("shell32", consts.IconDelete, 16),
+								Image:       loadIcon(consts.IconDelete, 16),
 								OnTriggered: cv.onDelete,
 							},
 							Separator{},
 							Action{
 								Enabled:     Bind("conf.Selected"),
 								AssignTo:    &cv.tbExportAction,
-								Image:       loadSysIcon("imageres", consts.IconExport, 16),
+								Image:       loadIcon(consts.IconExport, 16),
 								OnTriggered: cv.onExport,
 							},
 						},

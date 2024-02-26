@@ -144,7 +144,7 @@ func NewAttributeTable(m *AttributeModel, nameWidth, valueWidth int) Composite {
 func NewAttributeDialog(title string, data *map[string]string) Dialog {
 	var p *walk.Dialog
 	m := NewAttributeModel(*data)
-	dlg := NewBasicDialog(&p, title, loadSysIcon("shell32", consts.IconFile, 32), DataBinder{}, func() {
+	dlg := NewBasicDialog(&p, title, loadIcon(consts.IconFile, 32), DataBinder{}, func() {
 		*data = m.AsMap()
 		p.Accept()
 	},

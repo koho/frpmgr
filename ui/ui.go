@@ -89,16 +89,6 @@ func RunUI() error {
 				},
 			},
 		},
-		Functions: map[string]func(args ...interface{}) (interface{}, error){
-			"sysIcon": func(args ...interface{}) (interface{}, error) {
-				for _, index := range args[2:] {
-					if icon := loadSysIcon(args[0].(string), int32(index.(float64)), int(args[1].(float64))); icon != nil {
-						return icon, nil
-					}
-				}
-				return nil, nil
-			},
-		},
 		OnDropFiles: fm.confPage.confView.ImportFiles,
 	}
 	if err := mw.Create(); err != nil {
