@@ -234,6 +234,10 @@ func (cw *CustomWidget) bufferedPaint(canvas *Canvas, updateBounds Rectangle) er
 	return err
 }
 
-func (*CustomWidget) CreateLayoutItem(ctx *LayoutContext) LayoutItem {
-	return NewGreedyLayoutItem()
+func (cw *CustomWidget) CreateLayoutItem(ctx *LayoutContext) LayoutItem {
+	idealSize := SizeFrom96DPI(cw.MinSize(), cw.DPI())
+	return &imageViewLayoutItem{
+		idealSize: idealSize,
+		minSize:   idealSize,
+	}
 }
