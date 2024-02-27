@@ -67,6 +67,14 @@ func loadShieldIcon(size int) (icon *walk.Icon) {
 }
 
 func drawCopyIcon(canvas *walk.Canvas, color walk.Color) error {
+	dpi := canvas.DPI()
+	point := func(x, y int) walk.Point {
+		return walk.PointFrom96DPI(walk.Point{X: x, Y: y}, dpi)
+	}
+	rectangle := func(x, y, width, height int) walk.Rectangle {
+		return walk.RectangleFrom96DPI(walk.Rectangle{X: x, Y: y, Width: width, Height: height}, dpi)
+	}
+
 	brush, err := walk.NewSolidColorBrush(color)
 	if err != nil {
 		return err
@@ -79,15 +87,23 @@ func drawCopyIcon(canvas *walk.Canvas, color walk.Color) error {
 	}
 	defer pen.Dispose()
 
-	if err = canvas.DrawRectangle(pen, walk.Rectangle{X: 5, Y: 5, Width: 8, Height: 9}); err != nil {
+	bounds := rectangle(5, 5, 8, 9)
+	startPoint := point(3, 3)
+	// Ensure the gap between two graphics
+	if penWidth := walk.IntFrom96DPI(pen.Width(), dpi); bounds.X-(startPoint.X+(penWidth-1)/2) < 2 {
+		bounds.X++
+		bounds.Y++
+	}
+
+	if err = canvas.DrawRectanglePixels(pen, bounds); err != nil {
 		return err
 	}
 	// Outer line: (2, 2) -> (10, 2)
-	if err = canvas.DrawLine(pen, walk.Point{X: 3, Y: 3}, walk.Point{X: 9, Y: 3}); err != nil {
+	if err = canvas.DrawLinePixels(pen, startPoint, point(9, 3)); err != nil {
 		return err
 	}
 	// Outer line: (2, 2) -> (2, 11)
-	if err = canvas.DrawLine(pen, walk.Point{X: 3, Y: 3}, walk.Point{X: 3, Y: 10}); err != nil {
+	if err = canvas.DrawLinePixels(pen, startPoint, point(3, 10)); err != nil {
 		return err
 	}
 	return nil

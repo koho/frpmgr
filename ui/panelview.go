@@ -75,7 +75,7 @@ func (pv *PanelView) View() Widget {
 						InvalidatesOnResize: true,
 						MinSize:             Size{Width: 16, Height: 16},
 						ToolTipText:         i18n.Sprintf("Copy"),
-						Paint: func(canvas *walk.Canvas, updateBounds walk.Rectangle) error {
+						PaintPixels: func(canvas *walk.Canvas, updateBounds walk.Rectangle) error {
 							return drawCopyIcon(canvas, cpIconColor)
 						},
 						OnMouseDown: func(x, y int, button walk.MouseButton) {
