@@ -60,16 +60,24 @@ type NumberEdit struct {
 	Suffix             Property
 	TextColor          walk.Color
 	Value              Property
+	ShowZero           bool
+	Style              uint32
 }
 
 func (ne NumberEdit) Create(builder *Builder) error {
-	w, err := walk.NewNumberEdit(builder.Parent())
+	w, err := walk.NewNumberEdit(builder.Parent(), ne.Style)
 	if err != nil {
 		return err
 	}
 
 	if ne.AssignTo != nil {
 		*ne.AssignTo = w
+	}
+	if !ne.ShowZero {
+		builder.Defer(func() error {
+			w.Clear()
+			return nil
+		})
 	}
 
 	return builder.InitWidget(ne, w, func() error {

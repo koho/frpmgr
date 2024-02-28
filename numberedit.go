@@ -38,7 +38,7 @@ type NumberEdit struct {
 }
 
 // NewNumberEdit returns a new NumberEdit widget as child of parent.
-func NewNumberEdit(parent Container) (*NumberEdit, error) {
+func NewNumberEdit(parent Container, style uint32) (*NumberEdit, error) {
 	ne := new(NumberEdit)
 
 	if err := InitWidget(
@@ -58,7 +58,7 @@ func NewNumberEdit(parent Container) (*NumberEdit, error) {
 	}()
 
 	var err error
-	if ne.edit, err = newNumberLineEdit(ne); err != nil {
+	if ne.edit, err = newNumberLineEdit(ne, style); err != nil {
 		return nil, err
 	}
 
@@ -130,6 +130,10 @@ func NewNumberEdit(parent Container) (*NumberEdit, error) {
 	succeeded = true
 
 	return ne, nil
+}
+
+func (ne *NumberEdit) Clear() {
+	ne.edit.setEmptyValue()
 }
 
 func (ne *NumberEdit) applyEnabled(enabled bool) {
@@ -501,7 +505,7 @@ type numberLineEdit struct {
 	inEditMode            bool
 }
 
-func newNumberLineEdit(parent Widget) (*numberLineEdit, error) {
+func newNumberLineEdit(parent Widget, style uint32) (*numberLineEdit, error) {
 	nle := &numberLineEdit{
 		buf:       new(bytes.Buffer),
 		increment: 1,
@@ -519,7 +523,7 @@ func newNumberLineEdit(parent Widget) (*numberLineEdit, error) {
 		}
 	}()
 
-	if err := nle.LineEdit.setAndClearStyleBits(win.ES_RIGHT, win.ES_LEFT|win.ES_CENTER); err != nil {
+	if err := nle.LineEdit.setAndClearStyleBits(style, win.ES_LEFT|win.ES_CENTER); err != nil {
 		return nil, err
 	}
 
@@ -574,9 +578,23 @@ func (nle *numberLineEdit) setTextFromValue(value float64) error {
 	return nle.SetText(nle.buf.String())
 }
 
+func (nle *numberLineEdit) setEmptyValue() error {
+	nle.buf.Reset()
+
+	nle.buf.WriteString(syscall.UTF16ToString(nle.prefix))
+
+	nle.buf.WriteString(syscall.UTF16ToString(nle.suffix))
+
+	return nle.SetText(nle.buf.String())
+}
+
 func (nle *numberLineEdit) endEdit() error {
-	if err := nle.setTextFromValue(nle.value); err != nil {
-		return err
+	text := nle.textUTF16()
+	text = text[len(nle.prefix) : len(text)-len(nle.suffix)]
+	if syscall.UTF16ToString(text) != "" {
+		if err := nle.setTextFromValue(nle.value); err != nil {
+			return err
+		}
 	}
 
 	nle.inEditMode = false
