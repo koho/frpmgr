@@ -562,36 +562,45 @@ func toMap(in any, tag string) (map[string]any, error) {
 		if key != "" {
 			key = strings.Split(key, ",")[0]
 		}
+		if key == "-" {
+			continue
+		}
 		switch fv.Kind() {
 		case reflect.Struct, reflect.Interface:
 			value := fv.Interface()
 			if value == nil {
 				continue
 			}
-			if o, ok := value.(time.Time); ok && !o.IsZero() && key != "" {
-				if b, err := o.MarshalText(); err != nil {
+			switch o := value.(type) {
+			case time.Time:
+				if !o.IsZero() && key != "" {
+					if b, err := o.MarshalText(); err != nil {
+						return nil, err
+					} else {
+						out[key] = string(b)
+					}
+				}
+			case types.BandwidthQuantity:
+				if o.String() != "" && key != "" {
+					out[key] = o.String()
+				}
+			default:
+				m, err := toMap(value, tag)
+				if err != nil {
 					return nil, err
+				}
+				if len(m) == 0 {
+					continue
+				}
+				if key == "" {
+					if ft.Anonymous {
+						for k, v := range m {
+							out[k] = v
+						}
+					}
 				} else {
-					out[key] = string(b)
+					out[key] = m
 				}
-			}
-			if o, ok := value.(types.BandwidthQuantity); ok && o.String() != "" && key != "" {
-				out[key] = o.String()
-				continue
-			}
-			m, err := toMap(value, tag)
-			if err != nil {
-				return nil, err
-			}
-			if len(m) == 0 {
-				continue
-			}
-			if key == "" {
-				for k, v := range m {
-					out[k] = v
-				}
-			} else {
-				out[key] = m
 			}
 		case reflect.Slice:
 			if key == "" || fv.Len() == 0 {
