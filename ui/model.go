@@ -2,6 +2,7 @@ package ui
 
 import (
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/lxn/walk"
@@ -86,7 +87,9 @@ func NewProxyModel(conf *Conf) *ProxyModel {
 		if p.IsVisitor() {
 			pi.Domains = p.ServerName
 			pi.DisplayLocalIP = p.BindAddr
-			pi.DisplayLocalPort = p.BindPort
+			if p.BindPort > 0 {
+				pi.DisplayLocalPort = strconv.Itoa(p.BindPort)
+			}
 		}
 		return pi
 	})

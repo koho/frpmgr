@@ -700,19 +700,14 @@
             "translation": "高级"
         },
         {
-            "id": "TCP Mux",
-            "message": "TCP Mux",
-            "translation": "多路复用"
-        },
-        {
-            "id": "Mux Keepalive",
-            "message": "Mux Keepalive",
-            "translation": "复用器心跳"
-        },
-        {
             "id": "Source Address",
             "message": "Source Address",
             "translation": "使用源地址"
+        },
+        {
+            "id": "TCP Mux",
+            "message": "TCP Mux",
+            "translation": "多路复用"
         },
         {
             "id": "Exit after login failure",
@@ -723,6 +718,11 @@
             "id": "Disable auto-start at boot",
             "message": "Disable auto-start at boot",
             "translation": "禁用开机自启动"
+        },
+        {
+            "id": "Use legacy format config file",
+            "message": "Use legacy format config file",
+            "translation": "使用旧格式配置文件"
         },
         {
             "id": "Metadata",
@@ -1315,9 +1315,9 @@
             "translation": "HTTP 文件服务"
         },
         {
-            "id": "Enable",
-            "message": "Enable",
-            "translation": "启用"
+            "id": "Disable",
+            "message": "Disable",
+            "translation": "禁用"
         },
         {
             "id": "Open Config",
@@ -1405,9 +1405,9 @@
             ]
         },
         {
-            "id": "Disable",
-            "message": "Disable",
-            "translation": "禁用"
+            "id": "Enable",
+            "message": "Enable",
+            "translation": "启用"
         },
         {
             "id": "Passive Port Range",

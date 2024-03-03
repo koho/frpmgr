@@ -710,19 +710,14 @@
             "translation": "高度"
         },
         {
-            "id": "TCP Mux",
-            "message": "TCP Mux",
-            "translation": "多重化"
-        },
-        {
-            "id": "Mux Keepalive",
-            "message": "Mux Keepalive",
-            "translation": "多重化接続を維持"
-        },
-        {
             "id": "Source Address",
             "message": "Source Address",
             "translation": "送信元アドレス"
+        },
+        {
+            "id": "TCP Mux",
+            "message": "TCP Mux",
+            "translation": "多重化"
         },
         {
             "id": "Exit after login failure",
@@ -733,6 +728,11 @@
             "id": "Disable auto-start at boot",
             "message": "Disable auto-start at boot",
             "translation": "起動時に自動起動を無効にする"
+        },
+        {
+            "id": "Use legacy format config file",
+            "message": "Use legacy format config file",
+            "translation": "従来の形式の設定ファイルを使用する"
         },
         {
             "id": "Metadata",
@@ -1325,9 +1325,9 @@
             "translation": "HTTP ファイルサーバー"
         },
         {
-            "id": "Enable",
-            "message": "Enable",
-            "translation": "有効"
+            "id": "Disable",
+            "message": "Disable",
+            "translation": "無効"
         },
         {
             "id": "Open Config",
@@ -1415,9 +1415,9 @@
             ]
         },
         {
-            "id": "Disable",
-            "message": "Disable",
-            "translation": "無効"
+            "id": "Enable",
+            "message": "Enable",
+            "translation": "有効"
         },
         {
             "id": "Passive Port Range",

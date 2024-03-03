@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	frpconfig "github.com/fatedier/frp/pkg/config"
@@ -352,7 +353,7 @@ func (pv *ProxyView) onCopyAccessAddr() {
 		}
 	case consts.ProxyTypeXTCP, consts.ProxyTypeSTCP, consts.ProxyTypeSUDP:
 		if proxy.Role == "visitor" {
-			access = util.GetOrElse(proxy.BindAddr, "127.0.0.1") + ":" + proxy.BindPort
+			access = util.GetOrElse(proxy.BindAddr, "127.0.0.1") + ":" + strconv.Itoa(proxy.BindPort)
 		} else {
 			access = util.GetOrElse(proxy.LocalIP, "127.0.0.1") + ":" + proxy.LocalPort
 		}

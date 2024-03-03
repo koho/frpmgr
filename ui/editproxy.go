@@ -200,7 +200,7 @@ func (pd *EditProxyDialog) basicProxyPage() TabPage {
 			Label{Visible: Bind("vm.BindAddrVisible"), Text: i18n.SprintfColon("Bind Address")},
 			LineEdit{Visible: Bind("vm.BindAddrVisible"), Text: Bind("BindAddr")},
 			Label{Visible: Bind("vm.BindPortVisible"), Text: i18n.SprintfColon("Bind Port")},
-			LineEdit{Visible: Bind("vm.BindPortVisible"), Text: Bind("BindPort")},
+			NumberEdit{Visible: Bind("vm.BindPortVisible"), Value: Bind("BindPort"), MinValue: 0, MaxValue: 65535},
 			Label{Visible: Bind("vm.ServerNameVisible"), Text: i18n.SprintfColon("Server Name")},
 			LineEdit{Visible: Bind("vm.ServerNameVisible"), Text: Bind("ServerName")},
 			Label{Visible: Bind("vm.ServerNameVisible"), Text: i18n.SprintfColon("Server User")},

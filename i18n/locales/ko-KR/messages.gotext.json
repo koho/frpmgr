@@ -700,19 +700,14 @@
             "translation": "고급의"
         },
         {
-            "id": "TCP Mux",
-            "message": "TCP Mux",
-            "translation": "다중화"
-        },
-        {
-            "id": "Mux Keepalive",
-            "message": "Mux Keepalive",
-            "translation": "다중화 대기 중"
-        },
-        {
             "id": "Source Address",
             "message": "Source Address",
             "translation": "소스 주소"
+        },
+        {
+            "id": "TCP Mux",
+            "message": "TCP Mux",
+            "translation": "다중화"
         },
         {
             "id": "Exit after login failure",
@@ -723,6 +718,11 @@
             "id": "Disable auto-start at boot",
             "message": "Disable auto-start at boot",
             "translation": "부팅 시 자동 시작 비활성화"
+        },
+        {
+            "id": "Use legacy format config file",
+            "message": "Use legacy format config file",
+            "translation": "레거시 형식 구성 파일 사용"
         },
         {
             "id": "Metadata",
@@ -1315,9 +1315,9 @@
             "translation": "HTTP 파일 서버"
         },
         {
-            "id": "Enable",
-            "message": "Enable",
-            "translation": "켜다"
+            "id": "Disable",
+            "message": "Disable",
+            "translation": "폐쇄"
         },
         {
             "id": "Open Config",
@@ -1405,9 +1405,9 @@
             ]
         },
         {
-            "id": "Disable",
-            "message": "Disable",
-            "translation": "폐쇄"
+            "id": "Enable",
+            "message": "Enable",
+            "translation": "켜다"
         },
         {
             "id": "Passive Port Range",

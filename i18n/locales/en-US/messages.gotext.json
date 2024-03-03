@@ -932,23 +932,16 @@
             "fuzzy": true
         },
         {
-            "id": "TCP Mux",
-            "message": "TCP Mux",
-            "translation": "TCP Mux",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Mux Keepalive",
-            "message": "Mux Keepalive",
-            "translation": "Mux Keepalive",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "Source Address",
             "message": "Source Address",
             "translation": "Source Address",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "TCP Mux",
+            "message": "TCP Mux",
+            "translation": "TCP Mux",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -963,6 +956,13 @@
             "id": "Disable auto-start at boot",
             "message": "Disable auto-start at boot",
             "translation": "Disable auto-start at boot",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Use legacy format config file",
+            "message": "Use legacy format config file",
+            "translation": "Use legacy format config file",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1773,9 +1773,9 @@
             "fuzzy": true
         },
         {
-            "id": "Enable",
-            "message": "Enable",
-            "translation": "Enable",
+            "id": "Disable",
+            "message": "Disable",
+            "translation": "Disable",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1883,9 +1883,9 @@
             "fuzzy": true
         },
         {
-            "id": "Disable",
-            "message": "Disable",
-            "translation": "Disable",
+            "id": "Enable",
+            "message": "Enable",
+            "translation": "Enable",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

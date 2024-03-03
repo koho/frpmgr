@@ -700,19 +700,14 @@
             "translation": "Avanzado"
         },
         {
-            "id": "TCP Mux",
-            "message": "TCP Mux",
-            "translation": "Mux TCP"
-        },
-        {
-            "id": "Mux Keepalive",
-            "message": "Mux Keepalive",
-            "translation": "Mux Keepalive"
-        },
-        {
             "id": "Source Address",
             "message": "Source Address",
             "translation": "Dirección de la fuente"
+        },
+        {
+            "id": "TCP Mux",
+            "message": "TCP Mux",
+            "translation": "Mux TCP"
         },
         {
             "id": "Exit after login failure",
@@ -723,6 +718,11 @@
             "id": "Disable auto-start at boot",
             "message": "Disable auto-start at boot",
             "translation": "Desactivar el inicio automático al arrancar"
+        },
+        {
+            "id": "Use legacy format config file",
+            "message": "Use legacy format config file",
+            "translation": "Usar archivo de configuración de formato heredado"
         },
         {
             "id": "Metadata",
@@ -1315,9 +1315,9 @@
             "translation": "Servidor de archivos HTTP"
         },
         {
-            "id": "Enable",
-            "message": "Enable",
-            "translation": "Habilitar"
+            "id": "Disable",
+            "message": "Disable",
+            "translation": "Deshabilitar"
         },
         {
             "id": "Open Config",
@@ -1405,9 +1405,9 @@
             ]
         },
         {
-            "id": "Disable",
-            "message": "Disable",
-            "translation": "Deshabilitar"
+            "id": "Enable",
+            "message": "Enable",
+            "translation": "Habilitar"
         },
         {
             "id": "Passive Port Range",

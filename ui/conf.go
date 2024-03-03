@@ -79,7 +79,7 @@ func (conf *Conf) Save() error {
 
 var (
 	appConf = config.App{Defaults: config.ClientCommon{
-		ServerPort:                "7000",
+		ServerPort:                7000,
 		LogLevel:                  "info",
 		LogMaxDays:                3,
 		TCPMux:                    true,
