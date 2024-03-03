@@ -23,7 +23,7 @@ func TestUnmarshalAppConfFromIni(t *testing.T) {
 	expected := App{
 		Password: "abcde",
 		Defaults: ClientCommon{
-			ServerPort:    "7000",
+			ServerPort:    7000,
 			LogLevel:      "info",
 			LogMaxDays:    5,
 			Protocol:      "kcp",

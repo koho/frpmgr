@@ -25,8 +25,9 @@ func TestUnmarshalClientConfFromIni(t *testing.T) {
 		meta_2 = value
 	`
 	expected := NewDefaultClientConfig()
+	expected.LegacyFormat = true
 	expected.ServerAddress = "example.com"
-	expected.ServerPort = "7001"
+	expected.ServerPort = 7001
 	expected.Token = "123456"
 	expected.ManualStart = true
 	expected.Metas = map[string]string{"1": "value"}
