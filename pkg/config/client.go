@@ -1,7 +1,6 @@
 package config
 
 import (
-	"bytes"
 	"fmt"
 	"os"
 	"slices"
@@ -17,21 +16,6 @@ import (
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
 )
-
-type ClientConfigV1 struct {
-	v1.ClientCommonConfig
-
-	Proxies  []v1.TypedProxyConfig   `json:"proxies,omitempty"`
-	Visitors []v1.TypedVisitorConfig `json:"visitors,omitempty"`
-
-	Internal Internal `json:"frpmgr,omitempty"`
-}
-
-type Internal struct {
-	ManualStart bool       `json:"manualStart,omitempty"`
-	SVCBEnable  bool       `json:"svcbEnable,omitempty"`
-	AutoDelete  AutoDelete `json:"autoDelete,omitempty"`
-}
 
 type ClientAuth struct {
 	AuthMethod                   string            `ini:"authentication_method,omitempty"`
@@ -241,15 +225,14 @@ type Proxy struct {
 // GetAlias returns the alias of this proxy.
 // It's usually equal to the proxy name, but proxies that start with "range:" differ from it.
 func (p *Proxy) GetAlias() []string {
-	if strings.HasPrefix(p.Name, consts.RangePrefix) {
-		prefix := strings.TrimSpace(strings.TrimPrefix(p.Name, consts.RangePrefix))
+	if p.IsRange() {
 		localPorts, err := frputil.ParseRangeNumbers(p.LocalPort)
 		if err != nil {
 			return []string{p.Name}
 		}
 		alias := make([]string, len(localPorts))
 		for i := range localPorts {
-			alias[i] = fmt.Sprintf("%s_%d", prefix, i)
+			alias[i] = fmt.Sprintf("%s_%d", p.Name, i)
 		}
 		return alias
 	}
@@ -263,25 +246,9 @@ func (p *Proxy) IsVisitor() bool {
 		p.Type == consts.ProxyTypeSUDP) && p.Role == "visitor"
 }
 
-// Marshal returns the encoded proxy.
-func (p *Proxy) Marshal() ([]byte, error) {
-	// We must complete the proxy.
-	// Otherwise, it contains redundant parameters.
-	p.Complete()
-	// Serialize to ini format
-	cfg := ini.Empty()
-	tp, err := cfg.NewSection(p.Name)
-	if err != nil {
-		return nil, err
-	}
-	if err = tp.ReflectFrom(p); err != nil {
-		return nil, err
-	}
-	proxyBuffer := bytes.NewBuffer(nil)
-	if _, err = cfg.WriteTo(proxyBuffer); err != nil {
-		return nil, err
-	}
-	return proxyBuffer.Bytes(), nil
+func (p *Proxy) IsRange() bool {
+	return (p.Type == consts.ProxyTypeTCP || p.Type == consts.ProxyTypeUDP) &&
+		lo.Some([]rune(p.LocalPort+p.RemotePort), []rune{',', '-'})
 }
 
 // Complete removes redundant parameters base on the proxy type.
@@ -307,6 +274,8 @@ func (p *Proxy) Complete() {
 	} else {
 		// Plugins
 		if base.Plugin != "" {
+			base.LocalIP = ""
+			base.LocalPort = ""
 			if pluginParams, err := util.PruneByTag(base.PluginParams, "true", base.Plugin); err == nil {
 				base.PluginParams = pluginParams.(PluginParams)
 			}
@@ -402,7 +371,11 @@ func (conf *ClientConfig) saveINI(path string) error {
 		common.Key("oidc_additional_" + k).SetValue(v)
 	}
 	for _, proxy := range conf.Proxies {
-		p, err := cfg.NewSection(proxy.Name)
+		name := proxy.Name
+		if proxy.IsRange() && !strings.HasPrefix(name, consts.RangePrefix) {
+			name = consts.RangePrefix + name
+		}
+		p, err := cfg.NewSection(name)
 		if err != nil {
 			return err
 		}
@@ -425,7 +398,7 @@ func (conf *ClientConfig) saveINI(path string) error {
 func (conf *ClientConfig) saveTOML(path string) error {
 	c := ClientConfigV1{
 		ClientCommonConfig: ClientCommonToV1(&conf.ClientCommon),
-		Internal: Internal{
+		Mgr: Mgr{
 			ManualStart: conf.ManualStart,
 			SVCBEnable:  conf.SVCBEnable,
 			AutoDelete:  conf.AutoDelete,
@@ -435,11 +408,11 @@ func (conf *ClientConfig) saveTOML(path string) error {
 		if v.IsVisitor() {
 			c.Visitors = append(c.Visitors, ClientVisitorToV1(v))
 		} else {
-			p, err := ClientProxyToV1(v)
+			proxies, err := ClientProxyToV1(v)
 			if err != nil {
 				return err
 			}
-			c.Proxies = append(c.Proxies, p)
+			c.Proxies = append(c.Proxies, proxies...)
 		}
 	}
 	obj, err := toMap(&c, "json")
@@ -540,6 +513,7 @@ func NewProxyFromIni(name string, section *ini.Section) (*Proxy, error) {
 	proxy.Metas = util.GetMapWithoutPrefix(section.KeysHash(), "meta_")
 	proxy.Headers = util.GetMapWithoutPrefix(section.KeysHash(), "header_")
 	proxy.PluginHeaders = util.GetMapWithoutPrefix(section.KeysHash(), "plugin_header_")
+	proxy.Name = strings.TrimPrefix(proxy.Name, consts.RangePrefix)
 	return proxy, nil
 }
 
@@ -631,12 +605,28 @@ func UnmarshalClientConf(source interface{}) (*ClientConfig, error) {
 	}
 	var r ClientConfig
 	r.ClientCommon = ClientCommonFromV1(&cfg.ClientCommonConfig)
-	r.ManualStart = cfg.Internal.ManualStart
-	r.SVCBEnable = cfg.Internal.SVCBEnable
-	r.AutoDelete = cfg.Internal.AutoDelete
-	for _, v := range cfg.Proxies {
-		r.Proxies = append(r.Proxies, ClientProxyFromV1(v))
+	r.ManualStart = cfg.Mgr.ManualStart
+	r.SVCBEnable = cfg.Mgr.SVCBEnable
+	r.AutoDelete = cfg.Mgr.AutoDelete
+	// Proxies
+	ignore := make(map[string]struct{})
+	proxies := make([]*Proxy, len(cfg.Proxies))
+	for i, v := range cfg.Proxies {
+		p := ClientProxyFromV1(v)
+		if p.IsRange() {
+			for _, name := range p.GetAlias() {
+				if name != p.Name {
+					ignore[name] = struct{}{}
+				}
+			}
+		}
+		proxies[i] = p
 	}
+	r.Proxies = lo.Filter(proxies, func(item *Proxy, index int) bool {
+		_, ok := ignore[item.Name]
+		return !ok
+	})
+	// Visitors
 	for _, v := range cfg.Visitors {
 		r.Proxies = append(r.Proxies, ClientVisitorFromV1(v))
 	}

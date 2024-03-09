@@ -1,17 +1,20 @@
 package ui
 
 import (
+	"math"
 	"slices"
+	"strconv"
 	"strings"
 
+	frputil "github.com/fatedier/frp/pkg/util/util"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
+	"github.com/lxn/win"
 	"github.com/samber/lo"
 
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
-	"github.com/koho/frpmgr/services"
 )
 
 type EditProxyDialog struct {
@@ -31,11 +34,9 @@ type EditProxyDialog struct {
 	metaModel *AttributeModel
 
 	// Views
-	nameView       *walk.LineEdit
-	localPortView  *walk.LineEdit
-	remotePortView *walk.LineEdit
-	typeView       *walk.ComboBox
-	pluginView     *walk.ComboBox
+	nameView   *walk.LineEdit
+	typeView   *walk.ComboBox
+	pluginView *walk.ComboBox
 }
 
 // View model for ui logics
@@ -69,7 +70,7 @@ type editProxyBinder struct {
 
 	// Extra fields needed for ui display
 	Visitor       bool
-	BandwidthNum  string
+	BandwidthNum  int64
 	BandwidthUnit string
 }
 
@@ -126,11 +127,7 @@ func (pd *EditProxyDialog) View() Dialog {
 					Children: []Widget{
 						LineEdit{AssignTo: &pd.nameView, Text: Bind("Name", consts.ValidateNonEmpty)},
 						PushButton{Text: i18n.SprintfLSpace("Random"), Image: loadIcon(consts.IconRandom, 16), OnClicked: func() {
-							rs := lo.RandomString(8, lo.AlphanumericCharset)
-							if strings.HasPrefix(pd.nameView.Text(), consts.RangePrefix) {
-								rs = consts.RangePrefix + rs
-							}
-							pd.nameView.SetText(rs)
+							pd.nameView.SetText(lo.RandomString(8, lo.AlphanumericCharset))
 						}},
 					},
 				},
@@ -186,21 +183,15 @@ func (pd *EditProxyDialog) basicProxyPage() TabPage {
 			Label{Visible: Bind("vm.LocalAddrVisible"), Text: i18n.SprintfColon("Local Address")},
 			LineEdit{Visible: Bind("vm.LocalAddrVisible"), Text: Bind("LocalIP")},
 			Label{Visible: Bind("vm.LocalPortVisible"), Text: i18n.SprintfColon("Local Port")},
-			LineEdit{
-				AssignTo: &pd.localPortView, Visible: Bind("vm.LocalPortVisible"),
-				Text: Bind("LocalPort"), OnTextChanged: pd.watchRangePort,
-			},
+			LineEdit{Visible: Bind("vm.LocalPortVisible"), Text: Bind("LocalPort")},
 			Label{Visible: Bind("vm.RemotePortVisible"), Text: i18n.SprintfColon("Remote Port")},
-			LineEdit{
-				AssignTo: &pd.remotePortView, Visible: Bind("vm.RemotePortVisible"),
-				Text: Bind("RemotePort"), OnTextChanged: pd.watchRangePort,
-			},
+			LineEdit{Visible: Bind("vm.RemotePortVisible"), Text: Bind("RemotePort")},
 			Label{Visible: Bind("vm.RoleVisible && !vm.ServerNameVisible"), Text: i18n.SprintfColon("Allow Users")},
 			LineEdit{Visible: Bind("vm.RoleVisible && !vm.ServerNameVisible"), Text: Bind("AllowUsers")},
 			Label{Visible: Bind("vm.BindAddrVisible"), Text: i18n.SprintfColon("Bind Address")},
 			LineEdit{Visible: Bind("vm.BindAddrVisible"), Text: Bind("BindAddr")},
 			Label{Visible: Bind("vm.BindPortVisible"), Text: i18n.SprintfColon("Bind Port")},
-			NumberEdit{Visible: Bind("vm.BindPortVisible"), Value: Bind("BindPort"), MinValue: 0, MaxValue: 65535},
+			NumberEdit{Visible: Bind("vm.BindPortVisible"), Value: Bind("BindPort"), MinValue: -math.MaxFloat64, MaxValue: 65535},
 			Label{Visible: Bind("vm.ServerNameVisible"), Text: i18n.SprintfColon("Server Name")},
 			LineEdit{Visible: Bind("vm.ServerNameVisible"), Text: Bind("ServerName")},
 			Label{Visible: Bind("vm.ServerNameVisible"), Text: i18n.SprintfColon("Server User")},
@@ -245,7 +236,13 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 				Visible: Bind("vm.PluginEnable"),
 				Layout:  HBox{MarginsZero: true},
 				Children: []Widget{
-					LineEdit{Text: Bind("BandwidthNum")},
+					NumberEdit{
+						Value:              Bind("BandwidthNum"),
+						MinValue:           0,
+						MaxValue:           math.MaxFloat64,
+						SpinButtonsVisible: true,
+						Style:              win.ES_RIGHT,
+					},
 					ComboBox{Model: consts.Bandwidth, Value: Bind("BandwidthUnit")},
 					Label{Text: "@"},
 					ComboBox{
@@ -441,8 +438,8 @@ func (pd *EditProxyDialog) onSave() {
 		pd.binder.Proxy.Role = ""
 	}
 	// Update bandwidth
-	if pd.binder.BandwidthNum != "" {
-		pd.binder.Proxy.BandwidthLimit = pd.binder.BandwidthNum + pd.binder.BandwidthUnit
+	if pd.binder.BandwidthNum > 0 {
+		pd.binder.Proxy.BandwidthLimit = strconv.FormatInt(pd.binder.BandwidthNum, 10) + pd.binder.BandwidthUnit
 		if pd.binder.Proxy.BandwidthLimitMode == consts.BandwidthMode[0] {
 			pd.binder.Proxy.BandwidthLimitMode = ""
 		}
@@ -450,16 +447,13 @@ func (pd *EditProxyDialog) onSave() {
 		pd.binder.Proxy.BandwidthLimit = ""
 		pd.binder.Proxy.BandwidthLimitMode = ""
 	}
-	pb, err := pd.binder.Proxy.Marshal()
-	if err != nil {
-		showError(err, pd.Form())
-		return
-	}
-	if err = services.VerifyClientProxy(pb); err != nil {
-		showError(err, pd.Form())
+	pd.binder.Proxy.LocalPort = strings.TrimSpace(pd.binder.Proxy.LocalPort)
+	pd.binder.Proxy.RemotePort = strings.TrimSpace(pd.binder.Proxy.RemotePort)
+	if ok := pd.validateProxy(pd.binder.Proxy); !ok {
 		return
 	}
 	*pd.Proxy = pd.binder.Proxy
+	pd.Proxy.Complete()
 	pd.Accept()
 }
 
@@ -533,44 +527,84 @@ func (pd *EditProxyDialog) switchType() {
 			}
 		}
 	}
-	pd.watchRangePort()
 	pd.vmDB.Reset()
 }
 
-func (pd *EditProxyDialog) watchRangePort() {
-	var isRange bool
-	// The "range:" function requires both local port and remote port are set
-	if pd.viewModel.LocalPortVisible && pd.viewModel.RemotePortVisible {
-		for _, portView := range []*walk.LineEdit{pd.localPortView, pd.remotePortView} {
-			portText := portView.Text()
-			isRange = strings.Contains(portText, "-") || strings.Contains(portText, ",")
-			if isRange {
-				break
-			}
-		}
-	}
-	proxyName := pd.nameView.Text()
-	hasPrefix := strings.HasPrefix(proxyName, consts.RangePrefix)
-	if isRange {
-		if !hasPrefix {
-			pd.nameView.SetText(consts.RangePrefix + proxyName)
-		}
-	} else {
-		if hasPrefix {
-			pd.nameView.SetText(strings.TrimPrefix(proxyName, consts.RangePrefix))
-		}
-	}
-}
-
-func splitBandwidth(s string) (string, string) {
+func splitBandwidth(s string) (int64, string) {
 	s = strings.TrimSpace(s)
 	if s == "" {
-		return "", "MB"
+		return 0, "MB"
 	}
-	if strings.HasSuffix(s, "MB") {
-		return strings.TrimSuffix(s, "MB"), "MB"
-	} else if strings.HasSuffix(s, "KB") {
-		return strings.TrimSuffix(s, "KB"), "KB"
+
+	if strings.HasSuffix(s, "MB") || strings.HasSuffix(s, "KB") {
+		unit := s[len(s)-2:]
+		num, _ := strconv.ParseInt(strings.TrimSuffix(s, unit), 10, 64)
+		return num, unit
 	}
-	return "", "MB"
+	return 0, "MB"
+}
+
+func (pd *EditProxyDialog) validateProxy(p config.Proxy) bool {
+	if p.IsVisitor() {
+		if p.BindPort == 0 {
+			showErrorMessage(pd.Form(), "", i18n.Sprintf("Bind port is required."))
+			return false
+		}
+		return true
+	}
+	if p.Plugin == "" && p.LocalPort == "" {
+		showErrorMessage(pd.Form(), "", i18n.Sprintf("Requires local port or plugin."))
+		return false
+	}
+	if p.Plugin != "" {
+		p.LocalIP = ""
+		p.LocalPort = ""
+	} else if p.Type != consts.ProxyTypeTCP && p.Type != consts.ProxyTypeUDP {
+		if port, err := strconv.ParseInt(p.LocalPort, 10, 64); err != nil || port <= 0 {
+			showErrorMessage(pd.Form(), "", i18n.Sprintf("Invalid local port."))
+			return false
+		}
+	}
+	if p.HealthCheckType == "http" && p.HealthCheckURL == "" {
+		showErrorMessage(pd.Form(), "", i18n.Sprintf("Health check url is required."))
+		return false
+	}
+
+	switch p.Type {
+	case consts.ProxyTypeTCP, consts.ProxyTypeUDP:
+		if p.RemotePort == "" {
+			p.RemotePort = "0"
+		}
+		if p.Plugin != "" {
+			if p.IsRange() {
+				showErrorMessage(pd.Form(), "", i18n.Sprintf("The plugin does not support range ports."))
+			} else if port, err := strconv.ParseInt(p.RemotePort, 10, 64); err != nil || port < 0 {
+				showErrorMessage(pd.Form(), "", i18n.Sprintf("Invalid remote port."))
+			} else {
+				break
+			}
+			return false
+		} else {
+			localPorts, err := frputil.ParseRangeNumbers(p.LocalPort)
+			if err != nil {
+				showError(err, pd.Form())
+				return false
+			}
+			remotePorts, err := frputil.ParseRangeNumbers(p.RemotePort)
+			if err != nil {
+				showError(err, pd.Form())
+				return false
+			}
+			if p.IsRange() && len(localPorts) != len(remotePorts) {
+				showErrorMessage(pd.Form(), "", i18n.Sprintf("The number of local ports should be the same as the number of remote ports."))
+				return false
+			}
+		}
+	case consts.ProxyTypeTCPMUX, consts.ProxyTypeHTTP, consts.ProxyTypeHTTPS:
+		if p.CustomDomains == "" && p.SubDomain == "" {
+			showErrorMessage(pd.Form(), "", i18n.Sprintf("Custom domains and subdomain should have at least one of these set."))
+			return false
+		}
+	}
+	return true
 }

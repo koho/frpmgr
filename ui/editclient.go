@@ -2,6 +2,7 @@ package ui
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"path/filepath"
 	"strings"
@@ -346,6 +347,7 @@ func (cd *EditClientDialog) tlsConfPage() TabPage {
 
 func (cd *EditClientDialog) advancedConfPage() TabPage {
 	muxChecked := Bind("muxCheck.Checked")
+	var legacy *walk.CheckBox
 	return TabPage{
 		Title:  i18n.Sprintf("Advanced"),
 		Layout: Grid{Columns: 2},
@@ -374,6 +376,7 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 								Enabled:            muxChecked,
 								Value:              Bind("TCPMuxKeepaliveInterval"),
 								MinValue:           0,
+								MaxValue:           math.MaxFloat64,
 								SpinButtonsVisible: true,
 								MinSize:            Size{Width: 85},
 								Style:              win.ES_RIGHT,
@@ -384,9 +387,15 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 					CheckBox{Text: i18n.Sprintf("Exit after login failure"), Checked: Bind("LoginFailExit")},
 					CheckBox{Text: i18n.Sprintf("Disable auto-start at boot"), Checked: Bind("ManualStart")},
 					CheckBox{
-						Name:    "legacyFormat",
-						Text:    i18n.Sprintf("Use legacy format config file"),
-						Checked: Bind("LegacyFormat"),
+						AssignTo: &legacy,
+						Name:     "legacyFormat",
+						Text:     i18n.Sprintf("Use legacy format config file"),
+						Checked:  Bind("LegacyFormat"),
+						OnCheckedChanged: func() {
+							if !legacy.Checked() && !cd.canUpgradeFormat() {
+								legacy.SetChecked(true)
+							}
+						},
 					},
 					VSpacer{Size: 4},
 					Composite{
@@ -537,4 +546,17 @@ func (cd *EditClientDialog) hasConf(name string) bool {
 
 func (cd *EditClientDialog) Run(owner walk.Form) (int, error) {
 	return cd.View().Run(owner)
+}
+
+func (cd *EditClientDialog) canUpgradeFormat() bool {
+	for _, v := range cd.data.Proxies {
+		if !v.IsVisitor() {
+			if _, err := config.ClientProxyToV1(v); err != nil {
+				showErrorMessage(cd.Form(), "", i18n.Sprintf("Unable to upgrade your config file due to proxy conversion failure, "+
+					"please check the proxy config and try again.\n\nBad proxy: %s", v.Name))
+				return false
+			}
+		}
+	}
+	return true
 }

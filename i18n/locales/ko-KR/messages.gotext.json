@@ -765,6 +765,21 @@
             ]
         },
         {
+            "id": "Unable to upgrade your config file due to proxy conversion failure, please check the proxy config and try again.\n\nBad proxy: {Name}",
+            "message": "Unable to upgrade your config file due to proxy conversion failure, please check the proxy config and try again.\n\nBad proxy: {Name}",
+            "translation": "프록시 변환 실패로 인해 구성 파일을 업그레이드할 수 없습니다. 프록시 구성을 확인하고 다시 시도하세요.\n\n잘못된 프록시: {Name}",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "v.Name"
+                }
+            ]
+        },
+        {
             "id": "New Proxy",
             "message": "New Proxy",
             "translation": "새 프록시"
@@ -1063,6 +1078,46 @@
                     "expr": "name"
                 }
             ]
+        },
+        {
+            "id": "Bind port is required.",
+            "message": "Bind port is required.",
+            "translation": "바인드 포트가 필요합니다."
+        },
+        {
+            "id": "Requires local port or plugin.",
+            "message": "Requires local port or plugin.",
+            "translation": "로컬 포트 또는 플러그인이 필요합니다."
+        },
+        {
+            "id": "Invalid local port.",
+            "message": "Invalid local port.",
+            "translation": "로컬 포트가 잘못되었습니다."
+        },
+        {
+            "id": "Health check url is required.",
+            "message": "Health check url is required.",
+            "translation": "상태 확인 URL이 필요합니다."
+        },
+        {
+            "id": "The plugin does not support range ports.",
+            "message": "The plugin does not support range ports.",
+            "translation": "플러그인은 범위 포트를 지원하지 않습니다."
+        },
+        {
+            "id": "Invalid remote port.",
+            "message": "Invalid remote port.",
+            "translation": "원격 포트가 잘못되었습니다."
+        },
+        {
+            "id": "The number of local ports should be the same as the number of remote ports.",
+            "message": "The number of local ports should be the same as the number of remote ports.",
+            "translation": "로컬 포트 수는 원격 포트 수와 동일해야 합니다."
+        },
+        {
+            "id": "Custom domains and subdomain should have at least one of these set.",
+            "message": "Custom domains and subdomain should have at least one of these set.",
+            "translation": "사용자 정의 도메인 및 하위 도메인에는 이러한 세트가 하나 이상 있어야 합니다."
         },
         {
             "id": "Open Log Folder",

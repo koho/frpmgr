@@ -765,6 +765,21 @@
             ]
         },
         {
+            "id": "Unable to upgrade your config file due to proxy conversion failure, please check the proxy config and try again.\n\nBad proxy: {Name}",
+            "message": "Unable to upgrade your config file due to proxy conversion failure, please check the proxy config and try again.\n\nBad proxy: {Name}",
+            "translation": "No se puede actualizar su archivo de configuración debido a un error en la conversión del proxy. Verifique la configuración del proxy e inténtelo nuevamente.\n\nProxy incorrecto: {Name}",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "v.Name"
+                }
+            ]
+        },
+        {
             "id": "New Proxy",
             "message": "New Proxy",
             "translation": "Nuevo Proxy"
@@ -1063,6 +1078,46 @@
                     "expr": "name"
                 }
             ]
+        },
+        {
+            "id": "Bind port is required.",
+            "message": "Bind port is required.",
+            "translation": "Se requiere puerto de vinculación."
+        },
+        {
+            "id": "Requires local port or plugin.",
+            "message": "Requires local port or plugin.",
+            "translation": "Requiere puerto local o complemento."
+        },
+        {
+            "id": "Invalid local port.",
+            "message": "Invalid local port.",
+            "translation": "Puerto local no válido."
+        },
+        {
+            "id": "Health check url is required.",
+            "message": "Health check url is required.",
+            "translation": "Se requiere la URL de verificación de estado."
+        },
+        {
+            "id": "The plugin does not support range ports.",
+            "message": "The plugin does not support range ports.",
+            "translation": "El complemento no admite puertos de rango."
+        },
+        {
+            "id": "Invalid remote port.",
+            "message": "Invalid remote port.",
+            "translation": "Puerto remoto no válido."
+        },
+        {
+            "id": "The number of local ports should be the same as the number of remote ports.",
+            "message": "The number of local ports should be the same as the number of remote ports.",
+            "translation": "La cantidad de puertos locales debe ser la misma que la cantidad de puertos remotos."
+        },
+        {
+            "id": "Custom domains and subdomain should have at least one of these set.",
+            "message": "Custom domains and subdomain should have at least one of these set.",
+            "translation": "Los dominios y subdominios personalizados deben tener al menos uno de estos configurados."
         },
         {
             "id": "Open Log Folder",

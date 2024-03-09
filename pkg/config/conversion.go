@@ -9,6 +9,7 @@ import (
 
 	"github.com/fatedier/frp/pkg/config/types"
 	"github.com/fatedier/frp/pkg/config/v1"
+	frputil "github.com/fatedier/frp/pkg/util/util"
 	"github.com/samber/lo"
 
 	"github.com/koho/frpmgr/pkg/consts"
@@ -90,14 +91,23 @@ func ClientCommonFromV1(c *v1.ClientCommonConfig) (r ClientCommon) {
 	return
 }
 
-func ClientProxyFromV1(pxyCfg v1.TypedProxyConfig) *Proxy {
+func ClientProxyFromV1(pxyCfg TypedProxyConfig) *Proxy {
 	var r Proxy
 	clientProxyBaseFromV1(pxyCfg.GetBaseConfig(), &r)
+	setRemotePort := func(port int) {
+		if pxyCfg.Mgr.Range.Local != "" && pxyCfg.Mgr.Range.Remote != "" && strings.HasSuffix(r.Name, "_0") {
+			r.Name = strings.TrimSuffix(r.Name, "_0")
+			r.LocalPort = pxyCfg.Mgr.Range.Local
+			r.RemotePort = pxyCfg.Mgr.Range.Remote
+		} else {
+			r.RemotePort = strconv.Itoa(port)
+		}
+	}
 	switch v := pxyCfg.ProxyConfigurer.(type) {
 	case *v1.TCPProxyConfig:
-		r.RemotePort = strconv.Itoa(v.RemotePort)
+		setRemotePort(v.RemotePort)
 	case *v1.UDPProxyConfig:
-		r.RemotePort = strconv.Itoa(v.RemotePort)
+		setRemotePort(v.RemotePort)
 	case *v1.HTTPProxyConfig:
 		r.SubDomain = v.SubDomain
 		r.CustomDomains = strings.Join(v.CustomDomains, ",")
@@ -299,8 +309,43 @@ func ClientCommonToV1(c *ClientCommon) (r v1.ClientCommonConfig) {
 	return
 }
 
-func ClientProxyToV1(p *Proxy) (v1.TypedProxyConfig, error) {
-	r := v1.TypedProxyConfig{Type: p.Type}
+func ClientProxyToV1(p *Proxy) ([]TypedProxyConfig, error) {
+	if p.IsRange() {
+		localPorts, err := frputil.ParseRangeNumbers(p.LocalPort)
+		if err != nil {
+			return nil, err
+		}
+		remotePorts, err := frputil.ParseRangeNumbers(p.RemotePort)
+		if err != nil {
+			return nil, err
+		}
+		if len(localPorts) != len(remotePorts) {
+			return nil, fmt.Errorf("local ports number should be same with remote ports number")
+		}
+		r := make([]TypedProxyConfig, len(localPorts))
+		for i := range localPorts {
+			subPxy := *p
+			subPxy.Name = fmt.Sprintf("%s_%d", p.Name, i)
+			subPxy.LocalPort = strconv.FormatInt(localPorts[i], 10)
+			subPxy.RemotePort = strconv.FormatInt(remotePorts[i], 10)
+			if r[i], err = singleClientProxyToV1(&subPxy); err != nil {
+				return nil, err
+			}
+		}
+		r[0].Mgr.Range.Local = p.LocalPort
+		r[0].Mgr.Range.Remote = p.RemotePort
+		return r, nil
+	} else {
+		r, err := singleClientProxyToV1(p)
+		if err != nil {
+			return nil, err
+		}
+		return []TypedProxyConfig{r}, nil
+	}
+}
+
+func singleClientProxyToV1(p *Proxy) (TypedProxyConfig, error) {
+	r := TypedProxyConfig{TypedProxyConfig: v1.TypedProxyConfig{Type: p.Type}}
 	base, err := clientProxyBaseToV1(&p.BaseProxyConf)
 	if err != nil {
 		return r, err

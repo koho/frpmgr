@@ -353,7 +353,9 @@ func (pv *ProxyView) onCopyAccessAddr() {
 		}
 	case consts.ProxyTypeXTCP, consts.ProxyTypeSTCP, consts.ProxyTypeSUDP:
 		if proxy.Role == "visitor" {
-			access = util.GetOrElse(proxy.BindAddr, "127.0.0.1") + ":" + strconv.Itoa(proxy.BindPort)
+			if proxy.BindPort > 0 {
+				access = util.GetOrElse(proxy.BindAddr, "127.0.0.1") + ":" + strconv.Itoa(proxy.BindPort)
+			}
 		} else {
 			access = util.GetOrElse(proxy.LocalIP, "127.0.0.1") + ":" + proxy.LocalPort
 		}
@@ -378,7 +380,7 @@ func (pv *ProxyView) onClipboardImport() {
 	var proxy *config.Proxy
 	if strings.HasPrefix(text, "[[proxies]]") {
 		var proxies struct {
-			C []v1.TypedProxyConfig `json:"proxies"`
+			C []config.TypedProxyConfig `json:"proxies"`
 		}
 		if err = frpconfig.LoadConfigure([]byte(text), &proxies, false); err == nil && len(proxies.C) > 0 {
 			proxy = config.ClientProxyFromV1(proxies.C[0])
