@@ -27,7 +27,7 @@ type TypedProxyConfig struct {
 }
 
 type ProxyMgr struct {
-	Range RangePort `json:"range"`
+	Range RangePort `json:"range,omitempty"`
 }
 
 type RangePort struct {
