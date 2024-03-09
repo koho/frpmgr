@@ -242,6 +242,7 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 						MaxValue:           math.MaxFloat64,
 						SpinButtonsVisible: true,
 						Style:              win.ES_RIGHT,
+						Greedy:             true,
 					},
 					ComboBox{Model: consts.Bandwidth, Value: Bind("BandwidthUnit")},
 					Label{Text: "@"},

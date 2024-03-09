@@ -8,6 +8,7 @@ require (
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e
 	github.com/miekg/dns v1.1.58
+	github.com/pelletier/go-toml/v2 v2.1.0
 	github.com/samber/lo v1.39.0
 	golang.org/x/sys v0.17.0
 	golang.org/x/text v0.14.0
@@ -33,7 +34,6 @@ require (
 	github.com/klauspost/cpuid/v2 v2.0.6 // indirect
 	github.com/klauspost/reedsolomon v1.9.15 // indirect
 	github.com/onsi/ginkgo/v2 v2.11.0 // indirect
-	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
 	github.com/pion/dtls/v2 v2.2.7 // indirect
 	github.com/pion/logging v0.2.2 // indirect
 	github.com/pion/stun v0.6.1 // indirect
@@ -64,4 +64,4 @@ require (
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
 
-replace github.com/lxn/walk => github.com/koho/frpmgr v0.0.0-20240228174759-ec59bb05f3d7
+replace github.com/lxn/walk => github.com/koho/frpmgr v0.0.0-20240309173424-3817a91bcc39
