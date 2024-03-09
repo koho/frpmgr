@@ -932,23 +932,16 @@
             "fuzzy": true
         },
         {
-            "id": "TCP Mux",
-            "message": "TCP Mux",
-            "translation": "TCP Mux",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Mux Keepalive",
-            "message": "Mux Keepalive",
-            "translation": "Mux Keepalive",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "Source Address",
             "message": "Source Address",
             "translation": "Source Address",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "TCP Mux",
+            "message": "TCP Mux",
+            "translation": "TCP Mux",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -963,6 +956,13 @@
             "id": "Disable auto-start at boot",
             "message": "Disable auto-start at boot",
             "translation": "Disable auto-start at boot",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Use legacy format config file",
+            "message": "Use legacy format config file",
+            "translation": "Use legacy format config file",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1014,6 +1014,23 @@
                     "underlyingType": "string",
                     "argNum": 1,
                     "expr": "name"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Unable to upgrade your config file due to proxy conversion failure, please check the proxy config and try again.\n\nBad proxy: {Name}",
+            "message": "Unable to upgrade your config file due to proxy conversion failure, please check the proxy config and try again.\n\nBad proxy: {Name}",
+            "translation": "Unable to upgrade your config file due to proxy conversion failure, please check the proxy config and try again.\n\nBad proxy: {Name}",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "v.Name"
                 }
             ],
             "fuzzy": true
@@ -1431,6 +1448,62 @@
             "fuzzy": true
         },
         {
+            "id": "Bind port is required.",
+            "message": "Bind port is required.",
+            "translation": "Bind port is required.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Requires local port or plugin.",
+            "message": "Requires local port or plugin.",
+            "translation": "Requires local port or plugin.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Invalid local port.",
+            "message": "Invalid local port.",
+            "translation": "Invalid local port.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Health check url is required.",
+            "message": "Health check url is required.",
+            "translation": "Health check url is required.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "The plugin does not support range ports.",
+            "message": "The plugin does not support range ports.",
+            "translation": "The plugin does not support range ports.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Invalid remote port.",
+            "message": "Invalid remote port.",
+            "translation": "Invalid remote port.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "The number of local ports should be the same as the number of remote ports.",
+            "message": "The number of local ports should be the same as the number of remote ports.",
+            "translation": "The number of local ports should be the same as the number of remote ports.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Custom domains and subdomain should have at least one of these set.",
+            "message": "Custom domains and subdomain should have at least one of these set.",
+            "translation": "Custom domains and subdomain should have at least one of these set.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Open Log Folder",
             "message": "Open Log Folder",
             "translation": "Open Log Folder",
@@ -1773,9 +1846,9 @@
             "fuzzy": true
         },
         {
-            "id": "Enable",
-            "message": "Enable",
-            "translation": "Enable",
+            "id": "Disable",
+            "message": "Disable",
+            "translation": "Disable",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1883,9 +1956,9 @@
             "fuzzy": true
         },
         {
-            "id": "Disable",
-            "message": "Disable",
-            "translation": "Disable",
+            "id": "Enable",
+            "message": "Enable",
+            "translation": "Enable",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

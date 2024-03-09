@@ -129,7 +129,6 @@ var (
 var (
 	ValidateNonEmpty       = validators.Regexp{Pattern: "[^\\s]+"}
 	ValidateRequireInteger = validators.Regexp{Pattern: "^\\d+$"}
-	ValidateInteger        = validators.Regexp{Pattern: "^\\d*$"}
 	ValidatePortRange      = []Validator{ValidateRequireInteger, validators.Range{Min: 0, Max: 65535}}
 )
 

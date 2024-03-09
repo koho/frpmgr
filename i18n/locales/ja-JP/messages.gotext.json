@@ -710,19 +710,14 @@
             "translation": "高度"
         },
         {
-            "id": "TCP Mux",
-            "message": "TCP Mux",
-            "translation": "多重化"
-        },
-        {
-            "id": "Mux Keepalive",
-            "message": "Mux Keepalive",
-            "translation": "多重化接続を維持"
-        },
-        {
             "id": "Source Address",
             "message": "Source Address",
             "translation": "送信元アドレス"
+        },
+        {
+            "id": "TCP Mux",
+            "message": "TCP Mux",
+            "translation": "多重化"
         },
         {
             "id": "Exit after login failure",
@@ -733,6 +728,11 @@
             "id": "Disable auto-start at boot",
             "message": "Disable auto-start at boot",
             "translation": "起動時に自動起動を無効にする"
+        },
+        {
+            "id": "Use legacy format config file",
+            "message": "Use legacy format config file",
+            "translation": "従来の形式の設定ファイルを使用する"
         },
         {
             "id": "Metadata",
@@ -771,6 +771,21 @@
                     "underlyingType": "string",
                     "argNum": 1,
                     "expr": "name"
+                }
+            ]
+        },
+        {
+            "id": "Unable to upgrade your config file due to proxy conversion failure, please check the proxy config and try again.\n\nBad proxy: {Name}",
+            "message": "Unable to upgrade your config file due to proxy conversion failure, please check the proxy config and try again.\n\nBad proxy: {Name}",
+            "translation": "プロキシ変換が失敗したため、設定ファイルをアップグレードできません。プロキシ設定を確認して、もう一度試してください。\n\n不正なプロキシ: {Name}",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "v.Name"
                 }
             ]
         },
@@ -1075,6 +1090,46 @@
             ]
         },
         {
+            "id": "Bind port is required.",
+            "message": "Bind port is required.",
+            "translation": "バインドポートは必須です。"
+        },
+        {
+            "id": "Requires local port or plugin.",
+            "message": "Requires local port or plugin.",
+            "translation": "ローカルポートまたはプラグインが必要です。"
+        },
+        {
+            "id": "Invalid local port.",
+            "message": "Invalid local port.",
+            "translation": "ローカルポートが無効です。"
+        },
+        {
+            "id": "Health check url is required.",
+            "message": "Health check url is required.",
+            "translation": "ヘルスチェックのURLは必須です。"
+        },
+        {
+            "id": "The plugin does not support range ports.",
+            "message": "The plugin does not support range ports.",
+            "translation": "プラグインは範囲ポートをサポートしていません。"
+        },
+        {
+            "id": "Invalid remote port.",
+            "message": "Invalid remote port.",
+            "translation": "無効なリモートポートです。"
+        },
+        {
+            "id": "The number of local ports should be the same as the number of remote ports.",
+            "message": "The number of local ports should be the same as the number of remote ports.",
+            "translation": "ローカル ポートの数はリモート ポートの数と同じである必要があります。"
+        },
+        {
+            "id": "Custom domains and subdomain should have at least one of these set.",
+            "message": "Custom domains and subdomain should have at least one of these set.",
+            "translation": "カスタム ドメインとサブドメインには、これらのうち少なくとも 1 つが設定されている必要があります。"
+        },
+        {
             "id": "Open Log Folder",
             "message": "Open Log Folder",
             "translation": "ログフォルダを開く"
@@ -1325,9 +1380,9 @@
             "translation": "HTTP ファイルサーバー"
         },
         {
-            "id": "Enable",
-            "message": "Enable",
-            "translation": "有効"
+            "id": "Disable",
+            "message": "Disable",
+            "translation": "無効"
         },
         {
             "id": "Open Config",
@@ -1415,9 +1470,9 @@
             ]
         },
         {
-            "id": "Disable",
-            "message": "Disable",
-            "translation": "無効"
+            "id": "Enable",
+            "message": "Enable",
+            "translation": "有効"
         },
         {
             "id": "Passive Port Range",

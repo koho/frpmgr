@@ -49,7 +49,7 @@ type AutoDelete struct {
 	// is calculated by adding the days to the file modification time. If it's empty, the config has no expiry date.
 	DeleteMethod string `ini:"frpmgr_delete_method,omitempty" json:"method,omitempty"`
 	// DeleteAfterDays is the number of days a config will be kept, after which it may be stopped and deleted.
-	DeleteAfterDays uint `ini:"frpmgr_delete_after_days,omitempty" relative:"true" json:"afterDays,omitempty"`
+	DeleteAfterDays int64 `ini:"frpmgr_delete_after_days,omitempty" relative:"true" json:"afterDays,omitempty"`
 	// DeleteAfterDate is the last date the config will be valid, after which it may be stopped and deleted.
 	DeleteAfterDate time.Time `ini:"frpmgr_delete_after_date,omitempty" absolute:"true" json:"afterDate,omitempty"`
 }

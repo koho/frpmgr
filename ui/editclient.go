@@ -2,6 +2,7 @@ package ui
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"path/filepath"
 	"strings"
@@ -9,6 +10,7 @@ import (
 
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
+	"github.com/lxn/win"
 	"github.com/samber/lo"
 
 	"github.com/koho/frpmgr/i18n"
@@ -119,7 +121,19 @@ func (cd *EditClientDialog) basicConfPage() TabPage {
 			Label{Text: i18n.SprintfColon("Server Address")},
 			LineEdit{Text: Bind("ServerAddress", consts.ValidateNonEmpty)},
 			Label{Text: i18n.SprintfColon("Server Port")},
-			LineEdit{Text: Bind("ServerPort", consts.ValidateRequireInteger)},
+			Composite{
+				Layout: HBox{MarginsZero: true},
+				Children: []Widget{
+					NumberEdit{
+						Value:              Bind("ServerPort"),
+						MinValue:           0,
+						MaxValue:           65535,
+						SpinButtonsVisible: true,
+						MinSize:            Size{Width: 90},
+					},
+					HSpacer{},
+				},
+			},
 			Label{Text: i18n.SprintfColon("User")},
 			LineEdit{Text: Bind("User")},
 			Label{Text: i18n.SprintfColon("STUN Server")},
@@ -197,6 +211,7 @@ func (cd *EditClientDialog) logConfPage() TabPage {
 }
 
 func (cd *EditClientDialog) adminConfPage() TabPage {
+	adminEnabled := Bind("adminPort.Value > 0")
 	return AlignGrid(TabPage{
 		Title:  i18n.Sprintf("Admin"),
 		Layout: Grid{Columns: 2},
@@ -207,9 +222,15 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 				Children: []Widget{
 					LineEdit{Text: Bind("AdminAddr"), StretchFactor: 2},
 					Label{Text: ":"},
-					LineEdit{Name: "adminPort", Text: Bind("AdminPort", consts.ValidateInteger)},
+					NumberEdit{
+						Name:     "adminPort",
+						Value:    Bind("AdminPort"),
+						MinValue: 0,
+						MaxValue: 65535,
+						MinSize:  Size{Width: 70},
+					},
 					ToolButton{
-						Enabled:     Bind("adminPort.Text != ''"),
+						Enabled:     Bind("adminPort.Value > 0 && !legacyFormat.Checked"),
 						Image:       loadIcon(consts.IconLock, 16),
 						ToolTipText: "TLS", OnClicked: func() {
 							cd.adminTLSDialog().Run(cd.Form())
@@ -217,15 +238,15 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 					},
 				},
 			},
-			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("User")},
-			LineEdit{Enabled: Bind("adminPort.Text != ''"), Text: Bind("AdminUser")},
-			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("Password")},
-			LineEdit{Enabled: Bind("adminPort.Text != ''"), Text: Bind("AdminPwd"), PasswordMode: true},
-			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("Assets")},
-			NewBrowseLineEdit(nil, true, Bind("adminPort.Text != ''"), Bind("AssetsDir"),
+			Label{Enabled: adminEnabled, Text: i18n.SprintfColon("User")},
+			LineEdit{Enabled: adminEnabled, Text: Bind("AdminUser")},
+			Label{Enabled: adminEnabled, Text: i18n.SprintfColon("Password")},
+			LineEdit{Enabled: adminEnabled, Text: Bind("AdminPwd"), PasswordMode: true},
+			Label{Enabled: adminEnabled, Text: i18n.SprintfColon("Assets")},
+			NewBrowseLineEdit(nil, true, adminEnabled, Bind("AssetsDir"),
 				i18n.Sprintf("Select a local directory that the admin server will load resources from."), "", false),
-			Label{Enabled: Bind("adminPort.Text != ''"), Text: i18n.SprintfColon("Other Options")},
-			CheckBox{Enabled: Bind("adminPort.Text != ''"), Text: "Pprof", Checked: Bind("PprofEnable")},
+			Label{Enabled: adminEnabled, Text: i18n.SprintfColon("Other Options")},
+			CheckBox{Enabled: adminEnabled, Text: "Pprof", Checked: Bind("PprofEnable")},
 			Label{Text: i18n.SprintfColon("Auto Delete")},
 			NewRadioButtonGroup("DeleteMethod", nil, nil, []RadioButton{
 				{Name: "absCheck", Text: i18n.Sprintf("Absolute"), Value: consts.DeleteAbsolute},
@@ -325,17 +346,12 @@ func (cd *EditClientDialog) tlsConfPage() TabPage {
 }
 
 func (cd *EditClientDialog) advancedConfPage() TabPage {
+	muxChecked := Bind("muxCheck.Checked")
+	var legacy *walk.CheckBox
 	return TabPage{
 		Title:  i18n.Sprintf("Advanced"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Text: i18n.SprintfColon("TCP Mux")},
-			NewRadioButtonGroup("TCPMux", nil, nil, []RadioButton{
-				{Name: "muxCheck", Text: i18n.Sprintf("On"), Value: true},
-				{Text: i18n.Sprintf("Off"), Value: false},
-			}),
-			Label{Enabled: Bind("muxCheck.Checked"), Text: i18n.SprintfColon("Mux Keepalive")},
-			NumberEdit{Enabled: Bind("muxCheck.Checked"), Value: Bind("TCPMuxKeepaliveInterval"), Suffix: i18n.SprintfLSpace("s")},
 			Label{Text: "DNS:"},
 			LineEdit{Text: Bind("DNSServer")},
 			Label{Text: i18n.SprintfColon("Source Address")},
@@ -350,8 +366,37 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 			Composite{
 				Layout: VBox{MarginsZero: true, SpacingZero: true, Alignment: AlignHNearVNear},
 				Children: []Widget{
+					Composite{
+						Layout: HBox{MarginsZero: true},
+						Children: []Widget{
+							CheckBox{Name: "muxCheck", Text: i18n.Sprintf("TCP Mux"), Checked: Bind("TCPMux")},
+							HSpacer{},
+							Label{Enabled: muxChecked, Text: i18n.SprintfColon("Heartbeat")},
+							NumberEdit{
+								Enabled:            muxChecked,
+								Value:              Bind("TCPMuxKeepaliveInterval"),
+								MinValue:           0,
+								MaxValue:           math.MaxFloat64,
+								SpinButtonsVisible: true,
+								MinSize:            Size{Width: 85},
+								Style:              win.ES_RIGHT,
+							},
+							Label{Enabled: muxChecked, Text: i18n.Sprintf("s")},
+						},
+					},
 					CheckBox{Text: i18n.Sprintf("Exit after login failure"), Checked: Bind("LoginFailExit")},
 					CheckBox{Text: i18n.Sprintf("Disable auto-start at boot"), Checked: Bind("ManualStart")},
+					CheckBox{
+						AssignTo: &legacy,
+						Name:     "legacyFormat",
+						Text:     i18n.Sprintf("Use legacy format config file"),
+						Checked:  Bind("LegacyFormat"),
+						OnCheckedChanged: func() {
+							if !legacy.Checked() && !cd.canUpgradeFormat() {
+								legacy.SetChecked(true)
+							}
+						},
+					},
 					VSpacer{Size: 4},
 					Composite{
 						Layout: HBox{MarginsZero: true, Spacing: 18},
@@ -501,4 +546,17 @@ func (cd *EditClientDialog) hasConf(name string) bool {
 
 func (cd *EditClientDialog) Run(owner walk.Form) (int, error) {
 	return cd.View().Run(owner)
+}
+
+func (cd *EditClientDialog) canUpgradeFormat() bool {
+	for _, v := range cd.data.Proxies {
+		if !v.IsVisitor() {
+			if _, err := config.ClientProxyToV1(v); err != nil {
+				showErrorMessage(cd.Form(), "", i18n.Sprintf("Unable to upgrade your config file due to proxy conversion failure, "+
+					"please check the proxy config and try again.\n\nBad proxy: %s", v.Name))
+				return false
+			}
+		}
+	}
+	return true
 }

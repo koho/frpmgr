@@ -1,7 +1,6 @@
 package config
 
 import (
-	"bytes"
 	"fmt"
 	"os"
 	"slices"
@@ -10,27 +9,13 @@ import (
 	"github.com/fatedier/frp/pkg/config"
 	"github.com/fatedier/frp/pkg/config/v1"
 	frputil "github.com/fatedier/frp/pkg/util/util"
+	"github.com/pelletier/go-toml/v2"
 	"github.com/samber/lo"
 	"gopkg.in/ini.v1"
 
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
 )
-
-type ClientConfigV1 struct {
-	v1.ClientCommonConfig
-
-	Proxies  []v1.TypedProxyConfig   `json:"proxies,omitempty"`
-	Visitors []v1.TypedVisitorConfig `json:"visitors,omitempty"`
-
-	Internal Internal `json:"frpmgr,omitempty"`
-}
-
-type Internal struct {
-	ManualStart bool       `json:"manualStart,omitempty"`
-	SVCBEnable  bool       `json:"svcbEnable,omitempty"`
-	AutoDelete  AutoDelete `json:"autoDelete,omitempty"`
-}
 
 type ClientAuth struct {
 	AuthMethod                   string            `ini:"authentication_method,omitempty"`
@@ -66,7 +51,7 @@ type ClientCommon struct {
 	v1.APIMetadata            `ini:"-"`
 	ClientAuth                `ini:",extends"`
 	ServerAddress             string       `ini:"server_addr,omitempty"`
-	ServerPort                string       `ini:"server_port,omitempty"`
+	ServerPort                int          `ini:"server_port,omitempty"`
 	NatHoleSTUNServer         string       `ini:"nat_hole_stun_server,omitempty"`
 	DialServerTimeout         int64        `ini:"dial_server_timeout,omitempty"`
 	DialServerKeepAlive       int64        `ini:"dial_server_keepalive,omitempty"`
@@ -74,14 +59,14 @@ type ClientCommon struct {
 	HTTPProxy                 string       `ini:"http_proxy,omitempty"`
 	LogFile                   string       `ini:"log_file,omitempty"`
 	LogLevel                  string       `ini:"log_level,omitempty"`
-	LogMaxDays                uint         `ini:"log_max_days,omitempty"`
+	LogMaxDays                int64        `ini:"log_max_days,omitempty"`
 	AdminAddr                 string       `ini:"admin_addr,omitempty"`
-	AdminPort                 string       `ini:"admin_port,omitempty"`
+	AdminPort                 int          `ini:"admin_port,omitempty"`
 	AdminUser                 string       `ini:"admin_user,omitempty"`
 	AdminPwd                  string       `ini:"admin_pwd,omitempty"`
 	AdminTLS                  v1.TLSConfig `ini:"-"`
 	AssetsDir                 string       `ini:"assets_dir,omitempty"`
-	PoolCount                 uint         `ini:"pool_count,omitempty"`
+	PoolCount                 int          `ini:"pool_count,omitempty"`
 	DNSServer                 string       `ini:"dns_server,omitempty"`
 	Protocol                  string       `ini:"protocol,omitempty"`
 	QUICKeepalivePeriod       int          `ini:"quic_keepalive_period,omitempty"`
@@ -117,6 +102,8 @@ type ClientCommon struct {
 	AutoDelete `ini:",extends"`
 	// Client meta info
 	Metas map[string]string `ini:"-"`
+	// Config file format
+	LegacyFormat bool `ini:"-"`
 }
 
 // BaseProxyConf provides configuration info that is common to all types.
@@ -216,7 +203,7 @@ type Proxy struct {
 	ServerUser        string            `ini:"server_user,omitempty" visitor:"*"`
 	ServerName        string            `ini:"server_name,omitempty" visitor:"*"`
 	BindAddr          string            `ini:"bind_addr,omitempty" visitor:"*"`
-	BindPort          string            `ini:"bind_port,omitempty" visitor:"*"`
+	BindPort          int               `ini:"bind_port,omitempty" visitor:"*"`
 	CustomDomains     string            `ini:"custom_domains,omitempty" http:"true" https:"true" tcpmux:"true"`
 	SubDomain         string            `ini:"subdomain,omitempty" http:"true" https:"true" tcpmux:"true"`
 	Locations         string            `ini:"locations,omitempty" http:"true"`
@@ -238,15 +225,14 @@ type Proxy struct {
 // GetAlias returns the alias of this proxy.
 // It's usually equal to the proxy name, but proxies that start with "range:" differ from it.
 func (p *Proxy) GetAlias() []string {
-	if strings.HasPrefix(p.Name, consts.RangePrefix) {
-		prefix := strings.TrimSpace(strings.TrimPrefix(p.Name, consts.RangePrefix))
+	if p.IsRange() {
 		localPorts, err := frputil.ParseRangeNumbers(p.LocalPort)
 		if err != nil {
 			return []string{p.Name}
 		}
 		alias := make([]string, len(localPorts))
 		for i := range localPorts {
-			alias[i] = fmt.Sprintf("%s_%d", prefix, i)
+			alias[i] = fmt.Sprintf("%s_%d", p.Name, i)
 		}
 		return alias
 	}
@@ -260,25 +246,9 @@ func (p *Proxy) IsVisitor() bool {
 		p.Type == consts.ProxyTypeSUDP) && p.Role == "visitor"
 }
 
-// Marshal returns the encoded proxy.
-func (p *Proxy) Marshal() ([]byte, error) {
-	// We must complete the proxy.
-	// Otherwise, it contains redundant parameters.
-	p.Complete()
-	// Serialize to ini format
-	cfg := ini.Empty()
-	tp, err := cfg.NewSection(p.Name)
-	if err != nil {
-		return nil, err
-	}
-	if err = tp.ReflectFrom(p); err != nil {
-		return nil, err
-	}
-	proxyBuffer := bytes.NewBuffer(nil)
-	if _, err = cfg.WriteTo(proxyBuffer); err != nil {
-		return nil, err
-	}
-	return proxyBuffer.Bytes(), nil
+func (p *Proxy) IsRange() bool {
+	return (p.Type == consts.ProxyTypeTCP || p.Type == consts.ProxyTypeUDP) &&
+		lo.Some([]rune(p.LocalPort+p.RemotePort), []rune{',', '-'})
 }
 
 // Complete removes redundant parameters base on the proxy type.
@@ -304,6 +274,8 @@ func (p *Proxy) Complete() {
 	} else {
 		// Plugins
 		if base.Plugin != "" {
+			base.LocalIP = ""
+			base.LocalPort = ""
 			if pluginParams, err := util.PruneByTag(base.PluginParams, "true", base.Plugin); err == nil {
 				base.PluginParams = pluginParams.(PluginParams)
 			}
@@ -376,6 +348,14 @@ func (conf *ClientConfig) AddItem(item interface{}) bool {
 }
 
 func (conf *ClientConfig) Save(path string) error {
+	if conf.LegacyFormat {
+		return conf.saveINI(path)
+	} else {
+		return conf.saveTOML(path)
+	}
+}
+
+func (conf *ClientConfig) saveINI(path string) error {
 	cfg := ini.Empty()
 	common, err := cfg.NewSection("common")
 	if err != nil {
@@ -391,7 +371,11 @@ func (conf *ClientConfig) Save(path string) error {
 		common.Key("oidc_additional_" + k).SetValue(v)
 	}
 	for _, proxy := range conf.Proxies {
-		p, err := cfg.NewSection(proxy.Name)
+		name := proxy.Name
+		if proxy.IsRange() && !strings.HasPrefix(name, consts.RangePrefix) {
+			name = consts.RangePrefix + name
+		}
+		p, err := cfg.NewSection(name)
 		if err != nil {
 			return err
 		}
@@ -411,10 +395,41 @@ func (conf *ClientConfig) Save(path string) error {
 	return cfg.SaveTo(path)
 }
 
+func (conf *ClientConfig) saveTOML(path string) error {
+	c := ClientConfigV1{
+		ClientCommonConfig: ClientCommonToV1(&conf.ClientCommon),
+		Mgr: Mgr{
+			ManualStart: conf.ManualStart,
+			SVCBEnable:  conf.SVCBEnable,
+			AutoDelete:  conf.AutoDelete,
+		},
+	}
+	for _, v := range conf.Proxies {
+		if v.IsVisitor() {
+			c.Visitors = append(c.Visitors, ClientVisitorToV1(v))
+		} else {
+			proxies, err := ClientProxyToV1(v)
+			if err != nil {
+				return err
+			}
+			c.Proxies = append(c.Proxies, proxies...)
+		}
+	}
+	obj, err := toMap(&c, "json")
+	if err != nil {
+		return err
+	}
+	b, err := toml.Marshal(obj)
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(path, b, 0666)
+}
+
 func (conf *ClientConfig) Complete(read bool) {
 	// Common config
 	conf.ClientAuth = conf.ClientAuth.Complete()
-	if conf.AdminPort == "" {
+	if conf.AdminPort == 0 {
 		conf.AdminUser = ""
 		conf.AdminPwd = ""
 		conf.AssetsDir = ""
@@ -498,6 +513,7 @@ func NewProxyFromIni(name string, section *ini.Section) (*Proxy, error) {
 	proxy.Metas = util.GetMapWithoutPrefix(section.KeysHash(), "meta_")
 	proxy.Headers = util.GetMapWithoutPrefix(section.KeysHash(), "header_")
 	proxy.PluginHeaders = util.GetMapWithoutPrefix(section.KeysHash(), "plugin_header_")
+	proxy.Name = strings.TrimPrefix(proxy.Name, consts.RangePrefix)
 	return proxy, nil
 }
 
@@ -565,6 +581,7 @@ func UnmarshalClientConfFromIni(source interface{}) (*ClientConfig, error) {
 		conf.Proxies = append(conf.Proxies, proxy)
 	}
 	conf.Complete(true)
+	conf.LegacyFormat = true
 	return conf, nil
 }
 
@@ -587,13 +604,29 @@ func UnmarshalClientConf(source interface{}) (*ClientConfig, error) {
 		return nil, err
 	}
 	var r ClientConfig
-	r.ClientCommon = ClientCommonFromV1(cfg.ClientCommonConfig)
-	r.ManualStart = cfg.Internal.ManualStart
-	r.SVCBEnable = cfg.Internal.SVCBEnable
-	r.AutoDelete = cfg.Internal.AutoDelete
-	for _, v := range cfg.Proxies {
-		r.Proxies = append(r.Proxies, ClientProxyFromV1(v))
+	r.ClientCommon = ClientCommonFromV1(&cfg.ClientCommonConfig)
+	r.ManualStart = cfg.Mgr.ManualStart
+	r.SVCBEnable = cfg.Mgr.SVCBEnable
+	r.AutoDelete = cfg.Mgr.AutoDelete
+	// Proxies
+	ignore := make(map[string]struct{})
+	proxies := make([]*Proxy, len(cfg.Proxies))
+	for i, v := range cfg.Proxies {
+		p := ClientProxyFromV1(v)
+		if p.IsRange() {
+			for _, name := range p.GetAlias() {
+				if name != p.Name {
+					ignore[name] = struct{}{}
+				}
+			}
+		}
+		proxies[i] = p
 	}
+	r.Proxies = lo.Filter(proxies, func(item *Proxy, index int) bool {
+		_, ok := ignore[item.Name]
+		return !ok
+	})
+	// Visitors
 	for _, v := range cfg.Visitors {
 		r.Proxies = append(r.Proxies, ClientVisitorFromV1(v))
 	}
@@ -604,7 +637,7 @@ func NewDefaultClientConfig() *ClientConfig {
 	return &ClientConfig{
 		ClientCommon: ClientCommon{
 			ClientAuth:                ClientAuth{AuthMethod: consts.AuthToken},
-			ServerPort:                "7000",
+			ServerPort:                7000,
 			LogLevel:                  "info",
 			TCPMux:                    true,
 			TLSEnable:                 true,

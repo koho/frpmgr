@@ -700,19 +700,14 @@
             "translation": "高级"
         },
         {
-            "id": "TCP Mux",
-            "message": "TCP Mux",
-            "translation": "多路复用"
-        },
-        {
-            "id": "Mux Keepalive",
-            "message": "Mux Keepalive",
-            "translation": "复用器心跳"
-        },
-        {
             "id": "Source Address",
             "message": "Source Address",
             "translation": "使用源地址"
+        },
+        {
+            "id": "TCP Mux",
+            "message": "TCP Mux",
+            "translation": "多路复用"
         },
         {
             "id": "Exit after login failure",
@@ -723,6 +718,11 @@
             "id": "Disable auto-start at boot",
             "message": "Disable auto-start at boot",
             "translation": "禁用开机自启动"
+        },
+        {
+            "id": "Use legacy format config file",
+            "message": "Use legacy format config file",
+            "translation": "使用旧格式配置文件"
         },
         {
             "id": "Metadata",
@@ -761,6 +761,21 @@
                     "underlyingType": "string",
                     "argNum": 1,
                     "expr": "name"
+                }
+            ]
+        },
+        {
+            "id": "Unable to upgrade your config file due to proxy conversion failure, please check the proxy config and try again.\n\nBad proxy: {Name}",
+            "message": "Unable to upgrade your config file due to proxy conversion failure, please check the proxy config and try again.\n\nBad proxy: {Name}",
+            "translation": "由于代理转换失败，无法升级您的配置文件，请检查代理配置并重试。\n\n出错的代理：{Name}",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "v.Name"
                 }
             ]
         },
@@ -1065,6 +1080,46 @@
             ]
         },
         {
+            "id": "Bind port is required.",
+            "message": "Bind port is required.",
+            "translation": "必须填写绑定端口。"
+        },
+        {
+            "id": "Requires local port or plugin.",
+            "message": "Requires local port or plugin.",
+            "translation": "必须填写本地端口或插件。"
+        },
+        {
+            "id": "Invalid local port.",
+            "message": "Invalid local port.",
+            "translation": "无效的本地端口。"
+        },
+        {
+            "id": "Health check url is required.",
+            "message": "Health check url is required.",
+            "translation": "健康检查 URL 为必填项。"
+        },
+        {
+            "id": "The plugin does not support range ports.",
+            "message": "The plugin does not support range ports.",
+            "translation": "插件不支持范围端口。"
+        },
+        {
+            "id": "Invalid remote port.",
+            "message": "Invalid remote port.",
+            "translation": "无效的远程端口。"
+        },
+        {
+            "id": "The number of local ports should be the same as the number of remote ports.",
+            "message": "The number of local ports should be the same as the number of remote ports.",
+            "translation": "本地端口的数量应与远程端口的数量相同。"
+        },
+        {
+            "id": "Custom domains and subdomain should have at least one of these set.",
+            "message": "Custom domains and subdomain should have at least one of these set.",
+            "translation": "自定义域名和子域名应至少填写其中之一。"
+        },
+        {
             "id": "Open Log Folder",
             "message": "Open Log Folder",
             "translation": "打开日志文件夹"
@@ -1315,9 +1370,9 @@
             "translation": "HTTP 文件服务"
         },
         {
-            "id": "Enable",
-            "message": "Enable",
-            "translation": "启用"
+            "id": "Disable",
+            "message": "Disable",
+            "translation": "禁用"
         },
         {
             "id": "Open Config",
@@ -1405,9 +1460,9 @@
             ]
         },
         {
-            "id": "Disable",
-            "message": "Disable",
-            "translation": "禁用"
+            "id": "Enable",
+            "message": "Enable",
+            "translation": "启用"
         },
         {
             "id": "Passive Port Range",
