@@ -35,11 +35,13 @@ type NumberEdit struct {
 	minValueChangedPublisher EventPublisher
 	prefixChangedPublisher   EventPublisher
 	suffixChangedPublisher   EventPublisher
+	greedy                   bool
 }
 
 // NewNumberEdit returns a new NumberEdit widget as child of parent.
-func NewNumberEdit(parent Container, style uint32) (*NumberEdit, error) {
+func NewNumberEdit(parent Container, style uint32, greedy bool) (*NumberEdit, error) {
 	ne := new(NumberEdit)
+	ne.greedy = greedy
 
 	if err := InitWidget(
 		ne,
@@ -467,20 +469,26 @@ func (ne *NumberEdit) WndProc(hwnd win.HWND, msg uint32, wParam, lParam uintptr)
 }
 
 func (ne *NumberEdit) CreateLayoutItem(ctx *LayoutContext) LayoutItem {
+	lf := ShrinkableHorz | GrowableHorz
+	if ne.greedy {
+		lf |= GreedyHorz
+	}
 	return &numberEditLayoutItem{
-		idealSize: ne.dialogBaseUnitsToPixels(Size{50, 12}),
-		minSize:   ne.dialogBaseUnitsToPixels(Size{20, 12}),
+		layoutFlags: lf,
+		idealSize:   ne.dialogBaseUnitsToPixels(Size{50, 12}),
+		minSize:     ne.dialogBaseUnitsToPixels(Size{20, 12}),
 	}
 }
 
 type numberEditLayoutItem struct {
 	LayoutItemBase
-	idealSize Size // in native pixels
-	minSize   Size // in native pixels
+	layoutFlags LayoutFlags
+	idealSize   Size // in native pixels
+	minSize     Size // in native pixels
 }
 
-func (*numberEditLayoutItem) LayoutFlags() LayoutFlags {
-	return ShrinkableHorz | GrowableHorz
+func (li *numberEditLayoutItem) LayoutFlags() LayoutFlags {
+	return li.layoutFlags
 }
 
 func (li *numberEditLayoutItem) IdealSize() Size {

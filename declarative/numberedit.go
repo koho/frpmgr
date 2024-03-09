@@ -62,10 +62,11 @@ type NumberEdit struct {
 	Value              Property
 	ShowZero           bool
 	Style              uint32
+	Greedy             bool
 }
 
 func (ne NumberEdit) Create(builder *Builder) error {
-	w, err := walk.NewNumberEdit(builder.Parent(), ne.Style)
+	w, err := walk.NewNumberEdit(builder.Parent(), ne.Style, ne.Greedy)
 	if err != nil {
 		return err
 	}
