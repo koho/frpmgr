@@ -10,6 +10,7 @@ import (
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/res"
 	"github.com/koho/frpmgr/services"
 )
 
@@ -37,7 +38,7 @@ func NewPanelView() *PanelView {
 
 func (pv *PanelView) View() Widget {
 	var cpIcon *walk.CustomWidget
-	cpIconColor := consts.ColorDarkGray
+	cpIconColor := res.ColorDarkGray
 	setCopyIconColor := func(button walk.MouseButton, color walk.Color) {
 		if button == walk.LeftButton {
 			cpIconColor = color
@@ -79,10 +80,10 @@ func (pv *PanelView) View() Widget {
 							return drawCopyIcon(canvas, cpIconColor)
 						},
 						OnMouseDown: func(x, y int, button walk.MouseButton) {
-							setCopyIconColor(button, consts.ColorLightBlue)
+							setCopyIconColor(button, res.ColorLightBlue)
 						},
 						OnMouseUp: func(x, y int, button walk.MouseButton) {
-							setCopyIconColor(button, consts.ColorDarkGray)
+							setCopyIconColor(button, res.ColorDarkGray)
 							bounds := cpIcon.ClientBoundsPixels()
 							if x >= 0 && x <= bounds.Right() && y >= 0 && y <= bounds.Bottom() {
 								walk.Clipboard().SetText(pv.addressText.Text())

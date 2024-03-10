@@ -15,6 +15,7 @@ import (
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/res"
 )
 
 type EditProxyDialog struct {
@@ -106,7 +107,7 @@ func (pd *EditProxyDialog) View() Dialog {
 	if pd.exist && pd.Proxy.Name != "" {
 		title = i18n.Sprintf("Edit Proxy - %s", pd.Proxy.Name)
 	}
-	dlg := NewBasicDialog(&pd.Dialog, title, loadIcon(consts.IconEditDialog, 32), DataBinder{
+	dlg := NewBasicDialog(&pd.Dialog, title, loadIcon(res.IconEditDialog, 32), DataBinder{
 		AssignTo:   &pd.vmDB,
 		Name:       "vm",
 		DataSource: &pd.viewModel,
@@ -125,8 +126,8 @@ func (pd *EditProxyDialog) View() Dialog {
 				Composite{
 					Layout: HBox{MarginsZero: true},
 					Children: []Widget{
-						LineEdit{AssignTo: &pd.nameView, Text: Bind("Name", consts.ValidateNonEmpty)},
-						PushButton{Text: i18n.SprintfLSpace("Random"), Image: loadIcon(consts.IconRandom, 16), OnClicked: func() {
+						LineEdit{AssignTo: &pd.nameView, Text: Bind("Name", res.ValidateNonEmpty)},
+						PushButton{Text: i18n.SprintfLSpace("Random"), Image: loadIcon(res.IconRandom, 16), OnClicked: func() {
 							pd.nameView.SetText(lo.RandomString(8, lo.AlphanumericCharset))
 						}},
 					},
@@ -348,10 +349,10 @@ func (pd *EditProxyDialog) pluginProxyPage() TabPage {
 			},
 			Label{Visible: Bind("vm.PluginCertVisible"), Text: i18n.SprintfColon("Certificate")},
 			NewBrowseLineEdit(nil, Bind("vm.PluginCertVisible"), true, Bind("PluginCrtPath"),
-				i18n.Sprintf("Select Certificate File"), consts.FilterCert, true),
+				i18n.Sprintf("Select Certificate File"), res.FilterCert, true),
 			Label{Visible: Bind("vm.PluginCertVisible"), Text: i18n.SprintfColon("Certificate Key")},
 			NewBrowseLineEdit(nil, Bind("vm.PluginCertVisible"), true, Bind("PluginKeyPath"),
-				i18n.Sprintf("Select Certificate Key File"), consts.FilterKey, true),
+				i18n.Sprintf("Select Certificate Key File"), res.FilterKey, true),
 			Label{Visible: Bind("vm.PluginHTTPFwdVisible"), Text: i18n.SprintfColon("Host Rewrite")},
 			LineEdit{Visible: Bind("vm.PluginHTTPFwdVisible"), Text: Bind("PluginHostHeaderRewrite")},
 		},

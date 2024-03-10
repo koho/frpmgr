@@ -15,6 +15,7 @@ import (
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/res"
 	"github.com/koho/frpmgr/pkg/util"
 )
 
@@ -102,19 +103,19 @@ func (pv *ProxyView) createToolbar() ToolBar {
 			Action{
 				AssignTo: &pv.newAction,
 				Text:     i18n.Sprintf("Add"),
-				Image:    loadIcon(consts.IconCreate, 16),
+				Image:    loadIcon(res.IconCreate, 16),
 				OnTriggered: func() {
 					pv.onEdit(false, nil)
 				},
 			},
 			Menu{
 				Text:  i18n.Sprintf("Quick Add"),
-				Image: loadIcon(consts.IconQuickAdd, 16),
+				Image: loadIcon(res.IconQuickAdd, 16),
 				Items: []MenuItem{
 					Action{
 						AssignTo: &pv.portAction,
 						Text:     i18n.Sprintf("Open Port"),
-						Image:    loadIcon(consts.IconOpenPort, 16),
+						Image:    loadIcon(res.IconOpenPort, 16),
 						OnTriggered: func() {
 							pv.onQuickAdd(NewPortProxyDialog())
 						},
@@ -122,85 +123,85 @@ func (pv *ProxyView) createToolbar() ToolBar {
 					Action{
 						AssignTo: &pv.rdAction,
 						Text:     i18n.Sprintf("Remote Desktop"),
-						Image:    loadIcon(consts.IconRemote, 16),
+						Image:    loadIcon(res.IconRemote, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewSimpleProxyDialog(i18n.Sprintf("Remote Desktop"), loadIcon(consts.IconRemote, 32),
+							pv.onQuickAdd(NewSimpleProxyDialog(i18n.Sprintf("Remote Desktop"), loadIcon(res.IconRemote, 32),
 								"rdp", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, ":3389"))
 						},
 					},
 					Action{
 						AssignTo: &pv.vncAction,
 						Text:     "VNC",
-						Image:    loadIcon(consts.IconVNC, 16),
+						Image:    loadIcon(res.IconVNC, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewSimpleProxyDialog("VNC", loadIcon(consts.IconVNC, 32),
+							pv.onQuickAdd(NewSimpleProxyDialog("VNC", loadIcon(res.IconVNC, 32),
 								"vnc", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, ":5900"))
 						},
 					},
 					Action{
 						AssignTo: &pv.sshAction,
 						Text:     "SSH",
-						Image:    loadIcon(consts.IconSSH, 16),
+						Image:    loadIcon(res.IconSSH, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewSimpleProxyDialog("SSH", loadIcon(consts.IconSSH, 32),
+							pv.onQuickAdd(NewSimpleProxyDialog("SSH", loadIcon(res.IconSSH, 32),
 								"ssh", []string{consts.ProxyTypeTCP}, ":22"))
 						},
 					},
 					Action{
 						AssignTo: &pv.webAction,
 						Text:     "Web",
-						Image:    loadIcon(consts.IconWeb, 16),
+						Image:    loadIcon(res.IconWeb, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewSimpleProxyDialog("Web", loadIcon(consts.IconWeb, 32),
+							pv.onQuickAdd(NewSimpleProxyDialog("Web", loadIcon(res.IconWeb, 32),
 								"web", []string{consts.ProxyTypeTCP}, ":80"))
 						},
 					},
 					Action{
 						AssignTo: &pv.dnsAction,
 						Text:     "DNS",
-						Image:    loadIcon(consts.IconDns, 16),
+						Image:    loadIcon(res.IconDns, 16),
 						OnTriggered: func() {
 							systemDns := util.GetSystemDnsServer()
 							if systemDns == "" {
 								systemDns = "114.114.114.114"
 							}
-							pv.onQuickAdd(NewSimpleProxyDialog("DNS", loadIcon(consts.IconDns, 32),
+							pv.onQuickAdd(NewSimpleProxyDialog("DNS", loadIcon(res.IconDns, 32),
 								"dns", []string{consts.ProxyTypeUDP}, systemDns+":53"))
 						},
 					},
 					Action{
 						AssignTo: &pv.vpnAction,
 						Text:     "OpenVPN",
-						Image:    loadIcon(consts.IconLock, 16),
+						Image:    loadIcon(res.IconLock, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewSimpleProxyDialog("OpenVPN", loadIcon(consts.IconLock, 32),
+							pv.onQuickAdd(NewSimpleProxyDialog("OpenVPN", loadIcon(res.IconLock, 32),
 								"openvpn", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, ":1194"))
 						},
 					},
 					Action{
 						AssignTo: &pv.ftpAction,
 						Text:     "FTP",
-						Image:    loadIcon(consts.IconFtp, 16),
+						Image:    loadIcon(res.IconFtp, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewSimpleProxyDialog("FTP", loadIcon(consts.IconFtp, 32),
+							pv.onQuickAdd(NewSimpleProxyDialog("FTP", loadIcon(res.IconFtp, 32),
 								"ftp", []string{consts.ProxyTypeTCP}, ":21"))
 						},
 					},
 					Action{
 						AssignTo: &pv.httpFileAction,
 						Text:     i18n.Sprintf("HTTP File Server"),
-						Image:    loadIcon(consts.IconHttpFile, 16),
+						Image:    loadIcon(res.IconHttpFile, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewPluginProxyDialog(i18n.Sprintf("HTTP File Server"), loadIcon(consts.IconHttpFile, 32),
+							pv.onQuickAdd(NewPluginProxyDialog(i18n.Sprintf("HTTP File Server"), loadIcon(res.IconHttpFile, 32),
 								consts.PluginStaticFile))
 						},
 					},
 					Action{
 						AssignTo: &pv.httpProxyAction,
 						Text:     i18n.Sprintf("HTTP Proxy"),
-						Image:    loadIcon(consts.IconHttpProxy, 16),
+						Image:    loadIcon(res.IconHttpProxy, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewPluginProxyDialog(i18n.Sprintf("HTTP Proxy"), loadIcon(consts.IconHttpProxy, 32),
+							pv.onQuickAdd(NewPluginProxyDialog(i18n.Sprintf("HTTP Proxy"), loadIcon(res.IconHttpProxy, 32),
 								consts.PluginHttpProxy))
 						},
 					},
@@ -208,7 +209,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 			},
 			Action{
 				AssignTo: &pv.editAction,
-				Image:    loadIcon(consts.IconEdit, 16),
+				Image:    loadIcon(res.IconEdit, 16),
 				Text:     i18n.Sprintf("Edit"),
 				Enabled:  Bind("proxy.CurrentIndex >= 0"),
 				OnTriggered: func() {
@@ -217,21 +218,21 @@ func (pv *ProxyView) createToolbar() ToolBar {
 			},
 			Action{
 				AssignTo:    &pv.toggleAction,
-				Image:       loadIcon(consts.IconDisable, 16),
+				Image:       loadIcon(res.IconDisable, 16),
 				Text:        i18n.Sprintf("Disable"),
 				Enabled:     Bind("proxy.CurrentIndex >= 0 && switchable(proxy.CurrentIndex)"),
 				OnTriggered: pv.onToggleProxy,
 			},
 			Action{
 				AssignTo:    &pv.deleteAction,
-				Image:       loadIcon(consts.IconDelete, 16),
+				Image:       loadIcon(res.IconDelete, 16),
 				Text:        i18n.Sprintf("Delete"),
 				Enabled:     Bind("proxy.CurrentIndex >= 0"),
 				OnTriggered: pv.onDelete,
 			},
 			Menu{
 				Text:  i18n.Sprintf("Open Config"),
-				Image: loadIcon(consts.IconOpen, 16),
+				Image: loadIcon(res.IconOpen, 16),
 				Items: []MenuItem{
 					Action{
 						AssignTo: &pv.openConfAction,
@@ -273,7 +274,7 @@ func (pv *ProxyView) createProxyTable() TableView {
 			ActionRef{Action: &pv.newAction},
 			Menu{
 				Text:  i18n.Sprintf("Quick Add"),
-				Image: loadIcon(consts.IconQuickAdd, 16),
+				Image: loadIcon(res.IconQuickAdd, 16),
 				Items: []MenuItem{
 					ActionRef{Action: &pv.portAction},
 					ActionRef{Action: &pv.rdAction},
@@ -289,19 +290,19 @@ func (pv *ProxyView) createProxyTable() TableView {
 			},
 			Action{
 				Text:        i18n.Sprintf("Import from Clipboard"),
-				Image:       loadIcon(consts.IconClipboard, 16),
+				Image:       loadIcon(res.IconClipboard, 16),
 				OnTriggered: pv.onClipboardImport,
 			},
 			Separator{},
 			Action{
 				Enabled:     Bind("proxy.CurrentIndex >= 0"),
 				Text:        i18n.Sprintf("Copy Access Address"),
-				Image:       loadIcon(consts.IconSysCopy, 16),
+				Image:       loadIcon(res.IconSysCopy, 16),
 				OnTriggered: pv.onCopyAccessAddr,
 			},
 			Menu{
 				Text:  i18n.Sprintf("Open Config"),
-				Image: loadIcon(consts.IconOpen, 16),
+				Image: loadIcon(res.IconOpen, 16),
 				Items: []MenuItem{
 					ActionRef{Action: &pv.openConfAction},
 					ActionRef{Action: &pv.showConfAction},
@@ -317,11 +318,11 @@ func (pv *ProxyView) createProxyTable() TableView {
 			if _, proxy := pv.getConfigProxy(style.Row()); proxy != nil {
 				if proxy.Disabled {
 					// Disabled proxy
-					style.TextColor = consts.ColorGray
-					style.BackgroundColor = consts.ColorGrayBG
+					style.TextColor = res.ColorGray
+					style.BackgroundColor = res.ColorGrayBG
 				} else if proxy.IsVisitor() {
 					// Visitor proxy
-					style.TextColor = consts.ColorBlue
+					style.TextColor = res.ColorBlue
 				}
 				// Normal proxy is default black text
 			}
@@ -532,10 +533,10 @@ func (pv *ProxyView) switchToggleAction() {
 	}
 	if proxy.Disabled {
 		pv.toggleAction.SetText(i18n.Sprintf("Enable"))
-		pv.toggleAction.SetImage(loadIcon(consts.IconEnable, 16))
+		pv.toggleAction.SetImage(loadIcon(res.IconEnable, 16))
 	} else {
 		pv.toggleAction.SetText(i18n.Sprintf("Disable"))
-		pv.toggleAction.SetImage(loadIcon(consts.IconDisable, 16))
+		pv.toggleAction.SetImage(loadIcon(res.IconDisable, 16))
 	}
 }
 

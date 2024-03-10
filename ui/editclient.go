@@ -16,6 +16,7 @@ import (
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/res"
 	"github.com/koho/frpmgr/pkg/util"
 	"github.com/koho/frpmgr/services"
 )
@@ -86,7 +87,7 @@ func (cd *EditClientDialog) View() Dialog {
 	if cd.Conf.Name != "" {
 		title = i18n.Sprintf("Edit Client - %s", cd.Conf.Name)
 	}
-	dlg := NewBasicDialog(&cd.Dialog, title, loadIcon(consts.IconEditDialog, 32), DataBinder{
+	dlg := NewBasicDialog(&cd.Dialog, title, loadIcon(res.IconEditDialog, 32), DataBinder{
 		AssignTo:   &cd.db,
 		Name:       "common",
 		DataSource: cd.binder,
@@ -109,7 +110,7 @@ func (cd *EditClientDialog) basicConfPage() TabPage {
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
 			Label{Text: i18n.SprintfColon("Name")},
-			LineEdit{AssignTo: &cd.nameView, Text: Bind("Name", consts.ValidateNonEmpty), OnTextChanged: func() {
+			LineEdit{AssignTo: &cd.nameView, Text: Bind("Name", res.ValidateNonEmpty), OnTextChanged: func() {
 				if name := cd.nameView.Text(); name != "" {
 					curLog := strings.TrimSpace(cd.logFileView.Text())
 					// Automatically change the log file if it's empty or using the default log directory
@@ -119,7 +120,7 @@ func (cd *EditClientDialog) basicConfPage() TabPage {
 				}
 			}},
 			Label{Text: i18n.SprintfColon("Server Address")},
-			LineEdit{Text: Bind("ServerAddress", consts.ValidateNonEmpty)},
+			LineEdit{Text: Bind("ServerAddress", res.ValidateNonEmpty)},
 			Label{Text: i18n.SprintfColon("Server Port")},
 			Composite{
 				Layout: HBox{MarginsZero: true},
@@ -197,7 +198,7 @@ func (cd *EditClientDialog) logConfPage() TabPage {
 			VSpacer{Size: 2, ColumnSpan: 2},
 			Label{Text: i18n.SprintfColon("Log File")},
 			NewBrowseLineEdit(&cd.logFileView, true, true, Bind("LogFile"),
-				i18n.Sprintf("Select Log File"), consts.FilterLog, true),
+				i18n.Sprintf("Select Log File"), res.FilterLog, true),
 			Label{Text: i18n.SprintfColon("Level")},
 			ComboBox{
 				Value: Bind("LogLevel"),
@@ -231,7 +232,7 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 					},
 					ToolButton{
 						Enabled:     Bind("adminPort.Value > 0 && !legacyFormat.Checked"),
-						Image:       loadIcon(consts.IconLock, 16),
+						Image:       loadIcon(res.IconLock, 16),
 						ToolTipText: "TLS", OnClicked: func() {
 							cd.adminTLSDialog().Run(cd.Form())
 						},
@@ -332,13 +333,13 @@ func (cd *EditClientDialog) tlsConfPage() TabPage {
 			LineEdit{Visible: Bind("tlsCheck.Checked"), Text: Bind("TLSServerName")},
 			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Certificate")},
 			NewBrowseLineEdit(nil, Bind("tlsCheck.Checked"), true, Bind("TLSCertFile"),
-				i18n.Sprintf("Select Certificate File"), consts.FilterCert, true),
+				i18n.Sprintf("Select Certificate File"), res.FilterCert, true),
 			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Certificate Key"), AlwaysConsumeSpace: true},
 			NewBrowseLineEdit(nil, Bind("tlsCheck.Checked"), true, Bind("TLSKeyFile"),
-				i18n.Sprintf("Select Certificate Key File"), consts.FilterKey, true),
+				i18n.Sprintf("Select Certificate Key File"), res.FilterKey, true),
 			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Trusted CA"), AlwaysConsumeSpace: true},
 			NewBrowseLineEdit(nil, Bind("tlsCheck.Checked"), true, Bind("TLSTrustedCaFile"),
-				i18n.Sprintf("Select Trusted CA File"), consts.FilterCert, true),
+				i18n.Sprintf("Select Trusted CA File"), res.FilterCert, true),
 			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Other Options")},
 			CheckBox{Visible: Bind("tlsCheck.Checked"), Text: i18n.Sprintf("Disable custom first byte"), Checked: Bind("DisableCustomTLSFirstByte")},
 		},
@@ -423,7 +424,7 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 
 func (cd *EditClientDialog) experimentDialog() Dialog {
 	dlg := NewBasicDialog(nil, i18n.Sprintf("Experimental Features"),
-		loadIcon(consts.IconExperiment, 32), DataBinder{DataSource: cd.binder}, nil,
+		loadIcon(res.IconExperiment, 32), DataBinder{DataSource: cd.binder}, nil,
 		Label{Text: i18n.Sprintf("* The following features may affect the stability of the service.")},
 		CheckBox{Checked: Bind("SVCBEnable"), Text: i18n.Sprintf("Use server SVCB records"), Alignment: AlignHNearVNear},
 		VSpacer{},
@@ -436,19 +437,19 @@ func (cd *EditClientDialog) experimentDialog() Dialog {
 func (cd *EditClientDialog) adminTLSDialog() Dialog {
 	var widgets [4]*walk.LineEdit
 	dlg := NewBasicDialog(nil, "TLS",
-		loadIcon(consts.IconLock, 32),
+		loadIcon(res.IconLock, 32),
 		DataBinder{DataSource: &cd.binder.AdminTLS}, nil,
 		Label{Text: i18n.SprintfColon("Host Name")},
 		LineEdit{AssignTo: &widgets[0], Text: Bind("ServerName")},
 		Label{Text: i18n.SprintfColon("Certificate")},
 		NewBrowseLineEdit(&widgets[1], true, true, Bind("CertFile"),
-			i18n.Sprintf("Select Certificate File"), consts.FilterCert, true),
+			i18n.Sprintf("Select Certificate File"), res.FilterCert, true),
 		Label{Text: i18n.SprintfColon("Certificate Key")},
 		NewBrowseLineEdit(&widgets[2], true, true, Bind("KeyFile"),
-			i18n.Sprintf("Select Certificate Key File"), consts.FilterKey, true),
+			i18n.Sprintf("Select Certificate Key File"), res.FilterKey, true),
 		Label{Text: i18n.SprintfColon("Trusted CA")},
 		NewBrowseLineEdit(&widgets[3], true, true, Bind("TrustedCaFile"),
-			i18n.Sprintf("Select Trusted CA File"), consts.FilterCert, true),
+			i18n.Sprintf("Select Trusted CA File"), res.FilterCert, true),
 		VSpacer{Size: 4},
 	)
 	dlg.MinSize = Size{Width: 350}

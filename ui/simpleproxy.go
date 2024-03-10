@@ -8,7 +8,7 @@ import (
 
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
-	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/res"
 	"github.com/koho/frpmgr/pkg/util"
 	"github.com/koho/frpmgr/pkg/validators"
 )
@@ -48,11 +48,11 @@ func NewSimpleProxyDialog(title string, icon *walk.Icon, service string, types [
 func (sp *SimpleProxyDialog) Run(owner walk.Form) (int, error) {
 	widgets := []Widget{
 		Label{Text: i18n.SprintfColon("Remote Port"), ColumnSpan: 2},
-		LineEdit{Text: Bind("RemotePort", consts.ValidatePortRange...), ColumnSpan: 2},
+		LineEdit{Text: Bind("RemotePort", res.ValidatePortRange...), ColumnSpan: 2},
 		Label{Text: i18n.SprintfColon("Local Address")},
 		Label{Text: i18n.SprintfColon("Port")},
-		LineEdit{Text: Bind("LocalAddr", consts.ValidateNonEmpty), StretchFactor: 2},
-		LineEdit{Text: Bind("LocalPort", consts.ValidatePortRange...), StretchFactor: 1},
+		LineEdit{Text: Bind("LocalAddr", res.ValidateNonEmpty), StretchFactor: 2},
+		LineEdit{Text: Bind("LocalPort", res.ValidatePortRange...), StretchFactor: 1},
 	}
 	switch sp.service {
 	case "ftp":
@@ -60,9 +60,9 @@ func (sp *SimpleProxyDialog) Run(owner walk.Form) (int, error) {
 		widgets = append(widgets, Label{Text: i18n.SprintfColon("Passive Port Range"), ColumnSpan: 2}, Composite{
 			Layout: HBox{MarginsZero: true},
 			Children: []Widget{
-				LineEdit{AssignTo: &lPortMinEdit, Text: Bind("LocalPortMin", consts.ValidatePortRange...)},
+				LineEdit{AssignTo: &lPortMinEdit, Text: Bind("LocalPortMin", res.ValidatePortRange...)},
 				Label{Text: "-"},
-				LineEdit{Text: Bind("LocalPortMax", append(consts.ValidatePortRange, validators.GTE{Value: &lPortMinEdit})...)},
+				LineEdit{Text: Bind("LocalPortMax", append(res.ValidatePortRange, validators.GTE{Value: &lPortMinEdit})...)},
 			},
 		})
 	}

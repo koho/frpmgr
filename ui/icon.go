@@ -4,11 +4,12 @@ import (
 	"github.com/lxn/walk"
 
 	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/res"
 )
 
 var cachedIconsForWidthAndId = make(map[widthAndId]*walk.Icon)
 
-func loadIcon(id consts.Icon, size int) (icon *walk.Icon) {
+func loadIcon(id res.Icon, size int) (icon *walk.Icon) {
 	icon = cachedIconsForWidthAndId[widthAndId{size, id}]
 	if icon != nil {
 		return
@@ -27,7 +28,7 @@ func loadIcon(id consts.Icon, size int) (icon *walk.Icon) {
 
 type widthAndId struct {
 	width int
-	icon  consts.Icon
+	icon  res.Icon
 }
 
 type widthAndState struct {
@@ -44,24 +45,24 @@ func iconForState(state consts.ServiceState, size int) (icon *walk.Icon) {
 	}
 	switch state {
 	case consts.StateStarted:
-		icon = loadIcon(consts.IconStateRunning, size)
+		icon = loadIcon(res.IconStateRunning, size)
 	case consts.StateStopped, consts.StateUnknown:
-		icon = loadIcon(consts.IconStateStopped, size)
+		icon = loadIcon(res.IconStateStopped, size)
 	default:
-		icon = loadIcon(consts.IconStateWorking, size)
+		icon = loadIcon(res.IconStateWorking, size)
 	}
 	cachedIconsForWidthAndState[widthAndState{size, state}] = icon
 	return
 }
 
 func loadLogoIcon(size int) *walk.Icon {
-	return loadIcon(consts.IconLogo, size)
+	return loadIcon(res.IconLogo, size)
 }
 
 func loadShieldIcon(size int) (icon *walk.Icon) {
-	icon = loadIcon(consts.IconNewVersion1, size)
+	icon = loadIcon(res.IconNewVersion1, size)
 	if icon == nil {
-		icon = loadIcon(consts.IconNewVersion2, size)
+		icon = loadIcon(res.IconNewVersion2, size)
 	}
 	return
 }

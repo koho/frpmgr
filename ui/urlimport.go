@@ -13,7 +13,7 @@ import (
 	"github.com/samber/lo"
 
 	"github.com/koho/frpmgr/i18n"
-	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/res"
 	"github.com/koho/frpmgr/pkg/util"
 )
 
@@ -54,12 +54,12 @@ func NewURLImportDialog() *URLImportDialog {
 }
 
 func (ud *URLImportDialog) Run(owner walk.Form) (int, error) {
-	return NewBasicDialog(&ud.Dialog, i18n.Sprintf("Import from URL"), loadIcon(consts.IconURLImport, 32),
+	return NewBasicDialog(&ud.Dialog, i18n.Sprintf("Import from URL"), loadIcon(res.IconURLImport, 32),
 		DataBinder{AssignTo: &ud.db, DataSource: &ud.viewModel, Name: "vm"}, ud.onImport,
 		Label{Text: i18n.Sprintf("* Support batch import, one link per line.")},
 		TextEdit{
 			Enabled: Bind("!vm.Working"),
-			Text:    Bind("URLs", consts.ValidateNonEmpty),
+			Text:    Bind("URLs", res.ValidateNonEmpty),
 			VScroll: true,
 			MinSize: Size{Width: 430, Height: 130},
 		},

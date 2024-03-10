@@ -5,7 +5,7 @@ import (
 	. "github.com/lxn/walk/declarative"
 
 	"github.com/koho/frpmgr/i18n"
-	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/res"
 )
 
 // NewBrowseLineEdit places a tool button at the tail of a LineEdit, and opens a file dialog when the button is clicked
@@ -49,7 +49,7 @@ func NewBasicDialog(assignTo **walk.Dialog, title string, icon Property, db Data
 		Icon:          icon,
 		Title:         title,
 		Layout:        VBox{},
-		Font:          consts.TextRegular,
+		Font:          res.TextRegular,
 		DefaultButton: &acceptPB,
 		CancelButton:  &cancelPB,
 		DataBinder:    db,
@@ -144,7 +144,7 @@ func NewAttributeTable(m *AttributeModel, nameWidth, valueWidth int) Composite {
 func NewAttributeDialog(title string, data *map[string]string) Dialog {
 	var p *walk.Dialog
 	m := NewAttributeModel(*data)
-	dlg := NewBasicDialog(&p, title, loadIcon(consts.IconFile, 32), DataBinder{}, func() {
+	dlg := NewBasicDialog(&p, title, loadIcon(res.IconFile, 32), DataBinder{}, func() {
 		*data = m.AsMap()
 		p.Accept()
 	},

@@ -6,12 +6,19 @@ import (
 	"time"
 )
 
-func TestExpiry(t *testing.T) {
+func init() {
 	if err := os.MkdirAll("testdata", 0750); err != nil {
+		panic(err)
+	}
+	if err := os.Chdir("testdata"); err != nil {
+		panic(err)
+	}
+}
+
+func TestExpiry(t *testing.T) {
+	if err := os.WriteFile("example.ini", []byte("test"), 0666); err != nil {
 		t.Fatal(err)
 	}
-	os.Chdir("testdata")
-	os.WriteFile("example.ini", []byte("test"), 0666)
 	tests := []struct {
 		input    AutoDelete
 		expected time.Duration
