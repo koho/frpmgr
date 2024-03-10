@@ -75,7 +75,7 @@ static Language *GetPreferredLang(TCHAR *folder) {
         goto cleanup;
     }
     for (int i = 0; i < sizeof(languages) / sizeof(languages[0]); i++) {
-        if (strncmp(p3+1, languages[i].code, strlen(languages[i].code)) == 0) {
+        if (strncmp(p3 + 1, languages[i].code, strlen(languages[i].code)) == 0) {
             free(buf);
             return &languages[i];
         }
