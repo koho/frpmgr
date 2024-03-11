@@ -1,43 +1,44 @@
 package config
 
 import (
+	"os"
 	"reflect"
 	"testing"
 )
 
 func TestUnmarshalAppConfFromIni(t *testing.T) {
-	input := `
-		password = abcde
-
-		[defaults]
-		server_port = 7000
-		log_level = info
-		log_max_days = 5
-		protocol = kcp
-		login_fail_exit = false
-		user = user
-		tcp_mux = true
-		frpmgr_manual_start = true
-		frpmgr_delete_after_days = 1
+	input := `{
+	"password": "abcde",
+	"defaults": {
+		"logLevel": "info",
+		"logMaxDays": 5,
+		"protocol": "kcp",
+		"user": "user",
+		"tcpMux": true,
+		"manualStart": true,
+		"deleteAfterDays": 1,
+		"legacyFormat": true
+	}
+}
 	`
+	if err := os.WriteFile(DefaultAppFile, []byte(input), 0666); err != nil {
+		t.Fatal(err)
+	}
 	expected := App{
 		Password: "abcde",
-		Defaults: ClientCommon{
-			ServerPort:    7000,
-			LogLevel:      "info",
-			LogMaxDays:    5,
-			Protocol:      "kcp",
-			LoginFailExit: false,
-			User:          "user",
-			TCPMux:        true,
-			ManualStart:   true,
-			AutoDelete: AutoDelete{
-				DeleteAfterDays: 1,
-			},
+		Defaults: DefaultValue{
+			LogLevel:        "info",
+			LogMaxDays:      5,
+			Protocol:        "kcp",
+			User:            "user",
+			TCPMux:          true,
+			ManualStart:     true,
+			DeleteAfterDays: 1,
+			LegacyFormat:    true,
 		},
 	}
 	var actual App
-	if err := UnmarshalAppConfFromIni([]byte(input), &actual); err != nil {
+	if err := UnmarshalAppConf(DefaultAppFile, &actual); err != nil {
 		t.Fatal(err)
 	}
 	if !reflect.DeepEqual(actual, expected) {

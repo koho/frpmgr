@@ -1,4 +1,4 @@
-package consts
+package res
 
 import (
 	"fmt"

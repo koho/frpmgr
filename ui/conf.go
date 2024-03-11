@@ -78,13 +78,11 @@ func (conf *Conf) Save() error {
 }
 
 var (
-	appConf = config.App{Defaults: config.ClientCommon{
-		ServerPort:                7000,
-		LogLevel:                  "info",
-		LogMaxDays:                3,
-		TCPMux:                    true,
-		TLSEnable:                 true,
-		DisableCustomTLSFirstByte: true,
+	appConf = config.App{Defaults: config.DefaultValue{
+		LogLevel:   consts.LogLevelInfo,
+		LogMaxDays: consts.DefaultLogMaxDays,
+		TCPMux:     true,
+		TLSEnable:  true,
 	}}
 	// The config list contains all the loaded configs
 	confList  []*Conf
@@ -93,7 +91,7 @@ var (
 )
 
 func loadAllConfs() error {
-	_ = config.UnmarshalAppConfFromIni(config.DefaultAppFile, &appConf)
+	_ = config.UnmarshalAppConf(config.DefaultAppFile, &appConf)
 	// Find all config files in `profiles` directory
 	files, err := filepath.Glob(PathOfConf("*.conf"))
 	if err != nil {
@@ -191,7 +189,7 @@ func commitConf(conf *Conf, flag runFlag) {
 
 func newDefaultClientConfig() *config.ClientConfig {
 	return &config.ClientConfig{
-		ClientCommon: appConf.Defaults,
+		ClientCommon: appConf.Defaults.AsClientConfig(),
 	}
 }
 

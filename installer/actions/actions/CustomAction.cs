@@ -166,6 +166,14 @@ namespace actions
             {
                 ForceDeleteDirectory(Path.Combine(installPath, "profiles"));
                 ForceDeleteDirectory(Path.Combine(installPath, "logs"));
+                try
+                {
+                    File.Delete(Path.Combine(installPath, "app.json"));
+                }
+                catch (Exception e)
+                {
+                    session.Log(e.Message);
+                }
             }
             return ActionResult.Success;
         }
@@ -210,8 +218,8 @@ namespace actions
         public static ActionResult SetLangConfig(Session session)
         {
             session.Log("Set language config");
-            string langPath = session["CustomActionData"];
-            if (string.IsNullOrEmpty(langPath))
+            string installPath = session["CustomActionData"];
+            if (string.IsNullOrEmpty(installPath))
             {
                 return ActionResult.Failure;
             }
@@ -220,7 +228,18 @@ namespace actions
             {
                 return ActionResult.Failure;
             }
-            File.AppendAllText(langPath, name.ToString() + Environment.NewLine, Encoding.UTF8);
+            string cfgPath = Path.Combine(installPath, "app.json");
+            if (!File.Exists(cfgPath))
+            {
+                try
+                {
+                    File.WriteAllText(cfgPath, "{\n    \"lang\": \"" + name.ToString() + "\"\n}");
+                }
+                catch (Exception e)
+                {
+                    session.Log(e.Message);
+                }
+            }
             return ActionResult.Success;
         }
 

@@ -3,16 +3,15 @@ package i18n
 //go:generate go run golang.org/x/text/cmd/gotext -srclang=en-US update -out=catalog.go -lang=en-US,zh-CN,zh-TW,ja-JP,ko-KR,es-ES ../cmd/frpmgr
 
 import (
-	"bufio"
+	"encoding/json"
 	"os"
-	"strings"
 
 	"golang.org/x/sys/windows"
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
-)
 
-const LangFile = "lang.config"
+	"github.com/koho/frpmgr/pkg/config"
+)
 
 var (
 	printer  *message.Printer
@@ -43,19 +42,17 @@ func GetLanguage() string {
 
 // langInConfig returns the UI language code in config file
 func langInConfig() string {
-	langFile, err := os.Open(LangFile)
+	b, err := os.ReadFile(config.DefaultAppFile)
 	if err != nil {
 		return ""
 	}
-	defer langFile.Close()
-
-	scanner := bufio.NewScanner(langFile)
-	for scanner.Scan() {
-		if text := strings.TrimSpace(scanner.Text()); text != "" && !strings.HasPrefix(text, "#") {
-			return text
-		}
+	var s struct {
+		Lang string `json:"lang"`
 	}
-	return ""
+	if err = json.Unmarshal(b, &s); err != nil {
+		return ""
+	}
+	return s.Lang
 }
 
 // lang returns the user preferred UI language.

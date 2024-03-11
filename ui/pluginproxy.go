@@ -9,6 +9,7 @@ import (
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/res"
 	"github.com/koho/frpmgr/pkg/validators"
 )
 
@@ -38,7 +39,7 @@ func NewPluginProxyDialog(title string, icon *walk.Icon, plugin string) *PluginP
 func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {
 	widgets := []Widget{
 		Label{Text: i18n.SprintfColon("Remote Port")},
-		LineEdit{Text: Bind("RemotePort", consts.ValidatePortRange...), MinSize: Size{Width: 280}},
+		LineEdit{Text: Bind("RemotePort", res.ValidatePortRange...), MinSize: Size{Width: 280}},
 	}
 	switch pp.plugin {
 	case consts.PluginHttpProxy, consts.PluginSocks5:
@@ -53,7 +54,7 @@ func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {
 	case consts.PluginStaticFile:
 		widgets = append(widgets,
 			Label{Text: i18n.SprintfColon("Local Directory")},
-			NewBrowseLineEdit(nil, true, true, Bind("Dir", consts.ValidateNonEmpty),
+			NewBrowseLineEdit(nil, true, true, Bind("Dir", res.ValidateNonEmpty),
 				i18n.Sprintf("Select a folder for directory listing."), "", false),
 		)
 	}

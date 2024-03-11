@@ -1,7 +1,6 @@
 package ui
 
 import (
-	"os"
 	"sort"
 
 	"github.com/lxn/walk"
@@ -10,6 +9,7 @@ import (
 
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/res"
 	"github.com/koho/frpmgr/pkg/sec"
 	"github.com/koho/frpmgr/pkg/validators"
 )
@@ -47,7 +47,7 @@ func (pp *PrefPage) passwordSection() GroupBox {
 		Title:  i18n.Sprintf("Master password"),
 		Layout: Grid{Alignment: AlignHNearVCenter, Columns: 2},
 		Children: []Widget{
-			ImageView{Image: loadIcon(consts.IconKey, 32)},
+			ImageView{Image: loadIcon(res.IconKey, 32)},
 			Label{Text: i18n.Sprintf("You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.")},
 			CheckBox{
 				AssignTo: &pp.usePassword,
@@ -93,7 +93,7 @@ func (pp *PrefPage) languageSection() GroupBox {
 		Title:  i18n.Sprintf("Languages"),
 		Layout: Grid{Alignment: AlignHNearVCenter, Columns: 2},
 		Children: []Widget{
-			ImageView{Image: loadIcon(consts.IconLanguage, 32)},
+			ImageView{Image: loadIcon(res.IconLanguage, 32)},
 			Composite{
 				Layout: VBox{MarginsZero: true},
 				Children: []Widget{
@@ -136,7 +136,7 @@ func (pp *PrefPage) defaultSection() GroupBox {
 		Title:  i18n.Sprintf("Defaults"),
 		Layout: Grid{Alignment: AlignHNearVCenter, Columns: 2, Spacing: 10, Margins: Margins{Left: 9, Top: 9, Right: 9, Bottom: 16}},
 		Children: []Widget{
-			ImageView{Image: loadIcon(consts.IconDefaults, 32)},
+			ImageView{Image: loadIcon(res.IconDefaults, 32)},
 			Label{Text: i18n.Sprintf("Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.")},
 			Composite{
 				Row: 1, Column: 1,
@@ -179,7 +179,7 @@ func (pp *PrefPage) changePassword() string {
 	var vm struct {
 		Password string
 	}
-	NewBasicDialog(nil, i18n.Sprintf("Master password"), loadIcon(consts.IconKey, 32),
+	NewBasicDialog(nil, i18n.Sprintf("Master password"), loadIcon(res.IconKey, 32),
 		DataBinder{
 			AssignTo:       &db,
 			DataSource:     &vm,
@@ -189,7 +189,7 @@ func (pp *PrefPage) changePassword() string {
 			MinSize: Size{Width: 280},
 			Children: []Widget{
 				Label{Text: i18n.SprintfColon("New master password")},
-				LineEdit{AssignTo: &pwdEdit, Text: Bind("Password", consts.ValidateNonEmpty), PasswordMode: true},
+				LineEdit{AssignTo: &pwdEdit, Text: Bind("Password", res.ValidateNonEmpty), PasswordMode: true},
 				Label{Text: i18n.SprintfColon("Re-enter password")},
 				LineEdit{Text: Bind("", validators.ConfirmPassword{Password: &pwdEdit}), PasswordMode: true},
 			},
@@ -208,14 +208,15 @@ func (pp *PrefPage) changePassword() string {
 }
 
 func (pp *PrefPage) switchLanguage(lc string) {
-	if err := os.WriteFile(i18n.LangFile, []byte(lc), 0660); err != nil {
+	appConf.Lang = lc
+	if err := saveAppConfig(); err != nil {
 		showError(err, pp.Form())
 	}
 }
 
 func (pp *PrefPage) setDefaultValue() (int, error) {
 	dlg := NewBasicDialog(nil, i18n.Sprintf("Defaults"),
-		loadIcon(consts.IconDefaults, 32),
+		loadIcon(res.IconDefaults, 32),
 		DataBinder{DataSource: &appConf.Defaults}, nil, Composite{
 			Layout: Grid{Columns: 2, MarginsZero: true},
 			Children: []Widget{
@@ -254,7 +255,8 @@ func (pp *PrefPage) setDefaultValue() (int, error) {
 					Children: []Widget{
 						CheckBox{Text: i18n.Sprintf("TCP Mux"), Checked: Bind("TCPMux")},
 						CheckBox{Text: "TLS", Checked: Bind("TLSEnable")},
-						CheckBox{Text: i18n.Sprintf("Disable auto-start at boot"), Checked: Bind("ManualStart")},
+						CheckBox{Text: i18n.Sprintf("Disable auto-start at boot"), Checked: Bind("ManualStart"), ColumnSpan: 2},
+						CheckBox{Text: i18n.Sprintf("Use legacy format config file"), Checked: Bind("LegacyFormat"), ColumnSpan: 2},
 					},
 				},
 			},

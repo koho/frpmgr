@@ -18,6 +18,7 @@ import (
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/layout"
+	"github.com/koho/frpmgr/pkg/res"
 	"github.com/koho/frpmgr/pkg/util"
 )
 
@@ -119,7 +120,7 @@ func (cv *ConfView) View() Widget {
 					}
 					conf := cv.model.items[row]
 					if !conf.Data.AutoStart() {
-						style.TextColor = consts.ColorBlue
+						style.TextColor = res.ColorBlue
 					}
 					margin := cv.listView.IntFrom96DPI(1)
 					bitmapWidth := cv.listView.IntFrom96DPI(16)
@@ -161,27 +162,27 @@ func (cv *ConfView) View() Widget {
 							Menu{
 								OnTriggered: cv.editNew,
 								Text:        i18n.Sprintf("New Config"),
-								Image:       loadIcon(consts.IconNewConf, 16),
+								Image:       loadIcon(res.IconNewConf, 16),
 								Items: []MenuItem{
 									Action{
 										AssignTo:    &cv.tbAddAction,
 										Text:        i18n.Sprintf("Manual Settings"),
-										Image:       loadIcon(consts.IconCreate, 16),
+										Image:       loadIcon(res.IconCreate, 16),
 										OnTriggered: cv.editNew,
 									},
 									Action{
 										Text:        i18n.SprintfEllipsis("Import from File"),
-										Image:       loadIcon(consts.IconFileImport, 16),
+										Image:       loadIcon(res.IconFileImport, 16),
 										OnTriggered: cv.onFileImport,
 									},
 									Action{
 										Text:        i18n.SprintfEllipsis("Import from URL"),
-										Image:       loadIcon(consts.IconURLImport, 16),
+										Image:       loadIcon(res.IconURLImport, 16),
 										OnTriggered: cv.onURLImport,
 									},
 									Action{
 										Text:        i18n.Sprintf("Import from Clipboard"),
-										Image:       loadIcon(consts.IconClipboard, 16),
+										Image:       loadIcon(res.IconClipboard, 16),
 										OnTriggered: cv.onClipboardImport,
 									},
 								},
@@ -190,14 +191,14 @@ func (cv *ConfView) View() Widget {
 							Action{
 								Enabled:     Bind("conf.Selected"),
 								AssignTo:    &cv.tbDeleteAction,
-								Image:       loadIcon(consts.IconDelete, 16),
+								Image:       loadIcon(res.IconDelete, 16),
 								OnTriggered: cv.onDelete,
 							},
 							Separator{},
 							Action{
 								Enabled:     Bind("conf.Selected"),
 								AssignTo:    &cv.tbExportAction,
-								Image:       loadIcon(consts.IconExport, 16),
+								Image:       loadIcon(res.IconExport, 16),
 								OnTriggered: cv.onExport,
 							},
 						},
@@ -321,7 +322,7 @@ checkName:
 
 func (cv *ConfView) onFileImport() {
 	dlg := walk.FileDialog{
-		Filter: consts.FilterConfig + consts.FilterAllFiles,
+		Filter: res.FilterConfig + res.FilterAllFiles,
 		Title:  i18n.Sprintf("Import from File"),
 	}
 
@@ -356,7 +357,7 @@ func (cv *ConfView) ImportFiles(files []string) {
 				subTotal, subImported := cv.importZip(path, nil, false)
 				total += subTotal
 				imported += subImported
-			} else if slices.Contains(consts.SupportedConfigFormats, ext) {
+			} else if slices.Contains(res.SupportedConfigFormats, ext) {
 				total++
 				newPath, ok := cv.checkConfName(path, false)
 				if !ok {
@@ -431,7 +432,7 @@ func (cv *ConfView) importZip(path string, data []byte, rename bool) (total, imp
 		if file.FileInfo().IsDir() {
 			continue
 		}
-		if !slices.Contains(consts.SupportedConfigFormats, strings.ToLower(filepath.Ext(file.Name))) {
+		if !slices.Contains(res.SupportedConfigFormats, strings.ToLower(filepath.Ext(file.Name))) {
 			continue
 		}
 		total++
@@ -454,8 +455,8 @@ func (cv *ConfView) onClipboardImport() {
 	}
 	var name string
 	// Check for a share link
-	if strings.HasPrefix(text, consts.ShareLinkScheme) {
-		text = strings.TrimPrefix(text, consts.ShareLinkScheme)
+	if strings.HasPrefix(text, res.ShareLinkScheme) {
+		text = strings.TrimPrefix(text, res.ShareLinkScheme)
 		content, err := base64.StdEncoding.DecodeString(text)
 		if err != nil {
 			showError(err, cv.Form())
@@ -484,7 +485,7 @@ func (cv *ConfView) onCopyShareLink() {
 		}
 		// Insert the config name in the first line
 		content = append([]byte("# "+conf.Name+"\n"), content...)
-		walk.Clipboard().SetText(consts.ShareLinkScheme + base64.StdEncoding.EncodeToString(content))
+		walk.Clipboard().SetText(res.ShareLinkScheme + base64.StdEncoding.EncodeToString(content))
 	}
 }
 
@@ -522,7 +523,7 @@ func (cv *ConfView) onDelete() {
 
 func (cv *ConfView) onExport() {
 	dlg := walk.FileDialog{
-		Filter: consts.FilterZip,
+		Filter: res.FilterZip,
 		Title:  i18n.Sprintf("Export All Configs to ZIP"),
 	}
 

@@ -428,13 +428,28 @@ func (conf *ClientConfig) saveTOML(path string) error {
 
 func (conf *ClientConfig) Complete(read bool) {
 	// Common config
+	if conf.AuthMethod == "" {
+		conf.AuthMethod = consts.AuthToken
+	}
 	conf.ClientAuth = conf.ClientAuth.Complete()
+	if conf.ServerPort == 0 {
+		conf.ServerPort = consts.DefaultServerPort
+	}
+	if conf.LogLevel == "" {
+		conf.LogLevel = consts.LogLevelInfo
+	}
+	if conf.LogMaxDays == 0 {
+		conf.LogMaxDays = consts.DefaultLogMaxDays
+	}
 	if conf.AdminPort == 0 {
 		conf.AdminUser = ""
 		conf.AdminPwd = ""
 		conf.AssetsDir = ""
 		conf.AdminTLS = v1.TLSConfig{}
 		conf.PprofEnable = false
+	}
+	if conf.DeleteMethod == "" {
+		conf.DeleteMethod = consts.DeleteRelative
 	}
 	conf.AutoDelete = conf.AutoDelete.Complete()
 	if !conf.TCPMux {
@@ -603,11 +618,11 @@ func UnmarshalClientConf(source interface{}) (*ClientConfig, error) {
 	if err = config.LoadConfigure(b, &cfg, false); err != nil {
 		return nil, err
 	}
-	var r ClientConfig
-	r.ClientCommon = ClientCommonFromV1(&cfg.ClientCommonConfig)
-	r.ManualStart = cfg.Mgr.ManualStart
-	r.SVCBEnable = cfg.Mgr.SVCBEnable
-	r.AutoDelete = cfg.Mgr.AutoDelete
+	var conf ClientConfig
+	conf.ClientCommon = ClientCommonFromV1(&cfg.ClientCommonConfig)
+	conf.ManualStart = cfg.Mgr.ManualStart
+	conf.SVCBEnable = cfg.Mgr.SVCBEnable
+	conf.AutoDelete = cfg.Mgr.AutoDelete
 	// Proxies
 	ignore := make(map[string]struct{})
 	proxies := make([]*Proxy, len(cfg.Proxies))
@@ -622,26 +637,29 @@ func UnmarshalClientConf(source interface{}) (*ClientConfig, error) {
 		}
 		proxies[i] = p
 	}
-	r.Proxies = lo.Filter(proxies, func(item *Proxy, index int) bool {
+	conf.Proxies = lo.Filter(proxies, func(item *Proxy, index int) bool {
 		_, ok := ignore[item.Name]
 		return !ok
 	})
 	// Visitors
 	for _, v := range cfg.Visitors {
-		r.Proxies = append(r.Proxies, ClientVisitorFromV1(v))
+		conf.Proxies = append(conf.Proxies, ClientVisitorFromV1(v))
 	}
-	return &r, nil
+	conf.Complete(true)
+	return &conf, nil
 }
 
 func NewDefaultClientConfig() *ClientConfig {
 	return &ClientConfig{
 		ClientCommon: ClientCommon{
 			ClientAuth:                ClientAuth{AuthMethod: consts.AuthToken},
-			ServerPort:                7000,
-			LogLevel:                  "info",
+			ServerPort:                consts.DefaultServerPort,
+			LogLevel:                  consts.LogLevelInfo,
+			LogMaxDays:                consts.DefaultLogMaxDays,
 			TCPMux:                    true,
 			TLSEnable:                 true,
 			DisableCustomTLSFirstByte: true,
+			LoginFailExit:             true,
 			AutoDelete:                AutoDelete{DeleteMethod: consts.DeleteRelative},
 		},
 		Proxies: make([]*Proxy, 0),

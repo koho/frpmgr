@@ -12,7 +12,7 @@ import (
 	"golang.org/x/sys/windows"
 
 	"github.com/koho/frpmgr/i18n"
-	"github.com/koho/frpmgr/pkg/consts"
+	"github.com/koho/frpmgr/pkg/res"
 	"github.com/koho/frpmgr/pkg/util"
 	"github.com/koho/frpmgr/services"
 )
@@ -77,7 +77,7 @@ func RunUI() error {
 		Persistent: true,
 		Visible:    false,
 		Layout:     VBox{Margins: Margins{Left: 5, Top: 5, Right: 5, Bottom: 5}},
-		Font:       consts.TextRegular,
+		Font:       res.TextRegular,
 		Children: []Widget{
 			TabWidget{
 				AssignTo: &fm.tabs,
@@ -158,7 +158,7 @@ func openFolder(path string) {
 // openFileDialog shows a file dialog to choose file or directory and sends the selected path to the LineEdit view
 func openFileDialog(receiver *walk.LineEdit, title string, filter string, file bool) error {
 	dlg := walk.FileDialog{
-		Filter: filter + consts.FilterAllFiles,
+		Filter: filter + res.FilterAllFiles,
 		Title:  title,
 	}
 	var ok bool

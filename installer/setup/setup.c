@@ -48,23 +48,40 @@ static int Cleanup(void) {
 
 static Language *GetPreferredLang(TCHAR *folder) {
     TCHAR langPath[MAX_PATH];
-    if (PathCombine(langPath, folder, L"lang.config") == NULL) {
+    if (PathCombine(langPath, folder, L"app.json") == NULL) {
         return NULL;
     }
     FILE *file;
-    if (_wfopen_s(&file, langPath, L"r") != 0) {
+    if (_wfopen_s(&file, langPath, L"rb") != 0) {
         return NULL;
     }
-    char lang[sizeof(languages[0].code)];
-    while (fgets(lang, sizeof(lang), file) != NULL) {
-        for (int i = 0; i < sizeof(languages) / sizeof(languages[0]); i++) {
-            if (strncmp(lang, languages[i].code, strlen(languages[i].code)) == 0) {
-                fclose(file);
-                return &languages[i];
-            }
+    fseek(file, 0L, SEEK_END);
+    long fileSize = ftell(file);
+    fseek(file, 0L, SEEK_SET);
+    char *buf = malloc(fileSize + 1);
+    size_t size = fread(buf, 1, fileSize, file);
+    buf[size] = 0;
+    fclose(file);
+    const char *p1 = strstr(buf, "\"lang\"");
+    if (p1 == NULL) {
+        goto cleanup;
+    }
+    const char *p2 = strstr(p1, ":");
+    if (p2 == NULL) {
+        goto cleanup;
+    }
+    const char *p3 = strstr(p2, "\"");
+    if (p3 == NULL) {
+        goto cleanup;
+    }
+    for (int i = 0; i < sizeof(languages) / sizeof(languages[0]); i++) {
+        if (strncmp(p3 + 1, languages[i].code, strlen(languages[i].code)) == 0) {
+            free(buf);
+            return &languages[i];
         }
     }
-    fclose(file);
+cleanup:
+    free(buf);
     return NULL;
 }
 

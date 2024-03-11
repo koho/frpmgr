@@ -3,6 +3,7 @@ package consts
 const (
 	RangePrefix       = "range:"
 	DefaultSTUNServer = "stun.easyvoip.com:3478"
+	DefaultServerPort = 7000
 )
 
 // Protocols
@@ -83,3 +84,5 @@ const (
 )
 
 var LogLevels = []string{LogLevelTrace, LogLevelDebug, LogLevelInfo, LogLevelWarn, LogLevelError}
+
+const DefaultLogMaxDays = 3

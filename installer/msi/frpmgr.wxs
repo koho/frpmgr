@@ -82,12 +82,6 @@
 				<!-- A dummy to make WiX create ServiceControl table for us. -->
 				<ServiceControl Id="DummyService.E3F2D6BE_38C7_4654_9C1B_C667A1F9040A" Name="DummyService.E3F2D6BE_38C7_4654_9C1B_C667A1F9040A" />
 			</Component>
-			<Component Guid="{4D11B79E-74E2-4F35-81EA-8B5CC7225A78}" Id="LangConfig" Win64="$(var.Win64)">
-				<File Id="LangConfig" Source="..\cmd\frpmgr\lang.config" KeyPath="yes"/>
-			</Component>
-			<Component Guid="{B73203B2-5C06-4C45-BC6C-1C98CE11A292}" Id="AppConfig" Win64="$(var.Win64)">
-				<File Id="AppConfig" Source="..\cmd\frpmgr\app.config" KeyPath="yes"/>
-			</Component>
 		</ComponentGroup>
 	</Fragment>
 
@@ -99,7 +93,7 @@
 		<CustomAction Id="KillProcesses.SetProperty" Return="check" Property="KillProcesses" Value="[#MainApplication]" />
 		<CustomAction Id="EvaluateFrpServices.SetProperty" Return="check" Property="EvaluateFrpServices" Value="[#MainApplication]" />
 		<CustomAction Id="RemoveFrpFiles.SetProperty" Return="check" Property="RemoveFrpFiles" Value="[INSTALLFOLDER]" />
-		<CustomAction Id="SetLangConfig.SetProperty" Return="check" Property="SetLangConfig" Value="[#LangConfig]" />
+		<CustomAction Id="SetLangConfig.SetProperty" Return="check" Property="SetLangConfig" Value="[INSTALLFOLDER]" />
 		<CustomAction Id="MoveFrpProfiles.SetProperty" Return="check" Property="MoveFrpProfiles" Value="[INSTALLFOLDER]" />
 		<CustomAction Id="RemoveOldFrpServices.SetProperty" Return="check" Property="RemoveOldFrpServices" Value="[#MainApplication]" />
 
