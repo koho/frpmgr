@@ -530,6 +530,11 @@
             "translation": "最大日数"
         },
         {
+            "id": "Days",
+            "message": "Days",
+            "translation": "日"
+        },
+        {
             "id": "Admin",
             "message": "Admin",
             "translation": "管理者"
@@ -585,9 +590,9 @@
             "translation": "日を削除"
         },
         {
-            "id": "Days",
-            "message": "Days",
-            "translation": "日"
+            "id": "s",
+            "message": "s",
+            "translation": "s"
         },
         {
             "id": "Connection",
@@ -600,39 +605,9 @@
             "translation": "プロトコル"
         },
         {
-            "id": "HTTP Proxy",
-            "message": "HTTP Proxy",
-            "translation": "HTTP プロキシ"
-        },
-        {
-            "id": "Pool Count",
-            "message": "Pool Count",
-            "translation": "接続プールの数"
-        },
-        {
-            "id": "UDP Packet Size",
-            "message": "UDP Packet Size",
-            "translation": "UDPパケットサイズ"
-        },
-        {
-            "id": "Heartbeat",
-            "message": "Heartbeat",
-            "translation": "ハートビート"
-        },
-        {
-            "id": "Interval",
-            "message": "Interval",
-            "translation": "間隔"
-        },
-        {
-            "id": "s",
-            "message": "s",
-            "translation": "s"
-        },
-        {
-            "id": "Timeout",
-            "message": "Timeout",
-            "translation": "タイムアウト"
+            "id": "Advanced Options",
+            "message": "Advanced Options",
+            "translation": "高度なオプション"
         },
         {
             "id": "Dial Timeout",
@@ -650,9 +625,29 @@
             "translation": "アイドルタイムアウト"
         },
         {
+            "id": "Pool Count",
+            "message": "Pool Count",
+            "translation": "接続プールの数"
+        },
+        {
             "id": "Max Streams",
             "message": "Max Streams",
             "translation": "最大ストリーム"
+        },
+        {
+            "id": "Heartbeat",
+            "message": "Heartbeat",
+            "translation": "ハートビート"
+        },
+        {
+            "id": "Interval",
+            "message": "Interval",
+            "translation": "間隔"
+        },
+        {
+            "id": "Timeout",
+            "message": "Timeout",
+            "translation": "タイムアウト"
         },
         {
             "id": "On",
@@ -753,6 +748,16 @@
             "id": "Use server SVCB records",
             "message": "Use server SVCB records",
             "translation": "サーバーSVCBレコードを使用する"
+        },
+        {
+            "id": "HTTP Proxy",
+            "message": "HTTP Proxy",
+            "translation": "HTTP プロキシ"
+        },
+        {
+            "id": "UDP Packet Size",
+            "message": "UDP Packet Size",
+            "translation": "UDPパケットサイズ"
         },
         {
             "id": "Config already exists",
@@ -950,21 +955,6 @@
             "translation": "圧縮"
         },
         {
-            "id": "Retry Count",
-            "message": "Retry Count",
-            "translation": "リトライ回数"
-        },
-        {
-            "id": "Times/Hour",
-            "message": "Times/Hour",
-            "translation": "回/時間"
-        },
-        {
-            "id": "Retry Interval",
-            "message": "Retry Interval",
-            "translation": "再試行間隔"
-        },
-        {
             "id": "Fallback",
             "message": "Fallback",
             "translation": "代替"
@@ -978,6 +968,21 @@
             "id": "ms",
             "message": "ms",
             "translation": "ミリ秒"
+        },
+        {
+            "id": "Retry Count",
+            "message": "Retry Count",
+            "translation": "リトライ回数"
+        },
+        {
+            "id": "Times/Hour",
+            "message": "Times/Hour",
+            "translation": "回/時間"
+        },
+        {
+            "id": "Retry Interval",
+            "message": "Retry Interval",
+            "translation": "再試行間隔"
         },
         {
             "id": "HTTP User",
@@ -1060,14 +1065,14 @@
             "translation": "タイムアウト"
         },
         {
-            "id": "Failure Count",
-            "message": "Failure Count",
-            "translation": "失敗数"
-        },
-        {
             "id": "Check Interval",
             "message": "Check Interval",
             "translation": "チェック間隔"
+        },
+        {
+            "id": "Failure Count",
+            "message": "Failure Count",
+            "translation": "失敗数"
         },
         {
             "id": "Proxy already exists",

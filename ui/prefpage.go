@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"math"
 	"sort"
 
 	"github.com/lxn/walk"
@@ -234,9 +235,9 @@ func (pp *PrefPage) setDefaultValue() (int, error) {
 					Model: consts.LogLevels,
 				},
 				Label{Text: i18n.SprintfColon("Log retention")},
-				NumberEdit{Value: Bind("LogMaxDays"), Suffix: i18n.SprintfLSpace("Days")},
+				NewNumberInput(NIOption{Value: Bind("LogMaxDays"), Suffix: i18n.Sprintf("Days"), Max: math.MaxFloat64}),
 				Label{Text: i18n.SprintfColon("Auto Delete")},
-				NumberEdit{Value: Bind("DeleteAfterDays"), Suffix: i18n.SprintfLSpace("Days")},
+				NewNumberInput(NIOption{Value: Bind("DeleteAfterDays"), Suffix: i18n.Sprintf("Days"), Max: math.MaxFloat64}),
 				Label{Text: "DNS:"},
 				LineEdit{Text: Bind("DNSServer")},
 				Label{Text: i18n.SprintfColon("STUN Server")},

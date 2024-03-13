@@ -122,19 +122,7 @@ func (cd *EditClientDialog) basicConfPage() TabPage {
 			Label{Text: i18n.SprintfColon("Server Address")},
 			LineEdit{Text: Bind("ServerAddress", res.ValidateNonEmpty)},
 			Label{Text: i18n.SprintfColon("Server Port")},
-			Composite{
-				Layout: HBox{MarginsZero: true},
-				Children: []Widget{
-					NumberEdit{
-						Value:              Bind("ServerPort"),
-						MinValue:           0,
-						MaxValue:           65535,
-						SpinButtonsVisible: true,
-						MinSize:            Size{Width: 90},
-					},
-					HSpacer{},
-				},
-			},
+			NewNumberInput(NIOption{Value: Bind("ServerPort"), Max: 65535, Width: 90}),
 			Label{Text: i18n.SprintfColon("User")},
 			LineEdit{Text: Bind("User")},
 			Label{Text: i18n.SprintfColon("STUN Server")},
@@ -205,7 +193,7 @@ func (cd *EditClientDialog) logConfPage() TabPage {
 				Model: consts.LogLevels,
 			},
 			Label{Text: i18n.SprintfColon("Max Days")},
-			NumberEdit{Value: Bind("LogMaxDays")},
+			NewNumberInput(NIOption{Value: Bind("LogMaxDays"), Suffix: i18n.Sprintf("Days"), Max: math.MaxFloat64, Width: 90}),
 			VSpacer{ColumnSpan: 2},
 		},
 	}
@@ -257,7 +245,12 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 			Label{Visible: Bind("absCheck.Checked"), Text: i18n.SprintfColon("Delete Date")},
 			DateEdit{Visible: Bind("absCheck.Checked"), Date: Bind("DeleteAfterDate")},
 			Label{Visible: Bind("relCheck.Checked"), Text: i18n.SprintfColon("Delete Days")},
-			NumberEdit{Visible: Bind("relCheck.Checked"), Value: Bind("DeleteAfterDays"), Suffix: i18n.SprintfLSpace("Days")},
+			NewNumberInput(NIOption{
+				Visible: Bind("relCheck.Checked"),
+				Value:   Bind("DeleteAfterDays"),
+				Suffix:  i18n.Sprintf("Days"),
+				Max:     math.MaxFloat64,
+			}),
 		},
 	}, 0)
 }
@@ -268,55 +261,94 @@ func (cd *EditClientDialog) connectionConfPage() TabPage {
 	}
 	quic := Bind(expr("==", consts.ProtoQUIC))
 	tcp := Bind(expr("!=", consts.ProtoQUIC))
-	return AlignGrid(TabPage{
+	second := i18n.Sprintf("s")
+	groupMargins := Margins{Left: 9, Top: 9, Right: 9, Bottom: 16}
+	return TabPage{
 		Title:  i18n.Sprintf("Connection"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			Label{Text: i18n.SprintfColon("Protocol")},
-			ComboBox{
-				Name:  "proto",
-				Value: Bind("Protocol"),
-				Model: consts.Protocols,
-			},
-			Label{Text: i18n.SprintfColon("HTTP Proxy")},
-			LineEdit{Text: Bind("HTTPProxy")},
-			Label{Text: i18n.SprintfColon("Pool Count")},
 			Composite{
-				Layout: HBox{MarginsZero: true},
+				Layout:     HBox{MarginsZero: true},
+				ColumnSpan: 2,
 				Children: []Widget{
-					NumberEdit{Value: Bind("PoolCount")},
-					Label{Text: i18n.SprintfColon("UDP Packet Size")},
-					NumberEdit{Value: Bind("UDPPacketSize")},
+					Label{Text: i18n.SprintfColon("Protocol")},
+					HSpacer{Size: 8},
+					ComboBox{
+						Name:    "proto",
+						Value:   Bind("Protocol"),
+						Model:   consts.Protocols,
+						MinSize: Size{Width: 150},
+					},
+					HSpacer{},
+					LinkLabel{Text: "<a>" + i18n.SprintfEllipsis("Advanced Options") + "</a>", OnLinkActivated: func(link *walk.LinkLabelLink) {
+						cd.advancedConnDialog().Run(cd.Form())
+					}},
 				},
 			},
-			Label{Text: i18n.SprintfColon("Heartbeat")},
-			Composite{
-				Layout: HBox{MarginsZero: true},
+			GroupBox{
+				Title:      i18n.Sprintf("Parameters"),
+				Layout:     Grid{Columns: 2, Spacing: 16, Margins: groupMargins},
+				ColumnSpan: 2,
+				MaxSize:    Size{Height: 105},
 				Children: []Widget{
-					NumberEdit{
+					NewNumberInput(NIOption{
+						Title:   i18n.SprintfColon("Dial Timeout"),
+						Value:   Bind("DialServerTimeout"),
+						Suffix:  second,
+						Visible: tcp,
+						Max:     math.MaxFloat64,
+					}),
+					NewNumberInput(NIOption{
+						Title:   i18n.SprintfColon("Keepalive"),
+						Value:   Bind("DialServerKeepAlive"),
+						Suffix:  second,
+						Visible: tcp,
+					}),
+					NewNumberInput(NIOption{
+						Title:   i18n.SprintfColon("Idle Timeout"),
+						Value:   Bind("QUICMaxIdleTimeout"),
+						Suffix:  second,
+						Visible: quic,
+						Max:     math.MaxFloat64,
+					}),
+					NewNumberInput(NIOption{
+						Title:   i18n.SprintfColon("Keepalive"),
+						Value:   Bind("QUICKeepalivePeriod"),
+						Suffix:  second,
+						Visible: quic,
+						Max:     math.MaxFloat64,
+					}),
+					NewNumberInput(NIOption{
+						Title: i18n.SprintfColon("Pool Count"),
+						Value: Bind("PoolCount"),
+						Max:   math.MaxFloat64,
+					}),
+					NewNumberInput(NIOption{
+						Title:   i18n.SprintfColon("Max Streams"),
+						Value:   Bind("QUICMaxIncomingStreams"),
+						Visible: quic,
+					}),
+				},
+			},
+			GroupBox{
+				Title:      i18n.Sprintf("Heartbeat"),
+				Layout:     Grid{Columns: 2, Margins: groupMargins},
+				ColumnSpan: 2,
+				Children: []Widget{
+					NewNumberInput(NIOption{
+						Title:  i18n.SprintfColon("Interval"),
 						Value:  Bind("HeartbeatInterval"),
-						Prefix: i18n.SprintfRSpace("Interval"),
-						Suffix: i18n.SprintfLSpace("s"),
-					},
-					NumberEdit{
+						Suffix: second,
+					}),
+					NewNumberInput(NIOption{
+						Title:  i18n.SprintfColon("Timeout"),
 						Value:  Bind("HeartbeatTimeout"),
-						Prefix: i18n.SprintfRSpace("Timeout"),
-						Suffix: i18n.SprintfLSpace("s"),
-					},
+						Suffix: second,
+					}),
 				},
 			},
-			Label{Visible: tcp, Text: i18n.SprintfColon("Dial Timeout")},
-			NumberEdit{Visible: tcp, Value: Bind("DialServerTimeout"), Suffix: i18n.SprintfLSpace("s")},
-			Label{Visible: tcp, Text: i18n.SprintfColon("Keepalive")},
-			NumberEdit{Visible: tcp, Value: Bind("DialServerKeepAlive"), Suffix: i18n.SprintfLSpace("s")},
-			Label{Visible: quic, Text: i18n.SprintfColon("Idle Timeout")},
-			NumberEdit{Visible: quic, Value: Bind("QUICMaxIdleTimeout"), Suffix: i18n.SprintfLSpace("s")},
-			Label{Visible: quic, Text: i18n.SprintfColon("Keepalive")},
-			NumberEdit{Visible: quic, Value: Bind("QUICKeepalivePeriod"), Suffix: i18n.SprintfLSpace("s")},
-			Label{Visible: quic, Text: i18n.SprintfColon("Max Streams")},
-			NumberEdit{Visible: quic, Value: Bind("QUICMaxIncomingStreams")},
 		},
-	}, 0)
+	}
 }
 
 func (cd *EditClientDialog) tlsConfPage() TabPage {
@@ -461,6 +493,21 @@ func (cd *EditClientDialog) adminTLSDialog() Dialog {
 		}
 	}}}, buttons.Children...)
 	dlg.Children[len(dlg.Children)-1] = buttons
+	return dlg
+}
+
+func (cd *EditClientDialog) advancedConnDialog() Dialog {
+	dlg := NewBasicDialog(nil, i18n.Sprintf("Advanced Options"),
+		loadIcon(res.IconEditDialog, 32),
+		DataBinder{DataSource: cd.binder}, nil,
+		Label{Text: i18n.SprintfColon("HTTP Proxy")},
+		LineEdit{Text: Bind("HTTPProxy")},
+		Label{Text: i18n.SprintfColon("UDP Packet Size")},
+		NewNumberInput(NIOption{Value: Bind("UDPPacketSize"), Max: math.MaxFloat64, Width: 90}),
+		VSpacer{Size: 4},
+	)
+	dlg.MinSize = Size{Width: 350}
+	dlg.FixedSize = true
 	return dlg
 }
 

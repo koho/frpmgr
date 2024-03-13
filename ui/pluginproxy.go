@@ -2,6 +2,7 @@ package ui
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
@@ -10,7 +11,6 @@ import (
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/res"
-	"github.com/koho/frpmgr/pkg/validators"
 )
 
 type PluginProxyDialog struct {
@@ -39,7 +39,7 @@ func NewPluginProxyDialog(title string, icon *walk.Icon, plugin string) *PluginP
 func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {
 	widgets := []Widget{
 		Label{Text: i18n.SprintfColon("Remote Port")},
-		LineEdit{Text: Bind("RemotePort", res.ValidatePortRange...), MinSize: Size{Width: 280}},
+		NumberEdit{Value: Bind("RemotePort"), MaxValue: 65535, MinSize: Size{Width: 280}},
 	}
 	switch pp.plugin {
 	case consts.PluginHttpProxy, consts.PluginSocks5:
@@ -59,9 +59,8 @@ func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {
 		)
 	}
 	return NewBasicDialog(&pp.Dialog, fmt.Sprintf("%s %s", i18n.Sprintf("Add"), pp.title), pp.icon, DataBinder{
-		AssignTo:       &pp.db,
-		DataSource:     pp.binder,
-		ErrorPresenter: validators.SilentToolTipErrorPresenter{},
+		AssignTo:   &pp.db,
+		DataSource: pp.binder,
 	}, pp.onSave, append(widgets, VSpacer{})...).Run(owner)
 }
 
@@ -78,14 +77,14 @@ func (pp *PluginProxyDialog) onSave() {
 	}
 	pp.Proxies = append(pp.Proxies, &config.Proxy{
 		BaseProxyConf: config.BaseProxyConf{
-			Name:   fmt.Sprintf("%s_%s", pp.plugin, pp.binder.RemotePort),
+			Name:   fmt.Sprintf("%s_%d", pp.plugin, pp.binder.RemotePort),
 			Type:   "tcp",
 			Plugin: pp.plugin,
 			PluginParams: config.PluginParams{
 				PluginLocalPath: pp.binder.Dir,
 			},
 		},
-		RemotePort: pp.binder.RemotePort,
+		RemotePort: strconv.Itoa(pp.binder.RemotePort),
 	})
 	pp.Accept()
 }

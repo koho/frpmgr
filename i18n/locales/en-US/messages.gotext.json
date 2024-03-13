@@ -680,6 +680,13 @@
             "fuzzy": true
         },
         {
+            "id": "Days",
+            "message": "Days",
+            "translation": "Days",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Admin",
             "message": "Admin",
             "translation": "Admin",
@@ -757,9 +764,9 @@
             "fuzzy": true
         },
         {
-            "id": "Days",
-            "message": "Days",
-            "translation": "Days",
+            "id": "s",
+            "message": "s",
+            "translation": "s",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -778,51 +785,9 @@
             "fuzzy": true
         },
         {
-            "id": "HTTP Proxy",
-            "message": "HTTP Proxy",
-            "translation": "HTTP Proxy",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Pool Count",
-            "message": "Pool Count",
-            "translation": "Pool Count",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "UDP Packet Size",
-            "message": "UDP Packet Size",
-            "translation": "UDP Packet Size",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Heartbeat",
-            "message": "Heartbeat",
-            "translation": "Heartbeat",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Interval",
-            "message": "Interval",
-            "translation": "Interval",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "s",
-            "message": "s",
-            "translation": "s",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Timeout",
-            "message": "Timeout",
-            "translation": "Timeout",
+            "id": "Advanced Options",
+            "message": "Advanced Options",
+            "translation": "Advanced Options",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -848,9 +813,37 @@
             "fuzzy": true
         },
         {
+            "id": "Pool Count",
+            "message": "Pool Count",
+            "translation": "Pool Count",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Max Streams",
             "message": "Max Streams",
             "translation": "Max Streams",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Heartbeat",
+            "message": "Heartbeat",
+            "translation": "Heartbeat",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Interval",
+            "message": "Interval",
+            "translation": "Interval",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Timeout",
+            "message": "Timeout",
+            "translation": "Timeout",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -991,6 +984,20 @@
             "id": "Use server SVCB records",
             "message": "Use server SVCB records",
             "translation": "Use server SVCB records",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "HTTP Proxy",
+            "message": "HTTP Proxy",
+            "translation": "HTTP Proxy",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "UDP Packet Size",
+            "message": "UDP Packet Size",
+            "translation": "UDP Packet Size",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1256,27 +1263,6 @@
             "fuzzy": true
         },
         {
-            "id": "Retry Count",
-            "message": "Retry Count",
-            "translation": "Retry Count",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Times/Hour",
-            "message": "Times/Hour",
-            "translation": "Times/Hour",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Retry Interval",
-            "message": "Retry Interval",
-            "translation": "Retry Interval",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "Fallback",
             "message": "Fallback",
             "translation": "Fallback",
@@ -1294,6 +1280,27 @@
             "id": "ms",
             "message": "ms",
             "translation": "ms",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Retry Count",
+            "message": "Retry Count",
+            "translation": "Retry Count",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Times/Hour",
+            "message": "Times/Hour",
+            "translation": "Times/Hour",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Retry Interval",
+            "message": "Retry Interval",
+            "translation": "Retry Interval",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1410,16 +1417,16 @@
             "fuzzy": true
         },
         {
-            "id": "Failure Count",
-            "message": "Failure Count",
-            "translation": "Failure Count",
+            "id": "Check Interval",
+            "message": "Check Interval",
+            "translation": "Check Interval",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
         {
-            "id": "Check Interval",
-            "message": "Check Interval",
-            "translation": "Check Interval",
+            "id": "Failure Count",
+            "message": "Failure Count",
+            "translation": "Failure Count",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

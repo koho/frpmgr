@@ -520,6 +520,11 @@
             "translation": "Días máximos"
         },
         {
+            "id": "Days",
+            "message": "Days",
+            "translation": "Días"
+        },
+        {
             "id": "Admin",
             "message": "Admin",
             "translation": "Admin"
@@ -575,9 +580,9 @@
             "translation": "Eliminar días"
         },
         {
-            "id": "Days",
-            "message": "Days",
-            "translation": "Días"
+            "id": "s",
+            "message": "s",
+            "translation": "s"
         },
         {
             "id": "Connection",
@@ -590,39 +595,9 @@
             "translation": "Protocolo"
         },
         {
-            "id": "HTTP Proxy",
-            "message": "HTTP Proxy",
-            "translation": "Proxy HTTP"
-        },
-        {
-            "id": "Pool Count",
-            "message": "Pool Count",
-            "translation": "Conectar cuenta"
-        },
-        {
-            "id": "UDP Packet Size",
-            "message": "UDP Packet Size",
-            "translation": "Tamaño del paquete UDP"
-        },
-        {
-            "id": "Heartbeat",
-            "message": "Heartbeat",
-            "translation": "Latido del corazón"
-        },
-        {
-            "id": "Interval",
-            "message": "Interval",
-            "translation": "Intervalo"
-        },
-        {
-            "id": "s",
-            "message": "s",
-            "translation": "s"
-        },
-        {
-            "id": "Timeout",
-            "message": "Timeout",
-            "translation": "Tiempo muerto"
+            "id": "Advanced Options",
+            "message": "Advanced Options",
+            "translation": "Opciones Avanzada"
         },
         {
             "id": "Dial Timeout",
@@ -640,9 +615,29 @@
             "translation": "Tiempo de inactividad"
         },
         {
+            "id": "Pool Count",
+            "message": "Pool Count",
+            "translation": "Conectar cuenta"
+        },
+        {
             "id": "Max Streams",
             "message": "Max Streams",
             "translation": "Corrientes máximas"
+        },
+        {
+            "id": "Heartbeat",
+            "message": "Heartbeat",
+            "translation": "Latido del corazón"
+        },
+        {
+            "id": "Interval",
+            "message": "Interval",
+            "translation": "Intervalo"
+        },
+        {
+            "id": "Timeout",
+            "message": "Timeout",
+            "translation": "Tiempo muerto"
         },
         {
             "id": "On",
@@ -743,6 +738,16 @@
             "id": "Use server SVCB records",
             "message": "Use server SVCB records",
             "translation": "Usar registros SVCB del servidor"
+        },
+        {
+            "id": "HTTP Proxy",
+            "message": "HTTP Proxy",
+            "translation": "Proxy HTTP"
+        },
+        {
+            "id": "UDP Packet Size",
+            "message": "UDP Packet Size",
+            "translation": "Tamaño del paquete UDP"
         },
         {
             "id": "Config already exists",
@@ -940,21 +945,6 @@
             "translation": "Compresión"
         },
         {
-            "id": "Retry Count",
-            "message": "Retry Count",
-            "translation": "Número de reintentos"
-        },
-        {
-            "id": "Times/Hour",
-            "message": "Times/Hour",
-            "translation": "Veces/Hora"
-        },
-        {
-            "id": "Retry Interval",
-            "message": "Retry Interval",
-            "translation": "Intervalo de reintento"
-        },
-        {
             "id": "Fallback",
             "message": "Fallback",
             "translation": "Repuesto"
@@ -968,6 +958,21 @@
             "id": "ms",
             "message": "ms",
             "translation": "milisegundo"
+        },
+        {
+            "id": "Retry Count",
+            "message": "Retry Count",
+            "translation": "Número de reintentos"
+        },
+        {
+            "id": "Times/Hour",
+            "message": "Times/Hour",
+            "translation": "Veces/Hora"
+        },
+        {
+            "id": "Retry Interval",
+            "message": "Retry Interval",
+            "translation": "Intervalo de reintento"
         },
         {
             "id": "HTTP User",
@@ -1050,14 +1055,14 @@
             "translation": "Se acabó el tiempo"
         },
         {
-            "id": "Failure Count",
-            "message": "Failure Count",
-            "translation": "Recuento de fallas"
-        },
-        {
             "id": "Check Interval",
             "message": "Check Interval",
             "translation": "Intervalo"
+        },
+        {
+            "id": "Failure Count",
+            "message": "Failure Count",
+            "translation": "Recuento de fallas"
         },
         {
             "id": "Proxy already exists",

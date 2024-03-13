@@ -520,6 +520,11 @@
             "translation": "최대 일수"
         },
         {
+            "id": "Days",
+            "message": "Days",
+            "translation": "날"
+        },
+        {
             "id": "Admin",
             "message": "Admin",
             "translation": "관리자"
@@ -575,9 +580,9 @@
             "translation": "삭제 일"
         },
         {
-            "id": "Days",
-            "message": "Days",
-            "translation": "날"
+            "id": "s",
+            "message": "s",
+            "translation": "s"
         },
         {
             "id": "Connection",
@@ -590,39 +595,9 @@
             "translation": "규약"
         },
         {
-            "id": "HTTP Proxy",
-            "message": "HTTP Proxy",
-            "translation": "HTTP 프록시"
-        },
-        {
-            "id": "Pool Count",
-            "message": "Pool Count",
-            "translation": "연결 수"
-        },
-        {
-            "id": "UDP Packet Size",
-            "message": "UDP Packet Size",
-            "translation": "UDP 패킷 크기"
-        },
-        {
-            "id": "Heartbeat",
-            "message": "Heartbeat",
-            "translation": "심장박동"
-        },
-        {
-            "id": "Interval",
-            "message": "Interval",
-            "translation": "간격"
-        },
-        {
-            "id": "s",
-            "message": "s",
-            "translation": "s"
-        },
-        {
-            "id": "Timeout",
-            "message": "Timeout",
-            "translation": "타임아웃"
+            "id": "Advanced Options",
+            "message": "Advanced Options",
+            "translation": "고급 옵션"
         },
         {
             "id": "Dial Timeout",
@@ -640,9 +615,29 @@
             "translation": "유휴 시간 초과"
         },
         {
+            "id": "Pool Count",
+            "message": "Pool Count",
+            "translation": "연결 수"
+        },
+        {
             "id": "Max Streams",
             "message": "Max Streams",
             "translation": "최대 스트림"
+        },
+        {
+            "id": "Heartbeat",
+            "message": "Heartbeat",
+            "translation": "심장박동"
+        },
+        {
+            "id": "Interval",
+            "message": "Interval",
+            "translation": "간격"
+        },
+        {
+            "id": "Timeout",
+            "message": "Timeout",
+            "translation": "타임아웃"
         },
         {
             "id": "On",
@@ -743,6 +738,16 @@
             "id": "Use server SVCB records",
             "message": "Use server SVCB records",
             "translation": "서버 SVCB 기록 사용"
+        },
+        {
+            "id": "HTTP Proxy",
+            "message": "HTTP Proxy",
+            "translation": "HTTP 프록시"
+        },
+        {
+            "id": "UDP Packet Size",
+            "message": "UDP Packet Size",
+            "translation": "UDP 패킷 크기"
         },
         {
             "id": "Config already exists",
@@ -940,21 +945,6 @@
             "translation": "압축"
         },
         {
-            "id": "Retry Count",
-            "message": "Retry Count",
-            "translation": "재시도 횟수"
-        },
-        {
-            "id": "Times/Hour",
-            "message": "Times/Hour",
-            "translation": "회/시간"
-        },
-        {
-            "id": "Retry Interval",
-            "message": "Retry Interval",
-            "translation": "재시도 간격"
-        },
-        {
             "id": "Fallback",
             "message": "Fallback",
             "translation": "폴백"
@@ -968,6 +958,21 @@
             "id": "ms",
             "message": "ms",
             "translation": "밀리초"
+        },
+        {
+            "id": "Retry Count",
+            "message": "Retry Count",
+            "translation": "재시도 횟수"
+        },
+        {
+            "id": "Times/Hour",
+            "message": "Times/Hour",
+            "translation": "회/시간"
+        },
+        {
+            "id": "Retry Interval",
+            "message": "Retry Interval",
+            "translation": "재시도 간격"
         },
         {
             "id": "HTTP User",
@@ -1050,14 +1055,14 @@
             "translation": "시간 초과"
         },
         {
-            "id": "Failure Count",
-            "message": "Failure Count",
-            "translation": "실패 횟수"
-        },
-        {
             "id": "Check Interval",
             "message": "Check Interval",
             "translation": "간격"
+        },
+        {
+            "id": "Failure Count",
+            "message": "Failure Count",
+            "translation": "실패 횟수"
         },
         {
             "id": "Proxy already exists",

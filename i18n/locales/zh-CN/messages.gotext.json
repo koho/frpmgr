@@ -520,6 +520,11 @@
             "translation": "最大天数"
         },
         {
+            "id": "Days",
+            "message": "Days",
+            "translation": "天"
+        },
+        {
             "id": "Admin",
             "message": "Admin",
             "translation": "管理"
@@ -575,9 +580,9 @@
             "translation": "删除天数"
         },
         {
-            "id": "Days",
-            "message": "Days",
-            "translation": "天"
+            "id": "s",
+            "message": "s",
+            "translation": "秒"
         },
         {
             "id": "Connection",
@@ -590,39 +595,9 @@
             "translation": "协议"
         },
         {
-            "id": "HTTP Proxy",
-            "message": "HTTP Proxy",
-            "translation": "HTTP 代理"
-        },
-        {
-            "id": "Pool Count",
-            "message": "Pool Count",
-            "translation": "连接池数量"
-        },
-        {
-            "id": "UDP Packet Size",
-            "message": "UDP Packet Size",
-            "translation": "UDP 包大小"
-        },
-        {
-            "id": "Heartbeat",
-            "message": "Heartbeat",
-            "translation": "心跳"
-        },
-        {
-            "id": "Interval",
-            "message": "Interval",
-            "translation": "间隔"
-        },
-        {
-            "id": "s",
-            "message": "s",
-            "translation": "秒"
-        },
-        {
-            "id": "Timeout",
-            "message": "Timeout",
-            "translation": "超时"
+            "id": "Advanced Options",
+            "message": "Advanced Options",
+            "translation": "高级选项"
         },
         {
             "id": "Dial Timeout",
@@ -640,9 +615,29 @@
             "translation": "闲置超时"
         },
         {
+            "id": "Pool Count",
+            "message": "Pool Count",
+            "translation": "连接池数量"
+        },
+        {
             "id": "Max Streams",
             "message": "Max Streams",
             "translation": "最大流数量"
+        },
+        {
+            "id": "Heartbeat",
+            "message": "Heartbeat",
+            "translation": "心跳"
+        },
+        {
+            "id": "Interval",
+            "message": "Interval",
+            "translation": "间隔"
+        },
+        {
+            "id": "Timeout",
+            "message": "Timeout",
+            "translation": "超时"
         },
         {
             "id": "On",
@@ -743,6 +738,16 @@
             "id": "Use server SVCB records",
             "message": "Use server SVCB records",
             "translation": "使用服务器 SVCB 记录"
+        },
+        {
+            "id": "HTTP Proxy",
+            "message": "HTTP Proxy",
+            "translation": "HTTP 代理"
+        },
+        {
+            "id": "UDP Packet Size",
+            "message": "UDP Packet Size",
+            "translation": "UDP 包大小"
         },
         {
             "id": "Config already exists",
@@ -940,21 +945,6 @@
             "translation": "压缩传输"
         },
         {
-            "id": "Retry Count",
-            "message": "Retry Count",
-            "translation": "重试次数"
-        },
-        {
-            "id": "Times/Hour",
-            "message": "Times/Hour",
-            "translation": "次/小时"
-        },
-        {
-            "id": "Retry Interval",
-            "message": "Retry Interval",
-            "translation": "重试间隔"
-        },
-        {
             "id": "Fallback",
             "message": "Fallback",
             "translation": "备用"
@@ -968,6 +958,21 @@
             "id": "ms",
             "message": "ms",
             "translation": "毫秒"
+        },
+        {
+            "id": "Retry Count",
+            "message": "Retry Count",
+            "translation": "重试次数"
+        },
+        {
+            "id": "Times/Hour",
+            "message": "Times/Hour",
+            "translation": "次/小时"
+        },
+        {
+            "id": "Retry Interval",
+            "message": "Retry Interval",
+            "translation": "重试间隔"
         },
         {
             "id": "HTTP User",
@@ -1050,14 +1055,14 @@
             "translation": "检查超时"
         },
         {
-            "id": "Failure Count",
-            "message": "Failure Count",
-            "translation": "错误次数"
-        },
-        {
             "id": "Check Interval",
             "message": "Check Interval",
             "translation": "检查周期"
+        },
+        {
+            "id": "Failure Count",
+            "message": "Failure Count",
+            "translation": "错误次数"
         },
         {
             "id": "Proxy already exists",

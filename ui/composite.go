@@ -153,3 +153,51 @@ func NewAttributeDialog(title string, data *map[string]string) Dialog {
 	dlg.MinSize = Size{Width: 420, Height: 280}
 	return dlg
 }
+
+type NIOption struct {
+	Title        string
+	Value        Property
+	Suffix       string
+	Min          float64
+	Max          float64
+	Width        int
+	Style        uint32
+	Greedy       bool
+	NoSpinButton bool
+	NoSpacer     bool
+	Visible      Property
+	Enabled      Property
+}
+
+// NewNumberInput returns a number edit with custom prefix and suffix.
+func NewNumberInput(opt NIOption) Composite {
+	var widgets []Widget
+	if opt.Title != "" {
+		widgets = append(widgets, Label{Text: opt.Title})
+	}
+	ne := NumberEdit{
+		Value:              opt.Value,
+		SpinButtonsVisible: !opt.NoSpinButton,
+		MinSize:            Size{Width: opt.Width},
+		MinValue:           opt.Min,
+		MaxValue:           opt.Max,
+		Style:              opt.Style,
+		Greedy:             opt.Greedy,
+	}
+	if ne.MinSize.Width == 0 {
+		ne.MinSize.Width = 70
+	}
+	widgets = append(widgets, ne)
+	if opt.Suffix != "" {
+		widgets = append(widgets, Label{Text: opt.Suffix})
+	}
+	if !opt.NoSpacer {
+		widgets = append(widgets, HSpacer{})
+	}
+	return Composite{
+		Layout:   HBox{MarginsZero: true},
+		Visible:  opt.Visible,
+		Enabled:  opt.Enabled,
+		Children: widgets,
+	}
+}
