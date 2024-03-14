@@ -1,5 +1,5 @@
---- pkg/mod/github.com/fatedier/frp@v0.54.0/pkg/config/legacy/conversion.go	(revision 2af2cf7dbd7482906c0d78efb243a47b7670c773)
-+++ patches/conversion.go													(revision 9152c595708fa9b8bb61473b3aec139ebda84c10)
+--- pkg/mod/github.com/fatedier/frp@v0.54.0/pkg/config/legacy/conversion.go (revision 2af2cf7dbd7482906c0d78efb243a47b7670c773)
++++ patches/conversion.go (revision 9152c595708fa9b8bb61473b3aec139ebda84c10)
 @@ -175,6 +175,9 @@
  			continue
  		}
