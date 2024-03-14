@@ -428,28 +428,13 @@ func (conf *ClientConfig) saveTOML(path string) error {
 
 func (conf *ClientConfig) Complete(read bool) {
 	// Common config
-	if conf.AuthMethod == "" {
-		conf.AuthMethod = consts.AuthToken
-	}
 	conf.ClientAuth = conf.ClientAuth.Complete()
-	if conf.ServerPort == 0 {
-		conf.ServerPort = consts.DefaultServerPort
-	}
-	if conf.LogLevel == "" {
-		conf.LogLevel = consts.LogLevelInfo
-	}
-	if conf.LogMaxDays == 0 {
-		conf.LogMaxDays = consts.DefaultLogMaxDays
-	}
 	if conf.AdminPort == 0 {
 		conf.AdminUser = ""
 		conf.AdminPwd = ""
 		conf.AssetsDir = ""
 		conf.AdminTLS = v1.TLSConfig{}
 		conf.PprofEnable = false
-	}
-	if conf.DeleteMethod == "" {
-		conf.DeleteMethod = consts.DeleteRelative
 	}
 	conf.AutoDelete = conf.AutoDelete.Complete()
 	if !conf.TCPMux {
@@ -601,7 +586,6 @@ func UnmarshalClientConfFromIni(source interface{}) (*ClientConfig, error) {
 }
 
 func UnmarshalClientConf(source interface{}) (*ClientConfig, error) {
-	var cfg ClientConfigV1
 	var b []byte
 	var err error
 	if path, ok := source.(string); ok {
@@ -615,6 +599,7 @@ func UnmarshalClientConf(source interface{}) (*ClientConfig, error) {
 	if config.DetectLegacyINIFormat(b) {
 		return UnmarshalClientConfFromIni(source)
 	}
+	var cfg = NewDefaultClientConfigV1()
 	if err = config.LoadConfigure(b, &cfg, false); err != nil {
 		return nil, err
 	}
@@ -659,10 +644,21 @@ func NewDefaultClientConfig() *ClientConfig {
 			TCPMux:                    true,
 			TLSEnable:                 true,
 			DisableCustomTLSFirstByte: true,
-			LoginFailExit:             true,
 			AutoDelete:                AutoDelete{DeleteMethod: consts.DeleteRelative},
 		},
 		Proxies: make([]*Proxy, 0),
+	}
+}
+
+func NewDefaultClientConfigV1() ClientConfigV1 {
+	return ClientConfigV1{
+		ClientCommonConfig: v1.ClientCommonConfig{
+			Auth:          v1.AuthClientConfig{Method: v1.AuthMethodToken},
+			ServerPort:    consts.DefaultServerPort,
+			Log:           v1.LogConfig{Level: consts.LogLevelInfo, MaxDays: consts.DefaultLogMaxDays},
+			LoginFailExit: lo.ToPtr(false),
+		},
+		Mgr: Mgr{AutoDelete: AutoDelete{DeleteMethod: consts.DeleteRelative}},
 	}
 }
 
