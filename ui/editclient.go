@@ -133,6 +133,9 @@ func (cd *EditClientDialog) basicConfPage() TabPage {
 }
 
 func (cd *EditClientDialog) authConfPage() TabPage {
+	token := Bind("tokenCheck.Checked")
+	oidc := Bind("oidcCheck.Checked")
+	auth := Bind("!noAuthCheck.Checked")
 	return AlignGrid(TabPage{
 		Title:  i18n.Sprintf("Auth"),
 		Layout: Grid{Columns: 2},
@@ -143,19 +146,19 @@ func (cd *EditClientDialog) authConfPage() TabPage {
 				{Name: "oidcCheck", Text: "OIDC", Value: consts.AuthOIDC},
 				{Name: "noAuthCheck", Text: i18n.Sprintf("None"), Value: ""},
 			}),
-			Label{Visible: Bind("tokenCheck.Checked"), Text: i18n.SprintfColon("Token")},
-			LineEdit{Visible: Bind("tokenCheck.Checked"), Text: Bind("Token"), PasswordMode: true},
-			Label{Visible: Bind("oidcCheck.Checked"), Text: "ID:"},
-			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCClientId")},
-			Label{Visible: Bind("oidcCheck.Checked"), Text: i18n.SprintfColon("Secret")},
-			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCClientSecret"), PasswordMode: true},
-			Label{Visible: Bind("oidcCheck.Checked"), Text: i18n.SprintfColon("Audience")},
-			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCAudience")},
-			Label{Visible: Bind("oidcCheck.Checked"), Text: i18n.SprintfColon("Scope")},
-			LineEdit{Visible: Bind("oidcCheck.Checked"), Text: Bind("OIDCScope")},
-			Label{Visible: Bind("oidcCheck.Checked"), Text: i18n.SprintfColon("Token Endpoint")},
+			Label{Visible: token, Text: i18n.SprintfColon("Token")},
+			LineEdit{Visible: token, Text: Bind("Token"), PasswordMode: true},
+			Label{Visible: oidc, Text: "ID:"},
+			LineEdit{Visible: oidc, Text: Bind("OIDCClientId")},
+			Label{Visible: oidc, Text: i18n.SprintfColon("Secret")},
+			LineEdit{Visible: oidc, Text: Bind("OIDCClientSecret"), PasswordMode: true},
+			Label{Visible: oidc, Text: i18n.SprintfColon("Audience")},
+			LineEdit{Visible: oidc, Text: Bind("OIDCAudience")},
+			Label{Visible: oidc, Text: i18n.SprintfColon("Scope")},
+			LineEdit{Visible: oidc, Text: Bind("OIDCScope")},
+			Label{Visible: oidc, Text: i18n.SprintfColon("Token Endpoint")},
 			Composite{
-				Visible: Bind("oidcCheck.Checked"),
+				Visible: oidc,
 				Layout:  HBox{MarginsZero: true},
 				Children: []Widget{
 					LineEdit{Text: Bind("OIDCTokenEndpoint")},
@@ -164,9 +167,9 @@ func (cd *EditClientDialog) authConfPage() TabPage {
 					}},
 				},
 			},
-			Label{Visible: Bind("!noAuthCheck.Checked"), Text: i18n.SprintfColon("Authentication")},
+			Label{Visible: auth, Text: i18n.SprintfColon("Authentication")},
 			Composite{
-				Visible: Bind("!noAuthCheck.Checked"),
+				Visible: auth,
 				Layout:  HBox{MarginsZero: true},
 				Children: []Widget{
 					CheckBox{Text: i18n.Sprintf("Heart Beats"), Checked: Bind("AuthenticateHeartBeats")},
@@ -201,6 +204,8 @@ func (cd *EditClientDialog) logConfPage() TabPage {
 
 func (cd *EditClientDialog) adminConfPage() TabPage {
 	adminEnabled := Bind("adminPort.Value > 0")
+	absChecked := Bind("absCheck.Checked")
+	relChecked := Bind("relCheck.Checked")
 	return AlignGrid(TabPage{
 		Title:  i18n.Sprintf("Admin"),
 		Layout: Grid{Columns: 2},
@@ -242,11 +247,11 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 				{Name: "relCheck", Text: i18n.Sprintf("Relative"), Value: consts.DeleteRelative},
 				{Name: "noDelCheck", Text: i18n.Sprintf("None"), Value: ""},
 			}),
-			Label{Visible: Bind("absCheck.Checked"), Text: i18n.SprintfColon("Delete Date")},
-			DateEdit{Visible: Bind("absCheck.Checked"), Date: Bind("DeleteAfterDate")},
-			Label{Visible: Bind("relCheck.Checked"), Text: i18n.SprintfColon("Delete Days")},
+			Label{Visible: absChecked, Text: i18n.SprintfColon("Delete Date")},
+			DateEdit{Visible: absChecked, Date: Bind("DeleteAfterDate")},
+			Label{Visible: relChecked, Text: i18n.SprintfColon("Delete Days")},
 			NewNumberInput(NIOption{
-				Visible: Bind("relCheck.Checked"),
+				Visible: relChecked,
 				Value:   Bind("DeleteAfterDays"),
 				Suffix:  i18n.Sprintf("Days"),
 				Max:     math.MaxFloat64,
@@ -352,6 +357,7 @@ func (cd *EditClientDialog) connectionConfPage() TabPage {
 }
 
 func (cd *EditClientDialog) tlsConfPage() TabPage {
+	tlsChecked := Bind("tlsCheck.Checked")
 	return TabPage{
 		Title:  "TLS",
 		Layout: Grid{Columns: 2},
@@ -361,19 +367,19 @@ func (cd *EditClientDialog) tlsConfPage() TabPage {
 				{Name: "tlsCheck", Text: i18n.Sprintf("On"), Value: true},
 				{Text: i18n.Sprintf("Off"), Value: false},
 			}),
-			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Host Name"), AlwaysConsumeSpace: true},
-			LineEdit{Visible: Bind("tlsCheck.Checked"), Text: Bind("TLSServerName")},
-			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Certificate")},
-			NewBrowseLineEdit(nil, Bind("tlsCheck.Checked"), true, Bind("TLSCertFile"),
+			Label{Visible: tlsChecked, Text: i18n.SprintfColon("Host Name"), AlwaysConsumeSpace: true},
+			LineEdit{Visible: tlsChecked, Text: Bind("TLSServerName")},
+			Label{Visible: tlsChecked, Text: i18n.SprintfColon("Certificate")},
+			NewBrowseLineEdit(nil, tlsChecked, true, Bind("TLSCertFile"),
 				i18n.Sprintf("Select Certificate File"), res.FilterCert, true),
-			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Certificate Key"), AlwaysConsumeSpace: true},
-			NewBrowseLineEdit(nil, Bind("tlsCheck.Checked"), true, Bind("TLSKeyFile"),
+			Label{Visible: tlsChecked, Text: i18n.SprintfColon("Certificate Key"), AlwaysConsumeSpace: true},
+			NewBrowseLineEdit(nil, tlsChecked, true, Bind("TLSKeyFile"),
 				i18n.Sprintf("Select Certificate Key File"), res.FilterKey, true),
-			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Trusted CA"), AlwaysConsumeSpace: true},
-			NewBrowseLineEdit(nil, Bind("tlsCheck.Checked"), true, Bind("TLSTrustedCaFile"),
+			Label{Visible: tlsChecked, Text: i18n.SprintfColon("Trusted CA"), AlwaysConsumeSpace: true},
+			NewBrowseLineEdit(nil, tlsChecked, true, Bind("TLSTrustedCaFile"),
 				i18n.Sprintf("Select Trusted CA File"), res.FilterCert, true),
-			Label{Visible: Bind("tlsCheck.Checked"), Text: i18n.SprintfColon("Other Options")},
-			CheckBox{Visible: Bind("tlsCheck.Checked"), Text: i18n.Sprintf("Disable custom first byte"), Checked: Bind("DisableCustomTLSFirstByte")},
+			Label{Visible: tlsChecked, Text: i18n.SprintfColon("Other Options")},
+			CheckBox{Visible: tlsChecked, Text: i18n.Sprintf("Disable custom first byte"), Checked: Bind("DisableCustomTLSFirstByte")},
 		},
 	}
 }
