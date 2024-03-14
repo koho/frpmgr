@@ -12,6 +12,10 @@ set VERSION=%VERSION:"=%
 	echo [+] Downloading packages
 	go mod tidy || goto :error
 
+:patch
+	echo [+] Patching files
+	for %%f in (patches\*.patch) do patch -N -r - -d %GOPATH% -p0 < %%f
+
 :resources
 	echo [+] Generating resources
 	go generate || goto :error
