@@ -27,6 +27,8 @@ jobs:
       - name: Build
         id: build
         shell: cmd
+        env:
+          GOPATH: C:\Users\runneradmin\go
         run: |
           for /f "tokens=3" %%a in ('findstr /r "Number.*=.*[0-9.]*" .\pkg\version\version.go') do set VERSION=%%a
           echo version=%VERSION:"=%>>%GITHUB_OUTPUT%
