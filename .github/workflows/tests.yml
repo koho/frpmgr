@@ -39,8 +39,6 @@ jobs:
 
       - name: Build
         shell: cmd
-        env:
-          GOPATH: C:\Users\runneradmin\go
         run: build.bat
 
       - name: Upload

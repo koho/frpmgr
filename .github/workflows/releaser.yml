@@ -17,7 +17,7 @@ jobs:
       - name: Setup Go environment
         uses: actions/setup-go@v5
         with:
-          go-version: '1.21.4'
+          go-version: '1.22'
 
       - name: Setup VS environment
         shell: cmd
@@ -27,8 +27,6 @@ jobs:
       - name: Build
         id: build
         shell: cmd
-        env:
-          GOPATH: C:\Users\runneradmin\go
         run: |
           for /f "tokens=3" %%a in ('findstr /r "Number.*=.*[0-9.]*" .\pkg\version\version.go') do set VERSION=%%a
           echo version=%VERSION:"=%>>%GITHUB_OUTPUT%
