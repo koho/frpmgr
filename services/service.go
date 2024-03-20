@@ -96,7 +96,7 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 			case svc.ParamChange:
 				// Reload service
 				if err = svr.Reload(); err != nil {
-					log.Warn("reload frp config error: %s", err.Error())
+					log.Errorf("reload frp config error: %v", err)
 				}
 			case svc.Interrogate:
 				changes <- c.CurrentStatus

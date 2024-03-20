@@ -32,7 +32,7 @@ func NewFrpClientService(cfgFile string) (*FrpClientService, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.InitLog(cfg.Log.To, cfg.Log.Level, cfg.Log.MaxDays, cfg.Log.DisablePrintColor)
+	log.InitLogger(cfg.Log.To, cfg.Log.Level, int(cfg.Log.MaxDays), cfg.Log.DisablePrintColor)
 	return &FrpClientService{svr: svr, file: cfgFile, cfg: cfg, done: make(chan struct{})}, nil
 }
 
@@ -40,14 +40,14 @@ func NewFrpClientService(cfgFile string) (*FrpClientService, error) {
 func (s *FrpClientService) Run() {
 	defer close(s.done)
 	if s.file != "" {
-		log.Trace("start frpc service for config file [%s]", s.file)
-		defer log.Trace("frpc service for config file [%s] stopped", s.file)
+		log.Infof("start frpc service for config file [%s]", s.file)
+		defer log.Infof("frpc service for config file [%s] stopped", s.file)
 	}
 
 	// There's no guarantee that this function will return after a close call.
 	// So we can't wait for the Run function to finish.
 	if err := s.svr.Run(context.Background()); err != nil {
-		log.Error("run service error: %v", err)
+		log.Errorf("run service error: %v", err)
 	}
 }
 

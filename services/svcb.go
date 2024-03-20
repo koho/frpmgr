@@ -70,7 +70,7 @@ func (s *FrpClientSVCBService) Run() {
 				if errors.Is(err, context.Canceled) {
 					return
 				}
-				log.Warn("lookup %s SVCB error: %v", s.serverAddr, err)
+				log.Warnf("lookup %s SVCB error: %v", s.serverAddr, err)
 				// Backs off if the resolution has failed in some way.
 				timer.Reset(s.backoff(tryCnt))
 				// Prevent counter overflow.
