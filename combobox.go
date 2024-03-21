@@ -42,6 +42,7 @@ type ComboBox struct {
 	editOrigWndProcPtr           uintptr
 	editing                      bool
 	persistent                   bool
+	greedy                       bool
 }
 
 var comboBoxEditWndProcPtr uintptr
@@ -100,8 +101,8 @@ func comboBoxEditWndProc(hwnd win.HWND, msg uint32, wParam, lParam uintptr) uint
 	return win.CallWindowProc(cb.editOrigWndProcPtr, hwnd, msg, wParam, lParam)
 }
 
-func NewComboBox(parent Container) (*ComboBox, error) {
-	cb, err := newComboBoxWithStyle(parent, win.CBS_AUTOHSCROLL|win.CBS_DROPDOWN)
+func NewComboBox(parent Container, greedy bool) (*ComboBox, error) {
+	cb, err := newComboBoxWithStyle(parent, win.CBS_AUTOHSCROLL|win.CBS_DROPDOWN, greedy)
 	if err != nil {
 		return nil, err
 	}
@@ -114,12 +115,12 @@ func NewComboBox(parent Container) (*ComboBox, error) {
 	return cb, nil
 }
 
-func NewDropDownBox(parent Container) (*ComboBox, error) {
-	return newComboBoxWithStyle(parent, win.CBS_DROPDOWNLIST)
+func NewDropDownBox(parent Container, greedy bool) (*ComboBox, error) {
+	return newComboBoxWithStyle(parent, win.CBS_DROPDOWNLIST, greedy)
 }
 
-func newComboBoxWithStyle(parent Container, style uint32) (*ComboBox, error) {
-	cb := &ComboBox{prevCurIndex: -1, selChangeIndex: -1, precision: 2}
+func newComboBoxWithStyle(parent Container, style uint32, greedy bool) (*ComboBox, error) {
+	cb := &ComboBox{prevCurIndex: -1, selChangeIndex: -1, precision: 2, greedy: greedy}
 
 	if err := InitWidget(
 		cb,
@@ -729,6 +730,9 @@ func (cb *ComboBox) CreateLayoutItem(ctx *LayoutContext) LayoutItem {
 		layoutFlags = GrowableHorz | GreedyHorz
 	} else {
 		layoutFlags = GrowableHorz
+	}
+	if cb.greedy {
+		layoutFlags |= GreedyHorz
 	}
 
 	defaultSize := cb.dialogBaseUnitsToPixels(Size{30, 12})

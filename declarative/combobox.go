@@ -57,6 +57,7 @@ type ComboBox struct {
 	CurrentIndex          Property
 	DisplayMember         string
 	Editable              bool
+	Greedy                bool
 	Format                string
 	MaxLength             int
 	Model                 interface{}
@@ -77,9 +78,9 @@ func (cb ComboBox) Create(builder *Builder) error {
 	var w *walk.ComboBox
 	var err error
 	if cb.Editable {
-		w, err = walk.NewComboBox(builder.Parent())
+		w, err = walk.NewComboBox(builder.Parent(), cb.Greedy)
 	} else {
-		w, err = walk.NewDropDownBox(builder.Parent())
+		w, err = walk.NewDropDownBox(builder.Parent(), cb.Greedy)
 	}
 	if err != nil {
 		return err
