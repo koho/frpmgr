@@ -157,6 +157,8 @@ type BaseProxyConf struct {
 	HealthCheckConf `ini:",extends"`
 	// Meta info for each proxy
 	Metas map[string]string `ini:"-"`
+	// Annotations for each proxy
+	Annotations map[string]string `ini:"-"`
 	// Disabled defines whether to start the proxy.
 	Disabled bool `ini:"-"`
 }

@@ -805,6 +805,11 @@
             ]
         },
         {
+            "id": "Annotations",
+            "message": "Annotations",
+            "translation": "주석"
+        },
+        {
             "id": "Random",
             "message": "Random",
             "translation": "무작위의"
@@ -1085,6 +1090,11 @@
             ]
         },
         {
+            "id": "Server name is required.",
+            "message": "Server name is required.",
+            "translation": "서비스 이름은 필수 항목입니다."
+        },
+        {
             "id": "Bind port is required.",
             "message": "Bind port is required.",
             "translation": "바인드 포트가 필요합니다."
@@ -1093,6 +1103,21 @@
             "id": "Requires local port or plugin.",
             "message": "Requires local port or plugin.",
             "translation": "로컬 포트 또는 플러그인이 필요합니다."
+        },
+        {
+            "id": "Local address is required.",
+            "message": "Local address is required.",
+            "translation": "현지 주소가 필요합니다."
+        },
+        {
+            "id": "Local path is required.",
+            "message": "Local path is required.",
+            "translation": "로컬 경로가 필요합니다."
+        },
+        {
+            "id": "Unix path is required.",
+            "message": "Unix path is required.",
+            "translation": "Unix 경로가 필요합니다."
         },
         {
             "id": "Invalid local port.",

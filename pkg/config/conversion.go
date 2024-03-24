@@ -178,6 +178,7 @@ func clientProxyBaseFromV1(c *v1.ProxyBaseConfig, out *Proxy) {
 	}
 
 	out.Metas = c.Metadatas
+	out.Annotations = c.Annotations
 	out.Plugin = c.Plugin.Type
 	switch v := c.Plugin.ClientPluginOptions.(type) {
 	case *v1.HTTP2HTTPSPluginOptions:
@@ -455,7 +456,8 @@ func clientProxyBaseToV1(c *BaseProxyConf) (v1.ProxyBaseConfig, error) {
 			BandwidthLimitMode:   c.BandwidthLimitMode,
 			ProxyProtocolVersion: c.ProxyProtocolVersion,
 		},
-		Metadatas: c.Metas,
+		Metadatas:   c.Metas,
+		Annotations: c.Annotations,
 		LoadBalancer: v1.LoadBalancerConfig{
 			Group:    c.Group,
 			GroupKey: c.GroupKey,

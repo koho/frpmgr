@@ -1067,6 +1067,13 @@
             "fuzzy": true
         },
         {
+            "id": "Annotations",
+            "message": "Annotations",
+            "translation": "Annotations",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Random",
             "message": "Random",
             "translation": "Random",
@@ -1455,6 +1462,13 @@
             "fuzzy": true
         },
         {
+            "id": "Server name is required.",
+            "message": "Server name is required.",
+            "translation": "Server name is required.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Bind port is required.",
             "message": "Bind port is required.",
             "translation": "Bind port is required.",
@@ -1465,6 +1479,27 @@
             "id": "Requires local port or plugin.",
             "message": "Requires local port or plugin.",
             "translation": "Requires local port or plugin.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Local address is required.",
+            "message": "Local address is required.",
+            "translation": "Local address is required.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Local path is required.",
+            "message": "Local path is required.",
+            "translation": "Local path is required.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Unix path is required.",
+            "message": "Unix path is required.",
+            "translation": "Unix path is required.",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

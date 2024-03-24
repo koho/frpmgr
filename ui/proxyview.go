@@ -438,7 +438,7 @@ func (pv *ProxyView) onEdit(current bool, fill *config.Proxy) {
 		if conf == nil {
 			return
 		}
-		ep := NewEditProxyDialog(pv.model.conf.Name, proxy, pv.visitors(proxy), true)
+		ep := NewEditProxyDialog(pv.model.conf.Name, proxy, pv.visitors(proxy), true, pv.model.data.LegacyFormat)
 		if ret, _ := ep.Run(pv.Form()); ret == walk.DlgCmdOK {
 			if conf.CountStart() == 0 {
 				ep.Proxy.Disabled = false
@@ -447,7 +447,7 @@ func (pv *ProxyView) onEdit(current bool, fill *config.Proxy) {
 			pv.table.SetCurrentIndex(idx)
 		}
 	} else {
-		ep := NewEditProxyDialog(pv.model.conf.Name, fill, pv.visitors(nil), false)
+		ep := NewEditProxyDialog(pv.model.conf.Name, fill, pv.visitors(nil), false, pv.model.data.LegacyFormat)
 		if ret, _ := ep.Run(pv.Form()); ret == walk.DlgCmdOK {
 			if pv.model.data.AddItem(ep.Proxy) {
 				if pv.model.data.CountStart() == 0 {

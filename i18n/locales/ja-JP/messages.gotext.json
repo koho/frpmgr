@@ -815,6 +815,11 @@
             ]
         },
         {
+            "id": "Annotations",
+            "message": "Annotations",
+            "translation": "注釈"
+        },
+        {
             "id": "Random",
             "message": "Random",
             "translation": "ランダム"
@@ -1095,6 +1100,11 @@
             ]
         },
         {
+            "id": "Server name is required.",
+            "message": "Server name is required.",
+            "translation": "サービス名は必須です。"
+        },
+        {
             "id": "Bind port is required.",
             "message": "Bind port is required.",
             "translation": "バインドポートは必須です。"
@@ -1103,6 +1113,21 @@
             "id": "Requires local port or plugin.",
             "message": "Requires local port or plugin.",
             "translation": "ローカルポートまたはプラグインが必要です。"
+        },
+        {
+            "id": "Local address is required.",
+            "message": "Local address is required.",
+            "translation": "ローカルアドレスは必須です。"
+        },
+        {
+            "id": "Local path is required.",
+            "message": "Local path is required.",
+            "translation": "ローカルパスは必須です。"
+        },
+        {
+            "id": "Unix path is required.",
+            "message": "Unix path is required.",
+            "translation": "Unix パスは必須です。"
         },
         {
             "id": "Invalid local port.",
