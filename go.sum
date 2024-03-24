@@ -19,10 +19,10 @@ github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1mIlRU8Am5FuJP05cCM98=
 github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7+kN2VEUnK/pcBlmesArF7c=
-github.com/fatedier/frp v0.55.1 h1:BB18qXa8UplA8sOKig3zcq8CFSSCacxlYWHCuTiE/rc=
-github.com/fatedier/frp v0.55.1/go.mod h1:Pq9ORAUFzfAq7HFb+mqkG7j7b76Wsnf/y08WtC7DdpM=
-github.com/fatedier/golib v0.4.0 h1:lafvYRMhFmqrfIUChKy/f5AXqs1eDSk+GAUtLexN5bU=
-github.com/fatedier/golib v0.4.0/go.mod h1:gpu+1vXxtJ072NYaNsn/YWgojDL8Ap2kFZQtbzT2qkg=
+github.com/fatedier/frp v0.56.0 h1:DffdbxZr0YdS2Lt7IAskpvEFMUs4v+GiwqyXh9y2bWE=
+github.com/fatedier/frp v0.56.0/go.mod h1:Y9xfUKn8jksc7Z3tH7GpLoZxBHDWWI/MWe/am+10wRo=
+github.com/fatedier/golib v0.4.2 h1:k+ZBdUFTTipnP1RHfEhGbzyShRdz/rZtFGnjpXG9D9c=
+github.com/fatedier/golib v0.4.2/go.mod h1:gpu+1vXxtJ072NYaNsn/YWgojDL8Ap2kFZQtbzT2qkg=
 github.com/go-jose/go-jose/v3 v3.0.1 h1:pWmKFVtt+Jl0vBZTIpz/eAKwsm6LkIxDVVbFHKkchhA=
 github.com/go-jose/go-jose/v3 v3.0.1/go.mod h1:RNkWWRld676jZEYoV3+XK8L2ZnNSvIsxFMht0mSX+u8=
 github.com/go-logr/logr v1.2.4 h1:g01GSCwiDw2xSZfjJ2/T9M+S6pFdcNtFYsp+Y43HYDQ=
