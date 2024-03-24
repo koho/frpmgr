@@ -3,8 +3,8 @@ module github.com/koho/frpmgr
 go 1.22
 
 require (
-	github.com/fatedier/frp v0.55.1
-	github.com/fatedier/golib v0.4.0
+	github.com/fatedier/frp v0.56.0
+	github.com/fatedier/golib v0.4.2
 	github.com/go-ole/go-ole v1.3.0
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e
