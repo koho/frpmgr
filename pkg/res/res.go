@@ -67,6 +67,7 @@ var (
 	IconNat          = Icon{"firewallcontrolpanel", 0}
 	IconExperiment   = Icon{"imageres", -111}
 	IconFile         = Icon{"shell32", -152}
+	IconInfo         = Icon{"imageres", -81}
 )
 
 // Colors

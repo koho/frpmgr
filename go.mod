@@ -4,6 +4,7 @@ go 1.22
 
 require (
 	github.com/fatedier/frp v0.55.1
+	github.com/fatedier/golib v0.4.0
 	github.com/go-ole/go-ole v1.3.0
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e
@@ -19,7 +20,6 @@ require (
 	github.com/Azure/go-ntlmssp v0.0.0-20200615164410-66371956d46c // indirect
 	github.com/armon/go-socks5 v0.0.0-20160902184237-e75332964ef5 // indirect
 	github.com/coreos/go-oidc/v3 v3.6.0 // indirect
-	github.com/fatedier/golib v0.4.0 // indirect
 	github.com/go-jose/go-jose/v3 v3.0.1 // indirect
 	github.com/go-task/slim-sprig v0.0.0-20230315185526-52ccab3ef572 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
@@ -64,4 +64,4 @@ require (
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
 
-replace github.com/lxn/walk => github.com/koho/frpmgr v0.0.0-20240309173424-3817a91bcc39
+replace github.com/lxn/walk => github.com/koho/frpmgr v0.0.0-20240321011400-ecefcd94f271

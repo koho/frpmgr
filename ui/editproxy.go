@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/fatedier/frp/pkg/config/v1/validation"
 	frputil "github.com/fatedier/frp/pkg/util/util"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
@@ -26,6 +27,8 @@ type EditProxyDialog struct {
 	visitors   []string
 	// Whether we are editing an existing proxy
 	exist bool
+	// Whether we are using legacy format
+	legacyFormat bool
 
 	// View models
 	binder    *editProxyBinder
@@ -75,8 +78,8 @@ type editProxyBinder struct {
 	BandwidthUnit string
 }
 
-func NewEditProxyDialog(configName string, proxy *config.Proxy, visitors []string, exist bool) *EditProxyDialog {
-	v := &EditProxyDialog{configName: configName, visitors: visitors, exist: exist}
+func NewEditProxyDialog(configName string, proxy *config.Proxy, visitors []string, exist, legacyFormat bool) *EditProxyDialog {
+	v := &EditProxyDialog{configName: configName, visitors: visitors, exist: exist, legacyFormat: legacyFormat}
 	if proxy == nil {
 		proxy = config.NewDefaultProxyConfig("")
 		v.exist = false
@@ -107,6 +110,30 @@ func (pd *EditProxyDialog) View() Dialog {
 	if pd.exist && pd.Proxy.Name != "" {
 		title = i18n.Sprintf("Edit Proxy - %s", pd.Proxy.Name)
 	}
+	var header Widget = ComboBox{
+		Name:                  "proxyType",
+		AssignTo:              &pd.typeView,
+		Model:                 consts.ProxyTypes,
+		Value:                 Bind("Type"),
+		Greedy:                true,
+		OnCurrentIndexChanged: pd.switchType,
+	}
+	if !pd.legacyFormat {
+		header = Composite{
+			Layout: HBox{MarginsZero: true},
+			Children: []Widget{
+				header,
+				HSpacer{},
+				ToolButton{
+					Image:       loadIcon(res.IconInfo, 16),
+					ToolTipText: i18n.Sprintf("Annotations"),
+					OnClicked: func() {
+						NewAttributeDialog(i18n.Sprintf("Annotations"), &pd.binder.Annotations).Run(pd.Form())
+					},
+				},
+			},
+		}
+	}
 	dlg := NewBasicDialog(&pd.Dialog, title, loadIcon(res.IconEditDialog, 32), DataBinder{
 		AssignTo:   &pd.vmDB,
 		Name:       "vm",
@@ -120,7 +147,7 @@ func (pd *EditProxyDialog) View() Dialog {
 					pd.DefaultButton().SetEnabled(pd.dbs[0].CanSubmit())
 				},
 			},
-			Layout: Grid{Columns: 2, SpacingZero: false, Margins: Margins{Top: 4, Bottom: 4}},
+			Layout: Grid{Columns: 2, Spacing: 12, Margins: Margins{Top: 4, Bottom: 4}},
 			Children: []Widget{
 				Label{Text: i18n.SprintfColon("Name"), Alignment: AlignHNearVCenter},
 				Composite{
@@ -133,13 +160,7 @@ func (pd *EditProxyDialog) View() Dialog {
 					},
 				},
 				Label{Text: i18n.SprintfColon("Type"), Alignment: AlignHNearVCenter},
-				ComboBox{
-					Name:                  "proxyType",
-					AssignTo:              &pd.typeView,
-					Model:                 consts.ProxyTypes,
-					Value:                 Bind("Type"),
-					OnCurrentIndexChanged: pd.switchType,
-				},
+				header,
 			},
 		},
 		Composite{
@@ -331,12 +352,12 @@ func (pd *EditProxyDialog) pluginProxyPage() TabPage {
 			ComboBox{
 				AssignTo:              &pd.pluginView,
 				Enabled:               Bind("vm.PluginEnable"),
-				MinSize:               Size{Width: 210},
 				Model:                 NewDefaultListModel(consts.PluginTypes, "", i18n.Sprintf("None")),
 				Value:                 Bind("Plugin"),
 				BindingMember:         "Name",
 				DisplayMember:         "DisplayName",
 				OnCurrentIndexChanged: pd.switchType,
+				Greedy:                true,
 			},
 			Label{Visible: Bind("vm.PluginUnixVisible"), Text: i18n.SprintfColon("Unix Path")},
 			NewBrowseLineEdit(nil, Bind("vm.PluginUnixVisible"), true, Bind("PluginUnixPath"),
@@ -566,11 +587,21 @@ func splitBandwidth(s string) (int64, string) {
 
 func (pd *EditProxyDialog) validateProxy(p config.Proxy) bool {
 	if p.IsVisitor() {
+		if p.ServerName == "" {
+			showErrorMessage(pd.Form(), "", i18n.Sprintf("Server name is required."))
+			return false
+		}
 		if p.BindPort == 0 {
 			showErrorMessage(pd.Form(), "", i18n.Sprintf("Bind port is required."))
 			return false
 		}
 		return true
+	}
+	if !pd.legacyFormat {
+		if err := validation.ValidateAnnotations(p.Annotations); err != nil {
+			showError(err, pd.Form())
+			return false
+		}
 	}
 	if p.Plugin == "" && p.LocalPort == "" {
 		showErrorMessage(pd.Form(), "", i18n.Sprintf("Requires local port or plugin."))
@@ -579,8 +610,25 @@ func (pd *EditProxyDialog) validateProxy(p config.Proxy) bool {
 	if p.Plugin != "" {
 		p.LocalIP = ""
 		p.LocalPort = ""
+		switch p.Plugin {
+		case consts.PluginHttp2Https, consts.PluginHttps2Http, consts.PluginHttps2Https:
+			if p.PluginLocalAddr == "" {
+				showErrorMessage(pd.Form(), "", i18n.Sprintf("Local address is required."))
+				return false
+			}
+		case consts.PluginStaticFile:
+			if p.PluginLocalPath == "" {
+				showErrorMessage(pd.Form(), "", i18n.Sprintf("Local path is required."))
+				return false
+			}
+		case consts.PluginUnixDomain:
+			if p.PluginUnixPath == "" {
+				showErrorMessage(pd.Form(), "", i18n.Sprintf("Unix path is required."))
+				return false
+			}
+		}
 	} else if p.Type != consts.ProxyTypeTCP && p.Type != consts.ProxyTypeUDP {
-		if port, err := strconv.ParseInt(p.LocalPort, 10, 64); err != nil || port <= 0 {
+		if port, err := strconv.ParseInt(p.LocalPort, 10, 64); err != nil || port <= 0 || port > 65535 {
 			showErrorMessage(pd.Form(), "", i18n.Sprintf("Invalid local port."))
 			return false
 		}

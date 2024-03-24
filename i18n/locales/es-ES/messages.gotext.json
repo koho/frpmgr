@@ -805,6 +805,11 @@
             ]
         },
         {
+            "id": "Annotations",
+            "message": "Annotations",
+            "translation": "Anotaciones"
+        },
+        {
             "id": "Random",
             "message": "Random",
             "translation": "Aleatorio"
@@ -1085,6 +1090,11 @@
             ]
         },
         {
+            "id": "Server name is required.",
+            "message": "Server name is required.",
+            "translation": "El nombre del servidor es obligatorio."
+        },
+        {
             "id": "Bind port is required.",
             "message": "Bind port is required.",
             "translation": "Se requiere puerto de vinculación."
@@ -1093,6 +1103,21 @@
             "id": "Requires local port or plugin.",
             "message": "Requires local port or plugin.",
             "translation": "Requiere puerto local o complemento."
+        },
+        {
+            "id": "Local address is required.",
+            "message": "Local address is required.",
+            "translation": "Se requiere dirección local."
+        },
+        {
+            "id": "Local path is required.",
+            "message": "Local path is required.",
+            "translation": "Se requiere ruta local."
+        },
+        {
+            "id": "Unix path is required.",
+            "message": "Unix path is required.",
+            "translation": "Se requiere la ruta Unix."
         },
         {
             "id": "Invalid local port.",
