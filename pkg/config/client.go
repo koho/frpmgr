@@ -194,6 +194,8 @@ type HealthCheckConf struct {
 	// HealthCheckURL specifies the address to send health checks to if the
 	// health check type is "http".
 	HealthCheckURL string `ini:"health_check_url,omitempty" http:"true"`
+	// HealthCheckHTTPHeaders specifies the headers to send with the http request.
+	HealthCheckHTTPHeaders map[string]string `ini:"-" http:"true"`
 }
 
 type Proxy struct {

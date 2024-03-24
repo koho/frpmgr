@@ -172,6 +172,9 @@ func clientProxyBaseFromV1(c *v1.ProxyBaseConfig, out *Proxy) {
 	out.HealthCheckMaxFailed = c.HealthCheck.MaxFailed
 	out.HealthCheckIntervalS = c.HealthCheck.IntervalSeconds
 	out.HealthCheckURL = c.HealthCheck.Path
+	out.HealthCheckHTTPHeaders = lo.SliceToMap(c.HealthCheck.HTTPHeaders, func(item v1.HTTPHeader) (string, string) {
+		return item.Name, item.Value
+	})
 	out.LocalIP = c.LocalIP
 	if c.LocalPort != 0 {
 		out.LocalPort = strconv.Itoa(c.LocalPort)
@@ -468,6 +471,9 @@ func clientProxyBaseToV1(c *BaseProxyConf) (v1.ProxyBaseConfig, error) {
 			MaxFailed:       c.HealthCheckMaxFailed,
 			IntervalSeconds: c.HealthCheckIntervalS,
 			Path:            c.HealthCheckURL,
+			HTTPHeaders: lo.MapToSlice(c.HealthCheckHTTPHeaders, func(key string, value string) v1.HTTPHeader {
+				return v1.HTTPHeader{Name: key, Value: value}
+			}),
 		},
 		ProxyBackend: v1.ProxyBackend{
 			LocalIP: c.LocalIP,
