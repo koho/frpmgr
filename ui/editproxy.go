@@ -412,6 +412,19 @@ func (pd *EditProxyDialog) loadBalanceProxyPage() TabPage {
 }
 
 func (pd *EditProxyDialog) healthCheckProxyPage() TabPage {
+	var url Widget = LineEdit{Visible: Bind("vm.HealthCheckURLVisible"), Text: Bind("HealthCheckURL")}
+	if !pd.legacyFormat {
+		url = Composite{
+			Visible: Bind("vm.HealthCheckURLVisible"),
+			Layout:  HBox{MarginsZero: true},
+			Children: []Widget{
+				url,
+				ToolButton{Text: "H", ToolTipText: i18n.Sprintf("Request headers"), OnClicked: func() {
+					NewAttributeDialog(i18n.Sprintf("Request headers"), &pd.binder.HealthCheckHTTPHeaders).Run(pd.Form())
+				}},
+			},
+		}
+	}
 	return AlignGrid(TabPage{
 		Title:  i18n.Sprintf("Health Check"),
 		Layout: Grid{Columns: 2},
@@ -423,7 +436,7 @@ func (pd *EditProxyDialog) healthCheckProxyPage() TabPage {
 				{Text: i18n.Sprintf("None"), Value: "", Enabled: Bind("vm.HealthCheckEnable"), OnClicked: pd.switchType, MaxSize: Size{Width: 80}},
 			}),
 			Label{Visible: Bind("vm.HealthCheckURLVisible"), Text: "URL:"},
-			LineEdit{Visible: Bind("vm.HealthCheckURLVisible"), Text: Bind("HealthCheckURL")},
+			url,
 			Label{Visible: Bind("vm.HealthCheckVisible"), Text: i18n.SprintfColon("Check Timeout")},
 			NewNumberInput(NIOption{Visible: Bind("vm.HealthCheckVisible"), Value: Bind("HealthCheckTimeoutS"), Suffix: i18n.Sprintf("s")}),
 			Label{Visible: Bind("vm.HealthCheckVisible"), Text: i18n.SprintfColon("Check Interval")},
