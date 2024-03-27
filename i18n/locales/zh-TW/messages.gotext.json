@@ -1332,7 +1332,7 @@
         {
             "id": "You must restart program to apply the modification.",
             "message": "You must restart program to apply the modification.",
-            "translation": "您必須重新啟動程式才能應用修改。"
+            "translation": "您必須重新啟動程式才能套用修改。"
         },
         {
             "id": "Select language",
@@ -1422,7 +1422,7 @@
         {
             "id": "Copy Access Address",
             "message": "Copy Access Address",
-            "translation": "複製前往位址"
+            "translation": "複製存取位址"
         },
         {
             "id": "This feature only supports text in INI or TOML format.",
