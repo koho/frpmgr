@@ -49,32 +49,32 @@
         {
             "id": "All Files",
             "message": "All Files",
-            "translation": "所有文件"
+            "translation": "所有檔案"
         },
         {
             "id": "Configuration Files",
             "message": "Configuration Files",
-            "translation": "配置文件"
+            "translation": "配置檔案"
         },
         {
             "id": "Certificate Files",
             "message": "Certificate Files",
-            "translation": "證書文件"
+            "translation": "憑證檔案"
         },
         {
             "id": "Key Files",
             "message": "Key Files",
-            "translation": "密鑰文件"
+            "translation": "金鑰檔案"
         },
         {
             "id": "Log Files",
             "message": "Log Files",
-            "translation": "日誌文件"
+            "translation": "日誌檔案"
         },
         {
             "id": "Number out of allowed range",
             "message": "Number out of allowed range",
-            "translation": "數值超出允許範圍"
+            "translation": "數值超出許可範圍"
         },
         {
             "id": "Please enter a number greater than {Intt}.",
@@ -94,7 +94,7 @@
         {
             "id": "Password mismatch",
             "message": "Password mismatch",
-            "translation": "密碼不匹配"
+            "translation": "密碼不相符"
         },
         {
             "id": "Please check and try again.",
@@ -104,7 +104,7 @@
         {
             "id": "Not a number",
             "message": "Not a number",
-            "translation": "不是數字"
+            "translation": "非數字"
         },
         {
             "id": "Please enter a valid number.",
@@ -139,12 +139,12 @@
         {
             "id": "For comments or to report bugs, please visit the project page:",
             "message": "For comments or to report bugs, please visit the project page:",
-            "translation": "如有任何意見或報告錯誤，請訪問項目地址："
+            "translation": "如有任何意見或錯誤回報，請前往專案網址："
         },
         {
             "id": "For FRP configuration documentation, please visit the FRP project page:",
             "message": "For FRP configuration documentation, please visit the FRP project page:",
-            "translation": "了解 FRP 軟件配置文檔，請訪問 FRP 項目地址："
+            "translation": "了解 FRP 軟體配置手冊，請前往 FRP 專案網址："
         },
         {
             "id": "An error occurred while checking for a software update.",
@@ -154,7 +154,7 @@
         {
             "id": "There are currently no updates available.",
             "message": "There are currently no updates available.",
-            "translation": "當前沒有可用的更新。"
+            "translation": "目前沒有可用的更新。"
         },
         {
             "id": "OK",
@@ -179,7 +179,7 @@
         {
             "id": "Add",
             "message": "Add",
-            "translation": "添加"
+            "translation": "新增"
         },
         {
             "id": "Delete",
@@ -199,12 +199,12 @@
         {
             "id": "New Configuration",
             "message": "New Configuration",
-            "translation": "新建配置"
+            "translation": "新增配置"
         },
         {
             "id": "Import Config from File",
             "message": "Import Config from File",
-            "translation": "從文件導入配置"
+            "translation": "從檔案導入配置"
         },
         {
             "id": "Config already removed",
@@ -234,12 +234,12 @@
         {
             "id": "Open File",
             "message": "Open File",
-            "translation": "打開文件"
+            "translation": "打開檔案"
         },
         {
             "id": "Show in Folder",
             "message": "Show in Folder",
-            "translation": "在文件夾中顯示"
+            "translation": "在資料夾中顯示"
         },
         {
             "id": "Create a Copy",
@@ -264,7 +264,7 @@
         {
             "id": "Import from File",
             "message": "Import from File",
-            "translation": "從文件導入"
+            "translation": "從檔案導入"
         },
         {
             "id": "Import from URL",
@@ -274,37 +274,37 @@
         {
             "id": "Import from Clipboard",
             "message": "Import from Clipboard",
-            "translation": "從剪貼板導入"
+            "translation": "從剪貼簿導入"
         },
         {
             "id": "NAT Discovery",
             "message": "NAT Discovery",
-            "translation": "NAT 檢測"
+            "translation": "NAT 偵測"
         },
         {
             "id": "Copy Share Link",
             "message": "Copy Share Link",
-            "translation": "復制分享鏈接"
+            "translation": "複製分享連結"
         },
         {
             "id": "Export All Configs to ZIP",
             "message": "Export All Configs to ZIP",
-            "translation": "導出所有配置 (ZIP 壓縮包)"
+            "translation": "導出所有配置 (ZIP 壓縮檔)"
         },
         {
             "id": "New Config",
             "message": "New Config",
-            "translation": "新建配置"
+            "translation": "新增配置"
         },
         {
             "id": "Manual Settings",
             "message": "Manual Settings",
-            "translation": "手動設置"
+            "translation": "手動設定"
         },
         {
             "id": "Imported {Imported} of {Total} configs.",
             "message": "Imported {Imported} of {Total} configs.",
-            "translation": "導入了 {Total} 個配置文件中的 {Imported} 個。",
+            "translation": "導入了 {Total} 個配置檔案中的 {Imported} 個。",
             "placeholders": [
                 {
                     "id": "Imported",
@@ -342,7 +342,7 @@
         {
             "id": "The file \"{Path}\" is not a valid ZIP file.",
             "message": "The file \"{Path}\" is not a valid ZIP file.",
-            "translation": "文件 \"{Path}\" 不是有效的壓縮文件。",
+            "translation": "檔案 \"{Path}\" 不是有效的壓縮檔案。",
             "placeholders": [
                 {
                     "id": "Path",
@@ -372,7 +372,7 @@
         {
             "id": "Are you sure you would like to delete config \"{Name}\"?",
             "message": "Are you sure you would like to delete config \"{Name}\"?",
-            "translation": "確定要刪除配置「{Name}」嗎？此操作無法撤銷。",
+            "translation": "確定要刪除配置「{Name}」嗎？此動作無法還原。",
             "placeholders": [
                 {
                     "id": "Name",
@@ -387,12 +387,12 @@
         {
             "id": "New Client",
             "message": "New Client",
-            "translation": "新建客戶端"
+            "translation": "新增用戶端"
         },
         {
             "id": "Edit Client - {Name}",
             "message": "Edit Client - {Name}",
-            "translation": "編輯客戶端 - {Name}",
+            "translation": "編輯用戶端 - {Name}",
             "placeholders": [
                 {
                     "id": "Name",
@@ -412,22 +412,22 @@
         {
             "id": "Server Address",
             "message": "Server Address",
-            "translation": "服務器地址"
+            "translation": "伺服器位址"
         },
         {
             "id": "Server Port",
             "message": "Server Port",
-            "translation": "服務器端口"
+            "translation": "伺服器通訊埠"
         },
         {
             "id": "User",
             "message": "User",
-            "translation": "用戶名"
+            "translation": "帳號"
         },
         {
             "id": "STUN Server",
             "message": "STUN Server",
-            "translation": "STUN 服務"
+            "translation": "STUN 伺服器"
         },
         {
             "id": "Auth",
@@ -447,12 +447,12 @@
         {
             "id": "Token",
             "message": "Token",
-            "translation": "令牌"
+            "translation": "權杖"
         },
         {
             "id": "Secret",
             "message": "Secret",
-            "translation": "密鑰"
+            "translation": "金鑰"
         },
         {
             "id": "Audience",
@@ -462,12 +462,12 @@
         {
             "id": "Scope",
             "message": "Scope",
-            "translation": "作用域"
+            "translation": "範圍"
         },
         {
             "id": "Token Endpoint",
             "message": "Token Endpoint",
-            "translation": "令牌地址"
+            "translation": "權杖位址"
         },
         {
             "id": "Parameters",
@@ -477,12 +477,12 @@
         {
             "id": "Authentication",
             "message": "Authentication",
-            "translation": "鑑權"
+            "translation": "驗證"
         },
         {
             "id": "Heart Beats",
             "message": "Heart Beats",
-            "translation": "心跳消息"
+            "translation": "伺服器心跳"
         },
         {
             "id": "Work Conns",
@@ -497,22 +497,22 @@
         {
             "id": "* Leave blank to record no log and delete the original log file.",
             "message": "* Leave blank to record no log and delete the original log file.",
-            "translation": "* 留空則不記錄日誌，且刪除原來的日誌文件。"
+            "translation": "* 留空則不記錄日誌，且刪除原來的日誌檔案。"
         },
         {
             "id": "Log File",
             "message": "Log File",
-            "translation": "日誌文件"
+            "translation": "日誌檔案"
         },
         {
             "id": "Select Log File",
             "message": "Select Log File",
-            "translation": "選擇日誌文件"
+            "translation": "選擇日誌檔案"
         },
         {
             "id": "Level",
             "message": "Level",
-            "translation": "級別"
+            "translation": "等級"
         },
         {
             "id": "Max Days",
@@ -532,7 +532,7 @@
         {
             "id": "Admin Address",
             "message": "Admin Address",
-            "translation": "管理地址"
+            "translation": "管理位址"
         },
         {
             "id": "Password",
@@ -547,7 +547,7 @@
         {
             "id": "Select a local directory that the admin server will load resources from.",
             "message": "Select a local directory that the admin server will load resources from.",
-            "translation": "選擇管理服務器使用的靜態資源目錄。"
+            "translation": "選擇管理伺服器使用的靜態資源目錄。"
         },
         {
             "id": "Other Options",
@@ -587,12 +587,12 @@
         {
             "id": "Connection",
             "message": "Connection",
-            "translation": "連接"
+            "translation": "連線"
         },
         {
             "id": "Protocol",
             "message": "Protocol",
-            "translation": "協議"
+            "translation": "協定"
         },
         {
             "id": "Advanced Options",
@@ -602,12 +602,12 @@
         {
             "id": "Dial Timeout",
             "message": "Dial Timeout",
-            "translation": "連接超時"
+            "translation": "連線超時"
         },
         {
             "id": "Keepalive",
             "message": "Keepalive",
-            "translation": "保活週期"
+            "translation": "保持週期"
         },
         {
             "id": "Idle Timeout",
@@ -657,47 +657,47 @@
         {
             "id": "Certificate",
             "message": "Certificate",
-            "translation": "證書文件"
+            "translation": "憑證檔案"
         },
         {
             "id": "Select Certificate File",
             "message": "Select Certificate File",
-            "translation": "選擇證書文件"
+            "translation": "選擇憑證檔案"
         },
         {
             "id": "Certificate Key",
             "message": "Certificate Key",
-            "translation": "密鑰文件"
+            "translation": "金鑰檔案"
         },
         {
             "id": "Select Certificate Key File",
             "message": "Select Certificate Key File",
-            "translation": "選擇證書密鑰文件"
+            "translation": "選擇憑證金鑰檔案"
         },
         {
             "id": "Trusted CA",
             "message": "Trusted CA",
-            "translation": "受信任證書"
+            "translation": "受信任憑證"
         },
         {
             "id": "Select Trusted CA File",
             "message": "Select Trusted CA File",
-            "translation": "選擇受信任的證書"
+            "translation": "選擇受信任的憑證"
         },
         {
             "id": "Disable custom first byte",
             "message": "Disable custom first byte",
-            "translation": "停用自訂首字節"
+            "translation": "停用自訂第一位元組"
         },
         {
             "id": "Advanced",
             "message": "Advanced",
-            "translation": "高級"
+            "translation": "進階"
         },
         {
             "id": "Source Address",
             "message": "Source Address",
-            "translation": "使用源地址"
+            "translation": "使用來源位址"
         },
         {
             "id": "TCP Mux",
@@ -712,7 +712,7 @@
         {
             "id": "Disable auto-start at boot",
             "message": "Disable auto-start at boot",
-            "translation": "禁用開機自啟動"
+            "translation": "停用開機自啟動"
         },
         {
             "id": "Use legacy format config file",
@@ -722,7 +722,7 @@
         {
             "id": "Metadata",
             "message": "Metadata",
-            "translation": "元數據"
+            "translation": "元資料"
         },
         {
             "id": "Experimental Features",
@@ -737,7 +737,7 @@
         {
             "id": "Use server SVCB records",
             "message": "Use server SVCB records",
-            "translation": "使用服務器 SVCB 記錄"
+            "translation": "使用伺服器 SVCB 記錄"
         },
         {
             "id": "HTTP Proxy",
@@ -747,7 +747,7 @@
         {
             "id": "UDP Packet Size",
             "message": "UDP Packet Size",
-            "translation": "UDP 包大小"
+            "translation": "UDP 封包大小"
         },
         {
             "id": "Config already exists",
@@ -772,7 +772,7 @@
         {
             "id": "Unable to upgrade your config file due to proxy conversion failure, please check the proxy config and try again.\n\nBad proxy: {Name}",
             "message": "Unable to upgrade your config file due to proxy conversion failure, please check the proxy config and try again.\n\nBad proxy: {Name}",
-            "translation": "由於代理轉換失敗，無法升級您的配置文件，請檢查代理配置並重試。\n\n出錯的代理：{Name}",
+            "translation": "由於代理轉換失敗，無法升級您的配置檔案，請檢查代理配置並重試。\n\n出錯的代理：{Name}",
             "placeholders": [
                 {
                     "id": "Name",
@@ -787,7 +787,7 @@
         {
             "id": "New Proxy",
             "message": "New Proxy",
-            "translation": "新建代理"
+            "translation": "新增代理"
         },
         {
             "id": "Edit Proxy - {Name}",
@@ -827,12 +827,12 @@
         {
             "id": "Server",
             "message": "Server",
-            "translation": "服務端"
+            "translation": "伺服器"
         },
         {
             "id": "Visitor",
             "message": "Visitor",
-            "translation": "訪問者"
+            "translation": "訪客"
         },
         {
             "id": "Secret Key",
@@ -842,42 +842,42 @@
         {
             "id": "Local Address",
             "message": "Local Address",
-            "translation": "本地地址"
+            "translation": "本機位址"
         },
         {
             "id": "Local Port",
             "message": "Local Port",
-            "translation": "本地端口"
+            "translation": "本機通訊埠"
         },
         {
             "id": "Remote Port",
             "message": "Remote Port",
-            "translation": "遠程端口"
+            "translation": "遠端通訊埠"
         },
         {
             "id": "Allow Users",
             "message": "Allow Users",
-            "translation": "允許用戶"
+            "translation": "允許帳號"
         },
         {
             "id": "Bind Address",
             "message": "Bind Address",
-            "translation": "綁定地址"
+            "translation": "綁定位址"
         },
         {
             "id": "Bind Port",
             "message": "Bind Port",
-            "translation": "綁定端口"
+            "translation": "綁定通訊埠"
         },
         {
             "id": "Server Name",
             "message": "Server Name",
-            "translation": "服務名稱"
+            "translation": "伺服器名稱"
         },
         {
             "id": "Server User",
             "message": "Server User",
-            "translation": "服務用戶"
+            "translation": "伺服器帳號"
         },
         {
             "id": "Subdomain",
@@ -887,7 +887,7 @@
         {
             "id": "Custom Domains",
             "message": "Custom Domains",
-            "translation": "自定義域名"
+            "translation": "自定域名"
         },
         {
             "id": "Locations",
@@ -897,7 +897,7 @@
         {
             "id": "Request headers",
             "message": "Request headers",
-            "translation": "請求頭"
+            "translation": "請求表頭"
         },
         {
             "id": "Multiplexer",
@@ -907,7 +907,7 @@
         {
             "id": "Route User",
             "message": "Route User",
-            "translation": "路由用戶"
+            "translation": "路由帳號"
         },
         {
             "id": "Client",
@@ -917,12 +917,12 @@
         {
             "id": "Bandwidth",
             "message": "Bandwidth",
-            "translation": "帶寬限流"
+            "translation": "頻寬限制"
         },
         {
             "id": "Proxy Protocol",
             "message": "Proxy Protocol",
-            "translation": "代理協議"
+            "translation": "代理協定"
         },
         {
             "id": "auto",
@@ -932,12 +932,12 @@
         {
             "id": "default",
             "message": "default",
-            "translation": "默認"
+            "translation": "預設"
         },
         {
             "id": "Keep Tunnel",
             "message": "Keep Tunnel",
-            "translation": "隧道保活"
+            "translation": "通道保持"
         },
         {
             "id": "Encryption",
@@ -982,7 +982,7 @@
         {
             "id": "HTTP User",
             "message": "HTTP User",
-            "translation": "HTTP 用戶"
+            "translation": "HTTP 帳號"
         },
         {
             "id": "HTTP Password",
@@ -997,12 +997,12 @@
         {
             "id": "Plugin",
             "message": "Plugin",
-            "translation": "插件"
+            "translation": "外掛"
         },
         {
             "id": "Plugin Name",
             "message": "Plugin Name",
-            "translation": "插件名稱"
+            "translation": "外掛名稱"
         },
         {
             "id": "Unix Path",
@@ -1017,12 +1017,12 @@
         {
             "id": "Local Path",
             "message": "Local Path",
-            "translation": "本地路徑"
+            "translation": "本機路徑"
         },
         {
             "id": "Select a folder for directory listing.",
             "message": "Select a folder for directory listing.",
-            "translation": "選擇需要顯示目錄列表的文件夾。"
+            "translation": "選擇需要顯示目錄列表的資料夾。"
         },
         {
             "id": "Strip Prefix",
@@ -1032,7 +1032,7 @@
         {
             "id": "Load Balance",
             "message": "Load Balance",
-            "translation": "負載均衡"
+            "translation": "負載平衡"
         },
         {
             "id": "Group",
@@ -1042,7 +1042,7 @@
         {
             "id": "Group Key",
             "message": "Group Key",
-            "translation": "分組密鑰"
+            "translation": "分組金鑰"
         },
         {
             "id": "Health Check",
@@ -1097,22 +1097,22 @@
         {
             "id": "Bind port is required.",
             "message": "Bind port is required.",
-            "translation": "必須填寫綁定端口。"
+            "translation": "必須填寫綁定通訊埠。"
         },
         {
             "id": "Requires local port or plugin.",
             "message": "Requires local port or plugin.",
-            "translation": "必須填寫本地端口或插件。"
+            "translation": "必須填寫本機通訊埠或外掛。"
         },
         {
             "id": "Local address is required.",
             "message": "Local address is required.",
-            "translation": "必須填寫本地地址。"
+            "translation": "必須填寫本機位址。"
         },
         {
             "id": "Local path is required.",
             "message": "Local path is required.",
-            "translation": "必須填寫本地路徑。"
+            "translation": "必須填寫本機路徑。"
         },
         {
             "id": "Unix path is required.",
@@ -1122,7 +1122,7 @@
         {
             "id": "Invalid local port.",
             "message": "Invalid local port.",
-            "translation": "無效的本地端口。"
+            "translation": "無效的本機通訊埠。"
         },
         {
             "id": "Health check url is required.",
@@ -1132,17 +1132,17 @@
         {
             "id": "The plugin does not support range ports.",
             "message": "The plugin does not support range ports.",
-            "translation": "插件不支援範圍端口。"
+            "translation": "外掛不支援範圍通訊埠。"
         },
         {
             "id": "Invalid remote port.",
             "message": "Invalid remote port.",
-            "translation": "無效的遠端端口。"
+            "translation": "無效的遠端通訊埠。"
         },
         {
             "id": "The number of local ports should be the same as the number of remote ports.",
             "message": "The number of local ports should be the same as the number of remote ports.",
-            "translation": "本地端口的數量應與遠端端口的數量相同。"
+            "translation": "本機通訊埠的數量應與遠端通訊埠的數量相同。"
         },
         {
             "id": "Custom domains and subdomain should have at least one of these set.",
@@ -1152,7 +1152,7 @@
         {
             "id": "Open Log Folder",
             "message": "Open Log Folder",
-            "translation": "打開日誌文件夾"
+            "translation": "打開日誌資料夾"
         },
         {
             "id": "Latest",
@@ -1177,7 +1177,7 @@
         {
             "id": "External Address",
             "message": "External Address",
-            "translation": "外部地址"
+            "translation": "外部位址"
         },
         {
             "id": "Yes",
@@ -1192,7 +1192,7 @@
         {
             "id": "Public Network",
             "message": "Public Network",
-            "translation": "公網"
+            "translation": "公共網路"
         },
         {
             "id": "Unknown",
@@ -1202,7 +1202,7 @@
         {
             "id": "Running",
             "message": "Running",
-            "translation": "正在運行"
+            "translation": "正在執行"
         },
         {
             "id": "Stopped",
@@ -1227,7 +1227,7 @@
         {
             "id": "Remote Address",
             "message": "Remote Address",
-            "translation": "遠程地址"
+            "translation": "遠端位址"
         },
         {
             "id": "Copy",
@@ -1282,17 +1282,17 @@
         {
             "id": "Local Directory",
             "message": "Local Directory",
-            "translation": "本地目錄"
+            "translation": "本機目錄"
         },
         {
             "id": "Port",
             "message": "Port",
-            "translation": "端口"
+            "translation": "通訊埠"
         },
         {
             "id": "Open Port",
             "message": "Open Port",
-            "translation": "打開端口"
+            "translation": "打開通訊埠"
         },
         {
             "id": "Preferences",
@@ -1307,7 +1307,7 @@
         {
             "id": "You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.",
             "message": "You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.",
-            "translation": "您可以設置密碼來限制訪問此程式。\n在下次使用此程式時，您將被要求輸入密碼。"
+            "translation": "您可以設定密碼來限制前往此程式。\n在下次使用此程式時，您將被要求輸入密碼。"
         },
         {
             "id": "Use master password",
@@ -1332,7 +1332,7 @@
         {
             "id": "You must restart program to apply the modification.",
             "message": "You must restart program to apply the modification.",
-            "translation": "您必須重新啟動程式才能應用修改。"
+            "translation": "您必須重新啟動程式才能套用修改。"
         },
         {
             "id": "Select language",
@@ -1342,17 +1342,17 @@
         {
             "id": "Defaults",
             "message": "Defaults",
-            "translation": "默認值"
+            "translation": "預設值"
         },
         {
             "id": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
             "message": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
-            "translation": "定義新建配置時的默認值。\n此處的值不會影響現有的配置。"
+            "translation": "定義新增配置時的預設值。\n此處的值不會影響現有的配置。"
         },
         {
             "id": "Set Defaults",
             "message": "Set Defaults",
-            "translation": "設置默認值"
+            "translation": "設定預設值"
         },
         {
             "id": "Password removed.",
@@ -1377,7 +1377,7 @@
         {
             "id": "Log Level",
             "message": "Log Level",
-            "translation": "日誌級別"
+            "translation": "日誌等級"
         },
         {
             "id": "Log retention",
@@ -1392,22 +1392,22 @@
         {
             "id": "Remote Desktop",
             "message": "Remote Desktop",
-            "translation": "遠程桌面"
+            "translation": "遠端桌面"
         },
         {
             "id": "HTTP File Server",
             "message": "HTTP File Server",
-            "translation": "HTTP 文件服務"
+            "translation": "HTTP 檔案服務"
         },
         {
             "id": "Disable",
             "message": "Disable",
-            "translation": "禁用"
+            "translation": "停用"
         },
         {
             "id": "Open Config",
             "message": "Open Config",
-            "translation": "打開配置文件"
+            "translation": "打開配置檔案"
         },
         {
             "id": "Direct Edit",
@@ -1422,7 +1422,7 @@
         {
             "id": "Copy Access Address",
             "message": "Copy Access Address",
-            "translation": "複製訪問地址"
+            "translation": "複製存取位址"
         },
         {
             "id": "This feature only supports text in INI or TOML format.",
@@ -1462,7 +1462,7 @@
         {
             "id": "Disable proxy \"{Name}\"",
             "message": "Disable proxy \"{Name}\"",
-            "translation": "禁用代理「{Name}」",
+            "translation": "停用代理「{Name}」",
             "placeholders": [
                 {
                     "id": "Name",
@@ -1477,7 +1477,7 @@
         {
             "id": "Are you sure you would like to disable proxy \"{Name}\"?",
             "message": "Are you sure you would like to disable proxy \"{Name}\"?",
-            "translation": "確定要禁用代理「{Name}」嗎？",
+            "translation": "確定要停用代理「{Name}」嗎？",
             "placeholders": [
                 {
                     "id": "Name",
@@ -1497,7 +1497,7 @@
         {
             "id": "Passive Port Range",
             "message": "Passive Port Range",
-            "translation": "被動端口範圍"
+            "translation": "被動通訊埠範圍"
         },
         {
             "id": [
@@ -1510,12 +1510,12 @@
         {
             "id": "* Support batch import, one link per line.",
             "message": "* Support batch import, one link per line.",
-            "translation": "* 支持批量導入，每行一個鏈接。"
+            "translation": "* 支援批量導入，每行一個連結。"
         },
         {
             "id": "Rename automatically",
             "message": "Rename automatically",
-            "translation": "自動重命名"
+            "translation": "自動重新命名"
         },
         {
             "id": "Ready",
@@ -1612,12 +1612,12 @@
         {
             "id": "The text does not match the required pattern.",
             "message": "The text does not match the required pattern.",
-            "translation": "文本與要求的模式不匹配。"
+            "translation": "文字與要求的模式不相符。"
         },
         {
             "id": "Selection Required",
             "message": "Selection Required",
-            "translation": "必填項"
+            "translation": "必填項目"
         },
         {
             "id": "Please select one of the provided options.",
@@ -1627,7 +1627,7 @@
         {
             "id": "A selection is required.",
             "message": "A selection is required.",
-            "translation": "需要選擇。"
+            "translation": "必需選擇。"
         }
     ]
 }
