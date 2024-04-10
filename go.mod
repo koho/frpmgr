@@ -4,7 +4,7 @@ go 1.22
 
 require (
 	github.com/fatedier/frp v0.57.0
-	github.com/fatedier/golib v0.4.2
+	github.com/fatedier/golib v0.4.3
 	github.com/go-ole/go-ole v1.3.0
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e
@@ -17,7 +17,7 @@ require (
 )
 
 require (
-	github.com/Azure/go-ntlmssp v0.0.0-20200615164410-66371956d46c // indirect
+	github.com/Azure/go-ntlmssp v0.0.0-20221128193559-754e69321358 // indirect
 	github.com/armon/go-socks5 v0.0.0-20160902184237-e75332964ef5 // indirect
 	github.com/coreos/go-oidc/v3 v3.10.0 // indirect
 	github.com/go-jose/go-jose/v4 v4.0.1 // indirect
