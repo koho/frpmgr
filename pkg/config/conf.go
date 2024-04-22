@@ -41,6 +41,8 @@ type Config interface {
 	GetSTUNServer() string
 	// Copy creates a new copy of this config.
 	Copy(all bool) Config
+	// Ext is the file extension of this config.
+	Ext() string
 }
 
 type AutoDelete struct {
