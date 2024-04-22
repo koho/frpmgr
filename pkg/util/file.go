@@ -105,7 +105,7 @@ func ReadFileLines(path string) ([]string, error) {
 }
 
 // ZipFiles compresses the given file list to a zip file
-func ZipFiles(filename string, files []string) error {
+func ZipFiles(filename string, files map[string]string) error {
 	newZipFile, err := os.Create(filename)
 	if err != nil {
 		return err
@@ -116,16 +116,16 @@ func ZipFiles(filename string, files []string) error {
 	defer zipWriter.Close()
 
 	// Add files to zip
-	for _, file := range files {
-		if err = addFileToZip(zipWriter, file); err != nil {
+	for src, dst := range files {
+		if err = addFileToZip(zipWriter, src, dst); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func addFileToZip(zipWriter *zip.Writer, filename string) error {
-	fileToZip, err := os.Open(filename)
+func addFileToZip(zipWriter *zip.Writer, src, dst string) error {
+	fileToZip, err := os.Open(src)
 	if err != nil {
 		return err
 	}
@@ -140,7 +140,7 @@ func addFileToZip(zipWriter *zip.Writer, filename string) error {
 	if err != nil {
 		return err
 	}
-	header.Name = filepath.Base(filename)
+	header.Name = filepath.Base(dst)
 
 	// Change to deflate to gain better compression
 	header.Method = zip.Deflate

@@ -508,6 +508,14 @@ func (conf *ClientConfig) CountStart() int {
 	return len(lo.Filter(conf.Proxies, func(proxy *Proxy, i int) bool { return !proxy.Disabled }))
 }
 
+func (conf *ClientConfig) Ext() string {
+	if conf.LegacyFormat {
+		return ".ini"
+	} else {
+		return ".toml"
+	}
+}
+
 // NewProxyFromIni creates a proxy object from ini section
 func NewProxyFromIni(name string, section *ini.Section) (*Proxy, error) {
 	proxy := NewDefaultProxyConfig(name)

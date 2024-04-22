@@ -292,11 +292,12 @@ func (cv *ConfView) onURLImport() {
 						showError(err, cv.Form())
 						continue
 					}
-					if err = os.WriteFile(newPath, item.Data, 0666); err != nil {
+					cfg := NewConf(newPath, conf)
+					if err = cfg.Save(); err != nil {
 						showError(err, cv.Form())
 						continue
 					}
-					addConf(NewConf(newPath, conf))
+					addConf(cfg)
 					imported++
 				}
 			}
@@ -367,17 +368,17 @@ func (cv *ConfView) ImportFiles(files []string) {
 						i18n.Sprintf("Another config already exists with the name \"%s\".", baseName))
 					continue
 				}
-				// Verify config before copying file
 				conf, err := config.UnmarshalClientConf(path)
 				if err != nil {
 					showError(err, cv.Form())
 					continue
 				}
-				if _, err = util.CopyFile(path, newPath); err != nil {
+				cfg := NewConf(newPath, conf)
+				if err = cfg.Save(); err != nil {
 					showError(err, cv.Form())
 					continue
 				}
-				addConf(NewConf(newPath, conf))
+				addConf(cfg)
 				imported++
 			}
 		}
@@ -400,15 +401,11 @@ func (cv *ConfView) importZip(path string, data []byte, rename bool) (total, imp
 		if err != nil {
 			return err
 		}
-		fw, err := os.OpenFile(dst, os.O_CREATE|os.O_RDWR|os.O_TRUNC, file.Mode())
-		if err != nil {
+		cfg := NewConf(dst, conf)
+		if err = cfg.Save(); err != nil {
 			return err
 		}
-		defer fw.Close()
-		if _, err = fw.Write(src); err != nil {
-			return err
-		}
-		addConf(NewConf(dst, conf))
+		addConf(cfg)
 		return nil
 	}
 	var zr *zip.Reader
@@ -534,9 +531,8 @@ func (cv *ConfView) onExport() {
 	if !strings.HasSuffix(dlg.FilePath, ".zip") {
 		dlg.FilePath += ".zip"
 	}
-
-	files := lo.Map(confList, func(conf *Conf, i int) string {
-		return conf.Path
+	files := lo.SliceToMap(confList, func(conf *Conf) (string, string) {
+		return conf.Path, conf.Name + conf.Data.Ext()
 	})
 	if err := util.ZipFiles(dlg.FilePath, files); err != nil {
 		showError(err, cv.Form())
