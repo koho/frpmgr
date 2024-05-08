@@ -1200,6 +1200,13 @@
             "fuzzy": true
         },
         {
+            "id": "Response headers",
+            "message": "Response headers",
+            "translation": "Response headers",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Multiplexer",
             "message": "Multiplexer",
             "translation": "Multiplexer",

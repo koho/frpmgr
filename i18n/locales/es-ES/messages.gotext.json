@@ -900,6 +900,11 @@
             "translation": "Solicitar encabezados"
         },
         {
+            "id": "Response headers",
+            "message": "Response headers",
+            "translation": "Cabeceras de respuesta"
+        },
+        {
             "id": "Multiplexer",
             "message": "Multiplexer",
             "translation": "Multiplexor"

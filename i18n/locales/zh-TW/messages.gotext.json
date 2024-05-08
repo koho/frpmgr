@@ -900,6 +900,11 @@
             "translation": "請求表頭"
         },
         {
+            "id": "Response headers",
+            "message": "Response headers",
+            "translation": "回應表頭"
+        },
+        {
             "id": "Multiplexer",
             "message": "Multiplexer",
             "translation": "復用器"

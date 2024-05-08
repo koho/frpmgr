@@ -190,6 +190,9 @@ func (pd *EditProxyDialog) View() Dialog {
 }
 
 func (pd *EditProxyDialog) basicProxyPage() TabPage {
+	showRequestHeaders := func() {
+		NewAttributeDialog(i18n.Sprintf("Request headers"), &pd.binder.Headers).Run(pd.Form())
+	}
 	return AlignGrid(TabPage{
 		Title:  i18n.Sprintf("Basic"),
 		Layout: Grid{Columns: 2},
@@ -228,9 +231,18 @@ func (pd *EditProxyDialog) basicProxyPage() TabPage {
 				Layout:  HBox{MarginsZero: true},
 				Children: []Widget{
 					LineEdit{Text: Bind("Locations")},
-					ToolButton{Text: "H", ToolTipText: i18n.Sprintf("Request headers"), OnClicked: func() {
-						NewAttributeDialog(i18n.Sprintf("Request headers"), &pd.binder.Headers).Run(pd.Form())
-					}},
+					SplitButton{
+						Text:        "H",
+						ToolTipText: i18n.Sprintf("Request headers"),
+						MaxSize:     Size{Width: 40},
+						OnClicked:   showRequestHeaders,
+						MenuItems: []MenuItem{
+							Action{Text: i18n.Sprintf("Request headers"), OnTriggered: showRequestHeaders},
+							Action{Text: i18n.Sprintf("Response headers"), OnTriggered: func() {
+								NewAttributeDialog(i18n.Sprintf("Response headers"), &pd.binder.ResponseHeaders).Run(pd.Form())
+							}},
+						},
+					},
 				},
 			},
 			Label{Visible: Bind("vm.MuxVisible"), Text: i18n.SprintfColon("Multiplexer")},

@@ -117,6 +117,7 @@ func ClientProxyFromV1(pxyCfg TypedProxyConfig) *Proxy {
 		r.HostHeaderRewrite = v.HostHeaderRewrite
 		r.RouteByHTTPUser = v.RouteByHTTPUser
 		r.Headers = v.RequestHeaders.Set
+		r.ResponseHeaders = v.ResponseHeaders.Set
 	case *v1.HTTPSProxyConfig:
 		r.SubDomain = v.SubDomain
 		r.CustomDomains = strings.Join(v.CustomDomains, ",")
@@ -382,6 +383,9 @@ func singleClientProxyToV1(p *Proxy) (TypedProxyConfig, error) {
 			HostHeaderRewrite: p.HostHeaderRewrite,
 			RequestHeaders: v1.HeaderOperations{
 				Set: p.Headers,
+			},
+			ResponseHeaders: v1.HeaderOperations{
+				Set: p.ResponseHeaders,
 			},
 			RouteByHTTPUser: p.RouteByHTTPUser,
 		}
