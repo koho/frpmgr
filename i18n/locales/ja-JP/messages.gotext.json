@@ -910,6 +910,11 @@
             "translation": "リクエストヘッダー"
         },
         {
+            "id": "Response headers",
+            "message": "Response headers",
+            "translation": "レスポンスヘッダー"
+        },
+        {
             "id": "Multiplexer",
             "message": "Multiplexer",
             "translation": "マルチプレクサ"

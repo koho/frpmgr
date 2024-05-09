@@ -900,6 +900,11 @@
             "translation": "요청 헤더"
         },
         {
+            "id": "Response headers",
+            "message": "Response headers",
+            "translation": "응답 헤더"
+        },
+        {
             "id": "Multiplexer",
             "message": "Multiplexer",
             "translation": "멀티플렉서"
