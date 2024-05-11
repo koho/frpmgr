@@ -2,4 +2,5 @@
 <WixLocalization Culture="ko-KR" Codepage="949" xmlns="http://schemas.microsoft.com/wix/2006/localization">
     <String Id="Language">1042</String>
     <String Id="ApplicationName">FRP 관리자</String>
+    <String Id="BlockMessage">이 애플리케이션은 Windows 10, Windows Server 2016 이상에서만 지원됩니다.</String>
 </WixLocalization>

@@ -2,4 +2,5 @@
 <WixLocalization Culture="es-ES" Codepage="1252" xmlns="http://schemas.microsoft.com/wix/2006/localization">
     <String Id="Language">3082</String>
     <String Id="ApplicationName">Administrador de FRP</String>
+    <String Id="BlockMessage">Esta aplicación solo es compatible con Windows 10, Windows Server 2016 o superior.</String>
 </WixLocalization>
