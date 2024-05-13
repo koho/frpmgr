@@ -28,6 +28,7 @@ type GithubRelease struct {
 
 type aboutViewModel struct {
 	GithubRelease
+	Releases   []GithubRelease
 	Checking   bool
 	NewVersion bool
 	TabIcon    *walk.Icon
@@ -130,7 +131,8 @@ func (ap *AboutPage) checkUpdate(showErr bool) {
 			goto Fin
 		}
 		ap.viewModel.GithubRelease = GithubRelease{}
-		err = json.Unmarshal(body, &ap.viewModel.GithubRelease)
+		ap.viewModel.Releases = []GithubRelease{}
+		err = json.Unmarshal(body, &ap.viewModel.Releases)
 	Fin:
 		ap.Synchronize(func() {
 			ap.viewModel.Checking = false
@@ -141,9 +143,23 @@ func (ap *AboutPage) checkUpdate(showErr bool) {
 				}
 				return
 			}
-			if ap.viewModel.TagName != "" && ap.viewModel.TagName[1:] != version.Number {
-				ap.viewModel.NewVersion = true
-			} else {
+			major, minor, patch, err := version.Parse(version.Number)
+			if err != nil {
+				return
+			}
+			for _, v := range ap.viewModel.Releases {
+				rMajor, rMinor, rPatch, err := version.Parse(v.TagName)
+				if err != nil {
+					continue
+				}
+				// Find the latest available version
+				if rMajor == major && rMinor == minor && rPatch > patch {
+					patch = rPatch
+					ap.viewModel.NewVersion = true
+					ap.viewModel.GithubRelease = v
+				}
+			}
+			if ap.viewModel.TagName == "" {
 				ap.viewModel.NewVersion = false
 				if showErr {
 					showInfoMessage(ap.Form(), "", i18n.Sprintf("There are currently no updates available."))

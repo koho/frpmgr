@@ -18,7 +18,7 @@ import (
 const (
 	ProjectURL      = "https://github.com/koho/frpmgr"
 	FRPProjectURL   = "https://github.com/fatedier/frp"
-	UpdateURL       = "https://api.github.com/repos/koho/frpmgr/releases/latest"
+	UpdateURL       = "https://api.github.com/repos/koho/frpmgr/releases"
 	ShareLinkScheme = "frp://"
 )
 
