@@ -475,11 +475,6 @@
             "translation": "Parámetros"
         },
         {
-            "id": "Authentication",
-            "message": "Authentication",
-            "translation": "Autenticación"
-        },
-        {
             "id": "Heart Beats",
             "message": "Heart Beats",
             "translation": "Latidos del corazón"
@@ -820,6 +815,16 @@
             "translation": "Tipo"
         },
         {
+            "id": "Request headers",
+            "message": "Request headers",
+            "translation": "Solicitar encabezados"
+        },
+        {
+            "id": "Response headers",
+            "message": "Response headers",
+            "translation": "Cabeceras de respuesta"
+        },
+        {
             "id": "Role",
             "message": "Role",
             "translation": "Role"
@@ -893,16 +898,6 @@
             "id": "Locations",
             "message": "Locations",
             "translation": "Ruta URL"
-        },
-        {
-            "id": "Request headers",
-            "message": "Request headers",
-            "translation": "Solicitar encabezados"
-        },
-        {
-            "id": "Response headers",
-            "message": "Response headers",
-            "translation": "Cabeceras de respuesta"
         },
         {
             "id": "Multiplexer",

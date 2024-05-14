@@ -457,7 +457,7 @@
         {
             "id": "Audience",
             "message": "Audience",
-            "translation": "接收者"
+            "translation": "受眾"
         },
         {
             "id": "Scope",
@@ -473,11 +473,6 @@
             "id": "Parameters",
             "message": "Parameters",
             "translation": "參數"
-        },
-        {
-            "id": "Authentication",
-            "message": "Authentication",
-            "translation": "驗證"
         },
         {
             "id": "Heart Beats",
@@ -820,6 +815,16 @@
             "translation": "類型"
         },
         {
+            "id": "Request headers",
+            "message": "Request headers",
+            "translation": "請求表頭"
+        },
+        {
+            "id": "Response headers",
+            "message": "Response headers",
+            "translation": "回應表頭"
+        },
+        {
             "id": "Role",
             "message": "Role",
             "translation": "角色"
@@ -893,16 +898,6 @@
             "id": "Locations",
             "message": "Locations",
             "translation": "URL 路由"
-        },
-        {
-            "id": "Request headers",
-            "message": "Request headers",
-            "translation": "請求表頭"
-        },
-        {
-            "id": "Response headers",
-            "message": "Response headers",
-            "translation": "回應表頭"
         },
         {
             "id": "Multiplexer",

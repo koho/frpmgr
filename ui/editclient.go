@@ -167,7 +167,7 @@ func (cd *EditClientDialog) authConfPage() TabPage {
 					}},
 				},
 			},
-			Label{Visible: auth, Text: i18n.SprintfColon("Authentication")},
+			Label{Visible: auth, Text: i18n.SprintfColon("Scope")},
 			Composite{
 				Visible: auth,
 				Layout:  HBox{MarginsZero: true},

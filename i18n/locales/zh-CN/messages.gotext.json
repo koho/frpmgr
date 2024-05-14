@@ -139,12 +139,12 @@
         {
             "id": "For comments or to report bugs, please visit the project page:",
             "message": "For comments or to report bugs, please visit the project page:",
-            "translation": "如有任何意见或报告错误，请访问项目地址："
+            "translation": "如有任何意见或报告错误，请访问项目网址："
         },
         {
             "id": "For FRP configuration documentation, please visit the FRP project page:",
             "message": "For FRP configuration documentation, please visit the FRP project page:",
-            "translation": "了解 FRP 软件配置文档，请访问 FRP 项目地址："
+            "translation": "了解 FRP 软件配置文档，请访问 FRP 项目网址："
         },
         {
             "id": "An error occurred while checking for a software update.",
@@ -457,12 +457,12 @@
         {
             "id": "Audience",
             "message": "Audience",
-            "translation": "接收者"
+            "translation": "受众"
         },
         {
             "id": "Scope",
             "message": "Scope",
-            "translation": "作用域"
+            "translation": "范围"
         },
         {
             "id": "Token Endpoint",
@@ -473,11 +473,6 @@
             "id": "Parameters",
             "message": "Parameters",
             "translation": "参数"
-        },
-        {
-            "id": "Authentication",
-            "message": "Authentication",
-            "translation": "鉴权"
         },
         {
             "id": "Heart Beats",
@@ -820,6 +815,16 @@
             "translation": "类型"
         },
         {
+            "id": "Request headers",
+            "message": "Request headers",
+            "translation": "请求头"
+        },
+        {
+            "id": "Response headers",
+            "message": "Response headers",
+            "translation": "响应头"
+        },
+        {
             "id": "Role",
             "message": "Role",
             "translation": "角色"
@@ -895,16 +900,6 @@
             "translation": "URL 路由"
         },
         {
-            "id": "Request headers",
-            "message": "Request headers",
-            "translation": "请求头"
-        },
-        {
-            "id": "Response headers",
-            "message": "Response headers",
-            "translation": "响应头"
-        },
-        {
             "id": "Multiplexer",
             "message": "Multiplexer",
             "translation": "复用器"
@@ -942,7 +937,7 @@
         {
             "id": "Keep Tunnel",
             "message": "Keep Tunnel",
-            "translation": "隧道保活"
+            "translation": "保持隧道"
         },
         {
             "id": "Encryption",

@@ -475,11 +475,6 @@
             "translation": "매개변수"
         },
         {
-            "id": "Authentication",
-            "message": "Authentication",
-            "translation": "입증"
-        },
-        {
             "id": "Heart Beats",
             "message": "Heart Beats",
             "translation": "대기 중"
@@ -820,6 +815,16 @@
             "translation": "유형"
         },
         {
+            "id": "Request headers",
+            "message": "Request headers",
+            "translation": "요청 헤더"
+        },
+        {
+            "id": "Response headers",
+            "message": "Response headers",
+            "translation": "응답 헤더"
+        },
+        {
             "id": "Role",
             "message": "Role",
             "translation": "역할"
@@ -893,16 +898,6 @@
             "id": "Locations",
             "message": "Locations",
             "translation": "URL 라우팅"
-        },
-        {
-            "id": "Request headers",
-            "message": "Request headers",
-            "translation": "요청 헤더"
-        },
-        {
-            "id": "Response headers",
-            "message": "Response headers",
-            "translation": "응답 헤더"
         },
         {
             "id": "Multiplexer",

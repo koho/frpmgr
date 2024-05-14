@@ -485,11 +485,6 @@
             "translation": "パラメーター"
         },
         {
-            "id": "Authentication",
-            "message": "Authentication",
-            "translation": "認証"
-        },
-        {
             "id": "Heart Beats",
             "message": "Heart Beats",
             "translation": "接続を維持"
@@ -830,6 +825,16 @@
             "translation": "タイプ"
         },
         {
+            "id": "Request headers",
+            "message": "Request headers",
+            "translation": "リクエストヘッダー"
+        },
+        {
+            "id": "Response headers",
+            "message": "Response headers",
+            "translation": "レスポンスヘッダー"
+        },
+        {
             "id": "Role",
             "message": "Role",
             "translation": "役割"
@@ -903,16 +908,6 @@
             "id": "Locations",
             "message": "Locations",
             "translation": "URL ルーティング"
-        },
-        {
-            "id": "Request headers",
-            "message": "Request headers",
-            "translation": "リクエストヘッダー"
-        },
-        {
-            "id": "Response headers",
-            "message": "Response headers",
-            "translation": "レスポンスヘッダー"
         },
         {
             "id": "Multiplexer",

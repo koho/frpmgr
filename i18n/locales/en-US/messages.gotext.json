@@ -617,13 +617,6 @@
             "fuzzy": true
         },
         {
-            "id": "Authentication",
-            "message": "Authentication",
-            "translation": "Authentication",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "Heart Beats",
             "message": "Heart Beats",
             "translation": "Heart Beats",
@@ -1088,6 +1081,20 @@
             "fuzzy": true
         },
         {
+            "id": "Request headers",
+            "message": "Request headers",
+            "translation": "Request headers",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Response headers",
+            "message": "Response headers",
+            "translation": "Response headers",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Role",
             "message": "Role",
             "translation": "Role",
@@ -1189,20 +1196,6 @@
             "id": "Locations",
             "message": "Locations",
             "translation": "Locations",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Request headers",
-            "message": "Request headers",
-            "translation": "Request headers",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Response headers",
-            "message": "Response headers",
-            "translation": "Response headers",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
