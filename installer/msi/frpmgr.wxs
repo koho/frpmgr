@@ -18,7 +18,7 @@
 		<MediaTemplate EmbedCab="yes" CompressionLevel="high" />
 
 		<Condition Message="!(loc.BlockMessage)">
-			<![CDATA[Installed OR (VersionNT >= 1000)]]>
+			<![CDATA[Installed OR (VersionNT >= 603)]]>
 		</Condition>
 
 		<!--
