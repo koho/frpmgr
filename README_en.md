@@ -9,7 +9,7 @@ A user-friendly desktop GUI client for [frp](https://github.com/fatedier/frp) on
 
 ![screenshot](/docs/screenshot_en.png)
 
-System requirements: Windows 7 and above
+System requirements: Windows 10 or greater. Windows Server 2016 or greater.
 
 Instructions for use:
 

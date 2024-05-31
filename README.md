@@ -9,7 +9,7 @@ Windows 下的 [frp](https://github.com/fatedier/frp) 图形界面客户端。
 
 ![screenshot](/docs/screenshot_zh.png)
 
-系统需求：Windows 7 及以上版本
+系统需求：Windows 10 / Server 2016 及以上版本
 
 使用说明：
 
