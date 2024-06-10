@@ -296,7 +296,7 @@ func (bmp *Bitmap) ToImage() (*image.RGBA, error) {
 
 func (bmp *Bitmap) hasTransparency() (bool, error) {
 	if bmp.transparencyStatus == transparencyUnknown {
-		if err := bmp.withPixels(func(bi *win.BITMAPINFO, hdc win.HDC, pixels *[maxPixels]bgraPixel, pixelsLen int) error {
+		if err := bmp.WithPixels(func(bi *win.BITMAPINFO, hdc win.HDC, pixels *[MaxPixels]BGRAPixel, pixelsLen int) error {
 			for i := 0; i < pixelsLen; i++ {
 				if pixels[i].A == 0x00 {
 					bmp.transparencyStatus = transparencyTransparent
@@ -318,7 +318,7 @@ func (bmp *Bitmap) hasTransparency() (bool, error) {
 }
 
 func (bmp *Bitmap) postProcess() error {
-	return bmp.withPixels(func(bi *win.BITMAPINFO, hdc win.HDC, pixels *[maxPixels]bgraPixel, pixelsLen int) error {
+	return bmp.WithPixels(func(bi *win.BITMAPINFO, hdc win.HDC, pixels *[MaxPixels]BGRAPixel, pixelsLen int) error {
 		for i := 0; i < pixelsLen; i++ {
 			switch pixels[i].A {
 			case 0x00:
@@ -340,16 +340,16 @@ func (bmp *Bitmap) postProcess() error {
 	})
 }
 
-type bgraPixel struct {
+type BGRAPixel struct {
 	B byte
 	G byte
 	R byte
 	A byte
 }
 
-const maxPixels = 2 << 27
+const MaxPixels = 2 << 27
 
-func (bmp *Bitmap) withPixels(f func(bi *win.BITMAPINFO, hdc win.HDC, pixels *[maxPixels]bgraPixel, pixelsLen int) error) error {
+func (bmp *Bitmap) WithPixels(f func(bi *win.BITMAPINFO, hdc win.HDC, pixels *[MaxPixels]BGRAPixel, pixelsLen int) error) error {
 	var bi win.BITMAPINFO
 	bi.BmiHeader.BiSize = uint32(unsafe.Sizeof(bi.BmiHeader))
 
@@ -366,7 +366,7 @@ func (bmp *Bitmap) withPixels(f func(bi *win.BITMAPINFO, hdc win.HDC, pixels *[m
 	hPixels := win.GlobalAlloc(win.GMEM_FIXED, uintptr(bi.BmiHeader.BiSizeImage))
 	defer win.GlobalFree(hPixels)
 
-	pixels := (*[maxPixels]bgraPixel)(unsafe.Pointer(uintptr(hPixels)))
+	pixels := (*[MaxPixels]BGRAPixel)(unsafe.Pointer(uintptr(hPixels)))
 
 	bi.BmiHeader.BiCompression = win.BI_RGB
 	if ret := win.GetDIBits(hdc, bmp.hBmp, 0, uint32(bi.BmiHeader.BiHeight), &pixels[0].B, &bi, win.DIB_RGB_COLORS); ret == 0 {
@@ -395,7 +395,7 @@ func (bmp *Bitmap) Size() Size {
 	return SizeTo96DPI(bmp.size, bmp.dpi)
 }
 
-func (bmp *Bitmap) handle() win.HBITMAP {
+func (bmp *Bitmap) Handle() win.HBITMAP {
 	return bmp.hBmp
 }
 
