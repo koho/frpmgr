@@ -58,7 +58,7 @@ func (ap *AboutPage) Page() TabPage {
 						Layout: VBox{Margins: Margins{Left: 12}},
 						Children: []Widget{
 							Label{Text: AppName, Font: res.TextLarge, TextColor: res.ColorDarkBlue},
-							Label{Text: i18n.Sprintf("Version: %s", version.Number)},
+							Label{Text: i18n.Sprintf("Version: %s", version.Number) + " (Windows 7)"},
 							Label{Text: i18n.Sprintf("FRP version: %s", version.FRPVersion)},
 							Label{Text: i18n.Sprintf("Built on: %s", version.BuildDate)},
 							VSpacer{Size: 3},
