@@ -121,11 +121,11 @@ func flipIcon(id res.Icon, size int) *walk.PaintFuncImage {
 		if err != nil {
 			return err
 		}
+		defer bitmap.Dispose()
 		img, err := bitmap.ToImage()
 		if err != nil {
 			return err
 		}
-		bitmap.Dispose()
 		rotated := image.NewRGBA(img.Rect)
 		for x := img.Bounds().Min.X; x < img.Bounds().Max.X; x++ {
 			for y := img.Bounds().Min.Y; y < img.Bounds().Max.Y; y++ {
