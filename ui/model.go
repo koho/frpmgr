@@ -100,6 +100,13 @@ func (m *ProxyModel) Items() interface{} {
 	return m.items
 }
 
+func (m *ProxyModel) Swap(i, j int) {
+	m.items[j], m.items[i] = m.items[i], m.items[j]
+	m.data.Proxies[j], m.data.Proxies[i] = m.data.Proxies[i], m.data.Proxies[j]
+	m.PublishRowChanged(i)
+	m.PublishRowChanged(j)
+}
+
 // StringPair is a simple struct to hold a pair of strings.
 type StringPair struct {
 	Name        string

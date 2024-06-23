@@ -44,9 +44,9 @@ func init() {
 
 var messageKeyToIndex = map[string]int{
 	"* Leave blank to record no log and delete the original log file.":  74,
-	"* Support batch import, one link per line.":                        257,
+	"* Support batch import, one link per line.":                        262,
 	"* The following features may affect the stability of the service.": 121,
-	"A selection is required.":                                          272,
+	"A selection is required.":                                          277,
 	"About":                                                             15,
 	"Absolute":                                                          87,
 	"Add":                                                               27,
@@ -61,8 +61,8 @@ var messageKeyToIndex = map[string]int{
 	"Annotations": 130,
 	"Another config already exists with the name \"%s\".":  51,
 	"Are you sure you would like to delete config \"%s\"?": 54,
-	"Are you sure you would like to delete proxy \"%s\"?":  251,
-	"Are you sure you would like to disable proxy \"%s\"?": 253,
+	"Are you sure you would like to delete proxy \"%s\"?":  256,
+	"Are you sure you would like to disable proxy \"%s\"?": 258,
 	"Are you sure you would like to stop config \"%s\"?":   218,
 	"Assets":                 83,
 	"Audience":               67,
@@ -96,7 +96,7 @@ var messageKeyToIndex = map[string]int{
 	"Configuration Files":    4,
 	"Connection":             92,
 	"Copy":                   214,
-	"Copy Access Address":    248,
+	"Copy Access Address":    253,
 	"Copy Share Link":        46,
 	"Create a Copy":          38,
 	"Custom Domains":         148,
@@ -108,28 +108,28 @@ var messageKeyToIndex = map[string]int{
 	"Delete Date":                   89,
 	"Delete Days":                   90,
 	"Delete config \"%s\"":          53,
-	"Delete proxy \"%s\"":           250,
+	"Delete proxy \"%s\"":           255,
 	"Dial Timeout":                  95,
-	"Direct Edit":                   246,
 	"Disable":                       244,
 	"Disable auto-start at boot":    117,
 	"Disable custom first byte":     112,
-	"Disable proxy \"%s\"":          252,
+	"Disable proxy \"%s\"":          257,
 	"Domains":                       247,
-	"Download":                      261,
+	"Down":                          250,
+	"Download":                      266,
 	"Download updates":              16,
 	"Edit":                          35,
 	"Edit Client - %s":              56,
 	"Edit Proxy - %s":               129,
-	"Enable":                        254,
+	"Enable":                        259,
 	"Encryption":                    158,
-	"Enter Administration Password": 264,
-	"Enter Password":                262,
+	"Enter Administration Password": 269,
+	"Enter Password":                267,
 	"Exit after login failure":      116,
 	"Experimental Features":         120,
 	"Export All Configs to ZIP":     47,
 	"External Address":              203,
-	"FRP Manager":                   256,
+	"FRP Manager":                   261,
 	"FRP version: %s":               1,
 	"Failure Count":                 183,
 	"Fallback":                      160,
@@ -156,7 +156,7 @@ var messageKeyToIndex = map[string]int{
 	"Import from URL":                        43,
 	"Imported %d of %d configs.":             50,
 	"Interval":                               101,
-	"Invalid Input":                          266,
+	"Invalid Input":                          271,
 	"Invalid local port.":                    192,
 	"Invalid remote port.":                   195,
 	"Item":                                   200,
@@ -184,6 +184,9 @@ var messageKeyToIndex = map[string]int{
 	"Max Days":                               78,
 	"Max Streams":                            99,
 	"Metadata":                               119,
+	"Move":                                   248,
+	"Move Down":                              246,
+	"Move Up":                                245,
 	"Multiplexer":                            150,
 	"NAT Discovery":                          45,
 	"NAT Type":                               201,
@@ -201,24 +204,23 @@ var messageKeyToIndex = map[string]int{
 	"OK":                                     23,
 	"Off":                                    104,
 	"On":                                     103,
-	"Open Config":                            245,
 	"Open File":                              36,
 	"Open Log Folder":                        198,
 	"Open Port":                              222,
 	"Other Options":                          85,
 	"Parameters":                             70,
-	"Passive Port Range":                     255,
+	"Passive Port Range":                     260,
 	"Password":                               82,
 	"Password is set.":                       238,
 	"Password mismatch":                      10,
 	"Password removed.":                      235,
 	"Please check and try again.":            11,
-	"Please enter a number from %.f to %.f.": 267,
-	"Please enter a number from %s to %s.":   268,
+	"Please enter a number from %.f to %.f.": 272,
+	"Please enter a number from %s to %s.":   273,
 	"Please enter a number greater than %d.": 9,
 	"Please enter a valid number.":           13,
-	"Please enter the correct URL list.":     260,
-	"Please select one of the provided options.": 271,
+	"Please enter the correct URL list.":     265,
+	"Please select one of the provided options.": 276,
 	"Plugin":                                 169,
 	"Plugin Name":                            170,
 	"Pool Count":                             98,
@@ -231,12 +233,12 @@ var messageKeyToIndex = map[string]int{
 	"Quick Add":                              241,
 	"Random":                                 131,
 	"Re-enter password":                      237,
-	"Ready":                                  259,
+	"Ready":                                  264,
 	"Relative":                               88,
 	"Remote Address":                         213,
 	"Remote Desktop":                         242,
 	"Remote Port":                            141,
-	"Rename automatically":                   258,
+	"Rename automatically":                   263,
 	"Request headers":                        133,
 	"Requires local port or plugin.":         188,
 	"Response headers":                       134,
@@ -257,7 +259,7 @@ var messageKeyToIndex = map[string]int{
 	"Select a folder for directory listing.": 174,
 	"Select a local directory that the admin server will load resources from.": 84,
 	"Select language":                        231,
-	"Selection Required":                     270,
+	"Selection Required":                     275,
 	"Server":                                 136,
 	"Server Address":                         58,
 	"Server Name":                            145,
@@ -283,14 +285,16 @@ var messageKeyToIndex = map[string]int{
 	"The current display language is":        229,
 	"The file \"%s\" is not a valid ZIP file.":                                    52,
 	"The number of local ports should be the same as the number of remote ports.": 196,
-	"The password is incorrect. Re-enter password.":                               265,
+	"The password is incorrect. Re-enter password.":                               270,
 	"The plugin does not support range ports.":                                    194,
 	"The proxy name \"%s\" already exists.":                                       185,
-	"The text does not match the required pattern.":                               269,
+	"The text does not match the required pattern.":                               274,
 	"There are currently no updates available.":                                   22,
-	"This feature only supports text in INI or TOML format.":                      249,
+	"This feature only supports text in INI or TOML format.":                      254,
 	"Timeout":         102,
 	"Times/Hour":      164,
+	"To Bottom":       252,
+	"To Top":          251,
 	"Token":           65,
 	"Token Endpoint":  69,
 	"Trusted CA":      110,
@@ -300,6 +304,7 @@ var messageKeyToIndex = map[string]int{
 	"Unix Path":                     171,
 	"Unix path is required.":        191,
 	"Unknown":                       207,
+	"Up":                            249,
 	"Use legacy format config file": 118,
 	"Use master password":           226,
 	"Use server SVCB records":       122,
@@ -310,7 +315,7 @@ var messageKeyToIndex = map[string]int{
 	"Work Conns":                    72,
 	"Yes":                           204,
 	"You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.": 225,
-	"You must enter an administration password to operate the %s.":                                                                  263,
+	"You must enter an administration password to operate the %s.":                                                                  268,
 	"You must restart program to apply the modification.":                                                                           230,
 	"auto":    155,
 	"default": 156,
@@ -318,7 +323,7 @@ var messageKeyToIndex = map[string]int{
 	"s":       91,
 }
 
-var en_USIndex = []uint32{ // 274 elements
+var en_USIndex = []uint32{ // 279 elements
 	// Entry 0 - 1F
 	0x00000000, 0x0000000f, 0x00000022, 0x00000032,
 	0x0000003c, 0x00000050, 0x00000062, 0x0000006c,
@@ -388,18 +393,19 @@ var en_USIndex = []uint32{ // 274 elements
 	0x00000fe5, 0x00000fee, 0x00001065, 0x00001072,
 	0x00001084, 0x00001098, 0x000010aa, 0x000010bb,
 	0x000010c5, 0x000010d3, 0x000010dd, 0x000010ec,
-	0x000010fd, 0x00001105, 0x00001111, 0x0000111d,
-	0x00001125, 0x00001139, 0x00001170, 0x00001185,
-	0x000011ba, 0x000011d0, 0x00001206, 0x0000120d,
+	0x000010fd, 0x00001105, 0x0000110d, 0x00001117,
+	0x0000111f, 0x00001124, 0x00001127, 0x0000112c,
+	0x00001133, 0x0000113d, 0x00001151, 0x00001188,
 	// Entry 100 - 11F
-	0x00001220, 0x0000122c, 0x00001257, 0x0000126c,
-	0x00001272, 0x00001295, 0x0000129e, 0x000012ad,
-	0x000012ed, 0x0000130b, 0x00001339, 0x00001347,
-	0x00001374, 0x0000139f, 0x000013cd, 0x000013e0,
-	0x0000140b, 0x00001424,
-} // Size: 1120 bytes
+	0x0000119d, 0x000011d2, 0x000011e8, 0x0000121e,
+	0x00001225, 0x00001238, 0x00001244, 0x0000126f,
+	0x00001284, 0x0000128a, 0x000012ad, 0x000012b6,
+	0x000012c5, 0x00001305, 0x00001323, 0x00001351,
+	0x0000135f, 0x0000138c, 0x000013b7, 0x000013e5,
+	0x000013f8, 0x00001423, 0x0000143c,
+} // Size: 1140 bytes
 
-const en_USData string = "" + // Size: 5156 bytes
+const en_USData string = "" + // Size: 5180 bytes
 	"\x02Version: %[1]s\x02FRP version: %[1]s\x02Built on: %[1]s\x02All Files" +
 	"\x02Configuration Files\x02Certificate Files\x02Key Files\x02Log Files" +
 	"\x02Number out of allowed range\x02Please enter a number greater than %[" +
@@ -472,21 +478,22 @@ const en_USData string = "" + // Size: 5156 bytes
 	"ct the existing configuration.\x02Set Defaults\x02Password removed.\x02N" +
 	"ew master password\x02Re-enter password\x02Password is set.\x02Log Level" +
 	"\x02Log retention\x02Quick Add\x02Remote Desktop\x02HTTP File Server\x02" +
-	"Disable\x02Open Config\x02Direct Edit\x02Domains\x02Copy Access Address" +
-	"\x02This feature only supports text in INI or TOML format.\x02Delete pro" +
-	"xy \x22%[1]s\x22\x02Are you sure you would like to delete proxy \x22%[1]" +
-	"s\x22?\x02Disable proxy \x22%[1]s\x22\x02Are you sure you would like to " +
-	"disable proxy \x22%[1]s\x22?\x02Enable\x02Passive Port Range\x02FRP Mana" +
-	"ger\x02* Support batch import, one link per line.\x02Rename automaticall" +
-	"y\x02Ready\x02Please enter the correct URL list.\x02Download\x02Enter Pa" +
-	"ssword\x02You must enter an administration password to operate the %[1]s" +
-	".\x02Enter Administration Password\x02The password is incorrect. Re-ente" +
-	"r password.\x02Invalid Input\x02Please enter a number from %.[1]f to %.[" +
-	"2]f.\x02Please enter a number from %[1]s to %[2]s.\x02The text does not " +
-	"match the required pattern.\x02Selection Required\x02Please select one o" +
-	"f the provided options.\x02A selection is required."
+	"Disable\x02Move Up\x02Move Down\x02Domains\x02Move\x02Up\x02Down\x02To T" +
+	"op\x02To Bottom\x02Copy Access Address\x02This feature only supports tex" +
+	"t in INI or TOML format.\x02Delete proxy \x22%[1]s\x22\x02Are you sure y" +
+	"ou would like to delete proxy \x22%[1]s\x22?\x02Disable proxy \x22%[1]s" +
+	"\x22\x02Are you sure you would like to disable proxy \x22%[1]s\x22?\x02E" +
+	"nable\x02Passive Port Range\x02FRP Manager\x02* Support batch import, on" +
+	"e link per line.\x02Rename automatically\x02Ready\x02Please enter the co" +
+	"rrect URL list.\x02Download\x02Enter Password\x02You must enter an admin" +
+	"istration password to operate the %[1]s.\x02Enter Administration Passwor" +
+	"d\x02The password is incorrect. Re-enter password.\x02Invalid Input\x02P" +
+	"lease enter a number from %.[1]f to %.[2]f.\x02Please enter a number fro" +
+	"m %[1]s to %[2]s.\x02The text does not match the required pattern.\x02Se" +
+	"lection Required\x02Please select one of the provided options.\x02A sele" +
+	"ction is required."
 
-var es_ESIndex = []uint32{ // 274 elements
+var es_ESIndex = []uint32{ // 279 elements
 	// Entry 0 - 1F
 	0x00000000, 0x00000010, 0x00000024, 0x00000041,
 	0x00000054, 0x0000006f, 0x00000087, 0x00000096,
@@ -556,18 +563,19 @@ var es_ESIndex = []uint32{ // 274 elements
 	0x00001474, 0x00001484, 0x000014ff, 0x0000150e,
 	0x00001525, 0x0000153f, 0x0000155f, 0x00001581,
 	0x00001593, 0x000015ab, 0x000015bb, 0x000015cd,
-	0x000015e7, 0x000015f4, 0x00001609, 0x0000161a,
-	0x00001623, 0x0000163f, 0x00001676, 0x0000168d,
-	0x000016c4, 0x000016df, 0x00001718, 0x00001722,
+	0x000015e7, 0x000015f4, 0x00001607, 0x00001619,
+	0x00001622, 0x00001628, 0x0000162f, 0x00001635,
+	0x00001640, 0x0000164c, 0x00001668, 0x0000169f,
 	// Entry 100 - 11F
-	0x0000173a, 0x0000174f, 0x00001786, 0x000017a1,
-	0x000017a7, 0x000017cc, 0x000017d6, 0x000017f0,
-	0x00001834, 0x0000185e, 0x0000189d, 0x000018ae,
-	0x000018d5, 0x000018fa, 0x00001929, 0x0000193e,
-	0x0000196d, 0x00001989,
-} // Size: 1120 bytes
+	0x000016b6, 0x000016ed, 0x00001708, 0x00001741,
+	0x0000174b, 0x00001763, 0x00001778, 0x000017af,
+	0x000017ca, 0x000017d0, 0x000017f5, 0x000017ff,
+	0x00001819, 0x0000185d, 0x00001887, 0x000018c6,
+	0x000018d7, 0x000018fe, 0x00001923, 0x00001952,
+	0x00001967, 0x00001996, 0x000019b2,
+} // Size: 1140 bytes
 
-const es_ESData string = "" + // Size: 6537 bytes
+const es_ESData string = "" + // Size: 6578 bytes
 	"\x02Versión: %[1]s\x02Versión FRP: %[1]s\x02Fecha de compilación: %[1]s" +
 	"\x02Todos los archivos\x02Archivos de configuración\x02Archivos de certi" +
 	"ficado\x02Archivos clave\x02Archivos de registro\x02Número fuera del ran" +
@@ -655,23 +663,24 @@ const es_ESData string = "" + // Size: 6537 bytes
 	"n existente.\x02Valor ajustado\x02Contraseña eliminada.\x02Nueva contras" +
 	"eña maestra\x02Escriba la contraseña otra vez\x02La contraseña está conf" +
 	"igurada.\x02Nivel de registro\x02Retención de registros\x02Añadir rápido" +
-	"\x02Escritorio remoto\x02Servidor de archivos HTTP\x02Deshabilitar\x02Ab" +
-	"rir configuración\x02Edición directa\x02Dominios\x02Copiar dirección de " +
-	"acceso\x02Esta función solo admite texto en formato INI o TOML.\x02Elimi" +
-	"nar proxy \x22%[1]s\x22\x02¿Está seguro de que desea eliminar el proxy " +
-	"\x22%[1]s\x22?\x02Deshabilitar proxy \x22%[1]s\x22\x02¿Está seguro de qu" +
-	"e desea desactivar el proxy \x22%[1]s\x22?\x02Habilitar\x02Gama de puert" +
-	"os pasivos\x02Administrador de FRP\x02* Admite importación por lotes, un" +
-	" enlace por línea.\x02Renombrar automáticamente\x02Listo\x02Introduzca l" +
-	"a lista de URL correcta.\x02Descargar\x02Introducir la contraseña\x02Deb" +
-	"e ingresar una contraseña de administración para operar %[1]s.\x02Ingres" +
-	"e la contraseña de administración\x02La contraseña es incorrecta. Escrib" +
-	"a la contraseña otra vez.\x02Entrada invalida\x02Ingrese un número de %." +
-	"[1]f a %.[2]f.\x02Ingrese un número de %[1]s a %[2]s.\x02El texto no coi" +
-	"ncide con el patrón requerido.\x02Selección requerida\x02Seleccione una " +
-	"de las opciones proporcionadas.\x02Se requiere una selección."
+	"\x02Escritorio remoto\x02Servidor de archivos HTTP\x02Deshabilitar\x02Mo" +
+	"ver hacia arriba\x02Mover hacia abajo\x02Dominios\x02Mover\x02Arriba\x02" +
+	"Abajo\x02Hasta cima\x02Hasta fondo\x02Copiar dirección de acceso\x02Esta" +
+	" función solo admite texto en formato INI o TOML.\x02Eliminar proxy \x22" +
+	"%[1]s\x22\x02¿Está seguro de que desea eliminar el proxy \x22%[1]s\x22?" +
+	"\x02Deshabilitar proxy \x22%[1]s\x22\x02¿Está seguro de que desea desact" +
+	"ivar el proxy \x22%[1]s\x22?\x02Habilitar\x02Gama de puertos pasivos\x02" +
+	"Administrador de FRP\x02* Admite importación por lotes, un enlace por lí" +
+	"nea.\x02Renombrar automáticamente\x02Listo\x02Introduzca la lista de URL" +
+	" correcta.\x02Descargar\x02Introducir la contraseña\x02Debe ingresar una" +
+	" contraseña de administración para operar %[1]s.\x02Ingrese la contraseñ" +
+	"a de administración\x02La contraseña es incorrecta. Escriba la contraseñ" +
+	"a otra vez.\x02Entrada invalida\x02Ingrese un número de %.[1]f a %.[2]f." +
+	"\x02Ingrese un número de %[1]s a %[2]s.\x02El texto no coincide con el p" +
+	"atrón requerido.\x02Selección requerida\x02Seleccione una de las opcione" +
+	"s proporcionadas.\x02Se requiere una selección."
 
-var ja_JPIndex = []uint32{ // 274 elements
+var ja_JPIndex = []uint32{ // 279 elements
 	// Entry 0 - 1F
 	0x00000000, 0x00000018, 0x00000034, 0x0000004f,
 	0x00000068, 0x0000007b, 0x00000091, 0x000000a7,
@@ -741,18 +750,19 @@ var ja_JPIndex = []uint32{ // 274 elements
 	0x0000187f, 0x0000188f, 0x0000191e, 0x00001937,
 	0x00001962, 0x00001987, 0x00001991, 0x000019bf,
 	0x000019cf, 0x000019dc, 0x000019ef, 0x00001a0e,
-	0x00001a2c, 0x00001a33, 0x00001a43, 0x00001a50,
-	0x00001a60, 0x00001a85, 0x00001ae1, 0x00001b0b,
-	0x00001b4b, 0x00001b75, 0x00001bb8, 0x00001bbf,
+	0x00001a2c, 0x00001a33, 0x00001a40, 0x00001a4d,
+	0x00001a5d, 0x00001a64, 0x00001a71, 0x00001a7e,
+	0x00001a8e, 0x00001a9e, 0x00001ac3, 0x00001b1f,
 	// Entry 100 - 11F
-	0x00001bdb, 0x00001bef, 0x00001c4e, 0x00001c6a,
-	0x00001c71, 0x00001ca5, 0x00001cb8, 0x00001cd7,
-	0x00001d32, 0x00001d54, 0x00001d9e, 0x00001dab,
-	0x00001dee, 0x00001e2f, 0x00001e6c, 0x00001e79,
-	0x00001ec5, 0x00001ede,
-} // Size: 1120 bytes
+	0x00001b49, 0x00001b89, 0x00001bb3, 0x00001bf6,
+	0x00001bfd, 0x00001c19, 0x00001c2d, 0x00001c8c,
+	0x00001ca8, 0x00001caf, 0x00001ce3, 0x00001cf6,
+	0x00001d15, 0x00001d70, 0x00001d92, 0x00001ddc,
+	0x00001de9, 0x00001e2c, 0x00001e6d, 0x00001eaa,
+	0x00001eb7, 0x00001f03, 0x00001f1c,
+} // Size: 1140 bytes
 
-const ja_JPData string = "" + // Size: 7902 bytes
+const ja_JPData string = "" + // Size: 7964 bytes
 	"\x02バージョン：%[1]s\x02FRP バージョン：%[1]s\x02コンパイル日：%[1]s\x02すべてのファイル\x02設定ファイル" +
 	"\x02証明書ファイル\x02秘密鍵ファイル\x02ログファイル\x02許容範囲外の数値\x02%[1]d より大きい数値を入力してください。" +
 	"\x02パスワードの不一致\x02もう一度確認してください。\x02数字ではありません\x02有効な数値を入力してください。\x02新しいバージ" +
@@ -800,16 +810,17 @@ const ja_JPData string = "" + // Size: 7902 bytes
 	"があります。\x02言語を選択する\x02デフォルト\x02新しい設定を作成するときのデフォルト値を定義します。\x0aここでの値は、既存の" +
 	"設定には影響しません。\x02デフォルトの設定\x02パスワードが解除されました。\x02新しいマスターパスワード\x02再入力\x02パス" +
 	"ワードが設定されています。\x02ログレベル\x02ログ保持\x02クイック追加\x02リモートデスクトップ\x02HTTP ファイルサーバ" +
-	"ー\x02無効\x02設定を開く\x02直接編集\x02ドメイン名\x02アクセスアドレスのコピー\x02この機能は、INI または TOM" +
-	"L 形式のテキストのみをサポートします。\x02プロキシ「%[1]s」を削除します\x02プロキシ「%[1]s」を削除してもよろしいですか?" +
-	"\x02プロキシ「%[1]s」を無効にする\x02プロキシ「%[1]s」を無効にしてもよろしいですか?\x02有効\x02パッシブポート範囲" +
-	"\x02FRP マネージャ\x02* バッチインポートをサポートします、1行に1つのリンクがあります。\x02自動的に名前を変更\x02準備" +
-	"\x02正しいURLリストを入力してください。\x02ダウンロード\x02パスワードを入力する\x02%[1]s を操作するには、管理パスワード" +
-	"を入力する必要があります。\x02管理者パスワードを入力\x02パスワードが正しくありません。 パスワード再入力。\x02無効入力\x02%" +
-	".[1]f から %.[2]f までの数字を入力してください。\x02%[1]s から %[2]s までの数値を入力してください。\x02テキス" +
-	"トが必要なパターンと一致しません。\x02選択必須\x02提供されたオプションのいずれかを選択してください。\x02選択が必要です。"
+	"ー\x02無効\x02上へ移動\x02下へ移動\x02ドメイン名\x02移動\x02下へ移動\x02下へ移動\x02一番上まで\x02一番下" +
+	"まで\x02アクセスアドレスのコピー\x02この機能は、INI または TOML 形式のテキストのみをサポートします。\x02プロキシ「%[" +
+	"1]s」を削除します\x02プロキシ「%[1]s」を削除してもよろしいですか?\x02プロキシ「%[1]s」を無効にする\x02プロキシ「%[1" +
+	"]s」を無効にしてもよろしいですか?\x02有効\x02パッシブポート範囲\x02FRP マネージャ\x02* バッチインポートをサポートします" +
+	"、1行に1つのリンクがあります。\x02自動的に名前を変更\x02準備\x02正しいURLリストを入力してください。\x02ダウンロード" +
+	"\x02パスワードを入力する\x02%[1]s を操作するには、管理パスワードを入力する必要があります。\x02管理者パスワードを入力\x02パ" +
+	"スワードが正しくありません。 パスワード再入力。\x02無効入力\x02%.[1]f から %.[2]f までの数字を入力してください。" +
+	"\x02%[1]s から %[2]s までの数値を入力してください。\x02テキストが必要なパターンと一致しません。\x02選択必須\x02提供" +
+	"されたオプションのいずれかを選択してください。\x02選択が必要です。"
 
-var ko_KRIndex = []uint32{ // 274 elements
+var ko_KRIndex = []uint32{ // 279 elements
 	// Entry 0 - 1F
 	0x00000000, 0x0000000e, 0x00000020, 0x00000035,
 	0x00000043, 0x00000051, 0x00000062, 0x00000070,
@@ -879,18 +890,19 @@ var ko_KRIndex = []uint32{ // 274 elements
 	0x00001425, 0x0000142f, 0x000014a7, 0x000014be,
 	0x000014df, 0x000014fa, 0x00001511, 0x0000153c,
 	0x0000154a, 0x00001558, 0x00001566, 0x0000157a,
-	0x0000158d, 0x00001594, 0x000015a2, 0x000015b0,
-	0x000015ba, 0x000015d2, 0x00001618, 0x00001631,
-	0x00001660, 0x0000167f, 0x000016b4, 0x000016bb,
+	0x0000158d, 0x00001594, 0x000015a2, 0x000015b3,
+	0x000015bd, 0x000015ca, 0x000015d8, 0x000015e9,
+	0x000015fa, 0x00001608, 0x00001620, 0x00001666,
 	// Entry 100 - 11F
-	0x000016d3, 0x000016e1, 0x0000172a, 0x00001748,
-	0x00001756, 0x0000177f, 0x0000178c, 0x0000179d,
-	0x000017e4, 0x000017ff, 0x00001852, 0x00001863,
-	0x0000189b, 0x000018d5, 0x0000190e, 0x0000191c,
-	0x0000194f, 0x0000196a,
-} // Size: 1120 bytes
+	0x0000167f, 0x000016ae, 0x000016cd, 0x00001702,
+	0x00001709, 0x00001721, 0x0000172f, 0x00001778,
+	0x00001796, 0x000017a4, 0x000017cd, 0x000017da,
+	0x000017eb, 0x00001832, 0x0000184d, 0x000018a0,
+	0x000018b1, 0x000018e9, 0x00001923, 0x0000195c,
+	0x0000196a, 0x0000199d, 0x000019b8,
+} // Size: 1140 bytes
 
-const ko_KRData string = "" + // Size: 6506 bytes
+const ko_KRData string = "" + // Size: 6584 bytes
 	"\x02버전: %[1]s\x02FRP 버전: %[1]s\x02빌드 날짜: %[1]s\x02모든 파일\x02구성 파일\x02인증서 " +
 	"파일\x02열쇠 파일\x02로그 파일\x02허용 범위를 벗어난 숫자\x02%[1]d보다 큰 숫자를 입력하세요.\x02암호 불일" +
 	"치\x02확인하고 다시 시도해 주세요.\x02숫자가 아님\x02유효한 숫자를 입력하세요.\x02새로운 버전!\x02에 대한" +
@@ -936,17 +948,18 @@ const ko_KRData string = "" + // Size: 6506 bytes
 	"\x02현재 표시 언어는\x02수정 사항을 적용하려면 프로그램을 재시작해야 합니다.\x02언어 선택\x02기본값\x02새 구성을 " +
 	"만들 때 기본값을 정의합니다.\x0a여기의 값은 기존 구성에 영향을 주지 않습니다.\x02기본값으로 설정\x02암호가 제거되었" +
 	"습니다.\x02새 마스터 비밀번호\x02비밀번호 재입력\x02비밀번호가 설정되어 있습니다.\x02로그 수준\x02로그 보존" +
-	"\x02빠른 추가\x02원격 데스크탑\x02HTTP 파일 서버\x02폐쇄\x02구성 열기\x02직접 편집\x02도메인\x02액세스" +
-	" 주소 복사\x02이 기능은 INI 또는 TOML 형식의 텍스트만 지원합니다.\x02프록시 \x22%[1]s\x22 삭제\x02" +
-	"\x22%[1]s\x22 프록시를 삭제하시겠습니까?\x02프록시 \x22%[1]s\x22 비활성화\x02\x22%[1]s\x22 " +
-	"프록시를 비활성화하시겠습니까?\x02켜다\x02패시브 포트 범위\x02FRP 관리자\x02* 한 줄에 하나의 링크로 일괄 가져" +
-	"오기를 지원합니다.\x02자동으로 이름 바꾸기\x02준비가 된\x02올바른 URL 목록을 입력하세요.\x02다운로드\x02암호" +
-	"를 입력\x02%[1]s을(를) 작동하려면 관리 암호를 입력해야 합니다.\x02관리 비밀번호 입력\x02비밀번호가 올바르지 않" +
-	"습니다. 비밀번호를 다시 입력하세요.\x02잘못된 입력\x02%.[1]f에서 %.[2]f까지의 숫자를 입력하세요.\x02%[1" +
-	"]s에서 %[2]s 사이의 숫자를 입력하십시오.\x02텍스트가 필수 패턴과 일치하지 않습니다.\x02선택 필수\x02제공된 옵션 " +
-	"중 하나를 선택하십시오.\x02선택이 필요합니다."
+	"\x02빠른 추가\x02원격 데스크탑\x02HTTP 파일 서버\x02폐쇄\x02위로 이동\x02아래로 이동\x02도메인\x02이동" +
+	"하기\x02위로 이동\x02아래로 이동\x02상단에 고정\x02맨 아래로\x02액세스 주소 복사\x02이 기능은 INI 또는 " +
+	"TOML 형식의 텍스트만 지원합니다.\x02프록시 \x22%[1]s\x22 삭제\x02\x22%[1]s\x22 프록시를 삭제하시겠" +
+	"습니까?\x02프록시 \x22%[1]s\x22 비활성화\x02\x22%[1]s\x22 프록시를 비활성화하시겠습니까?\x02켜다" +
+	"\x02패시브 포트 범위\x02FRP 관리자\x02* 한 줄에 하나의 링크로 일괄 가져오기를 지원합니다.\x02자동으로 이름 바꾸" +
+	"기\x02준비가 된\x02올바른 URL 목록을 입력하세요.\x02다운로드\x02암호를 입력\x02%[1]s을(를) 작동하려면 " +
+	"관리 암호를 입력해야 합니다.\x02관리 비밀번호 입력\x02비밀번호가 올바르지 않습니다. 비밀번호를 다시 입력하세요.\x02" +
+	"잘못된 입력\x02%.[1]f에서 %.[2]f까지의 숫자를 입력하세요.\x02%[1]s에서 %[2]s 사이의 숫자를 입력하십시" +
+	"오.\x02텍스트가 필수 패턴과 일치하지 않습니다.\x02선택 필수\x02제공된 옵션 중 하나를 선택하십시오.\x02선택이 필" +
+	"요합니다."
 
-var zh_CNIndex = []uint32{ // 274 elements
+var zh_CNIndex = []uint32{ // 279 elements
 	// Entry 0 - 1F
 	0x00000000, 0x0000000f, 0x00000022, 0x00000037,
 	0x00000044, 0x00000051, 0x0000005e, 0x0000006b,
@@ -1016,18 +1029,19 @@ var zh_CNIndex = []uint32{ // 274 elements
 	0x00000f99, 0x00000fa3, 0x00000ff3, 0x00001003,
 	0x00001016, 0x00001023, 0x00001030, 0x00001043,
 	0x00001050, 0x0000105d, 0x0000106a, 0x00001077,
-	0x00001089, 0x00001090, 0x000010a3, 0x000010b0,
-	0x000010b7, 0x000010ca, 0x000010fd, 0x00001115,
-	0x0000113c, 0x00001154, 0x0000117b, 0x00001182,
+	0x00001089, 0x00001090, 0x00001097, 0x0000109e,
+	0x000010a5, 0x000010ac, 0x000010b3, 0x000010ba,
+	0x000010c1, 0x000010c8, 0x000010db, 0x0000110e,
 	// Entry 100 - 11F
-	0x00001195, 0x000011a3, 0x000011d0, 0x000011e0,
-	0x000011ed, 0x0000120e, 0x00001215, 0x00001222,
-	0x00001250, 0x00001263, 0x00001285, 0x00001292,
-	0x000012c4, 0x000012f4, 0x00001319, 0x00001323,
-	0x00001342, 0x00001352,
-} // Size: 1120 bytes
+	0x00001126, 0x0000114d, 0x00001165, 0x0000118c,
+	0x00001193, 0x000011a6, 0x000011b4, 0x000011e1,
+	0x000011f1, 0x000011fe, 0x0000121f, 0x00001226,
+	0x00001233, 0x00001261, 0x00001274, 0x00001296,
+	0x000012a3, 0x000012d5, 0x00001305, 0x0000132a,
+	0x00001334, 0x00001353, 0x00001363,
+} // Size: 1140 bytes
 
-const zh_CNData string = "" + // Size: 4946 bytes
+const zh_CNData string = "" + // Size: 4963 bytes
 	"\x02版本：%[1]s\x02FRP 版本：%[1]s\x02构建日期：%[1]s\x02所有文件\x02配置文件\x02证书文件\x02密钥" +
 	"文件\x02日志文件\x02数值超出允许范围\x02请输入一个大于 %[1]d 的数字。\x02密码不匹配\x02请检查并重试。\x02不是" +
 	"数字\x02请输入一个有效的数字。\x02发现更新！\x02关于\x02下载更新\x02正在检查更新\x02检查更新\x02如有任何意见或报" +
@@ -1063,14 +1077,14 @@ const zh_CNData string = "" + // Size: 4946 bytes
 	"\x0a在下次使用此程序时，您将被要求输入密码。\x02使用主密码\x02修改密码\x02语言\x02目前的显示语言\x02您必须重新启动程序才" +
 	"能应用修改。\x02选择语言\x02默认值\x02定义新建配置时的默认值。\x0a此处的值不会影响现有的配置。\x02设置默认值\x02密码" +
 	"已删除。\x02新主密码\x02确认密码\x02密码已设定。\x02日志级别\x02日志保留\x02快速添加\x02远程桌面\x02HTTP" +
-	" 文件服务\x02禁用\x02打开配置文件\x02直接编辑\x02域名\x02复制访问地址\x02此功能仅支持 INI 或 TOML 格式的文本" +
-	"。\x02删除代理「%[1]s」\x02确定要删除代理「%[1]s」吗？\x02禁用代理「%[1]s」\x02确定要禁用代理「%[1]s」吗" +
-	"？\x02启用\x02被动端口范围\x02FRP 管理器\x02* 支持批量导入，每行一个链接。\x02自动重命名\x02准备就绪\x02请" +
-	"输入正确的 URL 列表。\x02下载\x02输入密码\x02您必须输入管理密码来使用 %[1]s。\x02输入管理密码\x02密码错误。请" +
-	"重新输入。\x02输入无效\x02请输入一个从 %.[1]f 到 %.[2]f 的数字。\x02请输入一个从 %[1]s 到 %[2]s 的" +
-	"数字。\x02文本与要求的模式不匹配。\x02必填项\x02请选择其中一个选项。\x02需要选择。"
+	" 文件服务\x02禁用\x02上移\x02下移\x02域名\x02移动\x02上移\x02下移\x02置顶\x02置底\x02复制访问地址" +
+	"\x02此功能仅支持 INI 或 TOML 格式的文本。\x02删除代理「%[1]s」\x02确定要删除代理「%[1]s」吗？\x02禁用代理「" +
+	"%[1]s」\x02确定要禁用代理「%[1]s」吗？\x02启用\x02被动端口范围\x02FRP 管理器\x02* 支持批量导入，每行一个链接" +
+	"。\x02自动重命名\x02准备就绪\x02请输入正确的 URL 列表。\x02下载\x02输入密码\x02您必须输入管理密码来使用 %[1" +
+	"]s。\x02输入管理密码\x02密码错误。请重新输入。\x02输入无效\x02请输入一个从 %.[1]f 到 %.[2]f 的数字。\x02请" +
+	"输入一个从 %[1]s 到 %[2]s 的数字。\x02文本与要求的模式不匹配。\x02必填项\x02请选择其中一个选项。\x02需要选择。"
 
-var zh_TWIndex = []uint32{ // 274 elements
+var zh_TWIndex = []uint32{ // 279 elements
 	// Entry 0 - 1F
 	0x00000000, 0x0000000f, 0x00000022, 0x00000037,
 	0x00000044, 0x00000051, 0x0000005e, 0x0000006b,
@@ -1140,18 +1154,19 @@ var zh_TWIndex = []uint32{ // 274 elements
 	0x00000fcf, 0x00000fd9, 0x00001029, 0x00001039,
 	0x0000104c, 0x00001059, 0x00001066, 0x00001079,
 	0x00001086, 0x00001093, 0x000010a0, 0x000010ad,
-	0x000010bf, 0x000010c6, 0x000010d9, 0x000010e6,
-	0x000010ed, 0x00001100, 0x00001133, 0x0000114b,
-	0x00001172, 0x0000118a, 0x000011b1, 0x000011b8,
+	0x000010bf, 0x000010c6, 0x000010cd, 0x000010d4,
+	0x000010db, 0x000010e2, 0x000010e9, 0x000010f0,
+	0x000010f7, 0x000010fe, 0x00001111, 0x00001144,
 	// Entry 100 - 11F
-	0x000011ce, 0x000011dc, 0x00001209, 0x0000121c,
-	0x00001229, 0x0000124a, 0x00001251, 0x0000125e,
-	0x0000128c, 0x0000129f, 0x000012c1, 0x000012ce,
-	0x00001300, 0x00001330, 0x00001355, 0x00001362,
-	0x00001381, 0x00001391,
-} // Size: 1120 bytes
+	0x0000115c, 0x00001183, 0x0000119b, 0x000011c2,
+	0x000011c9, 0x000011df, 0x000011ed, 0x0000121a,
+	0x0000122d, 0x0000123a, 0x0000125b, 0x00001262,
+	0x0000126f, 0x0000129d, 0x000012b0, 0x000012d2,
+	0x000012df, 0x00001311, 0x00001341, 0x00001366,
+	0x00001373, 0x00001392, 0x000013a2,
+} // Size: 1140 bytes
 
-const zh_TWData string = "" + // Size: 5009 bytes
+const zh_TWData string = "" + // Size: 5026 bytes
 	"\x02版本：%[1]s\x02FRP 版本：%[1]s\x02構建日期：%[1]s\x02所有檔案\x02配置檔案\x02憑證檔案\x02金鑰" +
 	"檔案\x02日誌檔案\x02數值超出許可範圍\x02請輸入一個大於 %[1]d 的數字。\x02密碼不相符\x02請檢查並重試。\x02非數" +
 	"字\x02請輸入一個有效的數字。\x02發現更新！\x02關於\x02下載更新\x02正在檢查更新\x02檢查更新\x02如有任何意見或錯誤" +
@@ -1187,11 +1202,12 @@ const zh_TWData string = "" + // Size: 5009 bytes
 	"來限制前往此程式。\x0a在下次使用此程式時，您將被要求輸入密碼。\x02使用主密碼\x02修改密碼\x02語言\x02目前的顯示語言" +
 	"\x02您必須重新啟動程式才能套用修改。\x02選擇語言\x02預設值\x02定義新增配置時的預設值。\x0a此處的值不會影響現有的配置。" +
 	"\x02設定預設值\x02密碼已刪除。\x02新主密碼\x02確認密碼\x02密碼已設定。\x02日誌等級\x02日誌保留\x02快速添加" +
-	"\x02遠端桌面\x02HTTP 檔案服務\x02停用\x02打開配置檔案\x02直接編輯\x02域名\x02複製存取位址\x02此功能僅支援 " +
-	"INI 或 TOML 格式的文字。\x02刪除代理「%[1]s」\x02確定要刪除代理「%[1]s」嗎？\x02停用代理「%[1]s」\x02確" +
-	"定要停用代理「%[1]s」嗎？\x02啟用\x02被動通訊埠範圍\x02FRP 管理器\x02* 支援批量導入，每行一個連結。\x02自動重" +
-	"新命名\x02準備就緒\x02請輸入正確的 URL 列表。\x02下載\x02輸入密碼\x02您必須輸入管理密碼來使用 %[1]s。\x02" +
-	"輸入管理密碼\x02密碼錯誤。請重新輸入。\x02輸入無效\x02請輸入一個從 %.[1]f 到 %.[2]f 的數字。\x02請輸入一個從" +
-	" %[1]s 到 %[2]s 的數字。\x02文字與要求的模式不相符。\x02必填項目\x02請選擇其中一個選項。\x02必需選擇。"
+	"\x02遠端桌面\x02HTTP 檔案服務\x02停用\x02上移\x02下移\x02域名\x02移動\x02上移\x02下移\x02置頂" +
+	"\x02置底\x02複製存取位址\x02此功能僅支援 INI 或 TOML 格式的文字。\x02刪除代理「%[1]s」\x02確定要刪除代理「%" +
+	"[1]s」嗎？\x02停用代理「%[1]s」\x02確定要停用代理「%[1]s」嗎？\x02啟用\x02被動通訊埠範圍\x02FRP 管理器" +
+	"\x02* 支援批量導入，每行一個連結。\x02自動重新命名\x02準備就緒\x02請輸入正確的 URL 列表。\x02下載\x02輸入密碼" +
+	"\x02您必須輸入管理密碼來使用 %[1]s。\x02輸入管理密碼\x02密碼錯誤。請重新輸入。\x02輸入無效\x02請輸入一個從 %.[1]" +
+	"f 到 %.[2]f 的數字。\x02請輸入一個從 %[1]s 到 %[2]s 的數字。\x02文字與要求的模式不相符。\x02必填項目\x02" +
+	"請選擇其中一個選項。\x02必需選擇。"
 
-	// Total table size 42776 bytes (41KiB); checksum: 7984D627
+	// Total table size 43135 bytes (42KiB); checksum: 162CA7AC

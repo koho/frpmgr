@@ -1,6 +1,8 @@
 package ui
 
 import (
+	"image"
+
 	"github.com/lxn/walk"
 
 	"github.com/koho/frpmgr/pkg/consts"
@@ -108,4 +110,33 @@ func drawCopyIcon(canvas *walk.Canvas, color walk.Color) error {
 		return err
 	}
 	return nil
+}
+
+// flipIcon rotates an icon 180 degrees.
+func flipIcon(id res.Icon, size int) *walk.PaintFuncImage {
+	size96dpi := walk.Size{Width: size, Height: size}
+	return walk.NewPaintFuncImagePixels(size96dpi, func(canvas *walk.Canvas, bounds walk.Rectangle) error {
+		size := walk.SizeFrom96DPI(size96dpi, canvas.DPI())
+		bitmap, err := walk.NewBitmapFromIconForDPI(loadIcon(id, size.Width), size, canvas.DPI())
+		if err != nil {
+			return err
+		}
+		img, err := bitmap.ToImage()
+		if err != nil {
+			return err
+		}
+		bitmap.Dispose()
+		rotated := image.NewRGBA(img.Rect)
+		for x := img.Bounds().Min.X; x < img.Bounds().Max.X; x++ {
+			for y := img.Bounds().Min.Y; y < img.Bounds().Max.Y; y++ {
+				rotated.Set(img.Bounds().Max.X-x-1, img.Bounds().Max.Y-y-1, img.At(x, y))
+			}
+		}
+		bitmap, err = walk.NewBitmapFromImageForDPI(rotated, canvas.DPI())
+		if err != nil {
+			return err
+		}
+		defer bitmap.Dispose()
+		return canvas.DrawImageStretchedPixels(bitmap, bounds)
+	})
 }

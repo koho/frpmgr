@@ -1405,19 +1405,44 @@
             "translation": "폐쇄"
         },
         {
-            "id": "Open Config",
-            "message": "Open Config",
-            "translation": "구성 열기"
+            "id": "Move Up",
+            "message": "Move Up",
+            "translation": "위로 이동"
         },
         {
-            "id": "Direct Edit",
-            "message": "Direct Edit",
-            "translation": "직접 편집"
+            "id": "Move Down",
+            "message": "Move Down",
+            "translation": "아래로 이동"
         },
         {
             "id": "Domains",
             "message": "Domains",
             "translation": "도메인"
+        },
+        {
+            "id": "Move",
+            "message": "Move",
+            "translation": "이동하기"
+        },
+        {
+            "id": "Up",
+            "message": "Up",
+            "translation": "위로 이동"
+        },
+        {
+            "id": "Down",
+            "message": "Down",
+            "translation": "아래로 이동"
+        },
+        {
+            "id": "To Top",
+            "message": "To Top",
+            "translation": "상단에 고정"
+        },
+        {
+            "id": "To Bottom",
+            "message": "To Bottom",
+            "translation": "맨 아래로"
         },
         {
             "id": "Copy Access Address",

@@ -1405,19 +1405,44 @@
             "translation": "停用"
         },
         {
-            "id": "Open Config",
-            "message": "Open Config",
-            "translation": "打開配置檔案"
+            "id": "Move Up",
+            "message": "Move Up",
+            "translation": "上移"
         },
         {
-            "id": "Direct Edit",
-            "message": "Direct Edit",
-            "translation": "直接編輯"
+            "id": "Move Down",
+            "message": "Move Down",
+            "translation": "下移"
         },
         {
             "id": "Domains",
             "message": "Domains",
             "translation": "域名"
+        },
+        {
+            "id": "Move",
+            "message": "Move",
+            "translation": "移動"
+        },
+        {
+            "id": "Up",
+            "message": "Up",
+            "translation": "上移"
+        },
+        {
+            "id": "Down",
+            "message": "Down",
+            "translation": "下移"
+        },
+        {
+            "id": "To Top",
+            "message": "To Top",
+            "translation": "置頂"
+        },
+        {
+            "id": "To Bottom",
+            "message": "To Bottom",
+            "translation": "置底"
         },
         {
             "id": "Copy Access Address",
