@@ -547,7 +547,7 @@ func (pv *ProxyView) onMove(delta int) {
 	if conf == nil {
 		return
 	}
-	pv.model.Swap(curIdx, targetIdx)
+	pv.model.Move(curIdx, targetIdx)
 	commitConf(pv.model.conf, runFlagReload)
 	pv.table.SetCurrentIndex(targetIdx)
 }

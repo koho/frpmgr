@@ -82,3 +82,14 @@ func GetMapWithoutPrefix(set map[string]string, prefix string) map[string]string
 
 	return m
 }
+
+// MoveSlice moves the element s[i] to index j in s.
+func MoveSlice[S ~[]E, E any](s S, i, j int) {
+	x := s[i]
+	if i < j {
+		copy(s[i:j], s[i+1:j+1])
+	} else if i > j {
+		copy(s[j+1:i+1], s[j:i])
+	}
+	s[j] = x
+}
