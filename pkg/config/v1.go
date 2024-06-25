@@ -9,8 +9,8 @@ import (
 type ClientConfigV1 struct {
 	v1.ClientCommonConfig
 
-	Proxies  []TypedProxyConfig      `json:"proxies,omitempty"`
-	Visitors []v1.TypedVisitorConfig `json:"visitors,omitempty"`
+	Proxies  []TypedProxyConfig   `json:"proxies,omitempty"`
+	Visitors []TypedVisitorConfig `json:"visitors,omitempty"`
 
 	Mgr Mgr `json:"frpmgr,omitempty"`
 }
@@ -26,8 +26,14 @@ type TypedProxyConfig struct {
 	Mgr ProxyMgr `json:"frpmgr,omitempty"`
 }
 
+type TypedVisitorConfig struct {
+	v1.TypedVisitorConfig
+	Mgr ProxyMgr `json:"frpmgr,omitempty"`
+}
+
 type ProxyMgr struct {
 	Range RangePort `json:"range,omitempty"`
+	Sort  int       `json:"sort,omitempty"`
 }
 
 type RangePort struct {
@@ -36,15 +42,30 @@ type RangePort struct {
 }
 
 func (c *TypedProxyConfig) UnmarshalJSON(b []byte) error {
-	if err := c.TypedProxyConfig.UnmarshalJSON(b); err != nil {
+	err := c.TypedProxyConfig.UnmarshalJSON(b)
+	if err != nil {
 		return err
 	}
+	c.Mgr, err = unmarshalProxyMgr(b)
+	return err
+}
+
+func (c *TypedVisitorConfig) UnmarshalJSON(b []byte) error {
+	err := c.TypedVisitorConfig.UnmarshalJSON(b)
+	if err != nil {
+		return err
+	}
+	c.Mgr, err = unmarshalProxyMgr(b)
+	return err
+}
+
+func unmarshalProxyMgr(b []byte) (c ProxyMgr, err error) {
 	s := struct {
 		Mgr ProxyMgr `json:"frpmgr"`
 	}{}
-	if err := json.Unmarshal(b, &s); err != nil {
-		return err
+	if err = json.Unmarshal(b, &s); err != nil {
+		return
 	}
-	c.Mgr = s.Mgr
-	return nil
+	c = s.Mgr
+	return
 }

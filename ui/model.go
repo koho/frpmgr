@@ -100,6 +100,12 @@ func (m *ProxyModel) Items() interface{} {
 	return m.items
 }
 
+func (m *ProxyModel) Move(i, j int) {
+	util.MoveSlice(m.items, i, j)
+	util.MoveSlice(m.data.Proxies, i, j)
+	m.PublishRowsChanged(min(i, j), max(i, j))
+}
+
 // StringPair is a simple struct to hold a pair of strings.
 type StringPair struct {
 	Name        string

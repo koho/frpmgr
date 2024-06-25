@@ -1415,19 +1415,44 @@
             "translation": "無効"
         },
         {
-            "id": "Open Config",
-            "message": "Open Config",
-            "translation": "設定を開く"
+            "id": "Move Up",
+            "message": "Move Up",
+            "translation": "上へ移動"
         },
         {
-            "id": "Direct Edit",
-            "message": "Direct Edit",
-            "translation": "直接編集"
+            "id": "Move Down",
+            "message": "Move Down",
+            "translation": "下へ移動"
         },
         {
             "id": "Domains",
             "message": "Domains",
             "translation": "ドメイン名"
+        },
+        {
+            "id": "Move",
+            "message": "Move",
+            "translation": "移動"
+        },
+        {
+            "id": "Up",
+            "message": "Up",
+            "translation": "下へ移動"
+        },
+        {
+            "id": "Down",
+            "message": "Down",
+            "translation": "下へ移動"
+        },
+        {
+            "id": "To Top",
+            "message": "To Top",
+            "translation": "一番上まで"
+        },
+        {
+            "id": "To Bottom",
+            "message": "To Bottom",
+            "translation": "一番下まで"
         },
         {
             "id": "Copy Access Address",

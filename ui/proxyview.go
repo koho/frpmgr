@@ -3,12 +3,10 @@ package ui
 import (
 	"fmt"
 	"net"
-	"path/filepath"
 	"strconv"
 	"strings"
 
 	frpconfig "github.com/fatedier/frp/pkg/config"
-	"github.com/fatedier/frp/pkg/config/v1"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 
@@ -40,8 +38,6 @@ type ProxyView struct {
 	vpnAction       *walk.Action
 	editAction      *walk.Action
 	deleteAction    *walk.Action
-	openConfAction  *walk.Action
-	showConfAction  *walk.Action
 	toggleAction    *walk.Action
 }
 
@@ -95,6 +91,7 @@ func (pv *ProxyView) Invalidate() {
 }
 
 func (pv *ProxyView) createToolbar() ToolBar {
+	mc := movingConditions()
 	return ToolBar{
 		AssignTo:    &pv.toolbar,
 		ButtonStyle: ToolBarButtonImageBeforeText,
@@ -224,37 +221,34 @@ func (pv *ProxyView) createToolbar() ToolBar {
 				OnTriggered: pv.onToggleProxy,
 			},
 			Action{
+				Image:   loadIcon(res.IconArrowUp, 16),
+				Text:    i18n.Sprintf("Move Up"),
+				Enabled: mc[0],
+				OnTriggered: func() {
+					pv.onMove(-1)
+				},
+			},
+			Action{
+				Image:   flipIcon(res.IconArrowUp, 16),
+				Text:    i18n.Sprintf("Move Down"),
+				Enabled: mc[1],
+				OnTriggered: func() {
+					pv.onMove(1)
+				},
+			},
+			Action{
 				AssignTo:    &pv.deleteAction,
 				Image:       loadIcon(res.IconDelete, 16),
 				Text:        i18n.Sprintf("Delete"),
 				Enabled:     Bind("proxy.CurrentIndex >= 0"),
 				OnTriggered: pv.onDelete,
 			},
-			Menu{
-				Text:  i18n.Sprintf("Open Config"),
-				Image: loadIcon(res.IconOpen, 16),
-				Items: []MenuItem{
-					Action{
-						AssignTo: &pv.openConfAction,
-						Text:     i18n.Sprintf("Direct Edit"),
-						OnTriggered: func() {
-							pv.onOpenConfig(false)
-						},
-					},
-					Action{
-						AssignTo: &pv.showConfAction,
-						Text:     i18n.Sprintf("Show in Folder"),
-						OnTriggered: func() {
-							pv.onOpenConfig(true)
-						},
-					},
-				},
-			},
 		},
 	}
 }
 
 func (pv *ProxyView) createProxyTable() TableView {
+	mc := movingConditions()
 	return TableView{
 		Name:     "proxy",
 		AssignTo: &pv.table,
@@ -270,6 +264,44 @@ func (pv *ProxyView) createProxyTable() TableView {
 		ContextMenuItems: []MenuItem{
 			ActionRef{Action: &pv.editAction},
 			ActionRef{Action: &pv.toggleAction},
+			Menu{
+				Text:    i18n.Sprintf("Move"),
+				Image:   loadIcon(res.IconMove, 16),
+				Enabled: Bind("proxy.CurrentIndex >= 0 && proxy.ItemCount > 1"),
+				Items: []MenuItem{
+					Action{
+						Text:    i18n.Sprintf("Up"),
+						Enabled: mc[0],
+						OnTriggered: func() {
+							pv.onMove(-1)
+						},
+					},
+					Action{
+						Text:    i18n.Sprintf("Down"),
+						Enabled: mc[1],
+						OnTriggered: func() {
+							pv.onMove(1)
+						},
+					},
+					Action{
+						Text:    i18n.Sprintf("To Top"),
+						Enabled: mc[0],
+						OnTriggered: func() {
+							pv.onMove(-pv.table.CurrentIndex())
+						},
+					},
+					Action{
+						Text:    i18n.Sprintf("To Bottom"),
+						Enabled: mc[1],
+						OnTriggered: func() {
+							if pv.model == nil {
+								return
+							}
+							pv.onMove(len(pv.model.items) - pv.table.CurrentIndex() - 1)
+						},
+					},
+				},
+			},
 			Separator{},
 			ActionRef{Action: &pv.newAction},
 			Menu{
@@ -299,14 +331,6 @@ func (pv *ProxyView) createProxyTable() TableView {
 				Text:        i18n.Sprintf("Copy Access Address"),
 				Image:       loadIcon(res.IconSysCopy, 16),
 				OnTriggered: pv.onCopyAccessAddr,
-			},
-			Menu{
-				Text:  i18n.Sprintf("Open Config"),
-				Image: loadIcon(res.IconOpen, 16),
-				Items: []MenuItem{
-					ActionRef{Action: &pv.openConfAction},
-					ActionRef{Action: &pv.showConfAction},
-				},
 			},
 			Separator{},
 			ActionRef{Action: &pv.deleteAction},
@@ -388,7 +412,7 @@ func (pv *ProxyView) onClipboardImport() {
 		}
 	} else if strings.HasPrefix(text, "[[visitors]]") {
 		var visitors struct {
-			C []v1.TypedVisitorConfig `json:"visitors"`
+			C []config.TypedVisitorConfig `json:"visitors"`
 		}
 		if err = frpconfig.LoadConfigure([]byte(text), &visitors, false); err == nil && len(visitors.C) > 0 {
 			proxy = config.ClientVisitorFromV1(visitors.C[0])
@@ -493,7 +517,7 @@ func (pv *ProxyView) onQuickAdd(qa QuickAdd) {
 	}
 	added := false
 	oldConf := pv.model.conf.Name
-	if res, _ := qa.Run(pv.Form()); res == walk.DlgCmdOK {
+	if r, _ := qa.Run(pv.Form()); r == walk.DlgCmdOK {
 		if pv.model == nil || pv.model.conf.Name != oldConf {
 			warnConfigRemoved(pv.Form(), oldConf)
 			return
@@ -512,17 +536,20 @@ func (pv *ProxyView) onQuickAdd(qa QuickAdd) {
 	}
 }
 
-func (pv *ProxyView) onOpenConfig(folder bool) {
-	if pv.model == nil {
+func (pv *ProxyView) onMove(delta int) {
+	curIdx := pv.table.CurrentIndex()
+	conf, _ := pv.getConfigProxy(curIdx)
+	if conf == nil {
 		return
 	}
-	if path, err := filepath.Abs(pv.model.conf.Path); err == nil {
-		if folder {
-			openFolder(path)
-		} else {
-			openPath(path)
-		}
+	targetIdx := curIdx + delta
+	conf, _ = pv.getConfigProxy(targetIdx)
+	if conf == nil {
+		return
 	}
+	pv.model.Move(curIdx, targetIdx)
+	commitConf(pv.model.conf, runFlagReload)
+	pv.table.SetCurrentIndex(targetIdx)
 }
 
 // switchToggleAction updates the toggle action based on the current selected proxy
@@ -562,4 +589,12 @@ func (pv *ProxyView) visitors(except *config.Proxy) (visitors []string) {
 		}
 	}
 	return
+}
+
+// Conditions for moving up/down proxy.
+func movingConditions() [2]Property {
+	return [2]Property{
+		Bind("proxy.CurrentIndex > 0"),
+		Bind("proxy.CurrentIndex >= 0 && proxy.CurrentIndex < proxy.ItemCount - 1"),
+	}
 }

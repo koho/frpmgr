@@ -1405,19 +1405,44 @@
             "translation": "Deshabilitar"
         },
         {
-            "id": "Open Config",
-            "message": "Open Config",
-            "translation": "Abrir configuración"
+            "id": "Move Up",
+            "message": "Move Up",
+            "translation": "Mover hacia arriba"
         },
         {
-            "id": "Direct Edit",
-            "message": "Direct Edit",
-            "translation": "Edición directa"
+            "id": "Move Down",
+            "message": "Move Down",
+            "translation": "Mover hacia abajo"
         },
         {
             "id": "Domains",
             "message": "Domains",
             "translation": "Dominios"
+        },
+        {
+            "id": "Move",
+            "message": "Move",
+            "translation": "Mover"
+        },
+        {
+            "id": "Up",
+            "message": "Up",
+            "translation": "Arriba"
+        },
+        {
+            "id": "Down",
+            "message": "Down",
+            "translation": "Abajo"
+        },
+        {
+            "id": "To Top",
+            "message": "To Top",
+            "translation": "Hasta cima"
+        },
+        {
+            "id": "To Bottom",
+            "message": "To Bottom",
+            "translation": "Hasta fondo"
         },
         {
             "id": "Copy Access Address",

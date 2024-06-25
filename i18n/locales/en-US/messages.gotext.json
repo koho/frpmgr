@@ -1895,16 +1895,16 @@
             "fuzzy": true
         },
         {
-            "id": "Open Config",
-            "message": "Open Config",
-            "translation": "Open Config",
+            "id": "Move Up",
+            "message": "Move Up",
+            "translation": "Move Up",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
         {
-            "id": "Direct Edit",
-            "message": "Direct Edit",
-            "translation": "Direct Edit",
+            "id": "Move Down",
+            "message": "Move Down",
+            "translation": "Move Down",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1912,6 +1912,41 @@
             "id": "Domains",
             "message": "Domains",
             "translation": "Domains",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Move",
+            "message": "Move",
+            "translation": "Move",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Up",
+            "message": "Up",
+            "translation": "Up",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Down",
+            "message": "Down",
+            "translation": "Down",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "To Top",
+            "message": "To Top",
+            "translation": "To Top",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "To Bottom",
+            "message": "To Bottom",
+            "translation": "To Bottom",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

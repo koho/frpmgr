@@ -409,9 +409,11 @@ func (conf *ClientConfig) saveTOML(path string) error {
 			AutoDelete:  conf.AutoDelete,
 		},
 	}
-	for _, v := range conf.Proxies {
+	for i, v := range conf.Proxies {
 		if v.IsVisitor() {
-			c.Visitors = append(c.Visitors, ClientVisitorToV1(v))
+			visitor := ClientVisitorToV1(v)
+			visitor.Mgr.Sort = i + 1
+			c.Visitors = append(c.Visitors, visitor)
 		} else {
 			proxies, err := ClientProxyToV1(v)
 			if err != nil {
@@ -640,8 +642,19 @@ func UnmarshalClientConf(source interface{}) (*ClientConfig, error) {
 		return !ok
 	})
 	// Visitors
+	slices.SortStableFunc(cfg.Visitors, func(a, b TypedVisitorConfig) int {
+		if a.Mgr.Sort <= 0 && b.Mgr.Sort <= 0 {
+			return 0
+		}
+		return a.Mgr.Sort - b.Mgr.Sort
+	})
 	for _, v := range cfg.Visitors {
-		conf.Proxies = append(conf.Proxies, ClientVisitorFromV1(v))
+		visitor := ClientVisitorFromV1(v)
+		if v.Mgr.Sort <= 0 {
+			conf.Proxies = append(conf.Proxies, visitor)
+		} else {
+			conf.Proxies = slices.Insert(conf.Proxies, min(v.Mgr.Sort-1, len(conf.Proxies)), visitor)
+		}
 	}
 	conf.Complete(true)
 	return &conf, nil

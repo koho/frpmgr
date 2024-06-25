@@ -141,7 +141,7 @@ func ClientProxyFromV1(pxyCfg TypedProxyConfig) *Proxy {
 	return &r
 }
 
-func ClientVisitorFromV1(visitorCfg v1.TypedVisitorConfig) *Proxy {
+func ClientVisitorFromV1(visitorCfg TypedVisitorConfig) *Proxy {
 	var r Proxy
 	clientVisitorBaseFromV1(visitorCfg.GetBaseConfig(), &r)
 	switch v := visitorCfg.VisitorConfigurer.(type) {
@@ -559,8 +559,8 @@ func clientProxyBaseToV1(c *BaseProxyConf) (v1.ProxyBaseConfig, error) {
 	return r, nil
 }
 
-func ClientVisitorToV1(p *Proxy) v1.TypedVisitorConfig {
-	r := v1.TypedVisitorConfig{Type: p.Type}
+func ClientVisitorToV1(p *Proxy) TypedVisitorConfig {
+	r := TypedVisitorConfig{TypedVisitorConfig: v1.TypedVisitorConfig{Type: p.Type}}
 	base := clientVisitorBaseToV1(p)
 	switch p.Type {
 	case consts.ProxyTypeSTCP:
