@@ -30,7 +30,6 @@ type Icon struct {
 // Icons
 var (
 	IconLogo         = Icon{Index: 7}
-	IconOpen         = Icon{"imageres", -5339}
 	IconRandom       = Icon{"imageres", -1024}
 	IconSysCopy      = Icon{"shell32", -243}
 	IconNewConf      = Icon{"shell32", -258}
@@ -64,7 +63,7 @@ var (
 	IconDefaults     = Icon{"imageres", -165}
 	IconKey          = Icon{"imageres", -5360}
 	IconLanguage     = Icon{"imageres", -94}
-	IconNat          = Icon{"firewallcontrolpanel", 0}
+	IconNat          = Icon{"imageres", -1043}
 	IconExperiment   = Icon{"imageres", -111}
 	IconFile         = Icon{"shell32", -152}
 	IconInfo         = Icon{"imageres", -81}
@@ -102,7 +101,6 @@ func init() {
 		defaultFontFamily = "Microsoft YaHei"
 		// Fallback icons
 		IconKey.Index = -82
-		IconOpen = Icon{"shell32", -46}
 		IconSSH.Index = -100
 		IconEnable.Index = -253
 	}
