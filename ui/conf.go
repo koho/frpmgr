@@ -4,9 +4,11 @@ import (
 	"os"
 	"path/filepath"
 	"slices"
+	"strings"
 	"sync"
 
 	"github.com/lxn/walk"
+	"github.com/samber/lo"
 
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
@@ -74,6 +76,7 @@ func (conf *Conf) Delete() (bool, error) {
 func (conf *Conf) Save() error {
 	conf.Data.Complete(false)
 	conf.Path = PathOfConf(conf.Name + ".conf")
+	defer saveAppConfig()
 	return conf.Data.Save(conf.Path)
 }
 
@@ -111,6 +114,16 @@ func loadAllConfs() error {
 			confList = append(confList, c)
 		}
 	}
+	slices.SortStableFunc(confList, func(a, b *Conf) int {
+		i := slices.Index(appConf.Sort, strings.TrimSuffix(filepath.Base(a.Path), filepath.Ext(a.Path)))
+		j := slices.Index(appConf.Sort, strings.TrimSuffix(filepath.Base(b.Path), filepath.Ext(b.Path)))
+		if i < 0 && j >= 0 {
+			return 1
+		} else if j < 0 && i >= 0 {
+			return -1
+		}
+		return i - j
+	})
 	return nil
 }
 
@@ -133,6 +146,7 @@ func addConf(conf *Conf) {
 func deleteConf(conf *Conf) bool {
 	confMutex.Lock()
 	defer confMutex.Unlock()
+	defer saveAppConfig()
 	for i := range confList {
 		if confList[i] == conf {
 			confList = append(confList[:i], confList[i+1:]...)
@@ -194,5 +208,8 @@ func newDefaultClientConfig() *config.ClientConfig {
 }
 
 func saveAppConfig() error {
+	appConf.Sort = lo.Map(confList, func(item *Conf, index int) string {
+		return strings.TrimSuffix(filepath.Base(item.Path), filepath.Ext(item.Path))
+	})
 	return appConf.Save(config.DefaultAppFile)
 }
