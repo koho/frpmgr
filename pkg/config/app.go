@@ -13,6 +13,7 @@ type App struct {
 	Lang     string       `json:"lang,omitempty"`
 	Password string       `json:"password,omitempty"`
 	Defaults DefaultValue `json:"defaults"`
+	Sort     []string     `json:"sort,omitempty"`
 }
 
 type DefaultValue struct {
