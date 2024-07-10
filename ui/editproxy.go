@@ -594,7 +594,7 @@ func (pd *EditProxyDialog) switchType() {
 			case consts.PluginHttps2Http, consts.PluginHttps2Https:
 				pd.viewModel.PluginHTTPFwdVisible = true
 				pd.viewModel.PluginCertVisible = true
-			case consts.PluginHttp2Https:
+			case consts.PluginHttp2Https, consts.PluginHttp2Http:
 				pd.viewModel.PluginHTTPFwdVisible = true
 			}
 		}
