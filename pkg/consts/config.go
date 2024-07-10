@@ -47,7 +47,7 @@ const (
 )
 
 var PluginTypes = []string{
-	PluginHttp2Https, PluginHttp2Http, PluginHttps2Http, PluginHttps2Https,
+	PluginHttp2Http, PluginHttp2Https, PluginHttps2Http, PluginHttps2Https,
 	PluginHttpProxy, PluginSocks5, PluginStaticFile, PluginUnixDomain,
 }
 
