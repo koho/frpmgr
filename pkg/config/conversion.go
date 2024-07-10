@@ -202,12 +202,18 @@ func clientProxyBaseFromV1(c *v1.ProxyBaseConfig, out *Proxy) {
 		out.PluginCrtPath = v.CrtPath
 		out.PluginKeyPath = v.KeyPath
 		out.PluginHeaders = v.RequestHeaders.Set
+		if v.EnableHTTP2 == nil || *v.EnableHTTP2 {
+			out.PluginEnableHTTP2 = true
+		}
 	case *v1.HTTPS2HTTPSPluginOptions:
 		out.PluginLocalAddr = v.LocalAddr
 		out.PluginHostHeaderRewrite = v.HostHeaderRewrite
 		out.PluginCrtPath = v.CrtPath
 		out.PluginKeyPath = v.KeyPath
 		out.PluginHeaders = v.RequestHeaders.Set
+		if v.EnableHTTP2 == nil || *v.EnableHTTP2 {
+			out.PluginEnableHTTP2 = true
+		}
 	case *v1.Socks5PluginOptions:
 		out.PluginUser = v.Username
 		out.PluginPasswd = v.Password
@@ -535,8 +541,9 @@ func clientProxyBaseToV1(c *BaseProxyConf) (v1.ProxyBaseConfig, error) {
 			RequestHeaders: v1.HeaderOperations{
 				Set: c.PluginHeaders,
 			},
-			CrtPath: c.PluginCrtPath,
-			KeyPath: c.PluginKeyPath,
+			EnableHTTP2: &c.PluginEnableHTTP2,
+			CrtPath:     c.PluginCrtPath,
+			KeyPath:     c.PluginKeyPath,
 		}
 	case consts.PluginHttps2Https:
 		r.ProxyBackend.Plugin.ClientPluginOptions = &v1.HTTPS2HTTPSPluginOptions{
@@ -546,8 +553,9 @@ func clientProxyBaseToV1(c *BaseProxyConf) (v1.ProxyBaseConfig, error) {
 			RequestHeaders: v1.HeaderOperations{
 				Set: c.PluginHeaders,
 			},
-			CrtPath: c.PluginCrtPath,
-			KeyPath: c.PluginKeyPath,
+			EnableHTTP2: &c.PluginEnableHTTP2,
+			CrtPath:     c.PluginCrtPath,
+			KeyPath:     c.PluginKeyPath,
 		}
 	case consts.PluginSocks5:
 		r.ProxyBackend.Plugin.ClientPluginOptions = &v1.Socks5PluginOptions{
