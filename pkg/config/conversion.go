@@ -189,6 +189,10 @@ func clientProxyBaseFromV1(c *v1.ProxyBaseConfig, out *Proxy) {
 		out.PluginLocalAddr = v.LocalAddr
 		out.PluginHostHeaderRewrite = v.HostHeaderRewrite
 		out.PluginHeaders = v.RequestHeaders.Set
+	case *v1.HTTP2HTTPPluginOptions:
+		out.PluginLocalAddr = v.LocalAddr
+		out.PluginHostHeaderRewrite = v.HostHeaderRewrite
+		out.PluginHeaders = v.RequestHeaders.Set
 	case *v1.HTTPProxyPluginOptions:
 		out.PluginHttpUser = v.HTTPUser
 		out.PluginHttpPasswd = v.HTTPPassword
@@ -501,6 +505,15 @@ func clientProxyBaseToV1(c *BaseProxyConf) (v1.ProxyBaseConfig, error) {
 	switch c.Plugin {
 	case consts.PluginHttp2Https:
 		r.ProxyBackend.Plugin.ClientPluginOptions = &v1.HTTP2HTTPSPluginOptions{
+			Type:              c.Plugin,
+			LocalAddr:         c.PluginLocalAddr,
+			HostHeaderRewrite: c.PluginHostHeaderRewrite,
+			RequestHeaders: v1.HeaderOperations{
+				Set: c.PluginHeaders,
+			},
+		}
+	case consts.PluginHttp2Http:
+		r.ProxyBackend.Plugin.ClientPluginOptions = &v1.HTTP2HTTPPluginOptions{
 			Type:              c.Plugin,
 			LocalAddr:         c.PluginLocalAddr,
 			HostHeaderRewrite: c.PluginHostHeaderRewrite,
