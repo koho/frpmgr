@@ -94,6 +94,10 @@ func NewEditProxyDialog(configName string, proxy *config.Proxy, visitors []strin
 		v.binder.BandwidthLimitMode = consts.BandwidthMode[0]
 	}
 	v.metaModel = NewAttributeModel(v.binder.Metas)
+	// HTTP/2 should be enabled by default.
+	if v.binder.Plugin != consts.PluginHttps2Http && v.binder.Plugin != consts.PluginHttps2Https {
+		v.binder.PluginEnableHTTP2 = true
+	}
 	return v
 }
 
@@ -317,6 +321,7 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 					CheckBox{Name: "keepTunnel", Visible: xtcpVisitor, Text: i18n.Sprintf("Keep Tunnel"), Checked: Bind("KeepTunnelOpen")},
 					CheckBox{Text: i18n.Sprintf("Encryption"), Checked: Bind("UseEncryption")},
 					CheckBox{Text: i18n.Sprintf("Compression"), Checked: Bind("UseCompression")},
+					CheckBox{Text: "HTTP/2", Visible: Bind("vm.PluginCertVisible"), Checked: Bind("PluginEnableHTTP2")},
 				},
 			},
 			Label{Visible: xtcpVisitor, Text: i18n.SprintfColon("Fallback")},
