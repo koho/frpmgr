@@ -13,7 +13,7 @@ import (
 )
 
 type ConfListModel struct {
-	walk.TableModelBase
+	walk.ReflectTableModelBase
 
 	items []*Conf
 }
@@ -33,6 +33,11 @@ func (m *ConfListModel) Items() interface{} {
 		}
 	}
 	return m.items
+}
+
+func (m *ConfListModel) Move(i, j int) {
+	util.MoveSlice(m.items, i, j)
+	m.PublishRowsChanged(min(i, j), max(i, j))
 }
 
 type ListModel struct {
