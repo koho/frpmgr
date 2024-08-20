@@ -658,7 +658,7 @@ func (pd *EditProxyDialog) validateProxy(p config.Proxy) bool {
 		p.LocalIP = ""
 		p.LocalPort = ""
 		switch p.Plugin {
-		case consts.PluginHttp2Https, consts.PluginHttps2Http, consts.PluginHttps2Https:
+		case consts.PluginHttp2Https, consts.PluginHttps2Http, consts.PluginHttps2Https, consts.PluginTLS2Raw:
 			if p.PluginLocalAddr == "" {
 				showErrorMessage(pd.Form(), "", i18n.Sprintf("Local address is required."))
 				return false
