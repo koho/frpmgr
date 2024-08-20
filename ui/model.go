@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"net"
 	"os"
 	"strconv"
 	"strings"
@@ -89,6 +90,13 @@ func NewProxyModel(conf *Conf) *ProxyModel {
 			pi.DisplayLocalIP = p.BindAddr
 			if p.BindPort > 0 {
 				pi.DisplayLocalPort = strconv.Itoa(p.BindPort)
+			}
+		} else if p.Plugin != "" && p.PluginLocalAddr != "" {
+			if host, port, err := net.SplitHostPort(p.PluginLocalAddr); err == nil {
+				pi.DisplayLocalIP = host
+				pi.DisplayLocalPort = port
+			} else {
+				pi.DisplayLocalIP = p.PluginLocalAddr
 			}
 		}
 		return pi
