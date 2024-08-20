@@ -164,9 +164,9 @@ type BaseProxyConf struct {
 }
 
 type PluginParams struct {
-	PluginLocalAddr         string            `ini:"plugin_local_addr,omitempty" http2https:"true" http2http:"true" https2https:"true" https2http:"true"`
-	PluginCrtPath           string            `ini:"plugin_crt_path,omitempty" https2https:"true" https2http:"true"`
-	PluginKeyPath           string            `ini:"plugin_key_path,omitempty" https2https:"true" https2http:"true"`
+	PluginLocalAddr         string            `ini:"plugin_local_addr,omitempty" http2https:"true" http2http:"true" https2https:"true" https2http:"true" tls2raw:"true"`
+	PluginCrtPath           string            `ini:"plugin_crt_path,omitempty" https2https:"true" https2http:"true" tls2raw:"true"`
+	PluginKeyPath           string            `ini:"plugin_key_path,omitempty" https2https:"true" https2http:"true" tls2raw:"true"`
 	PluginHostHeaderRewrite string            `ini:"plugin_host_header_rewrite,omitempty" http2https:"true" http2http:"true" https2https:"true" https2http:"true"`
 	PluginHttpUser          string            `ini:"plugin_http_user,omitempty" http_proxy:"true" static_file:"true"`
 	PluginHttpPasswd        string            `ini:"plugin_http_passwd,omitempty" http_proxy:"true" static_file:"true"`

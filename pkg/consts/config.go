@@ -44,11 +44,12 @@ const (
 	PluginHttp2Https  = "http2https"
 	PluginHttp2Http   = "http2http"
 	PluginUnixDomain  = "unix_domain_socket"
+	PluginTLS2Raw     = "tls2raw"
 )
 
 var PluginTypes = []string{
 	PluginHttp2Http, PluginHttp2Https, PluginHttps2Http, PluginHttps2Https,
-	PluginHttpProxy, PluginSocks5, PluginStaticFile, PluginUnixDomain,
+	PluginHttpProxy, PluginSocks5, PluginStaticFile, PluginUnixDomain, PluginTLS2Raw,
 }
 
 // Auth methods

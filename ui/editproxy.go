@@ -63,6 +63,7 @@ type proxyViewModel struct {
 	PluginStaticVisible   bool
 	PluginHTTPFwdVisible  bool
 	PluginCertVisible     bool
+	PluginAddrVisible     bool
 	HealthCheckEnable     bool
 	HealthCheckVisible    bool
 	HealthCheckURLVisible bool
@@ -321,7 +322,7 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 					CheckBox{Name: "keepTunnel", Visible: xtcpVisitor, Text: i18n.Sprintf("Keep Tunnel"), Checked: Bind("KeepTunnelOpen")},
 					CheckBox{Text: i18n.Sprintf("Encryption"), Checked: Bind("UseEncryption")},
 					CheckBox{Text: i18n.Sprintf("Compression"), Checked: Bind("UseCompression")},
-					CheckBox{Text: "HTTP/2", Visible: Bind("vm.PluginCertVisible"), Checked: Bind("PluginEnableHTTP2")},
+					CheckBox{Text: "HTTP/2", Visible: Bind("vm.PluginHTTPFwdVisible && vm.PluginCertVisible"), Checked: Bind("PluginEnableHTTP2")},
 				},
 			},
 			Label{Visible: xtcpVisitor, Text: i18n.SprintfColon("Fallback")},
@@ -398,15 +399,20 @@ func (pd *EditProxyDialog) pluginProxyPage() TabPage {
 			LineEdit{Visible: Bind("vm.PluginAuthVisible"), Text: Bind("PluginUser")},
 			Label{Visible: Bind("vm.PluginAuthVisible"), Text: i18n.SprintfColon("Password")},
 			LineEdit{Visible: Bind("vm.PluginAuthVisible"), Text: Bind("PluginPasswd"), PasswordMode: true},
-			Label{Visible: Bind("vm.PluginHTTPFwdVisible"), Text: i18n.SprintfColon("Local Address")},
+			Label{Visible: Bind("vm.PluginAddrVisible"), Text: i18n.SprintfColon("Local Address")},
 			Composite{
-				Visible: Bind("vm.PluginHTTPFwdVisible"),
+				Visible: Bind("vm.PluginAddrVisible"),
 				Layout:  HBox{MarginsZero: true},
 				Children: []Widget{
 					LineEdit{Text: Bind("PluginLocalAddr")},
-					ToolButton{Text: "H", ToolTipText: i18n.Sprintf("Request headers"), OnClicked: func() {
-						NewAttributeDialog(i18n.Sprintf("Request headers"), &pd.binder.PluginHeaders).Run(pd.Form())
-					}},
+					ToolButton{
+						Visible:     Bind("vm.PluginHTTPFwdVisible"),
+						Text:        "H",
+						ToolTipText: i18n.Sprintf("Request headers"),
+						OnClicked: func() {
+							NewAttributeDialog(i18n.Sprintf("Request headers"), &pd.binder.PluginHeaders).Run(pd.Form())
+						},
+					},
 				},
 			},
 			Label{Visible: Bind("vm.PluginCertVisible"), Text: i18n.SprintfColon("Certificate")},
@@ -597,10 +603,15 @@ func (pd *EditProxyDialog) switchType() {
 				pd.viewModel.PluginStaticVisible = true
 				pd.viewModel.PluginHTTPAuthVisible = true
 			case consts.PluginHttps2Http, consts.PluginHttps2Https:
+				pd.viewModel.PluginAddrVisible = true
 				pd.viewModel.PluginHTTPFwdVisible = true
 				pd.viewModel.PluginCertVisible = true
 			case consts.PluginHttp2Https, consts.PluginHttp2Http:
+				pd.viewModel.PluginAddrVisible = true
 				pd.viewModel.PluginHTTPFwdVisible = true
+			case consts.PluginTLS2Raw:
+				pd.viewModel.PluginAddrVisible = true
+				pd.viewModel.PluginCertVisible = true
 			}
 		}
 	}

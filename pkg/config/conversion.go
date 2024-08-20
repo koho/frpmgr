@@ -224,6 +224,10 @@ func clientProxyBaseFromV1(c *v1.ProxyBaseConfig, out *Proxy) {
 		out.PluginHttpPasswd = v.HTTPPassword
 	case *v1.UnixDomainSocketPluginOptions:
 		out.PluginUnixPath = v.UnixPath
+	case *v1.TLS2RawPluginOptions:
+		out.PluginLocalAddr = v.LocalAddr
+		out.PluginCrtPath = v.CrtPath
+		out.PluginKeyPath = v.KeyPath
 	}
 }
 
@@ -575,6 +579,13 @@ func clientProxyBaseToV1(c *BaseProxyConf) (v1.ProxyBaseConfig, error) {
 		r.ProxyBackend.Plugin.ClientPluginOptions = &v1.UnixDomainSocketPluginOptions{
 			Type:     c.Plugin,
 			UnixPath: c.PluginUnixPath,
+		}
+	case consts.PluginTLS2Raw:
+		r.ProxyBackend.Plugin.ClientPluginOptions = &v1.TLS2RawPluginOptions{
+			Type:      c.Plugin,
+			LocalAddr: c.PluginLocalAddr,
+			CrtPath:   c.PluginCrtPath,
+			KeyPath:   c.PluginKeyPath,
 		}
 	}
 	return r, nil
