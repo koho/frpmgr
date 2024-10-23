@@ -420,7 +420,8 @@ func (pv *ProxyView) onClipboardImport() {
 	} else if strings.HasPrefix(text, "[") {
 		proxy, err = config.UnmarshalProxyFromIni([]byte(text))
 	} else {
-		err = fmt.Errorf(i18n.Sprintf("This feature only supports text in INI or TOML format."))
+		showErrorMessage(pv.Form(), "", i18n.Sprintf("This feature only supports text in INI or TOML format."))
+		return
 	}
 	if err != nil {
 		showError(err, pv.Form())

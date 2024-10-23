@@ -23,7 +23,7 @@ func fatal(v ...interface{}) {
 }
 
 func info(title string, format string, v ...interface{}) {
-	windows.MessageBox(0, windows.StringToUTF16Ptr(fmt.Sprintf(format, v...)), windows.StringToUTF16Ptr(title), windows.MB_ICONINFORMATION)
+	windows.MessageBox(0, windows.StringToUTF16Ptr(i18n.Sprintf(format, v...)), windows.StringToUTF16Ptr(title), windows.MB_ICONINFORMATION)
 }
 
 var (
