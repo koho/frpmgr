@@ -46,11 +46,14 @@ func NewConfView() *ConfView {
 }
 
 func (cv *ConfView) View() Widget {
+	moveUpCond := Bind("confView.CurrentIndex > 0")
+	moveDownCond := Bind("confView.CurrentIndex >= 0 && confView.CurrentIndex < confView.ItemCount - 1")
 	return Composite{
 		AssignTo: &cv.Composite,
 		Layout:   VBox{MarginsZero: true, SpacingZero: true},
 		Children: []Widget{
 			TableView{
+				Name:                "confView",
 				AssignTo:            &cv.listView,
 				LastColumnStretched: true,
 				HeaderHidden:        true,
@@ -62,6 +65,40 @@ func (cv *ConfView) View() Widget {
 						Text:        i18n.Sprintf("Edit"),
 						Enabled:     Bind("conf.Selected"),
 						OnTriggered: cv.editCurrent,
+					},
+					Menu{
+						Text:    i18n.Sprintf("Move"),
+						Enabled: Bind("confView.CurrentIndex >= 0 && confView.ItemCount > 1"),
+						Items: []MenuItem{
+							Action{
+								Text:    i18n.Sprintf("Up"),
+								Enabled: moveUpCond,
+								OnTriggered: func() {
+									cv.onMove(-1)
+								},
+							},
+							Action{
+								Text:    i18n.Sprintf("Down"),
+								Enabled: moveDownCond,
+								OnTriggered: func() {
+									cv.onMove(1)
+								},
+							},
+							Action{
+								Text:    i18n.Sprintf("To Top"),
+								Enabled: moveUpCond,
+								OnTriggered: func() {
+									cv.onMove(-cv.listView.CurrentIndex())
+								},
+							},
+							Action{
+								Text:    i18n.Sprintf("To Bottom"),
+								Enabled: moveDownCond,
+								OnTriggered: func() {
+									cv.onMove(len(cv.model.items) - cv.listView.CurrentIndex() - 1)
+								},
+							},
+						},
 					},
 					Action{Text: i18n.Sprintf("Open File"),
 						Enabled:     Bind("conf.Selected"),
@@ -555,6 +592,20 @@ func (cv *ConfView) onNATDiscovery() {
 	if _, err := NewNATDiscoveryDialog(stunServer).Run(cv.Form()); err != nil {
 		showError(err, cv.Form())
 	}
+}
+
+func (cv *ConfView) onMove(delta int) {
+	curIdx := cv.listView.CurrentIndex()
+	if curIdx < 0 || curIdx >= len(cv.model.items) {
+		return
+	}
+	targetIdx := curIdx + delta
+	if targetIdx < 0 || targetIdx >= len(cv.model.items) {
+		return
+	}
+	cv.model.Move(curIdx, targetIdx)
+	saveAppConfig()
+	cv.listView.SetCurrentIndex(targetIdx)
 }
 
 // reset config listview with selected name
