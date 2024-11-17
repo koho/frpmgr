@@ -12,7 +12,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.2.0
 	github.com/samber/lo v1.39.0
 	golang.org/x/sys v0.27.0
-	golang.org/x/text v0.19.0
+	golang.org/x/text v0.20.0
 	gopkg.in/ini.v1 v1.67.0
 )
 
@@ -51,7 +51,7 @@ require (
 	golang.org/x/mod v0.18.0 // indirect
 	golang.org/x/net v0.27.0 // indirect
 	golang.org/x/oauth2 v0.16.0 // indirect
-	golang.org/x/sync v0.8.0 // indirect
+	golang.org/x/sync v0.9.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
 	golang.org/x/tools v0.22.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
