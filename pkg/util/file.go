@@ -53,7 +53,7 @@ func FindLogFiles(path string) ([]string, []time.Time, error) {
 			tailPart := strings.TrimPrefix(file.Name(), baseName)
 			datePart := strings.TrimSuffix(tailPart, ext)
 			if pattern.MatchString(datePart) {
-				if date, err := time.Parse("20060102-150405", datePart[1:]); err == nil {
+				if date, err := time.ParseInLocation("20060102-150405", datePart[1:], time.Local); err == nil {
 					logs = append(logs, filepath.Join(fileDir, file.Name()))
 					dates = append(dates, date)
 				}
