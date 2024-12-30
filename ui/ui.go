@@ -53,11 +53,12 @@ type FRPManager struct {
 }
 
 func RunUI() error {
+	var err error
 	// Make sure the config directory exists.
-	if err := os.MkdirAll(PathOfConf(""), os.ModePerm); err != nil {
+	if err = os.MkdirAll(PathOfConf(""), os.ModePerm); err != nil {
 		return err
 	}
-	if err := loadAllConfs(); err != nil {
+	if err = loadAllConfs(); err != nil {
 		return err
 	}
 	if appConf.Password != "" {
@@ -67,7 +68,10 @@ func RunUI() error {
 	}
 	fm := new(FRPManager)
 	fm.confPage = NewConfPage()
-	fm.logPage = NewLogPage()
+	fm.logPage, err = NewLogPage()
+	if err != nil {
+		return err
+	}
 	fm.prefPage = NewPrefPage()
 	fm.aboutPage = NewAboutPage()
 	mw := MainWindow{
@@ -91,7 +95,7 @@ func RunUI() error {
 		},
 		OnDropFiles: fm.confPage.confView.ImportFiles,
 	}
-	if err := mw.Create(); err != nil {
+	if err = mw.Create(); err != nil {
 		return err
 	}
 	// Initialize child pages
@@ -106,6 +110,7 @@ func RunUI() error {
 	})
 	fm.SetVisible(true)
 	fm.Run()
+	fm.logPage.Close()
 	services.Cleanup()
 	return nil
 }

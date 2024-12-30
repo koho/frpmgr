@@ -269,8 +269,7 @@ func (pd *EditProxyDialog) basicProxyPage() TabPage {
 }
 
 func (pd *EditProxyDialog) advancedProxyPage() TabPage {
-	bandwidthMode := NewStringPairModel(consts.BandwidthMode,
-		[]string{i18n.Sprintf("Client"), i18n.Sprintf("Server")}, "")
+	bandwidthMode := NewListModel(consts.BandwidthMode, i18n.Sprintf("Client"), i18n.Sprintf("Server"))
 	var xtcpVisitor = Bind("proxyType.Value == 'xtcp' && vm.ServerNameVisible")
 	return TabPage{
 		Title:  i18n.Sprintf("Advanced"),
@@ -293,8 +292,8 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 					Label{Text: "@"},
 					ComboBox{
 						Model:         bandwidthMode,
-						BindingMember: "Name",
-						DisplayMember: "DisplayName",
+						BindingMember: "Value",
+						DisplayMember: "Title",
 						Value:         Bind("BandwidthLimitMode"),
 					},
 				},
@@ -302,17 +301,17 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 			Label{Visible: Bind("vm.PluginEnable"), Text: i18n.SprintfColon("Proxy Protocol")},
 			ComboBox{
 				Visible:       Bind("vm.PluginEnable"),
-				Model:         NewDefaultListModel([]string{"v1", "v2"}, "", i18n.Sprintf("auto")),
-				BindingMember: "Name",
-				DisplayMember: "DisplayName",
+				Model:         NewListModel([]string{"", "v1", "v2"}, i18n.Sprintf("auto")),
+				BindingMember: "Value",
+				DisplayMember: "Title",
 				Value:         Bind("ProxyProtocolVersion"),
 			},
 			Label{Visible: xtcpVisitor, Text: i18n.SprintfColon("Protocol")},
 			ComboBox{
 				Visible:       xtcpVisitor,
-				Model:         NewDefaultListModel([]string{consts.ProtoQUIC, consts.ProtoKCP}, "", i18n.Sprintf("default")),
-				BindingMember: "Name",
-				DisplayMember: "DisplayName",
+				Model:         NewListModel([]string{"", consts.ProtoQUIC, consts.ProtoKCP}, i18n.Sprintf("default")),
+				BindingMember: "Value",
+				DisplayMember: "Title",
 				Value:         Bind("Protocol"),
 			},
 			Composite{
@@ -376,10 +375,10 @@ func (pd *EditProxyDialog) pluginProxyPage() TabPage {
 			ComboBox{
 				AssignTo:              &pd.pluginView,
 				Enabled:               Bind("vm.PluginEnable"),
-				Model:                 NewDefaultListModel(consts.PluginTypes, "", i18n.Sprintf("None")),
+				Model:                 NewListModel(append([]string{""}, consts.PluginTypes...), i18n.Sprintf("None")),
 				Value:                 Bind("Plugin"),
-				BindingMember:         "Name",
-				DisplayMember:         "DisplayName",
+				BindingMember:         "Value",
+				DisplayMember:         "Title",
 				OnCurrentIndexChanged: pd.switchType,
 				Greedy:                true,
 			},

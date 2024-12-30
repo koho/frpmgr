@@ -7,6 +7,7 @@ import (
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 	"github.com/lxn/win"
+	"github.com/samber/lo"
 
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/consts"
@@ -116,10 +117,10 @@ func (pp *PrefPage) languageSection() GroupBox {
 					Label{Text: i18n.SprintfColon("Select language")},
 					ComboBox{
 						AssignTo:      &langSelect,
-						Model:         NewStringPairModel(keys, names, ""),
+						Model:         NewListModel(keys, lo.ToAnySlice(names)...),
 						MinSize:       Size{Width: 200},
-						DisplayMember: "DisplayName",
-						BindingMember: "Name",
+						DisplayMember: "Title",
+						BindingMember: "Value",
 						Value:         i18n.GetLanguage(),
 						OnCurrentIndexChanged: func() {
 							pp.switchLanguage(keys[langSelect.CurrentIndex()])
