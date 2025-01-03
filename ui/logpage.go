@@ -73,11 +73,23 @@ func (lp *LogPage) Page() TabPage {
 				},
 			},
 			TableView{
+				Name:                "log",
 				AssignTo:            &lp.logView,
 				AlternatingRowBG:    true,
 				LastColumnStretched: true,
 				HeaderHidden:        true,
 				Columns:             []TableViewColumn{{}},
+				ContextMenuItems: []MenuItem{
+					Action{
+						Text:    i18n.Sprintf("Copy"),
+						Visible: Bind("log.CurrentIndex >= 0"),
+						OnTriggered: func() {
+							if i := lp.logView.CurrentIndex(); i >= 0 && lp.logModel != nil {
+								walk.Clipboard().SetText(lp.logModel.Value(i, 0).(string))
+							}
+						},
+					},
+				},
 			},
 			Composite{
 				Layout: HBox{MarginsZero: true},
