@@ -123,6 +123,11 @@ func (lp *LogPage) Page() TabPage {
 func (lp *LogPage) OnCreate() {
 	lp.VisibleChanged().Attach(lp.onVisibleChanged)
 	go func() {
+		// Due to the file caching mechanism, new logs may not be written to
+		// the disk immediately, and therefore no write events will be received.
+		// It is still necessary to read files regularly.
+		ticker := time.NewTicker(time.Second * 5)
+		defer ticker.Stop()
 		var path string
 		for {
 			select {
@@ -134,14 +139,7 @@ func (lp *LogPage) OnCreate() {
 					continue
 				}
 				if event.Has(fsnotify.Write) {
-					lp.logView.Synchronize(func() {
-						if lp.logModel != nil {
-							scroll := lp.logModel.RowCount() == 0 || lp.logView.ItemVisible(lp.logModel.RowCount()-1)
-							if err := lp.logModel.ReadMore(); err == nil && scroll {
-								lp.scrollToBottom()
-							}
-						}
-					})
+					lp.refreshLog()
 				} else if event.Has(fsnotify.Create) {
 					lp.logView.Synchronize(func() {
 						if lp.logModel != nil {
@@ -178,9 +176,24 @@ func (lp *LogPage) OnCreate() {
 						lp.logView.SetModel(nil)
 					}
 				})
+			case <-ticker.C:
+				if path != "" {
+					lp.refreshLog()
+				}
 			}
 		}
 	}()
+}
+
+func (lp *LogPage) refreshLog() {
+	lp.logView.Synchronize(func() {
+		if lp.logModel != nil {
+			scroll := lp.logModel.RowCount() == 0 || lp.logView.ItemVisible(lp.logModel.RowCount()-1)
+			if err := lp.logModel.ReadMore(); err == nil && scroll {
+				lp.scrollToBottom()
+			}
+		}
+	})
 }
 
 func (lp *LogPage) onVisibleChanged() {
