@@ -129,6 +129,7 @@ func (lp *LogPage) OnCreate() {
 		ticker := time.NewTicker(time.Second * 5)
 		defer ticker.Stop()
 		var path string
+		var watch bool
 		for {
 			select {
 			case event, ok := <-lp.watcher.Events:
@@ -156,14 +157,20 @@ func (lp *LogPage) OnCreate() {
 					continue
 				}
 				if path != "" {
-					lp.watcher.Remove(filepath.Dir(path))
+					if watch {
+						lp.watcher.Remove(filepath.Dir(path))
+					}
 					path = ""
+					watch = false
 				}
 				var model *LogModel
 				var ok bool
 				if len(logs.paths) > 0 {
 					path = logs.paths[0]
-					lp.watcher.Add(filepath.Dir(path))
+					watch = logs.maxLines > 0
+					if watch {
+						lp.watcher.Add(filepath.Dir(path))
+					}
 					model, ok = NewLogModel(logs.paths, logs.maxLines)
 				}
 				lp.Synchronize(func() {
@@ -177,7 +184,7 @@ func (lp *LogPage) OnCreate() {
 					}
 				})
 			case <-ticker.C:
-				if path != "" {
+				if path != "" && watch {
 					lp.refreshLog()
 				}
 			}
