@@ -189,7 +189,7 @@ func (lp *LogPage) refreshLog() {
 	lp.logView.Synchronize(func() {
 		if lp.logModel != nil {
 			scroll := lp.logModel.RowCount() == 0 || lp.logView.ItemVisible(lp.logModel.RowCount()-1)
-			if err := lp.logModel.ReadMore(); err == nil && scroll {
+			if n, err := lp.logModel.ReadMore(); err == nil && n > 0 && scroll {
 				lp.scrollToBottom()
 			}
 		}

@@ -195,14 +195,14 @@ func (m *LogModel) Reset() {
 	m.offset = 0
 }
 
-func (m *LogModel) ReadMore() error {
+func (m *LogModel) ReadMore() (int, error) {
 	lines, k, offset, err := util.ReadFileLines(m.path, m.offset, m.maxLines)
 	if err != nil {
-		return err
+		return 0, err
 	}
 	m.write(lines, k)
 	m.offset = offset
-	return nil
+	return len(lines), nil
 }
 
 // NonSortedModel preserves the original order of items
