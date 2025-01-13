@@ -99,6 +99,7 @@ func (lp *LogPage) Page() TabPage {
 						AssignTo: &lp.openView,
 						MinSize:  Size{Width: 150},
 						Text:     i18n.Sprintf("Open Log Folder"),
+						Enabled:  false,
 						OnClicked: func() {
 							if i := lp.dateView.CurrentIndex(); i >= 0 && i < len(lp.dateModel) {
 								paths := lp.dateModel[i : i+1]
