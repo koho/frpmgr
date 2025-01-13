@@ -226,6 +226,8 @@ func (lp *LogPage) onVisibleChanged() {
 		lp.nameView.SetCurrentIndex(0)
 	} else {
 		lp.nameView.SetCurrentIndex(-1)
+		lp.nameView.SetModel(nil)
+		lp.nameModel = nil
 	}
 }
 
