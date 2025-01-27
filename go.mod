@@ -10,7 +10,7 @@ require (
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e
 	github.com/miekg/dns v1.1.62
 	github.com/pelletier/go-toml/v2 v2.2.0
-	github.com/samber/lo v1.47.0
+	github.com/samber/lo v1.49.0
 	golang.org/x/sys v0.28.0
 	golang.org/x/text v0.21.0
 	gopkg.in/ini.v1 v1.67.0
