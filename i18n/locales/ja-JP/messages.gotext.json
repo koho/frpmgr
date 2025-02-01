@@ -1160,6 +1160,16 @@
             "translation": "カスタム ドメインとサブドメインには、これらのうち少なくとも 1 つが設定されている必要があります。"
         },
         {
+            "id": "Copy",
+            "message": "Copy",
+            "translation": "コピー"
+        },
+        {
+            "id": "Select all",
+            "message": "Select all",
+            "translation": "すべて選択"
+        },
+        {
             "id": "Open Log Folder",
             "message": "Open Log Folder",
             "translation": "ログフォルダを開く"
@@ -1238,11 +1248,6 @@
             "id": "Remote Address",
             "message": "Remote Address",
             "translation": "リモートアドレス"
-        },
-        {
-            "id": "Copy",
-            "message": "Copy",
-            "translation": "コピー"
         },
         {
             "id": "Start",

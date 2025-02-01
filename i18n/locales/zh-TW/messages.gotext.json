@@ -1150,6 +1150,16 @@
             "translation": "自訂網域和子網域應至少填寫其中之一。"
         },
         {
+            "id": "Copy",
+            "message": "Copy",
+            "translation": "複製"
+        },
+        {
+            "id": "Select all",
+            "message": "Select all",
+            "translation": "全選"
+        },
+        {
             "id": "Open Log Folder",
             "message": "Open Log Folder",
             "translation": "打開日誌資料夾"
@@ -1228,11 +1238,6 @@
             "id": "Remote Address",
             "message": "Remote Address",
             "translation": "遠端位址"
-        },
-        {
-            "id": "Copy",
-            "message": "Copy",
-            "translation": "複製"
         },
         {
             "id": "Start",

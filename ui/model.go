@@ -2,7 +2,7 @@ package ui
 
 import (
 	"net"
-	"os"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -34,26 +34,6 @@ func (m *ConfListModel) Items() interface{} {
 		}
 	}
 	return m.items
-}
-
-type ListModel struct {
-	walk.ListModelBase
-
-	items []*Conf
-}
-
-func NewListModel(items []*Conf) *ListModel {
-	m := new(ListModel)
-	m.items = items
-	return m
-}
-
-func (m *ListModel) Value(index int) interface{} {
-	return m.items[index].Name
-}
-
-func (m *ListModel) ItemCount() int {
-	return len(m.items)
 }
 
 type ProxyModel struct {
@@ -114,72 +94,115 @@ func (m *ProxyModel) Move(i, j int) {
 	m.PublishRowsChanged(min(i, j), max(i, j))
 }
 
-// StringPair is a simple struct to hold a pair of strings.
-type StringPair struct {
-	Name        string
-	DisplayName string
+type ListItem struct {
+	Title any
+	Value string
 }
 
-// NewDefaultListModel creates a default item at the top of the model.
-func NewDefaultListModel(items []string, defaultKey string, defaultName string) []*StringPair {
-	listItems := make([]*StringPair, 0, len(items)+1)
-	listItems = append(listItems, &StringPair{Name: defaultKey, DisplayName: defaultName})
-	for _, item := range items {
-		listItems = append(listItems, &StringPair{Name: item, DisplayName: item})
-	}
-	return listItems
-}
+type ListModel []*ListItem
 
-// NewStringPairModel creates a slice of string pair from two string slices.
-func NewStringPairModel(keys []string, values []string, defaultValue string) []*StringPair {
-	listItems := make([]*StringPair, 0, len(keys))
-	for i, k := range keys {
-		pair := &StringPair{Name: k, DisplayName: values[i]}
-		if pair.DisplayName == "" {
-			pair.DisplayName = defaultValue
+func NewListModel(values []string, titles ...any) ListModel {
+	var items []*ListItem
+	for i, value := range values {
+		var title any = value
+		if i < len(titles) {
+			title = titles[i]
 		}
-		listItems = append(listItems, pair)
+		items = append(items, &ListItem{
+			Title: title,
+			Value: value,
+		})
 	}
-	return listItems
-}
-
-type TextLine struct {
-	Text string
+	return items
 }
 
 type LogModel struct {
-	walk.ReflectTableModelBase
+	walk.TableModelBase
 
-	path  string
-	lines []*TextLine
+	path     string
+	offset   int64
+	maxLines int
+	lines    []string
 }
 
-func NewLogModel(path string) *LogModel {
-	m := new(LogModel)
-	m.path = path
-	m.lines = make([]*TextLine, 0)
-	return m
-}
-
-func (m *LogModel) Items() interface{} {
-	return m.lines
-}
-
-// Reset reload the whole log file from disk
-func (m *LogModel) Reset() error {
-	if m.path == "" {
-		return os.ErrInvalid
+func NewLogModel(paths []string, maxLines int) (*LogModel, bool) {
+	m := &LogModel{
+		path:     paths[0],
+		maxLines: maxLines,
+		lines:    make([]string, 0),
 	}
-	textLines, err := util.ReadFileLines(m.path)
+	ok := false
+	for i, path := range paths {
+		lines, k, offset, err := util.ReadFileLines(path, 0, maxLines)
+		if err != nil {
+			continue
+		}
+		ok = true
+		if i == 0 {
+			m.offset = offset
+		}
+		if k >= 0 {
+			for n, j := len(lines), k-1; (j+n)%n != k; j-- {
+				m.lines = append(m.lines, lines[(j+n)%n])
+			}
+			m.lines = append(m.lines, lines[k])
+		} else {
+			for j := len(lines) - 1; j >= 0; j-- {
+				m.lines = append(m.lines, lines[j])
+			}
+		}
+		maxLines -= len(lines)
+		if maxLines <= 0 {
+			break
+		}
+	}
+	if len(m.lines) > 0 {
+		slices.Reverse(m.lines)
+	}
+	return m, ok
+}
+
+func (m *LogModel) write(lines []string, i int) {
+	if len(lines) == 0 {
+		return
+	}
+	if m.maxLines > 0 && len(m.lines) >= m.maxLines {
+		copy(m.lines[:], m.lines[len(lines):])
+		m.lines = m.lines[:len(m.lines)-len(lines)]
+		m.PublishRowsRemoved(0, len(lines)-1)
+		m.PublishRowsChanged(0, len(m.lines)-1)
+	}
+	from := len(m.lines)
+	if i >= 0 {
+		m.lines = append(m.lines, lines[i:]...)
+		m.lines = append(m.lines, lines[:i]...)
+	} else {
+		m.lines = append(m.lines, lines...)
+	}
+	to := from + len(lines) - 1
+	m.PublishRowsInserted(from, to)
+}
+
+func (m *LogModel) Value(row, col int) any {
+	return m.lines[row]
+}
+
+func (m *LogModel) RowCount() int {
+	return len(m.lines)
+}
+
+func (m *LogModel) Reset() {
+	m.offset = 0
+}
+
+func (m *LogModel) ReadMore() (int, error) {
+	lines, k, offset, err := util.ReadFileLines(m.path, m.offset, m.maxLines)
 	if err != nil {
-		return err
+		return 0, err
 	}
-	lines := make([]*TextLine, 0)
-	for _, line := range textLines {
-		lines = append(lines, &TextLine{Text: line})
-	}
-	m.lines = lines
-	return nil
+	m.write(lines, k)
+	m.offset = offset
+	return len(lines), nil
 }
 
 // NonSortedModel preserves the original order of items

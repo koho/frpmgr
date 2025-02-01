@@ -1,13 +1,16 @@
 package ui
 
 import (
+	"path/filepath"
 	"slices"
 	"sort"
-	"sync"
+	"strings"
 	"time"
 
+	"github.com/fsnotify/fsnotify"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
+	"github.com/samber/lo"
 
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/util"
@@ -15,31 +18,35 @@ import (
 
 type LogPage struct {
 	*walk.TabPage
-	sync.Mutex
 
-	nameModel   *ListModel
-	dateModel   []*StringPair
-	logModel    *LogModel
-	db          *walk.DataBinder
-	logFileChan chan logSelect
+	nameModel []*Conf
+	dateModel ListModel
+	logModel  *LogModel
+	ch        chan logSelect
+	watcher   *fsnotify.Watcher
 
 	// Views
 	logView  *walk.TableView
 	nameView *walk.ComboBox
 	dateView *walk.ComboBox
+	openView *walk.PushButton
 }
 
 type logSelect struct {
-	path string
-	// main defines whether the log file is used by config now.
-	main bool
+	paths    []string
+	maxLines int
 }
 
-func NewLogPage() *LogPage {
-	v := new(LogPage)
-	v.logFileChan = make(chan logSelect)
-	v.logModel = NewLogModel("")
-	return v
+func NewLogPage() (*LogPage, error) {
+	lp := &LogPage{
+		ch: make(chan logSelect),
+	}
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		return nil, err
+	}
+	lp.watcher = watcher
+	return lp, nil
 }
 
 func (lp *LogPage) Page() TabPage {
@@ -54,39 +61,70 @@ func (lp *LogPage) Page() TabPage {
 					ComboBox{
 						AssignTo:              &lp.nameView,
 						StretchFactor:         2,
+						DisplayMember:         "Name",
 						OnCurrentIndexChanged: lp.switchLogName,
 					},
 					ComboBox{
 						AssignTo:              &lp.dateView,
 						StretchFactor:         1,
-						DisplayMember:         "DisplayName",
+						DisplayMember:         "Title",
+						Format:                time.DateOnly,
 						OnCurrentIndexChanged: lp.switchLogDate,
 					},
 				},
 			},
 			TableView{
+				Name:                "log",
 				AssignTo:            &lp.logView,
 				AlternatingRowBG:    true,
 				LastColumnStretched: true,
 				HeaderHidden:        true,
-				Columns:             []TableViewColumn{{DataMember: "Text"}},
+				Columns:             []TableViewColumn{{}},
+				MultiSelection:      true,
+				ContextMenuItems: []MenuItem{
+					Action{
+						Text:    i18n.Sprintf("Copy"),
+						Enabled: Bind("log.SelectedCount > 0"),
+						OnTriggered: func() {
+							if indexes := lp.logView.SelectedIndexes(); len(indexes) > 0 && lp.logModel != nil {
+								walk.Clipboard().SetText(strings.Join(
+									lo.Map(indexes, func(item int, index int) string {
+										return lp.logModel.Value(item, 0).(string)
+									}), "\n"))
+							}
+						},
+					},
+					Action{
+						Text:    i18n.Sprintf("Select all"),
+						Enabled: Bind("log.SelectedCount < log.ItemCount"),
+						OnTriggered: func() {
+							lp.logView.SetSelectedIndexes([]int{-1})
+						},
+					},
+				},
 			},
 			Composite{
-				DataBinder: DataBinder{
-					AssignTo: &lp.db,
-					DataSource: &struct {
-						HasLogFile func() bool
-					}{lp.hasLogFile},
-				},
 				Layout: HBox{MarginsZero: true},
 				Children: []Widget{
 					HSpacer{},
 					PushButton{
-						MinSize: Size{Width: 150},
-						Enabled: Bind("HasLogFile"),
-						Text:    i18n.Sprintf("Open Log Folder"),
+						AssignTo: &lp.openView,
+						MinSize:  Size{Width: 150},
+						Text:     i18n.Sprintf("Open Log Folder"),
+						Enabled:  false,
 						OnClicked: func() {
-							openFolder(lp.logModel.path)
+							if i := lp.dateView.CurrentIndex(); i >= 0 && i < len(lp.dateModel) {
+								paths := lp.dateModel[i : i+1]
+								if i == 0 {
+									paths = lp.dateModel
+								}
+								for _, path := range paths {
+									if util.FileExists(path.Value) {
+										openFolder(path.Value)
+										break
+									}
+								}
+							}
 						},
 					},
 				},
@@ -97,140 +135,148 @@ func (lp *LogPage) Page() TabPage {
 
 func (lp *LogPage) OnCreate() {
 	lp.VisibleChanged().Attach(lp.onVisibleChanged)
-	ticker := time.NewTicker(time.Second * 5)
 	go func() {
+		// Due to the file caching mechanism, new logs may not be written to
+		// the disk immediately, and therefore no write events will be received.
+		// It is still necessary to read files regularly.
+		ticker := time.NewTicker(time.Second * 5)
 		defer ticker.Stop()
-		var lastLog string
+		var path string
+		var watch bool
 		for {
 			select {
-			case logFile := <-lp.logFileChan:
-				// CurrentIndexChanged event may be triggered multiple times.
-				// Try to avoid duplicate operations.
-				if lastLog != "" && logFile.path == lastLog {
+			case event, ok := <-lp.watcher.Events:
+				if !ok {
+					return
+				}
+				if path != event.Name {
 					continue
 				}
-				lastLog = logFile.path
-
-				lp.Lock()
-				lp.logModel = NewLogModel(logFile.path)
-				lp.logModel.Reset()
-				// A change of main log name.
-				// The available date list need to be updated.
-				if logFile.main {
-					fl, dl, _ := util.FindLogFiles(logFile.path)
-					lp.dateModel = NewStringPairModel(fl, dl, i18n.Sprintf("Latest"))
-					sort.SliceStable(lp.dateModel, func(i, j int) bool {
-						t1, err := time.Parse("2006-01-02", lp.dateModel[i].DisplayName)
-						if err != nil {
-							// Put non-date string at top.
-							return true
+				if event.Has(fsnotify.Write) {
+					lp.refreshLog()
+				} else if event.Has(fsnotify.Create) {
+					lp.logView.Synchronize(func() {
+						if lp.logModel != nil {
+							lp.logModel.Reset()
 						}
-						t2, err := time.Parse("2006-01-02", lp.dateModel[j].DisplayName)
-						if err != nil {
-							// Put non-date string at top.
-							return false
+						if !lp.openView.Enabled() {
+							lp.openView.SetEnabled(true)
 						}
-						return t1.After(t2)
 					})
 				}
-				lp.Unlock()
-
-				lp.Synchronize(func() {
-					lp.Lock()
-					defer lp.Unlock()
-					lp.db.Reset()
-					lp.logView.SetModel(lp.logModel)
-					if logFile.main {
-						// A change of main log name always reads the latest log file.
-						// So there's no need to trigger another same operation.
-						// Moreover, the update of model in date view will trigger
-						// CurrentIndexChanged event which may cause a deadlock.
-						// Thus, we must disable this event first.
-						lp.dateView.CurrentIndexChanged().Detach(0)
-						lp.dateView.SetModel(lp.dateModel)
-						if len(lp.dateModel) > 0 {
-							lp.dateView.SetCurrentIndex(0)
-						}
-						// We are safe to restore the event now.
-						lp.dateView.CurrentIndexChanged().Attach(lp.switchLogDate)
+			case logs := <-lp.ch:
+				// Try to avoid duplicate operations
+				if path != "" && len(logs.paths) > 0 && logs.paths[0] == path {
+					continue
+				}
+				if path != "" {
+					if watch {
+						lp.watcher.Remove(filepath.Dir(path))
 					}
-					lp.scrollToBottom()
+					path = ""
+					watch = false
+				}
+				var model *LogModel
+				var ok bool
+				if len(logs.paths) > 0 {
+					path = logs.paths[0]
+					watch = logs.maxLines > 0
+					if watch {
+						lp.watcher.Add(filepath.Dir(path))
+					}
+					model, ok = NewLogModel(logs.paths, logs.maxLines)
+				}
+				lp.Synchronize(func() {
+					lp.openView.SetEnabled(ok)
+					lp.logModel = model
+					if model != nil {
+						lp.logView.SetModel(model)
+						lp.scrollToBottom()
+					} else {
+						lp.logView.SetModel(nil)
+					}
 				})
 			case <-ticker.C:
-				// We should only read log when the log page is visible.
-				// Also, there's no need to reload the backup log.
-				if !lp.Visible() || lp.dateView.CurrentIndex() > 0 {
-					continue
-				}
-				lp.Lock()
-				err := lp.logModel.Reset()
-				lp.Unlock()
-				if err == nil {
-					lp.Synchronize(func() {
-						lp.Lock()
-						defer lp.Unlock()
-						lp.logView.SetModel(lp.logModel)
-						lp.scrollToBottom()
-					})
+				if path != "" && watch {
+					lp.refreshLog()
 				}
 			}
 		}
 	}()
 }
 
+func (lp *LogPage) refreshLog() {
+	lp.logView.Synchronize(func() {
+		if lp.logModel != nil {
+			scroll := lp.logModel.RowCount() == 0 || lp.logView.ItemVisible(lp.logModel.RowCount()-1)
+			if n, err := lp.logModel.ReadMore(); err == nil && n > 0 && scroll {
+				lp.scrollToBottom()
+			}
+		}
+	})
+}
+
 func (lp *LogPage) onVisibleChanged() {
 	if lp.Visible() {
-		// Remember the previous selected name
-		var preName string
-		if idx := lp.nameView.CurrentIndex(); idx >= 0 && lp.nameModel != nil && idx < len(lp.nameModel.items) {
-			preName = lp.nameModel.items[idx].Name
+		// Try to avoid duplicate operations
+		if lp.nameView.CurrentIndex() >= 0 {
+			return
 		}
 		// Refresh config name list
-		lp.nameModel = NewListModel(confList)
+		lp.nameModel = getConfListSafe()
 		lp.nameView.SetModel(lp.nameModel)
-		if len(lp.nameModel.items) == 0 {
+		if len(lp.nameModel) == 0 {
 			return
 		}
 		// Switch to current config log first
 		if conf := getCurrentConf(); conf != nil {
-			if i := slices.IndexFunc(lp.nameModel.items, func(c *Conf) bool { return c.Name == conf.Name }); i >= 0 {
-				lp.nameView.SetCurrentIndex(i)
-				return
-			}
-		}
-		// Select previous config log
-		if preName != "" {
-			if i := slices.IndexFunc(lp.nameModel.items, func(c *Conf) bool { return c.Name == preName }); i >= 0 {
+			if i := slices.Index(lp.nameModel, conf); i >= 0 {
 				lp.nameView.SetCurrentIndex(i)
 				return
 			}
 		}
 		// Fallback to the first config log
 		lp.nameView.SetCurrentIndex(0)
+	} else {
+		lp.nameView.SetCurrentIndex(-1)
+		lp.nameView.SetModel(nil)
+		lp.nameModel = nil
 	}
 }
 
 func (lp *LogPage) scrollToBottom() {
-	if len(lp.logModel.lines) > 0 {
-		lp.logView.EnsureItemVisible(len(lp.logModel.lines) - 1)
+	if count := lp.logModel.RowCount(); count > 0 {
+		lp.logView.EnsureItemVisible(count - 1)
 	}
-}
-
-func (lp *LogPage) hasLogFile() bool {
-	if lp.logModel.path != "" {
-		return util.FileExists(lp.logModel.path)
-	}
-	return false
 }
 
 func (lp *LogPage) switchLogName() {
 	index := lp.nameView.CurrentIndex()
+	cleanup := func() {
+		lp.dateModel = nil
+		lp.dateView.SetModel(nil)
+		lp.ch <- logSelect{}
+	}
 	if index < 0 || lp.nameModel == nil {
-		// No config selected, the log page should be empty
-		lp.logFileChan <- logSelect{"", true}
+		cleanup()
 		return
 	}
-	lp.logFileChan <- logSelect{lp.nameModel.items[index].Data.GetLogFile(), true}
+	files, dates, err := util.FindLogFiles(lp.nameModel[index].Data.GetLogFile())
+	if err != nil {
+		cleanup()
+		return
+	}
+	pairs := lo.Zip2(files, dates)
+	sort.SliceStable(pairs[1:], func(i, j int) bool {
+		return pairs[i+1].B.After(pairs[j+1].B)
+	})
+	files, dates = lo.Unzip2(pairs)
+	titles := lo.ToAnySlice(dates)
+	titles[0] = i18n.Sprintf("Latest")
+	lp.dateModel = NewListModel(files, titles...)
+	lp.dateView.SetCurrentIndex(-1)
+	lp.dateView.SetModel(lp.dateModel)
+	lp.dateView.SetCurrentIndex(0)
 }
 
 func (lp *LogPage) switchLogDate() {
@@ -238,5 +284,18 @@ func (lp *LogPage) switchLogDate() {
 	if index < 0 || lp.dateModel == nil {
 		return
 	}
-	lp.logFileChan <- logSelect{lp.dateModel[index].Name, false}
+	if index == 0 {
+		lp.ch <- logSelect{
+			paths: lo.Map(lp.dateModel, func(item *ListItem, index int) string {
+				return item.Value
+			}),
+			maxLines: 2000,
+		}
+	} else {
+		lp.ch <- logSelect{paths: []string{lp.dateModel[index].Value}, maxLines: -1}
+	}
+}
+
+func (lp *LogPage) Close() error {
+	return lp.watcher.Close()
 }

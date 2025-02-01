@@ -5,6 +5,7 @@ go 1.22.0
 require (
 	github.com/fatedier/frp v0.61.1
 	github.com/fatedier/golib v0.5.0
+	github.com/fsnotify/fsnotify v1.8.0
 	github.com/go-ole/go-ole v1.3.0
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e
@@ -64,4 +65,4 @@ require (
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
 
-replace github.com/lxn/walk => github.com/koho/frpmgr v0.0.0-20240321011400-ecefcd94f271
+replace github.com/lxn/walk => github.com/koho/frpmgr v0.0.0-20241229161035-3c092a652f9f

@@ -1150,6 +1150,16 @@
             "translation": "사용자 정의 도메인 및 하위 도메인에는 이러한 세트가 하나 이상 있어야 합니다."
         },
         {
+            "id": "Copy",
+            "message": "Copy",
+            "translation": "복사"
+        },
+        {
+            "id": "Select all",
+            "message": "Select all",
+            "translation": "전체 선택"
+        },
+        {
             "id": "Open Log Folder",
             "message": "Open Log Folder",
             "translation": "로그 폴더 열기"
@@ -1228,11 +1238,6 @@
             "id": "Remote Address",
             "message": "Remote Address",
             "translation": "원격 주소"
-        },
-        {
-            "id": "Copy",
-            "message": "Copy",
-            "translation": "복사"
         },
         {
             "id": "Start",

@@ -569,11 +569,11 @@ func (cd *EditClientDialog) onSave() {
 				// Rename old log files
 				// The service should be stopped first
 				cd.shutdownService(true)
-				util.RenameFiles(logs, lo.Map(dates, func(item string, i int) string {
-					if item == "" {
+				util.RenameFiles(logs, lo.Map(dates, func(item time.Time, i int) string {
+					if item.IsZero() {
 						return newConf.LogFile
 					} else {
-						return filepath.Join(filepath.Dir(newConf.LogFile), baseName+"."+item+ext)
+						return filepath.Join(filepath.Dir(newConf.LogFile), baseName+"."+item.Format("20060102-150405")+ext)
 					}
 				}))
 			}

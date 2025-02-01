@@ -1150,6 +1150,16 @@
             "translation": "自定义域名和子域名应至少填写其中之一。"
         },
         {
+            "id": "Copy",
+            "message": "Copy",
+            "translation": "复制"
+        },
+        {
+            "id": "Select all",
+            "message": "Select all",
+            "translation": "全选"
+        },
+        {
             "id": "Open Log Folder",
             "message": "Open Log Folder",
             "translation": "打开日志文件夹"
@@ -1228,11 +1238,6 @@
             "id": "Remote Address",
             "message": "Remote Address",
             "translation": "远程地址"
-        },
-        {
-            "id": "Copy",
-            "message": "Copy",
-            "translation": "复制"
         },
         {
             "id": "Start",
