@@ -1150,6 +1150,16 @@
             "translation": "Los dominios y subdominios personalizados deben tener al menos uno de estos configurados."
         },
         {
+            "id": "Copy",
+            "message": "Copy",
+            "translation": "Copiar"
+        },
+        {
+            "id": "Select all",
+            "message": "Select all",
+            "translation": "Seleccionar todos"
+        },
+        {
             "id": "Open Log Folder",
             "message": "Open Log Folder",
             "translation": "Abrir registro"
@@ -1228,11 +1238,6 @@
             "id": "Remote Address",
             "message": "Remote Address",
             "translation": "Dirección remota"
-        },
-        {
-            "id": "Copy",
-            "message": "Copy",
-            "translation": "Copiar"
         },
         {
             "id": "Start",

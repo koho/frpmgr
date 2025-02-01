@@ -4,6 +4,7 @@ import (
 	"path/filepath"
 	"slices"
 	"sort"
+	"strings"
 	"time"
 
 	"github.com/fsnotify/fsnotify"
@@ -79,14 +80,25 @@ func (lp *LogPage) Page() TabPage {
 				LastColumnStretched: true,
 				HeaderHidden:        true,
 				Columns:             []TableViewColumn{{}},
+				MultiSelection:      true,
 				ContextMenuItems: []MenuItem{
 					Action{
 						Text:    i18n.Sprintf("Copy"),
-						Visible: Bind("log.CurrentIndex >= 0"),
+						Enabled: Bind("log.SelectedCount > 0"),
 						OnTriggered: func() {
-							if i := lp.logView.CurrentIndex(); i >= 0 && lp.logModel != nil {
-								walk.Clipboard().SetText(lp.logModel.Value(i, 0).(string))
+							if indexes := lp.logView.SelectedIndexes(); len(indexes) > 0 && lp.logModel != nil {
+								walk.Clipboard().SetText(strings.Join(
+									lo.Map(indexes, func(item int, index int) string {
+										return lp.logModel.Value(item, 0).(string)
+									}), "\n"))
 							}
+						},
+					},
+					Action{
+						Text:    i18n.Sprintf("Select all"),
+						Enabled: Bind("log.SelectedCount < log.ItemCount"),
+						OnTriggered: func() {
+							lp.logView.SetSelectedIndexes([]int{-1})
 						},
 					},
 				},
