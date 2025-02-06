@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"time"
 )
 
 // SplitExt splits the path into base name and file extension
@@ -31,16 +32,13 @@ func FileExists(path string) bool {
 }
 
 // FindLogFiles returns the files and dates archived by date
-func FindLogFiles(path string) ([]string, []string, error) {
+func FindLogFiles(path string) ([]string, []time.Time, error) {
 	if path == "" || path == "console" {
 		return nil, nil, os.ErrInvalid
 	}
-	if !FileExists(path) {
-		return nil, nil, os.ErrNotExist
-	}
 	fileDir, fileName := filepath.Split(path)
 	baseName, ext := SplitExt(fileName)
-	pattern := regexp.MustCompile(`^\.\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$`)
+	pattern := regexp.MustCompile(`^\.\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])-([0-1][0-9]|2[0-3])([0-5][0-9])([0-5][0-9])$`)
 	if fileDir == "" {
 		fileDir = "."
 	}
@@ -48,17 +46,17 @@ func FindLogFiles(path string) ([]string, []string, error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	logs := make([]string, 0)
-	dates := make([]string, 0)
-	logs = append(logs, path)
-	dates = append(dates, "")
+	logs := []string{filepath.Clean(path)}
+	dates := []time.Time{{}}
 	for _, file := range files {
 		if strings.HasPrefix(file.Name(), baseName) && strings.HasSuffix(file.Name(), ext) {
 			tailPart := strings.TrimPrefix(file.Name(), baseName)
 			datePart := strings.TrimSuffix(tailPart, ext)
 			if pattern.MatchString(datePart) {
-				logs = append(logs, filepath.Join(fileDir, file.Name()))
-				dates = append(dates, datePart[1:])
+				if date, err := time.ParseInLocation("20060102-150405", datePart[1:], time.Local); err == nil {
+					logs = append(logs, filepath.Join(fileDir, file.Name()))
+					dates = append(dates, date)
+				}
 			}
 		}
 	}
@@ -82,26 +80,42 @@ func RenameFiles(old []string, new []string) {
 	}
 }
 
-// ReadFileLines reads all lines in a file and returns a slice of string
-func ReadFileLines(path string) ([]string, error) {
+// ReadFileLines reads the last n lines in a file starting at a given offset
+func ReadFileLines(path string, offset int64, n int) ([]string, int, int64, error) {
 	file, err := os.Open(path)
 	if err != nil {
-		return nil, err
+		return nil, -1, 0, err
 	}
 	defer file.Close()
-
+	_, err = file.Seek(offset, io.SeekStart)
+	if err != nil {
+		return nil, -1, 0, err
+	}
 	reader := bufio.NewReader(file)
 
 	var line string
 	lines := make([]string, 0)
+	i := -1
 	for {
 		line, err = reader.ReadString('\n')
 		if err != nil {
 			break
 		}
-		lines = append(lines, line)
+		if n < 0 || len(lines) < n {
+			lines = append(lines, line)
+		} else {
+			i = (i + 1) % n
+			lines[i] = line
+		}
 	}
-	return lines, nil
+	offset, err = file.Seek(0, io.SeekCurrent)
+	if err != nil {
+		return nil, -1, 0, err
+	}
+	if i >= 0 {
+		i = (i + 1) % n
+	}
+	return lines, i, offset, nil
 }
 
 // ZipFiles compresses the given file list to a zip file

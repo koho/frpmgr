@@ -4,6 +4,7 @@ import (
 	"os"
 	"reflect"
 	"testing"
+	"time"
 )
 
 func TestSplitExt(t *testing.T) {
@@ -32,12 +33,16 @@ func TestFindLogFiles(t *testing.T) {
 	tests := []struct {
 		create        []string
 		expectedFiles []string
-		expectedDates []string
+		expectedDates []time.Time
 	}{
 		{
-			create:        []string{"example.log", "example.2023-03-20.log", "example.2023-03-21.log", "example.2023-03-21T01.log"},
-			expectedFiles: []string{"example.log", "example.2023-03-20.log", "example.2023-03-21.log"},
-			expectedDates: []string{"", "2023-03-20", "2023-03-21"},
+			create:        []string{"example.log", "example.20230320-000000.log", "example.20230321-010203.log", "example.2023-03-21.log"},
+			expectedFiles: []string{"example.log", "example.20230320-000000.log", "example.20230321-010203.log"},
+			expectedDates: []time.Time{
+				{},
+				time.Date(2023, 3, 20, 0, 0, 0, 0, time.Local),
+				time.Date(2023, 3, 21, 1, 2, 3, 0, time.Local),
+			},
 		},
 	}
 	if err := os.MkdirAll("testdata", 0750); err != nil {

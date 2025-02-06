@@ -164,10 +164,10 @@ type BaseProxyConf struct {
 }
 
 type PluginParams struct {
-	PluginLocalAddr         string            `ini:"plugin_local_addr,omitempty" http2https:"true" https2https:"true" https2http:"true"`
-	PluginCrtPath           string            `ini:"plugin_crt_path,omitempty" https2https:"true" https2http:"true"`
-	PluginKeyPath           string            `ini:"plugin_key_path,omitempty" https2https:"true" https2http:"true"`
-	PluginHostHeaderRewrite string            `ini:"plugin_host_header_rewrite,omitempty" http2https:"true" https2https:"true" https2http:"true"`
+	PluginLocalAddr         string            `ini:"plugin_local_addr,omitempty" http2https:"true" http2http:"true" https2https:"true" https2http:"true" tls2raw:"true"`
+	PluginCrtPath           string            `ini:"plugin_crt_path,omitempty" https2https:"true" https2http:"true" tls2raw:"true"`
+	PluginKeyPath           string            `ini:"plugin_key_path,omitempty" https2https:"true" https2http:"true" tls2raw:"true"`
+	PluginHostHeaderRewrite string            `ini:"plugin_host_header_rewrite,omitempty" http2https:"true" http2http:"true" https2https:"true" https2http:"true"`
 	PluginHttpUser          string            `ini:"plugin_http_user,omitempty" http_proxy:"true" static_file:"true"`
 	PluginHttpPasswd        string            `ini:"plugin_http_passwd,omitempty" http_proxy:"true" static_file:"true"`
 	PluginUser              string            `ini:"plugin_user,omitempty" socks5:"true"`
@@ -175,7 +175,8 @@ type PluginParams struct {
 	PluginLocalPath         string            `ini:"plugin_local_path,omitempty" static_file:"true"`
 	PluginStripPrefix       string            `ini:"plugin_strip_prefix,omitempty" static_file:"true"`
 	PluginUnixPath          string            `ini:"plugin_unix_path,omitempty" unix_domain_socket:"true"`
-	PluginHeaders           map[string]string `ini:"-" http2https:"true" https2https:"true" https2http:"true"`
+	PluginHeaders           map[string]string `ini:"-" http2https:"true" http2http:"true" https2https:"true" https2http:"true"`
+	PluginEnableHTTP2       bool              `ini:"-" https2https:"true" https2http:"true"`
 }
 
 // HealthCheckConf configures health checking. This can be useful for load

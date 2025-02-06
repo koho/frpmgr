@@ -63,6 +63,7 @@ type proxyViewModel struct {
 	PluginStaticVisible   bool
 	PluginHTTPFwdVisible  bool
 	PluginCertVisible     bool
+	PluginAddrVisible     bool
 	HealthCheckEnable     bool
 	HealthCheckVisible    bool
 	HealthCheckURLVisible bool
@@ -94,6 +95,10 @@ func NewEditProxyDialog(configName string, proxy *config.Proxy, visitors []strin
 		v.binder.BandwidthLimitMode = consts.BandwidthMode[0]
 	}
 	v.metaModel = NewAttributeModel(v.binder.Metas)
+	// HTTP/2 should be enabled by default.
+	if v.binder.Plugin != consts.PluginHttps2Http && v.binder.Plugin != consts.PluginHttps2Https {
+		v.binder.PluginEnableHTTP2 = true
+	}
 	return v
 }
 
@@ -264,8 +269,7 @@ func (pd *EditProxyDialog) basicProxyPage() TabPage {
 }
 
 func (pd *EditProxyDialog) advancedProxyPage() TabPage {
-	bandwidthMode := NewStringPairModel(consts.BandwidthMode,
-		[]string{i18n.Sprintf("Client"), i18n.Sprintf("Server")}, "")
+	bandwidthMode := NewListModel(consts.BandwidthMode, i18n.Sprintf("Client"), i18n.Sprintf("Server"))
 	var xtcpVisitor = Bind("proxyType.Value == 'xtcp' && vm.ServerNameVisible")
 	return TabPage{
 		Title:  i18n.Sprintf("Advanced"),
@@ -288,8 +292,8 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 					Label{Text: "@"},
 					ComboBox{
 						Model:         bandwidthMode,
-						BindingMember: "Name",
-						DisplayMember: "DisplayName",
+						BindingMember: "Value",
+						DisplayMember: "Title",
 						Value:         Bind("BandwidthLimitMode"),
 					},
 				},
@@ -297,17 +301,17 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 			Label{Visible: Bind("vm.PluginEnable"), Text: i18n.SprintfColon("Proxy Protocol")},
 			ComboBox{
 				Visible:       Bind("vm.PluginEnable"),
-				Model:         NewDefaultListModel([]string{"v1", "v2"}, "", i18n.Sprintf("auto")),
-				BindingMember: "Name",
-				DisplayMember: "DisplayName",
+				Model:         NewListModel([]string{"", "v1", "v2"}, i18n.Sprintf("auto")),
+				BindingMember: "Value",
+				DisplayMember: "Title",
 				Value:         Bind("ProxyProtocolVersion"),
 			},
 			Label{Visible: xtcpVisitor, Text: i18n.SprintfColon("Protocol")},
 			ComboBox{
 				Visible:       xtcpVisitor,
-				Model:         NewDefaultListModel([]string{consts.ProtoQUIC, consts.ProtoKCP}, "", i18n.Sprintf("default")),
-				BindingMember: "Name",
-				DisplayMember: "DisplayName",
+				Model:         NewListModel([]string{"", consts.ProtoQUIC, consts.ProtoKCP}, i18n.Sprintf("default")),
+				BindingMember: "Value",
+				DisplayMember: "Title",
 				Value:         Bind("Protocol"),
 			},
 			Composite{
@@ -317,6 +321,7 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 					CheckBox{Name: "keepTunnel", Visible: xtcpVisitor, Text: i18n.Sprintf("Keep Tunnel"), Checked: Bind("KeepTunnelOpen")},
 					CheckBox{Text: i18n.Sprintf("Encryption"), Checked: Bind("UseEncryption")},
 					CheckBox{Text: i18n.Sprintf("Compression"), Checked: Bind("UseCompression")},
+					CheckBox{Text: "HTTP/2", Visible: Bind("vm.PluginHTTPFwdVisible && vm.PluginCertVisible"), Checked: Bind("PluginEnableHTTP2")},
 				},
 			},
 			Label{Visible: xtcpVisitor, Text: i18n.SprintfColon("Fallback")},
@@ -370,10 +375,10 @@ func (pd *EditProxyDialog) pluginProxyPage() TabPage {
 			ComboBox{
 				AssignTo:              &pd.pluginView,
 				Enabled:               Bind("vm.PluginEnable"),
-				Model:                 NewDefaultListModel(consts.PluginTypes, "", i18n.Sprintf("None")),
+				Model:                 NewListModel(append([]string{""}, consts.PluginTypes...), i18n.Sprintf("None")),
 				Value:                 Bind("Plugin"),
-				BindingMember:         "Name",
-				DisplayMember:         "DisplayName",
+				BindingMember:         "Value",
+				DisplayMember:         "Title",
 				OnCurrentIndexChanged: pd.switchType,
 				Greedy:                true,
 			},
@@ -393,15 +398,20 @@ func (pd *EditProxyDialog) pluginProxyPage() TabPage {
 			LineEdit{Visible: Bind("vm.PluginAuthVisible"), Text: Bind("PluginUser")},
 			Label{Visible: Bind("vm.PluginAuthVisible"), Text: i18n.SprintfColon("Password")},
 			LineEdit{Visible: Bind("vm.PluginAuthVisible"), Text: Bind("PluginPasswd"), PasswordMode: true},
-			Label{Visible: Bind("vm.PluginHTTPFwdVisible"), Text: i18n.SprintfColon("Local Address")},
+			Label{Visible: Bind("vm.PluginAddrVisible"), Text: i18n.SprintfColon("Local Address")},
 			Composite{
-				Visible: Bind("vm.PluginHTTPFwdVisible"),
+				Visible: Bind("vm.PluginAddrVisible"),
 				Layout:  HBox{MarginsZero: true},
 				Children: []Widget{
 					LineEdit{Text: Bind("PluginLocalAddr")},
-					ToolButton{Text: "H", ToolTipText: i18n.Sprintf("Request headers"), OnClicked: func() {
-						NewAttributeDialog(i18n.Sprintf("Request headers"), &pd.binder.PluginHeaders).Run(pd.Form())
-					}},
+					ToolButton{
+						Visible:     Bind("vm.PluginHTTPFwdVisible"),
+						Text:        "H",
+						ToolTipText: i18n.Sprintf("Request headers"),
+						OnClicked: func() {
+							NewAttributeDialog(i18n.Sprintf("Request headers"), &pd.binder.PluginHeaders).Run(pd.Form())
+						},
+					},
 				},
 			},
 			Label{Visible: Bind("vm.PluginCertVisible"), Text: i18n.SprintfColon("Certificate")},
@@ -592,10 +602,15 @@ func (pd *EditProxyDialog) switchType() {
 				pd.viewModel.PluginStaticVisible = true
 				pd.viewModel.PluginHTTPAuthVisible = true
 			case consts.PluginHttps2Http, consts.PluginHttps2Https:
+				pd.viewModel.PluginAddrVisible = true
 				pd.viewModel.PluginHTTPFwdVisible = true
 				pd.viewModel.PluginCertVisible = true
-			case consts.PluginHttp2Https:
+			case consts.PluginHttp2Https, consts.PluginHttp2Http:
+				pd.viewModel.PluginAddrVisible = true
 				pd.viewModel.PluginHTTPFwdVisible = true
+			case consts.PluginTLS2Raw:
+				pd.viewModel.PluginAddrVisible = true
+				pd.viewModel.PluginCertVisible = true
 			}
 		}
 	}
@@ -642,7 +657,7 @@ func (pd *EditProxyDialog) validateProxy(p config.Proxy) bool {
 		p.LocalIP = ""
 		p.LocalPort = ""
 		switch p.Plugin {
-		case consts.PluginHttp2Https, consts.PluginHttps2Http, consts.PluginHttps2Https:
+		case consts.PluginHttp2Https, consts.PluginHttps2Http, consts.PluginHttps2Https, consts.PluginTLS2Raw:
 			if p.PluginLocalAddr == "" {
 				showErrorMessage(pd.Form(), "", i18n.Sprintf("Local address is required."))
 				return false

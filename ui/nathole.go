@@ -43,8 +43,8 @@ func (nd *NATDiscoveryDialog) Run(owner walk.Form) (int, error) {
 			Visible:  false,
 			AssignTo: &nd.table,
 			Columns: []TableViewColumn{
-				{Title: i18n.Sprintf("Item"), DataMember: "Name", Width: 180},
-				{Title: i18n.Sprintf("Value"), DataMember: "DisplayName", Width: 180},
+				{Title: i18n.Sprintf("Item"), DataMember: "Title", Width: 180},
+				{Title: i18n.Sprintf("Value"), DataMember: "Value", Width: 180},
 			},
 		},
 		ProgressBar{AssignTo: &nd.barView, Visible: Bind("!tb.Visible"), MarqueeMode: true},
@@ -87,15 +87,15 @@ func (nd *NATDiscoveryDialog) discover() (err error) {
 	if err != nil {
 		return err
 	}
-	items := []*StringPair{
-		{Name: i18n.Sprintf("NAT Type"), DisplayName: natFeature.NatType},
-		{Name: i18n.Sprintf("Behavior"), DisplayName: natFeature.Behavior},
-		{Name: i18n.Sprintf("Local Address"), DisplayName: localAddr.String()},
+	items := []*ListItem{
+		{Title: i18n.Sprintf("NAT Type"), Value: natFeature.NatType},
+		{Title: i18n.Sprintf("Behavior"), Value: natFeature.Behavior},
+		{Title: i18n.Sprintf("Local Address"), Value: localAddr.String()},
 	}
 	for _, addr := range addrs {
-		items = append(items, &StringPair{
-			Name:        i18n.Sprintf("External Address"),
-			DisplayName: addr,
+		items = append(items, &ListItem{
+			Title: i18n.Sprintf("External Address"),
+			Value: addr,
 		})
 	}
 	var public string
@@ -104,9 +104,9 @@ func (nd *NATDiscoveryDialog) discover() (err error) {
 	} else {
 		public = i18n.Sprintf("No")
 	}
-	items = append(items, &StringPair{
-		Name:        i18n.Sprintf("Public Network"),
-		DisplayName: public,
+	items = append(items, &ListItem{
+		Title: i18n.Sprintf("Public Network"),
+		Value: public,
 	})
 	nd.table.Synchronize(func() {
 		nd.table.SetVisible(true)

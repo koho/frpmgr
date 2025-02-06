@@ -189,6 +189,10 @@ func clientProxyBaseFromV1(c *v1.ProxyBaseConfig, out *Proxy) {
 		out.PluginLocalAddr = v.LocalAddr
 		out.PluginHostHeaderRewrite = v.HostHeaderRewrite
 		out.PluginHeaders = v.RequestHeaders.Set
+	case *v1.HTTP2HTTPPluginOptions:
+		out.PluginLocalAddr = v.LocalAddr
+		out.PluginHostHeaderRewrite = v.HostHeaderRewrite
+		out.PluginHeaders = v.RequestHeaders.Set
 	case *v1.HTTPProxyPluginOptions:
 		out.PluginHttpUser = v.HTTPUser
 		out.PluginHttpPasswd = v.HTTPPassword
@@ -198,12 +202,18 @@ func clientProxyBaseFromV1(c *v1.ProxyBaseConfig, out *Proxy) {
 		out.PluginCrtPath = v.CrtPath
 		out.PluginKeyPath = v.KeyPath
 		out.PluginHeaders = v.RequestHeaders.Set
+		if v.EnableHTTP2 == nil || *v.EnableHTTP2 {
+			out.PluginEnableHTTP2 = true
+		}
 	case *v1.HTTPS2HTTPSPluginOptions:
 		out.PluginLocalAddr = v.LocalAddr
 		out.PluginHostHeaderRewrite = v.HostHeaderRewrite
 		out.PluginCrtPath = v.CrtPath
 		out.PluginKeyPath = v.KeyPath
 		out.PluginHeaders = v.RequestHeaders.Set
+		if v.EnableHTTP2 == nil || *v.EnableHTTP2 {
+			out.PluginEnableHTTP2 = true
+		}
 	case *v1.Socks5PluginOptions:
 		out.PluginUser = v.Username
 		out.PluginPasswd = v.Password
@@ -214,6 +224,10 @@ func clientProxyBaseFromV1(c *v1.ProxyBaseConfig, out *Proxy) {
 		out.PluginHttpPasswd = v.HTTPPassword
 	case *v1.UnixDomainSocketPluginOptions:
 		out.PluginUnixPath = v.UnixPath
+	case *v1.TLS2RawPluginOptions:
+		out.PluginLocalAddr = v.LocalAddr
+		out.PluginCrtPath = v.CrtPath
+		out.PluginKeyPath = v.KeyPath
 	}
 }
 
@@ -508,6 +522,15 @@ func clientProxyBaseToV1(c *BaseProxyConf) (v1.ProxyBaseConfig, error) {
 				Set: c.PluginHeaders,
 			},
 		}
+	case consts.PluginHttp2Http:
+		r.ProxyBackend.Plugin.ClientPluginOptions = &v1.HTTP2HTTPPluginOptions{
+			Type:              c.Plugin,
+			LocalAddr:         c.PluginLocalAddr,
+			HostHeaderRewrite: c.PluginHostHeaderRewrite,
+			RequestHeaders: v1.HeaderOperations{
+				Set: c.PluginHeaders,
+			},
+		}
 	case consts.PluginHttpProxy:
 		r.ProxyBackend.Plugin.ClientPluginOptions = &v1.HTTPProxyPluginOptions{
 			Type:         c.Plugin,
@@ -522,8 +545,9 @@ func clientProxyBaseToV1(c *BaseProxyConf) (v1.ProxyBaseConfig, error) {
 			RequestHeaders: v1.HeaderOperations{
 				Set: c.PluginHeaders,
 			},
-			CrtPath: c.PluginCrtPath,
-			KeyPath: c.PluginKeyPath,
+			EnableHTTP2: &c.PluginEnableHTTP2,
+			CrtPath:     c.PluginCrtPath,
+			KeyPath:     c.PluginKeyPath,
 		}
 	case consts.PluginHttps2Https:
 		r.ProxyBackend.Plugin.ClientPluginOptions = &v1.HTTPS2HTTPSPluginOptions{
@@ -533,8 +557,9 @@ func clientProxyBaseToV1(c *BaseProxyConf) (v1.ProxyBaseConfig, error) {
 			RequestHeaders: v1.HeaderOperations{
 				Set: c.PluginHeaders,
 			},
-			CrtPath: c.PluginCrtPath,
-			KeyPath: c.PluginKeyPath,
+			EnableHTTP2: &c.PluginEnableHTTP2,
+			CrtPath:     c.PluginCrtPath,
+			KeyPath:     c.PluginKeyPath,
 		}
 	case consts.PluginSocks5:
 		r.ProxyBackend.Plugin.ClientPluginOptions = &v1.Socks5PluginOptions{
@@ -554,6 +579,13 @@ func clientProxyBaseToV1(c *BaseProxyConf) (v1.ProxyBaseConfig, error) {
 		r.ProxyBackend.Plugin.ClientPluginOptions = &v1.UnixDomainSocketPluginOptions{
 			Type:     c.Plugin,
 			UnixPath: c.PluginUnixPath,
+		}
+	case consts.PluginTLS2Raw:
+		r.ProxyBackend.Plugin.ClientPluginOptions = &v1.TLS2RawPluginOptions{
+			Type:      c.Plugin,
+			LocalAddr: c.PluginLocalAddr,
+			CrtPath:   c.PluginCrtPath,
+			KeyPath:   c.PluginKeyPath,
 		}
 	}
 	return r, nil
