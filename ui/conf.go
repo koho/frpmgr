@@ -53,6 +53,13 @@ func NewConf(path string, data config.Config) *Conf {
 	return conf
 }
 
+func (conf *Conf) FileNameWithoutExt() string {
+	if conf.Path == "" {
+		return ""
+	}
+	return strings.TrimSuffix(filepath.Base(conf.Path), filepath.Ext(conf.Path))
+}
+
 // Delete config will remove service, logs, config file in disk/mem
 func (conf *Conf) Delete() (bool, error) {
 	// Delete service
@@ -76,7 +83,6 @@ func (conf *Conf) Delete() (bool, error) {
 func (conf *Conf) Save() error {
 	conf.Data.Complete(false)
 	conf.Path = PathOfConf(conf.Name + ".conf")
-	defer saveAppConfig()
 	return conf.Data.Save(conf.Path)
 }
 
@@ -115,8 +121,8 @@ func loadAllConfs() error {
 		}
 	}
 	slices.SortStableFunc(confList, func(a, b *Conf) int {
-		i := slices.Index(appConf.Sort, strings.TrimSuffix(filepath.Base(a.Path), filepath.Ext(a.Path)))
-		j := slices.Index(appConf.Sort, strings.TrimSuffix(filepath.Base(b.Path), filepath.Ext(b.Path)))
+		i := slices.Index(appConf.Sort, a.FileNameWithoutExt())
+		j := slices.Index(appConf.Sort, b.FileNameWithoutExt())
 		if i < 0 && j >= 0 {
 			return 1
 		} else if j < 0 && i >= 0 {
@@ -140,16 +146,19 @@ func addConf(conf *Conf) {
 	confMutex.Lock()
 	defer confMutex.Unlock()
 	confList = append(confList, conf)
+	setConfOrder()
+	saveAppConfig()
 }
 
 // Remove a config from the mem config list
 func deleteConf(conf *Conf) bool {
 	confMutex.Lock()
 	defer confMutex.Unlock()
-	defer saveAppConfig()
 	for i := range confList {
 		if confList[i] == conf {
 			confList = append(confList[:i], confList[i+1:]...)
+			setConfOrder()
+			saveAppConfig()
 			return true
 		}
 	}
@@ -208,8 +217,11 @@ func newDefaultClientConfig() *config.ClientConfig {
 }
 
 func saveAppConfig() error {
-	appConf.Sort = lo.Map(confList, func(item *Conf, index int) string {
-		return strings.TrimSuffix(filepath.Base(item.Path), filepath.Ext(item.Path))
-	})
 	return appConf.Save(config.DefaultAppFile)
+}
+
+func setConfOrder() {
+	appConf.Sort = lo.Map(confList, func(item *Conf, index int) string {
+		return item.FileNameWithoutExt()
+	})
 }

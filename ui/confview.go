@@ -603,7 +603,10 @@ func (cv *ConfView) onMove(delta int) {
 	if targetIdx < 0 || targetIdx >= len(cv.model.items) {
 		return
 	}
+	confMutex.Lock()
 	cv.model.Move(curIdx, targetIdx)
+	setConfOrder()
+	confMutex.Unlock()
 	saveAppConfig()
 	cv.listView.SetCurrentIndex(targetIdx)
 }
