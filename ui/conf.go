@@ -4,9 +4,11 @@ import (
 	"os"
 	"path/filepath"
 	"slices"
+	"strings"
 	"sync"
 
 	"github.com/lxn/walk"
+	"github.com/samber/lo"
 
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
@@ -49,6 +51,13 @@ func NewConf(path string, data config.Config) *Conf {
 	baseName, _ := util.SplitExt(path)
 	conf.Name = baseName
 	return conf
+}
+
+func (conf *Conf) FileNameWithoutExt() string {
+	if conf.Path == "" {
+		return ""
+	}
+	return strings.TrimSuffix(filepath.Base(conf.Path), filepath.Ext(conf.Path))
 }
 
 // Delete config will remove service, logs, config file in disk/mem
@@ -111,6 +120,16 @@ func loadAllConfs() error {
 			confList = append(confList, c)
 		}
 	}
+	slices.SortStableFunc(confList, func(a, b *Conf) int {
+		i := slices.Index(appConf.Sort, a.FileNameWithoutExt())
+		j := slices.Index(appConf.Sort, b.FileNameWithoutExt())
+		if i < 0 && j >= 0 {
+			return 1
+		} else if j < 0 && i >= 0 {
+			return -1
+		}
+		return i - j
+	})
 	return nil
 }
 
@@ -127,6 +146,8 @@ func addConf(conf *Conf) {
 	confMutex.Lock()
 	defer confMutex.Unlock()
 	confList = append(confList, conf)
+	setConfOrder()
+	saveAppConfig()
 }
 
 // Remove a config from the mem config list
@@ -136,6 +157,8 @@ func deleteConf(conf *Conf) bool {
 	for i := range confList {
 		if confList[i] == conf {
 			confList = append(confList[:i], confList[i+1:]...)
+			setConfOrder()
+			saveAppConfig()
 			return true
 		}
 	}
@@ -195,4 +218,10 @@ func newDefaultClientConfig() *config.ClientConfig {
 
 func saveAppConfig() error {
 	return appConf.Save(config.DefaultAppFile)
+}
+
+func setConfOrder() {
+	appConf.Sort = lo.Map(confList, func(item *Conf, index int) string {
+		return item.FileNameWithoutExt()
+	})
 }
