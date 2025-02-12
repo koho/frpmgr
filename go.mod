@@ -4,7 +4,7 @@ go 1.22.0
 
 require (
 	github.com/fatedier/frp v0.61.1
-	github.com/fatedier/golib v0.5.0
+	github.com/fatedier/golib v0.5.1
 	github.com/fsnotify/fsnotify v1.8.0
 	github.com/go-ole/go-ole v1.3.0
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
