@@ -12,7 +12,7 @@ require (
 	github.com/miekg/dns v1.1.63
 	github.com/pelletier/go-toml/v2 v2.2.0
 	github.com/samber/lo v1.47.0
-	golang.org/x/sys v0.30.0
+	golang.org/x/sys v0.31.0
 	golang.org/x/text v0.22.0
 	gopkg.in/ini.v1 v1.67.0
 )
