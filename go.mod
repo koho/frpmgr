@@ -1,7 +1,6 @@
 module github.com/koho/frpmgr
 
-go 1.22.0
-toolchain go1.23.7
+go 1.23.0
 
 require (
 	github.com/fatedier/frp v0.61.2
