@@ -8,7 +8,6 @@ import (
 
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/consts"
-	"github.com/koho/frpmgr/pkg/util"
 	"github.com/koho/frpmgr/services"
 )
 
@@ -47,7 +46,7 @@ func (cp *ConfPage) Page() TabPage {
 						} else if conf.State == consts.StateStarted {
 							// Hot-Reloading frp configuration
 							if flag == runFlagReload {
-								if err := services.ReloadService(conf.Name); err != nil {
+								if err := services.ReloadService(conf.Path); err != nil {
 									showError(err, cp.Form())
 								}
 								return
@@ -117,13 +116,12 @@ func (cp *ConfPage) OnCreate() {
 func (cp *ConfPage) startQueryService() {
 	query := func() {
 		stateChanged := false
-		configRemoved := false
 		list := getConfListSafe()
 		for _, conf := range list {
 			conf.Lock()
 			lastState := conf.State
 			lastInstall := conf.Install
-			running, err := services.QueryService(conf.Name)
+			running, err := services.QueryService(conf.Path)
 			if running {
 				conf.State = consts.StateStarted
 			} else {
@@ -132,26 +130,14 @@ func (cp *ConfPage) startQueryService() {
 			conf.Install = err == nil
 			if conf.State != lastState || conf.Install != lastInstall {
 				stateChanged = true
-				// Check whether the config file was deleted after a service uninstallation
-				if !conf.Install && !util.FileExists(conf.Path) && deleteConf(conf) {
-					configRemoved = true
-				}
 			}
 			conf.Unlock()
 		}
 		// Only update views on state changes
 		if stateChanged {
 			cp.Synchronize(func() {
-				if configRemoved {
-					if conf := getCurrentConf(); conf != nil {
-						cp.confView.reset(conf.Name)
-					} else {
-						cp.confView.Invalidate()
-					}
-				} else {
-					cp.confView.listView.Invalidate()
-					cp.detailView.panelView.Invalidate()
-				}
+				cp.confView.listView.Invalidate()
+				cp.detailView.panelView.Invalidate()
 			})
 		}
 	}
@@ -164,14 +150,6 @@ func (cp *ConfPage) startQueryService() {
 			query()
 		}
 	}()
-}
-
-func ensureExistingConfig(name string, owner walk.Form) bool {
-	if hasConf(name) {
-		return true
-	}
-	warnConfigRemoved(owner, name)
-	return false
 }
 
 func warnConfigRemoved(owner walk.Form, name string) {

@@ -304,6 +304,41 @@
             "fuzzy": true
         },
         {
+            "id": "Move",
+            "message": "Move",
+            "translation": "Move",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Up",
+            "message": "Up",
+            "translation": "Up",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Down",
+            "message": "Down",
+            "translation": "Down",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "To Top",
+            "message": "To Top",
+            "translation": "To Top",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "To Bottom",
+            "message": "To Bottom",
+            "translation": "To Bottom",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Open File",
             "message": "Open File",
             "translation": "Open File",
@@ -427,23 +462,6 @@
             "fuzzy": true
         },
         {
-            "id": "Another config already exists with the name \"{BaseName}\".",
-            "message": "Another config already exists with the name \"{BaseName}\".",
-            "translation": "Another config already exists with the name \"{BaseName}\".",
-            "translatorComment": "Copied from source.",
-            "placeholders": [
-                {
-                    "id": "BaseName",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "baseName"
-                }
-            ],
-            "fuzzy": true
-        },
-        {
             "id": "The file \"{Path}\" is not a valid ZIP file.",
             "message": "The file \"{Path}\" is not a valid ZIP file.",
             "translation": "The file \"{Path}\" is not a valid ZIP file.",
@@ -472,7 +490,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ],
             "fuzzy": true
@@ -489,7 +507,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ],
             "fuzzy": true
@@ -513,7 +531,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "cd.Conf.Name"
+                    "expr": "cd.data.Name()"
                 }
             ],
             "fuzzy": true
@@ -634,27 +652,6 @@
             "id": "Log",
             "message": "Log",
             "translation": "Log",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "* Leave blank to record no log and delete the original log file.",
-            "message": "* Leave blank to record no log and delete the original log file.",
-            "translation": "* Leave blank to record no log and delete the original log file.",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Log File",
-            "message": "Log File",
-            "translation": "Log File",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Select Log File",
-            "message": "Select Log File",
-            "translation": "Select Log File",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1697,7 +1694,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ],
             "fuzzy": true
@@ -1714,7 +1711,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ],
             "fuzzy": true
@@ -1923,41 +1920,6 @@
             "fuzzy": true
         },
         {
-            "id": "Move",
-            "message": "Move",
-            "translation": "Move",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Up",
-            "message": "Up",
-            "translation": "Up",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Down",
-            "message": "Down",
-            "translation": "Down",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "To Top",
-            "message": "To Top",
-            "translation": "To Top",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "To Bottom",
-            "message": "To Bottom",
-            "translation": "To Bottom",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "Copy Access Address",
@@ -2067,13 +2029,6 @@
             "id": "* Support batch import, one link per line.",
             "message": "* Support batch import, one link per line.",
             "translation": "* Support batch import, one link per line.",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Rename automatically",
-            "message": "Rename automatically",
-            "translation": "Rename automatically",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

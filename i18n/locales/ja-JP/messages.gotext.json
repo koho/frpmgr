@@ -232,6 +232,31 @@
             "translation": "編集"
         },
         {
+            "id": "Move",
+            "message": "Move",
+            "translation": "移動"
+        },
+        {
+            "id": "Up",
+            "message": "Up",
+            "translation": "下へ移動"
+        },
+        {
+            "id": "Down",
+            "message": "Down",
+            "translation": "下へ移動"
+        },
+        {
+            "id": "To Top",
+            "message": "To Top",
+            "translation": "一番上まで"
+        },
+        {
+            "id": "To Bottom",
+            "message": "To Bottom",
+            "translation": "一番下まで"
+        },
+        {
             "id": "Open File",
             "message": "Open File",
             "translation": "ファイルを開く"
@@ -335,21 +360,6 @@
             ]
         },
         {
-            "id": "Another config already exists with the name \"{BaseName}\".",
-            "message": "Another config already exists with the name \"{BaseName}\".",
-            "translation": "「{BaseName}」という名前の別の設定が既に存在します。",
-            "placeholders": [
-                {
-                    "id": "BaseName",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "baseName"
-                }
-            ]
-        },
-        {
             "id": "The file \"{Path}\" is not a valid ZIP file.",
             "message": "The file \"{Path}\" is not a valid ZIP file.",
             "translation": "ファイル「{Path}」は有効な ZIP ファイルではありません。",
@@ -375,7 +385,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ]
         },
@@ -390,7 +400,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ]
         },
@@ -410,7 +420,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "cd.Conf.Name"
+                    "expr": "cd.data.Name()"
                 }
             ]
         },
@@ -498,21 +508,6 @@
             "id": "Log",
             "message": "Log",
             "translation": "ログ"
-        },
-        {
-            "id": "* Leave blank to record no log and delete the original log file.",
-            "message": "* Leave blank to record no log and delete the original log file.",
-            "translation": "* ログを記録せず、元のログファイルを削除するには、空白のままにします。"
-        },
-        {
-            "id": "Log File",
-            "message": "Log File",
-            "translation": "ログファイル"
-        },
-        {
-            "id": "Select Log File",
-            "message": "Select Log File",
-            "translation": "ログファイルを選択"
         },
         {
             "id": "Level",
@@ -1270,7 +1265,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ]
         },
@@ -1285,7 +1280,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ]
         },
@@ -1435,31 +1430,6 @@
             "translation": "ドメイン名"
         },
         {
-            "id": "Move",
-            "message": "Move",
-            "translation": "移動"
-        },
-        {
-            "id": "Up",
-            "message": "Up",
-            "translation": "下へ移動"
-        },
-        {
-            "id": "Down",
-            "message": "Down",
-            "translation": "下へ移動"
-        },
-        {
-            "id": "To Top",
-            "message": "To Top",
-            "translation": "一番上まで"
-        },
-        {
-            "id": "To Bottom",
-            "message": "To Bottom",
-            "translation": "一番下まで"
-        },
-        {
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "アクセスアドレスのコピー"
@@ -1551,11 +1521,6 @@
             "id": "* Support batch import, one link per line.",
             "message": "* Support batch import, one link per line.",
             "translation": "* バッチインポートをサポートします、1行に1つのリンクがあります。"
-        },
-        {
-            "id": "Rename automatically",
-            "message": "Rename automatically",
-            "translation": "自動的に名前を変更"
         },
         {
             "id": "Ready",

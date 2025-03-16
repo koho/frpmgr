@@ -439,14 +439,9 @@ func (pv *ProxyView) onDelete() {
 	if conf == nil {
 		return
 	}
-	oldConf := pv.model.conf.Name
 	if walk.MsgBox(pv.Form(), i18n.Sprintf("Delete proxy \"%s\"", proxy.Name),
 		i18n.Sprintf("Are you sure you would like to delete proxy \"%s\"?", proxy.Name),
 		walk.MsgBoxYesNo|walk.MsgBoxIconWarning) == walk.DlgCmdNo {
-		return
-	}
-	if !hasConf(oldConf) {
-		warnConfigRemoved(pv.Form(), oldConf)
 		return
 	}
 	conf.DeleteItem(idx)
@@ -463,7 +458,7 @@ func (pv *ProxyView) onEdit(current bool, fill *config.Proxy) {
 		if conf == nil {
 			return
 		}
-		ep := NewEditProxyDialog(pv.model.conf.Name, proxy, pv.visitors(proxy), true, pv.model.data.LegacyFormat)
+		ep := NewEditProxyDialog(proxy, pv.visitors(proxy), true, pv.model.data.LegacyFormat)
 		if ret, _ := ep.Run(pv.Form()); ret == walk.DlgCmdOK {
 			if conf.CountStart() == 0 {
 				ep.Proxy.Disabled = false
@@ -472,7 +467,7 @@ func (pv *ProxyView) onEdit(current bool, fill *config.Proxy) {
 			pv.table.SetCurrentIndex(idx)
 		}
 	} else {
-		ep := NewEditProxyDialog(pv.model.conf.Name, fill, pv.visitors(nil), false, pv.model.data.LegacyFormat)
+		ep := NewEditProxyDialog(fill, pv.visitors(nil), false, pv.model.data.LegacyFormat)
 		if ret, _ := ep.Run(pv.Form()); ret == walk.DlgCmdOK {
 			if pv.model.data.AddItem(ep.Proxy) {
 				if pv.model.data.CountStart() == 0 {
@@ -495,17 +490,12 @@ func (pv *ProxyView) onToggleProxy() {
 		if conf.CountStart() <= 1 {
 			return
 		}
-		oldConf := pv.model.conf.Name
 		if cc := getCurrentConf(); cc != nil && cc.State == consts.StateStarted {
 			if walk.MsgBox(pv.Form(), i18n.Sprintf("Disable proxy \"%s\"", proxy.Name),
 				i18n.Sprintf("Are you sure you would like to disable proxy \"%s\"?", proxy.Name),
 				walk.MsgBoxYesNo|walk.MsgBoxIconQuestion) == walk.DlgCmdNo {
 				return
 			}
-		}
-		if !hasConf(oldConf) {
-			warnConfigRemoved(pv.Form(), oldConf)
-			return
 		}
 	}
 	proxy.Disabled = !proxy.Disabled
@@ -517,12 +507,7 @@ func (pv *ProxyView) onQuickAdd(qa QuickAdd) {
 		return
 	}
 	added := false
-	oldConf := pv.model.conf.Name
 	if r, _ := qa.Run(pv.Form()); r == walk.DlgCmdOK {
-		if pv.model == nil || pv.model.conf.Name != oldConf {
-			warnConfigRemoved(pv.Form(), oldConf)
-			return
-		}
 		for _, proxy := range qa.GetProxies() {
 			if !pv.model.data.AddItem(proxy) {
 				showWarningMessage(pv.Form(), i18n.Sprintf("Proxy already exists"), i18n.Sprintf("The proxy name \"%s\" already exists.", proxy.Name))

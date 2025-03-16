@@ -26,8 +26,8 @@ type Service interface {
 	Done() <-chan struct{}
 }
 
-func ServiceNameOfClient(name string) string {
-	return fmt.Sprintf("frpmgr_%x", md5.Sum([]byte(name)))
+func ServiceNameOfClient(configPath string) string {
+	return fmt.Sprintf("frpmgr_%x", md5.Sum([]byte(util.FileNameWithoutExt(configPath))))
 }
 
 func DisplayNameOfClient(name string) string {
@@ -114,20 +114,19 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 
 // Run executes frp service in background service process.
 func Run(configPath string) error {
-	baseName, _ := util.SplitExt(configPath)
-	serviceName := ServiceNameOfClient(baseName)
+	serviceName := ServiceNameOfClient(configPath)
 	return svc.Run(serviceName, &frpService{configPath})
 }
 
 // ReloadService sends a reload event to the frp service
 // which triggers hot-reloading of frp configuration.
-func ReloadService(confName string) error {
+func ReloadService(configPath string) error {
 	m, err := serviceManager()
 	if err != nil {
 		return err
 	}
 
-	svcName := ServiceNameOfClient(confName)
+	svcName := ServiceNameOfClient(configPath)
 	service, err := m.OpenService(svcName)
 	if err != nil {
 		return err

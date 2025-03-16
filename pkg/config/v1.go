@@ -16,6 +16,7 @@ type ClientConfigV1 struct {
 }
 
 type Mgr struct {
+	Name        string     `json:"name,omitempty"`
 	ManualStart bool       `json:"manualStart,omitempty"`
 	SVCBEnable  bool       `json:"svcbEnable,omitempty"`
 	AutoDelete  AutoDelete `json:"autoDelete,omitempty"`

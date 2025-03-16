@@ -1,10 +1,10 @@
 package ui
 
 import (
+	"errors"
 	"os"
 	"path/filepath"
 	"slices"
-	"strings"
 	"sync"
 
 	"github.com/lxn/walk"
@@ -28,9 +28,6 @@ const (
 // Conf contains all data of a config
 type Conf struct {
 	sync.Mutex
-	// Name of the config
-	Name        string
-	DisplayName string
 	// Path of the config file
 	Path string
 	// State of service
@@ -47,24 +44,28 @@ func PathOfConf(base string) string {
 }
 
 func NewConf(path string, data config.Config) *Conf {
-	conf := &Conf{Path: path, Data: data}
-	baseName, _ := util.SplitExt(path)
-	conf.Name = baseName
-	return conf
+	if path == "" {
+		filename, err := util.RandToken(16)
+		if err != nil {
+			panic(err)
+		}
+		path = PathOfConf(filename + ".conf")
+	}
+	return &Conf{
+		Path: path,
+		Data: data,
+	}
 }
 
-func (conf *Conf) FileNameWithoutExt() string {
-	if conf.Path == "" {
-		return ""
-	}
-	return strings.TrimSuffix(filepath.Base(conf.Path), filepath.Ext(conf.Path))
+func (conf *Conf) Name() string {
+	return conf.Data.Name()
 }
 
 // Delete config will remove service, logs, config file in disk/mem
 func (conf *Conf) Delete() (bool, error) {
 	// Delete service
 	running := conf.State == consts.StateStarted
-	if err := services.UninstallService(conf.Name, true); err != nil && running {
+	if err := services.UninstallService(conf.Path, true); err != nil && running {
 		return false, err
 	}
 	// Delete logs
@@ -72,7 +73,7 @@ func (conf *Conf) Delete() (bool, error) {
 		util.DeleteFiles(logs)
 	}
 	// Delete config file
-	if err := os.Remove(conf.Path); err != nil {
+	if err := os.Remove(conf.Path); err != nil && !errors.Is(err, os.ErrNotExist) {
 		return false, err
 	}
 	// Delete mem config
@@ -81,8 +82,12 @@ func (conf *Conf) Delete() (bool, error) {
 
 // Save config to the disk. The config will be completed before saving
 func (conf *Conf) Save() error {
+	logPath, err := filepath.Abs(filepath.Join("logs", util.FileNameWithoutExt(conf.Path)+".log"))
+	if err != nil {
+		return err
+	}
 	conf.Data.Complete(false)
-	conf.Path = PathOfConf(conf.Name + ".conf")
+	conf.Data.SetLogFile(filepath.ToSlash(logPath))
 	return conf.Data.Save(conf.Path)
 }
 
@@ -108,21 +113,17 @@ func loadAllConfs() error {
 	}
 	confList = make([]*Conf, 0)
 	for _, f := range files {
-		c := NewConf(f, nil)
 		if conf, err := config.UnmarshalClientConf(f); err == nil {
-			c.Data = conf
-			if conf.DeleteAfterDays > 0 {
-				if t, err := config.Expiry(f, conf.AutoDelete); err == nil && t <= 0 {
-					c.Delete()
-					continue
-				}
+			c := NewConf(f, conf)
+			if c.Name() == "" {
+				conf.ClientCommon.Name = util.FileNameWithoutExt(f)
 			}
 			confList = append(confList, c)
 		}
 	}
 	slices.SortStableFunc(confList, func(a, b *Conf) int {
-		i := slices.Index(appConf.Sort, a.FileNameWithoutExt())
-		j := slices.Index(appConf.Sort, b.FileNameWithoutExt())
+		i := slices.Index(appConf.Sort, util.FileNameWithoutExt(a.Path))
+		j := slices.Index(appConf.Sort, util.FileNameWithoutExt(b.Path))
 		if i < 0 && j >= 0 {
 			return 1
 		} else if j < 0 && i >= 0 {
@@ -167,7 +168,7 @@ func deleteConf(conf *Conf) bool {
 
 // Check whether a config exists with the given name
 func hasConf(name string) bool {
-	return slices.ContainsFunc(confList, func(e *Conf) bool { return e.Name == name })
+	return slices.ContainsFunc(confList, func(e *Conf) bool { return e.Name() == name })
 }
 
 // ConfBinder is the view model of the current selected config
@@ -222,6 +223,6 @@ func saveAppConfig() error {
 
 func setConfOrder() {
 	appConf.Sort = lo.Map(confList, func(item *Conf, index int) string {
-		return item.FileNameWithoutExt()
+		return util.FileNameWithoutExt(item.Path)
 	})
 }

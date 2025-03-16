@@ -37,7 +37,7 @@ func InstallService(name string, configPath string, manual bool) error {
 	if configPath, err = filepath.Abs(configPath); err != nil {
 		return err
 	}
-	serviceName := ServiceNameOfClient(name)
+	serviceName := ServiceNameOfClient(configPath)
 	service, err := m.OpenService(serviceName)
 	if err == nil {
 		_, err = service.Query()
@@ -84,12 +84,12 @@ func InstallService(name string, configPath string, manual bool) error {
 }
 
 // UninstallService stops and removes the given service
-func UninstallService(name string, wait bool) error {
+func UninstallService(configPath string, wait bool) error {
 	m, err := serviceManager()
 	if err != nil {
 		return err
 	}
-	serviceName := ServiceNameOfClient(name)
+	serviceName := ServiceNameOfClient(configPath)
 	service, err := m.OpenService(serviceName)
 	if err != nil {
 		return err
@@ -118,8 +118,8 @@ func UninstallService(name string, wait bool) error {
 }
 
 // QueryService returns whether the given service is running
-func QueryService(name string) (bool, error) {
-	if name == "" {
+func QueryService(configPath string) (bool, error) {
+	if configPath == "" {
 		return false, os.ErrInvalid
 	}
 	m, err := serviceManager()
@@ -127,7 +127,7 @@ func QueryService(name string) (bool, error) {
 		return false, err
 	}
 
-	serviceName := ServiceNameOfClient(name)
+	serviceName := ServiceNameOfClient(configPath)
 	service, err := m.OpenService(serviceName)
 	if err != nil {
 		return false, err

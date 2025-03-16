@@ -32,7 +32,6 @@ type URLImportDialog struct {
 
 type urlImportViewModel struct {
 	URLs    string
-	Rename  bool
 	Working bool
 }
 
@@ -42,9 +41,6 @@ type URLConf struct {
 	Filename string
 	// Zip defines whether the Data is a zip file
 	Zip bool
-	// Rename defines whether we can change the name of
-	// new config if the original name exists.
-	Rename bool
 	// Downloaded raw Data from URL
 	Data []byte
 }
@@ -62,12 +58,6 @@ func (ud *URLImportDialog) Run(owner walk.Form) (int, error) {
 			Text:    Bind("URLs", res.ValidateNonEmpty),
 			VScroll: true,
 			MinSize: Size{Width: 430, Height: 130},
-		},
-		CheckBox{
-			Enabled:   Bind("!vm.Working"),
-			Text:      i18n.Sprintf("Rename automatically"),
-			Alignment: AlignHNearVCenter,
-			Checked:   Bind("Rename"),
 		},
 		Label{
 			AssignTo:     &ud.statusText,
@@ -126,7 +116,6 @@ func (ud *URLImportDialog) urlImport(ctx context.Context, wg *sync.WaitGroup, ur
 		ud.Items = append(ud.Items, URLConf{
 			Filename: filename,
 			Zip:      mediaType == "application/zip" || strings.ToLower(filepath.Ext(filename)) == ".zip",
-			Rename:   ud.viewModel.Rename,
 			Data:     data,
 		})
 	}

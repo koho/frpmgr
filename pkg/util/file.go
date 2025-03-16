@@ -216,3 +216,11 @@ func AddFileSuffix(filename, suffix string) string {
 	baseName, ext := SplitExt(filename)
 	return baseName + suffix + ext
 }
+
+// FileNameWithoutExt returns the last element of path without the file extension.
+func FileNameWithoutExt(path string) string {
+	if path == "" {
+		return ""
+	}
+	return strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))
+}

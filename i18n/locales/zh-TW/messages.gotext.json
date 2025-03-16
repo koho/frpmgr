@@ -232,6 +232,31 @@
             "translation": "編輯"
         },
         {
+            "id": "Move",
+            "message": "Move",
+            "translation": "移動"
+        },
+        {
+            "id": "Up",
+            "message": "Up",
+            "translation": "上移"
+        },
+        {
+            "id": "Down",
+            "message": "Down",
+            "translation": "下移"
+        },
+        {
+            "id": "To Top",
+            "message": "To Top",
+            "translation": "置頂"
+        },
+        {
+            "id": "To Bottom",
+            "message": "To Bottom",
+            "translation": "置底"
+        },
+        {
             "id": "Open File",
             "message": "Open File",
             "translation": "打開檔案"
@@ -325,21 +350,6 @@
             ]
         },
         {
-            "id": "Another config already exists with the name \"{BaseName}\".",
-            "message": "Another config already exists with the name \"{BaseName}\".",
-            "translation": "另一個同名的配置「{BaseName}」已存在。",
-            "placeholders": [
-                {
-                    "id": "BaseName",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "baseName"
-                }
-            ]
-        },
-        {
             "id": "The file \"{Path}\" is not a valid ZIP file.",
             "message": "The file \"{Path}\" is not a valid ZIP file.",
             "translation": "檔案 \"{Path}\" 不是有效的壓縮檔案。",
@@ -365,7 +375,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ]
         },
@@ -380,7 +390,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ]
         },
@@ -400,7 +410,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "cd.Conf.Name"
+                    "expr": "cd.data.Name()"
                 }
             ]
         },
@@ -488,21 +498,6 @@
             "id": "Log",
             "message": "Log",
             "translation": "日誌"
-        },
-        {
-            "id": "* Leave blank to record no log and delete the original log file.",
-            "message": "* Leave blank to record no log and delete the original log file.",
-            "translation": "* 留空則不記錄日誌，且刪除原來的日誌檔案。"
-        },
-        {
-            "id": "Log File",
-            "message": "Log File",
-            "translation": "日誌檔案"
-        },
-        {
-            "id": "Select Log File",
-            "message": "Select Log File",
-            "translation": "選擇日誌檔案"
         },
         {
             "id": "Level",
@@ -1260,7 +1255,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ]
         },
@@ -1275,7 +1270,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ]
         },
@@ -1425,31 +1420,6 @@
             "translation": "域名"
         },
         {
-            "id": "Move",
-            "message": "Move",
-            "translation": "移動"
-        },
-        {
-            "id": "Up",
-            "message": "Up",
-            "translation": "上移"
-        },
-        {
-            "id": "Down",
-            "message": "Down",
-            "translation": "下移"
-        },
-        {
-            "id": "To Top",
-            "message": "To Top",
-            "translation": "置頂"
-        },
-        {
-            "id": "To Bottom",
-            "message": "To Bottom",
-            "translation": "置底"
-        },
-        {
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "複製存取位址"
@@ -1541,11 +1511,6 @@
             "id": "* Support batch import, one link per line.",
             "message": "* Support batch import, one link per line.",
             "translation": "* 支援批量導入，每行一個連結。"
-        },
-        {
-            "id": "Rename automatically",
-            "message": "Rename automatically",
-            "translation": "自動重新命名"
         },
         {
             "id": "Ready",

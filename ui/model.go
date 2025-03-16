@@ -25,20 +25,17 @@ func NewConfListModel(items []*Conf) *ConfListModel {
 	return m
 }
 
-func (m *ConfListModel) Items() interface{} {
-	for _, x := range m.items {
-		if x.Data.Expiry() {
-			x.DisplayName = x.Name + "🕓"
-		} else {
-			x.DisplayName = x.Name
-		}
-	}
-	return m.items
+func (m *ConfListModel) Value(row, col int) interface{} {
+	return m.items[row].Name()
 }
 
 func (m *ConfListModel) Move(i, j int) {
 	util.MoveSlice(m.items, i, j)
 	m.PublishRowsChanged(min(i, j), max(i, j))
+}
+
+func (m *ConfListModel) RowCount() int {
+	return len(m.items)
 }
 
 type ProxyModel struct {

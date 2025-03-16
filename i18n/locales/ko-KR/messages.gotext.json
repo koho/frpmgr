@@ -232,6 +232,31 @@
             "translation": "편집하다"
         },
         {
+            "id": "Move",
+            "message": "Move",
+            "translation": "이동하기"
+        },
+        {
+            "id": "Up",
+            "message": "Up",
+            "translation": "위로 이동"
+        },
+        {
+            "id": "Down",
+            "message": "Down",
+            "translation": "아래로 이동"
+        },
+        {
+            "id": "To Top",
+            "message": "To Top",
+            "translation": "상단에 고정"
+        },
+        {
+            "id": "To Bottom",
+            "message": "To Bottom",
+            "translation": "맨 아래로"
+        },
+        {
             "id": "Open File",
             "message": "Open File",
             "translation": "파일 열기"
@@ -325,21 +350,6 @@
             ]
         },
         {
-            "id": "Another config already exists with the name \"{BaseName}\".",
-            "message": "Another config already exists with the name \"{BaseName}\".",
-            "translation": "이름이 \"{BaseName}\" 인 다른 구성이 이미 있습니다.",
-            "placeholders": [
-                {
-                    "id": "BaseName",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "baseName"
-                }
-            ]
-        },
-        {
             "id": "The file \"{Path}\" is not a valid ZIP file.",
             "message": "The file \"{Path}\" is not a valid ZIP file.",
             "translation": "\"{Path}\" 파일은 유효한 ZIP 파일이 아닙니다.",
@@ -365,7 +375,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ]
         },
@@ -380,7 +390,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ]
         },
@@ -400,7 +410,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "cd.Conf.Name"
+                    "expr": "cd.data.Name()"
                 }
             ]
         },
@@ -488,21 +498,6 @@
             "id": "Log",
             "message": "Log",
             "translation": "통나무"
-        },
-        {
-            "id": "* Leave blank to record no log and delete the original log file.",
-            "message": "* Leave blank to record no log and delete the original log file.",
-            "translation": "* 로그를 기록하지 않고 원본 로그 파일을 삭제하려면 비워 둡니다."
-        },
-        {
-            "id": "Log File",
-            "message": "Log File",
-            "translation": "로그 파일"
-        },
-        {
-            "id": "Select Log File",
-            "message": "Select Log File",
-            "translation": "로그 파일 선택"
         },
         {
             "id": "Level",
@@ -1260,7 +1255,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ]
         },
@@ -1275,7 +1270,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ]
         },
@@ -1425,31 +1420,6 @@
             "translation": "도메인"
         },
         {
-            "id": "Move",
-            "message": "Move",
-            "translation": "이동하기"
-        },
-        {
-            "id": "Up",
-            "message": "Up",
-            "translation": "위로 이동"
-        },
-        {
-            "id": "Down",
-            "message": "Down",
-            "translation": "아래로 이동"
-        },
-        {
-            "id": "To Top",
-            "message": "To Top",
-            "translation": "상단에 고정"
-        },
-        {
-            "id": "To Bottom",
-            "message": "To Bottom",
-            "translation": "맨 아래로"
-        },
-        {
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "액세스 주소 복사"
@@ -1541,11 +1511,6 @@
             "id": "* Support batch import, one link per line.",
             "message": "* Support batch import, one link per line.",
             "translation": "* 한 줄에 하나의 링크로 일괄 가져오기를 지원합니다."
-        },
-        {
-            "id": "Rename automatically",
-            "message": "Rename automatically",
-            "translation": "자동으로 이름 바꾸기"
         },
         {
             "id": "Ready",

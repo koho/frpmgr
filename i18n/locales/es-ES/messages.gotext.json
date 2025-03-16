@@ -232,6 +232,31 @@
             "translation": "Editar"
         },
         {
+            "id": "Move",
+            "message": "Move",
+            "translation": "Mover"
+        },
+        {
+            "id": "Up",
+            "message": "Up",
+            "translation": "Arriba"
+        },
+        {
+            "id": "Down",
+            "message": "Down",
+            "translation": "Abajo"
+        },
+        {
+            "id": "To Top",
+            "message": "To Top",
+            "translation": "Hasta cima"
+        },
+        {
+            "id": "To Bottom",
+            "message": "To Bottom",
+            "translation": "Hasta fondo"
+        },
+        {
             "id": "Open File",
             "message": "Open File",
             "translation": "Abrir documento"
@@ -325,21 +350,6 @@
             ]
         },
         {
-            "id": "Another config already exists with the name \"{BaseName}\".",
-            "message": "Another config already exists with the name \"{BaseName}\".",
-            "translation": "Ya existe otra configuración con el nombre \"{BaseName}\".",
-            "placeholders": [
-                {
-                    "id": "BaseName",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "baseName"
-                }
-            ]
-        },
-        {
             "id": "The file \"{Path}\" is not a valid ZIP file.",
             "message": "The file \"{Path}\" is not a valid ZIP file.",
             "translation": "El archivo \"{Path}\" no es un archivo ZIP válido.",
@@ -365,7 +375,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ]
         },
@@ -380,7 +390,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ]
         },
@@ -400,7 +410,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "cd.Conf.Name"
+                    "expr": "cd.data.Name()"
                 }
             ]
         },
@@ -488,21 +498,6 @@
             "id": "Log",
             "message": "Log",
             "translation": "Registro"
-        },
-        {
-            "id": "* Leave blank to record no log and delete the original log file.",
-            "message": "* Leave blank to record no log and delete the original log file.",
-            "translation": "* Déjelo en blanco para no registrar ningún registro y eliminar el archivo de registro original."
-        },
-        {
-            "id": "Log File",
-            "message": "Log File",
-            "translation": "Archivo de registro"
-        },
-        {
-            "id": "Select Log File",
-            "message": "Select Log File",
-            "translation": "Seleccionar archivo de registro"
         },
         {
             "id": "Level",
@@ -1260,7 +1255,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ]
         },
@@ -1275,7 +1270,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "conf.Name"
+                    "expr": "conf.Name()"
                 }
             ]
         },
@@ -1425,31 +1420,6 @@
             "translation": "Dominios"
         },
         {
-            "id": "Move",
-            "message": "Move",
-            "translation": "Mover"
-        },
-        {
-            "id": "Up",
-            "message": "Up",
-            "translation": "Arriba"
-        },
-        {
-            "id": "Down",
-            "message": "Down",
-            "translation": "Abajo"
-        },
-        {
-            "id": "To Top",
-            "message": "To Top",
-            "translation": "Hasta cima"
-        },
-        {
-            "id": "To Bottom",
-            "message": "To Bottom",
-            "translation": "Hasta fondo"
-        },
-        {
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "Copiar dirección de acceso"
@@ -1541,11 +1511,6 @@
             "id": "* Support batch import, one link per line.",
             "message": "* Support batch import, one link per line.",
             "translation": "* Admite importación por lotes, un enlace por línea."
-        },
-        {
-            "id": "Rename automatically",
-            "message": "Rename automatically",
-            "translation": "Renombrar automáticamente"
         },
         {
             "id": "Ready",
