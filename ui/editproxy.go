@@ -22,9 +22,8 @@ import (
 type EditProxyDialog struct {
 	*walk.Dialog
 
-	configName string
-	Proxy      *config.Proxy
-	visitors   []string
+	Proxy    *config.Proxy
+	visitors []string
 	// Whether we are editing an existing proxy
 	exist bool
 	// Whether we are using legacy format
@@ -79,8 +78,8 @@ type editProxyBinder struct {
 	BandwidthUnit string
 }
 
-func NewEditProxyDialog(configName string, proxy *config.Proxy, visitors []string, exist, legacyFormat bool) *EditProxyDialog {
-	v := &EditProxyDialog{configName: configName, visitors: visitors, exist: exist, legacyFormat: legacyFormat}
+func NewEditProxyDialog(proxy *config.Proxy, visitors []string, exist, legacyFormat bool) *EditProxyDialog {
+	v := &EditProxyDialog{visitors: visitors, exist: exist, legacyFormat: legacyFormat}
 	if proxy == nil {
 		proxy = config.NewDefaultProxyConfig("")
 		v.exist = false
@@ -494,10 +493,6 @@ func (pd *EditProxyDialog) Run(owner walk.Form) (int, error) {
 }
 
 func (pd *EditProxyDialog) onSave() {
-	if !ensureExistingConfig(pd.configName, pd.Form()) {
-		pd.Cancel()
-		return
-	}
 	for _, db := range pd.dbs {
 		if err := db.Submit(); err != nil {
 			return

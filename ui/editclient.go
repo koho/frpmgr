@@ -3,9 +3,6 @@ package ui
 import (
 	"fmt"
 	"math"
-	"os"
-	"path/filepath"
-	"strings"
 	"time"
 
 	"github.com/lxn/walk"
@@ -17,22 +14,14 @@ import (
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/res"
-	"github.com/koho/frpmgr/pkg/util"
-	"github.com/koho/frpmgr/services"
 )
 
 type EditClientDialog struct {
 	*walk.Dialog
 
 	// Config data
-	Conf          *Conf
-	data          *config.ClientConfig
-	ShouldRestart bool
-	Added         bool
-
-	// Views
-	logFileView *walk.LineEdit
-	nameView    *walk.LineEdit
+	data   *config.ClientConfig
+	create bool
 
 	// View models
 	binder *editClientBinder
@@ -47,25 +36,16 @@ type editClientBinder struct {
 	config.ClientCommon
 }
 
-func NewEditClientDialog(conf *Conf, name string) *EditClientDialog {
-	v := new(EditClientDialog)
+func NewEditClientDialog(conf *config.ClientConfig, create bool) *EditClientDialog {
+	v := &EditClientDialog{create: create}
 	if conf == nil {
-		newConf := newDefaultClientConfig()
-		v.Conf = &Conf{Data: newConf}
+		v.data = newDefaultClientConfig()
 	} else {
-		v.Conf = conf
+		v.data = conf
 	}
-	data, ok := v.Conf.Data.(*config.ClientConfig)
-	if !ok {
-		return nil
-	}
-	v.data = data
 	v.binder = &editClientBinder{
-		Name:         v.Conf.Name,
+		Name:         v.data.Name(),
 		ClientCommon: v.data.ClientCommon,
-	}
-	if name != "" {
-		v.binder.Name = name
 	}
 	if v.binder.DeleteAfterDate.IsZero() {
 		v.binder.DeleteAfterDate = time.Now().AddDate(0, 0, 1)
@@ -84,8 +64,8 @@ func (cd *EditClientDialog) View() Dialog {
 		cd.advancedConfPage(),
 	}
 	title := i18n.Sprintf("New Client")
-	if cd.Conf.Name != "" {
-		title = i18n.Sprintf("Edit Client - %s", cd.Conf.Name)
+	if !cd.create {
+		title = i18n.Sprintf("Edit Client - %s", cd.data.Name())
 	}
 	dlg := NewBasicDialog(&cd.Dialog, title, loadIcon(res.IconEditDialog, 32), DataBinder{
 		AssignTo:   &cd.db,
@@ -110,15 +90,7 @@ func (cd *EditClientDialog) basicConfPage() TabPage {
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
 			Label{Text: i18n.SprintfColon("Name")},
-			LineEdit{AssignTo: &cd.nameView, Text: Bind("Name", res.ValidateNonEmpty), OnTextChanged: func() {
-				if name := cd.nameView.Text(); name != "" {
-					curLog := strings.TrimSpace(cd.logFileView.Text())
-					// Automatically change the log file if it's empty or using the default log directory
-					if curLog == "" || strings.HasPrefix(curLog, "logs/") {
-						cd.logFileView.SetText("logs" + "/" + name + ".log")
-					}
-				}
-			}},
+			LineEdit{Text: Bind("Name", res.ValidateNonEmpty)},
 			Label{Text: i18n.SprintfColon("Server Address")},
 			LineEdit{Text: Bind("ServerAddress", res.ValidateNonEmpty)},
 			Label{Text: i18n.SprintfColon("Server Port")},
@@ -185,11 +157,6 @@ func (cd *EditClientDialog) logConfPage() TabPage {
 		Title:  i18n.Sprintf("Log"),
 		Layout: Grid{Columns: 2},
 		Children: []Widget{
-			TextLabel{Text: i18n.Sprintf("* Leave blank to record no log and delete the original log file."), ColumnSpan: 2},
-			VSpacer{Size: 2, ColumnSpan: 2},
-			Label{Text: i18n.SprintfColon("Log File")},
-			NewBrowseLineEdit(&cd.logFileView, true, true, Bind("LogFile"),
-				i18n.Sprintf("Select Log File"), res.FilterLog, true),
 			Label{Text: i18n.SprintfColon("Level")},
 			ComboBox{
 				Value: Bind("LogLevel"),
@@ -517,76 +484,18 @@ func (cd *EditClientDialog) advancedConnDialog() Dialog {
 	return dlg
 }
 
-func (cd *EditClientDialog) shutdownService(wait bool) error {
-	if !cd.ShouldRestart {
-		cd.ShouldRestart = cd.Conf.State == consts.StateStarted
-	}
-	return services.UninstallService(cd.Conf.Name, wait)
-}
-
 func (cd *EditClientDialog) onSave() {
 	if err := cd.db.Submit(); err != nil {
 		return
 	}
 	newConf := cd.binder
-	cd.ShouldRestart = false
-	// Edit existing config
-	if cd.Conf.Name != "" {
-		if !ensureExistingConfig(cd.Conf.Name, cd.Form()) {
-			cd.Cancel()
+	if cd.create || newConf.Name != cd.data.Name() {
+		if cd.hasConf(newConf.Name) {
 			return
 		}
-		// Change config name
-		if newConf.Name != cd.Conf.Name {
-			if cd.hasConf(newConf.Name) {
-				return
-			}
-			// Delete old service
-			// We should start the new config if the old one is already started
-			if err := cd.shutdownService(false); err != nil && cd.ShouldRestart {
-				showError(err, cd.Form())
-				return
-			}
-			// Delete old config file
-			if err := os.Remove(cd.Conf.Path); err != nil {
-				showError(err, cd.Form())
-				return
-			}
-		}
-		// Change log files
-		if newConf.LogFile != cd.data.LogFile &&
-			!(newConf.LogFile == "console" && cd.data.LogFile == "") &&
-			!(newConf.LogFile == "" && cd.data.LogFile == "console") {
-			// Rename or remove log files
-			logs, dates, err := util.FindLogFiles(cd.data.LogFile)
-			if newConf.LogFile == "" || newConf.LogFile == "console" {
-				// Remove old log files
-				// The service should be stopped first
-				cd.shutdownService(true)
-				util.DeleteFiles(logs)
-			} else if cd.data.LogFile != "" && cd.data.LogFile != "console" && err == nil {
-				baseName, ext := util.SplitExt(newConf.LogFile)
-				// Rename old log files
-				// The service should be stopped first
-				cd.shutdownService(true)
-				util.RenameFiles(logs, lo.Map(dates, func(item time.Time, i int) string {
-					if item.IsZero() {
-						return newConf.LogFile
-					} else {
-						return filepath.Join(filepath.Dir(newConf.LogFile), baseName+"."+item.Format("20060102-150405")+ext)
-					}
-				}))
-			}
-		}
-	} else if cd.hasConf(newConf.Name) {
-		return
-	} else {
-		// For new config
-		addConf(cd.Conf)
-		cd.Added = true
 	}
-	cd.Conf.Name = newConf.Name
 	cd.data.ClientCommon = newConf.ClientCommon
+	cd.data.ClientCommon.Name = newConf.Name
 	cd.Accept()
 }
 

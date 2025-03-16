@@ -11,6 +11,7 @@ import (
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/res"
+	"github.com/koho/frpmgr/pkg/util"
 	"github.com/koho/frpmgr/services"
 )
 
@@ -137,13 +138,17 @@ func (pv *PanelView) ToggleService() {
 	}
 	var err error
 	if conf.State == consts.StateStarted {
-		if walk.MsgBox(pv.Form(), i18n.Sprintf("Stop config \"%s\"", conf.Name),
-			i18n.Sprintf("Are you sure you would like to stop config \"%s\"?", conf.Name),
+		if walk.MsgBox(pv.Form(), i18n.Sprintf("Stop config \"%s\"", conf.Name()),
+			i18n.Sprintf("Are you sure you would like to stop config \"%s\"?", conf.Name()),
 			walk.MsgBoxYesNo|walk.MsgBoxIconQuestion) == walk.DlgCmdNo {
 			return
 		}
 		err = pv.StopService(conf)
 	} else {
+		if !util.FileExists(conf.Path) {
+			warnConfigRemoved(pv.Form(), conf.Name())
+			return
+		}
 		err = pv.StartService(conf)
 	}
 	if err != nil {
@@ -168,14 +173,14 @@ func (pv *PanelView) StartService(conf *Conf) error {
 	conf.Lock()
 	conf.State = consts.StateStarting
 	conf.Unlock()
-	return services.InstallService(conf.Name, conf.Path, !conf.Data.AutoStart())
+	return services.InstallService(conf.Name(), conf.Path, !conf.Data.AutoStart())
 }
 
 // StopService stops the service of the given config, then removes it
 func (pv *PanelView) StopService(conf *Conf) error {
 	pv.toggleBtn.SetEnabled(false)
 	pv.setState(consts.StateStopping)
-	return services.UninstallService(conf.Name, false)
+	return services.UninstallService(conf.Path, false)
 }
 
 // Invalidate updates views using the current config
@@ -191,8 +196,8 @@ func (pv *PanelView) Invalidate() {
 		return
 	}
 	data := conf.Data.(*config.ClientConfig)
-	if pv.Title() != conf.Name {
-		pv.SetTitle(conf.Name)
+	if pv.Title() != conf.Name() {
+		pv.SetTitle(conf.Name())
 	}
 	addr := data.ServerAddress
 	if addr == "" {

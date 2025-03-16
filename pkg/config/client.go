@@ -88,6 +88,8 @@ type ClientCommon struct {
 	PprofEnable               bool         `ini:"pprof_enable,omitempty"`
 	DisableCustomTLSFirstByte bool         `ini:"disable_custom_tls_first_byte"`
 
+	// Name of this config.
+	Name string `ini:"frpmgr_name"`
 	// ManualStart defines whether to start the config on system boot.
 	ManualStart bool `ini:"frpmgr_manual_start,omitempty"`
 	// SVCBEnable resolves the SVCB record of server address.
@@ -309,12 +311,20 @@ type ClientConfig struct {
 	Proxies []*Proxy
 }
 
+func (conf *ClientConfig) Name() string {
+	return conf.ClientCommon.Name
+}
+
 func (conf *ClientConfig) AutoStart() bool {
 	return !conf.ManualStart
 }
 
 func (conf *ClientConfig) GetLogFile() string {
 	return conf.LogFile
+}
+
+func (conf *ClientConfig) SetLogFile(logPath string) {
+	conf.LogFile = logPath
 }
 
 func (conf *ClientConfig) GetSTUNServer() string {
@@ -405,6 +415,7 @@ func (conf *ClientConfig) saveTOML(path string) error {
 	c := ClientConfigV1{
 		ClientCommonConfig: ClientCommonToV1(&conf.ClientCommon),
 		Mgr: Mgr{
+			Name:        conf.ClientCommon.Name,
 			ManualStart: conf.ManualStart,
 			SVCBEnable:  conf.SVCBEnable,
 			AutoDelete:  conf.AutoDelete,
@@ -621,6 +632,7 @@ func UnmarshalClientConf(source interface{}) (*ClientConfig, error) {
 	}
 	var conf ClientConfig
 	conf.ClientCommon = ClientCommonFromV1(&cfg.ClientCommonConfig)
+	conf.ClientCommon.Name = cfg.Mgr.Name
 	conf.ManualStart = cfg.Mgr.ManualStart
 	conf.SVCBEnable = cfg.Mgr.SVCBEnable
 	conf.AutoDelete = cfg.Mgr.AutoDelete

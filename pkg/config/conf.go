@@ -17,6 +17,8 @@ func init() {
 
 // Config is the interface that a config must implement to support management.
 type Config interface {
+	// Name of this config.
+	Name() string
 	// Items returns all sections in this config. which must be a slice of pointer to struct.
 	Items() interface{}
 	// ItemAt returns the section in this config for the given index.
@@ -33,6 +35,8 @@ type Config interface {
 	Complete(read bool)
 	// GetLogFile returns the log file path of this config.
 	GetLogFile() string
+	// SetLogFile changes the log file path of this config.
+	SetLogFile(logPath string)
 	// AutoStart indicates whether this config should be started at boot.
 	AutoStart() bool
 	// Expiry indicates whether the config has an expiry date.
