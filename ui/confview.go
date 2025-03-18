@@ -46,8 +46,8 @@ func NewConfView() *ConfView {
 }
 
 func (cv *ConfView) View() Widget {
-	moveUpCond := Bind("confView.CurrentIndex > 0")
-	moveDownCond := Bind("confView.CurrentIndex >= 0 && confView.CurrentIndex < confView.ItemCount - 1")
+	moveUpCond := Bind("confView.SelectedCount == 1 && confView.CurrentIndex > 0")
+	moveDownCond := Bind("confView.SelectedCount == 1 && confView.CurrentIndex < confView.ItemCount - 1")
 	return Composite{
 		AssignTo: &cv.Composite,
 		Layout:   VBox{MarginsZero: true, SpacingZero: true},
@@ -59,16 +59,17 @@ func (cv *ConfView) View() Widget {
 				HeaderHidden:        true,
 				Columns:             []TableViewColumn{{}},
 				Model:               cv.model,
+				MultiSelection:      true,
 				ContextMenuItems: []MenuItem{
 					Action{
 						AssignTo:    &cv.lsEditAction,
 						Text:        i18n.Sprintf("Edit"),
-						Enabled:     Bind("conf.Selected"),
+						Enabled:     Bind("confView.SelectedCount == 1"),
 						OnTriggered: cv.editCurrent,
 					},
 					Menu{
 						Text:    i18n.Sprintf("Move"),
-						Enabled: Bind("confView.CurrentIndex >= 0 && confView.ItemCount > 1"),
+						Enabled: Bind("confView.SelectedCount == 1 && confView.ItemCount > 1"),
 						Items: []MenuItem{
 							Action{
 								Text:    i18n.Sprintf("Up"),
@@ -101,19 +102,19 @@ func (cv *ConfView) View() Widget {
 						},
 					},
 					Action{Text: i18n.Sprintf("Open File"),
-						Enabled:     Bind("conf.Selected"),
+						Enabled:     Bind("confView.SelectedCount == 1"),
 						OnTriggered: func() { cv.onOpen(false) },
 					},
 					Action{
 						Text:        i18n.Sprintf("Show in Folder"),
-						Enabled:     Bind("conf.Selected"),
+						Enabled:     Bind("confView.SelectedCount == 1"),
 						OnTriggered: func() { cv.onOpen(true) },
 					},
 					Separator{},
 					Action{Text: i18n.Sprintf("New Configuration"), OnTriggered: cv.editNew},
 					Menu{
 						Text:    i18n.Sprintf("Create a Copy"),
-						Enabled: Bind("conf.Selected"),
+						Enabled: Bind("confView.SelectedCount == 1"),
 						Items: []MenuItem{
 							Action{Text: i18n.Sprintf("All"), OnTriggered: func() { cv.editCopy(true) }},
 							Action{Text: i18n.Sprintf("Common Only"), OnTriggered: func() { cv.editCopy(false) }},
@@ -135,18 +136,25 @@ func (cv *ConfView) View() Widget {
 					Separator{},
 					Action{
 						Text:        i18n.Sprintf("Copy Share Link"),
-						Enabled:     Bind("conf.Selected"),
+						Enabled:     Bind("confView.SelectedCount == 1"),
 						OnTriggered: cv.onCopyShareLink,
 					},
 					Action{
 						Text:        i18n.Sprintf("Export All Configs to ZIP"),
-						Enabled:     Bind("conf.Selected"),
+						Enabled:     Bind("confView.ItemCount > 0"),
 						OnTriggered: cv.onExport,
 					},
 					Separator{},
 					Action{
+						Enabled: Bind("confView.SelectedCount < confView.ItemCount"),
+						Text:    i18n.Sprintf("Select all"),
+						OnTriggered: func() {
+							cv.listView.SetSelectedIndexes([]int{-1})
+						},
+					},
+					Action{
 						Text:        i18n.Sprintf("Delete"),
-						Enabled:     Bind("conf.Selected"),
+						Enabled:     Bind("confView.SelectedCount > 0"),
 						OnTriggered: cv.onDelete,
 					},
 				},
@@ -226,14 +234,14 @@ func (cv *ConfView) View() Widget {
 							},
 							Separator{},
 							Action{
-								Enabled:     Bind("conf.Selected"),
+								Enabled:     Bind("confView.SelectedCount > 0"),
 								AssignTo:    &cv.tbDeleteAction,
 								Image:       loadIcon(res.IconDelete, 16),
 								OnTriggered: cv.onDelete,
 							},
 							Separator{},
 							Action{
-								Enabled:     Bind("conf.Selected"),
+								Enabled:     Bind("confView.ItemCount > 0"),
 								AssignTo:    &cv.tbExportAction,
 								Image:       loadIcon(res.IconExport, 16),
 								OnTriggered: cv.onExport,
@@ -248,6 +256,8 @@ func (cv *ConfView) View() Widget {
 
 func (cv *ConfView) OnCreate() {
 	// Setup config list view
+	cv.listView.SetIgnoreNowhere(true)
+	cv.listView.SetScrollbarOrientation(walk.Vertical)
 	cv.listView.ItemActivated().Attach(cv.editCurrent)
 	cv.lsEditAction.SetDefault(true)
 	cv.listView.CurrentIndexChanged().Attach(func() {
@@ -255,6 +265,13 @@ func (cv *ConfView) OnCreate() {
 			setCurrentConf(cv.model.items[idx])
 		} else {
 			setCurrentConf(nil)
+		}
+	})
+	cv.listView.SelectedIndexesChanged().Attach(func() {
+		if indexes := cv.listView.SelectedIndexes(); len(indexes) == 1 {
+			cv.listView.SetCurrentIndex(indexes[0])
+		} else if len(indexes) == 0 {
+			cv.listView.SetCurrentIndex(-1)
 		}
 	})
 	// Setup toolbar
@@ -498,17 +515,44 @@ func (cv *ConfView) onOpen(folder bool) {
 }
 
 func (cv *ConfView) onDelete() {
-	if conf := getCurrentConf(); conf != nil {
-		if walk.MsgBox(cv.Form(), i18n.Sprintf("Delete config \"%s\"", conf.Name()),
-			i18n.Sprintf("Are you sure you would like to delete config \"%s\"?", conf.Name()),
+	indexes := cv.listView.SelectedIndexes()
+	count := len(indexes)
+	if count == 1 {
+		if conf := cv.model.items[indexes[0]]; conf != nil {
+			if walk.MsgBox(cv.Form(), i18n.Sprintf("Delete config \"%s\"", conf.Name()),
+				i18n.Sprintf("Are you sure you would like to delete config \"%s\"?", conf.Name()),
+				walk.MsgBoxYesNo|walk.MsgBoxIconWarning) == walk.DlgCmdNo {
+				return
+			}
+			if removed, err := conf.Delete(); err != nil {
+				showError(err, cv.Form())
+				return
+			} else if removed {
+				cv.Invalidate()
+			}
+		}
+	} else if count > 1 {
+		if walk.MsgBox(cv.Form(), i18n.Sprintf("Delete %d configs", count),
+			i18n.Sprintf("Are you sure that you want to delete these %d configs?", count),
 			walk.MsgBoxYesNo|walk.MsgBoxIconWarning) == walk.DlgCmdNo {
 			return
 		}
-		// Fully delete config
-		if removed, err := conf.Delete(); err != nil {
-			showError(err, cv.Form())
-			return
-		} else if removed {
+		succeededCount := lo.SumBy(lo.Map(indexes, func(item int, index int) *Conf {
+			return cv.model.items[item]
+		}), func(item *Conf) int {
+			if removed, _ := item.Delete(); removed {
+				return 1
+			} else {
+				return 0
+			}
+		})
+		if count != succeededCount {
+			failedCount := count - succeededCount
+			walk.MsgBox(cv.Form(), i18n.Sprintf("Delete %d configs", count),
+				i18n.Sprintf("%d succeeded, %d failed.", succeededCount, failedCount),
+				walk.MsgBoxOK|walk.MsgBoxIconInformation)
+		}
+		if succeededCount > 0 {
 			cv.Invalidate()
 		}
 	}

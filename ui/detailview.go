@@ -21,7 +21,7 @@ func NewDetailView() *DetailView {
 
 func (dv *DetailView) View() Widget {
 	return Composite{
-		Visible:  Bind("conf.Selected"),
+		Visible:  Bind("confView.SelectedCount == 1"),
 		AssignTo: &dv.Composite,
 		Layout:   VBox{Margins: Margins{Left: 5}, SpacingZero: true},
 		Children: []Widget{

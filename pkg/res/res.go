@@ -69,6 +69,7 @@ var (
 	IconInfo         = Icon{"imageres", -81}
 	IconArrowUp      = Icon{"shell32", -16817}
 	IconMove         = Icon{"imageres", -5313}
+	IconSelectAll    = Icon{"imageres", -5308}
 )
 
 // Colors

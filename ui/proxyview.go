@@ -60,22 +60,17 @@ func (pv *ProxyView) View() Widget {
 			},
 			pv.createProxyTable(),
 		},
-		Functions: map[string]func(args ...interface{}) (interface{}, error){
-			// switchable make sure that at least one proxy is enabled
-			"switchable": func(args ...interface{}) (interface{}, error) {
-				if conf, proxy := pv.getConfigProxy(int(args[0].(float64))); conf != nil {
-					// We can't disable all proxies
-					return proxy.Disabled || conf.CountStart() > 1, nil
-				}
-				return false, nil
-			},
-		},
 	}
 }
 
 func (pv *ProxyView) OnCreate() {
 	pv.editAction.SetDefault(true)
-	pv.table.CurrentIndexChanged().Attach(pv.switchToggleAction)
+	pv.table.SelectedIndexesChanged().Attach(func() {
+		if indexes := pv.table.SelectedIndexes(); len(indexes) == 1 {
+			pv.table.SetCurrentIndex(indexes[0])
+		}
+	})
+	pv.table.SelectedIndexesChanged().Attach(pv.switchToggleAction)
 }
 
 func (pv *ProxyView) Invalidate() {
@@ -208,7 +203,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 				AssignTo: &pv.editAction,
 				Image:    loadIcon(res.IconEdit, 16),
 				Text:     i18n.Sprintf("Edit"),
-				Enabled:  Bind("proxy.CurrentIndex >= 0"),
+				Enabled:  Bind("proxy.SelectedCount == 1"),
 				OnTriggered: func() {
 					pv.onEdit(true, nil)
 				},
@@ -217,7 +212,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 				AssignTo:    &pv.toggleAction,
 				Image:       loadIcon(res.IconDisable, 16),
 				Text:        i18n.Sprintf("Disable"),
-				Enabled:     Bind("proxy.CurrentIndex >= 0 && switchable(proxy.CurrentIndex)"),
+				Enabled:     false,
 				OnTriggered: pv.onToggleProxy,
 			},
 			Action{
@@ -240,7 +235,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 				AssignTo:    &pv.deleteAction,
 				Image:       loadIcon(res.IconDelete, 16),
 				Text:        i18n.Sprintf("Delete"),
-				Enabled:     Bind("proxy.CurrentIndex >= 0"),
+				Enabled:     Bind("proxy.SelectedCount > 0"),
 				OnTriggered: pv.onDelete,
 			},
 		},
@@ -261,13 +256,14 @@ func (pv *ProxyView) createProxyTable() TableView {
 			{Title: i18n.Sprintf("Domains"), DataMember: "Domains", Width: 80},
 			{Title: i18n.Sprintf("Plugin"), DataMember: "Plugin", Width: 80},
 		},
+		MultiSelection: true,
 		ContextMenuItems: []MenuItem{
 			ActionRef{Action: &pv.editAction},
 			ActionRef{Action: &pv.toggleAction},
 			Menu{
 				Text:    i18n.Sprintf("Move"),
 				Image:   loadIcon(res.IconMove, 16),
-				Enabled: Bind("proxy.CurrentIndex >= 0 && proxy.ItemCount > 1"),
+				Enabled: Bind("proxy.SelectedCount == 1 && proxy.ItemCount > 1"),
 				Items: []MenuItem{
 					Action{
 						Text:    i18n.Sprintf("Up"),
@@ -327,10 +323,18 @@ func (pv *ProxyView) createProxyTable() TableView {
 			},
 			Separator{},
 			Action{
-				Enabled:     Bind("proxy.CurrentIndex >= 0"),
+				Enabled:     Bind("proxy.SelectedCount == 1"),
 				Text:        i18n.Sprintf("Copy Access Address"),
 				Image:       loadIcon(res.IconSysCopy, 16),
 				OnTriggered: pv.onCopyAccessAddr,
+			},
+			Action{
+				Enabled: Bind("proxy.SelectedCount < proxy.ItemCount"),
+				Text:    i18n.Sprintf("Select all"),
+				Image:   loadIcon(res.IconSelectAll, 16),
+				OnTriggered: func() {
+					pv.table.SetSelectedIndexes([]int{-1})
+				},
 			},
 			Separator{},
 			ActionRef{Action: &pv.deleteAction},
@@ -434,17 +438,31 @@ func (pv *ProxyView) onClipboardImport() {
 }
 
 func (pv *ProxyView) onDelete() {
-	idx := pv.table.CurrentIndex()
-	conf, proxy := pv.getConfigProxy(idx)
-	if conf == nil {
-		return
+	indexes := pv.table.SelectedIndexes()
+	count := len(indexes)
+	if count == 1 {
+		conf, proxy := pv.getConfigProxy(indexes[0])
+		if conf == nil {
+			return
+		}
+		if walk.MsgBox(pv.Form(), i18n.Sprintf("Delete proxy \"%s\"", proxy.Name),
+			i18n.Sprintf("Are you sure you would like to delete proxy \"%s\"?", proxy.Name),
+			walk.MsgBoxYesNo|walk.MsgBoxIconWarning) == walk.DlgCmdNo {
+			return
+		}
+		conf.DeleteItem(indexes[0])
+	} else if count > 1 {
+		if walk.MsgBox(pv.Form(), i18n.Sprintf("Delete %d proxies", count),
+			i18n.Sprintf("Are you sure that you want to delete these %d proxies?", count),
+			walk.MsgBoxYesNo|walk.MsgBoxIconWarning) == walk.DlgCmdNo {
+			return
+		}
+		for i, idx := range indexes {
+			if conf, _ := pv.getConfigProxy(idx - i); conf != nil {
+				conf.DeleteItem(idx - i)
+			}
+		}
 	}
-	if walk.MsgBox(pv.Form(), i18n.Sprintf("Delete proxy \"%s\"", proxy.Name),
-		i18n.Sprintf("Are you sure you would like to delete proxy \"%s\"?", proxy.Name),
-		walk.MsgBoxYesNo|walk.MsgBoxIconWarning) == walk.DlgCmdNo {
-		return
-	}
-	conf.DeleteItem(idx)
 	pv.commit()
 }
 
@@ -481,24 +499,41 @@ func (pv *ProxyView) onEdit(current bool, fill *config.Proxy) {
 }
 
 func (pv *ProxyView) onToggleProxy() {
-	conf, proxy := pv.getConfigProxy(pv.table.CurrentIndex())
+	indexes := pv.table.SelectedIndexes()
+	count := len(indexes)
+	if count == 0 {
+		return
+	}
+	conf, proxy := pv.getConfigProxy(indexes[0])
 	if conf == nil {
 		return
 	}
 	if !proxy.Disabled {
 		// We can't disable all proxies
-		if conf.CountStart() <= 1 {
+		if conf.CountStart()-count <= 0 {
 			return
 		}
 		if cc := getCurrentConf(); cc != nil && cc.State == consts.StateStarted {
-			if walk.MsgBox(pv.Form(), i18n.Sprintf("Disable proxy \"%s\"", proxy.Name),
-				i18n.Sprintf("Are you sure you would like to disable proxy \"%s\"?", proxy.Name),
-				walk.MsgBoxYesNo|walk.MsgBoxIconQuestion) == walk.DlgCmdNo {
-				return
+			if count == 1 {
+				if walk.MsgBox(pv.Form(), i18n.Sprintf("Disable proxy \"%s\"", proxy.Name),
+					i18n.Sprintf("Are you sure you would like to disable proxy \"%s\"?", proxy.Name),
+					walk.MsgBoxYesNo|walk.MsgBoxIconQuestion) == walk.DlgCmdNo {
+					return
+				}
+			} else {
+				if walk.MsgBox(pv.Form(), i18n.Sprintf("Disable %d proxies", count),
+					i18n.Sprintf("Are you sure that you want to disable these %d proxies?", count),
+					walk.MsgBoxYesNo|walk.MsgBoxIconQuestion) == walk.DlgCmdNo {
+					return
+				}
 			}
 		}
 	}
-	proxy.Disabled = !proxy.Disabled
+	for _, idx := range indexes {
+		if _, proxy = pv.getConfigProxy(idx); proxy != nil {
+			proxy.Disabled = !proxy.Disabled
+		}
+	}
 	pv.commit()
 }
 
@@ -538,18 +573,38 @@ func (pv *ProxyView) onMove(delta int) {
 	pv.table.SetCurrentIndex(targetIdx)
 }
 
-// switchToggleAction updates the toggle action based on the current selected proxy
+// switchToggleAction updates the toggle action based on the current selected proxies
 func (pv *ProxyView) switchToggleAction() {
-	conf, proxy := pv.getConfigProxy(pv.table.CurrentIndex())
-	if conf == nil {
+	indexes := pv.table.SelectedIndexes()
+	if len(indexes) == 0 {
+		pv.toggleAction.SetEnabled(false)
 		return
 	}
-	if proxy.Disabled {
+	count := 0
+	for _, idx := range indexes {
+		if _, proxy := pv.getConfigProxy(idx); proxy != nil {
+			if !proxy.Disabled {
+				count++
+			}
+		} else {
+			count = -1
+			break
+		}
+	}
+	if count == 0 {
 		pv.toggleAction.SetText(i18n.Sprintf("Enable"))
 		pv.toggleAction.SetImage(loadIcon(res.IconEnable, 16))
-	} else {
+		pv.toggleAction.SetEnabled(true)
+	} else if count == len(indexes) {
 		pv.toggleAction.SetText(i18n.Sprintf("Disable"))
 		pv.toggleAction.SetImage(loadIcon(res.IconDisable, 16))
+		if conf, _ := pv.getConfigProxy(indexes[0]); conf != nil {
+			pv.toggleAction.SetEnabled(conf.CountStart()-len(indexes) >= 1)
+		} else {
+			pv.toggleAction.SetEnabled(false)
+		}
+	} else {
+		pv.toggleAction.SetEnabled(false)
 	}
 }
 
@@ -580,7 +635,7 @@ func (pv *ProxyView) visitors(except *config.Proxy) (visitors []string) {
 // Conditions for moving up/down proxy.
 func movingConditions() [2]Property {
 	return [2]Property{
-		Bind("proxy.CurrentIndex > 0"),
-		Bind("proxy.CurrentIndex >= 0 && proxy.CurrentIndex < proxy.ItemCount - 1"),
+		Bind("proxy.SelectedCount == 1 && proxy.CurrentIndex > 0"),
+		Bind("proxy.SelectedCount == 1 && proxy.CurrentIndex < proxy.ItemCount - 1"),
 	}
 }

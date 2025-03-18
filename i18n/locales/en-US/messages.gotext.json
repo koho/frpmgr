@@ -273,6 +273,23 @@
             "fuzzy": true
         },
         {
+            "id": "Delete {Count} configs",
+            "message": "Delete {Count} configs",
+            "translation": "Delete {Count} configs",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
             "id": "Config already removed",
             "message": "Config already removed",
             "translation": "Config already removed",
@@ -423,6 +440,13 @@
             "fuzzy": true
         },
         {
+            "id": "Select all",
+            "message": "Select all",
+            "translation": "Select all",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "New Config",
             "message": "New Config",
             "translation": "New Config",
@@ -508,6 +532,48 @@
                     "underlyingType": "string",
                     "argNum": 1,
                     "expr": "conf.Name()"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Are you sure that you want to delete these {Count} configs?",
+            "message": "Are you sure that you want to delete these {Count} configs?",
+            "translation": "Are you sure that you want to delete these {Count} configs?",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "{SucceededCount} succeeded, {FailedCount} failed.",
+            "message": "{SucceededCount} succeeded, {FailedCount} failed.",
+            "translation": "{SucceededCount} succeeded, {FailedCount} failed.",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "SucceededCount",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "succeededCount"
+                },
+                {
+                    "id": "FailedCount",
+                    "string": "%[2]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 2,
+                    "expr": "failedCount"
                 }
             ],
             "fuzzy": true
@@ -1550,13 +1616,6 @@
             "fuzzy": true
         },
         {
-            "id": "Select all",
-            "message": "Select all",
-            "translation": "Select all",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "Open Log Folder",
             "message": "Open Log Folder",
             "translation": "Open Log Folder",
@@ -1968,6 +2027,40 @@
             "fuzzy": true
         },
         {
+            "id": "Delete {Count} proxies",
+            "message": "Delete {Count} proxies",
+            "translation": "Delete {Count} proxies",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Are you sure that you want to delete these {Count} proxies?",
+            "message": "Are you sure that you want to delete these {Count} proxies?",
+            "translation": "Are you sure that you want to delete these {Count} proxies?",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
             "id": "Disable proxy \"{Name}\"",
             "message": "Disable proxy \"{Name}\"",
             "translation": "Disable proxy \"{Name}\"",
@@ -1997,6 +2090,40 @@
                     "underlyingType": "string",
                     "argNum": 1,
                     "expr": "proxy.Name"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Disable {Count} proxies",
+            "message": "Disable {Count} proxies",
+            "translation": "Disable {Count} proxies",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Are you sure that you want to disable these {Count} proxies?",
+            "message": "Are you sure that you want to disable these {Count} proxies?",
+            "translation": "Are you sure that you want to disable these {Count} proxies?",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
                 }
             ],
             "fuzzy": true
