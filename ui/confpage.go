@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"strings"
 	"time"
 
 	"github.com/lxn/walk"
@@ -73,30 +74,65 @@ func (cp *ConfPage) Page() TabPage {
 			cp.confView.View(),
 			cp.detailView.View(),
 			cp.welcomeView(),
+			cp.multiSelectionView(),
 		},
 	}
 }
 
 func (cp *ConfPage) welcomeView() Composite {
 	return Composite{
-		Visible: Bind("!conf.Selected"),
-		Layout:  VBox{Margins: Margins{Left: 100, Right: 100}, Spacing: 20},
+		Visible: Bind("confView.SelectedCount == 0"),
+		Layout:  HBox{},
 		Children: []Widget{
 			HSpacer{},
-			VSpacer{},
+			Composite{
+				Layout: VBox{Spacing: 20},
+				Children: []Widget{
+					VSpacer{},
+					PushButton{
+						Text:      i18n.Sprintf("New Configuration"),
+						MinSize:   Size{Width: 200},
+						MaxSize:   Size{Width: 200},
+						OnClicked: cp.confView.editNew,
+					},
+					PushButton{
+						Text:      i18n.Sprintf("Import Config from File"),
+						MinSize:   Size{Width: 200},
+						MaxSize:   Size{Width: 200},
+						OnClicked: cp.confView.onFileImport,
+					},
+					VSpacer{},
+				},
+			},
+			HSpacer{},
+		},
+	}
+}
+
+func (cp *ConfPage) multiSelectionView() Composite {
+	count := "{Count}"
+	text := i18n.Sprintf("Delete %s configs", count)
+	expr := "confView.SelectedCount"
+	if i := strings.Index(text, count); i >= 0 {
+		if left := text[:i]; left != "" {
+			expr = "'" + left + "' + " + expr
+		}
+		if right := text[i+len(count):]; right != "" {
+			expr += " + '" + right + "'"
+		}
+	}
+	return Composite{
+		Visible: Bind("confView.SelectedCount > 1"),
+		Layout:  HBox{},
+		Children: []Widget{
+			HSpacer{},
 			PushButton{
-				Text:      i18n.Sprintf("New Configuration"),
+				Text:      Bind(expr),
 				MinSize:   Size{Width: 200},
 				MaxSize:   Size{Width: 200},
-				OnClicked: cp.confView.editNew,
+				OnClicked: cp.confView.onDelete,
 			},
-			PushButton{
-				Text:      i18n.Sprintf("Import Config from File"),
-				MinSize:   Size{Width: 200},
-				MaxSize:   Size{Width: 200},
-				OnClicked: cp.confView.onFileImport,
-			},
-			VSpacer{},
+			HSpacer{},
 		},
 	}
 }

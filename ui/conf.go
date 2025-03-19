@@ -175,8 +175,6 @@ func hasConf(name string) bool {
 type ConfBinder struct {
 	// Current selected config
 	Current *Conf
-	// Selected indicates whether there's a selected config
-	Selected bool
 	// Commit will save the given config and try to reload service
 	Commit func(conf *Conf, flag runFlag)
 }
@@ -196,7 +194,6 @@ func setCurrentConf(conf *Conf) {
 	if confDB != nil {
 		if ds, ok := confDB.DataSource().(*ConfBinder); ok {
 			ds.Current = conf
-			ds.Selected = ds.Current != nil
 			confDB.Reset()
 		}
 	}

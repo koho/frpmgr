@@ -207,6 +207,21 @@
             "translation": "从文件导入配置"
         },
         {
+            "id": "Delete {Count} configs",
+            "message": "Delete {Count} configs",
+            "translation": "删除 {Count} 个配置",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
             "id": "Config already removed",
             "message": "Config already removed",
             "translation": "配置已删除"
@@ -317,6 +332,11 @@
             "translation": "导出所有配置 (ZIP 压缩包)"
         },
         {
+            "id": "Select all",
+            "message": "Select all",
+            "translation": "全选"
+        },
+        {
             "id": "New Config",
             "message": "New Config",
             "translation": "新建配置"
@@ -391,6 +411,44 @@
                     "underlyingType": "string",
                     "argNum": 1,
                     "expr": "conf.Name()"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure that you want to delete these {Count} configs?",
+            "message": "Are you sure that you want to delete these {Count} configs?",
+            "translation": "确定要删除这 {Count} 个配置吗？",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
+            "id": "{SucceededCount} succeeded, {FailedCount} failed.",
+            "message": "{SucceededCount} succeeded, {FailedCount} failed.",
+            "translation": "成功 {SucceededCount} 个，失败 {FailedCount} 个。",
+            "placeholders": [
+                {
+                    "id": "SucceededCount",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "succeededCount"
+                },
+                {
+                    "id": "FailedCount",
+                    "string": "%[2]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 2,
+                    "expr": "failedCount"
                 }
             ]
         },
@@ -1150,11 +1208,6 @@
             "translation": "复制"
         },
         {
-            "id": "Select all",
-            "message": "Select all",
-            "translation": "全选"
-        },
-        {
             "id": "Open Log Folder",
             "message": "Open Log Folder",
             "translation": "打开日志文件夹"
@@ -1460,6 +1513,36 @@
             ]
         },
         {
+            "id": "Delete {Count} proxies",
+            "message": "Delete {Count} proxies",
+            "translation": "删除 {Count} 个代理",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure that you want to delete these {Count} proxies?",
+            "message": "Are you sure that you want to delete these {Count} proxies?",
+            "translation": "确定要删除这 {Count} 个代理吗？",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
             "id": "Disable proxy \"{Name}\"",
             "message": "Disable proxy \"{Name}\"",
             "translation": "禁用代理「{Name}」",
@@ -1486,6 +1569,36 @@
                     "underlyingType": "string",
                     "argNum": 1,
                     "expr": "proxy.Name"
+                }
+            ]
+        },
+        {
+            "id": "Disable {Count} proxies",
+            "message": "Disable {Count} proxies",
+            "translation": "禁用 {Count} 个代理",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure that you want to disable these {Count} proxies?",
+            "message": "Are you sure that you want to disable these {Count} proxies?",
+            "translation": "确定要禁用这 {Count} 个代理吗？",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
                 }
             ]
         },

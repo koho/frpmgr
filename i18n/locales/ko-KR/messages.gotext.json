@@ -207,6 +207,21 @@
             "translation": "파일에서 구성 가져오기"
         },
         {
+            "id": "Delete {Count} configs",
+            "message": "Delete {Count} configs",
+            "translation": "{Count}개의 구성 삭제",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
             "id": "Config already removed",
             "message": "Config already removed",
             "translation": "구성이 이미 삭제됨"
@@ -317,6 +332,11 @@
             "translation": "모든 구성을 ZIP 으로 내보내기"
         },
         {
+            "id": "Select all",
+            "message": "Select all",
+            "translation": "전체 선택"
+        },
+        {
             "id": "New Config",
             "message": "New Config",
             "translation": "구성 만들기"
@@ -391,6 +411,44 @@
                     "underlyingType": "string",
                     "argNum": 1,
                     "expr": "conf.Name()"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure that you want to delete these {Count} configs?",
+            "message": "Are you sure that you want to delete these {Count} configs?",
+            "translation": "{Count}개의 구성을 삭제하시겠습니까?",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
+            "id": "{SucceededCount} succeeded, {FailedCount} failed.",
+            "message": "{SucceededCount} succeeded, {FailedCount} failed.",
+            "translation": "{SucceededCount}개가 성공했고, {FailedCount}개가 실패했습니다.",
+            "placeholders": [
+                {
+                    "id": "SucceededCount",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "succeededCount"
+                },
+                {
+                    "id": "FailedCount",
+                    "string": "%[2]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 2,
+                    "expr": "failedCount"
                 }
             ]
         },
@@ -1150,11 +1208,6 @@
             "translation": "복사"
         },
         {
-            "id": "Select all",
-            "message": "Select all",
-            "translation": "전체 선택"
-        },
-        {
             "id": "Open Log Folder",
             "message": "Open Log Folder",
             "translation": "로그 폴더 열기"
@@ -1460,6 +1513,36 @@
             ]
         },
         {
+            "id": "Delete {Count} proxies",
+            "message": "Delete {Count} proxies",
+            "translation": "{Count}개의 프록시 삭제",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure that you want to delete these {Count} proxies?",
+            "message": "Are you sure that you want to delete these {Count} proxies?",
+            "translation": "{Count}개의 프록시를 삭제하시겠습니까?",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
             "id": "Disable proxy \"{Name}\"",
             "message": "Disable proxy \"{Name}\"",
             "translation": "프록시 \"{Name}\" 비활성화",
@@ -1486,6 +1569,36 @@
                     "underlyingType": "string",
                     "argNum": 1,
                     "expr": "proxy.Name"
+                }
+            ]
+        },
+        {
+            "id": "Disable {Count} proxies",
+            "message": "Disable {Count} proxies",
+            "translation": "{Count}개의 프록시 비활성화",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure that you want to disable these {Count} proxies?",
+            "message": "Are you sure that you want to disable these {Count} proxies?",
+            "translation": "이 {Count}개의 프록시를 비활성화하시겠습니까?",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
                 }
             ]
         },

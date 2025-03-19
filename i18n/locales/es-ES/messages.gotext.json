@@ -207,6 +207,21 @@
             "translation": "Importar configuración desde archivo"
         },
         {
+            "id": "Delete {Count} configs",
+            "message": "Delete {Count} configs",
+            "translation": "Eliminar {Count} configuraciones",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
             "id": "Config already removed",
             "message": "Config already removed",
             "translation": "Configuración ya eliminada"
@@ -317,6 +332,11 @@
             "translation": "Exportar todas las configuraciones a ZIP"
         },
         {
+            "id": "Select all",
+            "message": "Select all",
+            "translation": "Seleccionar todos"
+        },
+        {
             "id": "New Config",
             "message": "New Config",
             "translation": "Nueva Config"
@@ -391,6 +411,44 @@
                     "underlyingType": "string",
                     "argNum": 1,
                     "expr": "conf.Name()"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure that you want to delete these {Count} configs?",
+            "message": "Are you sure that you want to delete these {Count} configs?",
+            "translation": "¿Está seguro de que desea eliminar estas configuraciones de {Count}?",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
+            "id": "{SucceededCount} succeeded, {FailedCount} failed.",
+            "message": "{SucceededCount} succeeded, {FailedCount} failed.",
+            "translation": "{SucceededCount} tuvo éxito, {FailedCount} falló.",
+            "placeholders": [
+                {
+                    "id": "SucceededCount",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "succeededCount"
+                },
+                {
+                    "id": "FailedCount",
+                    "string": "%[2]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 2,
+                    "expr": "failedCount"
                 }
             ]
         },
@@ -1150,11 +1208,6 @@
             "translation": "Copiar"
         },
         {
-            "id": "Select all",
-            "message": "Select all",
-            "translation": "Seleccionar todos"
-        },
-        {
             "id": "Open Log Folder",
             "message": "Open Log Folder",
             "translation": "Abrir registro"
@@ -1460,6 +1513,36 @@
             ]
         },
         {
+            "id": "Delete {Count} proxies",
+            "message": "Delete {Count} proxies",
+            "translation": "Eliminar {Count} proxies",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure that you want to delete these {Count} proxies?",
+            "message": "Are you sure that you want to delete these {Count} proxies?",
+            "translation": "¿Estás seguro de que deseas eliminar estos {Count} proxies?",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
             "id": "Disable proxy \"{Name}\"",
             "message": "Disable proxy \"{Name}\"",
             "translation": "Deshabilitar proxy \"{Name}\"",
@@ -1486,6 +1569,36 @@
                     "underlyingType": "string",
                     "argNum": 1,
                     "expr": "proxy.Name"
+                }
+            ]
+        },
+        {
+            "id": "Disable {Count} proxies",
+            "message": "Disable {Count} proxies",
+            "translation": "Desactivar {Count} proxies",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure that you want to disable these {Count} proxies?",
+            "message": "Are you sure that you want to disable these {Count} proxies?",
+            "translation": "¿Está seguro de que desea desactivar estos {Count} proxies?",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
                 }
             ]
         },

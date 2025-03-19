@@ -207,6 +207,21 @@
             "translation": "ファイルから設定をインポートする"
         },
         {
+            "id": "Delete {Count} configs",
+            "message": "Delete {Count} configs",
+            "translation": "{Count} 個の設定を削除",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
             "id": "Config already removed",
             "message": "Config already removed",
             "translation": "設定はすでに削除されています"
@@ -317,6 +332,11 @@
             "translation": "すべての設定をZIPにエクスポート"
         },
         {
+            "id": "Select all",
+            "message": "Select all",
+            "translation": "すべて選択"
+        },
+        {
             "id": "New Config",
             "message": "New Config",
             "translation": "新しい設定"
@@ -401,6 +421,44 @@
                     "underlyingType": "string",
                     "argNum": 1,
                     "expr": "conf.Name()"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure that you want to delete these {Count} configs?",
+            "message": "Are you sure that you want to delete these {Count} configs?",
+            "translation": "これらの {Count} 個の設定を削除してもよろしいですか?",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
+            "id": "{SucceededCount} succeeded, {FailedCount} failed.",
+            "message": "{SucceededCount} succeeded, {FailedCount} failed.",
+            "translation": "{SucceededCount} 件成功、{FailedCount} 件失敗。",
+            "placeholders": [
+                {
+                    "id": "SucceededCount",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "succeededCount"
+                },
+                {
+                    "id": "FailedCount",
+                    "string": "%[2]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 2,
+                    "expr": "failedCount"
                 }
             ]
         },
@@ -1160,11 +1218,6 @@
             "translation": "コピー"
         },
         {
-            "id": "Select all",
-            "message": "Select all",
-            "translation": "すべて選択"
-        },
-        {
             "id": "Open Log Folder",
             "message": "Open Log Folder",
             "translation": "ログフォルダを開く"
@@ -1470,6 +1523,36 @@
             ]
         },
         {
+            "id": "Delete {Count} proxies",
+            "message": "Delete {Count} proxies",
+            "translation": "{Count} 個のプロキシを削除",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure that you want to delete these {Count} proxies?",
+            "message": "Are you sure that you want to delete these {Count} proxies?",
+            "translation": "これらの {Count} 個のプロキシを削除してもよろしいですか?",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
             "id": "Disable proxy \"{Name}\"",
             "message": "Disable proxy \"{Name}\"",
             "translation": "プロキシ「{Name}」を無効にする",
@@ -1496,6 +1579,36 @@
                     "underlyingType": "string",
                     "argNum": 1,
                     "expr": "proxy.Name"
+                }
+            ]
+        },
+        {
+            "id": "Disable {Count} proxies",
+            "message": "Disable {Count} proxies",
+            "translation": "{Count} 個のプロキシを無効にする",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
+                }
+            ]
+        },
+        {
+            "id": "Are you sure that you want to disable these {Count} proxies?",
+            "message": "Are you sure that you want to disable these {Count} proxies?",
+            "translation": "これらの {Count} 個のプロキシを無効にしてもよろしいですか?",
+            "placeholders": [
+                {
+                    "id": "Count",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "count"
                 }
             ]
         },
