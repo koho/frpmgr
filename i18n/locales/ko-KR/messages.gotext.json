@@ -1293,11 +1293,6 @@
             "translation": "시작"
         },
         {
-            "id": "Service",
-            "message": "Service",
-            "translation": "서비스"
-        },
-        {
             "id": "Stop config \"{Name}\"",
             "message": "Stop config \"{Name}\"",
             "translation": "\"{Name}\" 구성 중지",

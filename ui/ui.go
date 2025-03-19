@@ -14,7 +14,6 @@ import (
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/res"
 	"github.com/koho/frpmgr/pkg/util"
-	"github.com/koho/frpmgr/services"
 )
 
 const AppName = "FRP Manager"
@@ -111,7 +110,6 @@ func RunUI() error {
 	fm.SetVisible(true)
 	fm.Run()
 	fm.logPage.Close()
-	services.Cleanup()
 	return nil
 }
 
