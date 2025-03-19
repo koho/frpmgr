@@ -1735,13 +1735,6 @@
             "fuzzy": true
         },
         {
-            "id": "Service",
-            "message": "Service",
-            "translation": "Service",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "Stop config \"{Name}\"",
             "message": "Stop config \"{Name}\"",
             "translation": "Stop config \"{Name}\"",

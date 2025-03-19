@@ -30,7 +30,6 @@ type PanelView struct {
 	stateImage  *walk.ImageView
 	addressText *walk.Label
 	toggleBtn   *walk.PushButton
-	svcOpenBtn  *walk.PushButton
 }
 
 func NewPanelView() *PanelView {
@@ -105,15 +104,6 @@ func (pv *PanelView) View() Widget {
 						MaxSize:   Size{Width: 80},
 						Enabled:   false,
 						OnClicked: pv.ToggleService,
-					},
-					PushButton{
-						AssignTo: &pv.svcOpenBtn,
-						Text:     i18n.Sprintf("Service"),
-						MaxSize:  Size{Width: 80},
-						Enabled:  false,
-						OnClicked: func() {
-							services.ShowPropertyDialog(services.DisplayNameOfClient(pv.Title()))
-						},
 					},
 					HSpacer{},
 				},
@@ -192,7 +182,6 @@ func (pv *PanelView) Invalidate() {
 		pv.addressText.SetText("")
 		pv.toggleBtn.SetEnabled(false)
 		pv.toggleBtn.SetText(i18n.Sprintf("Start"))
-		pv.svcOpenBtn.SetEnabled(false)
 		return
 	}
 	data := conf.Data.(*config.ClientConfig)
@@ -207,7 +196,6 @@ func (pv *PanelView) Invalidate() {
 		pv.addressText.SetText(addr)
 	}
 	pv.toggleBtn.SetEnabled(true)
-	pv.svcOpenBtn.SetEnabled(conf.Install)
 	if conf.State == consts.StateStarted {
 		pv.setState(consts.StateStarted)
 		pv.toggleBtn.SetText(i18n.Sprintf("Stop"))

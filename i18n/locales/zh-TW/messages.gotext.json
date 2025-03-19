@@ -1293,11 +1293,6 @@
             "translation": "啟動"
         },
         {
-            "id": "Service",
-            "message": "Service",
-            "translation": "服務"
-        },
-        {
             "id": "Stop config \"{Name}\"",
             "message": "Stop config \"{Name}\"",
             "translation": "停止配置「{Name}」",

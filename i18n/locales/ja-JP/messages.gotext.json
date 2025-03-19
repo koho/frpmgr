@@ -1303,11 +1303,6 @@
             "translation": "始める"
         },
         {
-            "id": "Service",
-            "message": "Service",
-            "translation": "サービス"
-        },
-        {
             "id": "Stop config \"{Name}\"",
             "message": "Stop config \"{Name}\"",
             "translation": "設定「{Name}」を停止します",
