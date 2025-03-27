@@ -425,6 +425,11 @@
             ]
         },
         {
+            "id": "The config is currently locked.",
+            "message": "The config is currently locked.",
+            "translation": "設定は現在ロックされています。"
+        },
+        {
             "id": "Are you sure that you want to delete these {Count} configs?",
             "message": "Are you sure that you want to delete these {Count} configs?",
             "translation": "これらの {Count} 個の設定を削除してもよろしいですか?",
@@ -1303,6 +1308,11 @@
             "translation": "始める"
         },
         {
+            "id": "Stop",
+            "message": "Stop",
+            "translation": "止まる"
+        },
+        {
             "id": "Stop config \"{Name}\"",
             "message": "Stop config \"{Name}\"",
             "translation": "設定「{Name}」を停止します",
@@ -1333,9 +1343,19 @@
             ]
         },
         {
-            "id": "Stop",
-            "message": "Stop",
-            "translation": "止まる"
+            "id": "Start config \"{Name}\"",
+            "message": "Start config \"{Name}\"",
+            "translation": "設定「{Name}」を開始します",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "conf.Name()"
+                }
+            ]
         },
         {
             "id": "Local Directory",

@@ -1,10 +1,10 @@
 package consts
 
-// ServiceState is the state of FRP daemon service
-type ServiceState int
+// ConfigState is the state of FRP daemon service
+type ConfigState int
 
 const (
-	StateUnknown ServiceState = iota
+	StateUnknown ConfigState = iota
 	StateStarted
 	StateStopped
 	StateStarting

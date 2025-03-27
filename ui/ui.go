@@ -57,7 +57,8 @@ func RunUI() error {
 	if err = os.MkdirAll(PathOfConf(""), os.ModePerm); err != nil {
 		return err
 	}
-	if err = loadAllConfs(); err != nil {
+	cfgList, err := loadAllConfs()
+	if err != nil {
 		return err
 	}
 	if appConf.Password != "" {
@@ -66,7 +67,7 @@ func RunUI() error {
 		}
 	}
 	fm := new(FRPManager)
-	fm.confPage = NewConfPage()
+	fm.confPage = NewConfPage(cfgList)
 	fm.logPage, err = NewLogPage()
 	if err != nil {
 		return err
@@ -109,6 +110,7 @@ func RunUI() error {
 	})
 	fm.SetVisible(true)
 	fm.Run()
+	fm.confPage.Close()
 	fm.logPage.Close()
 	return nil
 }

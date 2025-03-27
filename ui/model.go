@@ -5,16 +5,19 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/lxn/walk"
 	"github.com/samber/lo"
 
 	"github.com/koho/frpmgr/pkg/config"
+	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
 )
 
 type ConfListModel struct {
 	walk.ReflectTableModelBase
+	sync.Mutex
 
 	items []*Conf
 }
@@ -29,13 +32,77 @@ func (m *ConfListModel) Value(row, col int) interface{} {
 	return m.items[row].Name()
 }
 
+func (m *ConfListModel) SetStateByPath(path string, state consts.ConfigState) bool {
+	if i := slices.IndexFunc(m.items, func(conf *Conf) bool {
+		return conf.Path == path
+	}); i >= 0 && m.items[i].State != state {
+		m.items[i].State = state
+		m.PublishRowChanged(i)
+		return true
+	}
+	return false
+}
+
+func (m *ConfListModel) SetStateByConf(conf *Conf, state consts.ConfigState) bool {
+	if i := slices.Index(m.items, conf); i >= 0 && m.items[i].State != state {
+		m.items[i].State = state
+		m.PublishRowChanged(i)
+		return true
+	}
+	return false
+}
+
+func (m *ConfListModel) List() []*Conf {
+	m.Lock()
+	defer m.Unlock()
+	cfgList := make([]*Conf, len(m.items))
+	copy(cfgList, m.items)
+	return cfgList
+}
+
 func (m *ConfListModel) Move(i, j int) {
+	m.Lock()
+	defer m.Unlock()
 	util.MoveSlice(m.items, i, j)
 	m.PublishRowsChanged(min(i, j), max(i, j))
+	setConfOrder(m.items)
 }
 
 func (m *ConfListModel) RowCount() int {
 	return len(m.items)
+}
+
+func (m *ConfListModel) Add(item ...*Conf) {
+	m.Lock()
+	defer m.Unlock()
+	from := len(m.items)
+	m.items = append(m.items, item...)
+	m.PublishRowsInserted(from, from+len(item)-1)
+	setConfOrder(m.items)
+}
+
+func (m *ConfListModel) Remove(index ...int) {
+	if len(index) == 0 {
+		return
+	}
+	m.Lock()
+	defer m.Unlock()
+	i := index[0]
+	if len(index) == 1 {
+		m.items = append(m.items[:i], m.items[i+1:]...)
+		m.PublishRowsRemoved(i, i)
+	} else {
+		for i, idx := range index {
+			// index must be sorted.
+			j := idx - i
+			m.items = append(m.items[:j], m.items[j+1:]...)
+		}
+		m.PublishRowsReset()
+	}
+	if i <= len(m.items)-1 {
+		m.PublishRowsChanged(i, len(m.items)-1)
+	}
+	setConfOrder(m.items)
 }
 
 type ProxyModel struct {

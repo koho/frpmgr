@@ -415,6 +415,11 @@
             ]
         },
         {
+            "id": "The config is currently locked.",
+            "message": "The config is currently locked.",
+            "translation": "该配置目前已被锁定。"
+        },
+        {
             "id": "Are you sure that you want to delete these {Count} configs?",
             "message": "Are you sure that you want to delete these {Count} configs?",
             "translation": "确定要删除这 {Count} 个配置吗？",
@@ -1293,6 +1298,11 @@
             "translation": "启动"
         },
         {
+            "id": "Stop",
+            "message": "Stop",
+            "translation": "停止"
+        },
+        {
             "id": "Stop config \"{Name}\"",
             "message": "Stop config \"{Name}\"",
             "translation": "停止配置「{Name}」",
@@ -1323,9 +1333,19 @@
             ]
         },
         {
-            "id": "Stop",
-            "message": "Stop",
-            "translation": "停止"
+            "id": "Start config \"{Name}\"",
+            "message": "Start config \"{Name}\"",
+            "translation": "启动配置「{Name}」",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "conf.Name()"
+                }
+            ]
         },
         {
             "id": "Local Directory",

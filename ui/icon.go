@@ -35,12 +35,12 @@ type widthAndId struct {
 
 type widthAndState struct {
 	width int
-	state consts.ServiceState
+	state consts.ConfigState
 }
 
 var cachedIconsForWidthAndState = make(map[widthAndState]*walk.Icon)
 
-func iconForState(state consts.ServiceState, size int) (icon *walk.Icon) {
+func iconForState(state consts.ConfigState, size int) (icon *walk.Icon) {
 	icon = cachedIconsForWidthAndState[widthAndState{size, state}]
 	if icon != nil {
 		return

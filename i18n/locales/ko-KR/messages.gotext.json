@@ -415,6 +415,11 @@
             ]
         },
         {
+            "id": "The config is currently locked.",
+            "message": "The config is currently locked.",
+            "translation": "구성이 현재 잠겨 있습니다."
+        },
+        {
             "id": "Are you sure that you want to delete these {Count} configs?",
             "message": "Are you sure that you want to delete these {Count} configs?",
             "translation": "{Count}개의 구성을 삭제하시겠습니까?",
@@ -1293,6 +1298,11 @@
             "translation": "시작"
         },
         {
+            "id": "Stop",
+            "message": "Stop",
+            "translation": "중지"
+        },
+        {
             "id": "Stop config \"{Name}\"",
             "message": "Stop config \"{Name}\"",
             "translation": "\"{Name}\" 구성 중지",
@@ -1323,9 +1333,19 @@
             ]
         },
         {
-            "id": "Stop",
-            "message": "Stop",
-            "translation": "중지"
+            "id": "Start config \"{Name}\"",
+            "message": "Start config \"{Name}\"",
+            "translation": "구성 \"{Name}\" 시작",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "conf.Name()"
+                }
+            ]
         },
         {
             "id": "Local Directory",
