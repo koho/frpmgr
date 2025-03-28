@@ -64,15 +64,17 @@ func WatchConfigServices(paths func() []string, cb ConfigStateCallback) (func() 
 		}), 0, &subscription)
 	if err == nil {
 		if err = trackExistingConfigs(paths, cb); err != nil {
+			windows.UnsubscribeServiceChangeNotifications(subscription)
 			return nil, err
 		}
 		return func() error {
+			err := windows.UnsubscribeServiceChangeNotifications(subscription)
 			trackedConfigsLock.Lock()
 			for _, tc := range trackedConfigs {
 				tc.done.Done()
 			}
 			trackedConfigsLock.Unlock()
-			return windows.UnsubscribeServiceChangeNotifications(subscription)
+			return err
 		}, nil
 	}
 	return nil, err
