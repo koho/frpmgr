@@ -2,10 +2,10 @@ package ui
 
 import (
 	"strings"
-	"time"
 
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
+	"github.com/samber/lo"
 
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/consts"
@@ -18,11 +18,13 @@ type ConfPage struct {
 	// Views
 	confView   *ConfView
 	detailView *DetailView
+
+	svcCleanup func() error
 }
 
-func NewConfPage() *ConfPage {
+func NewConfPage(cfgList []*Conf) *ConfPage {
 	v := new(ConfPage)
-	v.confView = NewConfView()
+	v.confView = NewConfView(cfgList)
 	v.detailView = NewDetailView()
 	return v
 }
@@ -35,7 +37,8 @@ func (cp *ConfPage) Page() TabPage {
 		DataBinder: DataBinder{
 			AssignTo: &confDB,
 			DataSource: &ConfBinder{
-				Current: nil,
+				List:     cp.confView.model.List,
+				SetState: cp.confView.model.SetStateByConf,
 				Commit: func(conf *Conf, flag runFlag) {
 					if conf != nil {
 						if err := conf.Save(); err != nil {
@@ -142,50 +145,34 @@ func (cp *ConfPage) OnCreate() {
 	cp.confView.OnCreate()
 	cp.detailView.OnCreate()
 	// Select the first config
-	if len(confList) > 0 {
+	if cp.confView.model.RowCount() > 0 {
 		cp.confView.listView.SetCurrentIndex(0)
 	}
-	// Query service state of configs
-	cp.startQueryService()
+	cleanup, err := services.WatchConfigServices(func() []string {
+		return lo.Map(getConfList(), func(item *Conf, index int) string {
+			return item.Path
+		})
+	}, func(path string, state consts.ConfigState) {
+		cp.Synchronize(func() {
+			if cp.confView.model.SetStateByPath(path, state) {
+				if conf := getCurrentConf(); conf != nil && conf.Path == path {
+					cp.detailView.panelView.setState(state)
+				}
+			}
+		})
+	})
+	if err != nil {
+		showError(err, cp.Form())
+		return
+	}
+	cp.svcCleanup = cleanup
 }
 
-func (cp *ConfPage) startQueryService() {
-	query := func() {
-		stateChanged := false
-		list := getConfListSafe()
-		for _, conf := range list {
-			conf.Lock()
-			lastState := conf.State
-			lastInstall := conf.Install
-			running, err := services.QueryService(conf.Path)
-			if running {
-				conf.State = consts.StateStarted
-			} else {
-				conf.State = consts.StateStopped
-			}
-			conf.Install = err == nil
-			if conf.State != lastState || conf.Install != lastInstall {
-				stateChanged = true
-			}
-			conf.Unlock()
-		}
-		// Only update views on state changes
-		if stateChanged {
-			cp.Synchronize(func() {
-				cp.confView.listView.Invalidate()
-				cp.detailView.panelView.Invalidate()
-			})
-		}
+func (cp *ConfPage) Close() error {
+	if cp.svcCleanup != nil {
+		return cp.svcCleanup()
 	}
-	ticker := time.NewTicker(time.Second)
-	go func() {
-		defer ticker.Stop()
-		// Trigger a state query first
-		query()
-		for range ticker.C {
-			query()
-		}
-	}()
+	return nil
 }
 
 func warnConfigRemoved(owner walk.Form, name string) {

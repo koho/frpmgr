@@ -39,9 +39,9 @@ type ConfView struct {
 
 var cachedListViewIconsForWidthAndState = make(map[widthAndState]*walk.Bitmap)
 
-func NewConfView() *ConfView {
+func NewConfView(cfgList []*Conf) *ConfView {
 	v := new(ConfView)
-	v.model = NewConfListModel(confList)
+	v.model = NewConfListModel(cfgList)
 	return v
 }
 
@@ -304,12 +304,14 @@ func (cv *ConfView) fixWidthToToolbarWidth() {
 
 func (cv *ConfView) onEditConf(conf *Conf, create bool) {
 	dlg := NewEditClientDialog(conf.Data.(*config.ClientConfig), create)
-	if res, _ := dlg.Run(cv.Form()); res == walk.DlgCmdOK {
+	if result, _ := dlg.Run(cv.Form()); result == walk.DlgCmdOK {
 		if create {
-			addConf(conf)
-			cv.reset(len(confList) - 1)
+			cv.model.Add(conf)
+			cv.listView.SetCurrentIndex(cv.model.RowCount() - 1)
 		} else {
-			cv.listView.Invalidate()
+			if i := cv.listView.CurrentIndex(); i >= 0 {
+				cv.model.PublishRowsChanged(i, i)
+			}
 			// Reset current conf
 			confDB.Reset()
 		}
@@ -323,12 +325,14 @@ func (cv *ConfView) onURLImport() {
 	if result, err := dlg.Run(cv.Form()); err != nil || result != walk.DlgCmdOK {
 		return
 	}
+	var cfgList []*Conf
 	cv.importConfig(func() (total, imported int) {
 		for _, item := range dlg.Items {
 			if item.Zip {
-				subTotal, subImported := cv.importZip(item.Filename, item.Data)
+				subList, subTotal, subImported := cv.importZip(item.Filename, item.Data)
 				total += subTotal
 				imported += subImported
+				cfgList = append(cfgList, subList...)
 			} else {
 				total++
 				conf, err := config.UnmarshalClientConf(item.Data)
@@ -344,12 +348,13 @@ func (cv *ConfView) onURLImport() {
 					showError(err, cv.Form())
 					continue
 				}
-				addConf(cfg)
+				cfgList = append(cfgList, cfg)
 				imported++
 			}
 		}
 		return
 	})
+	cv.model.Add(cfgList...)
 }
 
 func (cv *ConfView) onFileImport() {
@@ -369,12 +374,11 @@ func (cv *ConfView) importConfig(f func() (int, int)) {
 		showInfoMessage(cv.Form(),
 			i18n.Sprintf("Import Config"),
 			i18n.Sprintf("Imported %d of %d configs.", imported, total))
-		// Reselect the current config after refreshing list view
-		cv.Invalidate()
 	}
 }
 
 func (cv *ConfView) ImportFiles(files []string) {
+	var cfgList []*Conf
 	cv.importConfig(func() (total, imported int) {
 		for _, path := range files {
 			if dir, err := util.IsDirectory(path); err != nil || dir {
@@ -382,9 +386,10 @@ func (cv *ConfView) ImportFiles(files []string) {
 			}
 			ext := strings.ToLower(filepath.Ext(path))
 			if ext == ".zip" {
-				subTotal, subImported := cv.importZip(path, nil)
+				subList, subTotal, subImported := cv.importZip(path, nil)
 				total += subTotal
 				imported += subImported
+				cfgList = append(cfgList, subList...)
 			} else if slices.Contains(res.SupportedConfigFormats, ext) {
 				total++
 				conf, err := config.UnmarshalClientConf(path)
@@ -400,38 +405,38 @@ func (cv *ConfView) ImportFiles(files []string) {
 					showError(err, cv.Form())
 					continue
 				}
-				addConf(cfg)
+				cfgList = append(cfgList, cfg)
 				imported++
 			}
 		}
 		return
 	})
+	cv.model.Add(cfgList...)
 }
 
-func (cv *ConfView) importZip(path string, data []byte) (total, imported int) {
-	importFile := func(file *zip.File) error {
+func (cv *ConfView) importZip(path string, data []byte) (cfgList []*Conf, total, imported int) {
+	importFile := func(file *zip.File) (*Conf, error) {
 		fr, err := file.Open()
 		if err != nil {
-			return err
+			return nil, err
 		}
 		defer fr.Close()
 		src, err := io.ReadAll(fr)
 		if err != nil {
-			return err
+			return nil, err
 		}
 		conf, err := config.UnmarshalClientConf(src)
 		if err != nil {
-			return err
+			return nil, err
 		}
 		if conf.Name() == "" {
 			conf.ClientCommon.Name = util.FileNameWithoutExt(file.Name)
 		}
 		cfg := NewConf("", conf)
 		if err = cfg.Save(); err != nil {
-			return err
+			return nil, err
 		}
-		addConf(cfg)
-		return nil
+		return cfg, nil
 	}
 	var zr *zip.Reader
 	var err error
@@ -458,8 +463,9 @@ func (cv *ConfView) importZip(path string, data []byte) (total, imported int) {
 			continue
 		}
 		total++
-		if err = importFile(file); err == nil {
+		if cfg, err := importFile(file); err == nil {
 			imported++
+			cfgList = append(cfgList, cfg)
 		}
 	}
 	return
@@ -517,6 +523,9 @@ func (cv *ConfView) onOpen(folder bool) {
 func (cv *ConfView) onDelete() {
 	indexes := cv.listView.SelectedIndexes()
 	count := len(indexes)
+	if count == 0 {
+		return
+	}
 	if count == 1 {
 		if conf := cv.model.items[indexes[0]]; conf != nil {
 			if walk.MsgBox(cv.Form(), i18n.Sprintf("Delete config \"%s\"", conf.Name()),
@@ -524,28 +533,34 @@ func (cv *ConfView) onDelete() {
 				walk.MsgBoxYesNo|walk.MsgBoxIconWarning) == walk.DlgCmdNo {
 				return
 			}
-			if removed, err := conf.Delete(); err != nil {
+			if conf.State == consts.StateStarting {
+				showErrorMessage(cv.Form(), i18n.Sprintf("Delete config \"%s\"", conf.Name()),
+					i18n.Sprintf("The config is currently locked."))
+				return
+			}
+			if err := conf.Delete(); err != nil {
 				showError(err, cv.Form())
 				return
-			} else if removed {
-				cv.Invalidate()
 			}
+			cv.model.Remove(indexes[0])
 		}
-	} else if count > 1 {
+	} else {
 		if walk.MsgBox(cv.Form(), i18n.Sprintf("Delete %d configs", count),
 			i18n.Sprintf("Are you sure that you want to delete these %d configs?", count),
 			walk.MsgBoxYesNo|walk.MsgBoxIconWarning) == walk.DlgCmdNo {
 			return
 		}
-		succeededCount := lo.SumBy(lo.Map(indexes, func(item int, index int) *Conf {
-			return cv.model.items[item]
-		}), func(item *Conf) int {
-			if removed, _ := item.Delete(); removed {
-				return 1
-			} else {
-				return 0
+		var succeeded []int
+		for _, idx := range indexes {
+			conf := cv.model.items[idx]
+			if conf.State == consts.StateStarting {
+				continue
 			}
-		})
+			if err := conf.Delete(); err == nil {
+				succeeded = append(succeeded, idx)
+			}
+		}
+		succeededCount := len(succeeded)
 		if count != succeededCount {
 			failedCount := count - succeededCount
 			walk.MsgBox(cv.Form(), i18n.Sprintf("Delete %d configs", count),
@@ -553,8 +568,12 @@ func (cv *ConfView) onDelete() {
 				walk.MsgBoxOK|walk.MsgBoxIconInformation)
 		}
 		if succeededCount > 0 {
-			cv.Invalidate()
+			cv.model.Remove(succeeded...)
 		}
+	}
+	// Restore the first selected index.
+	if i := min(indexes[0], cv.model.RowCount()-1); i >= 0 {
+		cv.listView.SetCurrentIndex(i)
 	}
 }
 
@@ -571,7 +590,7 @@ func (cv *ConfView) onExport() {
 	if !strings.HasSuffix(dlg.FilePath, ".zip") {
 		dlg.FilePath += ".zip"
 	}
-	files := lo.SliceToMap(confList, func(conf *Conf) (string, string) {
+	files := lo.SliceToMap(cv.model.List(), func(conf *Conf) (string, string) {
 		return conf.Path, conf.Name() + conf.Data.Ext()
 	})
 	if err := util.ZipFiles(dlg.FilePath, files); err != nil {
@@ -606,32 +625,6 @@ func (cv *ConfView) onMove(delta int) {
 	if targetIdx < 0 || targetIdx >= len(cv.model.items) {
 		return
 	}
-	confMutex.Lock()
 	cv.model.Move(curIdx, targetIdx)
-	setConfOrder()
-	confMutex.Unlock()
-	saveAppConfig()
 	cv.listView.SetCurrentIndex(targetIdx)
-}
-
-// reset config listview with selected index
-func (cv *ConfView) reset(selectIndex int) {
-	// Make sure `sel` is a valid index
-	sel := max(cv.listView.CurrentIndex(), 0)
-	// Refresh the whole config list
-	// The confList will be sorted
-	cv.model = NewConfListModel(confList)
-	cv.listView.SetModel(cv.model)
-	if selectIndex >= 0 {
-		sel = selectIndex
-	}
-	// Make sure the final selected index is valid
-	if selectIdx := min(sel, len(cv.model.items)-1); selectIdx >= 0 {
-		cv.listView.SetCurrentIndex(selectIdx)
-	}
-}
-
-// Invalidate conf view with last selected index
-func (cv *ConfView) Invalidate() {
-	cv.reset(-1)
 }

@@ -50,7 +50,7 @@ func InstallService(name string, configPath string, manual bool) error {
 		if err != nil && err != windows.ERROR_SERVICE_MARKED_FOR_DELETE {
 			return err
 		}
-		for {
+		for i := 0; i < 2; i++ {
 			service, err = m.OpenService(serviceName)
 			if err != nil && err != windows.ERROR_SERVICE_MARKED_FOR_DELETE {
 				break
@@ -115,27 +115,4 @@ func UninstallService(configPath string, wait bool) error {
 		return err
 	}
 	return err2
-}
-
-// QueryService returns whether the given service is running
-func QueryService(configPath string) (bool, error) {
-	if configPath == "" {
-		return false, os.ErrInvalid
-	}
-	m, err := serviceManager()
-	if err != nil {
-		return false, err
-	}
-
-	serviceName := ServiceNameOfClient(configPath)
-	service, err := m.OpenService(serviceName)
-	if err != nil {
-		return false, err
-	}
-	defer service.Close()
-	status, err := service.Query()
-	if err != nil && err != windows.ERROR_SERVICE_MARKED_FOR_DELETE {
-		return false, err
-	}
-	return status.State != svc.Stopped && err != windows.ERROR_SERVICE_MARKED_FOR_DELETE, nil
 }

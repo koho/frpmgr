@@ -415,6 +415,11 @@
             ]
         },
         {
+            "id": "The config is currently locked.",
+            "message": "The config is currently locked.",
+            "translation": "La configuración está actualmente bloqueada."
+        },
+        {
             "id": "Are you sure that you want to delete these {Count} configs?",
             "message": "Are you sure that you want to delete these {Count} configs?",
             "translation": "¿Está seguro de que desea eliminar estas configuraciones de {Count}?",
@@ -1293,6 +1298,11 @@
             "translation": "Comienzo"
         },
         {
+            "id": "Stop",
+            "message": "Stop",
+            "translation": "Deténgase"
+        },
+        {
             "id": "Stop config \"{Name}\"",
             "message": "Stop config \"{Name}\"",
             "translation": "Detener configuración \"{Name}\"",
@@ -1323,9 +1333,19 @@
             ]
         },
         {
-            "id": "Stop",
-            "message": "Stop",
-            "translation": "Deténgase"
+            "id": "Start config \"{Name}\"",
+            "message": "Start config \"{Name}\"",
+            "translation": "Iniciar configuración \"{Name}\"",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "conf.Name()"
+                }
+            ]
         },
         {
             "id": "Local Directory",

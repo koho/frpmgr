@@ -15,7 +15,7 @@ import (
 	"github.com/koho/frpmgr/services"
 )
 
-var stateDescription = map[consts.ServiceState]string{
+var stateDescription = map[consts.ConfigState]string{
 	consts.StateUnknown:  i18n.Sprintf("Unknown"),
 	consts.StateStarted:  i18n.Sprintf("Running"),
 	consts.StateStopped:  i18n.Sprintf("Stopped"),
@@ -116,9 +116,15 @@ func (pv *PanelView) OnCreate() {
 
 }
 
-func (pv *PanelView) setState(state consts.ServiceState) {
+func (pv *PanelView) setState(state consts.ConfigState) {
 	pv.stateImage.SetImage(iconForState(state, 14))
 	pv.stateText.SetText(stateDescription[state])
+	pv.toggleBtn.SetEnabled(state != consts.StateStarting && state != consts.StateStopping && state != consts.StateUnknown)
+	if state == consts.StateStarted || state == consts.StateStopping {
+		pv.toggleBtn.SetText(i18n.Sprintf("Stop"))
+	} else {
+		pv.toggleBtn.SetText(i18n.Sprintf("Start"))
+	}
 }
 
 func (pv *PanelView) ToggleService() {
@@ -158,19 +164,38 @@ func (pv *PanelView) StartService(conf *Conf) error {
 			return err
 		}
 	}
-	pv.toggleBtn.SetEnabled(false)
+	oldState := conf.State
+	setConfState(conf, consts.StateStarting)
 	pv.setState(consts.StateStarting)
-	conf.Lock()
-	conf.State = consts.StateStarting
-	conf.Unlock()
-	return services.InstallService(conf.Name(), conf.Path, !conf.Data.AutoStart())
+	go func() {
+		if err := services.InstallService(conf.Name(), conf.Path, !conf.Data.AutoStart()); err != nil {
+			pv.Synchronize(func() {
+				showErrorMessage(pv.Form(), i18n.Sprintf("Start config \"%s\"", conf.Name()), err.Error())
+				if conf.State == consts.StateStarting {
+					setConfState(conf, oldState)
+					if getCurrentConf() == conf {
+						pv.setState(oldState)
+					}
+				}
+			})
+		}
+	}()
+	return nil
 }
 
 // StopService stops the service of the given config, then removes it
-func (pv *PanelView) StopService(conf *Conf) error {
-	pv.toggleBtn.SetEnabled(false)
+func (pv *PanelView) StopService(conf *Conf) (err error) {
+	oldState := conf.State
+	setConfState(conf, consts.StateStopping)
 	pv.setState(consts.StateStopping)
-	return services.UninstallService(conf.Path, false)
+	defer func() {
+		if err != nil {
+			setConfState(conf, oldState)
+			pv.setState(oldState)
+		}
+	}()
+	err = services.UninstallService(conf.Path, false)
+	return
 }
 
 // Invalidate updates views using the current config
@@ -180,8 +205,6 @@ func (pv *PanelView) Invalidate() {
 		pv.SetTitle("")
 		pv.setState(consts.StateUnknown)
 		pv.addressText.SetText("")
-		pv.toggleBtn.SetEnabled(false)
-		pv.toggleBtn.SetText(i18n.Sprintf("Start"))
 		return
 	}
 	data := conf.Data.(*config.ClientConfig)
@@ -195,12 +218,5 @@ func (pv *PanelView) Invalidate() {
 	if pv.addressText.Text() != addr {
 		pv.addressText.SetText(addr)
 	}
-	pv.toggleBtn.SetEnabled(true)
-	if conf.State == consts.StateStarted {
-		pv.setState(consts.StateStarted)
-		pv.toggleBtn.SetText(i18n.Sprintf("Stop"))
-	} else {
-		pv.setState(consts.StateStopped)
-		pv.toggleBtn.SetText(i18n.Sprintf("Start"))
-	}
+	pv.setState(conf.State)
 }

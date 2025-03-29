@@ -537,6 +537,13 @@
             "fuzzy": true
         },
         {
+            "id": "The config is currently locked.",
+            "message": "The config is currently locked.",
+            "translation": "The config is currently locked.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Are you sure that you want to delete these {Count} configs?",
             "message": "Are you sure that you want to delete these {Count} configs?",
             "translation": "Are you sure that you want to delete these {Count} configs?",
@@ -1735,6 +1742,13 @@
             "fuzzy": true
         },
         {
+            "id": "Stop",
+            "message": "Stop",
+            "translation": "Stop",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Stop config \"{Name}\"",
             "message": "Stop config \"{Name}\"",
             "translation": "Stop config \"{Name}\"",
@@ -1769,10 +1783,20 @@
             "fuzzy": true
         },
         {
-            "id": "Stop",
-            "message": "Stop",
-            "translation": "Stop",
+            "id": "Start config \"{Name}\"",
+            "message": "Start config \"{Name}\"",
+            "translation": "Start config \"{Name}\"",
             "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "conf.Name()"
+                }
+            ],
             "fuzzy": true
         },
         {

@@ -223,7 +223,7 @@ func (lp *LogPage) onVisibleChanged() {
 			return
 		}
 		// Refresh config name list
-		lp.nameModel = getConfListSafe()
+		lp.nameModel = getConfList()
 		lp.nameView.SetModel(lp.nameModel)
 		if len(lp.nameModel) == 0 {
 			return

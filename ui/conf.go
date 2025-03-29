@@ -5,7 +5,6 @@ import (
 	"os"
 	"path/filepath"
 	"slices"
-	"sync"
 
 	"github.com/lxn/walk"
 	"github.com/samber/lo"
@@ -27,13 +26,10 @@ const (
 
 // Conf contains all data of a config
 type Conf struct {
-	sync.Mutex
 	// Path of the config file
 	Path string
 	// State of service
-	State consts.ServiceState
-	// Install indicates whether a service is installed
-	Install bool
+	State consts.ConfigState
 	// Data is ClientConfig or ServerConfig
 	Data config.Config
 }
@@ -52,8 +48,9 @@ func NewConf(path string, data config.Config) *Conf {
 		path = PathOfConf(filename + ".conf")
 	}
 	return &Conf{
-		Path: path,
-		Data: data,
+		Path:  path,
+		State: consts.StateStopped,
+		Data:  data,
 	}
 }
 
@@ -61,12 +58,12 @@ func (conf *Conf) Name() string {
 	return conf.Data.Name()
 }
 
-// Delete config will remove service, logs, config file in disk/mem
-func (conf *Conf) Delete() (bool, error) {
+// Delete config will remove service, logs, config file in disk
+func (conf *Conf) Delete() error {
 	// Delete service
 	running := conf.State == consts.StateStarted
 	if err := services.UninstallService(conf.Path, true); err != nil && running {
-		return false, err
+		return err
 	}
 	// Delete logs
 	if logs, _, err := util.FindLogFiles(conf.Data.GetLogFile()); err == nil {
@@ -74,10 +71,9 @@ func (conf *Conf) Delete() (bool, error) {
 	}
 	// Delete config file
 	if err := os.Remove(conf.Path); err != nil && !errors.Is(err, os.ErrNotExist) {
-		return false, err
+		return err
 	}
-	// Delete mem config
-	return deleteConf(conf), nil
+	return nil
 }
 
 // Save config to the disk. The config will be completed before saving
@@ -98,30 +94,27 @@ var (
 		TCPMux:     true,
 		TLSEnable:  true,
 	}}
-	// The config list contains all the loaded configs
-	confList  []*Conf
-	confMutex sync.Mutex
-	confDB    *walk.DataBinder
+	confDB *walk.DataBinder
 )
 
-func loadAllConfs() error {
+func loadAllConfs() ([]*Conf, error) {
 	_ = config.UnmarshalAppConf(config.DefaultAppFile, &appConf)
 	// Find all config files in `profiles` directory
 	files, err := filepath.Glob(PathOfConf("*.conf"))
 	if err != nil {
-		return err
+		return nil, err
 	}
-	confList = make([]*Conf, 0)
+	cfgList := make([]*Conf, 0)
 	for _, f := range files {
 		if conf, err := config.UnmarshalClientConf(f); err == nil {
 			c := NewConf(f, conf)
 			if c.Name() == "" {
 				conf.ClientCommon.Name = util.FileNameWithoutExt(f)
 			}
-			confList = append(confList, c)
+			cfgList = append(cfgList, c)
 		}
 	}
-	slices.SortStableFunc(confList, func(a, b *Conf) int {
+	slices.SortStableFunc(cfgList, func(a, b *Conf) int {
 		i := slices.Index(appConf.Sort, util.FileNameWithoutExt(a.Path))
 		j := slices.Index(appConf.Sort, util.FileNameWithoutExt(b.Path))
 		if i < 0 && j >= 0 {
@@ -131,50 +124,17 @@ func loadAllConfs() error {
 		}
 		return i - j
 	})
-	return nil
+	return cfgList, nil
 }
 
-// Make a copy of config list
-func getConfListSafe() []*Conf {
-	confMutex.Lock()
-	t := append([]*Conf(nil), confList...)
-	confMutex.Unlock()
-	return t
-}
-
-// Add a new config to the mem config list
-func addConf(conf *Conf) {
-	confMutex.Lock()
-	defer confMutex.Unlock()
-	confList = append(confList, conf)
-	setConfOrder()
-	saveAppConfig()
-}
-
-// Remove a config from the mem config list
-func deleteConf(conf *Conf) bool {
-	confMutex.Lock()
-	defer confMutex.Unlock()
-	for i := range confList {
-		if confList[i] == conf {
-			confList = append(confList[:i], confList[i+1:]...)
-			setConfOrder()
-			saveAppConfig()
-			return true
-		}
-	}
-	return false
-}
-
-// Check whether a config exists with the given name
-func hasConf(name string) bool {
-	return slices.ContainsFunc(confList, func(e *Conf) bool { return e.Name() == name })
-}
-
-// ConfBinder is the view model of the current selected config
+// ConfBinder is the view model of configs
 type ConfBinder struct {
 	// Current selected config
 	Current *Conf
+	// List of configs
+	List func() []*Conf
+	// Set Config state
+	SetState func(conf *Conf, state consts.ConfigState) bool
 	// Commit will save the given config and try to reload service
 	Commit func(conf *Conf, flag runFlag)
 }
@@ -208,6 +168,25 @@ func commitConf(conf *Conf, flag runFlag) {
 	}
 }
 
+// getConfList returns a list of all configs.
+func getConfList() []*Conf {
+	if confDB != nil {
+		if ds, ok := confDB.DataSource().(*ConfBinder); ok {
+			return ds.List()
+		}
+	}
+	return nil
+}
+
+func setConfState(conf *Conf, state consts.ConfigState) bool {
+	if confDB != nil {
+		if ds, ok := confDB.DataSource().(*ConfBinder); ok {
+			return ds.SetState(conf, state)
+		}
+	}
+	return false
+}
+
 func newDefaultClientConfig() *config.ClientConfig {
 	return &config.ClientConfig{
 		ClientCommon: appConf.Defaults.AsClientConfig(),
@@ -218,8 +197,9 @@ func saveAppConfig() error {
 	return appConf.Save(config.DefaultAppFile)
 }
 
-func setConfOrder() {
-	appConf.Sort = lo.Map(confList, func(item *Conf, index int) string {
+func setConfOrder(cfgList []*Conf) {
+	appConf.Sort = lo.Map(cfgList, func(item *Conf, index int) string {
 		return util.FileNameWithoutExt(item.Path)
 	})
+	saveAppConfig()
 }

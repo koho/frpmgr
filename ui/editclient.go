@@ -3,6 +3,7 @@ package ui
 import (
 	"fmt"
 	"math"
+	"slices"
 	"time"
 
 	"github.com/lxn/walk"
@@ -500,7 +501,7 @@ func (cd *EditClientDialog) onSave() {
 }
 
 func (cd *EditClientDialog) hasConf(name string) bool {
-	if hasConf(name) {
+	if slices.ContainsFunc(getConfList(), func(e *Conf) bool { return e.Name() == name }) {
 		showWarningMessage(cd.Form(), i18n.Sprintf("Config already exists"), i18n.Sprintf("The config name \"%s\" already exists.", name))
 		return true
 	}
