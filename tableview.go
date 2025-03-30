@@ -50,6 +50,7 @@ type TableViewCfg struct {
 	CustomRowHeight    int // in native pixels?
 	LayoutItem         func() LayoutItem
 	Editable           bool
+	ItemToolTip        func(i int) string
 }
 
 // TableView is a model based widget for record centric, tabular data.
@@ -135,6 +136,7 @@ type TableView struct {
 	restoringCurrentItemOnReset        bool
 	layoutItem                         func() LayoutItem
 	editable                           bool
+	itemToolTip                        func(int) string
 	hwndEdit                           win.HWND
 }
 
@@ -163,6 +165,7 @@ func NewTableViewWithCfg(parent Container, cfg *TableViewCfg) (*TableView, error
 		restoringCurrentItemOnReset: true,
 		layoutItem:                  cfg.LayoutItem,
 		editable:                    cfg.Editable,
+		itemToolTip:                 cfg.ItemToolTip,
 		editIndex:                   -1,
 		editSubIndex:                -1,
 	}
@@ -250,6 +253,9 @@ func NewTableViewWithCfg(parent Container, cfg *TableViewCfg) (*TableView, error
 
 	exStyle := win.SendMessage(tv.hwndFrozenLV, win.LVM_GETEXTENDEDLISTVIEWSTYLE, 0, 0)
 	exStyle |= win.LVS_EX_DOUBLEBUFFER | win.LVS_EX_FULLROWSELECT | win.LVS_EX_HEADERDRAGDROP | win.LVS_EX_LABELTIP | win.LVS_EX_SUBITEMIMAGES
+	if tv.itemToolTip != nil {
+		exStyle |= win.LVS_EX_INFOTIP
+	}
 	win.SendMessage(tv.hwndFrozenLV, win.LVM_SETEXTENDEDLISTVIEWSTYLE, 0, exStyle)
 	win.SendMessage(tv.hwndNormalLV, win.LVM_SETEXTENDEDLISTVIEWSTYLE, 0, exStyle)
 
@@ -1985,6 +1991,14 @@ func tableViewNormalLVWndProc(hwnd win.HWND, msg uint32, wp, lp uintptr) uintptr
 	return result
 }
 
+type NMLVGETINFOTIP struct {
+	Hdr        win.NMHDR
+	DwFlags    uint32
+	PszText    *uint16
+	CchTextMax int32
+	IItem      int32
+}
+
 func (tv *TableView) lvWndProc(origWndProcPtr uintptr, hwnd win.HWND, msg uint32, wp, lp uintptr) uintptr {
 	var hwndOther win.HWND
 	if hwnd == tv.hwndFrozenLV {
@@ -2528,6 +2542,24 @@ func (tv *TableView) lvWndProc(origWndProcPtr uintptr, hwnd win.HWND, msg uint32
 				}
 				win.DestroyWindow(tv.hwndEdit)
 				tv.hwndEdit = 0
+			}
+		case win.LVN_GETINFOTIP:
+			if tv.itemToolTip != nil {
+				git := (*NMLVGETINFOTIP)(unsafe.Pointer(lp))
+				if text := tv.itemToolTip(int(git.IItem)); text != "" {
+					if git.DwFlags == 0 {
+						text = "\n" + text
+					}
+					utf16 := syscall.StringToUTF16(text)
+					buf := unsafe.Slice(git.PszText, int(git.CchTextMax))
+					for i := range buf {
+						if buf[i] == 0 {
+							n := copy(buf[i:], utf16)
+							buf[mini(i+n, len(buf)-1)] = 0
+							break
+						}
+					}
+				}
 			}
 		}
 
