@@ -310,7 +310,7 @@ func (cv *ConfView) onEditConf(conf *Conf, create bool) {
 			cv.listView.SetCurrentIndex(cv.model.RowCount() - 1)
 		} else {
 			if i := cv.listView.CurrentIndex(); i >= 0 {
-				cv.model.PublishRowsChanged(i, i)
+				cv.model.PublishRowChanged(i)
 			}
 			// Reset current conf
 			confDB.Reset()

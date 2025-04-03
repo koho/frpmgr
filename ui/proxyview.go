@@ -97,7 +97,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 				Text:     i18n.Sprintf("Add"),
 				Image:    loadIcon(res.IconCreate, 16),
 				OnTriggered: func() {
-					pv.onEdit(false, nil)
+					pv.onEdit(nil, true)
 				},
 			},
 			Menu{
@@ -200,13 +200,11 @@ func (pv *ProxyView) createToolbar() ToolBar {
 				},
 			},
 			Action{
-				AssignTo: &pv.editAction,
-				Image:    loadIcon(res.IconEdit, 16),
-				Text:     i18n.Sprintf("Edit"),
-				Enabled:  Bind("proxy.SelectedCount == 1"),
-				OnTriggered: func() {
-					pv.onEdit(true, nil)
-				},
+				AssignTo:    &pv.editAction,
+				Image:       loadIcon(res.IconEdit, 16),
+				Text:        i18n.Sprintf("Edit"),
+				Enabled:     Bind("proxy.SelectedCount == 1"),
+				OnTriggered: pv.editCurrent,
 			},
 			Action{
 				AssignTo:    &pv.toggleAction,
@@ -339,46 +337,44 @@ func (pv *ProxyView) createProxyTable() TableView {
 			Separator{},
 			ActionRef{Action: &pv.deleteAction},
 		},
-		OnItemActivated: func() {
-			pv.onEdit(true, nil)
-		},
+		OnItemActivated: pv.editCurrent,
 		StyleCell: func(style *walk.CellStyle) {
-			if _, proxy := pv.getConfigProxy(style.Row()); proxy != nil {
-				if proxy.Disabled {
-					// Disabled proxy
-					style.TextColor = res.ColorGray
-					style.BackgroundColor = res.ColorGrayBG
-				} else if proxy.IsVisitor() {
-					// Visitor proxy
-					style.TextColor = res.ColorBlue
-				}
-				// Normal proxy is default black text
+			if pv.model == nil {
+				return
 			}
+			proxy := pv.model.items[style.Row()]
+			if proxy.Disabled {
+				// Disabled proxy
+				style.TextColor = res.ColorGray
+				style.BackgroundColor = res.ColorGrayBG
+			} else if proxy.IsVisitor() {
+				// Visitor proxy
+				style.TextColor = res.ColorBlue
+			}
+			// Normal proxy is default black text
 		},
 	}
 }
 
-// getConfigProxy returns the config object and the proxy object of the given index
-func (pv *ProxyView) getConfigProxy(idx int) (*config.ClientConfig, *config.Proxy) {
-	if pv.model == nil {
-		return nil, nil
+func (pv *ProxyView) editCurrent() {
+	idx := pv.table.CurrentIndex()
+	if idx < 0 || pv.model == nil {
+		return
 	}
-	if idx < 0 || idx >= len(pv.model.data.Proxies) {
-		return nil, nil
-	}
-	return pv.model.data, pv.model.data.Proxies[idx]
+	pv.onEdit(pv.model.items[idx].Proxy, false)
 }
 
 func (pv *ProxyView) onCopyAccessAddr() {
-	conf, proxy := pv.getConfigProxy(pv.table.CurrentIndex())
-	if conf == nil {
+	idx := pv.table.CurrentIndex()
+	if idx < 0 || pv.model == nil {
 		return
 	}
+	proxy := pv.model.items[idx]
 	var access string
 	switch proxy.Type {
 	case consts.ProxyTypeTCP, consts.ProxyTypeUDP:
 		if proxy.RemotePort != "" {
-			access = conf.ServerAddress + ":" + strings.Split(strings.Split(proxy.RemotePort, ",")[0], "-")[0]
+			access = pv.model.data.ServerAddress + ":" + strings.Split(strings.Split(proxy.RemotePort, ",")[0], "-")[0]
 		}
 	case consts.ProxyTypeXTCP, consts.ProxyTypeSTCP, consts.ProxyTypeSUDP:
 		if proxy.Role == "visitor" {
@@ -389,9 +385,9 @@ func (pv *ProxyView) onCopyAccessAddr() {
 			access = util.GetOrElse(proxy.LocalIP, "127.0.0.1") + ":" + proxy.LocalPort
 		}
 	case consts.ProxyTypeHTTP, consts.ProxyTypeHTTPS:
-		if proxy.SubDomain != "" && net.ParseIP(conf.ServerAddress) == nil {
+		if proxy.SubDomain != "" && net.ParseIP(pv.model.data.ServerAddress) == nil {
 			// Assume subdomain_host is equal to server_address
-			access = fmt.Sprintf("%s://%s.%s", proxy.Type, proxy.SubDomain, conf.ServerAddress)
+			access = fmt.Sprintf("%s://%s.%s", proxy.Type, proxy.SubDomain, pv.model.data.ServerAddress)
 		} else if proxy.CustomDomains != "" {
 			access = fmt.Sprintf("%s://%s", proxy.Type, strings.Split(proxy.CustomDomains, ",")[0])
 		}
@@ -434,83 +430,66 @@ func (pv *ProxyView) onClipboardImport() {
 	if proxy == nil {
 		return
 	}
-	pv.onEdit(false, proxy)
+	pv.onEdit(proxy, true)
 }
 
 func (pv *ProxyView) onDelete() {
+	if pv.model == nil {
+		return
+	}
 	indexes := pv.table.SelectedIndexes()
 	count := len(indexes)
 	if count == 1 {
-		conf, proxy := pv.getConfigProxy(indexes[0])
-		if conf == nil {
-			return
-		}
-		if walk.MsgBox(pv.Form(), i18n.Sprintf("Delete proxy \"%s\"", proxy.Name),
-			i18n.Sprintf("Are you sure you would like to delete proxy \"%s\"?", proxy.Name),
+		proxyName := pv.model.items[indexes[0]].Name
+		if walk.MsgBox(pv.Form(), i18n.Sprintf("Delete proxy \"%s\"", proxyName),
+			i18n.Sprintf("Are you sure you would like to delete proxy \"%s\"?", proxyName),
 			walk.MsgBoxYesNo|walk.MsgBoxIconWarning) == walk.DlgCmdNo {
 			return
 		}
-		conf.DeleteItem(indexes[0])
+		pv.model.Remove(indexes[0])
 	} else if count > 1 {
 		if walk.MsgBox(pv.Form(), i18n.Sprintf("Delete %d proxies", count),
 			i18n.Sprintf("Are you sure that you want to delete these %d proxies?", count),
 			walk.MsgBoxYesNo|walk.MsgBoxIconWarning) == walk.DlgCmdNo {
 			return
 		}
-		for i, idx := range indexes {
-			if conf, _ := pv.getConfigProxy(idx - i); conf != nil {
-				conf.DeleteItem(idx - i)
-			}
-		}
+		pv.model.Remove(indexes...)
 	}
 	pv.commit()
 }
 
-func (pv *ProxyView) onEdit(current bool, fill *config.Proxy) {
+func (pv *ProxyView) onEdit(proxy *config.Proxy, create bool) {
 	if pv.model == nil {
 		return
 	}
-	if current {
-		idx := pv.table.CurrentIndex()
-		conf, proxy := pv.getConfigProxy(idx)
-		if conf == nil {
-			return
-		}
-		ep := NewEditProxyDialog(proxy, pv.visitors(proxy), true, pv.model.data.LegacyFormat)
-		if ret, _ := ep.Run(pv.Form()); ret == walk.DlgCmdOK {
-			if conf.CountStart() == 0 {
-				ep.Proxy.Disabled = false
-			}
-			pv.commit()
-			pv.table.SetCurrentIndex(idx)
-		}
-	} else {
-		ep := NewEditProxyDialog(fill, pv.visitors(nil), false, pv.model.data.LegacyFormat)
-		if ret, _ := ep.Run(pv.Form()); ret == walk.DlgCmdOK {
-			if pv.model.data.AddItem(ep.Proxy) {
-				if pv.model.data.CountStart() == 0 {
-					ep.Proxy.Disabled = false
-				}
-				pv.commit()
-				pv.scrollToBottom()
+	except := proxy
+	if create {
+		except = nil
+	}
+	dlg := NewEditProxyDialog(proxy, pv.visitors(except), create, pv.model.data.LegacyFormat, pv.model.HasName)
+	if result, _ := dlg.Run(pv.Form()); result == walk.DlgCmdOK {
+		if create {
+			pv.model.Add(dlg.Proxy)
+			pv.table.SetCurrentIndex(len(pv.model.items) - 1)
+		} else {
+			if i := pv.table.CurrentIndex(); i >= 0 {
+				pv.model.Reset(i)
 			}
 		}
+		pv.commit()
 	}
 }
 
 func (pv *ProxyView) onToggleProxy() {
 	indexes := pv.table.SelectedIndexes()
 	count := len(indexes)
-	if count == 0 {
+	if count == 0 || pv.model == nil {
 		return
 	}
-	conf, proxy := pv.getConfigProxy(indexes[0])
-	if conf == nil {
-		return
-	}
+	proxy := pv.model.items[indexes[0]]
 	if !proxy.Disabled {
 		// We can't disable all proxies
-		if conf.CountStart()-count <= 0 {
+		if pv.model.data.CountStart()-count <= 0 {
 			return
 		}
 		if cc := getCurrentConf(); cc != nil && cc.State == consts.StateStarted {
@@ -530,10 +509,11 @@ func (pv *ProxyView) onToggleProxy() {
 		}
 	}
 	for _, idx := range indexes {
-		if _, proxy = pv.getConfigProxy(idx); proxy != nil {
-			proxy.Disabled = !proxy.Disabled
-		}
+		proxy = pv.model.items[idx]
+		proxy.Disabled = !proxy.Disabled
+		pv.model.PublishRowChanged(idx)
 	}
+	pv.switchToggleAction()
 	pv.commit()
 }
 
@@ -541,31 +521,33 @@ func (pv *ProxyView) onQuickAdd(qa QuickAdd) {
 	if pv.model == nil {
 		return
 	}
-	added := false
+	count := 0
 	if r, _ := qa.Run(pv.Form()); r == walk.DlgCmdOK {
 		for _, proxy := range qa.GetProxies() {
-			if !pv.model.data.AddItem(proxy) {
+			if pv.model.HasName(proxy.Name) {
 				showWarningMessage(pv.Form(), i18n.Sprintf("Proxy already exists"), i18n.Sprintf("The proxy name \"%s\" already exists.", proxy.Name))
 			} else {
-				added = true
+				pv.model.Add(proxy)
+				count++
 			}
 		}
-		if added {
+		if count > 0 {
+			pv.table.SetCurrentIndex(len(pv.model.items) - 1)
 			pv.commit()
-			pv.scrollToBottom()
 		}
 	}
 }
 
 func (pv *ProxyView) onMove(delta int) {
+	if pv.model == nil {
+		return
+	}
 	curIdx := pv.table.CurrentIndex()
-	conf, _ := pv.getConfigProxy(curIdx)
-	if conf == nil {
+	if curIdx < 0 || curIdx >= len(pv.model.items) {
 		return
 	}
 	targetIdx := curIdx + delta
-	conf, _ = pv.getConfigProxy(targetIdx)
-	if conf == nil {
+	if targetIdx < 0 || targetIdx >= len(pv.model.items) {
 		return
 	}
 	pv.model.Move(curIdx, targetIdx)
@@ -576,19 +558,14 @@ func (pv *ProxyView) onMove(delta int) {
 // switchToggleAction updates the toggle action based on the current selected proxies
 func (pv *ProxyView) switchToggleAction() {
 	indexes := pv.table.SelectedIndexes()
-	if len(indexes) == 0 {
+	if len(indexes) == 0 || pv.model == nil {
 		pv.toggleAction.SetEnabled(false)
 		return
 	}
 	count := 0
 	for _, idx := range indexes {
-		if _, proxy := pv.getConfigProxy(idx); proxy != nil {
-			if !proxy.Disabled {
-				count++
-			}
-		} else {
-			count = -1
-			break
+		if !pv.model.items[idx].Disabled {
+			count++
 		}
 	}
 	if count == 0 {
@@ -598,11 +575,7 @@ func (pv *ProxyView) switchToggleAction() {
 	} else if count == len(indexes) {
 		pv.toggleAction.SetText(i18n.Sprintf("Disable"))
 		pv.toggleAction.SetImage(loadIcon(res.IconDisable, 16))
-		if conf, _ := pv.getConfigProxy(indexes[0]); conf != nil {
-			pv.toggleAction.SetEnabled(conf.CountStart()-len(indexes) >= 1)
-		} else {
-			pv.toggleAction.SetEnabled(false)
-		}
+		pv.toggleAction.SetEnabled(pv.model.data.CountStart()-len(indexes) >= 1)
 	} else {
 		pv.toggleAction.SetEnabled(false)
 	}
@@ -610,23 +583,19 @@ func (pv *ProxyView) switchToggleAction() {
 
 // commit will update the views and save the config to disk, then reload service
 func (pv *ProxyView) commit() {
-	pv.Invalidate()
 	if pv.model != nil {
 		commitConf(pv.model.conf, runFlagReload)
 	}
 }
 
-func (pv *ProxyView) scrollToBottom() {
-	if tm := pv.table.TableModel(); tm != nil && tm.RowCount() > 0 {
-		pv.table.EnsureItemVisible(tm.RowCount() - 1)
-	}
-}
-
 // visitors returns a list of visitor names except the given proxy.
 func (pv *ProxyView) visitors(except *config.Proxy) (visitors []string) {
-	for _, proxy := range pv.model.data.Proxies {
-		if proxy != except && proxy.IsVisitor() {
-			visitors = append(visitors, proxy.Name)
+	if pv.model == nil {
+		return
+	}
+	for _, item := range pv.model.items {
+		if item.Proxy != except && item.IsVisitor() {
+			visitors = append(visitors, item.Name)
 		}
 	}
 	return

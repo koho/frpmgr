@@ -26,7 +26,7 @@ type Config interface {
 	// DeleteItem deletes the section for the given index.
 	DeleteItem(index int)
 	// AddItem adds a section to this config.
-	AddItem(item interface{}) bool
+	AddItem(item interface{})
 	// Save serializes this config and saves to the given path.
 	Save(path string) error
 	// Complete prunes and completes this config.

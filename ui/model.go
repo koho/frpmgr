@@ -110,10 +110,10 @@ type ProxyModel struct {
 
 	conf  *Conf
 	data  *config.ClientConfig
-	items []ProxyItem
+	items []*ProxyRow
 }
 
-type ProxyItem struct {
+type ProxyRow struct {
 	*config.Proxy
 	// Domains is a list of domains bound to this proxy
 	Domains string
@@ -123,32 +123,42 @@ type ProxyItem struct {
 	DisplayLocalPort string
 }
 
+func NewProxyRow(p *config.Proxy) *ProxyRow {
+	return fillProxyRow(p, new(ProxyRow))
+}
+
+func fillProxyRow(p *config.Proxy, pr *ProxyRow) *ProxyRow {
+	pr.Proxy = p
+	pr.DisplayLocalIP = p.LocalIP
+	pr.DisplayLocalPort = p.LocalPort
+	// Combine subdomain and custom domains to form a list of domains
+	pr.Domains = strings.Join(lo.Filter([]string{p.SubDomain, p.CustomDomains}, func(s string, i int) bool {
+		return strings.TrimSpace(s) != ""
+	}), ",")
+	// Show bind address and server name for visitor
+	if p.IsVisitor() {
+		pr.Domains = p.ServerName
+		pr.DisplayLocalIP = p.BindAddr
+		if p.BindPort > 0 {
+			pr.DisplayLocalPort = strconv.Itoa(p.BindPort)
+		}
+	} else if p.Plugin != "" && p.PluginLocalAddr != "" {
+		if host, port, err := net.SplitHostPort(p.PluginLocalAddr); err == nil {
+			pr.DisplayLocalIP = host
+			pr.DisplayLocalPort = port
+		} else {
+			pr.DisplayLocalIP = p.PluginLocalAddr
+		}
+	}
+	return pr
+}
+
 func NewProxyModel(conf *Conf) *ProxyModel {
 	m := new(ProxyModel)
 	m.conf = conf
 	m.data = conf.Data.(*config.ClientConfig)
-	m.items = lo.Map(m.data.Proxies, func(p *config.Proxy, i int) ProxyItem {
-		pi := ProxyItem{Proxy: p, DisplayLocalIP: p.LocalIP, DisplayLocalPort: p.LocalPort}
-		// Combine subdomain and custom domains to form a list of domains
-		pi.Domains = strings.Join(lo.Filter([]string{p.SubDomain, p.CustomDomains}, func(s string, i int) bool {
-			return strings.TrimSpace(s) != ""
-		}), ",")
-		// Show bind address and server name for visitor
-		if p.IsVisitor() {
-			pi.Domains = p.ServerName
-			pi.DisplayLocalIP = p.BindAddr
-			if p.BindPort > 0 {
-				pi.DisplayLocalPort = strconv.Itoa(p.BindPort)
-			}
-		} else if p.Plugin != "" && p.PluginLocalAddr != "" {
-			if host, port, err := net.SplitHostPort(p.PluginLocalAddr); err == nil {
-				pi.DisplayLocalIP = host
-				pi.DisplayLocalPort = port
-			} else {
-				pi.DisplayLocalIP = p.PluginLocalAddr
-			}
-		}
-		return pi
+	m.items = lo.Map(m.data.Proxies, func(p *config.Proxy, i int) *ProxyRow {
+		return NewProxyRow(p)
 	})
 	return m
 }
@@ -161,6 +171,40 @@ func (m *ProxyModel) Move(i, j int) {
 	util.MoveSlice(m.items, i, j)
 	util.MoveSlice(m.data.Proxies, i, j)
 	m.PublishRowsChanged(min(i, j), max(i, j))
+}
+
+func (m *ProxyModel) Add(proxy *config.Proxy) {
+	m.items = append(m.items, NewProxyRow(proxy))
+	m.data.AddItem(proxy)
+	m.PublishRowsInserted(len(m.items)-1, len(m.items)-1)
+}
+
+func (m *ProxyModel) Remove(index ...int) {
+	if len(index) == 0 {
+		return
+	}
+	i := index[0]
+	for i, idx := range index {
+		// index must be sorted.
+		j := idx - i
+		m.items = append(m.items[:j], m.items[j+1:]...)
+		m.data.DeleteItem(j)
+	}
+	m.PublishRowsReset()
+	if i <= len(m.items)-1 {
+		m.PublishRowsChanged(i, len(m.items)-1)
+	}
+}
+
+func (m *ProxyModel) Reset(row int) {
+	fillProxyRow(m.items[row].Proxy, m.items[row])
+	m.PublishRowChanged(row)
+}
+
+func (m *ProxyModel) HasName(name string) bool {
+	return slices.ContainsFunc(m.items, func(row *ProxyRow) bool {
+		return row.Name == name
+	})
 }
 
 type ListItem struct {

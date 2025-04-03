@@ -353,14 +353,10 @@ func (conf *ClientConfig) DeleteItem(index int) {
 	conf.Proxies = append(conf.Proxies[:index], conf.Proxies[index+1:]...)
 }
 
-func (conf *ClientConfig) AddItem(item interface{}) bool {
+func (conf *ClientConfig) AddItem(item interface{}) {
 	if proxy, ok := item.(*Proxy); ok {
-		if !slices.ContainsFunc(conf.Proxies, func(p *Proxy) bool { return p.Name == proxy.Name }) {
-			conf.Proxies = append(conf.Proxies, proxy)
-			return true
-		}
+		conf.Proxies = append(conf.Proxies, proxy)
 	}
-	return false
 }
 
 func (conf *ClientConfig) Save(path string) error {

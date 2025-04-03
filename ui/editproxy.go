@@ -2,7 +2,6 @@ package ui
 
 import (
 	"math"
-	"slices"
 	"strconv"
 	"strings"
 
@@ -22,12 +21,11 @@ import (
 type EditProxyDialog struct {
 	*walk.Dialog
 
-	Proxy    *config.Proxy
-	visitors []string
-	// Whether we are editing an existing proxy
-	exist bool
-	// Whether we are using legacy format
+	Proxy        *config.Proxy
+	visitors     []string
+	create       bool
 	legacyFormat bool
+	nameChecker  func(string) bool
 
 	// View models
 	binder    *editProxyBinder
@@ -78,16 +76,20 @@ type editProxyBinder struct {
 	BandwidthUnit string
 }
 
-func NewEditProxyDialog(proxy *config.Proxy, visitors []string, exist, legacyFormat bool) *EditProxyDialog {
-	v := &EditProxyDialog{visitors: visitors, exist: exist, legacyFormat: legacyFormat}
-	if proxy == nil {
-		proxy = config.NewDefaultProxyConfig("")
-		v.exist = false
+func NewEditProxyDialog(proxy *config.Proxy, visitors []string, create, legacyFormat bool, nameChecker func(string) bool) *EditProxyDialog {
+	v := &EditProxyDialog{
+		Proxy:        proxy,
+		visitors:     visitors,
+		create:       create,
+		legacyFormat: legacyFormat,
+		nameChecker:  nameChecker,
 	}
-	v.Proxy = proxy
+	if v.Proxy == nil {
+		v.Proxy = config.NewDefaultProxyConfig("")
+	}
 	v.binder = &editProxyBinder{
 		Proxy:   *v.Proxy,
-		Visitor: proxy.IsVisitor(),
+		Visitor: v.Proxy.IsVisitor(),
 	}
 	v.binder.BandwidthNum, v.binder.BandwidthUnit = splitBandwidth(v.Proxy.BandwidthLimit)
 	if v.Proxy.BandwidthLimitMode == "" {
@@ -111,7 +113,7 @@ func (pd *EditProxyDialog) View() Dialog {
 		pd.metadataProxyPage(),
 	}
 	title := i18n.Sprintf("New Proxy")
-	if pd.exist && pd.Proxy.Name != "" {
+	if !pd.create {
 		title = i18n.Sprintf("Edit Proxy - %s", pd.Proxy.Name)
 	}
 	var header Widget = ComboBox{
@@ -498,13 +500,10 @@ func (pd *EditProxyDialog) onSave() {
 			return
 		}
 	}
-	if pd.exist {
-		// Change proxy name
-		if pd.binder.Name != pd.Proxy.Name && pd.hasProxy(pd.binder.Name) {
+	if pd.create || pd.binder.Name != pd.Proxy.Name {
+		if pd.hasProxy(pd.binder.Name) {
 			return
 		}
-	} else if pd.hasProxy(pd.binder.Name) {
-		return
 	}
 	// Update metadata
 	pd.binder.Proxy.Metas = pd.metaModel.AsMap()
@@ -535,11 +534,9 @@ func (pd *EditProxyDialog) onSave() {
 }
 
 func (pd *EditProxyDialog) hasProxy(name string) bool {
-	if conf := getCurrentConf(); conf != nil {
-		if slices.ContainsFunc(conf.Data.Items().([]*config.Proxy), func(proxy *config.Proxy) bool { return proxy.Name == name }) {
-			showWarningMessage(pd.Form(), i18n.Sprintf("Proxy already exists"), i18n.Sprintf("The proxy name \"%s\" already exists.", name))
-			return true
-		}
+	if pd.nameChecker(name) {
+		showWarningMessage(pd.Form(), i18n.Sprintf("Proxy already exists"), i18n.Sprintf("The proxy name \"%s\" already exists.", name))
+		return true
 	}
 	return false
 }
