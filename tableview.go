@@ -2451,7 +2451,9 @@ func (tv *TableView) lvWndProc(origWndProcPtr uintptr, hwnd win.HWND, msg uint32
 
 			if selectedNow != selectedBefore {
 				if !tv.inSetSelectedIndexes && tv.MultiSelection() {
-					tv.updateSelectedIndexes()
+					if !tv.IgnoreNowhere() || nmlv.IItem >= 0 || nmlv.UNewState != 0 {
+						tv.updateSelectedIndexes()
+					}
 				}
 			}
 
