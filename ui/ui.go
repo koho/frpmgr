@@ -20,19 +20,6 @@ const AppName = "FRP Manager"
 
 var AppLocalName = i18n.Sprintf(AppName)
 
-// View is the interface that must be implemented to build a Widget.
-type View interface {
-	// View should define widget in declarative way, and will
-	// be called by the parent widget.
-	View() Widget
-	// OnCreate will be called after the creation of views. The
-	// view reference should be available now.
-	OnCreate()
-	// Invalidate should be called if data that view relying on
-	// is changed. The view should be updated with new data.
-	Invalidate()
-}
-
 func init() {
 	walk.SetTranslationFunc(func(source string, context ...string) string {
 		translation := i18n.Sprintf(source)

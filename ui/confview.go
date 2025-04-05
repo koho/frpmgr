@@ -260,18 +260,13 @@ func (cv *ConfView) OnCreate() {
 	cv.listView.SetScrollbarOrientation(walk.Vertical)
 	cv.listView.ItemActivated().Attach(cv.editCurrent)
 	cv.lsEditAction.SetDefault(true)
-	cv.listView.CurrentIndexChanged().Attach(func() {
-		if idx := cv.listView.CurrentIndex(); idx >= 0 && idx < len(cv.model.items) {
-			setCurrentConf(cv.model.items[idx])
-		} else {
-			setCurrentConf(nil)
-		}
-	})
 	cv.listView.SelectedIndexesChanged().Attach(func() {
 		if indexes := cv.listView.SelectedIndexes(); len(indexes) == 1 {
 			cv.listView.SetCurrentIndex(indexes[0])
+			setCurrentConf(cv.model.items[indexes[0]])
 		} else if len(indexes) == 0 {
 			cv.listView.SetCurrentIndex(-1)
+			setCurrentConf(nil)
 		}
 	})
 	// Setup toolbar
@@ -311,9 +306,8 @@ func (cv *ConfView) onEditConf(conf *Conf, create bool) {
 		} else {
 			if i := cv.listView.CurrentIndex(); i >= 0 {
 				cv.model.PublishRowChanged(i)
+				cv.model.PublishRowEdited(i)
 			}
-			// Reset current conf
-			confDB.Reset()
 		}
 		// Commit the config
 		commitConf(conf, runFlagAuto)

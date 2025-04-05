@@ -148,6 +148,9 @@ func (cp *ConfPage) OnCreate() {
 	if cp.confView.model.RowCount() > 0 {
 		cp.confView.listView.SetCurrentIndex(0)
 	}
+	cp.confView.model.RowEdited().Attach(func(i int) {
+		cp.detailView.panelView.Invalidate(false)
+	})
 	cleanup, err := services.WatchConfigServices(func() []string {
 		return lo.Map(getConfList(), func(item *Conf, index int) string {
 			return item.Path

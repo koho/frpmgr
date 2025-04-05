@@ -471,6 +471,7 @@ func (pv *ProxyView) onEdit(proxy *config.Proxy, create bool) {
 		if create {
 			pv.model.Add(dlg.Proxy)
 			pv.table.SetCurrentIndex(len(pv.model.items) - 1)
+			pv.table.SetFocus()
 		} else {
 			if i := pv.table.CurrentIndex(); i >= 0 {
 				pv.model.Reset(i)
@@ -533,6 +534,7 @@ func (pv *ProxyView) onQuickAdd(qa QuickAdd) {
 		}
 		if count > 0 {
 			pv.table.SetCurrentIndex(len(pv.model.items) - 1)
+			pv.table.SetFocus()
 			pv.commit()
 		}
 	}

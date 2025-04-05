@@ -41,6 +41,6 @@ func (dv *DetailView) OnCreate() {
 }
 
 func (dv *DetailView) Invalidate() {
-	dv.panelView.Invalidate()
+	dv.panelView.Invalidate(true)
 	dv.proxyView.Invalidate()
 }

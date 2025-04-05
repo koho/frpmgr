@@ -19,7 +19,8 @@ type ConfListModel struct {
 	walk.ReflectTableModelBase
 	sync.Mutex
 
-	items []*Conf
+	items              []*Conf
+	rowEditedPublisher walk.IntEventPublisher
 }
 
 func NewConfListModel(items []*Conf) *ConfListModel {
@@ -103,6 +104,14 @@ func (m *ConfListModel) Remove(index ...int) {
 		m.PublishRowsChanged(i, len(m.items)-1)
 	}
 	setConfOrder(m.items)
+}
+
+func (m *ConfListModel) RowEdited() *walk.IntEvent {
+	return m.rowEditedPublisher.Event()
+}
+
+func (m *ConfListModel) PublishRowEdited(i int) {
+	m.rowEditedPublisher.Publish(i)
 }
 
 type ProxyModel struct {

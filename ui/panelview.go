@@ -199,7 +199,7 @@ func (pv *PanelView) StopService(conf *Conf) (err error) {
 }
 
 // Invalidate updates views using the current config
-func (pv *PanelView) Invalidate() {
+func (pv *PanelView) Invalidate(state bool) {
 	conf := getCurrentConf()
 	if conf == nil {
 		pv.SetTitle("")
@@ -218,5 +218,7 @@ func (pv *PanelView) Invalidate() {
 	if pv.addressText.Text() != addr {
 		pv.addressText.SetText(addr)
 	}
-	pv.setState(conf.State)
+	if state {
+		pv.setState(conf.State)
+	}
 }
