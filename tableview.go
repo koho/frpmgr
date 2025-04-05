@@ -1933,6 +1933,10 @@ func (tv *TableView) disposeImageListAndCaches() {
 	tv.filePath2IconIndex = nil
 }
 
+func (tv *TableView) DisposeImageList() {
+	tv.disposeImageListAndCaches()
+}
+
 func (tv *TableView) Focused() bool {
 	focused := win.GetFocus()
 
