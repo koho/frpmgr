@@ -72,6 +72,7 @@ type TableView struct {
 	LayoutItem                  func() walk.LayoutItem
 	Editable                    bool
 	ItemToolTip                 func(i int) string
+	ImageAsState                bool
 }
 
 type tvStyler struct {
@@ -101,9 +102,9 @@ func (tv TableView) Create(builder *Builder) error {
 	var w *walk.TableView
 	var err error
 	if tv.NotSortableByHeaderClick {
-		w, err = walk.NewTableViewWithCfg(builder.Parent(), &walk.TableViewCfg{Style: win.LVS_NOSORTHEADER, LayoutItem: tv.LayoutItem, Editable: tv.Editable, ItemToolTip: tv.ItemToolTip})
+		w, err = walk.NewTableViewWithCfg(builder.Parent(), &walk.TableViewCfg{Style: win.LVS_NOSORTHEADER, LayoutItem: tv.LayoutItem, Editable: tv.Editable, ItemToolTip: tv.ItemToolTip, ImageAsState: tv.ImageAsState})
 	} else {
-		w, err = walk.NewTableViewWithCfg(builder.Parent(), &walk.TableViewCfg{CustomHeaderHeight: tv.CustomHeaderHeight, CustomRowHeight: tv.CustomRowHeight, LayoutItem: tv.LayoutItem, Editable: tv.Editable, ItemToolTip: tv.ItemToolTip})
+		w, err = walk.NewTableViewWithCfg(builder.Parent(), &walk.TableViewCfg{CustomHeaderHeight: tv.CustomHeaderHeight, CustomRowHeight: tv.CustomRowHeight, LayoutItem: tv.LayoutItem, Editable: tv.Editable, ItemToolTip: tv.ItemToolTip, ImageAsState: tv.ImageAsState})
 	}
 	if err != nil {
 		return err

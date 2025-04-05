@@ -51,6 +51,7 @@ type TableViewCfg struct {
 	LayoutItem         func() LayoutItem
 	Editable           bool
 	ItemToolTip        func(i int) string
+	ImageAsState       bool
 }
 
 // TableView is a model based widget for record centric, tabular data.
@@ -137,6 +138,7 @@ type TableView struct {
 	layoutItem                         func() LayoutItem
 	editable                           bool
 	itemToolTip                        func(int) string
+	imageAsState                       bool
 	hwndEdit                           win.HWND
 }
 
@@ -166,6 +168,7 @@ func NewTableViewWithCfg(parent Container, cfg *TableViewCfg) (*TableView, error
 		layoutItem:                  cfg.LayoutItem,
 		editable:                    cfg.Editable,
 		itemToolTip:                 cfg.ItemToolTip,
+		imageAsState:                cfg.ImageAsState,
 		editIndex:                   -1,
 		editSubIndex:                -1,
 	}
@@ -1905,14 +1908,22 @@ func (tv *TableView) applyImageListForImage(image interface{}) {
 }
 
 func (tv *TableView) applyImageList() {
-	win.SendMessage(tv.hwndFrozenLV, win.LVM_SETIMAGELIST, win.LVSIL_SMALL, uintptr(tv.hIml))
-	win.SendMessage(tv.hwndNormalLV, win.LVM_SETIMAGELIST, win.LVSIL_SMALL, uintptr(tv.hIml))
+	var flag uintptr = win.LVSIL_SMALL
+	if tv.imageAsState {
+		flag = win.LVSIL_STATE
+	}
+	win.SendMessage(tv.hwndFrozenLV, win.LVM_SETIMAGELIST, flag, uintptr(tv.hIml))
+	win.SendMessage(tv.hwndNormalLV, win.LVM_SETIMAGELIST, flag, uintptr(tv.hIml))
 }
 
 func (tv *TableView) disposeImageListAndCaches() {
 	if tv.hIml != 0 && !tv.usingSysIml {
-		win.SendMessage(tv.hwndFrozenLV, win.LVM_SETIMAGELIST, win.LVSIL_SMALL, 0)
-		win.SendMessage(tv.hwndNormalLV, win.LVM_SETIMAGELIST, win.LVSIL_SMALL, 0)
+		var flag uintptr = win.LVSIL_SMALL
+		if tv.imageAsState {
+			flag = win.LVSIL_STATE
+		}
+		win.SendMessage(tv.hwndFrozenLV, win.LVM_SETIMAGELIST, flag, 0)
+		win.SendMessage(tv.hwndNormalLV, win.LVM_SETIMAGELIST, flag, 0)
 
 		win.ImageList_Destroy(tv.hIml)
 	}
@@ -1999,6 +2010,14 @@ type NMLVGETINFOTIP struct {
 	IItem      int32
 }
 
+func (tv *TableView) selectItem(i int32) {
+	var lvi win.LVITEM
+	lvi.StateMask = win.LVIS_FOCUSED | win.LVIS_SELECTED
+	lvi.State = win.LVIS_FOCUSED | win.LVIS_SELECTED
+	win.SendMessage(tv.hwndFrozenLV, win.LVM_SETITEMSTATE, uintptr(i), uintptr(unsafe.Pointer(&lvi)))
+	win.SendMessage(tv.hwndNormalLV, win.LVM_SETITEMSTATE, uintptr(i), uintptr(unsafe.Pointer(&lvi)))
+}
+
 func (tv *TableView) lvWndProc(origWndProcPtr uintptr, hwnd win.HWND, msg uint32, wp, lp uintptr) uintptr {
 	var hwndOther win.HWND
 	if hwnd == tv.hwndFrozenLV {
@@ -2072,12 +2091,52 @@ func (tv *TableView) lvWndProc(origWndProcPtr uintptr, hwnd win.HWND, msg uint32
 
 				tv.toggleItemChecked(int(hti.IItem))
 			}
+			if hti.Flags == win.LVHT_ONITEMSTATEICON && tv.imageAsState {
+				key := ModifiersDown()
+				if key&ModShift != 0 {
+					if msg == win.WM_LBUTTONDOWN {
+						if tv.currentIndex >= 0 {
+							start := mini(tv.currentIndex, int(hti.IItem))
+							end := maxi(tv.currentIndex, int(hti.IItem))
+							indexes := make([]int, 0, end-start+1)
+							equal := true
+							for i := start; i <= end; i++ {
+								indexes = append(indexes, i)
+								if j := len(indexes) - 1; j >= len(tv.selectedIndexes) || tv.selectedIndexes[j] != indexes[j] {
+									equal = false
+								}
+							}
+							if !equal || len(indexes) != len(tv.selectedIndexes) {
+								tv.SetSelectedIndexes(indexes)
+							}
+						} else {
+							tv.selectItem(hti.IItem)
+						}
+					}
+				} else if key&ModControl != 0 {
+					if msg == win.WM_LBUTTONDOWN {
+						var lvi win.LVITEM
+						lvi.StateMask = win.LVIS_FOCUSED | win.LVIS_SELECTED
+						if itemState := win.SendMessage(hwnd, win.LVM_GETITEMSTATE, uintptr(hti.IItem), win.LVIS_SELECTED); itemState&win.LVIS_SELECTED == 0 {
+							lvi.State = win.LVIS_FOCUSED | win.LVIS_SELECTED
+						}
+						win.SendMessage(tv.hwndFrozenLV, win.LVM_SETITEMSTATE, uintptr(hti.IItem), uintptr(unsafe.Pointer(&lvi)))
+						win.SendMessage(tv.hwndNormalLV, win.LVM_SETITEMSTATE, uintptr(hti.IItem), uintptr(unsafe.Pointer(&lvi)))
+					}
+				} else {
+					tv.selectItem(hti.IItem)
+				}
+			}
 
 		case win.WM_LBUTTONDBLCLK, win.WM_RBUTTONDBLCLK:
 			if tv.currentIndex != tv.prevIndex && tv.itemStateChangedEventDelay > 0 {
 				tv.prevIndex = tv.currentIndex
 				tv.currentIndexChangedPublisher.Publish()
 				tv.currentItemChangedPublisher.Publish()
+			}
+			if hti.Flags == win.LVHT_ONITEMSTATEICON && tv.imageAsState && msg == win.WM_LBUTTONDBLCLK {
+				tv.SetCurrentIndex(int(hti.IItem))
+				tv.itemActivatedPublisher.Publish()
 			}
 		}
 
@@ -2210,13 +2269,21 @@ func (tv *TableView) lvWndProc(origWndProcPtr uintptr, hwnd win.HWND, msg uint32
 						tv.applyImageListForImage(image)
 					}
 
-					di.Item.IImage = imageIndexMaybeAdd(
+					index := imageIndexMaybeAdd(
 						image,
 						tv.hIml,
 						tv.usingSysIml,
 						tv.imageUintptr2Index,
 						tv.filePath2IconIndex,
 						tv.DPI())
+					if tv.imageAsState {
+						if di.Item.Mask&win.LVIF_STATE > 0 {
+							di.Item.StateMask = win.LVIS_STATEIMAGEMASK
+							di.Item.State = uint32(index+1) << 12
+						}
+					} else {
+						di.Item.IImage = index
+					}
 				}
 			}
 
