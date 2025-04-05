@@ -493,7 +493,7 @@ func (pv *ProxyView) onToggleProxy() {
 		if pv.model.data.CountStart()-count <= 0 {
 			return
 		}
-		if cc := getCurrentConf(); cc != nil && cc.State == consts.StateStarted {
+		if cc := getCurrentConf(); cc != nil && cc.State == consts.ConfigStateStarted {
 			if count == 1 {
 				if walk.MsgBox(pv.Form(), i18n.Sprintf("Disable proxy \"%s\"", proxy.Name),
 					i18n.Sprintf("Are you sure you would like to disable proxy \"%s\"?", proxy.Name),

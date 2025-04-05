@@ -16,11 +16,11 @@ import (
 )
 
 var stateDescription = map[consts.ConfigState]string{
-	consts.StateUnknown:  i18n.Sprintf("Unknown"),
-	consts.StateStarted:  i18n.Sprintf("Running"),
-	consts.StateStopped:  i18n.Sprintf("Stopped"),
-	consts.StateStarting: i18n.Sprintf("Starting"),
-	consts.StateStopping: i18n.Sprintf("Stopping"),
+	consts.ConfigStateUnknown:  i18n.Sprintf("Unknown"),
+	consts.ConfigStateStarted:  i18n.Sprintf("Running"),
+	consts.ConfigStateStopped:  i18n.Sprintf("Stopped"),
+	consts.ConfigStateStarting: i18n.Sprintf("Starting"),
+	consts.ConfigStateStopping: i18n.Sprintf("Stopping"),
 }
 
 type PanelView struct {
@@ -117,10 +117,10 @@ func (pv *PanelView) OnCreate() {
 }
 
 func (pv *PanelView) setState(state consts.ConfigState) {
-	pv.stateImage.SetImage(iconForState(state, 14))
+	pv.stateImage.SetImage(iconForConfigState(state, 14))
 	pv.stateText.SetText(stateDescription[state])
-	pv.toggleBtn.SetEnabled(state != consts.StateStarting && state != consts.StateStopping && state != consts.StateUnknown)
-	if state == consts.StateStarted || state == consts.StateStopping {
+	pv.toggleBtn.SetEnabled(state != consts.ConfigStateStarting && state != consts.ConfigStateStopping && state != consts.ConfigStateUnknown)
+	if state == consts.ConfigStateStarted || state == consts.ConfigStateStopping {
 		pv.toggleBtn.SetText(i18n.Sprintf("Stop"))
 	} else {
 		pv.toggleBtn.SetText(i18n.Sprintf("Start"))
@@ -133,7 +133,7 @@ func (pv *PanelView) ToggleService() {
 		return
 	}
 	var err error
-	if conf.State == consts.StateStarted {
+	if conf.State == consts.ConfigStateStarted {
 		if walk.MsgBox(pv.Form(), i18n.Sprintf("Stop config \"%s\"", conf.Name()),
 			i18n.Sprintf("Are you sure you would like to stop config \"%s\"?", conf.Name()),
 			walk.MsgBoxYesNo|walk.MsgBoxIconQuestion) == walk.DlgCmdNo {
@@ -165,13 +165,13 @@ func (pv *PanelView) StartService(conf *Conf) error {
 		}
 	}
 	oldState := conf.State
-	setConfState(conf, consts.StateStarting)
-	pv.setState(consts.StateStarting)
+	setConfState(conf, consts.ConfigStateStarting)
+	pv.setState(consts.ConfigStateStarting)
 	go func() {
 		if err := services.InstallService(conf.Name(), conf.Path, !conf.Data.AutoStart()); err != nil {
 			pv.Synchronize(func() {
 				showErrorMessage(pv.Form(), i18n.Sprintf("Start config \"%s\"", conf.Name()), err.Error())
-				if conf.State == consts.StateStarting {
+				if conf.State == consts.ConfigStateStarting {
 					setConfState(conf, oldState)
 					if getCurrentConf() == conf {
 						pv.setState(oldState)
@@ -186,8 +186,8 @@ func (pv *PanelView) StartService(conf *Conf) error {
 // StopService stops the service of the given config, then removes it
 func (pv *PanelView) StopService(conf *Conf) (err error) {
 	oldState := conf.State
-	setConfState(conf, consts.StateStopping)
-	pv.setState(consts.StateStopping)
+	setConfState(conf, consts.ConfigStateStopping)
+	pv.setState(consts.ConfigStateStopping)
 	defer func() {
 		if err != nil {
 			setConfState(conf, oldState)
@@ -203,7 +203,7 @@ func (pv *PanelView) Invalidate(state bool) {
 	conf := getCurrentConf()
 	if conf == nil {
 		pv.SetTitle("")
-		pv.setState(consts.StateUnknown)
+		pv.setState(consts.ConfigStateUnknown)
 		pv.addressText.SetText("")
 		return
 	}

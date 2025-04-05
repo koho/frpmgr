@@ -47,7 +47,7 @@ func (cp *ConfPage) Page() TabPage {
 						}
 						if flag == runFlagForceStart {
 							// The service of config is stopped by other code, but it should be restarted
-						} else if conf.State == consts.StateStarted {
+						} else if conf.State == consts.ConfigStateStarted {
 							// Hot-Reloading frp configuration
 							if flag == runFlagReload {
 								if err := services.ReloadService(conf.Path); err != nil {

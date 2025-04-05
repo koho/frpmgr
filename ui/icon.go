@@ -33,27 +33,27 @@ type widthAndId struct {
 	icon  res.Icon
 }
 
-type widthAndState struct {
+type widthAndConfigState struct {
 	width int
 	state consts.ConfigState
 }
 
-var cachedIconsForWidthAndState = make(map[widthAndState]*walk.Icon)
+var cachedIconsForWidthAndConfigState = make(map[widthAndConfigState]*walk.Icon)
 
-func iconForState(state consts.ConfigState, size int) (icon *walk.Icon) {
-	icon = cachedIconsForWidthAndState[widthAndState{size, state}]
+func iconForConfigState(state consts.ConfigState, size int) (icon *walk.Icon) {
+	icon = cachedIconsForWidthAndConfigState[widthAndConfigState{size, state}]
 	if icon != nil {
 		return
 	}
 	switch state {
-	case consts.StateStarted:
+	case consts.ConfigStateStarted:
 		icon = loadIcon(res.IconStateRunning, size)
-	case consts.StateStopped, consts.StateUnknown:
+	case consts.ConfigStateStopped, consts.ConfigStateUnknown:
 		icon = loadIcon(res.IconStateStopped, size)
 	default:
 		icon = loadIcon(res.IconStateWorking, size)
 	}
-	cachedIconsForWidthAndState[widthAndState{size, state}] = icon
+	cachedIconsForWidthAndConfigState[widthAndConfigState{size, state}] = icon
 	return
 }
 

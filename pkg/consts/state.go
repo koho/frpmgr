@@ -4,9 +4,9 @@ package consts
 type ConfigState int
 
 const (
-	StateUnknown ConfigState = iota
-	StateStarted
-	StateStopped
-	StateStarting
-	StateStopping
+	ConfigStateUnknown ConfigState = iota
+	ConfigStateStarted
+	ConfigStateStopped
+	ConfigStateStarting
+	ConfigStateStopping
 )

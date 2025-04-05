@@ -49,7 +49,7 @@ func NewConf(path string, data config.Config) *Conf {
 	}
 	return &Conf{
 		Path:  path,
-		State: consts.StateStopped,
+		State: consts.ConfigStateStopped,
 		Data:  data,
 	}
 }
@@ -61,7 +61,7 @@ func (conf *Conf) Name() string {
 // Delete config will remove service, logs, config file in disk
 func (conf *Conf) Delete() error {
 	// Delete service
-	running := conf.State == consts.StateStarted
+	running := conf.State == consts.ConfigStateStarted
 	if err := services.UninstallService(conf.Path, true); err != nil && running {
 		return err
 	}

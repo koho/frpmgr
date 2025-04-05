@@ -37,7 +37,7 @@ type ConfView struct {
 	tbExportAction *walk.Action
 }
 
-var cachedListViewIconsForWidthAndState = make(map[widthAndState]*walk.Bitmap)
+var cachedListViewIconsForWidthAndState = make(map[widthAndConfigState]*walk.Bitmap)
 
 func NewConfView(cfgList []*Conf) *ConfView {
 	v := new(ConfView)
@@ -169,7 +169,7 @@ func (cv *ConfView) View() Widget {
 					}
 					margin := cv.listView.IntFrom96DPI(1)
 					bitmapWidth := cv.listView.IntFrom96DPI(16)
-					cacheKey := widthAndState{bitmapWidth, conf.State}
+					cacheKey := widthAndConfigState{bitmapWidth, conf.State}
 					if cacheValue, ok := cachedListViewIconsForWidthAndState[cacheKey]; ok {
 						style.Image = cacheValue
 						return
@@ -183,7 +183,7 @@ func (cv *ConfView) View() Widget {
 						return
 					}
 					bounds := walk.Rectangle{X: margin, Y: margin, Height: bitmapWidth - 2*margin, Width: bitmapWidth - 2*margin}
-					err = canvas.DrawImageStretchedPixels(iconForState(conf.State, 14), bounds)
+					err = canvas.DrawImageStretchedPixels(iconForConfigState(conf.State, 14), bounds)
 					canvas.Dispose()
 					if err != nil {
 						return
@@ -527,7 +527,7 @@ func (cv *ConfView) onDelete() {
 				walk.MsgBoxYesNo|walk.MsgBoxIconWarning) == walk.DlgCmdNo {
 				return
 			}
-			if conf.State == consts.StateStarting {
+			if conf.State == consts.ConfigStateStarting {
 				showErrorMessage(cv.Form(), i18n.Sprintf("Delete config \"%s\"", conf.Name()),
 					i18n.Sprintf("The config is currently locked."))
 				return
@@ -547,7 +547,7 @@ func (cv *ConfView) onDelete() {
 		var succeeded []int
 		for _, idx := range indexes {
 			conf := cv.model.items[idx]
-			if conf.State == consts.StateStarting {
+			if conf.State == consts.ConfigStateStarting {
 				continue
 			}
 			if err := conf.Delete(); err == nil {

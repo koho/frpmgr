@@ -36,7 +36,7 @@ func trackExistingConfigs(paths func() []string, cb ConfigStateCallback) error {
 			trackedConfigsLock.Unlock()
 			if (err != nil || cfg.StartType == windows.SERVICE_DISABLED) && ctx.once.CompareAndSwap(0, 1) {
 				ctx.done.Done()
-				cb(path, consts.StateStopped)
+				cb(path, consts.ConfigStateStopped)
 			}
 			continue
 		}
@@ -102,7 +102,7 @@ func trackService(service *mgr.Service, path string, cb ConfigStateCallback) {
 	}()
 
 	var subscription uintptr
-	lastState := consts.StateUnknown
+	lastState := consts.ConfigStateUnknown
 	var updateState = func(state consts.ConfigState) {
 		if state != lastState {
 			cb(path, state)
@@ -114,7 +114,7 @@ func trackService(service *mgr.Service, path string, cb ConfigStateCallback) {
 			if ctx.once.Load() != 0 {
 				return 0
 			}
-			configState := consts.StateUnknown
+			configState := consts.ConfigStateUnknown
 			if notification == 0 {
 				status, err := service.Query()
 				if err == nil {
@@ -134,7 +134,7 @@ func trackService(service *mgr.Service, path string, cb ConfigStateCallback) {
 		}
 		ctx.done.Wait()
 	} else {
-		cb(path, consts.StateStopped)
+		cb(path, consts.ConfigStateStopped)
 		service.Control(svc.Stop)
 	}
 }
@@ -142,13 +142,13 @@ func trackService(service *mgr.Service, path string, cb ConfigStateCallback) {
 func svcStateToConfigState(s uint32) consts.ConfigState {
 	switch s {
 	case windows.SERVICE_STOPPED:
-		return consts.StateStopped
+		return consts.ConfigStateStopped
 	case windows.SERVICE_START_PENDING:
-		return consts.StateStarting
+		return consts.ConfigStateStarting
 	case windows.SERVICE_STOP_PENDING:
-		return consts.StateStopping
+		return consts.ConfigStateStopping
 	case windows.SERVICE_RUNNING:
-		return consts.StateStarted
+		return consts.ConfigStateStarted
 	case windows.SERVICE_NO_CHANGE:
 		return 0
 	default:
@@ -158,14 +158,14 @@ func svcStateToConfigState(s uint32) consts.ConfigState {
 
 func notifyStateToConfigState(s uint32) consts.ConfigState {
 	if s&(windows.SERVICE_NOTIFY_STOPPED|windows.SERVICE_NOTIFY_DELETED|windows.SERVICE_NOTIFY_DELETE_PENDING) != 0 {
-		return consts.StateStopped
+		return consts.ConfigStateStopped
 	} else if s&windows.SERVICE_NOTIFY_STOP_PENDING != 0 {
-		return consts.StateStopping
+		return consts.ConfigStateStopping
 	} else if s&windows.SERVICE_NOTIFY_RUNNING != 0 {
-		return consts.StateStarted
+		return consts.ConfigStateStarted
 	} else if s&windows.SERVICE_NOTIFY_START_PENDING != 0 {
-		return consts.StateStarting
+		return consts.ConfigStateStarting
 	} else {
-		return consts.StateUnknown
+		return consts.ConfigStateUnknown
 	}
 }
