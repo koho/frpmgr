@@ -23,6 +23,7 @@ type ProxyView struct {
 	model   *ProxyModel
 	toolbar *walk.ToolBar
 	table   *walk.TableView
+	tracker *ProxyTracker
 
 	// Actions
 	newAction       *walk.Action
@@ -40,6 +41,8 @@ type ProxyView struct {
 	deleteAction    *walk.Action
 	toggleAction    *walk.Action
 }
+
+var cachedProxyViewIconsForWidthAndState = make(map[widthAndProxyState]*walk.Bitmap)
 
 func NewProxyView() *ProxyView {
 	return new(ProxyView)
@@ -74,15 +77,64 @@ func (pv *ProxyView) OnCreate() {
 }
 
 func (pv *ProxyView) Invalidate() {
+	pv.stopTracker()
 	if conf := getCurrentConf(); conf != nil {
 		if _, ok := conf.Data.(*config.ClientConfig); ok {
 			pv.model = NewProxyModel(conf)
 			pv.table.SetModel(pv.model)
+			if conf.State == consts.ConfigStateStarted {
+				pv.startTracker()
+			}
 			return
 		}
 	}
 	pv.model = nil
 	pv.table.SetModel(nil)
+}
+
+func (pv *ProxyView) startTracker() {
+	if pv.tracker == nil {
+		pv.tracker = NewProxyTracker(pv.Form(), pv.model)
+		pv.tracker.fastQuery()
+	}
+}
+
+func (pv *ProxyView) stopTracker() {
+	if pv.tracker != nil {
+		pv.tracker.Close()
+		pv.tracker = nil
+	}
+}
+
+func (pv *ProxyView) showProxyState() {
+	if pv.model == nil {
+		return
+	}
+	pv.model.PublishRowsChanged(0, len(pv.model.items)-1)
+}
+
+func (pv *ProxyView) resetProxyState(row int) {
+	if pv.model == nil {
+		return
+	}
+	items := pv.model.items
+	if row >= 0 {
+		items = pv.model.items[row : row+1]
+	} else {
+		defer pv.table.DisposeImageList()
+	}
+	for i, item := range items {
+		item.State = consts.ProxyStateUnknown
+		item.StateSource = ""
+		item.Error = ""
+		item.RemoteAddr = ""
+		if item.RemotePort != item.DisplayRemotePort {
+			item.DisplayRemotePort = item.RemotePort
+			if row < 0 {
+				pv.model.PublishRowChanged(i)
+			}
+		}
+	}
 }
 
 func (pv *ProxyView) createToolbar() ToolBar {
@@ -250,9 +302,10 @@ func (pv *ProxyView) createProxyTable() TableView {
 			{Title: i18n.Sprintf("Type"), DataMember: "Type", Width: 55},
 			{Title: i18n.Sprintf("Local Address"), DataMember: "DisplayLocalIP", Width: 110},
 			{Title: i18n.Sprintf("Local Port"), DataMember: "DisplayLocalPort", Width: 90},
-			{Title: i18n.Sprintf("Remote Port"), DataMember: "RemotePort", Width: 90},
+			{Title: i18n.Sprintf("Remote Port"), DataMember: "DisplayRemotePort", Width: 90},
 			{Title: i18n.Sprintf("Domains"), DataMember: "Domains", Width: 80},
 			{Title: i18n.Sprintf("Plugin"), DataMember: "Plugin", Width: 80},
+			{Title: i18n.Sprintf("Remote Address"), DataMember: "RemoteAddr", Width: 110, Name: "remoteAddr", Hidden: true},
 		},
 		MultiSelection: true,
 		ContextMenuItems: []MenuItem{
@@ -321,6 +374,18 @@ func (pv *ProxyView) createProxyTable() TableView {
 			},
 			Separator{},
 			Action{
+				Text:      i18n.Sprintf("Show Remote Address"),
+				Checkable: true,
+				OnTriggered: func() {
+					if col := pv.table.Columns().ByName("remoteAddr"); col != nil {
+						col.SetVisible(!col.Visible())
+						if col.Visible() {
+							pv.table.ScrollToLastColumn()
+						}
+					}
+				},
+			},
+			Action{
 				Enabled:     Bind("proxy.SelectedCount == 1"),
 				Text:        i18n.Sprintf("Copy Access Address"),
 				Image:       loadIcon(res.IconSysCopy, 16),
@@ -338,6 +403,7 @@ func (pv *ProxyView) createProxyTable() TableView {
 			ActionRef{Action: &pv.deleteAction},
 		},
 		OnItemActivated: pv.editCurrent,
+		ImageAsState:    true,
 		StyleCell: func(style *walk.CellStyle) {
 			if pv.model == nil {
 				return
@@ -352,6 +418,46 @@ func (pv *ProxyView) createProxyTable() TableView {
 				style.TextColor = res.ColorBlue
 			}
 			// Normal proxy is default black text
+			if style.Col() == 0 && pv.model.conf.State == consts.ConfigStateStarted {
+				margin := pv.IntFrom96DPI(2)
+				bitmapWidth := pv.IntFrom96DPI(16)
+				cacheKey := widthAndProxyState{bitmapWidth, proxy.State}
+				if cacheValue, ok := cachedProxyViewIconsForWidthAndState[cacheKey]; ok {
+					style.Image = cacheValue
+					return
+				}
+				bitmap, err := walk.NewBitmapWithTransparentPixelsForDPI(walk.Size{Width: bitmapWidth, Height: bitmapWidth}, pv.DPI())
+				if err != nil {
+					return
+				}
+				canvas, err := walk.NewCanvasFromImage(bitmap)
+				if err != nil {
+					return
+				}
+				bounds := walk.Rectangle{X: margin, Y: margin, Height: bitmapWidth - 2*margin, Width: bitmapWidth - 2*margin}
+				err = canvas.DrawImageStretchedPixels(iconForProxyState(proxy.State, 12), bounds)
+				canvas.Dispose()
+				if err != nil {
+					return
+				}
+				cachedProxyViewIconsForWidthAndState[cacheKey] = bitmap
+				style.Image = bitmap
+			} else {
+				style.Image = nil
+			}
+		},
+		ItemToolTip: func(i int) string {
+			if pv.model == nil || pv.model.items[i].Disabled {
+				return ""
+			}
+			if errMsg := pv.model.items[i].Error; errMsg != "" {
+				tooltip := i18n.Sprintf("Error: %s", errMsg)
+				if source := pv.model.items[i].StateSource; source != pv.model.items[i].Name {
+					tooltip += "\n" + i18n.Sprintf("Source: %s", source)
+				}
+				return tooltip
+			}
+			return ""
 		},
 	}
 }
@@ -373,7 +479,9 @@ func (pv *ProxyView) onCopyAccessAddr() {
 	var access string
 	switch proxy.Type {
 	case consts.ProxyTypeTCP, consts.ProxyTypeUDP:
-		if proxy.RemotePort != "" {
+		if proxy.RemoteAddr != "" {
+			access = proxy.RemoteAddr
+		} else if proxy.RemotePort != "" {
 			access = pv.model.data.ServerAddress + ":" + strings.Split(strings.Split(proxy.RemotePort, ",")[0], "-")[0]
 		}
 	case consts.ProxyTypeXTCP, consts.ProxyTypeSTCP, consts.ProxyTypeSUDP:
@@ -440,9 +548,9 @@ func (pv *ProxyView) onDelete() {
 	indexes := pv.table.SelectedIndexes()
 	count := len(indexes)
 	if count == 1 {
-		proxyName := pv.model.items[indexes[0]].Name
-		if walk.MsgBox(pv.Form(), i18n.Sprintf("Delete proxy \"%s\"", proxyName),
-			i18n.Sprintf("Are you sure you would like to delete proxy \"%s\"?", proxyName),
+		name := pv.model.items[indexes[0]].Name
+		if walk.MsgBox(pv.Form(), i18n.Sprintf("Delete proxy \"%s\"", name),
+			i18n.Sprintf("Are you sure you would like to delete proxy \"%s\"?", name),
 			walk.MsgBoxYesNo|walk.MsgBoxIconWarning) == walk.DlgCmdNo {
 			return
 		}
@@ -466,6 +574,10 @@ func (pv *ProxyView) onEdit(proxy *config.Proxy, create bool) {
 	if create {
 		except = nil
 	}
+	var oldName string
+	if proxy != nil {
+		oldName = proxy.Name
+	}
 	dlg := NewEditProxyDialog(proxy, pv.visitors(except), create, pv.model.data.LegacyFormat, pv.model.HasName)
 	if result, _ := dlg.Run(pv.Form()); result == walk.DlgCmdOK {
 		if create {
@@ -473,6 +585,9 @@ func (pv *ProxyView) onEdit(proxy *config.Proxy, create bool) {
 			pv.table.SetCurrentIndex(len(pv.model.items) - 1)
 			pv.table.SetFocus()
 		} else {
+			if dlg.Proxy.Name != oldName {
+				pv.model.PublishRowRenamed(pv.table.CurrentIndex())
+			}
 			if i := pv.table.CurrentIndex(); i >= 0 {
 				pv.model.Reset(i)
 			}
@@ -508,11 +623,22 @@ func (pv *ProxyView) onToggleProxy() {
 				}
 			}
 		}
+	} else {
+		defer pv.model.PublishRowEdited(indexes[0])
+	}
+	if pv.tracker != nil {
+		pv.tracker.Lock()
 	}
 	for _, idx := range indexes {
 		proxy = pv.model.items[idx]
 		proxy.Disabled = !proxy.Disabled
+		if proxy.Disabled {
+			pv.resetProxyState(idx)
+		}
 		pv.model.PublishRowChanged(idx)
+	}
+	if pv.tracker != nil {
+		pv.tracker.Unlock()
 	}
 	pv.switchToggleAction()
 	pv.commit()
@@ -522,17 +648,17 @@ func (pv *ProxyView) onQuickAdd(qa QuickAdd) {
 	if pv.model == nil {
 		return
 	}
-	count := 0
+	var proxies []*config.Proxy
 	if r, _ := qa.Run(pv.Form()); r == walk.DlgCmdOK {
 		for _, proxy := range qa.GetProxies() {
 			if pv.model.HasName(proxy.Name) {
 				showWarningMessage(pv.Form(), i18n.Sprintf("Proxy already exists"), i18n.Sprintf("The proxy name \"%s\" already exists.", proxy.Name))
 			} else {
-				pv.model.Add(proxy)
-				count++
+				proxies = append(proxies, proxy)
 			}
 		}
-		if count > 0 {
+		if len(proxies) > 0 {
+			pv.model.Add(proxies...)
 			pv.table.SetCurrentIndex(len(pv.model.items) - 1)
 			pv.table.SetFocus()
 			pv.commit()

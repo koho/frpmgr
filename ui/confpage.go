@@ -160,6 +160,13 @@ func (cp *ConfPage) OnCreate() {
 			if cp.confView.model.SetStateByPath(path, state) {
 				if conf := getCurrentConf(); conf != nil && conf.Path == path {
 					cp.detailView.panelView.setState(state)
+					if state == consts.ConfigStateStarted {
+						cp.detailView.proxyView.startTracker()
+						cp.detailView.proxyView.showProxyState()
+					} else {
+						cp.detailView.proxyView.stopTracker()
+						cp.detailView.proxyView.resetProxyState(-1)
+					}
 				}
 			}
 		})
@@ -175,6 +182,7 @@ func (cp *ConfPage) Close() error {
 	if cp.svcCleanup != nil {
 		return cp.svcCleanup()
 	}
+	cp.detailView.proxyView.stopTracker()
 	return nil
 }
 

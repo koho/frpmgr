@@ -1498,9 +1498,44 @@
             "translation": "ドメイン名"
         },
         {
+            "id": "Show Remote Address",
+            "message": "Show Remote Address",
+            "translation": "リモートアドレスを表示"
+        },
+        {
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "アクセスアドレスのコピー"
+        },
+        {
+            "id": "Error: {ErrMsg}",
+            "message": "Error: {ErrMsg}",
+            "translation": "エラー: {ErrMsg}",
+            "placeholders": [
+                {
+                    "id": "ErrMsg",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "errMsg"
+                }
+            ]
+        },
+        {
+            "id": "Source: {Source}",
+            "message": "Source: {Source}",
+            "translation": "データソース: {Source}",
+            "placeholders": [
+                {
+                    "id": "Source",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "source"
+                }
+            ]
         },
         {
             "id": "This feature only supports text in INI or TOML format.",
@@ -1518,7 +1553,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "proxy.Name"
+                    "expr": "name"
                 }
             ]
         },
@@ -1533,7 +1568,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "proxy.Name"
+                    "expr": "name"
                 }
             ]
         },

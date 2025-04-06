@@ -1996,10 +1996,51 @@
             "fuzzy": true
         },
         {
+            "id": "Show Remote Address",
+            "message": "Show Remote Address",
+            "translation": "Show Remote Address",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "Copy Access Address",
             "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Error: {ErrMsg}",
+            "message": "Error: {ErrMsg}",
+            "translation": "Error: {ErrMsg}",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "ErrMsg",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "errMsg"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Source: {Source}",
+            "message": "Source: {Source}",
+            "translation": "Source: {Source}",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Source",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "source"
+                }
+            ],
             "fuzzy": true
         },
         {
@@ -2021,7 +2062,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "proxy.Name"
+                    "expr": "name"
                 }
             ],
             "fuzzy": true
@@ -2038,7 +2079,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "proxy.Name"
+                    "expr": "name"
                 }
             ],
             "fuzzy": true

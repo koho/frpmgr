@@ -8,14 +8,17 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/fatedier/frp/client"
 	"github.com/fatedier/frp/pkg/util/log"
 	"golang.org/x/sys/windows/svc"
 
 	"github.com/koho/frpmgr/pkg/config"
+	"github.com/koho/frpmgr/pkg/ipc"
 	"github.com/koho/frpmgr/pkg/util"
 )
 
 type Service interface {
+	client.StatusExporter
 	// Run service in blocking mode.
 	Run()
 	// Reload config file.
@@ -82,7 +85,14 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 		return
 	}
 
+	is, err := ipc.NewServer(args[0], svr)
+	if err != nil {
+		return
+	}
+	defer is.Close()
+
 	go svr.Run()
+	go is.Run()
 
 	changes <- svc.Status{State: svc.Running, Accepts: svc.AcceptStop | svc.AcceptShutdown | svc.AcceptParamChange}
 

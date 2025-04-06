@@ -6,16 +6,20 @@ import (
 
 	_ "github.com/fatedier/frp/assets/frpc"
 	"github.com/fatedier/frp/client"
+	"github.com/fatedier/frp/client/proxy"
 	"github.com/fatedier/frp/pkg/config"
 	"github.com/fatedier/frp/pkg/config/v1"
 	"github.com/fatedier/frp/pkg/util/log"
+
+	"github.com/koho/frpmgr/pkg/consts"
 )
 
 type FrpClientService struct {
-	svr  *client.Service
-	file string
-	cfg  *v1.ClientCommonConfig
-	done chan struct{}
+	svr            *client.Service
+	file           string
+	cfg            *v1.ClientCommonConfig
+	done           chan struct{}
+	statusExporter client.StatusExporter
 }
 
 func NewFrpClientService(cfgFile string) (*FrpClientService, error) {
@@ -33,7 +37,13 @@ func NewFrpClientService(cfgFile string) (*FrpClientService, error) {
 		return nil, err
 	}
 	log.InitLogger(cfg.Log.To, cfg.Log.Level, int(cfg.Log.MaxDays), cfg.Log.DisablePrintColor)
-	return &FrpClientService{svr: svr, file: cfgFile, cfg: cfg, done: make(chan struct{})}, nil
+	return &FrpClientService{
+		svr:            svr,
+		file:           cfgFile,
+		cfg:            cfg,
+		done:           make(chan struct{}),
+		statusExporter: svr.StatusExporter(),
+	}, nil
 }
 
 // Run starts frp client service in blocking mode.
@@ -72,4 +82,12 @@ func (s *FrpClientService) Reload() error {
 
 func (s *FrpClientService) Done() <-chan struct{} {
 	return s.done
+}
+
+func (s *FrpClientService) GetProxyStatus(name string) (status *proxy.WorkingStatus, ok bool) {
+	status, ok = s.statusExporter.GetProxyStatus(name)
+	if ok && status.Err == "" && (status.Type == consts.ProxyTypeTCP || status.Type == consts.ProxyTypeUDP) {
+		status.RemoteAddr = s.cfg.ServerAddr + status.RemoteAddr
+	}
+	return
 }

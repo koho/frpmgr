@@ -3,6 +3,7 @@ module github.com/koho/frpmgr
 go 1.23.0
 
 require (
+	github.com/Microsoft/go-winio v0.6.2
 	github.com/fatedier/frp v0.61.2
 	github.com/fatedier/golib v0.5.1
 	github.com/fsnotify/fsnotify v1.9.0
@@ -64,4 +65,4 @@ require (
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
 
-replace github.com/lxn/walk => github.com/koho/frpmgr v0.0.0-20250404164622-9fdf74af4ab4
+replace github.com/lxn/walk => github.com/koho/frpmgr v0.0.0-20250406073618-38a03e8c80a6
