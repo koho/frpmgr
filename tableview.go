@@ -903,7 +903,9 @@ func (tv *TableView) SetModel(mdl interface{}) error {
 	tv.providedModel = mdl
 	tv.model = model
 
-	tv.itemChecker, _ = model.(ItemChecker)
+	if !tv.imageAsState {
+		tv.itemChecker, _ = model.(ItemChecker)
+	}
 	tv.imageProvider, _ = model.(ImageProvider)
 
 	if model != nil {
