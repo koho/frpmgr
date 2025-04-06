@@ -1538,6 +1538,12 @@ func (tv *TableView) LastColumnStretched() bool {
 	return tv.lastColumnStretched
 }
 
+// ScrollToLastColumn makes the last column visible.
+func (tv *TableView) ScrollToLastColumn() {
+	win.SendMessage(tv.hwndNormalLV, win.LVM_SCROLL, 1<<31-1, 0)
+	win.SendMessage(tv.hwndFrozenLV, win.LVM_SCROLL, 1<<31-1, 0)
+}
+
 // SetLastColumnStretched sets if the last column should take up all remaining
 // horizontal space of the *TableView.
 //
