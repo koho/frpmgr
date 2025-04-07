@@ -85,9 +85,16 @@ func (s *FrpClientService) Done() <-chan struct{} {
 }
 
 func (s *FrpClientService) GetProxyStatus(name string) (status *proxy.WorkingStatus, ok bool) {
-	status, ok = s.statusExporter.GetProxyStatus(name)
-	if ok && status.Err == "" && (status.Type == consts.ProxyTypeTCP || status.Type == consts.ProxyTypeUDP) {
-		status.RemoteAddr = s.cfg.ServerAddr + status.RemoteAddr
+	proxyName := name
+	if s.cfg.User != "" {
+		proxyName = s.cfg.User + "." + name
+	}
+	status, ok = s.statusExporter.GetProxyStatus(proxyName)
+	if ok {
+		status.Name = name
+		if status.Err == "" && (status.Type == consts.ProxyTypeTCP || status.Type == consts.ProxyTypeUDP) {
+			status.RemoteAddr = s.cfg.ServerAddr + status.RemoteAddr
+		}
 	}
 	return
 }
