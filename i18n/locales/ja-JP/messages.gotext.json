@@ -1463,6 +1463,11 @@
             "translation": "ログ保持"
         },
         {
+            "id": "Error",
+            "message": "Error",
+            "translation": "エラー"
+        },
+        {
             "id": "Quick Add",
             "message": "Quick Add",
             "translation": "クイック追加"
@@ -1508,34 +1513,14 @@
             "translation": "アクセスアドレスのコピー"
         },
         {
-            "id": "Error: {ErrMsg}",
-            "message": "Error: {ErrMsg}",
-            "translation": "エラー: {ErrMsg}",
-            "placeholders": [
-                {
-                    "id": "ErrMsg",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "errMsg"
-                }
-            ]
+            "id": "Error message",
+            "message": "Error message",
+            "translation": "エラーメッセージ"
         },
         {
-            "id": "Source: {Source}",
-            "message": "Source: {Source}",
-            "translation": "データソース: {Source}",
-            "placeholders": [
-                {
-                    "id": "Source",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "source"
-                }
-            ]
+            "id": "Source",
+            "message": "Source",
+            "translation": "データソース"
         },
         {
             "id": "This feature only supports text in INI or TOML format.",

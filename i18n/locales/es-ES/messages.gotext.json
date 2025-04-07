@@ -1453,6 +1453,11 @@
             "translation": "Retención de registros"
         },
         {
+            "id": "Error",
+            "message": "Error",
+            "translation": "Error"
+        },
+        {
             "id": "Quick Add",
             "message": "Quick Add",
             "translation": "Añadir rápido"
@@ -1498,34 +1503,14 @@
             "translation": "Copiar dirección de acceso"
         },
         {
-            "id": "Error: {ErrMsg}",
-            "message": "Error: {ErrMsg}",
-            "translation": "Error: {ErrMsg}",
-            "placeholders": [
-                {
-                    "id": "ErrMsg",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "errMsg"
-                }
-            ]
+            "id": "Error message",
+            "message": "Error message",
+            "translation": "Mensaje de error"
         },
         {
-            "id": "Source: {Source}",
-            "message": "Source: {Source}",
-            "translation": "Fuente: {Source}",
-            "placeholders": [
-                {
-                    "id": "Source",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "source"
-                }
-            ]
+            "id": "Source",
+            "message": "Source",
+            "translation": "Fuente"
         },
         {
             "id": "This feature only supports text in INI or TOML format.",

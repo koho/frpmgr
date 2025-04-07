@@ -1947,6 +1947,13 @@
             "fuzzy": true
         },
         {
+            "id": "Error",
+            "message": "Error",
+            "translation": "Error",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Quick Add",
             "message": "Quick Add",
             "translation": "Quick Add",
@@ -2010,37 +2017,17 @@
             "fuzzy": true
         },
         {
-            "id": "Error: {ErrMsg}",
-            "message": "Error: {ErrMsg}",
-            "translation": "Error: {ErrMsg}",
+            "id": "Error message",
+            "message": "Error message",
+            "translation": "Error message",
             "translatorComment": "Copied from source.",
-            "placeholders": [
-                {
-                    "id": "ErrMsg",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "errMsg"
-                }
-            ],
             "fuzzy": true
         },
         {
-            "id": "Source: {Source}",
-            "message": "Source: {Source}",
-            "translation": "Source: {Source}",
+            "id": "Source",
+            "message": "Source",
+            "translation": "Source",
             "translatorComment": "Copied from source.",
-            "placeholders": [
-                {
-                    "id": "Source",
-                    "string": "%[1]s",
-                    "type": "string",
-                    "underlyingType": "string",
-                    "argNum": 1,
-                    "expr": "source"
-                }
-            ],
             "fuzzy": true
         },
         {

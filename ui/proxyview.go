@@ -17,6 +17,14 @@ import (
 	"github.com/koho/frpmgr/pkg/util"
 )
 
+var proxyStateDescription = map[consts.ProxyState]string{
+	consts.ProxyStateUnknown: i18n.Sprintf("Unknown"),
+	consts.ProxyStateRunning: i18n.Sprintf("Running"),
+	consts.ProxyStateError:   i18n.Sprintf("Error"),
+}
+
+var cachedProxyViewIconsForWidthAndState = make(map[widthAndProxyState]*walk.Bitmap)
+
 type ProxyView struct {
 	*walk.Composite
 
@@ -41,8 +49,6 @@ type ProxyView struct {
 	deleteAction    *walk.Action
 	toggleAction    *walk.Action
 }
-
-var cachedProxyViewIconsForWidthAndState = make(map[widthAndProxyState]*walk.Bitmap)
 
 func NewProxyView() *ProxyView {
 	return new(ProxyView)
@@ -450,10 +456,14 @@ func (pv *ProxyView) createProxyTable() TableView {
 			if pv.model == nil || pv.model.items[i].Disabled {
 				return ""
 			}
-			if errMsg := pv.model.items[i].Error; errMsg != "" {
-				tooltip := i18n.Sprintf("Error: %s", errMsg)
-				if source := pv.model.items[i].StateSource; source != pv.model.items[i].Name {
-					tooltip += "\n" + i18n.Sprintf("Source: %s", source)
+			if pv.model.conf.State == consts.ConfigStateStarted {
+				proxy := pv.model.items[i]
+				tooltip := i18n.SprintfColon("Status") + " " + proxyStateDescription[proxy.State]
+				if proxy.Error != "" {
+					tooltip += "\n" + i18n.SprintfColon("Error message") + " " + proxy.Error
+					if proxy.StateSource != proxy.Name {
+						tooltip += "\n" + i18n.SprintfColon("Source") + " " + proxy.StateSource
+					}
 				}
 				return tooltip
 			}
