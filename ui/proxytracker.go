@@ -14,6 +14,8 @@ import (
 	"github.com/koho/frpmgr/services"
 )
 
+const probeInterval = 100 * time.Millisecond
+
 type ProxyTracker struct {
 	sync.RWMutex
 	owner              walk.Form
@@ -21,6 +23,8 @@ type ProxyTracker struct {
 	cache              map[string]*config.Proxy
 	ctx                context.Context
 	cancel             context.CancelFunc
+	probeTimer         *time.Timer
+	refreshTimer       *time.Timer
 	client             ipc.Client
 	rowsInsertedHandle int
 	beforeRemoveHandle int
@@ -28,7 +32,7 @@ type ProxyTracker struct {
 	rowRenamedHandle   int
 }
 
-func NewProxyTracker(owner walk.Form, model *ProxyModel) (tracker *ProxyTracker) {
+func NewProxyTracker(owner walk.Form, model *ProxyModel, refresh bool) (tracker *ProxyTracker) {
 	cache := make(map[string]*config.Proxy)
 	ctx, cancel := context.WithCancel(context.Background())
 	client := ipc.NewPipeClient(services.ServiceNameOfClient(model.conf.Path), func() []string {
@@ -57,7 +61,7 @@ func NewProxyTracker(owner walk.Form, model *ProxyModel) (tracker *ProxyTracker)
 					cache[key] = model.items[i].Proxy
 				}
 			}
-			tracker.fastQuery()
+			tracker.probeTimer.Reset(probeInterval)
 		}),
 		beforeRemoveHandle: model.BeforeRemove().Attach(func(i int) {
 			tracker.Lock()
@@ -67,7 +71,7 @@ func NewProxyTracker(owner walk.Form, model *ProxyModel) (tracker *ProxyTracker)
 			}
 		}),
 		rowEditedHandle: model.RowEdited().Attach(func(i int) {
-			tracker.fastQuery()
+			tracker.probeTimer.Reset(probeInterval)
 		}),
 		rowRenamedHandle: model.RowRenamed().Attach(func(i int) {
 			tracker.buildCache()
@@ -76,6 +80,20 @@ func NewProxyTracker(owner walk.Form, model *ProxyModel) (tracker *ProxyTracker)
 	tracker.buildCache()
 	client.SetCallback(tracker.onMessage)
 	go client.Run(ctx)
+	tracker.probeTimer = time.NewTimer(probeInterval)
+	go tracker.makeProbeRequest()
+	// If no status information is received within a certain period of time,
+	// we need to refresh the view to make the icon visible.
+	if refresh {
+		tracker.refreshTimer = time.AfterFunc(probeInterval*2, func() {
+			owner.Synchronize(func() {
+				if ctx.Err() != nil {
+					return
+				}
+				model.PublishRowsChanged(0, len(model.items)-1)
+			})
+		})
+	}
 	return
 }
 
@@ -112,6 +130,10 @@ func (pt *ProxyTracker) onMessage(msg []ipc.ProxyMessage) {
 						item.RemoteAddr = m.RemoteAddr
 						item.UpdateRemotePort()
 						pt.model.PublishRowChanged(i)
+						if pt.refreshTimer != nil {
+							pt.refreshTimer.Stop()
+							pt.refreshTimer = nil
+						}
 					}
 				}
 			}
@@ -119,13 +141,18 @@ func (pt *ProxyTracker) onMessage(msg []ipc.ProxyMessage) {
 	}
 }
 
-func (pt *ProxyTracker) fastQuery() {
-	go func() {
-		for _, d := range []int{100, 500} {
-			time.Sleep(time.Duration(d) * time.Millisecond)
+func (pt *ProxyTracker) makeProbeRequest() {
+	for {
+		select {
+		case <-pt.ctx.Done():
+			return
+		case _, ok := <-pt.probeTimer.C:
+			if !ok {
+				return
+			}
 			pt.client.Probe(pt.ctx)
 		}
-	}()
+	}
 }
 
 func (pt *ProxyTracker) buildCache() {
@@ -145,6 +172,11 @@ func (pt *ProxyTracker) Close() {
 	pt.model.RowEdited().Detach(pt.rowEditedHandle)
 	pt.model.RowRenamed().Detach(pt.rowRenamedHandle)
 	pt.cancel()
+	pt.probeTimer.Stop()
+	if pt.refreshTimer != nil {
+		pt.refreshTimer.Stop()
+		pt.refreshTimer = nil
+	}
 }
 
 func proxyPhaseToProxyState(phase string) consts.ProxyState {

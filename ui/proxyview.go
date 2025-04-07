@@ -89,7 +89,7 @@ func (pv *ProxyView) Invalidate() {
 			pv.model = NewProxyModel(conf)
 			pv.table.SetModel(pv.model)
 			if conf.State == consts.ConfigStateStarted {
-				pv.startTracker()
+				pv.startTracker(false)
 			}
 			return
 		}
@@ -98,10 +98,9 @@ func (pv *ProxyView) Invalidate() {
 	pv.table.SetModel(nil)
 }
 
-func (pv *ProxyView) startTracker() {
+func (pv *ProxyView) startTracker(refresh bool) {
 	if pv.tracker == nil {
-		pv.tracker = NewProxyTracker(pv.Form(), pv.model)
-		pv.tracker.fastQuery()
+		pv.tracker = NewProxyTracker(pv.Form(), pv.model, refresh)
 	}
 }
 
@@ -110,13 +109,6 @@ func (pv *ProxyView) stopTracker() {
 		pv.tracker.Close()
 		pv.tracker = nil
 	}
-}
-
-func (pv *ProxyView) showProxyState() {
-	if pv.model == nil {
-		return
-	}
-	pv.model.PublishRowsChanged(0, len(pv.model.items)-1)
 }
 
 func (pv *ProxyView) resetProxyState(row int) {

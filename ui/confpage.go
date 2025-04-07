@@ -161,8 +161,7 @@ func (cp *ConfPage) OnCreate() {
 				if conf := getCurrentConf(); conf != nil && conf.Path == path {
 					cp.detailView.panelView.setState(state)
 					if state == consts.ConfigStateStarted {
-						cp.detailView.proxyView.startTracker()
-						cp.detailView.proxyView.showProxyState()
+						cp.detailView.proxyView.startTracker(true)
 					} else {
 						cp.detailView.proxyView.stopTracker()
 						cp.detailView.proxyView.resetProxyState(-1)
