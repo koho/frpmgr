@@ -19,7 +19,7 @@ func NewPipeClient(name string, payload func() []string) *PipeClient {
 	return &PipeClient{
 		path:    `\\.\pipe\` + name,
 		payload: payload,
-		ch:      make(chan struct{}),
+		ch:      make(chan struct{}, 1),
 	}
 }
 
