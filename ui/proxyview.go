@@ -98,17 +98,21 @@ func (pv *ProxyView) Invalidate() {
 	pv.table.SetModel(nil)
 }
 
-func (pv *ProxyView) startTracker(refresh bool) {
-	if pv.tracker == nil {
+func (pv *ProxyView) startTracker(refresh bool) bool {
+	if pv.tracker == nil && pv.model != nil {
 		pv.tracker = NewProxyTracker(pv.Form(), pv.model, refresh)
+		return true
 	}
+	return false
 }
 
-func (pv *ProxyView) stopTracker() {
+func (pv *ProxyView) stopTracker() bool {
 	if pv.tracker != nil {
 		pv.tracker.Close()
 		pv.tracker = nil
+		return true
 	}
+	return false
 }
 
 func (pv *ProxyView) resetProxyState(row int) {

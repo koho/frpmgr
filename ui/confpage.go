@@ -151,6 +151,7 @@ func (cp *ConfPage) OnCreate() {
 	cp.confView.model.RowEdited().Attach(func(i int) {
 		cp.detailView.panelView.Invalidate(false)
 	})
+	cp.addVisibleChangedListener()
 	cleanup, err := services.WatchConfigServices(func() []string {
 		return lo.Map(getConfList(), func(item *Conf, index int) string {
 			return item.Path
@@ -160,11 +161,15 @@ func (cp *ConfPage) OnCreate() {
 			if cp.confView.model.SetStateByPath(path, state) {
 				if conf := getCurrentConf(); conf != nil && conf.Path == path {
 					cp.detailView.panelView.setState(state)
+					if !cp.Visible() {
+						return
+					}
 					if state == consts.ConfigStateStarted {
 						cp.detailView.proxyView.startTracker(true)
 					} else {
-						cp.detailView.proxyView.stopTracker()
-						cp.detailView.proxyView.resetProxyState(-1)
+						if cp.detailView.proxyView.stopTracker() {
+							cp.detailView.proxyView.resetProxyState(-1)
+						}
 					}
 				}
 			}
@@ -175,6 +180,29 @@ func (cp *ConfPage) OnCreate() {
 		return
 	}
 	cp.svcCleanup = cleanup
+}
+
+func (cp *ConfPage) addVisibleChangedListener() {
+	var oldState consts.ConfigState
+	cp.VisibleChanged().Attach(func() {
+		if cp.Visible() {
+			defer func() {
+				oldState = consts.ConfigStateUnknown
+			}()
+			if conf := getCurrentConf(); conf != nil {
+				if conf.State == consts.ConfigStateStarted {
+					cp.detailView.proxyView.startTracker(true)
+				} else if oldState == consts.ConfigStateStarted {
+					cp.detailView.proxyView.resetProxyState(-1)
+				}
+			}
+		} else {
+			cp.detailView.proxyView.stopTracker()
+			if conf := getCurrentConf(); conf != nil {
+				oldState = conf.State
+			}
+		}
+	})
 }
 
 func (cp *ConfPage) Close() error {
