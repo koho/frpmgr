@@ -33,8 +33,12 @@ func (p *PipeClient) Run(ctx context.Context) {
 		return
 	}
 	defer conn.Close()
-	ticker := time.NewTicker(5 * time.Second)
-	defer ticker.Stop()
+	timer := time.NewTimer(0)
+	defer timer.Stop()
+
+	seq := []time.Duration{100 * time.Millisecond, 500 * time.Millisecond, time.Second, 2 * time.Second, 5 * time.Second}
+	index := -1
+
 	query := func() {
 		if err = gob.NewEncoder(conn).Encode(p.payload()); err != nil {
 			return
@@ -47,13 +51,17 @@ func (p *PipeClient) Run(ctx context.Context) {
 			p.cb(msg)
 		}
 	}
-	query()
 	for {
 		select {
-		case <-ticker.C:
+		case <-timer.C:
 			query()
+			if index < len(seq)-1 {
+				index++
+			}
+			timer.Reset(seq[index])
 		case <-p.ch:
-			query()
+			index = 0
+			timer.Reset(seq[index])
 		case <-ctx.Done():
 			return
 		}
