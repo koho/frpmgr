@@ -92,8 +92,12 @@ func (s *FrpClientService) GetProxyStatus(name string) (status *proxy.WorkingSta
 	status, ok = s.statusExporter.GetProxyStatus(proxyName)
 	if ok {
 		status.Name = name
-		if status.Err == "" && (status.Type == consts.ProxyTypeTCP || status.Type == consts.ProxyTypeUDP) {
-			status.RemoteAddr = s.cfg.ServerAddr + status.RemoteAddr
+		if status.Err == "" {
+			if status.Type == consts.ProxyTypeTCP || status.Type == consts.ProxyTypeUDP {
+				status.RemoteAddr = s.cfg.ServerAddr + status.RemoteAddr
+			}
+		} else {
+			status.RemoteAddr = ""
 		}
 	}
 	return

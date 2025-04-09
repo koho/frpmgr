@@ -498,15 +498,19 @@ func (pv *ProxyView) onCopyAccessAddr() {
 		} else {
 			access = util.GetOrElse(proxy.LocalIP, "127.0.0.1") + ":" + proxy.LocalPort
 		}
-	case consts.ProxyTypeHTTP, consts.ProxyTypeHTTPS:
-		if proxy.SubDomain != "" && net.ParseIP(pv.model.data.ServerAddress) == nil {
-			// Assume subdomain_host is equal to server_address
-			access = fmt.Sprintf("%s://%s.%s", proxy.Type, proxy.SubDomain, pv.model.data.ServerAddress)
-		} else if proxy.CustomDomains != "" {
-			access = fmt.Sprintf("%s://%s", proxy.Type, strings.Split(proxy.CustomDomains, ",")[0])
+	case consts.ProxyTypeHTTP, consts.ProxyTypeHTTPS, consts.ProxyTypeTCPMUX:
+		scheme := proxy.Type
+		if proxy.Type == consts.ProxyTypeTCPMUX {
+			scheme = "http"
 		}
-	case consts.ProxyTypeTCPMUX:
-		access = util.GetOrElse(proxy.LocalIP, "127.0.0.1") + ":" + proxy.LocalPort
+		if proxy.RemoteAddr != "" {
+			access = fmt.Sprintf("%s://%s", scheme, strings.Split(proxy.RemoteAddr, ",")[0])
+		} else if proxy.CustomDomains != "" {
+			access = fmt.Sprintf("%s://%s", scheme, strings.Split(proxy.CustomDomains, ",")[0])
+		} else if proxy.SubDomain != "" && net.ParseIP(pv.model.data.ServerAddress) == nil {
+			// Assume subdomain_host is equal to server_address
+			access = fmt.Sprintf("%s://%s.%s", scheme, proxy.SubDomain, pv.model.data.ServerAddress)
+		}
 	}
 	walk.Clipboard().SetText(access)
 }

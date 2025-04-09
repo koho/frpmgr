@@ -1,7 +1,6 @@
 package ui
 
 import (
-	"fmt"
 	"net"
 	"slices"
 	"strconv"
@@ -154,8 +153,12 @@ func NewProxyRow(p *config.Proxy) *ProxyRow {
 // the server if the requested remote port is empty.
 func (m *ProxyRow) UpdateRemotePort() {
 	if m.RemoteAddr != "" && (m.RemotePort == "" || m.RemotePort == "0") {
-		if _, port, err := net.SplitHostPort(m.RemoteAddr); err == nil && port != "" {
-			m.DisplayRemotePort = fmt.Sprintf("0 (%s)", port)
+		addr := strings.Split(m.RemoteAddr, ",")[0]
+		if _, port, err := net.SplitHostPort(addr); err == nil && port != "" {
+			m.DisplayRemotePort = "(" + port + ")"
+			if m.Type == consts.ProxyTypeTCP || m.Type == consts.ProxyTypeUDP {
+				m.DisplayRemotePort = "0 " + m.DisplayRemotePort
+			}
 			return
 		}
 	}
