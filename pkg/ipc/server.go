@@ -17,7 +17,7 @@ func NewServer(name string, exporter client.StatusExporter) (*Server, error) {
 	listener, err := winio.ListenPipe(`\\.\pipe\`+name, &winio.PipeConfig{
 		MessageMode:      true,
 		InputBufferSize:  1024,
-		OutputBufferSize: 1024,
+		OutputBufferSize: 2048,
 	})
 	if err != nil {
 		return nil, err
