@@ -585,8 +585,10 @@ func (pv *ProxyView) onEdit(proxy *config.Proxy, create bool) {
 		except = nil
 	}
 	var oldName string
+	var oldAliasLen int
 	if proxy != nil {
 		oldName = proxy.Name
+		oldAliasLen = len(proxy.GetAlias())
 	}
 	dlg := NewEditProxyDialog(proxy, pv.visitors(except), create, pv.model.data.LegacyFormat, pv.model.HasName)
 	if result, _ := dlg.Run(pv.Form()); result == walk.DlgCmdOK {
@@ -595,7 +597,7 @@ func (pv *ProxyView) onEdit(proxy *config.Proxy, create bool) {
 			pv.table.SetCurrentIndex(len(pv.model.items) - 1)
 			pv.table.SetFocus()
 		} else {
-			if dlg.Proxy.Name != oldName {
+			if dlg.Proxy.Name != oldName || oldAliasLen != len(dlg.Proxy.GetAlias()) {
 				pv.model.PublishRowRenamed(pv.table.CurrentIndex())
 			}
 			if i := pv.table.CurrentIndex(); i >= 0 {

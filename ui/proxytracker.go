@@ -101,9 +101,14 @@ func (pt *ProxyTracker) onMessage(msg []ipc.ProxyMessage) {
 		if !ok {
 			continue
 		}
-		state := proxyPhaseToProxyState(pm.Status)
+		_, priority := proxyPhaseToProxyState(pm.Status)
 		s, ok := stat[pxy]
-		if !ok || (proxyPhaseToProxyState(s.Status) != consts.ProxyStateError && state == consts.ProxyStateError) {
+		if ok {
+			_, prevPriority := proxyPhaseToProxyState(s.Status)
+			if prevPriority < priority || (prevPriority == priority && pm.Name < s.Name) {
+				stat[pxy] = pm
+			}
+		} else {
 			stat[pxy] = pm
 		}
 	}
@@ -117,7 +122,7 @@ func (pt *ProxyTracker) onMessage(msg []ipc.ProxyMessage) {
 					continue
 				}
 				if m, ok := stat[item.Proxy]; ok {
-					state := proxyPhaseToProxyState(m.Status)
+					state, _ := proxyPhaseToProxyState(m.Status)
 					if item.State != state || item.Error != m.Err || item.RemoteAddr != m.RemoteAddr || item.StateSource != m.Name {
 						item.State = state
 						item.Error = m.Err
@@ -159,13 +164,13 @@ func (pt *ProxyTracker) Close() {
 	}
 }
 
-func proxyPhaseToProxyState(phase string) consts.ProxyState {
+func proxyPhaseToProxyState(phase string) (consts.ProxyState, int) {
 	switch phase {
 	case proxy.ProxyPhaseRunning:
-		return consts.ProxyStateRunning
+		return consts.ProxyStateRunning, 0
 	case proxy.ProxyPhaseStartErr, proxy.ProxyPhaseCheckFailed, proxy.ProxyPhaseClosed:
-		return consts.ProxyStateError
+		return consts.ProxyStateError, 2
 	default:
-		return consts.ProxyStateUnknown
+		return consts.ProxyStateUnknown, 1
 	}
 }
