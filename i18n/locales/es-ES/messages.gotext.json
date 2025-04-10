@@ -1453,6 +1453,11 @@
             "translation": "Retención de registros"
         },
         {
+            "id": "Error",
+            "message": "Error",
+            "translation": "Error"
+        },
+        {
             "id": "Quick Add",
             "message": "Quick Add",
             "translation": "Añadir rápido"
@@ -1488,9 +1493,24 @@
             "translation": "Dominios"
         },
         {
+            "id": "Show Remote Address",
+            "message": "Show Remote Address",
+            "translation": "Mostrar dirección remota"
+        },
+        {
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "Copiar dirección de acceso"
+        },
+        {
+            "id": "Error message",
+            "message": "Error message",
+            "translation": "Mensaje de error"
+        },
+        {
+            "id": "Source",
+            "message": "Source",
+            "translation": "Fuente"
         },
         {
             "id": "This feature only supports text in INI or TOML format.",
@@ -1508,7 +1528,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "proxy.Name"
+                    "expr": "name"
                 }
             ]
         },
@@ -1523,7 +1543,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "proxy.Name"
+                    "expr": "name"
                 }
             ]
         },

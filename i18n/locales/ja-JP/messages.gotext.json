@@ -1463,6 +1463,11 @@
             "translation": "ログ保持"
         },
         {
+            "id": "Error",
+            "message": "Error",
+            "translation": "エラー"
+        },
+        {
             "id": "Quick Add",
             "message": "Quick Add",
             "translation": "クイック追加"
@@ -1498,9 +1503,24 @@
             "translation": "ドメイン名"
         },
         {
+            "id": "Show Remote Address",
+            "message": "Show Remote Address",
+            "translation": "リモートアドレスを表示"
+        },
+        {
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "アクセスアドレスのコピー"
+        },
+        {
+            "id": "Error message",
+            "message": "Error message",
+            "translation": "エラーメッセージ"
+        },
+        {
+            "id": "Source",
+            "message": "Source",
+            "translation": "データソース"
         },
         {
             "id": "This feature only supports text in INI or TOML format.",
@@ -1518,7 +1538,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "proxy.Name"
+                    "expr": "name"
                 }
             ]
         },
@@ -1533,7 +1553,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "proxy.Name"
+                    "expr": "name"
                 }
             ]
         },

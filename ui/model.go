@@ -117,9 +117,12 @@ func (m *ConfListModel) PublishRowEdited(i int) {
 type ProxyModel struct {
 	walk.ReflectTableModelBase
 
-	conf  *Conf
-	data  *config.ClientConfig
-	items []*ProxyRow
+	conf                  *Conf
+	data                  *config.ClientConfig
+	items                 []*ProxyRow
+	beforeRemovePublisher walk.IntEventPublisher
+	rowEditedPublisher    walk.IntEventPublisher
+	rowRenamedPublisher   walk.IntEventPublisher
 }
 
 type ProxyRow struct {
@@ -130,10 +133,36 @@ type ProxyRow struct {
 	DisplayLocalIP string
 	// DisplayLocalPort changes the local port shown in table
 	DisplayLocalPort string
+	// DisplayRemotePort changes the remote port shown in table.
+	DisplayRemotePort string
+	// Running state.
+	State consts.ProxyState
+	// Error message.
+	Error string
+	// Name of the proxy reporting the status.
+	StateSource string
+	// Remote address got from server.
+	RemoteAddr string
 }
 
 func NewProxyRow(p *config.Proxy) *ProxyRow {
 	return fillProxyRow(p, new(ProxyRow))
+}
+
+// UpdateRemotePort attempts to display the remote port obtained from
+// the server if the requested remote port is empty.
+func (m *ProxyRow) UpdateRemotePort() {
+	if m.RemoteAddr != "" && (m.RemotePort == "" || m.RemotePort == "0") {
+		addr := strings.Split(m.RemoteAddr, ",")[0]
+		if _, port, err := net.SplitHostPort(addr); err == nil && port != "" {
+			m.DisplayRemotePort = "(" + port + ")"
+			if m.Type == consts.ProxyTypeTCP || m.Type == consts.ProxyTypeUDP {
+				m.DisplayRemotePort = "0 " + m.DisplayRemotePort
+			}
+			return
+		}
+	}
+	m.DisplayRemotePort = m.RemotePort
 }
 
 func fillProxyRow(p *config.Proxy, pr *ProxyRow) *ProxyRow {
@@ -159,6 +188,7 @@ func fillProxyRow(p *config.Proxy, pr *ProxyRow) *ProxyRow {
 			pr.DisplayLocalIP = p.PluginLocalAddr
 		}
 	}
+	pr.UpdateRemotePort()
 	return pr
 }
 
@@ -182,10 +212,13 @@ func (m *ProxyModel) Move(i, j int) {
 	m.PublishRowsChanged(min(i, j), max(i, j))
 }
 
-func (m *ProxyModel) Add(proxy *config.Proxy) {
-	m.items = append(m.items, NewProxyRow(proxy))
-	m.data.AddItem(proxy)
-	m.PublishRowsInserted(len(m.items)-1, len(m.items)-1)
+func (m *ProxyModel) Add(proxy ...*config.Proxy) {
+	from := len(m.items)
+	for _, item := range proxy {
+		m.items = append(m.items, NewProxyRow(item))
+		m.data.AddItem(item)
+	}
+	m.PublishRowsInserted(from, from+len(proxy)-1)
 }
 
 func (m *ProxyModel) Remove(index ...int) {
@@ -196,6 +229,7 @@ func (m *ProxyModel) Remove(index ...int) {
 	for i, idx := range index {
 		// index must be sorted.
 		j := idx - i
+		m.beforeRemovePublisher.Publish(j)
 		m.items = append(m.items[:j], m.items[j+1:]...)
 		m.data.DeleteItem(j)
 	}
@@ -208,12 +242,33 @@ func (m *ProxyModel) Remove(index ...int) {
 func (m *ProxyModel) Reset(row int) {
 	fillProxyRow(m.items[row].Proxy, m.items[row])
 	m.PublishRowChanged(row)
+	m.PublishRowEdited(row)
 }
 
 func (m *ProxyModel) HasName(name string) bool {
 	return slices.ContainsFunc(m.items, func(row *ProxyRow) bool {
 		return row.Name == name
 	})
+}
+
+func (m *ProxyModel) BeforeRemove() *walk.IntEvent {
+	return m.beforeRemovePublisher.Event()
+}
+
+func (m *ProxyModel) RowRenamed() *walk.IntEvent {
+	return m.rowRenamedPublisher.Event()
+}
+
+func (m *ProxyModel) PublishRowRenamed(row int) {
+	m.rowRenamedPublisher.Publish(row)
+}
+
+func (m *ProxyModel) RowEdited() *walk.IntEvent {
+	return m.rowEditedPublisher.Event()
+}
+
+func (m *ProxyModel) PublishRowEdited(row int) {
+	m.rowEditedPublisher.Publish(row)
 }
 
 type ListItem struct {

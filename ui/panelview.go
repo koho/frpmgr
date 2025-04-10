@@ -15,7 +15,7 @@ import (
 	"github.com/koho/frpmgr/services"
 )
 
-var stateDescription = map[consts.ConfigState]string{
+var configStateDescription = map[consts.ConfigState]string{
 	consts.ConfigStateUnknown:  i18n.Sprintf("Unknown"),
 	consts.ConfigStateStarted:  i18n.Sprintf("Running"),
 	consts.ConfigStateStopped:  i18n.Sprintf("Stopped"),
@@ -118,7 +118,7 @@ func (pv *PanelView) OnCreate() {
 
 func (pv *PanelView) setState(state consts.ConfigState) {
 	pv.stateImage.SetImage(iconForConfigState(state, 14))
-	pv.stateText.SetText(stateDescription[state])
+	pv.stateText.SetText(configStateDescription[state])
 	pv.toggleBtn.SetEnabled(state != consts.ConfigStateStarting && state != consts.ConfigStateStopping && state != consts.ConfigStateUnknown)
 	if state == consts.ConfigStateStarted || state == consts.ConfigStateStopping {
 		pv.toggleBtn.SetText(i18n.Sprintf("Stop"))

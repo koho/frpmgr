@@ -1453,6 +1453,11 @@
             "translation": "로그 보존"
         },
         {
+            "id": "Error",
+            "message": "Error",
+            "translation": "오류"
+        },
+        {
             "id": "Quick Add",
             "message": "Quick Add",
             "translation": "빠른 추가"
@@ -1488,9 +1493,24 @@
             "translation": "도메인"
         },
         {
+            "id": "Show Remote Address",
+            "message": "Show Remote Address",
+            "translation": "원격 주소 표시"
+        },
+        {
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "액세스 주소 복사"
+        },
+        {
+            "id": "Error message",
+            "message": "Error message",
+            "translation": "오류 메시지"
+        },
+        {
+            "id": "Source",
+            "message": "Source",
+            "translation": "데이터 소스"
         },
         {
             "id": "This feature only supports text in INI or TOML format.",
@@ -1508,7 +1528,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "proxy.Name"
+                    "expr": "name"
                 }
             ]
         },
@@ -1523,7 +1543,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "proxy.Name"
+                    "expr": "name"
                 }
             ]
         },

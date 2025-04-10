@@ -57,6 +57,30 @@ func iconForConfigState(state consts.ConfigState, size int) (icon *walk.Icon) {
 	return
 }
 
+type widthAndProxyState struct {
+	width int
+	state consts.ProxyState
+}
+
+var cachedIconsForWidthAndProxyState = make(map[widthAndProxyState]*walk.Icon)
+
+func iconForProxyState(state consts.ProxyState, size int) (icon *walk.Icon) {
+	icon = cachedIconsForWidthAndProxyState[widthAndProxyState{size, state}]
+	if icon != nil {
+		return
+	}
+	switch state {
+	case consts.ProxyStateRunning:
+		icon = loadIcon(res.IconProxyRunning, size)
+	case consts.ProxyStateError:
+		icon = loadIcon(res.IconProxyError, size)
+	default:
+		icon = loadIcon(res.IconStateStopped, size)
+	}
+	cachedIconsForWidthAndProxyState[widthAndProxyState{size, state}] = icon
+	return
+}
+
 func loadLogoIcon(size int) *walk.Icon {
 	return loadIcon(res.IconLogo, size)
 }

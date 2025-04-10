@@ -1453,6 +1453,11 @@
             "translation": "日誌保留"
         },
         {
+            "id": "Error",
+            "message": "Error",
+            "translation": "出錯"
+        },
+        {
             "id": "Quick Add",
             "message": "Quick Add",
             "translation": "快速添加"
@@ -1488,9 +1493,24 @@
             "translation": "域名"
         },
         {
+            "id": "Show Remote Address",
+            "message": "Show Remote Address",
+            "translation": "顯示遠端位址"
+        },
+        {
             "id": "Copy Access Address",
             "message": "Copy Access Address",
             "translation": "複製存取位址"
+        },
+        {
+            "id": "Error message",
+            "message": "Error message",
+            "translation": "錯誤訊息"
+        },
+        {
+            "id": "Source",
+            "message": "Source",
+            "translation": "來源"
         },
         {
             "id": "This feature only supports text in INI or TOML format.",
@@ -1508,7 +1528,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "proxy.Name"
+                    "expr": "name"
                 }
             ]
         },
@@ -1523,7 +1543,7 @@
                     "type": "string",
                     "underlyingType": "string",
                     "argNum": 1,
-                    "expr": "proxy.Name"
+                    "expr": "name"
                 }
             ]
         },

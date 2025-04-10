@@ -10,3 +10,12 @@ const (
 	ConfigStateStarting
 	ConfigStateStopping
 )
+
+// ProxyState is the state of a proxy.
+type ProxyState int
+
+const (
+	ProxyStateUnknown ProxyState = iota
+	ProxyStateRunning
+	ProxyStateError
+)
