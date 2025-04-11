@@ -778,21 +778,6 @@
             "translation": "메타데이터"
         },
         {
-            "id": "Experimental Features",
-            "message": "Experimental Features",
-            "translation": "실험적 기능"
-        },
-        {
-            "id": "* The following features may affect the stability of the service.",
-            "message": "* The following features may affect the stability of the service.",
-            "translation": "* 다음 기능은 서비스의 안정성에 영향을 미칠 수 있습니다."
-        },
-        {
-            "id": "Use server SVCB records",
-            "message": "Use server SVCB records",
-            "translation": "서버 SVCB 기록 사용"
-        },
-        {
             "id": "HTTP Proxy",
             "message": "HTTP Proxy",
             "translation": "HTTP 프록시"

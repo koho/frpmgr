@@ -64,7 +64,6 @@ var (
 	IconKey          = Icon{"imageres", -5360}
 	IconLanguage     = Icon{"imageres", -94}
 	IconNat          = Icon{"imageres", -1043}
-	IconExperiment   = Icon{"imageres", -111}
 	IconFile         = Icon{"shell32", -152}
 	IconInfo         = Icon{"imageres", -81}
 	IconArrowUp      = Icon{"shell32", -16817}

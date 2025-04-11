@@ -788,21 +788,6 @@
             "translation": "メタデータ"
         },
         {
-            "id": "Experimental Features",
-            "message": "Experimental Features",
-            "translation": "実験的な機能"
-        },
-        {
-            "id": "* The following features may affect the stability of the service.",
-            "message": "* The following features may affect the stability of the service.",
-            "translation": "* 以下の機能はサービスの安定性に影響を与える可能性があります。"
-        },
-        {
-            "id": "Use server SVCB records",
-            "message": "Use server SVCB records",
-            "translation": "サーバーSVCBレコードを使用する"
-        },
-        {
             "id": "HTTP Proxy",
             "message": "HTTP Proxy",
             "translation": "HTTP プロキシ"

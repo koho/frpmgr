@@ -92,13 +92,6 @@ type ClientCommon struct {
 	Name string `ini:"frpmgr_name"`
 	// ManualStart defines whether to start the config on system boot.
 	ManualStart bool `ini:"frpmgr_manual_start,omitempty"`
-	// SVCBEnable resolves the SVCB record of server address.
-	// By enabling this feature, the server address and port
-	// can be updated dynamically.
-	//
-	// WARNING: This is an experimental feature.
-	// It may affect the stability of the service.
-	SVCBEnable bool `ini:"frpmgr_svcb_enable,omitempty"`
 	// AutoDelete is a mechanism for temporary use.
 	// The config will be stopped and deleted at some point.
 	AutoDelete `ini:",extends"`
@@ -413,7 +406,6 @@ func (conf *ClientConfig) saveTOML(path string) error {
 		Mgr: Mgr{
 			Name:        conf.ClientCommon.Name,
 			ManualStart: conf.ManualStart,
-			SVCBEnable:  conf.SVCBEnable,
 			AutoDelete:  conf.AutoDelete,
 		},
 	}
@@ -630,7 +622,6 @@ func UnmarshalClientConf(source interface{}) (*ClientConfig, error) {
 	conf.ClientCommon = ClientCommonFromV1(&cfg.ClientCommonConfig)
 	conf.ClientCommon.Name = cfg.Mgr.Name
 	conf.ManualStart = cfg.Mgr.ManualStart
-	conf.SVCBEnable = cfg.Mgr.SVCBEnable
 	conf.AutoDelete = cfg.Mgr.AutoDelete
 	// Proxies
 	ignore := make(map[string]struct{})

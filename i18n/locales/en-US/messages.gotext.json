@@ -1030,27 +1030,6 @@
             "fuzzy": true
         },
         {
-            "id": "Experimental Features",
-            "message": "Experimental Features",
-            "translation": "Experimental Features",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "* The following features may affect the stability of the service.",
-            "message": "* The following features may affect the stability of the service.",
-            "translation": "* The following features may affect the stability of the service.",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Use server SVCB records",
-            "message": "Use server SVCB records",
-            "translation": "Use server SVCB records",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "HTTP Proxy",
             "message": "HTTP Proxy",
             "translation": "HTTP Proxy",

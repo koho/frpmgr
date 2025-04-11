@@ -6,15 +6,12 @@ import (
 	"fmt"
 	"io"
 	"mime"
-	"net"
 	"net/http"
 	"path"
-	"strings"
 	"syscall"
 	"time"
 	"unsafe"
 
-	"github.com/miekg/dns"
 	"golang.org/x/sys/windows"
 )
 
@@ -86,62 +83,4 @@ func DownloadFile(ctx context.Context, url string) (filename, mediaType string, 
 	} else {
 		return "", "", nil, err
 	}
-}
-
-// ResolveSVCB resolves the SVCB resource record of a given host. SVCB RR provides
-// the information needed to connect to a service. The function returns a string
-// for the target IP or domain name, an uint16 for the port, and an error.
-func ResolveSVCB(ctx context.Context, host string, server string) (string, uint16, error) {
-	if server == "" {
-		if sysDns := GetSystemDnsServer(); sysDns != "" {
-			server = net.JoinHostPort(sysDns, "53")
-		} else {
-			return "", 0, fmt.Errorf("no available dns server")
-		}
-	}
-	c := new(dns.Client)
-	m := new(dns.Msg)
-	m.SetQuestion(dns.Fqdn(host), dns.TypeSVCB)
-	m.RecursionDesired = true
-	conn, err := c.DialContext(ctx, server)
-	if err != nil {
-		return "", 0, err
-	}
-	defer conn.Close()
-	r, _, err := c.ExchangeWithConnContext(ctx, m, conn)
-	if err != nil {
-		return "", 0, err
-	}
-
-	var rr *dns.SVCB
-	var ok bool
-	if len(r.Answer) > 0 {
-		rr, ok = r.Answer[0].(*dns.SVCB)
-	}
-	if !ok {
-		return "", 0, fmt.Errorf("record not found")
-	}
-	if rr.Priority == 0 {
-		return "", 0, fmt.Errorf("not a service mode record")
-	}
-
-	var ip string
-	var port uint16
-	for _, v := range rr.Value {
-		switch v := v.(type) {
-		case *dns.SVCBIPv4Hint:
-			if len(v.Hint) > 0 {
-				ip = v.Hint[0].String()
-			}
-		case *dns.SVCBPort:
-			port = v.Port
-		}
-	}
-	if ip == "" {
-		if rr.Target == "." {
-			return strings.TrimSuffix(rr.Hdr.Name, "."), port, nil
-		}
-		return strings.TrimSuffix(rr.Target, "."), port, nil
-	}
-	return ip, port, nil
 }

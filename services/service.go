@@ -3,12 +3,10 @@ package services
 import (
 	"crypto/md5"
 	"fmt"
-	"net"
 	"os"
 	"path/filepath"
 	"time"
 
-	"github.com/fatedier/frp/client"
 	"github.com/fatedier/frp/pkg/util/log"
 	"golang.org/x/sys/windows/svc"
 
@@ -16,18 +14,6 @@ import (
 	"github.com/koho/frpmgr/pkg/ipc"
 	"github.com/koho/frpmgr/pkg/util"
 )
-
-type Service interface {
-	client.StatusExporter
-	// Run service in blocking mode.
-	Run()
-	// Reload config file.
-	Reload() error
-	// Stop service and cleanup resources.
-	Stop(wait bool)
-	// Done returns a channel that's closed when work done.
-	Done() <-chan struct{}
-}
 
 func ServiceNameOfClient(configPath string) string {
 	return fmt.Sprintf("frpmgr_%x", md5.Sum([]byte(util.FileNameWithoutExt(configPath))))
@@ -74,13 +60,7 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 		return
 	}
 
-	var svr Service
-	if cc.SVCBEnable && net.ParseIP(cc.ServerAddress) == nil {
-		// WARNING: Experimental feature.
-		svr, err = NewFrpClientSVCBService(service.configPath)
-	} else {
-		svr, err = NewFrpClientService(service.configPath)
-	}
+	svr, err := NewFrpClientService(service.configPath)
 	if err != nil {
 		return
 	}

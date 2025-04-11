@@ -405,39 +405,16 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 						},
 					},
 					VSpacer{Size: 4},
-					Composite{
-						Layout: HBox{MarginsZero: true, Spacing: 18},
-						Children: []Widget{
-							LinkLabel{
-								Text: fmt.Sprintf("<a>%s</a>", i18n.SprintfEllipsis("Metadata")),
-								OnLinkActivated: func(link *walk.LinkLabelLink) {
-									NewAttributeDialog(i18n.Sprintf("Metadata"), &cd.binder.Metas).Run(cd.Form())
-								},
-							},
-							LinkLabel{
-								Text: fmt.Sprintf("<a>%s</a>", i18n.SprintfEllipsis("Experimental Features")),
-								OnLinkActivated: func(link *walk.LinkLabelLink) {
-									cd.experimentDialog().Run(cd.Form())
-								},
-							},
+					LinkLabel{
+						Text: fmt.Sprintf("<a>%s</a>", i18n.SprintfEllipsis("Metadata")),
+						OnLinkActivated: func(link *walk.LinkLabelLink) {
+							NewAttributeDialog(i18n.Sprintf("Metadata"), &cd.binder.Metas).Run(cd.Form())
 						},
 					},
 				},
 			},
 		},
 	}
-}
-
-func (cd *EditClientDialog) experimentDialog() Dialog {
-	dlg := NewBasicDialog(nil, i18n.Sprintf("Experimental Features"),
-		loadIcon(res.IconExperiment, 32), DataBinder{DataSource: cd.binder}, nil,
-		Label{Text: i18n.Sprintf("* The following features may affect the stability of the service.")},
-		CheckBox{Checked: Bind("SVCBEnable"), Text: i18n.Sprintf("Use server SVCB records"), Alignment: AlignHNearVNear},
-		VSpacer{},
-	)
-	dlg.MinSize = Size{Width: 300, Height: 180}
-	dlg.FixedSize = true
-	return dlg
 }
 
 func (cd *EditClientDialog) adminTLSDialog() Dialog {

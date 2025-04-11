@@ -778,21 +778,6 @@
             "translation": "元資料"
         },
         {
-            "id": "Experimental Features",
-            "message": "Experimental Features",
-            "translation": "實驗性功能"
-        },
-        {
-            "id": "* The following features may affect the stability of the service.",
-            "message": "* The following features may affect the stability of the service.",
-            "translation": "* 以下功能可能會影響服務的穩定性。"
-        },
-        {
-            "id": "Use server SVCB records",
-            "message": "Use server SVCB records",
-            "translation": "使用伺服器 SVCB 記錄"
-        },
-        {
             "id": "HTTP Proxy",
             "message": "HTTP Proxy",
             "translation": "HTTP 代理"

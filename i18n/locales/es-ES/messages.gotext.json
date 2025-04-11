@@ -778,21 +778,6 @@
             "translation": "Metadatos"
         },
         {
-            "id": "Experimental Features",
-            "message": "Experimental Features",
-            "translation": "Características experimentales"
-        },
-        {
-            "id": "* The following features may affect the stability of the service.",
-            "message": "* The following features may affect the stability of the service.",
-            "translation": "* Las siguientes características pueden afectar la estabilidad del servicio."
-        },
-        {
-            "id": "Use server SVCB records",
-            "message": "Use server SVCB records",
-            "translation": "Usar registros SVCB del servidor"
-        },
-        {
             "id": "HTTP Proxy",
             "message": "HTTP Proxy",
             "translation": "Proxy HTTP"
