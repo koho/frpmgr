@@ -107,6 +107,21 @@ func init() {
 		IconSSH.Index = -100
 		IconEnable.Index = -253
 	}
+	if versionInfo.MajorVersion == 10 && versionInfo.MinorVersion == 0 {
+		if versionInfo.BuildNumber < 14393 {
+			// Windows 10 / Windows 10 1511
+			IconProxyRunning.Index = IconStateRunning.Index
+			IconProxyError.Index = -98
+		} else if versionInfo.BuildNumber == 14393 {
+			// Windows Server 2016 / Windows 10 1607
+			IconProxyRunning.Index = -1400
+			IconProxyError.Index = -1405
+		} else if versionInfo.BuildNumber == 15063 {
+			// Windows 10 1703
+			IconProxyRunning.Index = -1400
+			IconProxyError.Index = -1402
+		}
+	}
 	TextRegular = Font{Family: defaultFontFamily, PointSize: 9}
 	TextMedium = Font{Family: defaultFontFamily, PointSize: 10}
 	TextLarge = Font{Family: defaultFontFamily, PointSize: 16}
