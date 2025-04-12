@@ -2214,6 +2214,9 @@ func (tv *TableView) lvWndProc(origWndProcPtr uintptr, hwnd win.HWND, msg uint32
 					case string:
 						text = val
 
+					case *string:
+						text = *val
+
 					case float32:
 						prec := tv.columns.items[col].precision
 						if prec == 0 {
@@ -2568,9 +2571,24 @@ func (tv *TableView) lvWndProc(origWndProcPtr uintptr, hwnd win.HWND, msg uint32
 					Top:  nmia.ISubItem,
 				}
 				if win.SendMessage(hwnd, win.LVM_GETSUBITEMRECT, uintptr(nmia.IItem), uintptr(unsafe.Pointer(&rect))) != 0 {
+					row := int(nmia.IItem)
+					col := tv.fromLVColIdx(hwnd == tv.hwndFrozenLV, nmia.ISubItem)
+					if col == -1 {
+						break
+					}
+					value := tv.model.Value(row, col)
 					var text string
-					if format := tv.columns.items[nmia.ISubItem].formatFunc; format != nil {
-						text = format(tv.model.Value(int(nmia.IItem), int(nmia.ISubItem)))
+					if format := tv.columns.items[col].formatFunc; format != nil {
+						text = format(value)
+					} else {
+						switch val := value.(type) {
+						case string:
+							text = val
+						case *string:
+							text = *val
+						default:
+							text = fmt.Sprintf(tv.columns.items[col].format, val)
+						}
 					}
 					tv.hwndEdit = win.CreateWindowEx(0, syscall.StringToUTF16Ptr("EDIT"), syscall.StringToUTF16Ptr(text),
 						win.WS_BORDER|win.WS_CHILD|win.WS_VISIBLE|win.ES_AUTOHSCROLL|win.ES_LEFT|win.ES_MULTILINE|win.ES_WANTRETURN,
@@ -2599,7 +2617,9 @@ func (tv *TableView) lvWndProc(origWndProcPtr uintptr, hwnd win.HWND, msg uint32
 				}
 				if win.SendMessage(hwnd, win.LVM_GETSUBITEMRECT, uintptr(tv.editIndex), uintptr(unsafe.Pointer(&rect))) != 0 {
 					win.MoveWindow(tv.hwndEdit, rect.Left, rect.Top, rect.Right-rect.Left, rect.Bottom-rect.Top, true)
-					win.RedrawWindow(tv.hwndEdit, nil, 0, win.RDW_ERASE|win.RDW_INVALIDATE|win.RDW_UPDATENOW)
+					if tv.editSubIndex > 0 {
+						win.RedrawWindow(tv.hwndEdit, nil, 0, win.RDW_ERASE|win.RDW_INVALIDATE|win.RDW_UPDATENOW)
+					}
 				}
 			}
 		case win.NM_CLICK, win.NM_RETURN:
