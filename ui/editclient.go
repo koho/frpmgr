@@ -182,7 +182,7 @@ func (cd *EditClientDialog) adminConfPage() TabPage {
 			Composite{
 				Layout: HBox{MarginsZero: true},
 				Children: []Widget{
-					LineEdit{Text: Bind("AdminAddr"), StretchFactor: 2},
+					LineEdit{Text: Bind("AdminAddr"), StretchFactor: 2, CueBanner: "127.0.0.1"},
 					Label{Text: ":"},
 					NumberEdit{
 						Name:     "adminPort",
