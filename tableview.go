@@ -101,6 +101,7 @@ type TableView struct {
 	columnsOrderableChangedPublisher   EventPublisher
 	columnsSizableChangedPublisher     EventPublisher
 	itemCountChangedPublisher          EventPublisher
+	beginEditPublisher                 EventPublisher
 	publishNextSelClear                bool
 	inSetSelectedIndexes               bool
 	lastColumnStretched                bool
@@ -345,6 +346,14 @@ func NewTableViewWithCfg(parent Container, cfg *TableViewCfg) (*TableView, error
 			return len(tv.selectedIndexes)
 		},
 		tv.SelectedIndexesChanged()))
+
+	if tv.editable {
+		tv.MustRegisterProperty("BeginEdit", NewReadOnlyBoolProperty(
+			func() bool {
+				return tv.hwndEdit != 0
+			},
+			tv.beginEditPublisher.Event()))
+	}
 
 	succeeded = true
 
@@ -762,6 +771,7 @@ func (tv *TableView) attachModel() {
 		if tv.hwndEdit != 0 {
 			win.DestroyWindow(tv.hwndEdit)
 			tv.hwndEdit = 0
+			tv.beginEditPublisher.Publish()
 		}
 
 		tv.itemCountChangedPublisher.Publish()
@@ -795,6 +805,7 @@ func (tv *TableView) attachModel() {
 		if tv.hwndEdit != 0 {
 			win.DestroyWindow(tv.hwndEdit)
 			tv.hwndEdit = 0
+			tv.beginEditPublisher.Publish()
 		}
 		if tv.editable {
 			var act win.NMITEMACTIVATE
@@ -825,6 +836,7 @@ func (tv *TableView) attachModel() {
 		if tv.hwndEdit != 0 {
 			win.DestroyWindow(tv.hwndEdit)
 			tv.hwndEdit = 0
+			tv.beginEditPublisher.Publish()
 		}
 
 		tv.itemCountChangedPublisher.Publish()
@@ -2595,6 +2607,7 @@ func (tv *TableView) lvWndProc(origWndProcPtr uintptr, hwnd win.HWND, msg uint32
 						rect.Left, rect.Top, rect.Right-rect.Left, rect.Bottom-rect.Top,
 						hwnd, 0, win.GetModuleHandle(nil), nil)
 					if tv.hwndEdit != 0 {
+						tv.beginEditPublisher.Publish()
 						tv.editIndex = int(nmia.IItem)
 						tv.editSubIndex = int(nmia.ISubItem)
 						hFont := uintptr(tv.parent.Font().handleForDPI(tv.DPI()))
@@ -2643,6 +2656,7 @@ func (tv *TableView) lvWndProc(origWndProcPtr uintptr, hwnd win.HWND, msg uint32
 				}
 				win.DestroyWindow(tv.hwndEdit)
 				tv.hwndEdit = 0
+				tv.beginEditPublisher.Publish()
 			}
 		case win.LVN_GETINFOTIP:
 			if tv.itemToolTip != nil {
@@ -2740,6 +2754,7 @@ func editBoxWndProc(hwnd win.HWND, msg uint32, wp, lp uintptr) uintptr {
 		case win.VK_ESCAPE:
 			win.DestroyWindow(hwnd)
 			tv.hwndEdit = 0
+			tv.beginEditPublisher.Publish()
 			return 0
 		}
 	case win.WM_NCDESTROY:
