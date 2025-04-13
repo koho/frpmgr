@@ -223,14 +223,14 @@ func NewListEditDialog(title string, values []string, cb func(string) error) Dia
 					},
 					VSpacer{},
 					PushButton{
-						Enabled: Bind("tv.CurrentIndex > 0"),
+						Enabled: Bind("!tv.BeginEdit && tv.CurrentIndex > 0"),
 						Text:    i18n.Sprintf("Move Up"),
 						OnClicked: func() {
 							move(-1)
 						},
 					},
 					PushButton{
-						Enabled: Bind("tv.CurrentIndex >= 0 && tv.CurrentIndex < tv.ItemCount - 1"),
+						Enabled: Bind("!tv.BeginEdit && tv.CurrentIndex >= 0 && tv.CurrentIndex < tv.ItemCount - 1"),
 						Text:    i18n.Sprintf("Move Down"),
 						OnClicked: func() {
 							move(1)
