@@ -208,7 +208,7 @@ func (lp *LogPage) OnCreate() {
 func (lp *LogPage) refreshLog() {
 	lp.logView.Synchronize(func() {
 		if lp.logModel != nil {
-			scroll := lp.logModel.RowCount() == 0 || lp.logView.ItemVisible(lp.logModel.RowCount()-1)
+			scroll := lp.logModel.RowCount() == 0 || (lp.logView.ItemVisible(lp.logModel.RowCount()-1) && len(lp.logView.SelectedIndexes()) <= 1)
 			if n, err := lp.logModel.ReadMore(); err == nil && n > 0 && scroll {
 				lp.scrollToBottom()
 			}

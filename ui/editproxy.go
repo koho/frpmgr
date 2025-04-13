@@ -235,7 +235,7 @@ func (pd *EditProxyDialog) basicProxyPage() TabPage {
 			Label{Visible: Bind("vm.RemotePortVisible"), Text: i18n.SprintfColon("Remote Port")},
 			LineEdit{Visible: Bind("vm.RemotePortVisible"), Text: Bind("RemotePort")},
 			Label{Visible: Bind("vm.RoleVisible && !vm.ServerNameVisible"), Text: i18n.SprintfColon("Allow Users")},
-			LineEdit{Visible: Bind("vm.RoleVisible && !vm.ServerNameVisible"), Text: Bind("AllowUsers"), CueBanner: "a,b,c..."},
+			NewListEdit(pd, Bind("vm.RoleVisible && !vm.ServerNameVisible"), Bind("AllowUsers"), i18n.Sprintf("Allow Users")),
 			Label{Visible: Bind("vm.BindAddrVisible"), Text: i18n.SprintfColon("Bind Address")},
 			LineEdit{Visible: Bind("vm.BindAddrVisible"), Text: Bind("BindAddr"), CueBanner: "127.0.0.1"},
 			Label{Visible: Bind("vm.BindPortVisible"), Text: i18n.SprintfColon("Bind Port")},
@@ -247,16 +247,9 @@ func (pd *EditProxyDialog) basicProxyPage() TabPage {
 			Label{Visible: Bind("vm.DomainVisible"), Text: i18n.SprintfColon("Subdomain")},
 			LineEdit{Visible: Bind("vm.DomainVisible"), Text: Bind("SubDomain")},
 			Label{Visible: Bind("vm.DomainVisible"), Text: i18n.SprintfColon("Custom Domains")},
-			LineEdit{Visible: Bind("vm.DomainVisible"), Text: Bind("CustomDomains"), CueBanner: "a,b,c..."},
+			NewListEdit(pd, Bind("vm.DomainVisible"), Bind("CustomDomains"), i18n.Sprintf("Custom Domains")),
 			Label{Visible: Bind("vm.HTTPVisible"), Text: i18n.SprintfColon("Locations")},
-			Composite{
-				Visible: Bind("vm.HTTPVisible"),
-				Layout:  HBox{MarginsZero: true},
-				Children: []Widget{
-					LineEdit{Text: Bind("Locations"), CueBanner: "a,b,c..."},
-					headerBtn,
-				},
-			},
+			NewListEdit(pd, Bind("vm.HTTPVisible"), Bind("Locations"), i18n.Sprintf("Locations"), headerBtn),
 			Label{Visible: Bind("vm.MuxVisible"), Text: i18n.SprintfColon("Multiplexer")},
 			ComboBox{
 				Visible: Bind("vm.MuxVisible"),

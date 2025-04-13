@@ -46,6 +46,7 @@ func (nd *NATDiscoveryDialog) Run(owner walk.Form) (int, error) {
 				{Title: i18n.Sprintf("Item"), DataMember: "Title", Width: 180},
 				{Title: i18n.Sprintf("Value"), DataMember: "Value", Width: 180},
 			},
+			ColumnsOrderable: false,
 		},
 		ProgressBar{AssignTo: &nd.barView, Visible: Bind("!tb.Visible"), MarqueeMode: true},
 		VSpacer{},

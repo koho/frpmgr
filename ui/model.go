@@ -457,3 +457,52 @@ func (a *AttributeModel) AsMap() map[string]string {
 	}
 	return m
 }
+
+// ListEditModel is a list of strings, but supports editing.
+type ListEditModel struct {
+	walk.ReflectTableModelBase
+
+	values []string
+}
+
+func NewListEditModel(values []string) *ListEditModel {
+	return &ListEditModel{values: values}
+}
+
+func (m *ListEditModel) Value(row, col int) interface{} {
+	return &m.values[row]
+}
+
+func (m *ListEditModel) RowCount() int {
+	return len(m.values)
+}
+
+func (m *ListEditModel) Add(value string) {
+	m.values = append(m.values, value)
+	i := len(m.values) - 1
+	m.PublishRowsInserted(i, i)
+}
+
+func (m *ListEditModel) Delete(i int) {
+	m.values = append(m.values[:i], m.values[i+1:]...)
+	m.PublishRowsRemoved(i, i)
+}
+
+func (m *ListEditModel) Clear() {
+	m.values = nil
+	m.PublishRowsReset()
+}
+
+func (m *ListEditModel) Move(i, j int) {
+	util.MoveSlice(m.values, i, j)
+	m.PublishRowsChanged(min(i, j), max(i, j))
+}
+
+func (m *ListEditModel) AsString() string {
+	if len(m.values) == 0 {
+		return ""
+	}
+	return strings.Join(lo.Filter(m.values, func(item string, index int) bool {
+		return strings.TrimSpace(item) != ""
+	}), ",")
+}

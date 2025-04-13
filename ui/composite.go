@@ -1,6 +1,8 @@
 package ui
 
 import (
+	"strings"
+
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 
@@ -16,7 +18,7 @@ func NewBrowseLineEdit(assignTo **walk.LineEdit, visible, enable, text Property,
 	}
 	return Composite{
 		Visible: visible,
-		Layout:  HBox{MarginsZero: true, SpacingZero: false, Spacing: 3},
+		Layout:  HBox{MarginsZero: true},
 		Children: []Widget{
 			LineEdit{Enabled: enable, AssignTo: assignTo, Text: text},
 			ToolButton{Enabled: enable, Text: "...", MaxSize: Size{Width: 24}, OnClicked: func() {
@@ -103,36 +105,43 @@ func AlignGrid(page TabPage, n int) TabPage {
 // It provides the ability to edit cells by double-clicking.
 func NewAttributeTable(m *AttributeModel, nameWidth, valueWidth int) Composite {
 	var tv *walk.TableView
-	fc := func(value interface{}) string {
-		return *value.(*string)
-	}
 	return Composite{
 		Layout: HBox{MarginsZero: true},
 		Children: []Widget{
 			TableView{
 				AssignTo: &tv,
+				Name:     "attr",
 				Columns: []TableViewColumn{
-					{Title: i18n.Sprintf("Name"), Width: nameWidth, FormatFunc: fc},
-					{Title: i18n.Sprintf("Value"), Width: valueWidth, FormatFunc: fc},
+					{Title: i18n.Sprintf("Name"), Width: nameWidth},
+					{Title: i18n.Sprintf("Value"), Width: valueWidth},
 				},
-				Model:    m,
-				Editable: true,
+				Model:            m,
+				Editable:         true,
+				ColumnsOrderable: false,
 			},
 			Composite{
 				Layout: VBox{MarginsZero: true},
 				Children: []Widget{
-					PushButton{Text: i18n.Sprintf("Add"), OnClicked: func() {
-						m.Add("", "")
-					}},
-					PushButton{Text: i18n.Sprintf("Delete"), OnClicked: func() {
-						if i := tv.CurrentIndex(); i >= 0 {
-							m.Delete(i)
-						}
-					}},
+					PushButton{
+						Text: i18n.Sprintf("Add"),
+						OnClicked: func() {
+							m.Add("", "")
+						},
+					},
+					PushButton{
+						Enabled: Bind("attr.CurrentIndex >= 0"),
+						Text:    i18n.Sprintf("Delete"),
+						OnClicked: func() {
+							if i := tv.CurrentIndex(); i >= 0 {
+								m.Delete(i)
+							}
+						},
+					},
 					VSpacer{Size: 16},
-					PushButton{Text: i18n.Sprintf("Clear All"), OnClicked: func() {
-						m.Clear()
-					}},
+					PushButton{
+						Text:      i18n.Sprintf("Clear All"),
+						OnClicked: m.Clear,
+					},
 					VSpacer{},
 				},
 			},
@@ -149,9 +158,119 @@ func NewAttributeDialog(title string, data *map[string]string) Dialog {
 		p.Accept()
 	},
 		NewAttributeTable(m, 120, 120),
+		VSpacer{},
 	)
 	dlg.MinSize = Size{Width: 420, Height: 280}
 	return dlg
+}
+
+// NewListEditDialog returns a dialog box with the values displayed in the list box.
+// It provides the ability to edit rows by double-clicking.
+func NewListEditDialog(title string, values []string, cb func(string) error) Dialog {
+	var p *walk.Dialog
+	var tv *walk.TableView
+	m := NewListEditModel(values)
+	move := func(delta int) {
+		curIdx := tv.CurrentIndex()
+		if curIdx < 0 || curIdx >= m.RowCount() {
+			return
+		}
+		targetIdx := curIdx + delta
+		if targetIdx < 0 || targetIdx >= m.RowCount() {
+			return
+		}
+		m.Move(curIdx, targetIdx)
+		tv.SetCurrentIndex(targetIdx)
+	}
+	dlg := NewBasicDialog(&p, title, loadIcon(res.IconFile, 32), DataBinder{}, func() {
+		if err := cb(m.AsString()); err != nil {
+			return
+		}
+		p.Accept()
+	}, Composite{
+		Layout: HBox{MarginsZero: true},
+		Children: []Widget{
+			TableView{
+				AssignTo:            &tv,
+				Name:                "tv",
+				Columns:             []TableViewColumn{{}},
+				Model:               m,
+				Editable:            true,
+				HeaderHidden:        true,
+				LastColumnStretched: true,
+			},
+			Composite{
+				Layout: VBox{MarginsZero: true},
+				Children: []Widget{
+					PushButton{
+						Text: i18n.Sprintf("Add"),
+						OnClicked: func() {
+							m.Add("")
+						},
+					},
+					PushButton{
+						Enabled: Bind("tv.CurrentIndex >= 0"),
+						Text:    i18n.Sprintf("Delete"),
+						OnClicked: func() {
+							if i := tv.CurrentIndex(); i >= 0 {
+								m.Delete(i)
+							}
+						},
+					},
+					PushButton{
+						Text:      i18n.Sprintf("Clear All"),
+						OnClicked: m.Clear,
+					},
+					VSpacer{},
+					PushButton{
+						Enabled: Bind("!tv.BeginEdit && tv.CurrentIndex > 0"),
+						Text:    i18n.Sprintf("Move Up"),
+						OnClicked: func() {
+							move(-1)
+						},
+					},
+					PushButton{
+						Enabled: Bind("!tv.BeginEdit && tv.CurrentIndex >= 0 && tv.CurrentIndex < tv.ItemCount - 1"),
+						Text:    i18n.Sprintf("Move Down"),
+						OnClicked: func() {
+							move(1)
+						},
+					},
+				},
+			},
+		},
+	}, VSpacer{})
+	dlg.MinSize = Size{Width: 350, Height: 300}
+	return dlg
+}
+
+// NewListEdit places a tool button at the tail of a LineEdit, and opens a list edit dialog when the button is clicked.
+func NewListEdit(owner walk.Window, visible, text Property, title string, widget ...Widget) Composite {
+	var editView *walk.LineEdit
+	children := []Widget{
+		LineEdit{
+			AssignTo:  &editView,
+			Text:      text,
+			CueBanner: "a,b,c...",
+		},
+		ToolButton{
+			Text:    "...",
+			MaxSize: Size{Width: 24},
+			OnClicked: func() {
+				var values []string
+				if input := strings.TrimSpace(editView.Text()); input != "" {
+					values = strings.Split(input, ",")
+				}
+				NewListEditDialog(title, values, editView.SetText).Run(owner.Form())
+			},
+		},
+	}
+	children = append(children, widget...)
+	return Composite{
+		Visible:  visible,
+		Layout:   HBox{MarginsZero: true},
+		Children: children,
+	}
 }
 
 type NIOption struct {
