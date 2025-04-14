@@ -788,9 +788,9 @@
             "translation": "元数据"
         },
         {
-            "id": "HTTP Proxy",
-            "message": "HTTP Proxy",
-            "translation": "HTTP 代理"
+            "id": "Proxy URL",
+            "message": "Proxy URL",
+            "translation": "代理 URL"
         },
         {
             "id": "UDP Packet Size",
@@ -1471,6 +1471,11 @@
             "id": "HTTP File Server",
             "message": "HTTP File Server",
             "translation": "HTTP 文件服务"
+        },
+        {
+            "id": "Proxy Server",
+            "message": "Proxy Server",
+            "translation": "代理服务器"
         },
         {
             "id": "Disable",

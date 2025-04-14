@@ -798,9 +798,9 @@
             "translation": "メタデータ"
         },
         {
-            "id": "HTTP Proxy",
-            "message": "HTTP Proxy",
-            "translation": "HTTP プロキシ"
+            "id": "Proxy URL",
+            "message": "Proxy URL",
+            "translation": "プロキシURL"
         },
         {
             "id": "UDP Packet Size",
@@ -1481,6 +1481,11 @@
             "id": "HTTP File Server",
             "message": "HTTP File Server",
             "translation": "HTTP ファイルサーバー"
+        },
+        {
+            "id": "Proxy Server",
+            "message": "Proxy Server",
+            "translation": "プロキシサーバー"
         },
         {
             "id": "Disable",

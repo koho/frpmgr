@@ -1044,9 +1044,9 @@
             "fuzzy": true
         },
         {
-            "id": "HTTP Proxy",
-            "message": "HTTP Proxy",
-            "translation": "HTTP Proxy",
+            "id": "Proxy URL",
+            "message": "Proxy URL",
+            "translation": "Proxy URL",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1971,6 +1971,13 @@
             "id": "HTTP File Server",
             "message": "HTTP File Server",
             "translation": "HTTP File Server",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Proxy Server",
+            "message": "Proxy Server",
+            "translation": "Proxy Server",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

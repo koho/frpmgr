@@ -34,20 +34,20 @@ type ProxyView struct {
 	tracker *ProxyTracker
 
 	// Actions
-	newAction       *walk.Action
-	portAction      *walk.Action
-	rdAction        *walk.Action
-	sshAction       *walk.Action
-	webAction       *walk.Action
-	vncAction       *walk.Action
-	dnsAction       *walk.Action
-	ftpAction       *walk.Action
-	httpFileAction  *walk.Action
-	httpProxyAction *walk.Action
-	vpnAction       *walk.Action
-	editAction      *walk.Action
-	deleteAction    *walk.Action
-	toggleAction    *walk.Action
+	newAction         *walk.Action
+	portAction        *walk.Action
+	rdAction          *walk.Action
+	sshAction         *walk.Action
+	webAction         *walk.Action
+	vncAction         *walk.Action
+	dnsAction         *walk.Action
+	ftpAction         *walk.Action
+	httpFileAction    *walk.Action
+	proxyServerAction *walk.Action
+	vpnAction         *walk.Action
+	editAction        *walk.Action
+	deleteAction      *walk.Action
+	toggleAction      *walk.Action
 }
 
 func NewProxyView() *ProxyView {
@@ -243,11 +243,11 @@ func (pv *ProxyView) createToolbar() ToolBar {
 						},
 					},
 					Action{
-						AssignTo: &pv.httpProxyAction,
-						Text:     i18n.Sprintf("HTTP Proxy"),
+						AssignTo: &pv.proxyServerAction,
+						Text:     i18n.Sprintf("Proxy Server"),
 						Image:    loadIcon(res.IconHttpProxy, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewPluginProxyDialog(i18n.Sprintf("HTTP Proxy"), loadIcon(res.IconHttpProxy, 32),
+							pv.onQuickAdd(NewPluginProxyDialog(i18n.Sprintf("Proxy Server"), loadIcon(res.IconHttpProxy, 32),
 								consts.PluginHttpProxy))
 						},
 					},
@@ -366,7 +366,7 @@ func (pv *ProxyView) createProxyTable() TableView {
 					ActionRef{Action: &pv.vpnAction},
 					ActionRef{Action: &pv.ftpAction},
 					ActionRef{Action: &pv.httpFileAction},
-					ActionRef{Action: &pv.httpProxyAction},
+					ActionRef{Action: &pv.proxyServerAction},
 				},
 			},
 			Action{
