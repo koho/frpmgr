@@ -252,6 +252,20 @@
             "fuzzy": true
         },
         {
+            "id": "Move Up",
+            "message": "Move Up",
+            "translation": "Move Up",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Move Down",
+            "message": "Move Down",
+            "translation": "Move Down",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Configuration",
             "message": "Configuration",
             "translation": "Configuration",
@@ -1714,6 +1728,13 @@
             "fuzzy": true
         },
         {
+            "id": "Your connection to the server is encrypted",
+            "message": "Your connection to the server is encrypted",
+            "translation": "Your connection to the server is encrypted",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Start",
             "message": "Start",
             "translation": "Start",
@@ -1957,20 +1978,6 @@
             "id": "Disable",
             "message": "Disable",
             "translation": "Disable",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Move Up",
-            "message": "Move Up",
-            "translation": "Move Up",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Move Down",
-            "message": "Move Down",
-            "translation": "Move Down",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

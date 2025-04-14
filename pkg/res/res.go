@@ -54,6 +54,7 @@ var (
 	IconHttpProxy    = Icon{"imageres", -120}
 	IconOpenPort     = Icon{"shell32", -244}
 	IconLock         = Icon{"shell32", -48}
+	IconFlatLock     = Icon{"imageres", -1304}
 	IconNewVersion1  = Icon{"imageres", -1028}
 	IconNewVersion2  = Icon{"imageres", 1}
 	IconUpdate       = Icon{"shell32", -47}
@@ -91,26 +92,17 @@ var (
 )
 
 func init() {
-	var defaultFontFamily string
+	var defaultFontFamily = "Microsoft YaHei UI"
 	versionInfo := windows.RtlGetVersion()
-	if versionInfo.MajorVersion > 6 || (versionInfo.MajorVersion == 6 && versionInfo.MinorVersion > 1) {
-		// > Windows 7
-		defaultFontFamily = "Microsoft YaHei UI"
-	} else {
-		// <= Windows 7
-		// Microsoft YaHei UI is not included in Windows 7
-		// Fallback to Microsoft YaHei instead
-		defaultFontFamily = "Microsoft YaHei"
-		// Fallback icons
-		IconKey.Index = -82
-		IconSSH.Index = -100
-		IconEnable.Index = -253
-	}
 	if versionInfo.MajorVersion == 10 && versionInfo.MinorVersion == 0 {
 		if versionInfo.BuildNumber < 14393 {
 			// Windows 10 / Windows 10 1511
 			IconProxyRunning.Index = IconStateRunning.Index
 			IconProxyError.Index = -98
+			// Windows 10
+			if versionInfo.BuildNumber == 10240 {
+				IconFlatLock = IconLock
+			}
 		} else if versionInfo.BuildNumber == 14393 {
 			// Windows Server 2016 / Windows 10 1607
 			IconProxyRunning.Index = -1400

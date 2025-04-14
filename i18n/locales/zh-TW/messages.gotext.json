@@ -192,6 +192,16 @@
             "translation": "全部清除"
         },
         {
+            "id": "Move Up",
+            "message": "Move Up",
+            "translation": "上移"
+        },
+        {
+            "id": "Move Down",
+            "message": "Move Down",
+            "translation": "下移"
+        },
+        {
             "id": "Configuration",
             "message": "Configuration",
             "translation": "配置"
@@ -1278,6 +1288,11 @@
             "translation": "遠端位址"
         },
         {
+            "id": "Your connection to the server is encrypted",
+            "message": "Your connection to the server is encrypted",
+            "translation": "與伺服器的連線已加密"
+        },
+        {
             "id": "Start",
             "message": "Start",
             "translation": "啟動"
@@ -1461,16 +1476,6 @@
             "id": "Disable",
             "message": "Disable",
             "translation": "停用"
-        },
-        {
-            "id": "Move Up",
-            "message": "Move Up",
-            "translation": "上移"
-        },
-        {
-            "id": "Move Down",
-            "message": "Move Down",
-            "translation": "下移"
         },
         {
             "id": "Domains",

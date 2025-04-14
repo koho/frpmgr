@@ -192,6 +192,16 @@
             "translation": "Limpiar todo"
         },
         {
+            "id": "Move Up",
+            "message": "Move Up",
+            "translation": "Mover hacia arriba"
+        },
+        {
+            "id": "Move Down",
+            "message": "Move Down",
+            "translation": "Mover hacia abajo"
+        },
+        {
             "id": "Configuration",
             "message": "Configuration",
             "translation": "Configuración"
@@ -1278,6 +1288,11 @@
             "translation": "Dirección remota"
         },
         {
+            "id": "Your connection to the server is encrypted",
+            "message": "Your connection to the server is encrypted",
+            "translation": "Su conexión al servidor está encriptada"
+        },
+        {
             "id": "Start",
             "message": "Start",
             "translation": "Comienzo"
@@ -1461,16 +1476,6 @@
             "id": "Disable",
             "message": "Disable",
             "translation": "Deshabilitar"
-        },
-        {
-            "id": "Move Up",
-            "message": "Move Up",
-            "translation": "Mover hacia arriba"
-        },
-        {
-            "id": "Move Down",
-            "message": "Move Down",
-            "translation": "Mover hacia abajo"
         },
         {
             "id": "Domains",
