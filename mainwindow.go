@@ -160,6 +160,10 @@ func (mw *MainWindow) applyFont(font *Font) {
 	if mw.statusBar != nil {
 		mw.statusBar.applyFont(font)
 	}
+
+	if mw.group != nil && mw.group.toolTip != nil {
+		mw.group.toolTip.applyFont(font)
+	}
 }
 
 func (mw *MainWindow) Fullscreen() bool {
