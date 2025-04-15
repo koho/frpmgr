@@ -1,8 +1,10 @@
 package ui
 
 import (
+	"net/url"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
@@ -29,6 +31,8 @@ type PanelView struct {
 	stateText   *walk.Label
 	stateImage  *walk.ImageView
 	addressText *walk.Label
+	protoText   *walk.Label
+	protoImage  *walk.ImageView
 	toggleBtn   *walk.PushButton
 }
 
@@ -52,6 +56,7 @@ func (pv *PanelView) View() Widget {
 		Children: []Widget{
 			Label{Text: i18n.SprintfColon("Status"), Row: 0, Column: 0, Alignment: AlignHFarVCenter},
 			Label{Text: i18n.SprintfColon("Remote Address"), Row: 1, Column: 0, Alignment: AlignHFarVCenter},
+			Label{Text: i18n.SprintfColon("Protocol"), Row: 2, Column: 0, Alignment: AlignHFarVCenter},
 			Composite{
 				Layout: HBox{SpacingZero: true, MarginsZero: true},
 				Row:    0, Column: 1,
@@ -94,8 +99,21 @@ func (pv *PanelView) View() Widget {
 				},
 			},
 			Composite{
-				Layout: HBox{MarginsZero: true},
+				Layout: HBox{Spacing: 2, MarginsZero: true},
 				Row:    2, Column: 1,
+				Alignment: AlignHNearVCenter,
+				Children: []Widget{
+					ImageView{
+						AssignTo:    &pv.protoImage,
+						Image:       loadIcon(res.IconFlatLock, 14),
+						ToolTipText: i18n.Sprintf("Your connection to the server is encrypted"),
+					},
+					Label{AssignTo: &pv.protoText},
+				},
+			},
+			Composite{
+				Layout: HBox{MarginsZero: true},
+				Row:    3, Column: 1,
 				Alignment: AlignHNearVCenter,
 				Children: []Widget{
 					PushButton{
@@ -205,6 +223,8 @@ func (pv *PanelView) Invalidate(state bool) {
 		pv.SetTitle("")
 		pv.setState(consts.ConfigStateUnknown)
 		pv.addressText.SetText("")
+		pv.protoText.SetText("")
+		pv.protoImage.SetVisible(false)
 		return
 	}
 	data := conf.Data.(*config.ClientConfig)
@@ -217,6 +237,22 @@ func (pv *PanelView) Invalidate(state bool) {
 	}
 	if pv.addressText.Text() != addr {
 		pv.addressText.SetText(addr)
+	}
+	pv.protoImage.SetVisible(data.TLSEnable || data.Protocol == consts.ProtoWSS || data.Protocol == consts.ProtoQUIC)
+	proto := data.Protocol
+	if proto == "" {
+		proto = consts.ProtoTCP
+	} else if proto == consts.ProtoWebsocket {
+		proto = "ws"
+	}
+	proto = strings.ToUpper(proto)
+	if data.HTTPProxy != "" {
+		if u, err := url.Parse(data.HTTPProxy); err == nil {
+			proto += " + " + strings.ToUpper(u.Scheme)
+		}
+	}
+	if pv.protoText.Text() != proto {
+		pv.protoText.SetText(proto)
 	}
 	if state {
 		pv.setState(conf.State)

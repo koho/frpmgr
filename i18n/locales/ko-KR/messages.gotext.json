@@ -192,6 +192,16 @@
             "translation": "모두 지우기"
         },
         {
+            "id": "Move Up",
+            "message": "Move Up",
+            "translation": "위로 이동"
+        },
+        {
+            "id": "Move Down",
+            "message": "Move Down",
+            "translation": "아래로 이동"
+        },
+        {
             "id": "Configuration",
             "message": "Configuration",
             "translation": "구성"
@@ -778,9 +788,9 @@
             "translation": "메타데이터"
         },
         {
-            "id": "HTTP Proxy",
-            "message": "HTTP Proxy",
-            "translation": "HTTP 프록시"
+            "id": "Proxy URL",
+            "message": "Proxy URL",
+            "translation": "프록시 URL"
         },
         {
             "id": "UDP Packet Size",
@@ -1278,6 +1288,11 @@
             "translation": "원격 주소"
         },
         {
+            "id": "Your connection to the server is encrypted",
+            "message": "Your connection to the server is encrypted",
+            "translation": "서버에 대한 연결이 암호화되었습니다"
+        },
+        {
             "id": "Start",
             "message": "Start",
             "translation": "시작"
@@ -1458,19 +1473,14 @@
             "translation": "HTTP 파일 서버"
         },
         {
+            "id": "Proxy Server",
+            "message": "Proxy Server",
+            "translation": "프록시 서버"
+        },
+        {
             "id": "Disable",
             "message": "Disable",
             "translation": "폐쇄"
-        },
-        {
-            "id": "Move Up",
-            "message": "Move Up",
-            "translation": "위로 이동"
-        },
-        {
-            "id": "Move Down",
-            "message": "Move Down",
-            "translation": "아래로 이동"
         },
         {
             "id": "Domains",

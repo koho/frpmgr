@@ -192,6 +192,16 @@
             "translation": "Limpiar todo"
         },
         {
+            "id": "Move Up",
+            "message": "Move Up",
+            "translation": "Mover hacia arriba"
+        },
+        {
+            "id": "Move Down",
+            "message": "Move Down",
+            "translation": "Mover hacia abajo"
+        },
+        {
             "id": "Configuration",
             "message": "Configuration",
             "translation": "Configuración"
@@ -778,9 +788,9 @@
             "translation": "Metadatos"
         },
         {
-            "id": "HTTP Proxy",
-            "message": "HTTP Proxy",
-            "translation": "Proxy HTTP"
+            "id": "Proxy URL",
+            "message": "Proxy URL",
+            "translation": "URL de proxy"
         },
         {
             "id": "UDP Packet Size",
@@ -1278,6 +1288,11 @@
             "translation": "Dirección remota"
         },
         {
+            "id": "Your connection to the server is encrypted",
+            "message": "Your connection to the server is encrypted",
+            "translation": "Su conexión al servidor está encriptada"
+        },
+        {
             "id": "Start",
             "message": "Start",
             "translation": "Comienzo"
@@ -1458,19 +1473,14 @@
             "translation": "Servidor de archivos HTTP"
         },
         {
+            "id": "Proxy Server",
+            "message": "Proxy Server",
+            "translation": "Servidor proxy"
+        },
+        {
             "id": "Disable",
             "message": "Disable",
             "translation": "Deshabilitar"
-        },
-        {
-            "id": "Move Up",
-            "message": "Move Up",
-            "translation": "Mover hacia arriba"
-        },
-        {
-            "id": "Move Down",
-            "message": "Move Down",
-            "translation": "Mover hacia abajo"
         },
         {
             "id": "Domains",

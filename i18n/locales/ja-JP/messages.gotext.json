@@ -192,6 +192,16 @@
             "translation": "すべてクリア"
         },
         {
+            "id": "Move Up",
+            "message": "Move Up",
+            "translation": "上へ移動"
+        },
+        {
+            "id": "Move Down",
+            "message": "Move Down",
+            "translation": "下へ移動"
+        },
+        {
             "id": "Configuration",
             "message": "Configuration",
             "translation": "設定"
@@ -788,9 +798,9 @@
             "translation": "メタデータ"
         },
         {
-            "id": "HTTP Proxy",
-            "message": "HTTP Proxy",
-            "translation": "HTTP プロキシ"
+            "id": "Proxy URL",
+            "message": "Proxy URL",
+            "translation": "プロキシURL"
         },
         {
             "id": "UDP Packet Size",
@@ -1288,6 +1298,11 @@
             "translation": "リモートアドレス"
         },
         {
+            "id": "Your connection to the server is encrypted",
+            "message": "Your connection to the server is encrypted",
+            "translation": "サーバーへの接続は暗号化されています"
+        },
+        {
             "id": "Start",
             "message": "Start",
             "translation": "始める"
@@ -1468,19 +1483,14 @@
             "translation": "HTTP ファイルサーバー"
         },
         {
+            "id": "Proxy Server",
+            "message": "Proxy Server",
+            "translation": "プロキシサーバー"
+        },
+        {
             "id": "Disable",
             "message": "Disable",
             "translation": "無効"
-        },
-        {
-            "id": "Move Up",
-            "message": "Move Up",
-            "translation": "上へ移動"
-        },
-        {
-            "id": "Move Down",
-            "message": "Move Down",
-            "translation": "下へ移動"
         },
         {
             "id": "Domains",
