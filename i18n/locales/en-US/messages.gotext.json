@@ -81,37 +81,6 @@
             "fuzzy": true
         },
         {
-            "id": "Log Files",
-            "message": "Log Files",
-            "translation": "Log Files",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Number out of allowed range",
-            "message": "Number out of allowed range",
-            "translation": "Number out of allowed range",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Please enter a number greater than {Intt}.",
-            "message": "Please enter a number greater than {Intt}.",
-            "translation": "Please enter a number greater than {Intt}.",
-            "translatorComment": "Copied from source.",
-            "placeholders": [
-                {
-                    "id": "Intt",
-                    "string": "%[1]d",
-                    "type": "int",
-                    "underlyingType": "int",
-                    "argNum": 1,
-                    "expr": "int(t)"
-                }
-            ],
-            "fuzzy": true
-        },
-        {
             "id": "Password mismatch",
             "message": "Password mismatch",
             "translation": "Password mismatch",
@@ -122,20 +91,6 @@
             "id": "Please check and try again.",
             "message": "Please check and try again.",
             "translation": "Please check and try again.",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Not a number",
-            "message": "Not a number",
-            "translation": "Not a number",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Please enter a valid number.",
-            "message": "Please enter a valid number.",
-            "translation": "Please enter a valid number.",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -2356,6 +2311,13 @@
                     "argNum": 2
                 }
             ],
+            "fuzzy": true
+        },
+        {
+            "id": "Number out of allowed range",
+            "message": "Number out of allowed range",
+            "translation": "Number out of allowed range",
+            "translatorComment": "Copied from source.",
             "fuzzy": true
         },
         {

@@ -10,7 +10,6 @@ import (
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/res"
-	"github.com/koho/frpmgr/pkg/util"
 )
 
 type SimpleProxyDialog struct {
@@ -31,19 +30,18 @@ type SimpleProxyDialog struct {
 }
 
 // NewSimpleProxyDialog creates proxies connecting to the local service
-func NewSimpleProxyDialog(title string, icon *walk.Icon, service string, types []string, localAddr string) *SimpleProxyDialog {
-	v := &SimpleProxyDialog{title: title, icon: icon, service: service, types: types}
-	v.Proxies = make([]*config.Proxy, 0)
-	ip, sep, port := util.Partition(localAddr, ":")
-	if sep == "" {
-		return nil
+func NewSimpleProxyDialog(title string, icon *walk.Icon, service string, types []string, port int) *SimpleProxyDialog {
+	return &SimpleProxyDialog{
+		title:   title,
+		icon:    icon,
+		service: service,
+		types:   types,
+		Proxies: make([]*config.Proxy, 0),
+		binder: &quickAddBinder{
+			LocalAddr: "127.0.0.1",
+			LocalPort: port,
+		},
 	}
-	p, _ := strconv.Atoi(port)
-	v.binder = &quickAddBinder{LocalAddr: ip, LocalPort: p}
-	if v.binder.LocalAddr == "" {
-		v.binder.LocalAddr = "127.0.0.1"
-	}
-	return v
 }
 
 func (sp *SimpleProxyDialog) Run(owner walk.Form) (int, error) {

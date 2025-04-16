@@ -30,10 +30,13 @@ type PluginProxyDialog struct {
 
 // NewPluginProxyDialog creates proxy with given plugin
 func NewPluginProxyDialog(title string, icon *walk.Icon, plugin string) *PluginProxyDialog {
-	v := &PluginProxyDialog{title: title, icon: icon, plugin: plugin}
-	v.Proxies = make([]*config.Proxy, 0)
-	v.binder = &quickAddBinder{}
-	return v
+	return &PluginProxyDialog{
+		title:   title,
+		icon:    icon,
+		plugin:  plugin,
+		Proxies: make([]*config.Proxy, 0),
+		binder:  &quickAddBinder{},
+	}
 }
 
 func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {

@@ -27,22 +27,3 @@ func TestPruneByTag(t *testing.T) {
 		}
 	}
 }
-
-func TestGetFieldNameByTag(t *testing.T) {
-	tests := []struct {
-		tag      string
-		value    string
-		expected string
-	}{
-		{tag: "t1", value: "true", expected: "Name"},
-		{tag: "t2", value: "true", expected: "Name"},
-		{tag: "t1", value: "false", expected: ""},
-		{tag: "t3", value: "true", expected: ""},
-	}
-	for i, test := range tests {
-		output := GetFieldNameByTag(tagTest{}, test.tag, test.value)
-		if output != test.expected {
-			t.Errorf("Test %d: expected: %v, got: %v", i, test.expected, output)
-		}
-	}
-}

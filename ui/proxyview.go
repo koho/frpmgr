@@ -170,7 +170,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 						Image:    loadIcon(res.IconRemote, 16),
 						OnTriggered: func() {
 							pv.onQuickAdd(NewSimpleProxyDialog(i18n.Sprintf("Add Remote Desktop"), loadIcon(res.IconRemote, 32),
-								"rdp", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, ":3389"))
+								"rdp", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, 3389))
 						},
 					},
 					Action{
@@ -179,7 +179,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 						Image:    loadIcon(res.IconVNC, 16),
 						OnTriggered: func() {
 							pv.onQuickAdd(NewSimpleProxyDialog(i18n.Sprintf("Add VNC"), loadIcon(res.IconVNC, 32),
-								"vnc", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, ":5900"))
+								"vnc", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, 5900))
 						},
 					},
 					Action{
@@ -188,7 +188,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 						Image:    loadIcon(res.IconSSH, 16),
 						OnTriggered: func() {
 							pv.onQuickAdd(NewSimpleProxyDialog(i18n.Sprintf("Add SSH"), loadIcon(res.IconSSH, 32),
-								"ssh", []string{consts.ProxyTypeTCP}, ":22"))
+								"ssh", []string{consts.ProxyTypeTCP}, 22))
 						},
 					},
 					Action{
@@ -197,7 +197,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 						Image:    loadIcon(res.IconWeb, 16),
 						OnTriggered: func() {
 							pv.onQuickAdd(NewSimpleProxyDialog(i18n.Sprintf("Add Web"), loadIcon(res.IconWeb, 32),
-								"web", []string{consts.ProxyTypeTCP}, ":80"))
+								"web", []string{consts.ProxyTypeTCP}, 80))
 						},
 					},
 					Action{
@@ -206,7 +206,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 						Image:    loadIcon(res.IconFtp, 16),
 						OnTriggered: func() {
 							pv.onQuickAdd(NewSimpleProxyDialog(i18n.Sprintf("Add FTP"), loadIcon(res.IconFtp, 32),
-								"ftp", []string{consts.ProxyTypeTCP}, ":21"))
+								"ftp", []string{consts.ProxyTypeTCP}, 21))
 						},
 					},
 					Action{

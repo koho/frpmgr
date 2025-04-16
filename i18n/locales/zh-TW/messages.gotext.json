@@ -67,31 +67,6 @@
             "translation": "金鑰檔案"
         },
         {
-            "id": "Log Files",
-            "message": "Log Files",
-            "translation": "日誌檔案"
-        },
-        {
-            "id": "Number out of allowed range",
-            "message": "Number out of allowed range",
-            "translation": "數值超出許可範圍"
-        },
-        {
-            "id": "Please enter a number greater than {Intt}.",
-            "message": "Please enter a number greater than {Intt}.",
-            "translation": "請輸入一個大於 {Intt} 的數字。",
-            "placeholders": [
-                {
-                    "id": "Intt",
-                    "string": "%[1]d",
-                    "type": "int",
-                    "underlyingType": "int",
-                    "argNum": 1,
-                    "expr": "int(t)"
-                }
-            ]
-        },
-        {
             "id": "Password mismatch",
             "message": "Password mismatch",
             "translation": "密碼不相符"
@@ -100,16 +75,6 @@
             "id": "Please check and try again.",
             "message": "Please check and try again.",
             "translation": "請檢查並重試。"
-        },
-        {
-            "id": "Not a number",
-            "message": "Not a number",
-            "translation": "非數字"
-        },
-        {
-            "id": "Please enter a valid number.",
-            "message": "Please enter a valid number.",
-            "translation": "請輸入一個有效的數字。"
         },
         {
             "id": "New Version!",
@@ -1781,6 +1746,11 @@
                     "argNum": 2
                 }
             ]
+        },
+        {
+            "id": "Number out of allowed range",
+            "message": "Number out of allowed range",
+            "translation": "數值超出許可範圍"
         },
         {
             "id": "The text does not match the required pattern.",

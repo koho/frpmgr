@@ -66,23 +66,3 @@ func TestFindLogFiles(t *testing.T) {
 		}
 	}
 }
-
-func TestAddFileSuffix(t *testing.T) {
-	tests := []struct {
-		input    string
-		suffix   string
-		expected string
-	}{
-		{input: "C:\\test\\a.ini", suffix: "_1", expected: "a_1.ini"},
-		{input: "b.exe", suffix: "_2", expected: "b_2.exe"},
-		{input: "c", suffix: "_3", expected: "c_3"},
-		{input: "", suffix: "_4", expected: "_4"},
-		{input: "", suffix: "", expected: ""},
-	}
-	for i, test := range tests {
-		output := AddFileSuffix(test.input, test.suffix)
-		if output != test.expected {
-			t.Errorf("Test %d: expected: %v, got: %v", i, test.expected, output)
-		}
-	}
-}

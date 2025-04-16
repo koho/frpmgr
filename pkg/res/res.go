@@ -131,7 +131,6 @@ var (
 	FilterZip      = i18n.Sprintf("Configuration Files") + " (*.zip)|*.zip"
 	FilterCert     = i18n.Sprintf("Certificate Files") + " (*.crt, *.cer)|*.crt;*.cer|"
 	FilterKey      = i18n.Sprintf("Key Files") + " (*.key)|*.key|"
-	FilterLog      = i18n.Sprintf("Log Files") + " (*.log, *.txt)|*.log;*.txt|"
 )
 
 // Validators

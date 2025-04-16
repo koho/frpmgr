@@ -5,27 +5,6 @@ import (
 	"strings"
 )
 
-// GetFieldNameByTag returns the field name of struct that match the given tag and value
-func GetFieldNameByTag(s interface{}, tag, value string) string {
-	rt := reflect.TypeOf(s)
-	if rt.Kind() != reflect.Struct {
-		panic("bad type")
-	}
-	for i := 0; i < rt.NumField(); i++ {
-		f := rt.Field(i)
-		v := strings.Split(f.Tag.Get(tag), ",")[0] // use split to ignore tag "options"
-		if v == value {
-			return f.Name
-		}
-		if f.Type.Kind() == reflect.Struct && f.Anonymous {
-			if name := GetFieldNameByTag(reflect.New(f.Type).Elem().Interface(), tag, value); name != "" {
-				return name
-			}
-		}
-	}
-	return ""
-}
-
 // PruneByTag returns a copy of "in" that only contains fields with the given tag and value
 func PruneByTag(in interface{}, value string, tag string) (interface{}, error) {
 	inValue := reflect.ValueOf(in)

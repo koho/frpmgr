@@ -3,7 +3,6 @@ package util
 import (
 	"archive/zip"
 	"bufio"
-	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -67,16 +66,6 @@ func FindLogFiles(path string) ([]string, []time.Time, error) {
 func DeleteFiles(files []string) {
 	for _, file := range files {
 		os.Remove(file)
-	}
-}
-
-// RenameFiles renames the given file list with new file list ignoring errors
-func RenameFiles(old []string, new []string) {
-	for i := range old {
-		// Create directory if the target directory does not exist
-		if err := os.MkdirAll(filepath.Dir(new[i]), os.ModePerm); err == nil {
-			os.Rename(old[i], new[i])
-		}
 	}
 }
 
@@ -167,41 +156,6 @@ func addFileToZip(zipWriter *zip.Writer, src, dst string) error {
 	return err
 }
 
-// CopyFile copy a file from src path to dest path
-func CopyFile(src string, dest string) (int64, error) {
-	srcStat, err := os.Stat(src)
-	if err != nil {
-		return 0, err
-	}
-	if !srcStat.Mode().IsRegular() {
-		return 0, fmt.Errorf("%s is not a regular file", src)
-	}
-	srcFile, err := os.Open(src)
-	if err != nil {
-		return 0, err
-	}
-	srcFile.Seek(0, 0)
-	defer srcFile.Close()
-
-	dstStat, err := os.Stat(dest)
-	if err != nil {
-		if !os.IsNotExist(err) {
-			return 0, err
-		}
-	} else {
-		if os.SameFile(srcStat, dstStat) {
-			return 0, nil
-		}
-	}
-	destFile, err := os.Create(dest)
-	if err != nil {
-		return 0, err
-	}
-	defer destFile.Close()
-
-	return io.Copy(destFile, srcFile)
-}
-
 // IsDirectory determines if a file represented by `path` is a directory or not
 func IsDirectory(path string) (bool, error) {
 	fileInfo, err := os.Stat(path)
@@ -209,12 +163,6 @@ func IsDirectory(path string) (bool, error) {
 		return false, err
 	}
 	return fileInfo.IsDir(), err
-}
-
-// AddFileSuffix adds a suffix between the file name and the file extension
-func AddFileSuffix(filename, suffix string) string {
-	baseName, ext := SplitExt(filename)
-	return baseName + suffix + ext
 }
 
 // FileNameWithoutExt returns the last element of path without the file extension.

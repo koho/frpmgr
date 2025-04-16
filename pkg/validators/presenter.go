@@ -4,14 +4,9 @@ import (
 	"errors"
 
 	"github.com/lxn/walk"
-
-	"github.com/koho/frpmgr/i18n"
 )
 
-var (
-	nanErr    = walk.NewValidationError(i18n.Sprintf("Not a number"), i18n.Sprintf("Please enter a valid number."))
-	silentErr = errors.New("")
-)
+var silentErr = errors.New("")
 
 type ToolTipErrorPresenter struct {
 	*walk.ToolTipErrorPresenter
