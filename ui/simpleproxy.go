@@ -83,7 +83,7 @@ func (sp *SimpleProxyDialog) Run(owner walk.Form) (int, error) {
 			},
 		})
 	}
-	return NewBasicDialog(&sp.Dialog, fmt.Sprintf("%s %s", i18n.Sprintf("Add"), sp.title), sp.icon, DataBinder{
+	return NewBasicDialog(&sp.Dialog, sp.title, sp.icon, DataBinder{
 		AssignTo:   &sp.db,
 		DataSource: sp.binder,
 	}, sp.onSave, Composite{

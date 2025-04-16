@@ -1468,14 +1468,49 @@
             "translation": "Escritorio remoto"
         },
         {
+            "id": "Add Remote Desktop",
+            "message": "Add Remote Desktop",
+            "translation": "Agregar escritorio remoto"
+        },
+        {
+            "id": "Add VNC",
+            "message": "Add VNC",
+            "translation": "Agregar VNC"
+        },
+        {
+            "id": "Add SSH",
+            "message": "Add SSH",
+            "translation": "Agregar SSH"
+        },
+        {
+            "id": "Add Web",
+            "message": "Add Web",
+            "translation": "Agregar Web"
+        },
+        {
+            "id": "Add FTP",
+            "message": "Add FTP",
+            "translation": "Agregar FTP"
+        },
+        {
             "id": "HTTP File Server",
             "message": "HTTP File Server",
             "translation": "Servidor de archivos HTTP"
         },
         {
+            "id": "Add HTTP File Server",
+            "message": "Add HTTP File Server",
+            "translation": "Agregar servidor de archivos HTTP"
+        },
+        {
             "id": "Proxy Server",
             "message": "Proxy Server",
             "translation": "Servidor proxy"
+        },
+        {
+            "id": "Add Proxy Server",
+            "message": "Add Proxy Server",
+            "translation": "Agregar servidor proxy"
         },
         {
             "id": "Disable",

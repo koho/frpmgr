@@ -48,7 +48,6 @@ var (
 	IconSSH          = Icon{"imageres", -5372}
 	IconVNC          = Icon{"imageres", -110}
 	IconWeb          = Icon{"shell32", -14}
-	IconDns          = Icon{"imageres", -145}
 	IconFtp          = Icon{"imageres", -143}
 	IconHttpFile     = Icon{"imageres", -73}
 	IconHttpProxy    = Icon{"imageres", -120}

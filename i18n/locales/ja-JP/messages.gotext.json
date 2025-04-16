@@ -1478,14 +1478,49 @@
             "translation": "リモートデスクトップ"
         },
         {
+            "id": "Add Remote Desktop",
+            "message": "Add Remote Desktop",
+            "translation": "リモートデスクトップを追加する"
+        },
+        {
+            "id": "Add VNC",
+            "message": "Add VNC",
+            "translation": "VNCを追加"
+        },
+        {
+            "id": "Add SSH",
+            "message": "Add SSH",
+            "translation": "SSHを追加"
+        },
+        {
+            "id": "Add Web",
+            "message": "Add Web",
+            "translation": "Webを追加"
+        },
+        {
+            "id": "Add FTP",
+            "message": "Add FTP",
+            "translation": "FTPを追加"
+        },
+        {
             "id": "HTTP File Server",
             "message": "HTTP File Server",
             "translation": "HTTP ファイルサーバー"
         },
         {
+            "id": "Add HTTP File Server",
+            "message": "Add HTTP File Server",
+            "translation": "HTTP ファイルサーバーの追加"
+        },
+        {
             "id": "Proxy Server",
             "message": "Proxy Server",
             "translation": "プロキシサーバー"
+        },
+        {
+            "id": "Add Proxy Server",
+            "message": "Add Proxy Server",
+            "translation": "プロキシサーバーの追加"
         },
         {
             "id": "Disable",

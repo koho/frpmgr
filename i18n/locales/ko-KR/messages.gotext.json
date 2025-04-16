@@ -1468,14 +1468,49 @@
             "translation": "원격 데스크탑"
         },
         {
+            "id": "Add Remote Desktop",
+            "message": "Add Remote Desktop",
+            "translation": "원격 데스크톱 추가"
+        },
+        {
+            "id": "Add VNC",
+            "message": "Add VNC",
+            "translation": "VNC 추가"
+        },
+        {
+            "id": "Add SSH",
+            "message": "Add SSH",
+            "translation": "SSH 추가"
+        },
+        {
+            "id": "Add Web",
+            "message": "Add Web",
+            "translation": "Web 추가"
+        },
+        {
+            "id": "Add FTP",
+            "message": "Add FTP",
+            "translation": "FTP 추가"
+        },
+        {
             "id": "HTTP File Server",
             "message": "HTTP File Server",
             "translation": "HTTP 파일 서버"
         },
         {
+            "id": "Add HTTP File Server",
+            "message": "Add HTTP File Server",
+            "translation": "HTTP 파일 서버 추가"
+        },
+        {
             "id": "Proxy Server",
             "message": "Proxy Server",
             "translation": "프록시 서버"
+        },
+        {
+            "id": "Add Proxy Server",
+            "message": "Add Proxy Server",
+            "translation": "프록시 서버 추가"
         },
         {
             "id": "Disable",

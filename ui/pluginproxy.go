@@ -58,7 +58,7 @@ func (pp *PluginProxyDialog) Run(owner walk.Form) (int, error) {
 				i18n.Sprintf("Select a folder for directory listing."), "", false),
 		)
 	}
-	return NewBasicDialog(&pp.Dialog, fmt.Sprintf("%s %s", i18n.Sprintf("Add"), pp.title), pp.icon, DataBinder{
+	return NewBasicDialog(&pp.Dialog, pp.title, pp.icon, DataBinder{
 		AssignTo:   &pp.db,
 		DataSource: pp.binder,
 	}, pp.onSave, append(widgets, VSpacer{})...).Run(owner)

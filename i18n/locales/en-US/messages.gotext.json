@@ -1968,6 +1968,41 @@
             "fuzzy": true
         },
         {
+            "id": "Add Remote Desktop",
+            "message": "Add Remote Desktop",
+            "translation": "Add Remote Desktop",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Add VNC",
+            "message": "Add VNC",
+            "translation": "Add VNC",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Add SSH",
+            "message": "Add SSH",
+            "translation": "Add SSH",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Add Web",
+            "message": "Add Web",
+            "translation": "Add Web",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Add FTP",
+            "message": "Add FTP",
+            "translation": "Add FTP",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "HTTP File Server",
             "message": "HTTP File Server",
             "translation": "HTTP File Server",
@@ -1975,9 +2010,23 @@
             "fuzzy": true
         },
         {
+            "id": "Add HTTP File Server",
+            "message": "Add HTTP File Server",
+            "translation": "Add HTTP File Server",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Proxy Server",
             "message": "Proxy Server",
             "translation": "Proxy Server",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Add Proxy Server",
+            "message": "Add Proxy Server",
+            "translation": "Add Proxy Server",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

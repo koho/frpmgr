@@ -1468,14 +1468,49 @@
             "translation": "远程桌面"
         },
         {
+            "id": "Add Remote Desktop",
+            "message": "Add Remote Desktop",
+            "translation": "添加远程桌面"
+        },
+        {
+            "id": "Add VNC",
+            "message": "Add VNC",
+            "translation": "添加 VNC"
+        },
+        {
+            "id": "Add SSH",
+            "message": "Add SSH",
+            "translation": "添加 SSH"
+        },
+        {
+            "id": "Add Web",
+            "message": "Add Web",
+            "translation": "添加 Web"
+        },
+        {
+            "id": "Add FTP",
+            "message": "Add FTP",
+            "translation": "添加 FTP"
+        },
+        {
             "id": "HTTP File Server",
             "message": "HTTP File Server",
             "translation": "HTTP 文件服务"
         },
         {
+            "id": "Add HTTP File Server",
+            "message": "Add HTTP File Server",
+            "translation": "添加 HTTP 文件服务"
+        },
+        {
             "id": "Proxy Server",
             "message": "Proxy Server",
             "translation": "代理服务器"
+        },
+        {
+            "id": "Add Proxy Server",
+            "message": "Add Proxy Server",
+            "translation": "添加代理服务器"
         },
         {
             "id": "Disable",

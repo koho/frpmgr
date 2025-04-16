@@ -40,11 +40,9 @@ type ProxyView struct {
 	sshAction         *walk.Action
 	webAction         *walk.Action
 	vncAction         *walk.Action
-	dnsAction         *walk.Action
 	ftpAction         *walk.Action
 	httpFileAction    *walk.Action
 	proxyServerAction *walk.Action
-	vpnAction         *walk.Action
 	editAction        *walk.Action
 	deleteAction      *walk.Action
 	toggleAction      *walk.Action
@@ -171,7 +169,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 						Text:     i18n.Sprintf("Remote Desktop"),
 						Image:    loadIcon(res.IconRemote, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewSimpleProxyDialog(i18n.Sprintf("Remote Desktop"), loadIcon(res.IconRemote, 32),
+							pv.onQuickAdd(NewSimpleProxyDialog(i18n.Sprintf("Add Remote Desktop"), loadIcon(res.IconRemote, 32),
 								"rdp", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, ":3389"))
 						},
 					},
@@ -180,7 +178,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 						Text:     "VNC",
 						Image:    loadIcon(res.IconVNC, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewSimpleProxyDialog("VNC", loadIcon(res.IconVNC, 32),
+							pv.onQuickAdd(NewSimpleProxyDialog(i18n.Sprintf("Add VNC"), loadIcon(res.IconVNC, 32),
 								"vnc", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, ":5900"))
 						},
 					},
@@ -189,7 +187,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 						Text:     "SSH",
 						Image:    loadIcon(res.IconSSH, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewSimpleProxyDialog("SSH", loadIcon(res.IconSSH, 32),
+							pv.onQuickAdd(NewSimpleProxyDialog(i18n.Sprintf("Add SSH"), loadIcon(res.IconSSH, 32),
 								"ssh", []string{consts.ProxyTypeTCP}, ":22"))
 						},
 					},
@@ -198,30 +196,8 @@ func (pv *ProxyView) createToolbar() ToolBar {
 						Text:     "Web",
 						Image:    loadIcon(res.IconWeb, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewSimpleProxyDialog("Web", loadIcon(res.IconWeb, 32),
+							pv.onQuickAdd(NewSimpleProxyDialog(i18n.Sprintf("Add Web"), loadIcon(res.IconWeb, 32),
 								"web", []string{consts.ProxyTypeTCP}, ":80"))
-						},
-					},
-					Action{
-						AssignTo: &pv.dnsAction,
-						Text:     "DNS",
-						Image:    loadIcon(res.IconDns, 16),
-						OnTriggered: func() {
-							systemDns := util.GetSystemDnsServer()
-							if systemDns == "" {
-								systemDns = "114.114.114.114"
-							}
-							pv.onQuickAdd(NewSimpleProxyDialog("DNS", loadIcon(res.IconDns, 32),
-								"dns", []string{consts.ProxyTypeUDP}, systemDns+":53"))
-						},
-					},
-					Action{
-						AssignTo: &pv.vpnAction,
-						Text:     "OpenVPN",
-						Image:    loadIcon(res.IconLock, 16),
-						OnTriggered: func() {
-							pv.onQuickAdd(NewSimpleProxyDialog("OpenVPN", loadIcon(res.IconLock, 32),
-								"openvpn", []string{consts.ProxyTypeTCP, consts.ProxyTypeUDP}, ":1194"))
 						},
 					},
 					Action{
@@ -229,7 +205,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 						Text:     "FTP",
 						Image:    loadIcon(res.IconFtp, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewSimpleProxyDialog("FTP", loadIcon(res.IconFtp, 32),
+							pv.onQuickAdd(NewSimpleProxyDialog(i18n.Sprintf("Add FTP"), loadIcon(res.IconFtp, 32),
 								"ftp", []string{consts.ProxyTypeTCP}, ":21"))
 						},
 					},
@@ -238,7 +214,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 						Text:     i18n.Sprintf("HTTP File Server"),
 						Image:    loadIcon(res.IconHttpFile, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewPluginProxyDialog(i18n.Sprintf("HTTP File Server"), loadIcon(res.IconHttpFile, 32),
+							pv.onQuickAdd(NewPluginProxyDialog(i18n.Sprintf("Add HTTP File Server"), loadIcon(res.IconHttpFile, 32),
 								consts.PluginStaticFile))
 						},
 					},
@@ -247,7 +223,7 @@ func (pv *ProxyView) createToolbar() ToolBar {
 						Text:     i18n.Sprintf("Proxy Server"),
 						Image:    loadIcon(res.IconHttpProxy, 16),
 						OnTriggered: func() {
-							pv.onQuickAdd(NewPluginProxyDialog(i18n.Sprintf("Proxy Server"), loadIcon(res.IconHttpProxy, 32),
+							pv.onQuickAdd(NewPluginProxyDialog(i18n.Sprintf("Add Proxy Server"), loadIcon(res.IconHttpProxy, 32),
 								consts.PluginHttpProxy))
 						},
 					},
@@ -362,8 +338,6 @@ func (pv *ProxyView) createProxyTable() TableView {
 					ActionRef{Action: &pv.vncAction},
 					ActionRef{Action: &pv.sshAction},
 					ActionRef{Action: &pv.webAction},
-					ActionRef{Action: &pv.dnsAction},
-					ActionRef{Action: &pv.vpnAction},
 					ActionRef{Action: &pv.ftpAction},
 					ActionRef{Action: &pv.httpFileAction},
 					ActionRef{Action: &pv.proxyServerAction},
