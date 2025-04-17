@@ -428,6 +428,14 @@ func (tv *TableView) applyFont(font *Font) {
 }
 
 func (tv *TableView) ApplyDPI(dpi int) {
+	if tv.imageAsState {
+		// Maybe a list view bug?
+		// Without the checkbox style, the listview row height will increase
+		// when the dpi changes.
+		tv.SetCheckBoxes(true)
+		defer tv.disposeImageListAndCaches()
+		defer tv.SetCheckBoxes(false)
+	}
 	tv.style.dpi = dpi
 	if tv.style.canvas != nil {
 		tv.style.canvas.dpi = dpi
@@ -1037,6 +1045,15 @@ func (tv *TableView) SetCheckBoxes(checkBoxes bool) {
 	}
 
 	win.SendMessage(hwndOther, win.LVM_SETEXTENDEDLISTVIEWSTYLE, 0, exStyle&^win.LVS_EX_CHECKBOXES)
+
+	if tv.imageAsState {
+		if checkBoxes {
+			// Disable the default checkbox icons.
+			win.SendMessage(tv.hwndFrozenLV, win.LVM_SETIMAGELIST, win.LVSIL_STATE, 0)
+			win.SendMessage(tv.hwndNormalLV, win.LVM_SETIMAGELIST, win.LVSIL_STATE, 0)
+		}
+		return
+	}
 
 	mask := win.SendMessage(hwnd, win.LVM_GETCALLBACKMASK, 0, 0)
 
