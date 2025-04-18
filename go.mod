@@ -66,4 +66,4 @@ require (
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
 
-replace github.com/lxn/walk => github.com/koho/frpmgr v0.0.0-20250415081305-b17721ccd57c
+replace github.com/lxn/walk => github.com/koho/frpmgr v0.0.0-20250417143351-c1c196166836
