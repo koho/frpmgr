@@ -4,7 +4,7 @@ go 1.23.0
 
 require (
 	github.com/Microsoft/go-winio v0.6.2
-	github.com/fatedier/frp v0.62.0
+	github.com/fatedier/frp v0.62.1
 	github.com/fatedier/golib v0.5.1
 	github.com/fsnotify/fsnotify v1.9.0
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
