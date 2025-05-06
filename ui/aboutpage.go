@@ -47,20 +47,20 @@ func (ap *AboutPage) Page() TabPage {
 		Title:      Bind(fmt.Sprintf("vm.NewVersion ? '%s' : '%s'", i18n.Sprintf("New Version!"), i18n.Sprintf("About"))),
 		Image:      Bind("vm.NewVersion ? vm.TabIcon : ''"),
 		DataBinder: DataBinder{AssignTo: &ap.db, Name: "vm", DataSource: &ap.viewModel},
-		Layout:     VBox{},
+		Layout:     HBox{Margins: Margins{Left: 24, Top: 24, Right: 24, Bottom: 24}, Spacing: 24},
 		Children: []Widget{
+			ImageView{Image: loadLogoIcon(72), Alignment: AlignHNearVNear},
 			Composite{
-				Layout: HBox{},
+				Alignment: AlignHNearVNear,
+				Layout:    VBox{MarginsZero: true},
 				Children: []Widget{
-					ImageView{Image: loadLogoIcon(96), Alignment: AlignHCenterVNear},
+					Label{Text: AppLocalName, Font: res.TextLarge, TextColor: res.ColorDarkBlue},
+					Label{Text: i18n.Sprintf("Version: %s", version.Number)},
+					Label{Text: i18n.Sprintf("FRP version: %s", version.FRPVersion)},
+					Label{Text: i18n.Sprintf("Built on: %s", version.BuildDate)},
 					Composite{
-						Layout: VBox{Margins: Margins{Left: 12}},
+						Layout: HBox{Margins: Margins{Top: 9, Bottom: 9}},
 						Children: []Widget{
-							Label{Text: AppName, Font: res.TextLarge, TextColor: res.ColorDarkBlue},
-							Label{Text: i18n.Sprintf("Version: %s", version.Number)},
-							Label{Text: i18n.Sprintf("FRP version: %s", version.FRPVersion)},
-							Label{Text: i18n.Sprintf("Built on: %s", version.BuildDate)},
-							VSpacer{Size: 3},
 							PushButton{
 								Enabled: Bind("!vm.Checking"),
 								Text: Bind(fmt.Sprintf("vm.NewVersion ? ' %s' : (vm.Checking ? '%s' : '%s')",
@@ -76,17 +76,11 @@ func (ap *AboutPage) Page() TabPage {
 									}
 								},
 								Image:   Bind("vm.NewVersion ? vm.UpdateIcon : ''"),
-								MinSize: Size{Width: 250, Height: 38},
+								MinSize: Size{Width: 200},
 							},
+							HSpacer{},
 						},
 					},
-					HSpacer{},
-				},
-			},
-			Composite{
-				Layout:    VBox{Margins: Margins{Left: 123}},
-				Alignment: AlignHNearVNear,
-				Children: []Widget{
 					Label{Text: i18n.Sprintf("For comments or to report bugs, please visit the project page:")},
 					LinkLabel{
 						Alignment: AlignHNearVCenter,
@@ -106,7 +100,7 @@ func (ap *AboutPage) Page() TabPage {
 					},
 				},
 			},
-			VSpacer{},
+			HSpacer{},
 		},
 	}
 }
