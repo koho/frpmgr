@@ -76,7 +76,7 @@ var (
 // Colors
 var (
 	ColorBlue      = walk.RGB(0, 38, 247)
-	ColorDarkBlue  = walk.RGB(11, 53, 137)
+	ColorDarkBlue  = walk.RGB(0, 51, 153)
 	ColorLightBlue = walk.RGB(49, 94, 251)
 	ColorGray      = walk.RGB(109, 109, 109)
 	ColorDarkGray  = walk.RGB(85, 85, 85)
@@ -114,7 +114,7 @@ func init() {
 	}
 	TextRegular = Font{Family: defaultFontFamily, PointSize: 9}
 	TextMedium = Font{Family: defaultFontFamily, PointSize: 10}
-	TextLarge = Font{Family: defaultFontFamily, PointSize: 16}
+	TextLarge = Font{Family: defaultFontFamily, PointSize: 12}
 }
 
 var (

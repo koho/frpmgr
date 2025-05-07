@@ -9,7 +9,7 @@
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST manifest.xml
-IDI_ICON        ICON           "../icon/installer.ico"
+IDI_ICON        ICON           "../icon/app.ico"
 IDR_MSI         RCDATA         EXPAND(MSI_FILE)
 
 #define VERSIONINFO_TEMPLATE(block_id, lang_id, charset_id, file_desc, product_name) \
