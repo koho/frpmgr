@@ -246,7 +246,7 @@ func (pv *PanelView) Invalidate(state bool) {
 		proto = "ws"
 	}
 	proto = strings.ToUpper(proto)
-	if data.HTTPProxy != "" {
+	if data.HTTPProxy != "" && data.Protocol != consts.ProtoQUIC {
 		if u, err := url.Parse(data.HTTPProxy); err == nil {
 			proto += " + " + strings.ToUpper(u.Scheme)
 		}
