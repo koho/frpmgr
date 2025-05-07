@@ -1,7 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion
 set BUILDDIR=%~dp0
-set PATH=%BUILDDIR%.deps;%PATH%
 set ARCHS=amd64 386
 cd /d %BUILDDIR% || exit /b 1
 
