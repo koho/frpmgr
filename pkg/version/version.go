@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	Number = "1.21.0"
+	Number = "1.21.1"
 	// FRPVersion is the version of FRP used by this program
 	FRPVersion = version.Full()
 	// BuildDate is the day that this program was built
