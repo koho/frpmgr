@@ -21,7 +21,7 @@ The latest release requires at least Windows 10 or Server 2016. Please visit the
 - **Hot reload:** Allows users to apply proxy changes to a running configuration without restarting the service and without losing proxy state.
 - **Multiple configurations:** It's easy to connect to multiple nodes by creating multiple configurations.
 - **Import and export configurations:** Provides the option to import configuration file from multiple sources, including local file, clipboard, and HTTP.
-- **Self-destructing configuration:** : A special configuration that disappears and becomes unreachable after a certain amount of time.
+- **Self-destructing configuration:** A special configuration that disappears and becomes unreachable after a certain amount of time.
 - **Status tracking:** You can check the proxy status directly in the table view without looking at the logs.
 
 Visit the **[Wiki](https://github.com/koho/frpmgr/wiki)** for comprehensive guides, including quick start guide, manual, and examples.
