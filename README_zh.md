@@ -24,7 +24,12 @@ FRP 管理器是一个多节点、图形化反向代理工具，专为 Windows �
 - **自毁配置：**&#8203;一种特殊配置，会在指定的时间后删除并无法访问。
 - **状态跟踪：**&#8203;您可以直接在表格视图中查看代理状态，而无需查看日志。
 
-访问 **[Wiki](https://github.com/koho/frpmgr/wiki)** 获取完整指南，包括快速入门指南、手册和示例。
+访问 **[Wiki](https://github.com/koho/frpmgr/wiki)** 获取完整指南，包括：
+
+- **[安装说明](https://github.com/koho/frpmgr/wiki#how-to-install)：**&#8203;在 Windows 上安装或升级 FRP 管理器。
+- **[快速入门指南](https://github.com/koho/frpmgr/wiki/Quick-Start)：**&#8203;了解如何在几分钟内连接到您的节点并设置代理。
+- **[配置](https://github.com/koho/frpmgr/wiki/Configuration)：**&#8203;探索配置、代理、访问者和日志。
+- **[示例](https://github.com/koho/frpmgr/wiki/Examples)：**&#8203;这里有一些常见的示例可以帮助您学习 FRP 管理器。
 
 ## 构建
 

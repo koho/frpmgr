@@ -24,7 +24,12 @@ The latest release requires at least Windows 10 or Server 2016. Please visit the
 - **Self-destructing configuration:** A special configuration that disappears and becomes unreachable after a certain amount of time.
 - **Status tracking:** You can check the proxy status directly in the table view without looking at the logs.
 
-Visit the **[Wiki](https://github.com/koho/frpmgr/wiki)** for comprehensive guides, including quick start guide, manual, and examples.
+Visit the **[Wiki](https://github.com/koho/frpmgr/wiki)** for comprehensive guides, including:
+
+- **[Installation Instructions](https://github.com/koho/frpmgr/wiki#how-to-install):** Install or upgrade FRP Manager on Windows.
+- **[Quick Start Guide](https://github.com/koho/frpmgr/wiki/Quick-Start):** Learn how to connect to your node and setup a proxy in minutes.
+- **[Configuration](https://github.com/koho/frpmgr/wiki/Configuration):** Explore configuration, proxy, visitor, and log.
+- **[Examples](https://github.com/koho/frpmgr/wiki/Examples):** There are some common examples to help you learn FRP Manager.
 
 ## Building
 
