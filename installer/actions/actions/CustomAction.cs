@@ -200,17 +200,12 @@ namespace actions
             {
                 return ActionResult.Success;
             }
-            Process process = new Process
+            SelectQuery q = new SelectQuery("Win32_Process", "ExecutablePath = '" + binPath.Replace(@"\", @"\\") + "' AND SessionId != 0");
+            ManagementObjectSearcher s = new ManagementObjectSearcher(q);
+            foreach (ManagementObject process in s.Get())
             {
-                StartInfo = new ProcessStartInfo()
-            };
-            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            process.StartInfo.FileName = "wmic.exe";
-            process.StartInfo.Arguments = "process where (executablepath = '" + binPath.Replace(@"\", @"\\") + "' and sessionid != 0) delete";
-            process.StartInfo.UseShellExecute = true;
-            process.StartInfo.Verb = "runas";
-            process.Start();
-            process.WaitForExit();
+                process.Delete();
+            }
             return ActionResult.Success;
         }
 
