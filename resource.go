@@ -10,6 +10,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/koho/frpmgr/pkg/version"
 )
@@ -32,7 +33,10 @@ func main() {
 				"-i", rc, "-o", output, "-O", "coff", "-c", "65001", "-F", resArch).CombinedOutput()
 			if err != nil {
 				println(err.Error(), string(res))
+				os.Exit(1)
 			}
 		}
 	}
+	fmt.Println("VERSION=" + version.Number)
+	fmt.Println("BUILD_DATE=" + time.Now().Format(time.DateOnly))
 }

@@ -4,21 +4,17 @@ set BUILDDIR=%~dp0
 set ARCHS=amd64 386
 cd /d %BUILDDIR% || exit /b 1
 
-for /f "tokens=3" %%a in ('findstr /r "Number.*=.*[0-9.]*" .\pkg\version\version.go') do set VERSION=%%a
-set VERSION=%VERSION:"=%
-
 :packages
 	echo [+] Downloading packages
 	go mod tidy || goto :error
 
 :resources
 	echo [+] Generating resources
-	go generate || goto :error
+	for /f %%a in ('go generate') do set %%a
+	if not defined VERSION exit /b 1
 
 :build
 	echo [+] Building program
-	for /f "usebackq tokens=1,2 delims==" %%i in (`wmic os get LocalDateTime /VALUE 2^>NUL`) do if '.%%i.'=='.LocalDateTime.' set ldt=%%j
-	set BUILD_DATE=%ldt:~0,4%-%ldt:~4,2%-%ldt:~6,2%
 	set MOD=github.com/koho/frpmgr
 	set GO111MODULE=on
 	set CGO_ENABLED=0
