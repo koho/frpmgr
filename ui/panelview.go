@@ -55,7 +55,7 @@ func (pv *PanelView) View() Widget {
 		Layout:   Grid{Margins: Margins{Left: 10, Top: 10, Right: 10, Bottom: 10}, Spacing: 10},
 		Children: []Widget{
 			Label{Text: i18n.SprintfColon("Status"), Row: 0, Column: 0, Alignment: AlignHFarVCenter},
-			Label{Text: i18n.SprintfColon("Remote Address"), Row: 1, Column: 0, Alignment: AlignHFarVCenter},
+			Label{Text: i18n.SprintfColon("Server Address"), Row: 1, Column: 0, Alignment: AlignHFarVCenter},
 			Label{Text: i18n.SprintfColon("Protocol"), Row: 2, Column: 0, Alignment: AlignHFarVCenter},
 			Composite{
 				Layout: HBox{SpacingZero: true, MarginsZero: true},
