@@ -89,12 +89,12 @@
         {
             "id": "Download updates",
             "message": "Download updates",
-            "translation": "Descargar actualizaciones"
+            "translation": "Descargar"
         },
         {
             "id": "Checking for updates",
             "message": "Checking for updates",
-            "translation": "Comprobando actualizaciones"
+            "translation": "Comprobando"
         },
         {
             "id": "Check for updates",
@@ -177,9 +177,9 @@
             "translation": "Nueva Configuración"
         },
         {
-            "id": "Import Config from File",
-            "message": "Import Config from File",
-            "translation": "Importar configuración desde archivo"
+            "id": "Import from File",
+            "message": "Import from File",
+            "translation": "Importar desde archivo"
         },
         {
             "id": "Delete {Count} configs",
@@ -275,11 +275,6 @@
             "id": "Import Config",
             "message": "Import Config",
             "translation": "Importar configuración"
-        },
-        {
-            "id": "Import from File",
-            "message": "Import from File",
-            "translation": "Importar desde archivo"
         },
         {
             "id": "Import from URL",
@@ -743,9 +738,9 @@
             "translation": "Desactivar el inicio automático al arrancar"
         },
         {
-            "id": "Use legacy format config file",
-            "message": "Use legacy format config file",
-            "translation": "Usar archivo de configuración de formato heredado"
+            "id": "Use legacy file format",
+            "message": "Use legacy file format",
+            "translation": "Utilizar formato de archivo heredado"
         },
         {
             "id": "Metadata",

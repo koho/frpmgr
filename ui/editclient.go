@@ -396,7 +396,7 @@ func (cd *EditClientDialog) advancedConfPage() TabPage {
 					CheckBox{
 						AssignTo: &legacy,
 						Name:     "legacyFormat",
-						Text:     i18n.Sprintf("Use legacy format config file"),
+						Text:     i18n.Sprintf("Use legacy file format"),
 						Checked:  Bind("LegacyFormat"),
 						OnCheckedChanged: func() {
 							if !legacy.Checked() && !cd.canUpgradeFormat() {

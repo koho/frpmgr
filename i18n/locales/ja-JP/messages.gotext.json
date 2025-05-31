@@ -177,9 +177,9 @@
             "translation": "新しい設定"
         },
         {
-            "id": "Import Config from File",
-            "message": "Import Config from File",
-            "translation": "ファイルから設定をインポートする"
+            "id": "Import from File",
+            "message": "Import from File",
+            "translation": "ファイルからインポート"
         },
         {
             "id": "Delete {Count} configs",
@@ -275,11 +275,6 @@
             "id": "Import Config",
             "message": "Import Config",
             "translation": "設定のインポート"
-        },
-        {
-            "id": "Import from File",
-            "message": "Import from File",
-            "translation": "ファイルからインポート"
         },
         {
             "id": "Import from URL",
@@ -753,9 +748,9 @@
             "translation": "起動時に自動起動を無効にする"
         },
         {
-            "id": "Use legacy format config file",
-            "message": "Use legacy format config file",
-            "translation": "従来の形式の設定ファイルを使用する"
+            "id": "Use legacy file format",
+            "message": "Use legacy file format",
+            "translation": "従来のファイル形式を使用する"
         },
         {
             "id": "Metadata",

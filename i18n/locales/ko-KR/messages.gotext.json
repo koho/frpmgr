@@ -177,9 +177,9 @@
             "translation": "새 구성"
         },
         {
-            "id": "Import Config from File",
-            "message": "Import Config from File",
-            "translation": "파일에서 구성 가져오기"
+            "id": "Import from File",
+            "message": "Import from File",
+            "translation": "파일에서 가져오기"
         },
         {
             "id": "Delete {Count} configs",
@@ -275,11 +275,6 @@
             "id": "Import Config",
             "message": "Import Config",
             "translation": "구성 가져오기"
-        },
-        {
-            "id": "Import from File",
-            "message": "Import from File",
-            "translation": "파일에서 가져오기"
         },
         {
             "id": "Import from URL",
@@ -743,9 +738,9 @@
             "translation": "부팅 시 자동 시작 비활성화"
         },
         {
-            "id": "Use legacy format config file",
-            "message": "Use legacy format config file",
-            "translation": "레거시 형식 구성 파일 사용"
+            "id": "Use legacy file format",
+            "message": "Use legacy file format",
+            "translation": "레거시 파일 형식 사용"
         },
         {
             "id": "Metadata",

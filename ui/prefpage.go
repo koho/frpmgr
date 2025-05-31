@@ -258,7 +258,7 @@ func (pp *PrefPage) setDefaultValue() (int, error) {
 						CheckBox{Text: i18n.Sprintf("TCP Mux"), Checked: Bind("TCPMux")},
 						CheckBox{Text: "TLS", Checked: Bind("TLSEnable")},
 						CheckBox{Text: i18n.Sprintf("Disable auto-start at boot"), Checked: Bind("ManualStart"), ColumnSpan: 2},
-						CheckBox{Text: i18n.Sprintf("Use legacy format config file"), Checked: Bind("LegacyFormat"), ColumnSpan: 2},
+						CheckBox{Text: i18n.Sprintf("Use legacy file format"), Checked: Bind("LegacyFormat"), ColumnSpan: 2},
 					},
 				},
 			},

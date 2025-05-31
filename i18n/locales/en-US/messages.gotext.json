@@ -235,9 +235,9 @@
             "fuzzy": true
         },
         {
-            "id": "Import Config from File",
-            "message": "Import Config from File",
-            "translation": "Import Config from File",
+            "id": "Import from File",
+            "message": "Import from File",
+            "translation": "Import from File",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -363,13 +363,6 @@
             "id": "Import Config",
             "message": "Import Config",
             "translation": "Import Config",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Import from File",
-            "message": "Import from File",
-            "translation": "Import from File",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -985,9 +978,9 @@
             "fuzzy": true
         },
         {
-            "id": "Use legacy format config file",
-            "message": "Use legacy format config file",
-            "translation": "Use legacy format config file",
+            "id": "Use legacy file format",
+            "message": "Use legacy file format",
+            "translation": "Use legacy file format",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

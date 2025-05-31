@@ -177,9 +177,9 @@
             "translation": "新建配置"
         },
         {
-            "id": "Import Config from File",
-            "message": "Import Config from File",
-            "translation": "从文件导入配置"
+            "id": "Import from File",
+            "message": "Import from File",
+            "translation": "从文件导入"
         },
         {
             "id": "Delete {Count} configs",
@@ -275,11 +275,6 @@
             "id": "Import Config",
             "message": "Import Config",
             "translation": "导入配置"
-        },
-        {
-            "id": "Import from File",
-            "message": "Import from File",
-            "translation": "从文件导入"
         },
         {
             "id": "Import from URL",
@@ -743,9 +738,9 @@
             "translation": "禁用开机自启动"
         },
         {
-            "id": "Use legacy format config file",
-            "message": "Use legacy format config file",
-            "translation": "使用旧格式配置文件"
+            "id": "Use legacy file format",
+            "message": "Use legacy file format",
+            "translation": "使用旧文件格式"
         },
         {
             "id": "Metadata",

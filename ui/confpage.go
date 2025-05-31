@@ -95,13 +95,11 @@ func (cp *ConfPage) welcomeView() Composite {
 					PushButton{
 						Text:      i18n.Sprintf("New Configuration"),
 						MinSize:   Size{Width: 200},
-						MaxSize:   Size{Width: 200},
 						OnClicked: cp.confView.editNew,
 					},
 					PushButton{
-						Text:      i18n.Sprintf("Import Config from File"),
+						Text:      i18n.Sprintf("Import from File"),
 						MinSize:   Size{Width: 200},
-						MaxSize:   Size{Width: 200},
 						OnClicked: cp.confView.onFileImport,
 					},
 					VSpacer{},
