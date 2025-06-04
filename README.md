@@ -52,6 +52,14 @@ build.bat
 
 The generated installation files are located in the `bin` directory.
 
+You can also skip building the installation package and get a portable application by passing the `-p` option to the `build` command:
+
+```shell
+build.bat -p
+```
+
+In this case, you only need to install Go and MinGW.
+
 ### Debugging
 
 If you're building the project for the first time, you need to compile resources:

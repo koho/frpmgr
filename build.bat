@@ -1,7 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion
 set BUILDDIR=%~dp0
-set ARCHS=amd64 386
 cd /d %BUILDDIR% || exit /b 1
 
 :packages
@@ -18,17 +17,12 @@ cd /d %BUILDDIR% || exit /b 1
 	set MOD=github.com/koho/frpmgr
 	set GO111MODULE=on
 	set CGO_ENABLED=0
-	for %%a in (%ARCHS%) do (
+	for %%a in (amd64 386) do (
 		set GOARCH=%%a
 		go build -trimpath -ldflags="-H windowsgui -s -w -X %MOD%/pkg/version.BuildDate=%BUILD_DATE%" -o bin\x!GOARCH:~-2!\frpmgr.exe .\cmd\frpmgr || goto :error
 	)
 
-:archive
-	echo [+] Creating archives
-	for %%a in (%ARCHS%) do (
-		set ARCH=%%a
-		tar -ac -C bin\x!ARCH:~-2! -f bin\frpmgr-%VERSION%-x!ARCH:~-2!.zip frpmgr.exe || goto :error
-	)
+if "%~1" == "-p" goto :success
 
 :installer
 	echo [+] Building installer
