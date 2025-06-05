@@ -26,7 +26,8 @@ if "%~1" == "-p" goto :success
 
 :installer
 	echo [+] Building installer
-	call installer\build.bat %VERSION% || goto :error
+	call installer\build.bat %VERSION% x64 || goto :error
+	call installer\build.bat %VERSION% x86 || goto :error
 
 :success
 	echo [+] Success

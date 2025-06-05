@@ -1,7 +1,8 @@
 @echo off
 setlocal enabledelayedexpansion
 set VERSION=%~1
-set STEP="%~2"
+set ARCH=%~2
+set STEP="%~3"
 set BUILDDIR=%~dp0
 set RESx64=pe-x86-64
 set RESx86=pe-i386
@@ -12,6 +13,11 @@ if "%VERSION%" == "" (
 	exit /b 1
 )
 
+if "%ARCH%" == "" (
+	echo ERROR: no architecture provided.
+	exit /b 1
+)
+
 if not defined WIX (
 	echo ERROR: WIX was not found.
 	exit /b 1
@@ -19,16 +25,13 @@ if not defined WIX (
 
 :build
 	if not exist build md build
-	for %%a in (x64 x86) do (
-		set ARCH=%%a
-		call vcvarsall.bat !ARCH!
-		set PLAT_DIR=build\!ARCH!
-		if not exist !PLAT_DIR! md !PLAT_DIR!
-		set MSI_FILE=!PLAT_DIR!\frpmgr-%VERSION%.msi
-		if %STEP:"actions"=""% == "" call :build_actions || goto :error
-		if %STEP:"msi"=""% == "" call :build_msi || goto :error
-		if %STEP:"package"=""% == "" call :build_package || goto :error
-	)
+	call vcvarsall.bat %ARCH%
+	set PLAT_DIR=build\%ARCH%
+	if not exist %PLAT_DIR% md %PLAT_DIR%
+	set MSI_FILE=%PLAT_DIR%\frpmgr-%VERSION%.msi
+	if %STEP:"actions"=""% == "" call :build_actions || goto :error
+	if %STEP:"msi"=""% == "" call :build_msi || goto :error
+	if %STEP:"package"=""% == "" call :build_package || goto :error
 
 :success
 	exit /b 0
