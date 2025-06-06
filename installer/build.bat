@@ -26,6 +26,7 @@ if not defined WIX (
 :build
 	if not exist build md build
 	set PLAT_DIR=build\%ARCH%
+	set SETUP_FILENAME=frpmgr-%VERSION%-setup-%ARCH%.exe
 	if %STEP% == "dist" goto :dist
 	call vcvarsall.bat %ARCH%
 	if not exist %PLAT_DIR% md %PLAT_DIR%
@@ -59,7 +60,7 @@ if not defined WIX (
 	goto :eof
 
 :build_setup
-	windres -DARCH=%ARCH% -DVERSION_ARRAY=%VERSION:.=,% -DVERSION_STR=%VERSION% -DMSI_FILE=%MSI_FILE:\=\\% -i setup\resource.rc -o %PLAT_DIR%\rsrc.o -O coff -c 65001 -F !RES%ARCH%! || goto :error
+	windres -DFILENAME=%SETUP_FILENAME% -DVERSION_ARRAY=%VERSION:.=,% -DVERSION_STR=%VERSION% -DMSI_FILE=%MSI_FILE:\=\\% -i setup\resource.rc -o %PLAT_DIR%\rsrc.o -O coff -c 65001 -F !RES%ARCH%! || goto :error
 	cl /Fe%PLAT_DIR%\setup.exe /Fo%PLAT_DIR%\setup.obj /utf-8 setup\setup.c /link /subsystem:windows %PLAT_DIR%\rsrc.o shlwapi.lib msi.lib user32.lib advapi32.lib || goto :error
 	goto :eof
 
@@ -67,7 +68,7 @@ if not defined WIX (
 	echo [+] Creating %ARCH% archives
 	tar -ac -C ..\bin\%ARCH% -f ..\bin\frpmgr-%VERSION%-%ARCH%.zip frpmgr.exe || goto :error
 	echo [+] Creating %ARCH% installer
-	copy %PLAT_DIR%\setup.exe ..\bin\frpmgr-%VERSION%-setup-%ARCH%.exe /y
+	copy %PLAT_DIR%\setup.exe ..\bin\%SETUP_FILENAME% /y
 
 :error
 	exit /b %errorlevel%
