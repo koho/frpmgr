@@ -28,7 +28,7 @@ if not defined WIX (
 	call vcvarsall.bat %ARCH%
 	set PLAT_DIR=build\%ARCH%
 	if not exist %PLAT_DIR% md %PLAT_DIR%
-	set MSI_FILE=%PLAT_DIR%\frpmgr-%VERSION%.msi
+	set MSI_FILE=%PLAT_DIR%\frpmgr.msi
 	if %STEP:"actions"=""% == "" call :build_actions || goto :error
 	if %STEP:"msi"=""% == "" call :build_msi || goto :error
 	if %STEP:"package"=""% == "" call :build_package || goto :error
