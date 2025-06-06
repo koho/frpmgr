@@ -4,8 +4,6 @@ set VERSION=%~1
 set ARCH=%~2
 set STEP="%~3"
 set BUILDDIR=%~dp0
-set RESx64=pe-x86-64
-set RESx86=pe-i386
 cd /d %BUILDDIR% || exit /b 1
 
 if "%VERSION%" == "" (
@@ -60,8 +58,8 @@ if not defined WIX (
 	goto :eof
 
 :build_setup
-	windres -DFILENAME=%SETUP_FILENAME% -DVERSION_ARRAY=%VERSION:.=,% -DVERSION_STR=%VERSION% -DMSI_FILE=%MSI_FILE:\=\\% -i setup\resource.rc -o %PLAT_DIR%\rsrc.o -O coff -c 65001 -F !RES%ARCH%! || goto :error
-	cl /Fe%PLAT_DIR%\setup.exe /Fo%PLAT_DIR%\setup.obj /utf-8 setup\setup.c /link /subsystem:windows %PLAT_DIR%\rsrc.o shlwapi.lib msi.lib user32.lib advapi32.lib || goto :error
+	rc /DFILENAME=%SETUP_FILENAME% /DVERSION_ARRAY=%VERSION:.=,% /DVERSION_STR=%VERSION% /DMSI_FILE=%MSI_FILE:\=\\% /fo %PLAT_DIR%\rsrc.res setup\resource.rc || goto :error
+	cl /Fe%PLAT_DIR%\setup.exe /Fo%PLAT_DIR%\setup.obj /utf-8 setup\setup.c /link /subsystem:windows %PLAT_DIR%\rsrc.res shlwapi.lib msi.lib user32.lib advapi32.lib || goto :error
 	goto :eof
 
 :dist
