@@ -4,12 +4,12 @@ on:
   release:
     types: [published]
 
+  pull_request:
+
 jobs:
   build:
     name: Build
     runs-on: windows-latest
-    outputs:
-      version: ${{ steps.build.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -20,22 +20,141 @@ jobs:
           go-version: '1.23'
 
       - name: Setup VS environment
+        shell: powershell
+        run: |
+          echo "$(vswhere.exe -latest -property installationPath)\VC\Auxiliary\Build" >> $env:GITHUB_PATH
+          @"
+          @echo off
+          setlocal enabledelayedexpansion
+          set SRC_DIR=%~1
+          :safe_copy
+          shift
+          if "%~1"=="" exit /b 0
+          if "%~2"=="" exit /b 1
+          for %%a in (x64 x86) do (
+          set SRC_FILE=%SRC_DIR%\%%a\%~1
+          set DST_FILE=%~2\%%a\%~1
+          if not "%~x1" == ".msi" (
+          set SRC_FILE_UNSIGNED=!SRC_FILE!.unsigned
+          copy /Y "!SRC_FILE!" "!SRC_FILE_UNSIGNED!"
+          "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe" remove /s "!SRC_FILE_UNSIGNED!" || exit /b 1
+          call :pe_compare "!SRC_FILE_UNSIGNED!" "!DST_FILE!" || (
+          echo File checksum mismatch: !SRC_FILE!
+          exit /b 1))
+          copy /Y "!SRC_FILE!" "!DST_FILE!")
+          shift
+          goto :safe_copy
+          :pe_compare
+          python -c "import sys;from ctypes import *;header_sum,checksum1,checksum2=c_ulong(0),c_ulong(0),c_ulong(0);assert windll.imagehlp.MapFileAndCheckSumW(sys.argv[1],byref(header_sum),byref(checksum1))==0;assert windll.imagehlp.MapFileAndCheckSumW(sys.argv[2],byref(header_sum),byref(checksum2))==0;assert checksum1.value==checksum2.value" %1 %2
+          goto :eof
+          "@ | Out-File -Encoding ascii -FilePath safe_copy.bat
+
+      - name: Build main application
+        shell: cmd
+        run: build.bat -p
+
+      - name: Get version info
+        shell: powershell
+        run: |
+          $version = $((Get-Item .\bin\x64\frpmgr.exe).VersionInfo.ProductVersion)
+          echo "VERSION=$version" >> $env:GITHUB_ENV
+
+      - name: Build custom actions
         shell: cmd
         run: |
-          for /f "usebackq delims=" %%i in (`vswhere.exe -latest -property installationPath`) do echo %%i\VC\Auxiliary\Build>>%GITHUB_PATH%
+          installer\build.bat %VERSION% x64 actions
+          installer\build.bat %VERSION% x86 actions
 
-      - name: Build
-        id: build
-        shell: cmd
-        run: |
-          for /f "tokens=3" %%a in ('findstr /r "Number.*=.*[0-9.]*" .\pkg\version\version.go') do set VERSION=%%a
-          echo version=%VERSION:"=%>>%GITHUB_OUTPUT%
-          build.bat
-
-      - name: Upload assets
+      - name: Upload unsigned application
+        id: upload-unsigned-application
         uses: actions/upload-artifact@v4
         with:
-          name: assets
+          name: frpmgr-${{ env.VERSION }}-main-unsigned
+          path: |
+            bin/*/frpmgr.exe
+            installer/build/*/actions.dll
+
+      - name: Sign
+        uses: signpath/github-action-submit-signing-request@v1.2
+        with:
+          api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
+          organization-id: '${{ secrets.SIGNPATH_ORGANIZATION_ID }}'
+          project-slug: 'frpmgr'
+          signing-policy-slug: 'test-signing'
+          github-artifact-id: '${{ steps.upload-unsigned-application.outputs.artifact-id }}'
+          wait-for-completion: true
+          output-artifact-directory: 'dist'
+
+      - name: Verify and copy signed files
+        shell: cmd
+        run: safe_copy dist frpmgr.exe bin actions.dll installer\build
+
+      - name: Build MSI installer
+        shell: cmd
+        run: |
+          installer\build.bat %VERSION% x64 msi
+          installer\build.bat %VERSION% x86 msi
+
+      - name: Upload unsigned installer
+        id: upload-unsigned-installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: frpmgr-${{ env.VERSION }}-installer-unsigned
+          path: installer/build/*/frpmgr.msi
+
+      - name: Sign
+        uses: signpath/github-action-submit-signing-request@v1.2
+        with:
+          api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
+          organization-id: '${{ secrets.SIGNPATH_ORGANIZATION_ID }}'
+          project-slug: 'frpmgr'
+          signing-policy-slug: 'test-signing'
+          github-artifact-id: '${{ steps.upload-unsigned-installer.outputs.artifact-id }}'
+          wait-for-completion: true
+          output-artifact-directory: 'dist'
+
+      - name: Verify and copy signed files
+        shell: cmd
+        run: safe_copy dist frpmgr.msi installer\build
+
+      - name: Build EXE bootstrapper
+        shell: cmd
+        run: |
+          installer\build.bat %VERSION% x64 setup
+          installer\build.bat %VERSION% x86 setup
+
+      - name: Upload unsigned bootstrapper
+        id: upload-unsigned-bootstrapper
+        uses: actions/upload-artifact@v4
+        with:
+          name: frpmgr-${{ env.VERSION }}-setup-unsigned
+          path: installer/build/*/setup.exe
+
+      - name: Sign
+        uses: signpath/github-action-submit-signing-request@v1.2
+        with:
+          api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
+          organization-id: '${{ secrets.SIGNPATH_ORGANIZATION_ID }}'
+          project-slug: 'frpmgr'
+          signing-policy-slug: 'test-signing'
+          github-artifact-id: '${{ steps.upload-unsigned-bootstrapper.outputs.artifact-id }}'
+          wait-for-completion: true
+          output-artifact-directory: 'dist'
+
+      - name: Verify and copy signed files
+        shell: cmd
+        run: safe_copy dist setup.exe installer\build
+
+      - name: Create release files
+        shell: cmd
+        run: |
+          installer\build.bat %VERSION% x64 dist
+          installer\build.bat %VERSION% x86 dist
+
+      - name: Upload release files
+        uses: actions/upload-artifact@v4
+        with:
+          name: frpmgr-${{ env.VERSION }}
           path: |
             bin/*.exe
             bin/*.zip
@@ -44,14 +163,20 @@ jobs:
     name: Release
     needs: build
     runs-on: ubuntu-latest
+    if: github.event_name == 'release'
     steps:
+      - name: Get version info
+        run: |
+          tag_name="${{ github.event.release.tag_name }}"
+          echo "VERSION=${tag_name#v}" >> $GITHUB_ENV
+
       - name: Collect files
         uses: actions/download-artifact@v4
         with:
-          name: assets
+          name: frpmgr-${{ env.VERSION }}
 
       - name: Calculate SHA256 checksum
-        run: sha256sum *.exe *.zip > frpmgr-${{ needs.build.outputs.version }}-sha256-checksums.txt
+        run: sha256sum *.exe *.zip > frpmgr-${{ env.VERSION }}-sha256-checksums.txt
 
       - name: Upload release assets
         uses: shogo82148/actions-upload-release-asset@v1
