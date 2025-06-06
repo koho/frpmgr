@@ -25,13 +25,15 @@ if not defined WIX (
 
 :build
 	if not exist build md build
-	call vcvarsall.bat %ARCH%
 	set PLAT_DIR=build\%ARCH%
+	if %STEP% == "dist" goto :dist
+	call vcvarsall.bat %ARCH%
 	if not exist %PLAT_DIR% md %PLAT_DIR%
 	set MSI_FILE=%PLAT_DIR%\frpmgr.msi
-	if %STEP:"actions"=""% == "" call :build_actions || goto :error
-	if %STEP:"msi"=""% == "" call :build_msi || goto :error
-	if %STEP:"package"=""% == "" call :build_package || goto :error
+	if %STEP:"actions"=""% == "" call :build_actions
+	if %STEP:"msi"=""% == "" call :build_msi
+	if %STEP:"setup"=""% == "" call :build_setup
+	if %STEP% == "" goto :dist
 
 :success
 	exit /b 0
@@ -56,11 +58,16 @@ if not defined WIX (
 	)
 	goto :eof
 
-:build_package:
-	tar -ac -C ..\bin\%ARCH% -f ..\bin\frpmgr-%VERSION%-%ARCH%.zip frpmgr.exe || goto :error
+:build_setup
 	windres -DARCH=%ARCH% -DVERSION_ARRAY=%VERSION:.=,% -DVERSION_STR=%VERSION% -DMSI_FILE=%MSI_FILE:\=\\% -i setup\resource.rc -o %PLAT_DIR%\rsrc.o -O coff -c 65001 -F !RES%ARCH%! || goto :error
-	cl /Fe..\bin\frpmgr-%VERSION%-setup-%ARCH%.exe /Fo%PLAT_DIR%\setup.obj /utf-8 setup\setup.c /link /subsystem:windows %PLAT_DIR%\rsrc.o shlwapi.lib msi.lib user32.lib advapi32.lib
+	cl /Fe%PLAT_DIR%\setup.exe /Fo%PLAT_DIR%\setup.obj /utf-8 setup\setup.c /link /subsystem:windows %PLAT_DIR%\rsrc.o shlwapi.lib msi.lib user32.lib advapi32.lib || goto :error
 	goto :eof
+
+:dist
+	echo [+] Creating %ARCH% archives
+	tar -ac -C ..\bin\%ARCH% -f ..\bin\frpmgr-%VERSION%-%ARCH%.zip frpmgr.exe || goto :error
+	echo [+] Creating %ARCH% installer
+	copy %PLAT_DIR%\setup.exe ..\bin\frpmgr-%VERSION%-setup-%ARCH%.exe /y
 
 :error
 	exit /b %errorlevel%
