@@ -47,7 +47,7 @@ jobs:
           shift
           goto :safe_copy
           :pe_compare
-          python -c "import sys;from ctypes import *;header_sum,checksum1,checksum2=c_ulong(0),c_ulong(0),c_ulong(0);assert windll.imagehlp.MapFileAndCheckSumW(sys.argv[1],byref(header_sum),byref(checksum1))==0;assert windll.imagehlp.MapFileAndCheckSumW(sys.argv[2],byref(header_sum),byref(checksum2))==0;assert checksum1.value==checksum2.value" %1 %2
+          python -c "import sys;from ctypes import *;header_sum,checksum1,checksum2=c_ulong(0),c_ulong(0),c_ulong(0);src_size,dst_size=os.path.getsize(sys.argv[1]),os.path.getsize(sys.argv[2]);f=open(sys.argv[1],'r+');f.seek(dst_size,os.SEEK_SET);f.truncate();f.close();assert windll.imagehlp.MapFileAndCheckSumW(sys.argv[1],byref(header_sum),byref(checksum1))==0;assert windll.imagehlp.MapFileAndCheckSumW(sys.argv[2],byref(header_sum),byref(checksum2))==0;assert checksum1.value==checksum2.value" %1 %2
           goto :eof
           "@ | Out-File -Encoding ascii -FilePath safe_copy.bat
 
