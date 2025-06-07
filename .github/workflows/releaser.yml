@@ -39,7 +39,7 @@ jobs:
           if not "%~x1" == ".msi" (
           set SRC_FILE_UNSIGNED=!SRC_FILE!.unsigned
           copy /Y "!SRC_FILE!" "!SRC_FILE_UNSIGNED!"
-          "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe" remove /s "!SRC_FILE_UNSIGNED!" || exit /b 1
+          "%SIGNTOOL%" remove /s "!SRC_FILE_UNSIGNED!" || exit /b 1
           call :pe_compare "!SRC_FILE_UNSIGNED!" "!DST_FILE!" || (
           echo File checksum mismatch: !SRC_FILE!
           exit /b 1))
@@ -60,6 +60,8 @@ jobs:
         run: |
           $version = $((Get-Item .\bin\${{ matrix.architecture }}\frpmgr.exe).VersionInfo.ProductVersion)
           echo "VERSION=$version" >> $env:GITHUB_ENV
+          $signtool = $(cmd /C "vcvarsall ${{ matrix.architecture }} && where signtool" | Select-Object -Last 1)
+          echo "SIGNTOOL=$signtool" >> $env:GITHUB_ENV
 
       - name: Build custom actions
         shell: cmd
