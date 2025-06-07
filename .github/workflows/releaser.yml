@@ -10,6 +10,9 @@ jobs:
   build:
     name: Build
     runs-on: windows-latest
+    strategy:
+      matrix:
+        architecture: [x64, x86]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,9 +34,8 @@ jobs:
           shift
           if "%~1"=="" exit /b 0
           if "%~2"=="" exit /b 1
-          for %%a in (x64 x86) do (
-          set SRC_FILE=%SRC_DIR%\%%a\%~1
-          set DST_FILE=%~2\%%a\%~1
+          set SRC_FILE=%SRC_DIR%\%~1
+          set DST_FILE=%~2\%~1
           if not "%~x1" == ".msi" (
           set SRC_FILE_UNSIGNED=!SRC_FILE!.unsigned
           copy /Y "!SRC_FILE!" "!SRC_FILE_UNSIGNED!"
@@ -41,7 +43,7 @@ jobs:
           call :pe_compare "!SRC_FILE_UNSIGNED!" "!DST_FILE!" || (
           echo File checksum mismatch: !SRC_FILE!
           exit /b 1))
-          copy /Y "!SRC_FILE!" "!DST_FILE!")
+          copy /Y "!SRC_FILE!" "!DST_FILE!"
           shift
           goto :safe_copy
           :pe_compare
@@ -51,28 +53,26 @@ jobs:
 
       - name: Build main application
         shell: cmd
-        run: build.bat -p
+        run: build.bat -p ${{ matrix.architecture }}
 
       - name: Get version info
         shell: powershell
         run: |
-          $version = $((Get-Item .\bin\x64\frpmgr.exe).VersionInfo.ProductVersion)
+          $version = $((Get-Item .\bin\${{ matrix.architecture }}\frpmgr.exe).VersionInfo.ProductVersion)
           echo "VERSION=$version" >> $env:GITHUB_ENV
 
       - name: Build custom actions
         shell: cmd
-        run: |
-          installer\build.bat %VERSION% x64 actions
-          installer\build.bat %VERSION% x86 actions
+        run: installer\build.bat %VERSION% ${{ matrix.architecture }} actions
 
       - name: Upload unsigned application
         id: upload-unsigned-application
         uses: actions/upload-artifact@v4
         with:
-          name: frpmgr-${{ env.VERSION }}-main-unsigned
+          name: frpmgr-${{ env.VERSION }}-main-${{ matrix.architecture }}-unsigned
           path: |
-            bin/*/frpmgr.exe
-            installer/build/*/actions.dll
+            bin/${{ matrix.architecture }}/frpmgr.exe
+            installer/build/${{ matrix.architecture }}/actions.dll
 
       - name: Sign
         uses: signpath/github-action-submit-signing-request@v1.2
@@ -87,20 +87,18 @@ jobs:
 
       - name: Verify and copy signed files
         shell: cmd
-        run: safe_copy dist frpmgr.exe bin actions.dll installer\build
+        run: safe_copy dist frpmgr.exe bin\${{ matrix.architecture }} actions.dll installer\build\${{ matrix.architecture }}
 
       - name: Build MSI installer
         shell: cmd
-        run: |
-          installer\build.bat %VERSION% x64 msi
-          installer\build.bat %VERSION% x86 msi
+        run: installer\build.bat %VERSION% ${{ matrix.architecture }} msi
 
       - name: Upload unsigned installer
         id: upload-unsigned-installer
         uses: actions/upload-artifact@v4
         with:
-          name: frpmgr-${{ env.VERSION }}-installer-unsigned
-          path: installer/build/*/frpmgr.msi
+          name: frpmgr-${{ env.VERSION }}-installer-${{ matrix.architecture }}-unsigned
+          path: installer/build/${{ matrix.architecture }}/frpmgr.msi
 
       - name: Sign
         uses: signpath/github-action-submit-signing-request@v1.2
@@ -115,20 +113,18 @@ jobs:
 
       - name: Verify and copy signed files
         shell: cmd
-        run: safe_copy dist frpmgr.msi installer\build
+        run: safe_copy dist frpmgr.msi installer\build\${{ matrix.architecture }}
 
       - name: Build EXE bootstrapper
         shell: cmd
-        run: |
-          installer\build.bat %VERSION% x64 setup
-          installer\build.bat %VERSION% x86 setup
+        run: installer\build.bat %VERSION% ${{ matrix.architecture }} setup
 
       - name: Upload unsigned bootstrapper
         id: upload-unsigned-bootstrapper
         uses: actions/upload-artifact@v4
         with:
-          name: frpmgr-${{ env.VERSION }}-setup-unsigned
-          path: installer/build/*/setup.exe
+          name: frpmgr-${{ env.VERSION }}-setup-${{ matrix.architecture }}-unsigned
+          path: installer/build/${{ matrix.architecture }}/setup.exe
 
       - name: Sign
         uses: signpath/github-action-submit-signing-request@v1.2
@@ -143,18 +139,16 @@ jobs:
 
       - name: Verify and copy signed files
         shell: cmd
-        run: safe_copy dist setup.exe installer\build
+        run: safe_copy dist setup.exe installer\build\${{ matrix.architecture }}
 
       - name: Create release files
         shell: cmd
-        run: |
-          installer\build.bat %VERSION% x64 dist
-          installer\build.bat %VERSION% x86 dist
+        run: installer\build.bat %VERSION% ${{ matrix.architecture }} dist
 
       - name: Upload release files
         uses: actions/upload-artifact@v4
         with:
-          name: frpmgr-${{ env.VERSION }}
+          name: frpmgr-${{ env.VERSION }}-dist-${{ matrix.architecture }}
           path: |
             bin/*.exe
             bin/*.zip
@@ -173,7 +167,8 @@ jobs:
       - name: Collect files
         uses: actions/download-artifact@v4
         with:
-          name: frpmgr-${{ env.VERSION }}
+          pattern: frpmgr-${{ env.VERSION }}-dist-*
+          merge-multiple: true
 
       - name: Calculate SHA256 checksum
         run: sha256sum *.exe *.zip > frpmgr-${{ env.VERSION }}-sha256-checksums.txt
