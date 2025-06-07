@@ -65,6 +65,10 @@ jobs:
         shell: cmd
         run: installer\build.bat %VERSION% ${{ matrix.architecture }} actions
 
+      - name: Prepare to upload files
+        shell: cmd
+        run: copy /Y installer\build\${{ matrix.architecture }}\actions.dll bin\${{ matrix.architecture }}
+
       - name: Upload unsigned application
         id: upload-unsigned-application
         uses: actions/upload-artifact@v4
@@ -72,7 +76,7 @@ jobs:
           name: frpmgr-${{ env.VERSION }}-main-${{ matrix.architecture }}-unsigned
           path: |
             bin/${{ matrix.architecture }}/frpmgr.exe
-            installer/build/${{ matrix.architecture }}/actions.dll
+            bin/${{ matrix.architecture }}/actions.dll
 
       - name: Sign
         uses: signpath/github-action-submit-signing-request@v1.2
