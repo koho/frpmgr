@@ -78,12 +78,14 @@ go run ./cmd/frpmgr
 
 ## Sponsors
 
-<table style="border: none;">
-<tr>
-  <td align="center"><img src="./docs/sponsor_signpath.png" alt="SignPath"></td>
-  <td align="center">Free code signing provided by <a href="https://about.signpath.io/">SignPath.io</a>, certificate by <a href="https://signpath.org/">SignPath Foundation</a>.</td>
-</tr>
-</table>
+> We are really thankful for all of our users, contributors, and sponsors that has been keeping this project alive and well. We are also giving our gratitude for these company/organization for providing their service for us.
+
+1. SignPath Foundation for providing us free code signing!
+<p align=center>
+	<a href="https://about.signpath.io/">
+ 		<img src="./docs/sponsor_signpath.png" alt="SignPath Logo" height=50 />
+	</a>
+</p>
 
 ## Code Signing Policy
 

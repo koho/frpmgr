@@ -78,12 +78,14 @@ go run ./cmd/frpmgr
 
 ## 赞助商
 
-<table style="border: none;">
-<tr>
-  <td align="center"><img src="./docs/sponsor_signpath.png" alt="SignPath"></td>
-  <td align="center">免费代码签名由 <a href="https://about.signpath.io/">SignPath.io</a> 提供，证书由 <a href="https://signpath.org/">SignPath Foundation</a> 提供。</td>
-</tr>
-</table>
+> 我们非常感谢所有为项目发展而努力的用户、贡献者和赞助者。同时也感谢这些公司/组织为我们提供服务。
+
+1. SignPath Foundation 为我们提供免费的代码签名！
+<p align=center>
+	<a href="https://about.signpath.io/">
+ 		<img src="./docs/sponsor_signpath.png" alt="SignPath Logo" height=50 />
+	</a>
+</p>
 
 ## 代码签名政策
 
