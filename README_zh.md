@@ -76,6 +76,34 @@ go generate
 go run ./cmd/frpmgr
 ```
 
+## 赞助商
+
+<table style="border: none;">
+<tr>
+  <td align="center"><img src="./docs/sponsor_signpath.png" alt="SignPath"></td>
+  <td align="center">免费代码签名由 <a href="https://about.signpath.io/">SignPath.io</a> 提供，证书由 <a href="https://signpath.org/">SignPath Foundation</a> 提供。</td>
+</tr>
+</table>
+
+## 代码签名政策
+
+免费代码签名由 [SignPath.io](https://about.signpath.io/) 提供，证书由 [SignPath Foundation](https://signpath.org/) 提供。
+
+团队角色：
+
+- 提交者和审阅者：[团队成员](https://github.com/koho/frpmgr/graphs/contributors)
+- 审批者：[所有者](https://github.com/koho)
+
+请阅读我们的完整[隐私政策](#隐私政策)。
+
+## 隐私政策
+
+除非得到用户、安装或操作人员的许可，否则该程序不会将任何信息传输到其他联网系统。
+
+FRP 管理器集成了以下服务以实现附加功能，您可以随时在设置中启用或禁用这些服务：
+
+- [api.github.com](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement)（检查程序更新）
+
 ## 捐助
 
 如果本项目对您有帮助，请考虑通过以下方式支持其开发：
