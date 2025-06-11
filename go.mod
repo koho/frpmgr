@@ -10,7 +10,7 @@ require (
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e
 	github.com/pelletier/go-toml/v2 v2.2.0
-	github.com/samber/lo v1.47.0
+	github.com/samber/lo v1.51.0
 	golang.org/x/sys v0.32.0
 	golang.org/x/text v0.24.0
 	gopkg.in/ini.v1 v1.67.0
