@@ -1253,11 +1253,6 @@
             "translation": "状態"
         },
         {
-            "id": "Remote Address",
-            "message": "Remote Address",
-            "translation": "リモートアドレス"
-        },
-        {
             "id": "Your connection to the server is encrypted",
             "message": "Your connection to the server is encrypted",
             "translation": "サーバーへの接続は暗号化されています"
@@ -1378,19 +1373,14 @@
             "translation": "言語を選択する"
         },
         {
-            "id": "Defaults",
-            "message": "Defaults",
-            "translation": "デフォルト"
+            "id": "You can find more settings here.\nIncludes application updates, initial default values, etc.",
+            "message": "You can find more settings here.\nIncludes application updates, initial default values, etc.",
+            "translation": "その他の設定については、こちらをご覧ください。\nアプリケーションの更新、初期デフォルト値などが含まれます。"
         },
         {
-            "id": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
-            "message": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
-            "translation": "新しい設定を作成するときのデフォルト値を定義します。\nここでの値は、既存の設定には影響しません。"
-        },
-        {
-            "id": "Set Defaults",
-            "message": "Set Defaults",
-            "translation": "デフォルトの設定"
+            "id": "Settings",
+            "message": "Settings",
+            "translation": "設定"
         },
         {
             "id": "Password removed.",
@@ -1411,6 +1401,21 @@
             "id": "Password is set.",
             "message": "Password is set.",
             "translation": "パスワードが設定されています。"
+        },
+        {
+            "id": "General",
+            "message": "General",
+            "translation": "一般"
+        },
+        {
+            "id": "Automatically check for updates",
+            "message": "Automatically check for updates",
+            "translation": "アップデートを自動的にチェックする"
+        },
+        {
+            "id": "Defaults",
+            "message": "Defaults",
+            "translation": "デフォルト"
         },
         {
             "id": "Log Level",
@@ -1491,6 +1496,11 @@
             "id": "Domains",
             "message": "Domains",
             "translation": "ドメイン名"
+        },
+        {
+            "id": "Remote Address",
+            "message": "Remote Address",
+            "translation": "リモートアドレス"
         },
         {
             "id": "Show Remote Address",

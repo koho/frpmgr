@@ -10,10 +10,11 @@ import (
 const DefaultAppFile = "app.json"
 
 type App struct {
-	Lang     string       `json:"lang,omitempty"`
-	Password string       `json:"password,omitempty"`
-	Defaults DefaultValue `json:"defaults"`
-	Sort     []string     `json:"sort,omitempty"`
+	Lang        string       `json:"lang,omitempty"`
+	Password    string       `json:"password,omitempty"`
+	CheckUpdate bool         `json:"check_update"`
+	Defaults    DefaultValue `json:"defaults"`
+	Sort        []string     `json:"sort,omitempty"`
 }
 
 type DefaultValue struct {
@@ -21,7 +22,6 @@ type DefaultValue struct {
 	User                 string `json:"user,omitempty"`
 	LogLevel             string `json:"logLevel"`
 	LogMaxDays           int64  `json:"logMaxDays"`
-	DeleteAfterDays      int64  `json:"deleteAfterDays,omitempty"`
 	DNSServer            string `json:"dnsServer,omitempty"`
 	NatHoleSTUNServer    string `json:"natHoleStunServer,omitempty"`
 	ConnectServerLocalIP string `json:"connectServerLocalIP,omitempty"`
@@ -32,7 +32,7 @@ type DefaultValue struct {
 }
 
 func (dv *DefaultValue) AsClientConfig() ClientCommon {
-	conf := ClientCommon{
+	return ClientCommon{
 		ServerPort:                consts.DefaultServerPort,
 		Protocol:                  dv.Protocol,
 		User:                      dv.User,
@@ -47,13 +47,6 @@ func (dv *DefaultValue) AsClientConfig() ClientCommon {
 		LegacyFormat:              dv.LegacyFormat,
 		DisableCustomTLSFirstByte: true,
 	}
-	if dv.DeleteAfterDays > 0 {
-		conf.AutoDelete = AutoDelete{
-			DeleteMethod:    consts.DeleteRelative,
-			DeleteAfterDays: dv.DeleteAfterDays,
-		}
-	}
-	return conf
 }
 
 func UnmarshalAppConf(path string, dst *App) error {

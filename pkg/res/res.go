@@ -60,7 +60,7 @@ var (
 	IconStateRunning = Icon{"imageres", -106}
 	IconStateStopped = Icon{Index: 21}
 	IconStateWorking = Icon{"shell32", -16739}
-	IconDefaults     = Icon{"imageres", -165}
+	IconSettings     = Icon{"shell32", -153}
 	IconKey          = Icon{"imageres", -5360}
 	IconLanguage     = Icon{"imageres", -94}
 	IconNat          = Icon{"imageres", -1043}

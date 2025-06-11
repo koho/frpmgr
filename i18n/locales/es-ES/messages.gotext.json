@@ -1243,11 +1243,6 @@
             "translation": "Estado"
         },
         {
-            "id": "Remote Address",
-            "message": "Remote Address",
-            "translation": "Dirección remota"
-        },
-        {
             "id": "Your connection to the server is encrypted",
             "message": "Your connection to the server is encrypted",
             "translation": "Su conexión al servidor está encriptada"
@@ -1368,19 +1363,14 @@
             "translation": "Seleccione el idioma"
         },
         {
-            "id": "Defaults",
-            "message": "Defaults",
-            "translation": "Predeterminados"
+            "id": "You can find more settings here.\nIncludes application updates, initial default values, etc.",
+            "message": "You can find more settings here.\nIncludes application updates, initial default values, etc.",
+            "translation": "Puedes encontrar más configuraciones aquí.\nIncluye actualizaciones de la aplicación, valores predeterminados iniciales, etc."
         },
         {
-            "id": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
-            "message": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
-            "translation": "Defina el valor predeterminado al crear una nueva configuración.\nEl valor aquí no afectará la configuración existente."
-        },
-        {
-            "id": "Set Defaults",
-            "message": "Set Defaults",
-            "translation": "Valor ajustado"
+            "id": "Settings",
+            "message": "Settings",
+            "translation": "Ajustes"
         },
         {
             "id": "Password removed.",
@@ -1401,6 +1391,21 @@
             "id": "Password is set.",
             "message": "Password is set.",
             "translation": "La contraseña está configurada."
+        },
+        {
+            "id": "General",
+            "message": "General",
+            "translation": "General"
+        },
+        {
+            "id": "Automatically check for updates",
+            "message": "Automatically check for updates",
+            "translation": "Buscar actualizaciones automáticamente"
+        },
+        {
+            "id": "Defaults",
+            "message": "Defaults",
+            "translation": "Predeterminados"
         },
         {
             "id": "Log Level",
@@ -1481,6 +1486,11 @@
             "id": "Domains",
             "message": "Domains",
             "translation": "Dominios"
+        },
+        {
+            "id": "Remote Address",
+            "message": "Remote Address",
+            "translation": "Dirección remota"
         },
         {
             "id": "Show Remote Address",

@@ -1669,13 +1669,6 @@
             "fuzzy": true
         },
         {
-            "id": "Remote Address",
-            "message": "Remote Address",
-            "translation": "Remote Address",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "Your connection to the server is encrypted",
             "message": "Your connection to the server is encrypted",
             "translation": "Your connection to the server is encrypted",
@@ -1832,23 +1825,16 @@
             "fuzzy": true
         },
         {
-            "id": "Defaults",
-            "message": "Defaults",
-            "translation": "Defaults",
+            "id": "You can find more settings here.\nIncludes application updates, initial default values, etc.",
+            "message": "You can find more settings here.\nIncludes application updates, initial default values, etc.",
+            "translation": "You can find more settings here.\nIncludes application updates, initial default values, etc.",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
         {
-            "id": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
-            "message": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
-            "translation": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Set Defaults",
-            "message": "Set Defaults",
-            "translation": "Set Defaults",
+            "id": "Settings",
+            "message": "Settings",
+            "translation": "Settings",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1877,6 +1863,27 @@
             "id": "Password is set.",
             "message": "Password is set.",
             "translation": "Password is set.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "General",
+            "message": "General",
+            "translation": "General",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Automatically check for updates",
+            "message": "Automatically check for updates",
+            "translation": "Automatically check for updates",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Defaults",
+            "message": "Defaults",
+            "translation": "Defaults",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1989,6 +1996,13 @@
             "id": "Domains",
             "message": "Domains",
             "translation": "Domains",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Remote Address",
+            "message": "Remote Address",
+            "translation": "Remote Address",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
