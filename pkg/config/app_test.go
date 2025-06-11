@@ -16,7 +16,6 @@ func TestUnmarshalAppConfFromIni(t *testing.T) {
 		"user": "user",
 		"tcpMux": true,
 		"manualStart": true,
-		"deleteAfterDays": 1,
 		"legacyFormat": true
 	}
 }
@@ -27,14 +26,13 @@ func TestUnmarshalAppConfFromIni(t *testing.T) {
 	expected := App{
 		Password: "abcde",
 		Defaults: DefaultValue{
-			LogLevel:        "info",
-			LogMaxDays:      5,
-			Protocol:        "kcp",
-			User:            "user",
-			TCPMux:          true,
-			ManualStart:     true,
-			DeleteAfterDays: 1,
-			LegacyFormat:    true,
+			LogLevel:     "info",
+			LogMaxDays:   5,
+			Protocol:     "kcp",
+			User:         "user",
+			TCPMux:       true,
+			ManualStart:  true,
+			LegacyFormat: true,
 		},
 	}
 	var actual App
