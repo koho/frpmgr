@@ -58,7 +58,7 @@ if not defined WIX (
 	goto :eof
 
 :build_setup
-	rc /DFILENAME=%SETUP_FILENAME% /DVERSION_ARRAY=%VERSION:.=,% /DVERSION_STR=%VERSION% /DMSI_FILE=%MSI_FILE:\=\\% /fo %PLAT_DIR%\rsrc.res setup\resource.rc || goto :error
+	rc /DFILENAME=%SETUP_FILENAME% /DVERSION_ARRAY=%VERSION:.=,% /DVERSION_STR=%VERSION% /DMSI_FILE=%MSI_FILE:\=\\% /Fo %PLAT_DIR%\rsrc.res setup\resource.rc || goto :error
 	cl /Fe%PLAT_DIR%\setup.exe /Fo%PLAT_DIR%\setup.obj /utf-8 setup\setup.c /link /subsystem:windows %PLAT_DIR%\rsrc.res shlwapi.lib msi.lib user32.lib advapi32.lib || goto :error
 	goto :eof
 
