@@ -15,6 +15,7 @@ type App struct {
 	CheckUpdate bool         `json:"checkUpdate"`
 	Defaults    DefaultValue `json:"defaults"`
 	Sort        []string     `json:"sort,omitempty"`
+	Position    []int32      `json:"position,omitempty"`
 }
 
 type DefaultValue struct {

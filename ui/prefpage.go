@@ -220,9 +220,9 @@ func (pp *PrefPage) switchLanguage(lc string) {
 }
 
 func (pp *PrefPage) setAdvancedSettings() (int, error) {
-	var p *walk.Dialog
+	var w *walk.Dialog
 	var dbs [2]*walk.DataBinder
-	dlg := NewBasicDialog(&p, i18n.Sprintf("Advanced"),
+	dlg := NewBasicDialog(&w, i18n.Sprintf("Advanced"),
 		loadIcon(res.IconSettings, 32),
 		DataBinder{}, func() {
 			for _, db := range dbs {
@@ -230,7 +230,7 @@ func (pp *PrefPage) setAdvancedSettings() (int, error) {
 					return
 				}
 			}
-			p.Accept()
+			w.Accept()
 		}, Composite{
 			Layout: VBox{Margins: Margins{Left: 4, Top: 4, Right: 4, Bottom: 4}},
 			Children: []Widget{

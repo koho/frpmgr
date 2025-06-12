@@ -9,6 +9,7 @@ import (
 	frpconfig "github.com/fatedier/frp/pkg/config"
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
+	"github.com/lxn/win"
 
 	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
@@ -713,6 +714,23 @@ func (pv *ProxyView) visitors(except *config.Proxy) (visitors []string) {
 		}
 	}
 	return
+}
+
+// The minimum width that can display all visible columns.
+// Use the formula `window width + return value` to get the desired width.
+func (pv *ProxyView) minWidthBias() int {
+	cols := pv.table.Columns()
+	width := 0
+	for i := 0; i < cols.Len(); i++ {
+		col := cols.At(i)
+		if col.Visible() {
+			width += col.Width()
+		}
+	}
+	dpi := pv.DPI()
+	// Reserve space for the vertical scroll bar.
+	sbv := int(win.GetSystemMetricsForDpi(win.SM_CYVSCROLL, uint32(dpi)))
+	return walk.IntFrom96DPI(width, dpi) + sbv - pv.SizeHint().Width
 }
 
 // Conditions for moving up/down proxy.
