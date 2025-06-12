@@ -12,7 +12,7 @@ const DefaultAppFile = "app.json"
 type App struct {
 	Lang        string       `json:"lang,omitempty"`
 	Password    string       `json:"password,omitempty"`
-	CheckUpdate bool         `json:"check_update"`
+	CheckUpdate bool         `json:"checkUpdate"`
 	Defaults    DefaultValue `json:"defaults"`
 	Sort        []string     `json:"sort,omitempty"`
 }
