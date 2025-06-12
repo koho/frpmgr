@@ -1243,11 +1243,6 @@
             "translation": "상태"
         },
         {
-            "id": "Remote Address",
-            "message": "Remote Address",
-            "translation": "원격 주소"
-        },
-        {
             "id": "Your connection to the server is encrypted",
             "message": "Your connection to the server is encrypted",
             "translation": "서버에 대한 연결이 암호화되었습니다"
@@ -1368,19 +1363,14 @@
             "translation": "언어 선택"
         },
         {
-            "id": "Defaults",
-            "message": "Defaults",
-            "translation": "기본값"
+            "id": "You can find more settings here.\nIncludes application updates, initial default values, etc.",
+            "message": "You can find more settings here.\nIncludes application updates, initial default values, etc.",
+            "translation": "더 많은 설정은 여기에서 확인할 수 있습니다.\n애플리케이션 업데이트, 기본값 등이 포함됩니다."
         },
         {
-            "id": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
-            "message": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
-            "translation": "새 구성을 만들 때 기본값을 정의합니다.\n여기의 값은 기존 구성에 영향을 주지 않습니다."
-        },
-        {
-            "id": "Set Defaults",
-            "message": "Set Defaults",
-            "translation": "기본값으로 설정"
+            "id": "Settings",
+            "message": "Settings",
+            "translation": "설정"
         },
         {
             "id": "Password removed.",
@@ -1401,6 +1391,21 @@
             "id": "Password is set.",
             "message": "Password is set.",
             "translation": "비밀번호가 설정되어 있습니다."
+        },
+        {
+            "id": "General",
+            "message": "General",
+            "translation": "일반적인"
+        },
+        {
+            "id": "Automatically check for updates",
+            "message": "Automatically check for updates",
+            "translation": "자동으로 업데이트 확인"
+        },
+        {
+            "id": "Defaults",
+            "message": "Defaults",
+            "translation": "기본값"
         },
         {
             "id": "Log Level",
@@ -1481,6 +1486,11 @@
             "id": "Domains",
             "message": "Domains",
             "translation": "도메인"
+        },
+        {
+            "id": "Remote Address",
+            "message": "Remote Address",
+            "translation": "원격 주소"
         },
         {
             "id": "Show Remote Address",

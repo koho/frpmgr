@@ -88,12 +88,15 @@ func (conf *Conf) Save() error {
 }
 
 var (
-	appConf = config.App{Defaults: config.DefaultValue{
-		LogLevel:   consts.LogLevelInfo,
-		LogMaxDays: consts.DefaultLogMaxDays,
-		TCPMux:     true,
-		TLSEnable:  true,
-	}}
+	appConf = config.App{
+		CheckUpdate: true,
+		Defaults: config.DefaultValue{
+			LogLevel:   consts.LogLevelInfo,
+			LogMaxDays: consts.DefaultLogMaxDays,
+			TCPMux:     true,
+			TLSEnable:  true,
+		},
+	}
 	confDB *walk.DataBinder
 )
 

@@ -1243,11 +1243,6 @@
             "translation": "狀態"
         },
         {
-            "id": "Remote Address",
-            "message": "Remote Address",
-            "translation": "遠端位址"
-        },
-        {
             "id": "Your connection to the server is encrypted",
             "message": "Your connection to the server is encrypted",
             "translation": "與伺服器的連線已加密"
@@ -1368,19 +1363,14 @@
             "translation": "選擇語言"
         },
         {
-            "id": "Defaults",
-            "message": "Defaults",
-            "translation": "預設值"
+            "id": "You can find more settings here.\nIncludes application updates, initial default values, etc.",
+            "message": "You can find more settings here.\nIncludes application updates, initial default values, etc.",
+            "translation": "您可以在此處找到更多設定。\n包括應用程式更新、初始預設值等。"
         },
         {
-            "id": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
-            "message": "Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.",
-            "translation": "定義新增配置時的預設值。\n此處的值不會影響現有的配置。"
-        },
-        {
-            "id": "Set Defaults",
-            "message": "Set Defaults",
-            "translation": "設定預設值"
+            "id": "Settings",
+            "message": "Settings",
+            "translation": "設定"
         },
         {
             "id": "Password removed.",
@@ -1401,6 +1391,21 @@
             "id": "Password is set.",
             "message": "Password is set.",
             "translation": "密碼已設定。"
+        },
+        {
+            "id": "General",
+            "message": "General",
+            "translation": "通用"
+        },
+        {
+            "id": "Automatically check for updates",
+            "message": "Automatically check for updates",
+            "translation": "自動檢查更新"
+        },
+        {
+            "id": "Defaults",
+            "message": "Defaults",
+            "translation": "預設值"
         },
         {
             "id": "Log Level",
@@ -1481,6 +1486,11 @@
             "id": "Domains",
             "message": "Domains",
             "translation": "域名"
+        },
+        {
+            "id": "Remote Address",
+            "message": "Remote Address",
+            "translation": "遠端位址"
         },
         {
             "id": "Show Remote Address",

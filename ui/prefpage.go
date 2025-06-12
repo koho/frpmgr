@@ -38,7 +38,7 @@ func (pp *PrefPage) Page() TabPage {
 		Children: []Widget{
 			pp.passwordSection(),
 			pp.languageSection(),
-			pp.defaultSection(),
+			pp.advancedSection(),
 			VSpacer{},
 		},
 	}
@@ -51,17 +51,16 @@ func (pp *PrefPage) passwordSection() GroupBox {
 		Children: []Widget{
 			ImageView{Image: loadIcon(res.IconKey, 32)},
 			Label{Text: i18n.Sprintf("You can set a password to restrict access to this program.\nYou will be asked to enter it the next time you use this program.")},
+			HSpacer{Size: 42},
 			CheckBox{
 				AssignTo: &pp.usePassword,
 				Name:     "usePwd",
 				Text:     i18n.Sprintf("Use master password"),
 				Checked:  appConf.Password != "",
-				Row:      1,
-				Column:   1,
 			},
 			Composite{
 				Row: 2, Column: 1,
-				Layout: HBox{MarginsZero: true, Margins: Margins{Top: 5, Bottom: 5}, Spacing: 10},
+				Layout: HBox{Margins: Margins{Top: 5, Bottom: 5}},
 				Children: []Widget{
 					PushButton{
 						MinSize: Size{Width: 150},
@@ -110,8 +109,8 @@ func (pp *PrefPage) languageSection() GroupBox {
 					Label{Text: i18n.Sprintf("You must restart program to apply the modification.")},
 				},
 			},
+			HSpacer{Size: 42},
 			Composite{
-				Row: 1, Column: 1,
 				Layout: HBox{Margins: Margins{Top: 5, Bottom: 5}, Spacing: 10},
 				Children: []Widget{
 					Label{Text: i18n.SprintfColon("Select language")},
@@ -133,24 +132,28 @@ func (pp *PrefPage) languageSection() GroupBox {
 	}
 }
 
-func (pp *PrefPage) defaultSection() GroupBox {
+func (pp *PrefPage) advancedSection() GroupBox {
 	return GroupBox{
-		Title:  i18n.Sprintf("Defaults"),
-		Layout: Grid{Alignment: AlignHNearVCenter, Columns: 2, Spacing: 10, Margins: Margins{Left: 9, Top: 9, Right: 9, Bottom: 16}},
+		Title:  i18n.Sprintf("Advanced"),
+		Layout: Grid{Alignment: AlignHNearVCenter, Columns: 2},
 		Children: []Widget{
-			ImageView{Image: loadIcon(res.IconDefaults, 32)},
-			Label{Text: i18n.Sprintf("Define the default value when creating a new configuration.\nThe value here will not affect the existing configuration.")},
+			ImageView{Image: loadIcon(res.IconSettings, 32)},
+			Label{Text: i18n.Sprintf("You can find more settings here.\nIncludes application updates, initial default values, etc.")},
+			HSpacer{Size: 42},
 			Composite{
-				Row: 1, Column: 1,
-				Layout: HBox{MarginsZero: true},
+				Layout: HBox{Margins: Margins{Top: 5, Bottom: 5}},
 				Children: []Widget{
-					PushButton{Text: i18n.Sprintf("Set Defaults"), MinSize: Size{Width: 150}, OnClicked: func() {
-						if r, err := pp.setDefaultValue(); err == nil && r == win.IDOK {
-							if err = saveAppConfig(); err != nil {
-								showError(err, pp.Form())
+					PushButton{
+						Text:    i18n.Sprintf("Settings"),
+						MinSize: Size{Width: 100},
+						OnClicked: func() {
+							if r, err := pp.setAdvancedSettings(); err == nil && r == win.IDOK {
+								if err = saveAppConfig(); err != nil {
+									showError(err, pp.Form())
+								}
 							}
-						}
-					}},
+						},
+					},
 					HSpacer{},
 				},
 			},
@@ -216,58 +219,84 @@ func (pp *PrefPage) switchLanguage(lc string) {
 	}
 }
 
-func (pp *PrefPage) setDefaultValue() (int, error) {
-	dlg := NewBasicDialog(nil, i18n.Sprintf("Defaults"),
-		loadIcon(res.IconDefaults, 32),
-		DataBinder{DataSource: &appConf.Defaults}, nil, Composite{
-			Layout: Grid{Columns: 2, MarginsZero: true},
+func (pp *PrefPage) setAdvancedSettings() (int, error) {
+	var p *walk.Dialog
+	var dbs [2]*walk.DataBinder
+	dlg := NewBasicDialog(&p, i18n.Sprintf("Advanced"),
+		loadIcon(res.IconSettings, 32),
+		DataBinder{}, func() {
+			for _, db := range dbs {
+				if err := db.Submit(); err != nil {
+					return
+				}
+			}
+			p.Accept()
+		}, Composite{
+			Layout: VBox{Margins: Margins{Left: 4, Top: 4, Right: 4, Bottom: 4}},
 			Children: []Widget{
-				Label{Text: i18n.SprintfColon("Protocol")},
-				ComboBox{
-					Name:  "proto",
-					Value: Bind("Protocol"),
-					Model: consts.Protocols,
-				},
-				Label{Text: i18n.SprintfColon("User")},
-				LineEdit{Text: Bind("User")},
-				Label{Text: i18n.SprintfColon("Log Level")},
-				ComboBox{
-					Value: Bind("LogLevel"),
-					Model: consts.LogLevels,
-				},
-				Label{Text: i18n.SprintfColon("Log retention")},
-				NewNumberInput(NIOption{Value: Bind("LogMaxDays"), Suffix: i18n.Sprintf("Days"), Max: math.MaxFloat64}),
-				Label{Text: i18n.SprintfColon("Auto Delete")},
-				NewNumberInput(NIOption{Value: Bind("DeleteAfterDays"), Suffix: i18n.Sprintf("Days"), Max: math.MaxFloat64}),
-				Label{Text: "DNS:"},
-				LineEdit{Text: Bind("DNSServer")},
-				Label{Text: i18n.SprintfColon("STUN Server")},
-				LineEdit{Text: Bind("NatHoleSTUNServer")},
-				Label{Text: i18n.SprintfColon("Source Address")},
-				LineEdit{Text: Bind("ConnectServerLocalIP")},
-				Composite{
-					Layout: VBox{MarginsZero: true, SpacingZero: true},
+				GroupBox{
+					Title:      i18n.Sprintf("General"),
+					Layout:     HBox{},
+					DataBinder: DataBinder{AssignTo: &dbs[0], DataSource: &appConf},
 					Children: []Widget{
-						VSpacer{Size: 6},
-						Label{Text: i18n.SprintfColon("Other Options"), Alignment: AlignHNearVNear},
+						CheckBox{
+							Text:    i18n.Sprintf("Automatically check for updates"),
+							Checked: Bind("CheckUpdate"),
+						},
+						HSpacer{},
 					},
 				},
-				Composite{
-					Layout: VBox{MarginsZero: true, SpacingZero: true, Alignment: AlignHNearVNear},
+				GroupBox{
+					Title:      i18n.Sprintf("Defaults"),
+					Layout:     Grid{Columns: 2},
+					DataBinder: DataBinder{AssignTo: &dbs[1], DataSource: &appConf.Defaults},
 					Children: []Widget{
+						Label{Text: i18n.SprintfColon("Protocol")},
+						ComboBox{
+							Value: Bind("Protocol"),
+							Model: consts.Protocols,
+						},
+						Label{Text: i18n.SprintfColon("User")},
+						LineEdit{Text: Bind("User")},
+						Label{Text: i18n.SprintfColon("Log Level")},
+						ComboBox{
+							Value: Bind("LogLevel"),
+							Model: consts.LogLevels,
+						},
+						Label{Text: i18n.SprintfColon("Log retention")},
+						NewNumberInput(NIOption{Value: Bind("LogMaxDays"), Suffix: i18n.Sprintf("Days"), Max: math.MaxFloat64}),
+						Label{Text: "DNS:"},
+						LineEdit{Text: Bind("DNSServer")},
+						Label{Text: i18n.SprintfColon("STUN Server")},
+						LineEdit{Text: Bind("NatHoleSTUNServer")},
+						Label{Text: i18n.SprintfColon("Source Address")},
+						LineEdit{Text: Bind("ConnectServerLocalIP")},
 						Composite{
-							Layout: HBox{MarginsZero: true},
+							Layout: VBox{MarginsZero: true, SpacingZero: true},
 							Children: []Widget{
-								CheckBox{Text: i18n.Sprintf("TCP Mux"), Checked: Bind("TCPMux")},
-								CheckBox{Text: "TLS", Checked: Bind("TLSEnable")},
+								VSpacer{Size: 6},
+								Label{Text: i18n.SprintfColon("Other Options"), Alignment: AlignHNearVNear},
 							},
 						},
-						CheckBox{Text: i18n.Sprintf("Disable auto-start at boot"), Checked: Bind("ManualStart")},
-						CheckBox{Text: i18n.Sprintf("Use legacy file format"), Checked: Bind("LegacyFormat")},
+						Composite{
+							Layout: VBox{MarginsZero: true, SpacingZero: true, Alignment: AlignHNearVNear},
+							Children: []Widget{
+								Composite{
+									Layout: HBox{MarginsZero: true},
+									Children: []Widget{
+										CheckBox{Text: i18n.Sprintf("TCP Mux"), Checked: Bind("TCPMux")},
+										CheckBox{Text: "TLS", Checked: Bind("TLSEnable")},
+									},
+								},
+								CheckBox{Text: i18n.Sprintf("Disable auto-start at boot"), Checked: Bind("ManualStart")},
+								CheckBox{Text: i18n.Sprintf("Use legacy file format"), Checked: Bind("LegacyFormat")},
+							},
+						},
 					},
 				},
 			},
-		}, VSpacer{})
-	dlg.MinSize = Size{Width: 300}
+		})
+	dlg.MinSize = Size{Width: 350}
+	dlg.FixedSize = true
 	return dlg.Run(pp.Form())
 }

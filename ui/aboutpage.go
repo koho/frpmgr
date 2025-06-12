@@ -106,8 +106,10 @@ func (ap *AboutPage) Page() TabPage {
 }
 
 func (ap *AboutPage) OnCreate() {
-	// Check update at launch
-	ap.checkUpdate(false)
+	if appConf.CheckUpdate {
+		// Check update at launch
+		ap.checkUpdate(false)
+	}
 }
 
 func (ap *AboutPage) checkUpdate(showErr bool) {
