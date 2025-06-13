@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"unsafe"
 
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
@@ -91,11 +92,41 @@ func RunUI() error {
 	fm.prefPage.OnCreate()
 	fm.aboutPage.OnCreate()
 	// Resize window
-	fm.SetSizePixels(walk.Size{
-		Width:  fm.confPage.confView.MinSizePixels().Width + fm.IntFrom96DPI(685),
-		Height: fm.IntFrom96DPI(525),
+	margins := fm.Layout().Margins()
+	fm.SetClientSizePixels(walk.Size{
+		Width: fm.tabs.SizeHint().Width +
+			walk.IntFrom96DPI(margins.HNear+margins.HFar, fm.DPI()) +
+			fm.confPage.detailView.proxyView.minWidthBias(),
+		Height: fm.IntFrom96DPI(490),
 	})
-	fm.SetVisible(true)
+	fm.Closing().Attach(func(canceled *bool, reason walk.CloseReason) {
+		// Save window state.
+		var wp win.WINDOWPLACEMENT
+		wp.Length = uint32(unsafe.Sizeof(wp))
+		if win.GetWindowPlacement(fm.Handle(), &wp) {
+			appConf.Position = []int32{wp.RcNormalPosition.Left, wp.RcNormalPosition.Top}
+			saveAppConfig()
+		}
+	})
+	// Restore window state.
+	if len(appConf.Position) > 1 {
+		bounds := fm.BoundsPixels()
+		wp := win.WINDOWPLACEMENT{
+			Flags:         0,
+			ShowCmd:       win.SW_SHOWNORMAL,
+			PtMinPosition: win.POINT{X: -1, Y: -1},
+			PtMaxPosition: win.POINT{X: -1, Y: -1},
+			RcNormalPosition: win.RECT{
+				Left:   appConf.Position[0],
+				Top:    appConf.Position[1],
+				Right:  appConf.Position[0] + int32(bounds.Width),
+				Bottom: appConf.Position[1] + int32(bounds.Height),
+			},
+		}
+		wp.Length = uint32(unsafe.Sizeof(wp))
+		win.SetWindowPlacement(fm.Handle(), &wp)
+	}
+	fm.Show()
 	fm.Run()
 	fm.confPage.Close()
 	fm.logPage.Close()
