@@ -666,6 +666,25 @@ func (tv *TableView) Columns() *TableViewColumnList {
 	return tv.columns
 }
 
+// FitColumnHeader adjusts the width of the column to match the title in the column.
+func (tv *TableView) FitColumnHeader(index int, minWidth int) {
+	col := tv.columns.At(index)
+	var hwnd win.HWND
+	if col.Frozen() {
+		hwnd = tv.hwndFrozenLV
+	} else {
+		hwnd = tv.hwndNormalLV
+	}
+	width := win.SendMessage(hwnd, win.LVM_GETSTRINGWIDTH, 0, uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(col.Title()))))
+	if width > 0 {
+		width := IntTo96DPI(int(width), tv.DPI()) + 13
+		if width < minWidth {
+			width = minWidth
+		}
+		col.SetWidth(width)
+	}
+}
+
 // VisibleColumnsInDisplayOrder returns a slice of visible columns in display
 // order.
 func (tv *TableView) VisibleColumnsInDisplayOrder() []*TableViewColumn {
