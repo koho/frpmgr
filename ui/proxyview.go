@@ -79,6 +79,8 @@ func (pv *ProxyView) OnCreate() {
 		}
 	})
 	pv.table.SelectedIndexesChanged().Attach(pv.switchToggleAction)
+	pv.table.FitColumnHeader(3, 0)
+	pv.table.FitColumnHeader(4, 68)
 }
 
 func (pv *ProxyView) Invalidate() {
@@ -278,10 +280,10 @@ func (pv *ProxyView) createProxyTable() TableView {
 		AssignTo: &pv.table,
 		Columns: []TableViewColumn{
 			{Title: i18n.Sprintf("Name"), DataMember: "Name", Width: 100},
-			{Title: i18n.Sprintf("Type"), DataMember: "Type", Width: 55},
+			{Title: i18n.Sprintf("Type"), DataMember: "Type", Width: 56},
 			{Title: i18n.Sprintf("Local Address"), DataMember: "DisplayLocalIP", Width: 110},
-			{Title: i18n.Sprintf("Local Port"), DataMember: "DisplayLocalPort", Width: 90},
-			{Title: i18n.Sprintf("Remote Port"), DataMember: "DisplayRemotePort", Width: 90},
+			{Title: i18n.Sprintf("Local Port"), DataMember: "DisplayLocalPort"},
+			{Title: i18n.Sprintf("Remote Port"), DataMember: "DisplayRemotePort"},
 			{Title: i18n.Sprintf("Domains"), DataMember: "Domains", Width: 80},
 			{Title: i18n.Sprintf("Plugin"), DataMember: "Plugin", Width: 80},
 			{Title: i18n.Sprintf("Remote Address"), DataMember: "RemoteAddr", Width: 110, Name: "remoteAddr", Hidden: true},

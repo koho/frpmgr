@@ -91,14 +91,21 @@ func RunUI() error {
 	fm.logPage.OnCreate()
 	fm.prefPage.OnCreate()
 	fm.aboutPage.OnCreate()
+	// Minimum window height.
+	confPageHeight := fm.confPage.SizeHint().Height
+	maxPageHeight := max(
+		confPageHeight,
+		fm.logPage.SizeHint().Height,
+		fm.prefPage.SizeHint().Height,
+		fm.aboutPage.SizeHint().Height,
+	)
 	// Resize window
 	margins := fm.Layout().Margins()
-	fm.SetClientSizePixels(walk.Size{
-		Width: fm.tabs.SizeHint().Width +
-			walk.IntFrom96DPI(margins.HNear+margins.HFar, fm.DPI()) +
-			fm.confPage.detailView.proxyView.minWidthBias(),
-		Height: fm.IntFrom96DPI(490),
-	})
+	size := fm.tabs.SizeHint()
+	bias := fm.confPage.detailView.sizeBias()
+	size.Width += bias.Width + walk.IntFrom96DPI(margins.HNear+margins.HFar, fm.DPI())
+	size.Height += bias.Height + walk.IntFrom96DPI(margins.VNear+margins.VFar, fm.DPI()) - maxPageHeight + confPageHeight
+	fm.SetClientSizePixels(size)
 	fm.Closing().Attach(func(canceled *bool, reason walk.CloseReason) {
 		// Save window state.
 		var wp win.WINDOWPLACEMENT
