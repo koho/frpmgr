@@ -1,7 +1,17 @@
 @echo off
 setlocal enabledelayedexpansion
+set GOARCH_x64=amd64
+set GOARCH_x86=386
 set BUILDDIR=%~dp0
 cd /d %BUILDDIR% || exit /b 1
+
+if "%~1" == "-p" (
+	set TARGET=%~2
+) else (
+	set TARGET=%~1
+)
+
+if "%TARGET%" == "" set TARGET=x64 x86
 
 :packages
 	echo [+] Downloading packages
@@ -17,17 +27,18 @@ cd /d %BUILDDIR% || exit /b 1
 	set MOD=github.com/koho/frpmgr
 	set GO111MODULE=on
 	set CGO_ENABLED=0
-	for %%a in (amd64 386) do (
-		set GOARCH=%%a
-		go build -trimpath -ldflags="-H windowsgui -s -w -X %MOD%/pkg/version.BuildDate=%BUILD_DATE%" -o bin\x!GOARCH:~-2!\frpmgr.exe .\cmd\frpmgr || goto :error
+	for %%a in (%TARGET%) do (
+		set GOARCH=!GOARCH_%%a!
+		go build -trimpath -ldflags="-H windowsgui -s -w -X %MOD%/pkg/version.BuildDate=%BUILD_DATE%" -o bin\%%a\frpmgr.exe .\cmd\frpmgr || goto :error
 	)
 
 if "%~1" == "-p" goto :success
 
 :installer
 	echo [+] Building installer
-	call installer\build.bat %VERSION% x64 || goto :error
-	call installer\build.bat %VERSION% x86 || goto :error
+	for %%a in (%TARGET%) do (
+		call installer\build.bat %VERSION% %%a || goto :error
+	)
 
 :success
 	echo [+] Success
