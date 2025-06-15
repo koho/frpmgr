@@ -4,8 +4,6 @@ on:
   release:
     types: [published]
 
-  pull_request:
-
 jobs:
   build:
     name: Build
@@ -163,7 +161,6 @@ jobs:
     name: Release
     needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'release'
     steps:
       - name: Get version info
         run: |
@@ -176,9 +173,6 @@ jobs:
           pattern: frpmgr-${{ env.VERSION }}-dist-*
           merge-multiple: true
 
-      - name: Calculate SHA256 checksum
-        run: sha256sum *.exe *.zip > frpmgr-${{ env.VERSION }}-sha256-checksums.txt
-
       - name: Upload release assets
         uses: shogo82148/actions-upload-release-asset@v1
         env:
@@ -188,4 +182,3 @@ jobs:
           asset_path: |
             ./*.exe
             ./*.zip
-            ./*.txt
