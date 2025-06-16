@@ -402,6 +402,13 @@
             "fuzzy": true
         },
         {
+            "id": "Properties",
+            "message": "Properties",
+            "translation": "Properties",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Select all",
             "message": "Select all",
             "translation": "Select all",
@@ -1246,16 +1253,16 @@
             "fuzzy": true
         },
         {
-            "id": "auto",
-            "message": "auto",
-            "translation": "auto",
+            "id": "Auto",
+            "message": "Auto",
+            "translation": "Auto",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
         {
-            "id": "default",
-            "message": "default",
-            "translation": "default",
+            "id": "Default",
+            "message": "Default",
+            "translation": "Default",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1898,6 +1905,118 @@
             "id": "Log retention",
             "message": "Log retention",
             "translation": "Log retention",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Manual",
+            "message": "Manual",
+            "translation": "Manual",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Identifier",
+            "message": "Identifier",
+            "translation": "Identifier",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Service Name",
+            "message": "Service Name",
+            "translation": "Service Name",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "File Format",
+            "message": "File Format",
+            "translation": "File Format",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Proxy Count",
+            "message": "Proxy Count",
+            "translation": "Proxy Count",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Start Type",
+            "message": "Start Type",
+            "translation": "Start Type",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "{LogFileCount} Files, {LogSizeDesc}",
+            "message": "{LogFileCount} Files, {LogSizeDesc}",
+            "translation": "{LogFileCount} Files, {LogSizeDesc}",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "LogFileCount",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "logFileCount"
+                },
+                {
+                    "id": "LogSizeDesc",
+                    "string": "%[2]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 2,
+                    "expr": "logSizeDesc"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Created",
+            "message": "Created",
+            "translation": "Created",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Modified",
+            "message": "Modified",
+            "translation": "Modified",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Started",
+            "message": "Started",
+            "translation": "Started",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "{Name} Properties",
+            "message": "{Name} Properties",
+            "translation": "{Name} Properties",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "pd.conf.Name()"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "Copy Value",
+            "message": "Copy Value",
+            "translation": "Copy Value",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
