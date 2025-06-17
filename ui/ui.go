@@ -39,6 +39,29 @@ type FRPManager struct {
 	aboutPage *AboutPage
 }
 
+func (fm *FRPManager) idealSize(empty bool) walk.Size {
+	if empty {
+		fm.confPage.welcomeView.SetVisible(false)
+		defer fm.confPage.welcomeView.SetVisible(true)
+		fm.confPage.detailView.SetVisible(true)
+		defer fm.confPage.detailView.SetVisible(false)
+	}
+	// Minimum window height.
+	confPageHeight := fm.confPage.SizeHint().Height
+	maxPageHeight := max(
+		confPageHeight,
+		fm.logPage.SizeHint().Height,
+		fm.prefPage.SizeHint().Height,
+		fm.aboutPage.SizeHint().Height,
+	)
+	margins := fm.Layout().Margins()
+	size := fm.tabs.SizeHint()
+	bias := fm.confPage.detailView.sizeBias()
+	size.Width += bias.Width + walk.IntFrom96DPI(margins.HNear+margins.HFar, fm.DPI())
+	size.Height += bias.Height + walk.IntFrom96DPI(margins.VNear+margins.VFar, fm.DPI()) - maxPageHeight + confPageHeight
+	return size
+}
+
 func RunUI() error {
 	var err error
 	// Make sure the config directory exists.
@@ -91,21 +114,8 @@ func RunUI() error {
 	fm.logPage.OnCreate()
 	fm.prefPage.OnCreate()
 	fm.aboutPage.OnCreate()
-	// Minimum window height.
-	confPageHeight := fm.confPage.SizeHint().Height
-	maxPageHeight := max(
-		confPageHeight,
-		fm.logPage.SizeHint().Height,
-		fm.prefPage.SizeHint().Height,
-		fm.aboutPage.SizeHint().Height,
-	)
 	// Resize window
-	margins := fm.Layout().Margins()
-	size := fm.tabs.SizeHint()
-	bias := fm.confPage.detailView.sizeBias()
-	size.Width += bias.Width + walk.IntFrom96DPI(margins.HNear+margins.HFar, fm.DPI())
-	size.Height += bias.Height + walk.IntFrom96DPI(margins.VNear+margins.VFar, fm.DPI()) - maxPageHeight + confPageHeight
-	fm.SetClientSizePixels(size)
+	fm.SetClientSizePixels(fm.idealSize(len(cfgList) == 0))
 	fm.Closing().Attach(func(canceled *bool, reason walk.CloseReason) {
 		// Save window state.
 		var wp win.WINDOWPLACEMENT

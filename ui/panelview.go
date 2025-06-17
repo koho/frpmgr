@@ -131,7 +131,7 @@ func (pv *PanelView) View() Widget {
 }
 
 func (pv *PanelView) OnCreate() {
-
+	pv.setState(consts.ConfigStateUnknown)
 }
 
 func (pv *PanelView) setState(state consts.ConfigState) {

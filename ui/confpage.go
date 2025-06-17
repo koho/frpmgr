@@ -16,8 +16,9 @@ type ConfPage struct {
 	*walk.TabPage
 
 	// Views
-	confView   *ConfView
-	detailView *DetailView
+	confView    *ConfView
+	detailView  *DetailView
+	welcomeView *walk.Composite
 
 	svcCleanup func() error
 }
@@ -76,16 +77,17 @@ func (cp *ConfPage) Page() TabPage {
 		Children: []Widget{
 			cp.confView.View(),
 			cp.detailView.View(),
-			cp.welcomeView(),
-			cp.multiSelectionView(),
+			cp.createWelcomeView(),
+			cp.createMultiSelectionView(),
 		},
 	}
 }
 
-func (cp *ConfPage) welcomeView() Composite {
+func (cp *ConfPage) createWelcomeView() Composite {
 	return Composite{
-		Visible: Bind("confView.SelectedCount == 0"),
-		Layout:  HBox{},
+		AssignTo: &cp.welcomeView,
+		Visible:  Bind("confView.SelectedCount == 0"),
+		Layout:   HBox{},
 		Children: []Widget{
 			HSpacer{},
 			Composite{
@@ -110,7 +112,7 @@ func (cp *ConfPage) welcomeView() Composite {
 	}
 }
 
-func (cp *ConfPage) multiSelectionView() Composite {
+func (cp *ConfPage) createMultiSelectionView() Composite {
 	count := "{Count}"
 	text := i18n.Sprintf("Delete %s configs", count)
 	expr := "confView.SelectedCount"
@@ -130,7 +132,6 @@ func (cp *ConfPage) multiSelectionView() Composite {
 			PushButton{
 				Text:      Bind(expr),
 				MinSize:   Size{Width: 200},
-				MaxSize:   Size{Width: 200},
 				OnClicked: cp.confView.onDelete,
 			},
 			HSpacer{},
