@@ -89,7 +89,7 @@ func (pd *PropertiesDialog) Run(owner walk.Form) (int, error) {
 			AssignTo: &pd.table,
 			Name:     "properties",
 			Columns: []TableViewColumn{
-				{Title: i18n.Sprintf("Item"), DataMember: "Title", Width: 130},
+				{Title: i18n.Sprintf("Item"), DataMember: "Title", Width: 140},
 				{Title: i18n.Sprintf("Value"), DataMember: "Value", Width: 180},
 			},
 			ColumnsOrderable: false,
@@ -108,6 +108,6 @@ func (pd *PropertiesDialog) Run(owner walk.Form) (int, error) {
 			},
 		},
 	)
-	dlg.MinSize = Size{Width: 360, Height: 310}
+	dlg.MinSize = Size{Width: 360, Height: 340}
 	return dlg.Run(owner)
 }
