@@ -112,33 +112,35 @@ func (pt *ProxyTracker) onMessage(msg []ipc.ProxyMessage) {
 			stat[pxy] = pm
 		}
 	}
-	if len(stat) > 0 {
-		pt.owner.Synchronize(func() {
-			if pt.ctx.Err() != nil {
-				return
+	pt.owner.Synchronize(func() {
+		if pt.ctx.Err() != nil {
+			return
+		}
+		for i, item := range pt.model.items {
+			if item.Disabled {
+				continue
 			}
-			for i, item := range pt.model.items {
-				if item.Disabled {
-					continue
-				}
-				if m, ok := stat[item.Proxy]; ok {
-					state, _ := proxyPhaseToProxyState(m.Status)
-					if item.State != state || item.Error != m.Err || item.RemoteAddr != m.RemoteAddr || item.StateSource != m.Name {
-						item.State = state
-						item.Error = m.Err
-						item.StateSource = m.Name
-						item.RemoteAddr = m.RemoteAddr
-						item.UpdateRemotePort()
-						pt.model.PublishRowChanged(i)
-						if pt.refreshTimer != nil {
-							pt.refreshTimer.Stop()
-							pt.refreshTimer = nil
-						}
-					}
+			var statusInfo ProxyStatusInfo
+			if m, ok := stat[item.Proxy]; ok {
+				state, _ := proxyPhaseToProxyState(m.Status)
+				statusInfo = ProxyStatusInfo{
+					State:       state,
+					Error:       m.Err,
+					StateSource: m.Name,
+					RemoteAddr:  m.RemoteAddr,
 				}
 			}
-		})
-	}
+			if item.ProxyStatusInfo != statusInfo {
+				item.ProxyStatusInfo = statusInfo
+				item.UpdateRemotePort()
+				pt.model.PublishRowChanged(i)
+				if pt.refreshTimer != nil {
+					pt.refreshTimer.Stop()
+					pt.refreshTimer = nil
+				}
+			}
+		}
+	})
 }
 
 func (pt *ProxyTracker) buildCache() {

@@ -127,10 +127,7 @@ func (pv *ProxyView) resetProxyState(row int) {
 		defer pv.table.DisposeImageList()
 	}
 	for i, item := range items {
-		item.State = consts.ProxyStateUnknown
-		item.StateSource = ""
-		item.Error = ""
-		item.RemoteAddr = ""
+		item.ProxyStatusInfo = ProxyStatusInfo{}
 		if item.RemotePort != item.DisplayRemotePort {
 			item.DisplayRemotePort = item.RemotePort
 			if row < 0 {
