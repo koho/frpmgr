@@ -125,16 +125,7 @@ type ProxyModel struct {
 	rowRenamedPublisher   walk.IntEventPublisher
 }
 
-type ProxyRow struct {
-	*config.Proxy
-	// Domains is a list of domains bound to this proxy
-	Domains string
-	// DisplayLocalIP changes the local address shown in table
-	DisplayLocalIP string
-	// DisplayLocalPort changes the local port shown in table
-	DisplayLocalPort string
-	// DisplayRemotePort changes the remote port shown in table.
-	DisplayRemotePort string
+type ProxyStatusInfo struct {
 	// Running state.
 	State consts.ProxyState
 	// Error message.
@@ -143,6 +134,19 @@ type ProxyRow struct {
 	StateSource string
 	// Remote address got from server.
 	RemoteAddr string
+}
+
+type ProxyRow struct {
+	*config.Proxy
+	ProxyStatusInfo
+	// Domains is a list of domains bound to this proxy
+	Domains string
+	// DisplayLocalIP changes the local address shown in table
+	DisplayLocalIP string
+	// DisplayLocalPort changes the local port shown in table
+	DisplayLocalPort string
+	// DisplayRemotePort changes the remote port shown in table.
+	DisplayRemotePort string
 }
 
 func NewProxyRow(p *config.Proxy) *ProxyRow {
