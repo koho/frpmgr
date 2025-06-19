@@ -1453,9 +1453,9 @@
             "translation": "ファイル形式"
         },
         {
-            "id": "Proxy Count",
-            "message": "Proxy Count",
-            "translation": "プロキシ数"
+            "id": "Number of Proxies",
+            "message": "Number of Proxies",
+            "translation": "プロキシの数"
         },
         {
             "id": "Start Type",
@@ -1499,6 +1499,16 @@
             "id": "Started",
             "message": "Started",
             "translation": "起動時間"
+        },
+        {
+            "id": "Number of TCP Connections",
+            "message": "Number of TCP Connections",
+            "translation": "TCP接続数"
+        },
+        {
+            "id": "Number of UDP Connections",
+            "message": "Number of UDP Connections",
+            "translation": "UDP接続数"
         },
         {
             "id": "{Name} Properties",

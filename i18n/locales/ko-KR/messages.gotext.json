@@ -1443,8 +1443,8 @@
             "translation": "파일 형식"
         },
         {
-            "id": "Proxy Count",
-            "message": "Proxy Count",
+            "id": "Number of Proxies",
+            "message": "Number of Proxies",
             "translation": "프록시 수"
         },
         {
@@ -1489,6 +1489,16 @@
             "id": "Started",
             "message": "Started",
             "translation": "시작 시간"
+        },
+        {
+            "id": "Number of TCP Connections",
+            "message": "Number of TCP Connections",
+            "translation": "TCP 연결 수"
+        },
+        {
+            "id": "Number of UDP Connections",
+            "message": "Number of UDP Connections",
+            "translation": "UDP 연결 수"
         },
         {
             "id": "{Name} Properties",

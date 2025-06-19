@@ -60,15 +60,20 @@ func (pd *PropertiesDialog) Run(owner walk.Form) (int, error) {
 		{Title: i18n.Sprintf("Identifier"), Value: util.FileNameWithoutExt(pd.conf.Path)},
 		{Title: i18n.Sprintf("Service Name"), Value: services.ServiceNameOfClient(pd.conf.Path)},
 		{Title: i18n.Sprintf("File Format"), Value: strings.ToUpper(pd.conf.Data.Ext()[1:])},
-		{Title: i18n.Sprintf("Proxy Count"), Value: strconv.Itoa(reflect.ValueOf(pd.conf.Data.Items()).Len())},
+		{Title: i18n.Sprintf("Number of Proxies"), Value: strconv.Itoa(reflect.ValueOf(pd.conf.Data.Items()).Len())},
 		{Title: i18n.Sprintf("Start Type"), Value: startTypeDesc},
 		{Title: i18n.Sprintf("Log"), Value: i18n.Sprintf("%d Files, %s", logFileCount, logSizeDesc)},
 	}
 	if info, err := os.Stat(pd.conf.Path); err == nil {
 		created := time.Unix(0, info.Sys().(*syscall.Win32FileAttributeData).CreationTime.Nanoseconds())
 		modified := info.ModTime()
-		items = append(items, &ListItem{Title: i18n.Sprintf("Created"), Value: created.Format(time.DateTime)})
-		items = append(items, &ListItem{Title: i18n.Sprintf("Modified"), Value: modified.Format(time.DateTime)})
+		items = append(items, &ListItem{
+			Title: i18n.Sprintf("Created"),
+			Value: created.Format(time.DateTime),
+		}, &ListItem{
+			Title: i18n.Sprintf("Modified"),
+			Value: modified.Format(time.DateTime),
+		})
 	}
 	if pid > 0 {
 		if process, err := syscall.OpenProcess(windows.PROCESS_QUERY_LIMITED_INFORMATION, false, pid); err == nil {
@@ -81,6 +86,13 @@ func (pd *PropertiesDialog) Run(owner walk.Form) (int, error) {
 			}
 			syscall.CloseHandle(process)
 		}
+		items = append(items, &ListItem{
+			Title: i18n.Sprintf("Number of TCP Connections"),
+			Value: strconv.Itoa(util.CountTCPConnections(pid)),
+		}, &ListItem{
+			Title: i18n.Sprintf("Number of UDP Connections"),
+			Value: strconv.Itoa(util.CountUDPConnections(pid)),
+		})
 	}
 	dlg := NewBasicDialog(&pd.Dialog, i18n.Sprintf("%s Properties", pd.conf.Name()),
 		loadIcon(res.IconFile, 32),
@@ -108,6 +120,6 @@ func (pd *PropertiesDialog) Run(owner walk.Form) (int, error) {
 			},
 		},
 	)
-	dlg.MinSize = Size{Width: 360, Height: 340}
+	dlg.MinSize = Size{Width: 400, Height: 350}
 	return dlg.Run(owner)
 }

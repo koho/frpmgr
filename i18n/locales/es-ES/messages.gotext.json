@@ -1443,9 +1443,9 @@
             "translation": "Formato de archivo"
         },
         {
-            "id": "Proxy Count",
-            "message": "Proxy Count",
-            "translation": "Recuento de proxy"
+            "id": "Number of Proxies",
+            "message": "Number of Proxies",
+            "translation": "Número de proxies"
         },
         {
             "id": "Start Type",
@@ -1489,6 +1489,16 @@
             "id": "Started",
             "message": "Started",
             "translation": "Empezado"
+        },
+        {
+            "id": "Number of TCP Connections",
+            "message": "Number of TCP Connections",
+            "translation": "Número de conexiones TCP"
+        },
+        {
+            "id": "Number of UDP Connections",
+            "message": "Number of UDP Connections",
+            "translation": "Número de conexiones UDP"
         },
         {
             "id": "{Name} Properties",

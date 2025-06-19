@@ -1443,8 +1443,8 @@
             "translation": "文件格式"
         },
         {
-            "id": "Proxy Count",
-            "message": "Proxy Count",
+            "id": "Number of Proxies",
+            "message": "Number of Proxies",
             "translation": "代理数量"
         },
         {
@@ -1489,6 +1489,16 @@
             "id": "Started",
             "message": "Started",
             "translation": "启动时间"
+        },
+        {
+            "id": "Number of TCP Connections",
+            "message": "Number of TCP Connections",
+            "translation": "TCP 连接数"
+        },
+        {
+            "id": "Number of UDP Connections",
+            "message": "Number of UDP Connections",
+            "translation": "UDP 连接数"
         },
         {
             "id": "{Name} Properties",
