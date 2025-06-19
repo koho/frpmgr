@@ -101,11 +101,14 @@ func (pd *PropertiesDialog) Run(owner walk.Form) (int, error) {
 			AssignTo: &pd.table,
 			Name:     "properties",
 			Columns: []TableViewColumn{
-				{Title: i18n.Sprintf("Item"), DataMember: "Title", Width: 140},
+				{Title: i18n.Sprintf("Item"), DataMember: "Title"},
 				{Title: i18n.Sprintf("Value"), DataMember: "Value", Width: 180},
 			},
 			ColumnsOrderable: false,
 			Model:            NewNonSortedModel(items),
+			OnBoundsChanged: func() {
+				pd.table.FitColumn(0, 140)
+			},
 			ContextMenuItems: []MenuItem{
 				Action{
 					Text:    i18n.Sprintf("Copy Value"),
