@@ -11,6 +11,9 @@ jobs:
   build:
     name: Build
     runs-on: windows-latest
+    strategy:
+      matrix:
+        architecture: [x64, x86]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,9 +24,8 @@ jobs:
           go-version: '1.23'
 
       - name: Setup VS environment
-        shell: cmd
-        run: |
-          for /f "usebackq delims=" %%i in (`vswhere.exe -latest -property installationPath`) do echo %%i\VC\Auxiliary\Build>>%GITHUB_PATH%
+        shell: powershell
+        run: echo "$(vswhere.exe -latest -property installationPath)\VC\Auxiliary\Build" >> $env:GITHUB_PATH
 
       - name: Add commit hash to version number
         shell: powershell
@@ -36,20 +38,21 @@ jobs:
           $version = (findstr /r "Number.*=.*[0-9.]*" $versionFile | Select-Object -First 1 | ConvertFrom-StringData).Get_Item("Number")
           $newVersion = $version.Substring(0, $version.Length - 1) + ".$rev" + '"'
           (Get-Content $versionFile).Replace($version, $newVersion) | Set-Content $versionFile
+          echo "VERSION=$($newVersion.Replace('"', ''))" >> $env:GITHUB_ENV
 
       - name: Build
         shell: cmd
-        run: build.bat
+        run: build.bat ${{ matrix.architecture }}
 
       - name: Upload
         uses: actions/upload-artifact@v4
         if: github.event_name == 'pull_request'
         with:
-          name: build
+          name: frpmgr-${{ env.VERSION }}-test-${{ matrix.architecture }}
           path: |
             bin/*.exe
             bin/*.zip
-          retention-days: 5
+          retention-days: 7
 
   test:
     name: Go
