@@ -295,7 +295,7 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 			Label{Visible: Bind("vm.PluginEnable"), Text: i18n.SprintfColon("Proxy Protocol")},
 			ComboBox{
 				Visible:       Bind("vm.PluginEnable"),
-				Model:         NewListModel([]string{"", "v1", "v2"}, i18n.Sprintf("auto")),
+				Model:         NewListModel([]string{"", "v1", "v2"}, i18n.Sprintf("Auto")),
 				BindingMember: "Value",
 				DisplayMember: "Title",
 				Value:         Bind("ProxyProtocolVersion"),
@@ -303,7 +303,7 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 			Label{Visible: xtcpVisitor, Text: i18n.SprintfColon("Protocol")},
 			ComboBox{
 				Visible:       xtcpVisitor,
-				Model:         NewListModel([]string{"", consts.ProtoQUIC, consts.ProtoKCP}, i18n.Sprintf("default")),
+				Model:         NewListModel([]string{"", consts.ProtoQUIC, consts.ProtoKCP}, i18n.Sprintf("Default")),
 				BindingMember: "Value",
 				DisplayMember: "Title",
 				Value:         Bind("Protocol"),

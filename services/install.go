@@ -116,3 +116,26 @@ func UninstallService(configPath string, wait bool) error {
 	}
 	return err2
 }
+
+// QueryStartInfo returns the start type and process id of the given service.
+func QueryStartInfo(configPath string) (uint32, uint32, error) {
+	m, err := serviceManager()
+	if err != nil {
+		return 0, 0, err
+	}
+	serviceName := ServiceNameOfClient(configPath)
+	service, err := m.OpenService(serviceName)
+	if err != nil {
+		return 0, 0, err
+	}
+	defer service.Close()
+	cfg, err := service.Config()
+	if err != nil {
+		return 0, 0, err
+	}
+	var pid uint32
+	if status, err := service.Query(); err == nil {
+		pid = status.ProcessId
+	}
+	return cfg.StartType, pid, nil
+}

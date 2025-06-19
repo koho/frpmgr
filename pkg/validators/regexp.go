@@ -20,7 +20,7 @@ func NewRegexpValidator(pattern string) (*RegexpValidator, error) {
 func (rv *RegexpValidator) Validate(v interface{}) error {
 	err := rv.RegexpValidator.Validate(v)
 	if str, ok := v.(string); ok && str == "" && err != nil {
-		return silentErr
+		return errSilent
 	}
 	return err
 }

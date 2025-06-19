@@ -302,6 +302,11 @@
             "translation": "Exportar todas las configuraciones a ZIP"
         },
         {
+            "id": "Properties",
+            "message": "Properties",
+            "translation": "Propiedades"
+        },
+        {
             "id": "Select all",
             "message": "Select all",
             "translation": "Seleccionar todos"
@@ -938,14 +943,14 @@
             "translation": "Protocolo proxy"
         },
         {
-            "id": "auto",
-            "message": "auto",
-            "translation": "auto"
+            "id": "Auto",
+            "message": "Auto",
+            "translation": "Auto"
         },
         {
-            "id": "default",
-            "message": "default",
-            "translation": "por defecto"
+            "id": "Default",
+            "message": "Default",
+            "translation": "Por defecto"
         },
         {
             "id": "Keep Tunnel",
@@ -1416,6 +1421,104 @@
             "id": "Log retention",
             "message": "Log retention",
             "translation": "Retención de registros"
+        },
+        {
+            "id": "Manual",
+            "message": "Manual",
+            "translation": "Manual"
+        },
+        {
+            "id": "Identifier",
+            "message": "Identifier",
+            "translation": "Identificador"
+        },
+        {
+            "id": "Service Name",
+            "message": "Service Name",
+            "translation": "Nombre del servicio"
+        },
+        {
+            "id": "File Format",
+            "message": "File Format",
+            "translation": "Formato de archivo"
+        },
+        {
+            "id": "Number of Proxies",
+            "message": "Number of Proxies",
+            "translation": "Número de proxies"
+        },
+        {
+            "id": "Start Type",
+            "message": "Start Type",
+            "translation": "Tipo de inicio"
+        },
+        {
+            "id": "{LogFileCount} Files, {LogSizeDesc}",
+            "message": "{LogFileCount} Files, {LogSizeDesc}",
+            "translation": "{LogFileCount} archivos, {LogSizeDesc}",
+            "placeholders": [
+                {
+                    "id": "LogFileCount",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "logFileCount"
+                },
+                {
+                    "id": "LogSizeDesc",
+                    "string": "%[2]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 2,
+                    "expr": "logSizeDesc"
+                }
+            ]
+        },
+        {
+            "id": "Created",
+            "message": "Created",
+            "translation": "Creado"
+        },
+        {
+            "id": "Modified",
+            "message": "Modified",
+            "translation": "Modificado"
+        },
+        {
+            "id": "Started",
+            "message": "Started",
+            "translation": "Empezado"
+        },
+        {
+            "id": "Number of TCP Connections",
+            "message": "Number of TCP Connections",
+            "translation": "Número de conexiones TCP"
+        },
+        {
+            "id": "Number of UDP Connections",
+            "message": "Number of UDP Connections",
+            "translation": "Número de conexiones UDP"
+        },
+        {
+            "id": "{Name} Properties",
+            "message": "{Name} Properties",
+            "translation": "Propiedades de {Name}",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "pd.conf.Name()"
+                }
+            ]
+        },
+        {
+            "id": "Copy Value",
+            "message": "Copy Value",
+            "translation": "Copiar valor"
         },
         {
             "id": "Error",

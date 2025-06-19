@@ -13,7 +13,7 @@ type PasswordValidator struct {
 func (p *PasswordValidator) Validate(v interface{}) error {
 	text := v.(string)
 	if text == "" {
-		return silentErr
+		return errSilent
 	}
 	if (*p.Password).Text() == text {
 		return nil

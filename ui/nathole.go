@@ -79,7 +79,7 @@ func (nd *NATDiscoveryDialog) discover() (err error) {
 		return err
 	}
 	if len(addrs) < 2 {
-		return fmt.Errorf("can not get enough addresses, need 2, got: %v\n", addrs)
+		return fmt.Errorf("can not get enough addresses")
 	}
 
 	localIPs, _ := nathole.ListLocalIPsForNatHole(10)

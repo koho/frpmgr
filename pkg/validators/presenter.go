@@ -6,7 +6,7 @@ import (
 	"github.com/lxn/walk"
 )
 
-var silentErr = errors.New("")
+var errSilent = errors.New("")
 
 type ToolTipErrorPresenter struct {
 	*walk.ToolTipErrorPresenter
@@ -21,7 +21,7 @@ func NewToolTipErrorPresenter() (*ToolTipErrorPresenter, error) {
 }
 
 func (ttep *ToolTipErrorPresenter) PresentError(err error, widget walk.Widget) {
-	if errors.Is(err, silentErr) {
+	if errors.Is(err, errSilent) {
 		ttep.ToolTipErrorPresenter.PresentError(nil, widget)
 	} else {
 		ttep.ToolTipErrorPresenter.PresentError(err, widget)

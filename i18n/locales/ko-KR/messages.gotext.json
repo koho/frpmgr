@@ -302,6 +302,11 @@
             "translation": "모든 구성을 ZIP 으로 내보내기"
         },
         {
+            "id": "Properties",
+            "message": "Properties",
+            "translation": "속성"
+        },
+        {
             "id": "Select all",
             "message": "Select all",
             "translation": "전체 선택"
@@ -938,13 +943,13 @@
             "translation": "프록시 프로토콜"
         },
         {
-            "id": "auto",
-            "message": "auto",
+            "id": "Auto",
+            "message": "Auto",
             "translation": "자동"
         },
         {
-            "id": "default",
-            "message": "default",
+            "id": "Default",
+            "message": "Default",
             "translation": "기본값"
         },
         {
@@ -1416,6 +1421,104 @@
             "id": "Log retention",
             "message": "Log retention",
             "translation": "로그 보존"
+        },
+        {
+            "id": "Manual",
+            "message": "Manual",
+            "translation": "매뉴얼"
+        },
+        {
+            "id": "Identifier",
+            "message": "Identifier",
+            "translation": "식별자"
+        },
+        {
+            "id": "Service Name",
+            "message": "Service Name",
+            "translation": "서비스 이름"
+        },
+        {
+            "id": "File Format",
+            "message": "File Format",
+            "translation": "파일 형식"
+        },
+        {
+            "id": "Number of Proxies",
+            "message": "Number of Proxies",
+            "translation": "프록시 수"
+        },
+        {
+            "id": "Start Type",
+            "message": "Start Type",
+            "translation": "시작 유형"
+        },
+        {
+            "id": "{LogFileCount} Files, {LogSizeDesc}",
+            "message": "{LogFileCount} Files, {LogSizeDesc}",
+            "translation": "{LogFileCount}개 파일, {LogSizeDesc}",
+            "placeholders": [
+                {
+                    "id": "LogFileCount",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "logFileCount"
+                },
+                {
+                    "id": "LogSizeDesc",
+                    "string": "%[2]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 2,
+                    "expr": "logSizeDesc"
+                }
+            ]
+        },
+        {
+            "id": "Created",
+            "message": "Created",
+            "translation": "창조 시간"
+        },
+        {
+            "id": "Modified",
+            "message": "Modified",
+            "translation": "수정 시간"
+        },
+        {
+            "id": "Started",
+            "message": "Started",
+            "translation": "시작 시간"
+        },
+        {
+            "id": "Number of TCP Connections",
+            "message": "Number of TCP Connections",
+            "translation": "TCP 연결 수"
+        },
+        {
+            "id": "Number of UDP Connections",
+            "message": "Number of UDP Connections",
+            "translation": "UDP 연결 수"
+        },
+        {
+            "id": "{Name} Properties",
+            "message": "{Name} Properties",
+            "translation": "{Name} 속성",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "pd.conf.Name()"
+                }
+            ]
+        },
+        {
+            "id": "Copy Value",
+            "message": "Copy Value",
+            "translation": "복사 값"
         },
         {
             "id": "Error",
