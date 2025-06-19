@@ -666,6 +666,22 @@ func (tv *TableView) Columns() *TableViewColumnList {
 	return tv.columns
 }
 
+// FitColumn adjusts the width of the column to match the longest value in the column.
+func (tv *TableView) FitColumn(index int, minWidth int) {
+	col := tv.columns.At(index)
+	var hwnd win.HWND
+	if col.Frozen() {
+		hwnd = tv.hwndFrozenLV
+	} else {
+		hwnd = tv.hwndNormalLV
+	}
+	lvIdx := col.indexInListView()
+	win.SendMessage(hwnd, win.LVM_SETCOLUMNWIDTH, uintptr(lvIdx), win.LVSCW_AUTOSIZE)
+	if col.Width() < minWidth {
+		win.SendMessage(hwnd, win.LVM_SETCOLUMNWIDTH, uintptr(lvIdx), uintptr(tv.IntFrom96DPI(minWidth)))
+	}
+}
+
 // FitColumnHeader adjusts the width of the column to match the title in the column.
 func (tv *TableView) FitColumnHeader(index int, minWidth int) {
 	col := tv.columns.At(index)
