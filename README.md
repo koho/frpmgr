@@ -76,6 +76,36 @@ After that, the application can be run directly:
 go run ./cmd/frpmgr
 ```
 
+## Sponsors
+
+> We are really thankful for all of our users, contributors, and sponsors that has been keeping this project alive and well. We are also giving our gratitude for these company/organization for providing their service for us.
+
+1. SignPath Foundation for providing us free code signing!
+<p align=center>
+	<a href="https://about.signpath.io/">
+ 		<img src="./docs/sponsor_signpath.png" alt="SignPath Logo" height=50 />
+	</a>
+</p>
+
+## Code Signing Policy
+
+Free code signing provided by [SignPath.io](https://about.signpath.io/), certificate by [SignPath Foundation](https://signpath.org/).
+
+Team roles:
+
+- Committers and reviewers: [Members team](https://github.com/koho/frpmgr/graphs/contributors)
+- Approvers: [Owners](https://github.com/koho)
+
+Read our full [Privacy Policy](#privacy-policy).
+
+## Privacy Policy
+
+This program will not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it.
+
+FRP Manager has integrated the following services for additional functions, which can be enabled or disabled at any time in the settings:
+
+- [api.github.com](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement) (Check for program updates)
+
 ## Donation
 
 If this project is useful to you, consider supporting its development in one of the following ways:
