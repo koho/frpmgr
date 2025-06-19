@@ -64,18 +64,14 @@ func (pd *PropertiesDialog) Run(owner walk.Form) (int, error) {
 		{Title: i18n.Sprintf("Start Type"), Value: startTypeDesc},
 		{Title: i18n.Sprintf("Log"), Value: i18n.Sprintf("%d Files, %s", logFileCount, logSizeDesc)},
 	}
-	if info, err := os.Stat(pd.conf.Path); err == nil {
-		created := time.Unix(0, info.Sys().(*syscall.Win32FileAttributeData).CreationTime.Nanoseconds())
-		modified := info.ModTime()
-		items = append(items, &ListItem{
-			Title: i18n.Sprintf("Created"),
-			Value: created.Format(time.DateTime),
-		}, &ListItem{
-			Title: i18n.Sprintf("Modified"),
-			Value: modified.Format(time.DateTime),
-		})
-	}
 	if pid > 0 {
+		items = append(items, &ListItem{
+			Title: i18n.Sprintf("Number of TCP Connections"),
+			Value: strconv.Itoa(util.CountTCPConnections(pid)),
+		}, &ListItem{
+			Title: i18n.Sprintf("Number of UDP Connections"),
+			Value: strconv.Itoa(util.CountUDPConnections(pid)),
+		})
 		if process, err := syscall.OpenProcess(windows.PROCESS_QUERY_LIMITED_INFORMATION, false, pid); err == nil {
 			var creationTime, unusedTime syscall.Filetime
 			if err = syscall.GetProcessTimes(process, &creationTime, &unusedTime, &unusedTime, &unusedTime); err == nil {
@@ -86,12 +82,16 @@ func (pd *PropertiesDialog) Run(owner walk.Form) (int, error) {
 			}
 			syscall.CloseHandle(process)
 		}
+	}
+	if info, err := os.Stat(pd.conf.Path); err == nil {
+		created := time.Unix(0, info.Sys().(*syscall.Win32FileAttributeData).CreationTime.Nanoseconds())
+		modified := info.ModTime()
 		items = append(items, &ListItem{
-			Title: i18n.Sprintf("Number of TCP Connections"),
-			Value: strconv.Itoa(util.CountTCPConnections(pid)),
+			Title: i18n.Sprintf("Created"),
+			Value: created.Format(time.DateTime),
 		}, &ListItem{
-			Title: i18n.Sprintf("Number of UDP Connections"),
-			Value: strconv.Itoa(util.CountUDPConnections(pid)),
+			Title: i18n.Sprintf("Modified"),
+			Value: modified.Format(time.DateTime),
 		})
 	}
 	dlg := NewBasicDialog(&pd.Dialog, i18n.Sprintf("%s Properties", pd.conf.Name()),
@@ -106,9 +106,6 @@ func (pd *PropertiesDialog) Run(owner walk.Form) (int, error) {
 			},
 			ColumnsOrderable: false,
 			Model:            NewNonSortedModel(items),
-			OnBoundsChanged: func() {
-				pd.table.FitColumn(0, 140)
-			},
 			ContextMenuItems: []MenuItem{
 				Action{
 					Text:    i18n.Sprintf("Copy Value"),
@@ -123,6 +120,12 @@ func (pd *PropertiesDialog) Run(owner walk.Form) (int, error) {
 			},
 		},
 	)
-	dlg.MinSize = Size{Width: 400, Height: 350}
-	return dlg.Run(owner)
+	dlg.MinSize = Size{Width: 420, Height: 350}
+	if err := dlg.Create(owner); err != nil {
+		return 0, err
+	}
+	pd.table.BoundsChanged().Once(func() {
+		pd.table.FitColumn(0, 140)
+	})
+	return pd.Dialog.Run(), nil
 }

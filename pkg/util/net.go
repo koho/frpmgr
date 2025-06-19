@@ -57,6 +57,7 @@ func DownloadFile(ctx context.Context, url string) (filename, mediaType string, 
 	}
 }
 
+//nolint:unused
 type mibTCPRowOwnerPid struct {
 	dwState      uint32
 	dwLocalAddr  uint32
@@ -66,6 +67,7 @@ type mibTCPRowOwnerPid struct {
 	dwOwningPid  uint32
 }
 
+//nolint:unused
 type mibTCP6RowOwnerPid struct {
 	ucLocalAddr     [16]byte
 	dwLocalScopeId  uint32
@@ -77,12 +79,14 @@ type mibTCP6RowOwnerPid struct {
 	dwOwningPid     uint32
 }
 
+//nolint:unused
 type mibUDPRowOwnerPid struct {
 	dwLocalAddr uint32
 	dwLocalPort uint32
 	dwOwningPid uint32
 }
 
+//nolint:unused
 type mibUDP6RowOwnerPid struct {
 	ucLocalAddr    [16]byte
 	dwLocalScopeId uint32
