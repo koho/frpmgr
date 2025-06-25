@@ -109,7 +109,7 @@
         {
             "id": "For FRP configuration documentation, please visit the FRP project page:",
             "message": "For FRP configuration documentation, please visit the FRP project page:",
-            "translation": "FRP 設定ドキュメントについては、FRP プロジェクトページにアクセスしてください："
+            "translation": "FRP のドキュメントについては、FRP プロジェクト ページをご覧ください："
         },
         {
             "id": "An error occurred while checking for a software update.",
@@ -300,6 +300,11 @@
             "id": "Export All Configs to ZIP",
             "message": "Export All Configs to ZIP",
             "translation": "すべての設定をZIPにエクスポート"
+        },
+        {
+            "id": "Properties",
+            "message": "Properties",
+            "translation": "プロパティ"
         },
         {
             "id": "Select all",
@@ -948,13 +953,13 @@
             "translation": "プロキシプロトコル"
         },
         {
-            "id": "auto",
-            "message": "auto",
+            "id": "Auto",
+            "message": "Auto",
             "translation": "自動"
         },
         {
-            "id": "default",
-            "message": "default",
+            "id": "Default",
+            "message": "Default",
             "translation": "既定値"
         },
         {
@@ -1426,6 +1431,104 @@
             "id": "Log retention",
             "message": "Log retention",
             "translation": "ログ保持"
+        },
+        {
+            "id": "Manual",
+            "message": "Manual",
+            "translation": "マニュアル"
+        },
+        {
+            "id": "Identifier",
+            "message": "Identifier",
+            "translation": "識別子"
+        },
+        {
+            "id": "Service Name",
+            "message": "Service Name",
+            "translation": "サービス名"
+        },
+        {
+            "id": "File Format",
+            "message": "File Format",
+            "translation": "ファイル形式"
+        },
+        {
+            "id": "Number of Proxies",
+            "message": "Number of Proxies",
+            "translation": "プロキシの数"
+        },
+        {
+            "id": "Start Type",
+            "message": "Start Type",
+            "translation": "スタートアップの種類"
+        },
+        {
+            "id": "{LogFileCount} Files, {LogSizeDesc}",
+            "message": "{LogFileCount} Files, {LogSizeDesc}",
+            "translation": "{LogFileCount} ファイル、{LogSizeDesc}",
+            "placeholders": [
+                {
+                    "id": "LogFileCount",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "logFileCount"
+                },
+                {
+                    "id": "LogSizeDesc",
+                    "string": "%[2]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 2,
+                    "expr": "logSizeDesc"
+                }
+            ]
+        },
+        {
+            "id": "Created",
+            "message": "Created",
+            "translation": "作成時間"
+        },
+        {
+            "id": "Modified",
+            "message": "Modified",
+            "translation": "修正時間"
+        },
+        {
+            "id": "Started",
+            "message": "Started",
+            "translation": "起動時間"
+        },
+        {
+            "id": "Number of TCP Connections",
+            "message": "Number of TCP Connections",
+            "translation": "TCP接続数"
+        },
+        {
+            "id": "Number of UDP Connections",
+            "message": "Number of UDP Connections",
+            "translation": "UDP接続数"
+        },
+        {
+            "id": "{Name} Properties",
+            "message": "{Name} Properties",
+            "translation": "{Name}のプロパティ",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "pd.conf.Name()"
+                }
+            ]
+        },
+        {
+            "id": "Copy Value",
+            "message": "Copy Value",
+            "translation": "コピー値"
         },
         {
             "id": "Error",

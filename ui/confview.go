@@ -144,6 +144,15 @@ func (cv *ConfView) View() Widget {
 						Enabled:     Bind("confView.ItemCount > 0"),
 						OnTriggered: cv.onExport,
 					},
+					Action{
+						Text:    i18n.Sprintf("Properties"),
+						Enabled: Bind("confView.SelectedCount == 1"),
+						OnTriggered: func() {
+							if conf := getCurrentConf(); conf != nil {
+								NewPropertiesDialog(conf).Run(cv.Form())
+							}
+						},
+					},
 					Separator{},
 					Action{
 						Enabled: Bind("confView.SelectedCount < confView.ItemCount"),

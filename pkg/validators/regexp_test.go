@@ -10,8 +10,8 @@ func TestRegexp(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err = r.Validate(""); !errors.Is(err, silentErr) {
-		t.Errorf("Expected: %v, got: %v", silentErr, err)
+	if err = r.Validate(""); !errors.Is(err, errSilent) {
+		t.Errorf("Expected: %v, got: %v", errSilent, err)
 	}
 	tests := []struct {
 		input     string

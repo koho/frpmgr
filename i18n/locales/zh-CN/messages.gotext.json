@@ -302,6 +302,11 @@
             "translation": "导出所有配置 (ZIP 压缩包)"
         },
         {
+            "id": "Properties",
+            "message": "Properties",
+            "translation": "属性"
+        },
+        {
             "id": "Select all",
             "message": "Select all",
             "translation": "全选"
@@ -938,13 +943,13 @@
             "translation": "代理协议"
         },
         {
-            "id": "auto",
-            "message": "auto",
+            "id": "Auto",
+            "message": "Auto",
             "translation": "自动"
         },
         {
-            "id": "default",
-            "message": "default",
+            "id": "Default",
+            "message": "Default",
             "translation": "默认"
         },
         {
@@ -1416,6 +1421,104 @@
             "id": "Log retention",
             "message": "Log retention",
             "translation": "日志保留"
+        },
+        {
+            "id": "Manual",
+            "message": "Manual",
+            "translation": "手动"
+        },
+        {
+            "id": "Identifier",
+            "message": "Identifier",
+            "translation": "标识符"
+        },
+        {
+            "id": "Service Name",
+            "message": "Service Name",
+            "translation": "服务名称"
+        },
+        {
+            "id": "File Format",
+            "message": "File Format",
+            "translation": "文件格式"
+        },
+        {
+            "id": "Number of Proxies",
+            "message": "Number of Proxies",
+            "translation": "代理数量"
+        },
+        {
+            "id": "Start Type",
+            "message": "Start Type",
+            "translation": "启动类型"
+        },
+        {
+            "id": "{LogFileCount} Files, {LogSizeDesc}",
+            "message": "{LogFileCount} Files, {LogSizeDesc}",
+            "translation": "{LogFileCount} 个文件，{LogSizeDesc}",
+            "placeholders": [
+                {
+                    "id": "LogFileCount",
+                    "string": "%[1]d",
+                    "type": "int",
+                    "underlyingType": "int",
+                    "argNum": 1,
+                    "expr": "logFileCount"
+                },
+                {
+                    "id": "LogSizeDesc",
+                    "string": "%[2]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 2,
+                    "expr": "logSizeDesc"
+                }
+            ]
+        },
+        {
+            "id": "Created",
+            "message": "Created",
+            "translation": "创建时间"
+        },
+        {
+            "id": "Modified",
+            "message": "Modified",
+            "translation": "修改时间"
+        },
+        {
+            "id": "Started",
+            "message": "Started",
+            "translation": "启动时间"
+        },
+        {
+            "id": "Number of TCP Connections",
+            "message": "Number of TCP Connections",
+            "translation": "TCP 连接数"
+        },
+        {
+            "id": "Number of UDP Connections",
+            "message": "Number of UDP Connections",
+            "translation": "UDP 连接数"
+        },
+        {
+            "id": "{Name} Properties",
+            "message": "{Name} Properties",
+            "translation": "{Name} 属性",
+            "placeholders": [
+                {
+                    "id": "Name",
+                    "string": "%[1]s",
+                    "type": "string",
+                    "underlyingType": "string",
+                    "argNum": 1,
+                    "expr": "pd.conf.Name()"
+                }
+            ]
+        },
+        {
+            "id": "Copy Value",
+            "message": "Copy Value",
+            "translation": "复制值"
         },
         {
             "id": "Error",
