@@ -38,8 +38,8 @@ if not defined WIX (
 	exit /b 0
 
 :build_actions
-	msbuild actions\actions.sln /t:Rebuild /p:Configuration=Release /p:Platform="%ARCH%" || goto :error
-	copy actions\actions\bin\%ARCH%\Release\actions.CA.dll %PLAT_DIR%\actions.dll /y || goto :error
+	rc /DVERSION_ARRAY=%VERSION:.=,% /DVERSION_STR=%VERSION% /Fo %PLAT_DIR%\actions.res actions\version.rc || goto :error
+	cl /O2 /LD /MD /Fe%PLAT_DIR%\actions.dll actions\actions.c %PLAT_DIR%\actions.res msi.lib shell32.lib advapi32.lib shlwapi.lib ole32.lib || goto :error
 	goto :eof
 
 :build_msi
