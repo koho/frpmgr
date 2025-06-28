@@ -95,11 +95,9 @@
 	<Fragment>
 		<SetProperty Id="ARPINSTALLLOCATION" Value="[INSTALLFOLDER]" After="CostFinalize" />
 		<CustomAction Id="KillProcesses.SetProperty" Return="check" Property="KillProcesses" Value="[#MainApplication]" />
-		<CustomAction Id="EvaluateFrpServices.SetProperty" Return="check" Property="EvaluateFrpServices" Value="[#MainApplication]" />
 		<CustomAction Id="RemoveFrpFiles.SetProperty" Return="check" Property="RemoveFrpFiles" Value="[INSTALLFOLDER]" />
 		<CustomAction Id="SetLangConfig.SetProperty" Return="check" Property="SetLangConfig" Value="[INSTALLFOLDER]" />
 		<CustomAction Id="MoveFrpProfiles.SetProperty" Return="check" Property="MoveFrpProfiles" Value="[INSTALLFOLDER]" />
-		<CustomAction Id="RemoveOldFrpServices.SetProperty" Return="check" Property="RemoveOldFrpServices" Value="[#MainApplication]" />
 
 		<!--
 			Launch application
@@ -118,10 +116,9 @@
 		<!--
 			Evaluate FRP services
 		-->
-		<CustomAction Id="EvaluateFrpServices" BinaryKey="actions.dll" DllEntry="EvaluateFrpServices" Impersonate="no" Execute="deferred" />
+		<CustomAction Id="EvaluateFrpServices" BinaryKey="actions.dll" DllEntry="EvaluateFrpServices" />
 		<InstallExecuteSequence>
-			<Custom Action="EvaluateFrpServices.SetProperty" After="InstallInitialize" />
-			<Custom Action="EvaluateFrpServices" After="EvaluateFrpServices.SetProperty">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
+			<Custom Action="EvaluateFrpServices" After="InstallInitialize">NOT (UPGRADINGPRODUCTCODE AND (REMOVE="ALL"))</Custom>
 		</InstallExecuteSequence>
 
 		<!--
@@ -158,15 +155,6 @@
 		<InstallExecuteSequence>
 			<Custom Action="MoveFrpProfiles.SetProperty" After="InstallFiles" />
 			<Custom Action="MoveFrpProfiles" After="MoveFrpProfiles.SetProperty">NOT (REMOVE="ALL")</Custom>
-		</InstallExecuteSequence>
-
-		<!--
-			Delete old version frp services
-		-->
-		<CustomAction Id="RemoveOldFrpServices" BinaryKey="actions.dll" DllEntry="RemoveOldFrpServices" Impersonate="no" Execute="deferred" />
-		<InstallExecuteSequence>
-			<Custom Action="RemoveOldFrpServices.SetProperty" After="InstallFiles" />
-			<Custom Action="RemoveOldFrpServices" After="RemoveOldFrpServices.SetProperty">NOT (REMOVE="ALL")</Custom>
 		</InstallExecuteSequence>
 	</Fragment>
 </Wix>
