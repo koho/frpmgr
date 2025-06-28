@@ -7,7 +7,10 @@ import (
 	"github.com/koho/frpmgr/pkg/consts"
 )
 
-const DefaultAppFile = "app.json"
+const (
+	DefaultAppFile = "app.json"
+	LangFile       = "lang.config"
+)
 
 type App struct {
 	Lang        string       `json:"lang,omitempty"`
@@ -50,12 +53,18 @@ func (dv *DefaultValue) AsClientConfig() ClientCommon {
 	}
 }
 
-func UnmarshalAppConf(path string, dst *App) error {
-	b, err := os.ReadFile(path)
-	if err != nil {
-		return err
+func UnmarshalAppConf(path string, dst *App) (lang *string, err error) {
+	b, err := os.ReadFile(LangFile)
+	if err == nil {
+		s := string(b)
+		lang = &s
 	}
-	return json.Unmarshal(b, dst)
+	b, err = os.ReadFile(path)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(b, dst)
+	return
 }
 
 func (conf *App) Save(path string) error {

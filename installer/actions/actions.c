@@ -277,32 +277,25 @@ __declspec(dllexport) UINT __stdcall SetLangConfig(MSIHANDLE installer)
     if (ret != ERROR_SUCCESS)
     {
         Log(installer, INSTALLMESSAGE_ERROR, L"Failed to load CustomActionData");
-        return ERROR_INSTALL_FAILURE;
+        goto out;
     }
-    if (!path[0])
-        return ERROR_INSTALL_FAILURE;
+    if (!path[0] || !PathAppendW(path, L"lang.config"))
+        goto out;
 
     WCHAR localeName[LOCALE_NAME_MAX_LENGTH];
     if (LCIDToLocaleName(MsiGetLanguage(installer), localeName, _countof(localeName), 0) == 0)
-        return ERROR_INSTALL_FAILURE;
-
-    if (!PathAppendW(path, L"app.json"))
-        return ERROR_INSTALL_FAILURE;
-    HANDLE cfgFile = CreateFileW(path, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
-    if (cfgFile == INVALID_HANDLE_VALUE)
-        return ERROR_SUCCESS;
-    CHAR buf[LOCALE_NAME_MAX_LENGTH] = "{\n    \"lang\": \"";
-    DWORD bytesWritten = 0;
-    if (!WriteFile(cfgFile, buf, strnlen_s(buf, _countof(buf)), &bytesWritten, NULL))
         goto out;
-    bytesWritten = WideCharToMultiByte(CP_UTF8, 0, localeName, -1, buf, sizeof(buf), NULL, NULL);
+
+    HANDLE langFile = CreateFileW(path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (langFile == INVALID_HANDLE_VALUE)
+        goto out;
+    CHAR buf[LOCALE_NAME_MAX_LENGTH];
+    DWORD bytesWritten = WideCharToMultiByte(CP_UTF8, 0, localeName, -1, buf, sizeof(buf), NULL, NULL);
     if (bytesWritten > 0)
-        WriteFile(cfgFile, buf, bytesWritten - 1, &bytesWritten, NULL);
-    strcpy_s(buf, sizeof(buf), "\"\n}");
-    WriteFile(cfgFile, buf, strnlen_s(buf, _countof(buf)), &bytesWritten, NULL);
+        WriteFile(langFile, buf, bytesWritten - 1, &bytesWritten, NULL);
+    CloseHandle(langFile);
 
 out:
-    CloseHandle(cfgFile);
     return ERROR_SUCCESS;
 }
 
@@ -365,9 +358,14 @@ __declspec(dllexport) UINT __stdcall RemoveFrpFiles(MSIHANDLE installer)
         return ERROR_SUCCESS;
     }
 
-    if (!PathAppendW(path, L"app.json"))
-        return ERROR_SUCCESS;
-    DeleteFileW(path);
+    const WCHAR* appFiles[] = { L"app.json", L"lang.config" };
+    for (size_t i = 0; i < _countof(appFiles); i++)
+    {
+        path[pathLen] = L'\0';
+        if (!PathAppendW(path, appFiles[i]))
+            return ERROR_SUCCESS;
+        DeleteFileW(path);
+    }
 
     WIN32_FIND_DATAW findData;
     const WCHAR* files[][2] = { {L"profiles", L"*.conf"}, {L"logs", L"*.log"} };
