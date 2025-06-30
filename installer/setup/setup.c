@@ -1,169 +1,247 @@
-﻿#ifndef UNICODE
-#define UNICODE
-#endif
+﻿#define UNICODE
+#define _UNICODE
 
 #include <windows.h>
-#include <shlwapi.h>
-#include <ntsecapi.h>
-#include <stdint.h>
-#include <stdio.h>
 #include <msi.h>
+#include <shlwapi.h>
+#include <sddl.h>
+#include <stdio.h>
 #include "resource.h"
 
+static WCHAR msiPath[MAX_PATH];
+static HANDLE msiFile = INVALID_HANDLE_VALUE;
+
 typedef struct {
-    LCID id;
-    TCHAR name[16];
-    char code[10];
+    WCHAR id[5];
+    WCHAR name[16];
+    WCHAR code[10];
 } Language;
 
-static TCHAR msiFile[MAX_PATH];
-static HANDLE hFile = INVALID_HANDLE_VALUE;
 static Language languages[] = {
-        {2052, TEXT("简体中文"),    "zh-CN"},
-        {1028, TEXT("繁體中文"),    "zh-TW"},
-        {1033, TEXT("English"), "en-US"},
-        {1041, TEXT("日本語"),     "ja-JP"},
-        {1042, TEXT("한국어"),     "ko-KR"},
-        {3082, TEXT("Español"), "es-ES"},
+    {L"2052", L"简体中文", L"zh-CN"},
+    {L"1028", L"繁體中文", L"zh-TW"},
+    {L"1033", L"English", L"en-US"},
+    {L"1041", L"日本語", L"ja-JP"},
+    {L"1042", L"한국어", L"ko-KR"},
+    {L"3082", L"Español", L"es-ES"},
 };
 
-static BOOL RandomString(TCHAR ss[32]) {
-    uint8_t bytes[32];
-    if (!RtlGenRandom(bytes, sizeof(bytes)))
-        return FALSE;
-    for (int i = 0; i < 31; ++i) {
-        ss[i] = (TCHAR) (bytes[i] % 26 + 97);
+static INT MatchLanguageCode(LPWSTR langCode)
+{
+    for (size_t i = 0; i < _countof(languages); i++)
+    {
+        if (wcscmp(languages[i].code, langCode) == 0)
+            return i;
     }
-    ss[31] = '\0';
-    return TRUE;
+    return -1;
 }
 
-static int Cleanup(void) {
-    if (hFile != INVALID_HANDLE_VALUE) {
-        for (int i = 0; i < 200 && !DeleteFile(msiFile) && GetLastError() != ERROR_FILE_NOT_FOUND; ++i)
-            Sleep(200);
+static INT GetApplicationLanguage(LPWSTR path, DWORD pathLen)
+{
+    if (!PathAppendW(path, L"lang.config"))
+        return -1;
+    DWORD bytesRead = 0;
+    HANDLE hFile = CreateFileW(path, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (hFile != INVALID_HANDLE_VALUE)
+    {
+        CHAR buf[LOCALE_NAME_MAX_LENGTH];
+        WCHAR localeName[LOCALE_NAME_MAX_LENGTH];
+        BOOL ok = ReadFile(hFile, buf, sizeof(buf) - 1, &bytesRead, NULL);
+        CloseHandle(hFile);
+        if (ok && bytesRead != 0)
+        {
+            buf[bytesRead] = 0;
+            if (MultiByteToWideChar(CP_UTF8, 0, buf, -1, localeName, _countof(localeName)) > 0)
+            {
+                INT i = MatchLanguageCode(localeName);
+                if (i >= 0)
+                    return i;
+            }
+        }
     }
+    path[pathLen] = L'\0';
+    if (!PathAppendW(path, L"app.json"))
+        return -1;
+    hFile = CreateFileW(path, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (hFile == INVALID_HANDLE_VALUE)
+        return -1;
+    CHAR buf[100];
+    // To avoid JSON dependency, we require the first field to be the language setting.
+    static const CHAR* langKey = "{\"lang\":\"*\"";
+    WCHAR langCode[10];
+    DWORD langCodeLen = 0;
+    INT j = 0;
+    while (ReadFile(hFile, buf, sizeof(buf), &bytesRead, NULL) && bytesRead != 0)
+    {
+        for (DWORD i = 0; i < bytesRead; i++)
+        {
+            if (langKey[j] == '*')
+            {
+                if (buf[i] == '"')
+                    j++;
+                else
+                {
+                    langCode[langCodeLen++] = buf[i];
+                    if (langCodeLen >= sizeof(langCode) - 1)
+                        goto out;
+                    continue;
+                }
+            }
+            if (buf[i] == langKey[j])
+            {
+                j++;
+                if (langKey[j] == 0)
+                    goto out;
+            }
+            else if (buf[i] != '\t' && buf[i] != ' ' && buf[i] != '\r' && buf[i] != '\n')
+                goto out;
+            else if (langKey[j] != '{' && langKey[j] != ':' && j > 0 && langKey[j - 1] != '{' && langKey[j - 1] != ':')
+                goto out;
+        }
+    }
+
+out:
+    CloseHandle(hFile);
+    if (langKey[j] != 0 || langCodeLen == 0)
+        return -1;
+    langCode[langCodeLen] = 0;
+    return MatchLanguageCode(langCode);
+}
+
+INT_PTR CALLBACK LanguageDialog(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    switch (message) {
+    case WM_INITDIALOG:
+        for (size_t i = 0; i < _countof(languages); i++)
+            SendDlgItemMessageW(hDlg, IDC_LANG_COMBO, CB_ADDSTRING, 0, (LPARAM)languages[i].name);
+        SendDlgItemMessageW(hDlg, IDC_LANG_COMBO, CB_SETCURSEL, lParam, 0);
+        return (INT_PTR)TRUE;
+
+    case WM_COMMAND:
+        INT_PTR nResult = LOWORD(wParam);
+        if (nResult == IDOK || nResult == IDCANCEL)
+        {
+            if (nResult == IDOK)
+            {
+                LRESULT i = SendDlgItemMessageW(hDlg, IDC_LANG_COMBO, CB_GETCURSEL, 0, 0);
+                nResult = (i >= 0 && i < _countof(languages)) ? (INT_PTR)&languages[i] : 0;
+            }
+            else
+                nResult = 0;
+            EndDialog(hDlg, nResult);
+            return (INT_PTR)TRUE;
+        }
+        break;
+    }
+    return (INT_PTR)FALSE;
+}
+
+static int cleanup(void)
+{
+    if (msiFile != INVALID_HANDLE_VALUE)
+    {
+        CloseHandle(msiFile);
+        msiFile = INVALID_HANDLE_VALUE;
+    }
+    for (INT i = 0; i < 200 && !DeleteFileW(msiPath) && GetLastError() != ERROR_FILE_NOT_FOUND; i++)
+        Sleep(200);
     return 0;
 }
 
-static Language *GetPreferredLang(TCHAR *folder) {
-    TCHAR langPath[MAX_PATH];
-    if (PathCombine(langPath, folder, L"app.json") == NULL) {
-        return NULL;
-    }
-    FILE *file;
-    if (_wfopen_s(&file, langPath, L"rb") != 0) {
-        return NULL;
-    }
-    fseek(file, 0L, SEEK_END);
-    long fileSize = ftell(file);
-    fseek(file, 0L, SEEK_SET);
-    char *buf = malloc(fileSize + 1);
-    size_t size = fread(buf, 1, fileSize, file);
-    buf[size] = 0;
-    fclose(file);
-    const char *p1 = strstr(buf, "\"lang\"");
-    if (p1 == NULL) {
-        goto cleanup;
-    }
-    const char *p2 = strstr(p1, ":");
-    if (p2 == NULL) {
-        goto cleanup;
-    }
-    const char *p3 = strstr(p2, "\"");
-    if (p3 == NULL) {
-        goto cleanup;
-    }
-    for (int i = 0; i < sizeof(languages) / sizeof(languages[0]); i++) {
-        if (strncmp(p3 + 1, languages[i].code, strlen(languages[i].code)) == 0) {
-            free(buf);
-            return &languages[i];
-        }
-    }
-cleanup:
-    free(buf);
-    return NULL;
-}
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+{
+    INT langIndex = -1;
+    WCHAR installPath[MAX_PATH] = { 0 }, installLang[10] = { 0 };
+    DWORD installPathLen = _countof(installPath), installLangLen = _countof(installLang);
 
-INT_PTR CALLBACK LangDialog(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
-    switch (message) {
-        case WM_INITDIALOG:
-            for (int i = 0; i < sizeof(languages) / sizeof(languages[0]); i++) {
-                SendDlgItemMessage(hDlg, IDC_LANG_COMBO, CB_ADDSTRING, 0, (LPARAM) languages[i].name);
-            }
-            SendDlgItemMessage(hDlg, IDC_LANG_COMBO, CB_SETCURSEL, 0, 0);
-            return (INT_PTR) TRUE;
-
-        case WM_COMMAND:
-            if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL) {
-                INT_PTR nResult = LOWORD(wParam);
-                if (LOWORD(wParam) == IDOK) {
-                    int idx = SendDlgItemMessage(hDlg, IDC_LANG_COMBO, CB_GETCURSEL, 0, 0);
-                    nResult = (INT_PTR) &languages[idx];
+#ifdef UPGRADE_CODE
+    WCHAR product[39];
+    if (MsiEnumRelatedProductsW(UPGRADE_CODE, 0, 0, product) == ERROR_SUCCESS)
+    {
+        if (MsiGetProductInfo(product, INSTALLPROPERTY_INSTALLLOCATION, installPath, &installPathLen) == ERROR_SUCCESS)
+            langIndex = GetApplicationLanguage(installPath, installPathLen);
+        if (MsiGetProductInfo(product, INSTALLPROPERTY_INSTALLEDLANGUAGE, installLang, &installLangLen) == ERROR_SUCCESS && langIndex < 0)
+        {
+            for (size_t i = 0; i < _countof(languages); i++)
+            {
+                if (wcscmp(languages[i].id, installLang) == 0)
+                {
+                    langIndex = i;
+                    break;
                 }
-                EndDialog(hDlg, nResult);
-                return (INT_PTR) TRUE;
             }
-            break;
-    }
-    return (INT_PTR) FALSE;
-}
-
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmdLine, int nCmdShow) {
-    _onexit(Cleanup);
-    // Retrieve install location
-    TCHAR installPath[MAX_PATH];
-    DWORD dwSize = MAX_PATH;
-    memset(installPath, 0, dwSize);
-    Language *lang = NULL;
-    if (MsiLocateComponent(L"{E39EABEF-A7EB-4EAF-AD3E-A1254450BBE1}", installPath, &dwSize) >= 0 && wcslen(installPath) > 0) {
-        PathRemoveFileSpec(installPath);
-        lang = GetPreferredLang(installPath);
-    }
-    if (lang == NULL) {
-        INT_PTR nResult = DialogBox(hInstance, MAKEINTRESOURCE(IDD_LANG_DIALOG), NULL, LangDialog);
-        if (nResult == IDCANCEL) {
-            return 0;
         }
-        lang = (Language *) nResult;
     }
-    TCHAR randFile[32];
-    if (!GetWindowsDirectory(msiFile, sizeof(msiFile)) || !PathAppend(msiFile, L"Temp"))
-        return 1;
-    if (!RandomString(randFile))
-        return 1;
-    if (!PathAppend(msiFile, randFile))
-        return 1;
-    HRSRC hRes = FindResource(NULL, MAKEINTRESOURCE(IDR_MSI), RT_RCDATA);
-    if (hRes == NULL) {
-        return 1;
+#endif
+
+    if (langIndex < 0)
+    {
+        PZZWSTR langList = NULL;
+        ULONG langNum, langSize = 0;
+        if (GetUserPreferredUILanguages(MUI_LANGUAGE_NAME, &langNum, NULL, &langSize))
+        {
+            langList = (PZZWSTR)LocalAlloc(LMEM_FIXED, langSize * sizeof(WCHAR));
+            if (langList)
+            {
+                if (GetUserPreferredUILanguages(MUI_LANGUAGE_NAME, &langNum, langList, &langSize) && langNum > 0)
+                {
+                    for (size_t i = 0; i < langSize && langList[i] != L'\0'; i += wcsnlen_s(&langList[i], langSize - i) + 1)
+                    {
+                        langIndex = MatchLanguageCode(&langList[i]);
+                        if (langIndex >= 0)
+                            break;
+                    }
+                }
+                LocalFree(langList);
+            }
+        }
     }
-    HGLOBAL msiData = LoadResource(NULL, hRes);
-    if (msiData == NULL) {
+    Language* lang = (Language*)DialogBoxParamW(hInstance, MAKEINTRESOURCE(IDD_LANG_DIALOG), NULL, LanguageDialog, langIndex >= 0 ? langIndex : 0);
+    if (lang == NULL)
+        return 0;
+
+    if (!GetWindowsDirectoryW(msiPath, _countof(msiPath)) || !PathAppendW(msiPath, L"Temp"))
         return 1;
-    }
-    DWORD msiSize = SizeofResource(NULL, hRes);
-    if (msiSize == 0) {
+    GUID guid;
+    if (FAILED(CoCreateGuid(&guid)))
         return 1;
-    }
-    LPVOID pMsiData = LockResource(msiData);
-    if (pMsiData == NULL) {
+    WCHAR identifier[40];
+    if (StringFromGUID2(&guid, identifier, _countof(identifier)) == 0 || !PathAppendW(msiPath, identifier))
         return 1;
-    }
-    SECURITY_ATTRIBUTES security_attributes = {.nLength = sizeof(security_attributes)};
-    hFile = CreateFile(msiFile, GENERIC_WRITE | DELETE, 0, &security_attributes, CREATE_NEW,
-                       FILE_ATTRIBUTE_TEMPORARY, NULL);
-    if (hFile == INVALID_HANDLE_VALUE) {
+
+    HRSRC hRes = FindResourceW(NULL, MAKEINTRESOURCE(IDR_MSI), RT_RCDATA);
+    if (hRes == NULL)
         return 1;
-    }
+    HGLOBAL hResData = LoadResource(NULL, hRes);
+    if (hResData == NULL)
+        return 1;
+    DWORD resSize = SizeofResource(NULL, hRes);
+    if (resSize == 0)
+        return 1;
+    LPVOID pResData = LockResource(hResData);
+    if (pResData == NULL)
+        return 1;
+
+    SECURITY_ATTRIBUTES sa = { .nLength = sizeof(sa) };
+    if (!ConvertStringSecurityDescriptorToSecurityDescriptorA("O:BAD:PAI(A;;FA;;;BA)", SDDL_REVISION_1, &sa.lpSecurityDescriptor, NULL))
+        return 1;
+    msiFile = CreateFileW(msiPath, GENERIC_WRITE, 0, &sa, CREATE_NEW, FILE_ATTRIBUTE_TEMPORARY, NULL);
+    if (sa.lpSecurityDescriptor)
+        LocalFree(sa.lpSecurityDescriptor);
+    if (msiFile == INVALID_HANDLE_VALUE)
+        return 1;
+    _onexit(cleanup);
     DWORD bytesWritten;
-    if (!WriteFile(hFile, pMsiData, msiSize, &bytesWritten, NULL) || bytesWritten != msiSize) {
-        CloseHandle(hFile);
+    BOOL ok = WriteFile(msiFile, pResData, resSize, &bytesWritten, NULL);
+    CloseHandle(msiFile);
+    msiFile = INVALID_HANDLE_VALUE;
+    if (!ok || bytesWritten != resSize)
         return 1;
-    }
-    CloseHandle(hFile);
+
     MsiSetInternalUI(INSTALLUILEVEL_FULL, NULL);
-    TCHAR cmd[500];
-    wsprintf(cmd, L"ProductLanguage=%d PREVINSTALLFOLDER=\"%s\"", lang->id, installPath);
-    return MsiInstallProduct(msiFile, cmd);
+#define CMD_FORMAT L"ProductLanguage=%s PREVINSTALLFOLDER=\"%s\""
+    WCHAR cmd[_countof(CMD_FORMAT) + _countof(installPath)];
+    if (swprintf_s(cmd, _countof(cmd), CMD_FORMAT, lang->id, installPath) < 0)
+        return 1;
+    return MsiInstallProductW(msiPath, cmd);
 }

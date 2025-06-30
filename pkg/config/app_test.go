@@ -35,11 +35,19 @@ func TestUnmarshalAppConfFromIni(t *testing.T) {
 			LegacyFormat: true,
 		},
 	}
+	expectedLang := "en-US"
+	if err := os.WriteFile(LangFile, []byte(expectedLang), 0666); err != nil {
+		t.Fatal(err)
+	}
 	var actual App
-	if err := UnmarshalAppConf(DefaultAppFile, &actual); err != nil {
+	lang, err := UnmarshalAppConf(DefaultAppFile, &actual)
+	if err != nil {
 		t.Fatal(err)
 	}
 	if !reflect.DeepEqual(actual, expected) {
 		t.Errorf("Expected: %v, got: %v", expected, actual)
+	}
+	if lang == nil || *lang != expectedLang {
+		t.Errorf("Expected: %v, got: %v", expectedLang, lang)
 	}
 }

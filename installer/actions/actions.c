@@ -127,7 +127,7 @@ __declspec(dllexport) UINT __stdcall EvaluateFrpServices(MSIHANDLE installer)
     LPQUERY_SERVICE_CONFIGW cfg = NULL;
     DWORD cfgSize = 0;
 
-    MSIHANDLE db, view = 0;
+    MSIHANDLE db = 0, view = 0;
     WCHAR path[MAX_PATH];
     DWORD pathLen = _countof(path);
     BY_HANDLE_FILE_INFORMATION fileInfo = { 0 }, svcFileInfo = { 0 };
@@ -183,10 +183,10 @@ __declspec(dllexport) UINT __stdcall EvaluateFrpServices(MSIHANDLE installer)
             more = FALSE;
         else
         {
-            DWORD ret = GetLastError();
+            ret = GetLastError();
             if (ret != ERROR_MORE_DATA)
             {
-                Log(installer, INSTALLMESSAGE_ERROR, L"EnumServicesStatusEx failed (%1)", GetLastError());
+                Log(installer, INSTALLMESSAGE_ERROR, L"EnumServicesStatusEx failed (%1)", ret);
                 break;
             }
         }
@@ -201,7 +201,6 @@ __declspec(dllexport) UINT __stdcall EvaluateFrpServices(MSIHANDLE installer)
             SC_HANDLE service = OpenServiceW(scm, services[i].lpServiceName, SERVICE_QUERY_CONFIG);
             if (!service)
                 continue;
-            DWORD bytesNeeded = 0;
             BOOL ok = FALSE;
             while (!(ok = QueryServiceConfigW(service, cfg, cfgSize, &bytesNeeded)) && GetLastError() == ERROR_INSUFFICIENT_BUFFER)
             {
@@ -241,7 +240,7 @@ __declspec(dllexport) UINT __stdcall EvaluateFrpServices(MSIHANDLE installer)
             WCHAR identifier[40];
             if (StringFromGUID2(&guid, identifier, _countof(identifier)) == 0)
                 continue;
-            MSIHANDLE record = MsiCreateRecord(5);
+            record = MsiCreateRecord(5);
             if (!record)
                 continue;
             MsiRecordSetStringW(record, 1, identifier);

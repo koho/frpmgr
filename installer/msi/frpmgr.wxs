@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?if $(sys.BUILDARCH) = x64 ?>
-	<?define Win64 = "yes" ?>
+<?if $(sys.BUILDARCH) = "x64" ?>
 	<?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
-	<?define UpgradeCode = "c9f7c2b3-291a-454a-9871-150d98dc2645" ?>
-<?else?>
-	<?define Win64 = "no" ?>
+	<?define UpgradeCode = "C9F7C2B3-291A-454A-9871-150D98DC2645" ?>
+<?elseif $(sys.BUILDARCH) = "x86" ?>
 	<?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
 	<?define UpgradeCode = "46E3AA36-10BB-4CD9-92E3-5F990AB5FC88" ?>
+<?else?>
+	<?error Unknown platform ?>
 <?endif?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
@@ -79,7 +79,7 @@
 	-->
 	<Fragment>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-			<Component Guid="{E39EABEF-A7EB-4EAF-AD3E-A1254450BBE1}" Id="MainApplication" Win64="$(var.Win64)">
+			<Component Guid="{E39EABEF-A7EB-4EAF-AD3E-A1254450BBE1}" Id="MainApplication">
 				<File Id="MainApplication" Source="..\bin\$(sys.BUILDARCH)\frpmgr.exe" KeyPath="yes">
 					<Shortcut Id="StartMenuShortcut" Name="!(loc.ApplicationName)" Directory="ProgramMenuFolder" WorkingDirectory="INSTALLFOLDER" Advertise="yes"/>
 				</File>
