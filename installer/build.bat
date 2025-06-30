@@ -16,11 +16,6 @@ if "%ARCH%" == "" (
 	exit /b 1
 )
 
-if not defined WIX (
-	echo ERROR: WIX was not found.
-	exit /b 1
-)
-
 :build
 	if not exist build md build
 	set PLAT_DIR=build\%ARCH%
@@ -39,10 +34,14 @@ if not defined WIX (
 
 :build_actions
 	rc /DVERSION_ARRAY=%VERSION:.=,% /DVERSION_STR=%VERSION% /Fo %PLAT_DIR%\actions.res actions\version.rc || goto :error
-	cl /O2 /LD /MD /Fe%PLAT_DIR%\actions.dll /Fo%PLAT_DIR%\actions.obj actions\actions.c %PLAT_DIR%\actions.res msi.lib shell32.lib advapi32.lib shlwapi.lib ole32.lib || goto :error
+	cl /O2 /LD /MD /DNDEBUG /Fe%PLAT_DIR%\actions.dll /Fo%PLAT_DIR%\actions.obj actions\actions.c %PLAT_DIR%\actions.res msi.lib shell32.lib advapi32.lib shlwapi.lib ole32.lib || goto :error
 	goto :eof
 
 :build_msi
+	if not defined WIX (
+		echo ERROR: WIX was not found.
+		exit /b 1
+	)
 	set WIX_CANDLE_FLAGS=-dVERSION=%VERSION%
 	set WIX_LIGHT_FLAGS=-ext "%WIX%bin\WixUtilExtension.dll" -ext "%WIX%bin\WixUIExtension.dll" -sval
 	set WIX_OBJ=%PLAT_DIR%\frpmgr.wixobj
@@ -72,7 +71,7 @@ if not defined WIX (
 		echo ERROR: UpgradeCode was not found.
 		exit /b 1
 	)
-	cl /O2 /MD /DUPGRADE_CODE=L\"{%UPGRADE_CODE%}\" /Fe%PLAT_DIR%\setup.exe /Fo%PLAT_DIR%\setup.obj setup\setup.c /link /subsystem:windows %PLAT_DIR%\setup.res shlwapi.lib msi.lib user32.lib advapi32.lib ole32.lib || goto :error
+	cl /O2 /MD /DUPGRADE_CODE=L\"{%UPGRADE_CODE%}\" /DNDEBUG /Fe%PLAT_DIR%\setup.exe /Fo%PLAT_DIR%\setup.obj setup\setup.c /link /subsystem:windows %PLAT_DIR%\setup.res shlwapi.lib msi.lib user32.lib advapi32.lib ole32.lib || goto :error
 	goto :eof
 
 :dist
