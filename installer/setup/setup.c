@@ -159,7 +159,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     WCHAR product[39];
     if (MsiEnumRelatedProductsW(UPGRADE_CODE, 0, 0, product) == ERROR_SUCCESS)
     {
-        if (MsiGetProductInfo(product, INSTALLPROPERTY_INSTALLLOCATION, installPath, &installPathLen) == ERROR_SUCCESS)
+        if (MsiGetProductInfo(product, INSTALLPROPERTY_INSTALLLOCATION, installPath, &installPathLen) == ERROR_SUCCESS && installPath[0])
             langIndex = GetApplicationLanguage(installPath, installPathLen);
         if (MsiGetProductInfo(product, INSTALLPROPERTY_INSTALLEDLANGUAGE, installLang, &installLangLen) == ERROR_SUCCESS && langIndex < 0)
         {
