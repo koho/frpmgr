@@ -42,6 +42,7 @@ static INT GetApplicationLanguage(LPWSTR path, DWORD pathLen)
         return -1;
     DWORD bytesRead = 0;
     HANDLE hFile = CreateFileW(path, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    path[pathLen] = L'\0';
     if (hFile != INVALID_HANDLE_VALUE)
     {
         CHAR buf[LOCALE_NAME_MAX_LENGTH];
@@ -59,10 +60,10 @@ static INT GetApplicationLanguage(LPWSTR path, DWORD pathLen)
             }
         }
     }
-    path[pathLen] = L'\0';
     if (!PathAppendW(path, L"app.json"))
         return -1;
     hFile = CreateFileW(path, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    path[pathLen] = L'\0';
     if (hFile == INVALID_HANDLE_VALUE)
         return -1;
     CHAR buf[100];

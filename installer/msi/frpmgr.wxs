@@ -54,8 +54,12 @@
 			<UIRef Id="WixUI_ErrorProgressText" />
 
 			<!-- Skip license dialog -->
-			<Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="2">1</Publish>
-			<Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">1</Publish>
+			<Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="2">NOT WIX_UPGRADE_DETECTED</Publish>
+			<Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">NOT WIX_UPGRADE_DETECTED</Publish>
+
+            <!-- Skip directory selection on upgrade -->
+			<Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="2">WIX_UPGRADE_DETECTED</Publish>
+			<Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">WIX_UPGRADE_DETECTED</Publish>
 
 			<!-- Launch application after installation -->
 			<Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">NOT Installed</Publish>
