@@ -83,7 +83,7 @@ static void KillProcessesEx(LPWSTR path, BOOL uiOnly)
     return;
 }
 
-__declspec(dllexport) UINT __stdcall KillProcesses(MSIHANDLE installer)
+__declspec(dllexport) UINT __stdcall KillFrpProcesses(MSIHANDLE installer)
 {
     WCHAR path[MAX_PATH];
     DWORD pathLen = _countof(path);
@@ -98,14 +98,14 @@ __declspec(dllexport) UINT __stdcall KillProcesses(MSIHANDLE installer)
     return ERROR_SUCCESS;
 }
 
-__declspec(dllexport) UINT __stdcall KillGUIProcesses(MSIHANDLE installer)
+__declspec(dllexport) UINT __stdcall KillFrpGUIProcesses(MSIHANDLE installer)
 {
     WCHAR path[MAX_PATH];
     DWORD pathLen = _countof(path);
     MSIHANDLE record = MsiCreateRecord(0);
     if (!record)
         return ERROR_SUCCESS;
-    MsiRecordSetStringW(record, 0, L"[#MainApplication]");
+    MsiRecordSetStringW(record, 0, L"[#frpmgr.exe]");
     UINT ret = MsiFormatRecordW(installer, record, path, &pathLen);
     MsiCloseHandle(record);
     if (ret != ERROR_SUCCESS)
@@ -135,7 +135,7 @@ __declspec(dllexport) UINT __stdcall EvaluateFrpServices(MSIHANDLE installer)
     MSIHANDLE record = MsiCreateRecord(0);
     if (!record)
         goto out;
-    MsiRecordSetStringW(record, 0, L"[#MainApplication]");
+    MsiRecordSetStringW(record, 0, L"[#frpmgr.exe]");
     UINT ret = MsiFormatRecordW(installer, record, path, &pathLen);
     MsiCloseHandle(record);
     if (ret != ERROR_SUCCESS)
@@ -246,7 +246,7 @@ __declspec(dllexport) UINT __stdcall EvaluateFrpServices(MSIHANDLE installer)
             MsiRecordSetStringW(record, 1, identifier);
             MsiRecordSetStringW(record, 2, services[i].lpServiceName);
             MsiRecordSetInteger(record, 3, msidbServiceControlEventStop | msidbServiceControlEventUninstallStop | (legacy == 0 ? msidbServiceControlEventDelete : 0) | msidbServiceControlEventUninstallDelete);
-            MsiRecordSetStringW(record, 4, L"MainApplication");
+            MsiRecordSetStringW(record, 4, L"frpmgr.exe");
             MsiRecordSetInteger(record, 5, 1);
             ret = MsiViewExecute(view, record);
             MsiCloseHandle(record);

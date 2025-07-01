@@ -1,0 +1,8 @@
+LIBRARY actions
+EXPORTS
+    EvaluateFrpServices
+    KillFrpGUIProcesses
+    KillFrpProcesses
+    MoveFrpProfiles
+    RemoveFrpFiles
+    SetLangConfig

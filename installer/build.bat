@@ -34,7 +34,7 @@ if "%ARCH%" == "" (
 
 :build_actions
 	rc /DVERSION_ARRAY=%VERSION:.=,% /DVERSION_STR=%VERSION% /Fo %PLAT_DIR%\actions.res actions\version.rc || goto :error
-	cl /O2 /LD /MD /DNDEBUG /Fe%PLAT_DIR%\actions.dll /Fo%PLAT_DIR%\actions.obj actions\actions.c %PLAT_DIR%\actions.res msi.lib shell32.lib advapi32.lib shlwapi.lib ole32.lib || goto :error
+	cl /O2 /LD /MD /DNDEBUG /Fe%PLAT_DIR%\actions.dll /Fo%PLAT_DIR%\actions.obj actions\actions.c /link /DEF:actions\actions.def %PLAT_DIR%\actions.res msi.lib shell32.lib advapi32.lib shlwapi.lib ole32.lib || goto :error
 	goto :eof
 
 :build_msi
