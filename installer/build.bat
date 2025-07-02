@@ -71,7 +71,7 @@ if "%ARCH%" == "" (
 		echo ERROR: UpgradeCode was not found.
 		exit /b 1
 	)
-	cl /O2 /MD /DUPGRADE_CODE=L\"{%UPGRADE_CODE%}\" /DNDEBUG /Fe%PLAT_DIR%\setup.exe /Fo%PLAT_DIR%\setup.obj setup\setup.c /link /subsystem:windows %PLAT_DIR%\setup.res shlwapi.lib msi.lib user32.lib advapi32.lib ole32.lib || goto :error
+	cl /O2 /MD /DUPGRADE_CODE=L\"{%UPGRADE_CODE%}\" /DVERSION=L\"%VERSION%\" /DNDEBUG /Fe%PLAT_DIR%\setup.exe /Fo%PLAT_DIR%\setup.obj setup\setup.c /link /subsystem:windows %PLAT_DIR%\setup.res shlwapi.lib msi.lib user32.lib advapi32.lib ole32.lib || goto :error
 	goto :eof
 
 :dist

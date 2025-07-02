@@ -17,6 +17,15 @@ typedef struct {
     WCHAR code[10];
 } Language;
 
+typedef struct {
+    WCHAR path[MAX_PATH];
+    DWORD pathLen;
+    WCHAR lang[10];
+    DWORD langLen;
+    WCHAR version[20];
+    DWORD versionLen;
+} Product;
+
 static Language languages[] = {
     {L"2052", L"简体中文", L"zh-CN"},
     {L"1028", L"繁體中文", L"zh-TW"},
@@ -152,20 +161,28 @@ static int cleanup(void)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
     INT langIndex = -1;
-    WCHAR installPath[MAX_PATH] = { 0 }, installLang[10] = { 0 };
-    DWORD installPathLen = _countof(installPath), installLangLen = _countof(installLang);
+    BOOL installed = FALSE, showDlg = TRUE;
+    Product product = {
+        .path = { 0 },
+        .pathLen = _countof(product.path),
+        .lang = { 0 },
+        .langLen = _countof(product.lang),
+        .version = { 0 },
+        .versionLen = _countof(product.version)
+    };
 
 #ifdef UPGRADE_CODE
-    WCHAR product[39];
-    if (MsiEnumRelatedProductsW(UPGRADE_CODE, 0, 0, product) == ERROR_SUCCESS)
+    WCHAR productCode[39];
+    if (MsiEnumRelatedProductsW(UPGRADE_CODE, 0, 0, productCode) == ERROR_SUCCESS)
     {
-        if (MsiGetProductInfo(product, INSTALLPROPERTY_INSTALLLOCATION, installPath, &installPathLen) == ERROR_SUCCESS && installPath[0])
-            langIndex = GetApplicationLanguage(installPath, installPathLen);
-        if (MsiGetProductInfo(product, INSTALLPROPERTY_INSTALLEDLANGUAGE, installLang, &installLangLen) == ERROR_SUCCESS && langIndex < 0)
+        MsiGetProductInfo(productCode, INSTALLPROPERTY_VERSIONSTRING, product.version, &product.versionLen);
+        if (MsiGetProductInfo(productCode, INSTALLPROPERTY_INSTALLLOCATION, product.path, &product.pathLen) == ERROR_SUCCESS && product.path[0])
+            langIndex = GetApplicationLanguage(product.path, product.pathLen);
+        if (MsiGetProductInfo(productCode, INSTALLPROPERTY_INSTALLEDLANGUAGE, product.lang, &product.langLen) == ERROR_SUCCESS && langIndex < 0)
         {
             for (size_t i = 0; i < _countof(languages); i++)
             {
-                if (wcscmp(languages[i].id, installLang) == 0)
+                if (wcscmp(languages[i].id, product.lang) == 0)
                 {
                     langIndex = i;
                     break;
@@ -175,18 +192,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 #endif
 
+#ifdef VERSION
+    installed = wcscmp(VERSION, product.version) == 0;
+    showDlg = !product.path[0] || installed || langIndex < 0;
+#endif
+
     if (langIndex < 0)
     {
         PZZWSTR langList = NULL;
-        ULONG langNum, langSize = 0;
-        if (GetUserPreferredUILanguages(MUI_LANGUAGE_NAME, &langNum, NULL, &langSize))
+        ULONG langNum, langLen = 0;
+        if (GetUserPreferredUILanguages(MUI_LANGUAGE_NAME, &langNum, NULL, &langLen))
         {
-            langList = (PZZWSTR)LocalAlloc(LMEM_FIXED, langSize * sizeof(WCHAR));
+            langList = (PZZWSTR)LocalAlloc(LMEM_FIXED, langLen * sizeof(WCHAR));
             if (langList)
             {
-                if (GetUserPreferredUILanguages(MUI_LANGUAGE_NAME, &langNum, langList, &langSize) && langNum > 0)
+                if (GetUserPreferredUILanguages(MUI_LANGUAGE_NAME, &langNum, langList, &langLen) && langNum > 0)
                 {
-                    for (size_t i = 0; i < langSize && langList[i] != L'\0'; i += wcsnlen_s(&langList[i], langSize - i) + 1)
+                    for (size_t i = 0; i < langLen && langList[i] != L'\0'; i += wcsnlen_s(&langList[i], langLen - i) + 1)
                     {
                         langIndex = MatchLanguageCode(&langList[i]);
                         if (langIndex >= 0)
@@ -197,7 +219,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
             }
         }
     }
-    Language* lang = (Language*)DialogBoxParamW(hInstance, MAKEINTRESOURCE(IDD_LANG_DIALOG), NULL, LanguageDialog, langIndex >= 0 ? langIndex : 0);
+
+    Language* lang = showDlg ? (Language*)DialogBoxParamW(
+        hInstance, MAKEINTRESOURCE(IDD_LANG_DIALOG),
+        NULL, LanguageDialog, langIndex
+    ) : &languages[langIndex];
     if (lang == NULL)
         return 0;
 
@@ -241,8 +267,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     MsiSetInternalUI(INSTALLUILEVEL_FULL, NULL);
 #define CMD_FORMAT L"ProductLanguage=%s PREVINSTALLFOLDER=\"%s\""
-    WCHAR cmd[_countof(CMD_FORMAT) + _countof(installPath)];
-    if (swprintf_s(cmd, _countof(cmd), CMD_FORMAT, lang->id, installPath) < 0)
+    WCHAR cmd[_countof(CMD_FORMAT) + _countof(product.path)];
+    if (swprintf_s(cmd, _countof(cmd), CMD_FORMAT, lang->id, product.path) < 0)
         return 1;
     return MsiInstallProductW(msiPath, cmd);
 }
