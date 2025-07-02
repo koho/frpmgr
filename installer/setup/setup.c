@@ -190,11 +190,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
             }
         }
     }
-#endif
-
 #ifdef VERSION
     installed = wcscmp(VERSION, product.version) == 0;
     showDlg = !product.path[0] || installed || langIndex < 0;
+#endif
 #endif
 
     if (langIndex < 0)
