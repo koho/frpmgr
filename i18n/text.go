@@ -42,7 +42,14 @@ func GetLanguage() string {
 
 // langInConfig returns the UI language code in config file
 func langInConfig() string {
-	b, err := os.ReadFile(config.DefaultAppFile)
+	b, err := os.ReadFile(config.LangFile)
+	if err == nil {
+		id := string(b)
+		if _, ok := IDToName[id]; ok {
+			return id
+		}
+	}
+	b, err = os.ReadFile(config.DefaultAppFile)
 	if err != nil {
 		return ""
 	}
@@ -52,7 +59,10 @@ func langInConfig() string {
 	if err = json.Unmarshal(b, &s); err != nil {
 		return ""
 	}
-	return s.Lang
+	if _, ok := IDToName[s.Lang]; ok {
+		return s.Lang
+	}
+	return ""
 }
 
 // lang returns the user preferred UI language.

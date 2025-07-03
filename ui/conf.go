@@ -9,6 +9,7 @@ import (
 	"github.com/lxn/walk"
 	"github.com/samber/lo"
 
+	"github.com/koho/frpmgr/i18n"
 	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/util"
@@ -101,8 +102,18 @@ var (
 )
 
 func loadAllConfs() ([]*Conf, error) {
-	_ = config.UnmarshalAppConf(config.DefaultAppFile, &appConf)
-	// Find all config files in `profiles` directory
+	// Load and migrate application configuration.
+	if lang, _ := config.UnmarshalAppConf(config.DefaultAppFile, &appConf); lang != nil {
+		if _, ok := i18n.IDToName[*lang]; ok {
+			appConf.Lang = *lang
+			if saveAppConfig() == nil {
+				os.Remove(config.LangFile)
+			}
+		} else {
+			os.Remove(config.LangFile)
+		}
+	}
+	// Find all config files in `profiles` directory.
 	files, err := filepath.Glob(PathOfConf("*.conf"))
 	if err != nil {
 		return nil, err
