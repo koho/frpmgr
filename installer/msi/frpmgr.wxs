@@ -6,6 +6,9 @@
 <?elseif $(sys.BUILDARCH) = "x86" ?>
 	<?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
 	<?define UpgradeCode = "46E3AA36-10BB-4CD9-92E3-5F990AB5FC88" ?>
+<?elseif $(sys.BUILDARCH) = "arm64" ?>
+	<?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+	<?define UpgradeCode = "3C3590A6-8139-482D-81F5-2FE6D21687A6" ?>
 <?else?>
 	<?error Unknown platform ?>
 <?endif?>
@@ -13,7 +16,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Product Id="*" Name="!(loc.ApplicationName)" Language="!(loc.Language)" Version="$(var.VERSION)" Manufacturer="FRP Manager Project" UpgradeCode="$(var.UpgradeCode)">
 
-		<Package InstallerVersion="400" Compressed="yes" InstallScope="perMachine" Languages="1033,1041,1042,2052,1028,3082" Description="!(loc.ApplicationName)" ReadOnly="yes" />
+		<Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" Languages="1033,1041,1042,2052,1028,3082" Description="!(loc.ApplicationName)" ReadOnly="yes" />
 
 		<MediaTemplate EmbedCab="yes" CompressionLevel="high" />
 

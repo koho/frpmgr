@@ -21,7 +21,11 @@ if "%ARCH%" == "" (
 	set PLAT_DIR=build\%ARCH%
 	set SETUP_FILENAME=frpmgr-%VERSION%-setup-%ARCH%.exe
 	if %STEP% == "dist" goto :dist
-	call vcvarsall.bat %ARCH%
+	if "%ARCH%" == "arm64" (
+		call vcvarsall.bat x64_arm64
+	) else (
+		call vcvarsall.bat %ARCH%
+	)
 	if not exist %PLAT_DIR% md %PLAT_DIR%
 	set MSI_FILE=%PLAT_DIR%\frpmgr.msi
 	if %STEP:"actions"=""% == "" call :build_actions

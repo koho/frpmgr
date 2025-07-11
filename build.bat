@@ -28,7 +28,11 @@ if "%TARGET%" == "" set TARGET=x64 x86
 	set GO111MODULE=on
 	set CGO_ENABLED=0
 	for %%a in (%TARGET%) do (
-		set GOARCH=!GOARCH_%%a!
+		if defined GOARCH_%%a (
+			set GOARCH=!GOARCH_%%a!
+		) else (
+			set GOARCH=%%a
+		)
 		go build -trimpath -ldflags="-H windowsgui -s -w -X %MOD%/pkg/version.BuildDate=%BUILD_DATE%" -o bin\%%a\frpmgr.exe .\cmd\frpmgr || goto :error
 	)
 

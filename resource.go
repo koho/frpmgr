@@ -15,10 +15,7 @@ import (
 	"github.com/koho/frpmgr/pkg/version"
 )
 
-var (
-	versionArray = strings.ReplaceAll(version.Number, ".", ",")
-	archMap      = map[string]string{"amd64": "pe-x86-64", "386": "pe-i386"}
-)
+var versionArray = strings.ReplaceAll(version.Number, ".", ",")
 
 func main() {
 	rcFiles, err := filepath.Glob("cmd/*/*.rc")
@@ -26,11 +23,32 @@ func main() {
 		println(err.Error())
 		os.Exit(1)
 	}
-	for _, rc := range rcFiles {
-		for goArch, resArch := range archMap {
+	arch := os.Getenv("TARGET")
+	if arch == "" {
+		arch = os.Getenv("GOARCH")
+	}
+	for _, arch := range strings.Split(arch, " ") {
+		var args []string
+		var goArch string
+		switch strings.TrimSpace(arch) {
+		case "x64", "amd64":
+			goArch = "amd64"
+			args = append(args, "windres", "-F", "pe-x86-64")
+		case "x86", "386":
+			goArch = "386"
+			args = append(args, "windres", "-F", "pe-i386")
+		case "arm64":
+			goArch = "arm64"
+			args = append(args, "aarch64-w64-mingw32-windres")
+		default:
+			continue
+		}
+		for _, rc := range rcFiles {
 			output := strings.TrimSuffix(rc, filepath.Ext(rc)) + fmt.Sprintf("_windows_%s.syso", goArch)
-			res, err := exec.Command("windres", "-DVERSION_ARRAY="+versionArray, "-DVERSION_STR="+version.Number,
-				"-i", rc, "-o", output, "-O", "coff", "-c", "65001", "-F", resArch).CombinedOutput()
+			res, err := exec.Command(args[0], append([]string{
+				"-DVERSION_ARRAY=" + versionArray, "-DVERSION_STR=" + version.Number,
+				"-i", rc, "-o", output, "-O", "coff", "-c", "65001",
+			}, args[1:]...)...).CombinedOutput()
 			if err != nil {
 				println(err.Error(), string(res))
 				os.Exit(1)
