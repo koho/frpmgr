@@ -6,12 +6,12 @@ set BUILDDIR=%~dp0
 cd /d %BUILDDIR% || exit /b 1
 
 if "%~1" == "-p" (
-	set TARGET=%~2
+	set FRPMGR_TARGET=%~2
 ) else (
-	set TARGET=%~1
+	set FRPMGR_TARGET=%~1
 )
 
-if "%TARGET%" == "" set TARGET=x64 x86
+if "%FRPMGR_TARGET%" == "" set FRPMGR_TARGET=x64 x86
 
 :packages
 	echo [+] Downloading packages
@@ -27,7 +27,7 @@ if "%TARGET%" == "" set TARGET=x64 x86
 	set MOD=github.com/koho/frpmgr
 	set GO111MODULE=on
 	set CGO_ENABLED=0
-	for %%a in (%TARGET%) do (
+	for %%a in (%FRPMGR_TARGET%) do (
 		if defined GOARCH_%%a (
 			set GOARCH=!GOARCH_%%a!
 		) else (
@@ -40,7 +40,7 @@ if "%~1" == "-p" goto :success
 
 :installer
 	echo [+] Building installer
-	for %%a in (%TARGET%) do (
+	for %%a in (%FRPMGR_TARGET%) do (
 		call installer\build.bat %VERSION% %%a || goto :error
 	)
 

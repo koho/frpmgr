@@ -23,7 +23,7 @@ func main() {
 		println(err.Error())
 		os.Exit(1)
 	}
-	arch := os.Getenv("TARGET")
+	arch := os.Getenv("FRPMGR_TARGET")
 	if arch == "" {
 		arch = os.Getenv("GOARCH")
 	}
