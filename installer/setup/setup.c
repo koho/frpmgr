@@ -1,7 +1,4 @@
-﻿#define UNICODE
-#define _UNICODE
-
-#include <windows.h>
+﻿#include <windows.h>
 #include <msi.h>
 #include <shlwapi.h>
 #include <sddl.h>
@@ -120,6 +117,7 @@ out:
 
 INT_PTR CALLBACK LanguageDialog(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    INT_PTR nResult;
     switch (message) {
     case WM_INITDIALOG:
         for (size_t i = 0; i < _countof(languages); i++)
@@ -128,7 +126,7 @@ INT_PTR CALLBACK LanguageDialog(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
         return (INT_PTR)TRUE;
 
     case WM_COMMAND:
-        INT_PTR nResult = LOWORD(wParam);
+        nResult = LOWORD(wParam);
         if (nResult == IDOK || nResult == IDCANCEL)
         {
             if (nResult == IDOK)
@@ -158,7 +156,7 @@ static int cleanup(void)
     return 0;
 }
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nShowCmd)
 {
     INT langIndex = -1;
     BOOL installed = FALSE, showDlg = TRUE;
@@ -178,7 +176,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         MsiGetProductInfo(productCode, INSTALLPROPERTY_VERSIONSTRING, product.version, &product.versionLen);
         if (MsiGetProductInfo(productCode, INSTALLPROPERTY_INSTALLLOCATION, product.path, &product.pathLen) == ERROR_SUCCESS && product.path[0])
             langIndex = GetApplicationLanguage(product.path, product.pathLen);
-        if (MsiGetProductInfo(productCode, INSTALLPROPERTY_INSTALLEDLANGUAGE, product.lang, &product.langLen) == ERROR_SUCCESS && langIndex < 0)
+        if (MsiGetProductInfo(productCode, L"InstalledLanguage", product.lang, &product.langLen) == ERROR_SUCCESS && langIndex < 0)
         {
             for (size_t i = 0; i < _countof(languages); i++)
             {

@@ -13,7 +13,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        architecture: [x64, x86]
+        architecture: [x64, x86, arm64]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,6 +26,14 @@ jobs:
       - name: Setup VS environment
         shell: powershell
         run: echo "$(vswhere.exe -latest -property installationPath)\VC\Auxiliary\Build" >> $env:GITHUB_PATH
+
+      - name: Setup toolchain
+        shell: cmd
+        run: |
+          curl "https://github.com/mstorsjo/llvm-mingw/releases/download/20250709/llvm-mingw-20250709-msvcrt-x86_64.zip" -o llvm-mingw-20250709-msvcrt-x86_64.zip -L
+          tar -xf llvm-mingw-20250709-msvcrt-x86_64.zip
+          echo %CD%\llvm-mingw-20250709-msvcrt-x86_64\bin>>%GITHUB_PATH%
+          vcvarsall x64 && set WindowsSdkVerBinPath >> %GITHUB_ENV%
 
       - name: Add commit hash to version number
         shell: powershell

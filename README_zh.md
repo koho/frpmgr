@@ -36,11 +36,11 @@ FRP 管理器是一个多节点、图形化反向代理工具，专为 Windows �
 要从源代码构建 FRP 管理器，您需要安装以下依赖项：
 
 - Go
-- Visual Studio
-- [MinGW](https://www.mingw-w64.org/)
+- [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/)
+- [MinGW](https://github.com/mstorsjo/llvm-mingw)
 - [WiX Toolset](https://wixtoolset.org/) v3.14
 
-安装 Visual Studio 后，将 [开发者命令文件目录](https://learn.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=msvc-170#developer_command_file_locations)（例如 `C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build`）添加到 `PATH` 环境变量中。同样，将 MinGW 的 `bin` 目录也添加到其中。
+安装完成后，您需要设置 `WindowsSdkVerBinPath` 环境变量，以指示构建脚本在哪里找到特定版本的 Windows SDK，例如 `set WindowsSdkVerBinPath=C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\`。您还需要将 MinGW 的 `bin` 目录添加到 `PATH` 环境变量中。
 
 您可以通过打开终端来编译项目：
 
