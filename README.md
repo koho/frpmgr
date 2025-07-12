@@ -36,11 +36,11 @@ Visit the **[Wiki](https://github.com/koho/frpmgr/wiki)** for comprehensive guid
 To build FRP Manager from source, you need to install the following dependencies:
 
 - Go
-- Visual Studio
-- [MinGW](https://www.mingw-w64.org/)
+- [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/)
+- [MinGW](https://github.com/mstorsjo/llvm-mingw)
 - [WiX Toolset](https://wixtoolset.org/) v3.14
 
-Once Visual Studio is installed, add the [developer command file directory](https://learn.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=msvc-170#developer_command_file_locations) (e.g., `C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build`) to the `PATH` environment variable. Likewise, do the same for the `bin` directory of MinGW.
+Once installed, the `WindowsSdkVerBinPath` environment variable should be set to tell build script where to find the specific version of Windows SDK, e.g., `set WindowsSdkVerBinPath=C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0`. You should also add the `bin` directory of MinGW to the `PATH` environment variable.
 
 You can compile the project by opening the terminal:
 
