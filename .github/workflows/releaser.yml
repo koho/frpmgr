@@ -55,8 +55,7 @@ jobs:
           curl "https://github.com/mstorsjo/llvm-mingw/releases/download/20250709/llvm-mingw-20250709-msvcrt-x86_64.zip" -o llvm-mingw-20250709-msvcrt-x86_64.zip -L
           tar -xf llvm-mingw-20250709-msvcrt-x86_64.zip
           echo %CD%\llvm-mingw-20250709-msvcrt-x86_64\bin>>%GITHUB_PATH%
-          vcvarsall x64
-          echo WindowsSdkVerBinPath=%WindowsSdkVerBinPath%>>%GITHUB_ENV%
+          vcvarsall x64 && set WindowsSdkVerBinPath >> %GITHUB_ENV%
 
       - name: Build main application
         shell: cmd

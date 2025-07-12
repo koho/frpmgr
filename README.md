@@ -40,7 +40,7 @@ To build FRP Manager from source, you need to install the following dependencies
 - [MinGW](https://github.com/mstorsjo/llvm-mingw)
 - [WiX Toolset](https://wixtoolset.org/) v3.14
 
-Once installed, the `WindowsSdkVerBinPath` environment variable should be set to tell build script where to find the specific version of Windows SDK, e.g., `set WindowsSdkVerBinPath=C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0`. You should also add the `bin` directory of MinGW to the `PATH` environment variable.
+Once installed, the `WindowsSdkVerBinPath` environment variable should be set to tell build script where to find the specific version of Windows SDK, e.g., `set WindowsSdkVerBinPath=C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\`. You should also add the `bin` directory of MinGW to the `PATH` environment variable.
 
 You can compile the project by opening the terminal:
 

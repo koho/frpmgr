@@ -40,7 +40,7 @@ FRP 管理器是一个多节点、图形化反向代理工具，专为 Windows �
 - [MinGW](https://github.com/mstorsjo/llvm-mingw)
 - [WiX Toolset](https://wixtoolset.org/) v3.14
 
-安装完成后，您需要设置 `WindowsSdkVerBinPath` 环境变量，以指示构建脚本在哪里找到特定版本的 Windows SDK，例如 `set WindowsSdkVerBinPath=C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0`。您还需要将 MinGW 的 `bin` 目录添加到 `PATH` 环境变量中。
+安装完成后，您需要设置 `WindowsSdkVerBinPath` 环境变量，以指示构建脚本在哪里找到特定版本的 Windows SDK，例如 `set WindowsSdkVerBinPath=C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\`。您还需要将 MinGW 的 `bin` 目录添加到 `PATH` 环境变量中。
 
 您可以通过打开终端来编译项目：
 
