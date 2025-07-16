@@ -243,9 +243,10 @@ __declspec(dllexport) UINT __stdcall EvaluateFrpServices(MSIHANDLE installer)
             record = MsiCreateRecord(5);
             if (!record)
                 continue;
+            BOOL start = services[i].ServiceStatusProcess.dwWin32ExitCode == ERROR_FAIL_NOACTION_REBOOT;
             MsiRecordSetStringW(record, 1, identifier);
             MsiRecordSetStringW(record, 2, services[i].lpServiceName);
-            MsiRecordSetInteger(record, 3, msidbServiceControlEventStop | msidbServiceControlEventUninstallStop | (legacy == 0 ? msidbServiceControlEventDelete : 0) | msidbServiceControlEventUninstallDelete);
+            MsiRecordSetInteger(record, 3, (start ? msidbServiceControlEventStart : msidbServiceControlEventStop) | msidbServiceControlEventUninstallStop | (legacy == 0 ? msidbServiceControlEventDelete : 0) | msidbServiceControlEventUninstallDelete);
             MsiRecordSetStringW(record, 4, L"frpmgr.exe");
             MsiRecordSetInteger(record, 5, 1);
             ret = MsiViewExecute(view, record);

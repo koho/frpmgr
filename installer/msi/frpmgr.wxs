@@ -42,7 +42,7 @@
 			Detect previous install folder if it's a upgrade
 		-->
 		<SetProperty Id="INSTALLFOLDER" Value="[PREVINSTALLFOLDER]" After="AppSearch" Sequence="first">
-			WIX_UPGRADE_DETECTED
+			PREVINSTALLFOLDER
 		</SetProperty>
 
 		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
@@ -125,7 +125,7 @@
 		-->
 		<CustomAction Id="EvaluateFrpServices" BinaryKey="actions.dll" DllEntry="EvaluateFrpServices" />
 		<InstallExecuteSequence>
-			<Custom Action="EvaluateFrpServices" After="InstallInitialize">NOT (UPGRADINGPRODUCTCODE AND (REMOVE="ALL"))</Custom>
+			<Custom Action="EvaluateFrpServices" After="InstallInitialize">NOT ((UPGRADINGPRODUCTCODE OR SAVESTATE) AND (REMOVE="ALL"))</Custom>
 		</InstallExecuteSequence>
 
 		<!--
@@ -143,7 +143,7 @@
 		<CustomAction Id="RemoveFrpFiles" BinaryKey="actions.dll" DllEntry="RemoveFrpFiles" Impersonate="no" Execute="deferred" />
 		<InstallExecuteSequence>
 			<Custom Action="RemoveFrpFiles.SetProperty" After="DeleteServices" />
-			<Custom Action="RemoveFrpFiles" After="RemoveFrpFiles.SetProperty">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
+			<Custom Action="RemoveFrpFiles" After="RemoveFrpFiles.SetProperty">(NOT UPGRADINGPRODUCTCODE) AND (NOT SAVESTATE) AND (REMOVE="ALL")</Custom>
 		</InstallExecuteSequence>
 
 		<!--

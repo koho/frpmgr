@@ -5,9 +5,12 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"syscall"
 	"time"
 
+	"github.com/Microsoft/go-winio"
 	"github.com/fatedier/frp/pkg/util/log"
+	"golang.org/x/sys/windows"
 	"golang.org/x/sys/windows/svc"
 
 	"github.com/koho/frpmgr/pkg/config"
@@ -82,6 +85,9 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 			switch c.Cmd {
 			case svc.Stop, svc.Shutdown:
 				svr.Stop(false)
+				if code := shutdownReason(path); code > 0 {
+					return false, code
+				}
 				return
 			case svc.ParamChange:
 				// Reload service
@@ -124,4 +130,25 @@ func ReloadService(configPath string) error {
 	defer service.Close()
 	_, err = service.Control(svc.ParamChange)
 	return err
+}
+
+func shutdownReason(path string) uint32 {
+	f, err := os.Open(path)
+	if err != nil {
+		return 0
+	}
+	fileID, err := winio.GetFileID(f)
+	f.Close()
+	if err != nil {
+		return 0
+	}
+	name, err := syscall.UTF16PtrFromString(fmt.Sprintf("Global\\%x%x", fileID.VolumeSerialNumber, fileID.FileID))
+	if err != nil {
+		return 0
+	}
+	if h, err := windows.OpenEvent(windows.READ_CONTROL, false, name); err == nil {
+		windows.CloseHandle(h)
+		return uint32(windows.ERROR_FAIL_NOACTION_REBOOT)
+	}
+	return 0
 }

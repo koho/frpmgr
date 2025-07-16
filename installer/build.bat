@@ -43,8 +43,8 @@ if not defined TARGET_%ARCH% (
 
 :build_actions
 	%WINDRES% -DVERSION_ARRAY=%VERSION:.=,% -DVERSION_STR=%VERSION% -o %PLAT_DIR%\actions.res.obj -i actions\version.rc -O coff -c 65001 || exit /b 1
-	set CFLAGS=-O3 -Wall -std=gnu11 -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -municode -DUNICODE -D_UNICODE -DNDEBUG
-	set LDFLAGS=-shared -s -Wl,--kill-at -Wl,--major-os-version=6 -Wl,--minor-os-version=1 -Wl,--major-subsystem-version=6 -Wl,--minor-subsystem-version=1 -Wl,--tsaware -Wl,--dynamicbase -Wl,--nxcompat -Wl,--export-all-symbols
+	set CFLAGS=-O3 -Wall -std=gnu11 -DWINVER=0x0602 -D_WIN32_WINNT=0x0602 -municode -DUNICODE -D_UNICODE -DNDEBUG
+	set LDFLAGS=-shared -s -Wl,--kill-at -Wl,--major-os-version=6 -Wl,--minor-os-version=2 -Wl,--major-subsystem-version=6 -Wl,--minor-subsystem-version=2 -Wl,--tsaware -Wl,--dynamicbase -Wl,--nxcompat -Wl,--export-all-symbols
 	set LDLIBS=-lmsi -lole32 -lshlwapi -lshell32 -ladvapi32
 	%CC% %CFLAGS% %LDFLAGS% -o %PLAT_DIR%\actions.dll actions\actions.c %PLAT_DIR%\actions.res.obj %LDLIBS% || exit /b 1
 	goto :eof
@@ -83,9 +83,9 @@ if not defined TARGET_%ARCH% (
 		echo ERROR: UpgradeCode was not found.
 		exit /b 1
 	)
-	set CFLAGS=-O3 -Wall -std=gnu11 -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -municode -DUNICODE -D_UNICODE -DNDEBUG -DUPGRADE_CODE=L\"{%UPGRADE_CODE%}\" -DVERSION=L\"%VERSION%\"
-	set LDFLAGS=-s -Wl,--major-os-version=6 -Wl,--minor-os-version=1 -Wl,--major-subsystem-version=6 -Wl,--minor-subsystem-version=1 -Wl,--tsaware -Wl,--dynamicbase -Wl,--nxcompat -mwindows
-	set LDLIBS=-lmsi -lole32 -lshlwapi -ladvapi32 -luser32
+	set CFLAGS=-O3 -Wall -std=gnu11 -DWINVER=0x0602 -D_WIN32_WINNT=0x0602 -municode -DUNICODE -D_UNICODE -DNDEBUG -DUPGRADE_CODE=L\"{%UPGRADE_CODE%}\" -DVERSION=L\"%VERSION%\"
+	set LDFLAGS=-s -Wl,--major-os-version=6 -Wl,--minor-os-version=2 -Wl,--major-subsystem-version=6 -Wl,--minor-subsystem-version=2 -Wl,--tsaware -Wl,--dynamicbase -Wl,--nxcompat -mwindows
+	set LDLIBS=-lmsi -lole32 -lshlwapi -ladvapi32 -luser32 -lcomctl32
 	%CC% %CFLAGS% %LDFLAGS% -o %PLAT_DIR%\setup.exe setup\setup.c %PLAT_DIR%\setup.res.obj %LDLIBS% || exit /b 1
 	goto :eof
 

@@ -2,6 +2,7 @@
 #include <msi.h>
 #include <shlwapi.h>
 #include <sddl.h>
+#include <commctrl.h>
 #include <stdio.h>
 #include "resource.h"
 
@@ -40,6 +41,42 @@ static INT MatchLanguageCode(LPWSTR langCode)
             return i;
     }
     return -1;
+}
+
+static LPWSTR FormatString(HINSTANCE hInstance, UINT uID, ...)
+{
+    LPWSTR pBuffer = NULL, pFormat;
+    int n = LoadStringW(hInstance, uID, (LPWSTR)&pFormat, 0);
+    if (n < 2 || pFormat[n - 2] != L'\0')
+        return NULL;
+    va_list args = NULL;
+    va_start(args, uID);
+    FormatMessageW(FORMAT_MESSAGE_FROM_STRING | FORMAT_MESSAGE_ALLOCATE_BUFFER, pFormat,
+        0, 0, (LPWSTR)&pBuffer, 0, &args);
+    va_end(args);
+    return pBuffer;
+}
+
+static HANDLE CreateReinstallEvent(LPWSTR path, DWORD pathLen)
+{
+    if (!PathAppendW(path, L"frpmgr.exe"))
+        return NULL;
+    HANDLE hFile = CreateFileW(path, 0, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    path[pathLen] = L'\0';
+    if (hFile == INVALID_HANDLE_VALUE)
+        return NULL;
+    FILE_ID_INFO fileId;
+    BOOL ret = GetFileInformationByHandleEx(hFile, FileIdInfo, &fileId, sizeof(fileId));
+    CloseHandle(hFile);
+    if (!ret)
+        return NULL;
+    CHAR name[_countof("Global\\") + sizeof(fileId) * 2];
+    int n = sprintf_s(name, _countof(name), "Global\\%llx", fileId.VolumeSerialNumber);
+    if (n < 0)
+        return NULL;
+    for (size_t i = 0; i < sizeof(fileId.FileId); i++)
+        n += sprintf_s(&name[n], _countof(name) - n, "%02x", fileId.FileId.Identifier[i]);
+    return CreateEventA(NULL, TRUE, FALSE, name);
 }
 
 static INT GetApplicationLanguage(LPWSTR path, DWORD pathLen)
@@ -144,7 +181,7 @@ INT_PTR CALLBACK LanguageDialog(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
     return (INT_PTR)FALSE;
 }
 
-static int cleanup(void)
+static int Cleanup(void)
 {
     if (msiFile != INVALID_HANDLE_VALUE)
     {
@@ -159,13 +196,10 @@ static int cleanup(void)
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nShowCmd)
 {
     INT langIndex = -1;
-    BOOL installed = FALSE, showDlg = TRUE;
+    BOOL installed = FALSE, reinstall = FALSE, showDlg = TRUE;
     Product product = {
-        .path = { 0 },
         .pathLen = _countof(product.path),
-        .lang = { 0 },
         .langLen = _countof(product.lang),
-        .version = { 0 },
         .versionLen = _countof(product.version)
     };
 
@@ -224,6 +258,40 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     if (lang == NULL)
         return 0;
 
+    if (installed)
+    {
+        LPWSTR pszButtonText = FormatString(hInstance, IDS_REINSTALL, lang->name);
+        const TASKDIALOG_BUTTON buttons[] = {
+            { IDYES, pszButtonText },
+            { IDNO, MAKEINTRESOURCE(IDS_UNINSTALL) }
+        };
+        TASKDIALOGCONFIG config = {
+            .cbSize = sizeof(config),
+            .hInstance = hInstance,
+            .dwFlags = TDF_USE_COMMAND_LINKS,
+            .dwCommonButtons = TDCBF_CLOSE_BUTTON,
+            .pszWindowTitle = MAKEINTRESOURCE(IDS_TITLE),
+            .pszMainIcon = MAKEINTRESOURCE(IDI_ICON),
+            .pszMainInstruction = MAKEINTRESOURCE(IDS_MANAGEMENT),
+            .pszContent = MAKEINTRESOURCE(IDS_OPERATION),
+            .cButtons = ARRAYSIZE(buttons),
+            .pButtons = buttons,
+            .nDefaultButton = IDYES
+        };
+        LPWSTR newLine;
+        if (pszButtonText && (newLine = wcschr(pszButtonText, L'\r')))
+            *newLine = L'\n';
+        int nButtonPressed = 0;
+        HRESULT ret = TaskDialogIndirect(&config, &nButtonPressed, NULL, NULL);
+        if (pszButtonText)
+            LocalFree((HLOCAL)pszButtonText);
+        if (ret != S_OK)
+            return 1;
+        if (nButtonPressed == IDCLOSE)
+            return 0;
+        reinstall = nButtonPressed == IDYES;
+    }
+
     if (!GetWindowsDirectoryW(msiPath, _countof(msiPath)) || !PathAppendW(msiPath, L"Temp"))
         return 1;
     GUID guid;
@@ -254,7 +322,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
         LocalFree(sa.lpSecurityDescriptor);
     if (msiFile == INVALID_HANDLE_VALUE)
         return 1;
-    _onexit(cleanup);
+    _onexit(Cleanup);
     DWORD bytesWritten;
     BOOL ok = WriteFile(msiFile, pResData, resSize, &bytesWritten, NULL);
     CloseHandle(msiFile);
@@ -262,7 +330,21 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     if (!ok || bytesWritten != resSize)
         return 1;
 
-    MsiSetInternalUI(INSTALLUILEVEL_FULL, NULL);
+    if (installed)
+    {
+        if (!reinstall)
+            return MsiInstallProductW(msiPath, L"REMOVE=ALL");
+        HANDLE hEvent = CreateReinstallEvent(product.path, product.pathLen);
+        UINT ret = MsiInstallProductW(msiPath, L"REMOVE=ALL MSIDISABLERMRESTART=1 SAVESTATE=1");
+        if (hEvent)
+            CloseHandle(hEvent);
+        if (ret != ERROR_SUCCESS)
+            return 1;
+        MsiSetInternalUI(INSTALLUILEVEL_BASIC | INSTALLUILEVEL_ENDDIALOG, NULL);
+    }
+    else
+        MsiSetInternalUI(INSTALLUILEVEL_FULL, NULL);
+
 #define CMD_FORMAT L"ProductLanguage=%s PREVINSTALLFOLDER=\"%s\""
     WCHAR cmd[_countof(CMD_FORMAT) + _countof(product.path)];
     if (swprintf_s(cmd, _countof(cmd), CMD_FORMAT, lang->id, product.path) < 0)

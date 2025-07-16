@@ -133,3 +133,63 @@ LANGUAGE LANG_SPANISH, SUBLANG_SPANISH_MODERN
 LANG_DIALOG_TEMPLATE(
   TITLE_ES_ES, "Seleccione el idioma para la instalación entre las opciones siguientes.", "Aceptar", "Cancelar"
 )
+
+LANGUAGE LANG_ENGLISH, SUBLANG_DEFAULT
+STRINGTABLE
+BEGIN
+IDS_TITLE TITLE_EN_US
+IDS_MANAGEMENT "Manage Current Product"
+IDS_OPERATION "Select the action you want to perform."
+IDS_REINSTALL "Reinstall with ""%1""%rThis operation requires suspending the running services.\0 "
+IDS_UNINSTALL "Uninstall"
+END
+
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+STRINGTABLE
+BEGIN
+IDS_TITLE TITLE_ZH_CN
+IDS_MANAGEMENT "管理当前产品"
+IDS_OPERATION "选择希望执行的操作。"
+IDS_REINSTALL "以 “%1” 重新安装%r此操作需要暂停正在运行的服务。\0 "
+IDS_UNINSTALL "卸载"
+END
+
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_TRADITIONAL
+STRINGTABLE
+BEGIN
+IDS_TITLE TITLE_ZH_TW
+IDS_MANAGEMENT "管理現行產品"
+IDS_OPERATION "選取您要執行的作業。"
+IDS_REINSTALL "以「%1」重新安裝%r此操作需要暫停正在運作的服務。\0 "
+IDS_UNINSTALL "移除"
+END
+
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+STRINGTABLE
+BEGIN
+IDS_TITLE TITLE_JA_JP
+IDS_MANAGEMENT "現在のインストールの管理"
+IDS_OPERATION "実行するアクションを選択します。"
+IDS_REINSTALL "「%1」で再インストールします%rこの操作では実行中のサービスを一時停止する必要があります。\0 "
+IDS_UNINSTALL "アンインストール"
+END
+
+LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
+STRINGTABLE
+BEGIN
+IDS_TITLE TITLE_KO_KR
+IDS_MANAGEMENT "현재 제품 관리"
+IDS_OPERATION "수행하고자 하는 작업을 선택하세요."
+IDS_REINSTALL """%1""로 다시 설치%r이 작업을 수행하려면 실행 중인 서비스를 중단해야 합니다.\0 "
+IDS_UNINSTALL "제거하다"
+END
+
+LANGUAGE LANG_SPANISH, SUBLANG_SPANISH_MODERN
+STRINGTABLE
+BEGIN
+IDS_TITLE TITLE_ES_ES
+IDS_MANAGEMENT "Administrar el producto actual"
+IDS_OPERATION "Seleccione la acción que desea realizar."
+IDS_REINSTALL "Reinstalar con ""%1""%rEsta operación requiere suspender los servicios en ejecución.\0 "
+IDS_UNINSTALL "Desinstalar"
+END
