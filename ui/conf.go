@@ -31,8 +31,7 @@ type Conf struct {
 	Path string
 	// State of service
 	State consts.ConfigState
-	// Data is ClientConfig or ServerConfig
-	Data config.Config
+	Data  *config.ClientConfig
 }
 
 // PathOfConf returns the file path of a config with given base file name
@@ -40,7 +39,7 @@ func PathOfConf(base string) string {
 	return filepath.Join("profiles", base)
 }
 
-func NewConf(path string, data config.Config) *Conf {
+func NewConf(path string, data *config.ClientConfig) *Conf {
 	if path == "" {
 		filename, err := util.RandToken(16)
 		if err != nil {
@@ -67,7 +66,7 @@ func (conf *Conf) Delete() error {
 		return err
 	}
 	// Delete logs
-	if logs, _, err := util.FindLogFiles(conf.Data.GetLogFile()); err == nil {
+	if logs, _, err := util.FindLogFiles(conf.Data.LogFile); err == nil {
 		util.DeleteFiles(logs)
 	}
 	// Delete config file
@@ -84,7 +83,7 @@ func (conf *Conf) Save() error {
 		return err
 	}
 	conf.Data.Complete(false)
-	conf.Data.SetLogFile(filepath.ToSlash(logPath))
+	conf.Data.LogFile = filepath.ToSlash(logPath)
 	return conf.Data.Save(conf.Path)
 }
 

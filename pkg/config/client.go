@@ -312,18 +312,6 @@ func (conf *ClientConfig) AutoStart() bool {
 	return !conf.ManualStart
 }
 
-func (conf *ClientConfig) GetLogFile() string {
-	return conf.LogFile
-}
-
-func (conf *ClientConfig) SetLogFile(logPath string) {
-	conf.LogFile = logPath
-}
-
-func (conf *ClientConfig) GetSTUNServer() string {
-	return conf.NatHoleSTUNServer
-}
-
 func (conf *ClientConfig) Expiry() bool {
 	switch conf.DeleteMethod {
 	case consts.DeleteAbsolute:
@@ -334,22 +322,12 @@ func (conf *ClientConfig) Expiry() bool {
 	return false
 }
 
-func (conf *ClientConfig) Items() interface{} {
-	return conf.Proxies
-}
-
-func (conf *ClientConfig) ItemAt(index int) interface{} {
-	return conf.Proxies[index]
-}
-
-func (conf *ClientConfig) DeleteItem(index int) {
+func (conf *ClientConfig) DeleteProxy(index int) {
 	conf.Proxies = append(conf.Proxies[:index], conf.Proxies[index+1:]...)
 }
 
-func (conf *ClientConfig) AddItem(item interface{}) {
-	if proxy, ok := item.(*Proxy); ok {
-		conf.Proxies = append(conf.Proxies, proxy)
-	}
+func (conf *ClientConfig) AddProxy(proxy *Proxy) {
+	conf.Proxies = append(conf.Proxies, proxy)
 }
 
 func (conf *ClientConfig) Save(path string) error {
@@ -475,7 +453,7 @@ func (conf *ClientConfig) Complete(read bool) {
 	}
 }
 
-func (conf *ClientConfig) Copy(all bool) Config {
+func (conf *ClientConfig) Copy(all bool) *ClientConfig {
 	newConf := NewDefaultClientConfig()
 	newConf.ClientCommon = conf.ClientCommon
 	// We can't share the same log file between different configs

@@ -261,7 +261,7 @@ func (lp *LogPage) switchLogName() {
 		cleanup()
 		return
 	}
-	files, dates, err := util.FindLogFiles(lp.nameModel[index].Data.GetLogFile())
+	files, dates, err := util.FindLogFiles(lp.nameModel[index].Data.LogFile)
 	if err != nil {
 		cleanup()
 		return

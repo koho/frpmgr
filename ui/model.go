@@ -199,7 +199,7 @@ func fillProxyRow(p *config.Proxy, pr *ProxyRow) *ProxyRow {
 func NewProxyModel(conf *Conf) *ProxyModel {
 	m := new(ProxyModel)
 	m.conf = conf
-	m.data = conf.Data.(*config.ClientConfig)
+	m.data = conf.Data
 	m.items = lo.Map(m.data.Proxies, func(p *config.Proxy, i int) *ProxyRow {
 		return NewProxyRow(p)
 	})
@@ -220,7 +220,7 @@ func (m *ProxyModel) Add(proxy ...*config.Proxy) {
 	from := len(m.items)
 	for _, item := range proxy {
 		m.items = append(m.items, NewProxyRow(item))
-		m.data.AddItem(item)
+		m.data.AddProxy(item)
 	}
 	m.PublishRowsInserted(from, from+len(proxy)-1)
 }
@@ -235,7 +235,7 @@ func (m *ProxyModel) Remove(index ...int) {
 		j := idx - i
 		m.beforeRemovePublisher.Publish(j)
 		m.items = append(m.items[:j], m.items[j+1:]...)
-		m.data.DeleteItem(j)
+		m.data.DeleteProxy(j)
 	}
 	m.PublishRowsReset()
 	if i <= len(m.items)-1 {

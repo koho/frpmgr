@@ -14,13 +14,13 @@ import (
 	"github.com/koho/frpmgr/pkg/util"
 )
 
-func deleteFrpConfig(serviceName string, configPath string, c config.Config) {
+func deleteFrpConfig(serviceName string, configPath string, c *config.ClientConfig) {
 	// Delete logs
 	logWriter := reflect.ValueOf(log.Logger).Elem().FieldByName("out")
 	if writer, ok := reflect.NewAt(logWriter.Type(), unsafe.Pointer(logWriter.UnsafeAddr())).Elem().Interface().(*glog.RotateFileWriter); ok {
 		writer.Close()
 	}
-	if logs, _, err := util.FindLogFiles(c.GetLogFile()); err == nil {
+	if logs, _, err := util.FindLogFiles(c.LogFile); err == nil {
 		util.DeleteFiles(logs)
 	}
 	// Delete config file

@@ -2,7 +2,6 @@ package ui
 
 import (
 	"os"
-	"reflect"
 	"strconv"
 	"strings"
 	"syscall"
@@ -13,6 +12,7 @@ import (
 	"golang.org/x/sys/windows"
 
 	"github.com/koho/frpmgr/i18n"
+	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/res"
 	"github.com/koho/frpmgr/pkg/util"
 	"github.com/koho/frpmgr/services"
@@ -30,7 +30,7 @@ func NewPropertiesDialog(conf *Conf) *PropertiesDialog {
 }
 
 func (pd *PropertiesDialog) logFileStat() (count int, size int64) {
-	if logs, _, err := util.FindLogFiles(pd.conf.Data.GetLogFile()); err == nil {
+	if logs, _, err := util.FindLogFiles(pd.conf.Data.LogFile); err == nil {
 		for _, logFile := range logs {
 			if fileInfo, err := os.Stat(logFile); err == nil {
 				count++
@@ -60,7 +60,10 @@ func (pd *PropertiesDialog) Run(owner walk.Form) (int, error) {
 		{Title: i18n.Sprintf("Identifier"), Value: util.FileNameWithoutExt(pd.conf.Path)},
 		{Title: i18n.Sprintf("Service Name"), Value: services.ServiceNameOfClient(pd.conf.Path)},
 		{Title: i18n.Sprintf("File Format"), Value: strings.ToUpper(pd.conf.Data.Ext()[1:])},
-		{Title: i18n.Sprintf("Number of Proxies"), Value: strconv.Itoa(reflect.ValueOf(pd.conf.Data.Items()).Len())},
+		{Title: i18n.Sprintf("Server Address"), Value: pd.conf.Data.ServerAddress},
+		{Title: i18n.Sprintf("Server Port"), Value: strconv.Itoa(pd.conf.Data.ServerPort)},
+		{Title: i18n.Sprintf("Protocol"), Value: util.GetOrElse(pd.conf.Data.Protocol, consts.ProtoTCP)},
+		{Title: i18n.Sprintf("Number of Proxies"), Value: strconv.Itoa(len(pd.conf.Data.Proxies))},
 		{Title: i18n.Sprintf("Start Type"), Value: startTypeDesc},
 		{Title: i18n.Sprintf("Log"), Value: i18n.Sprintf("%d Files, %s", logFileCount, logSizeDesc)},
 	}

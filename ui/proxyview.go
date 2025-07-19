@@ -86,14 +86,12 @@ func (pv *ProxyView) OnCreate() {
 func (pv *ProxyView) Invalidate() {
 	pv.stopTracker()
 	if conf := getCurrentConf(); conf != nil {
-		if _, ok := conf.Data.(*config.ClientConfig); ok {
-			pv.model = NewProxyModel(conf)
-			pv.table.SetModel(pv.model)
-			if conf.State == consts.ConfigStateStarted {
-				pv.startTracker(false)
-			}
-			return
+		pv.model = NewProxyModel(conf)
+		pv.table.SetModel(pv.model)
+		if conf.State == consts.ConfigStateStarted {
+			pv.startTracker(false)
 		}
+		return
 	}
 	pv.model = nil
 	pv.table.SetModel(nil)

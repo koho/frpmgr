@@ -214,7 +214,7 @@ func openFileDialog(receiver *walk.LineEdit, title string, filter string, file b
 	if !ok {
 		return nil
 	}
-	return receiver.SetText(strings.ReplaceAll(dlg.FilePath, "\\", "/"))
+	return receiver.SetText(filepath.ToSlash(dlg.FilePath))
 }
 
 // calculateHeadColumnTextWidth returns the estimated display width of the first column

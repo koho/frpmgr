@@ -10,7 +10,6 @@ import (
 	. "github.com/lxn/walk/declarative"
 
 	"github.com/koho/frpmgr/i18n"
-	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/consts"
 	"github.com/koho/frpmgr/pkg/res"
 	"github.com/koho/frpmgr/pkg/util"
@@ -177,7 +176,7 @@ func (pv *PanelView) StartService(conf *Conf) error {
 		return err
 	}
 	// Ensure log directory is valid
-	if logFile := conf.Data.GetLogFile(); logFile != "" && logFile != "console" {
+	if logFile := conf.Data.LogFile; logFile != "" && logFile != "console" {
 		if err := os.MkdirAll(filepath.Dir(logFile), os.ModePerm); err != nil {
 			return err
 		}
@@ -227,7 +226,7 @@ func (pv *PanelView) Invalidate(state bool) {
 		pv.protoImage.SetVisible(false)
 		return
 	}
-	data := conf.Data.(*config.ClientConfig)
+	data := conf.Data
 	if pv.Title() != conf.Name() {
 		pv.SetTitle(conf.Name())
 	}

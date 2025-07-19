@@ -307,7 +307,7 @@ func (cv *ConfView) fixWidthToToolbarWidth() {
 }
 
 func (cv *ConfView) onEditConf(conf *Conf, create bool) {
-	dlg := NewEditClientDialog(conf.Data.(*config.ClientConfig), create)
+	dlg := NewEditClientDialog(conf.Data, create)
 	if result, _ := dlg.Run(cv.Form()); result == walk.DlgCmdOK {
 		if create {
 			cv.model.Add(conf)
@@ -605,7 +605,7 @@ func (cv *ConfView) onNATDiscovery() {
 	var stunServer string
 	// Try to use the address in config first
 	if conf := getCurrentConf(); conf != nil {
-		stunServer = conf.Data.GetSTUNServer()
+		stunServer = conf.Data.NatHoleSTUNServer
 	}
 	if stunServer == "" {
 		if appConf.Defaults.NatHoleSTUNServer != "" {
