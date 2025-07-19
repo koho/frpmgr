@@ -304,22 +304,14 @@ type ClientConfig struct {
 	Proxies []*Proxy
 }
 
+// Name of this config.
 func (conf *ClientConfig) Name() string {
 	return conf.ClientCommon.Name
 }
 
+// AutoStart indicates whether this config should be started at boot.
 func (conf *ClientConfig) AutoStart() bool {
 	return !conf.ManualStart
-}
-
-func (conf *ClientConfig) Expiry() bool {
-	switch conf.DeleteMethod {
-	case consts.DeleteAbsolute:
-		return true
-	case consts.DeleteRelative:
-		return conf.DeleteAfterDays > 0
-	}
-	return false
 }
 
 func (conf *ClientConfig) DeleteProxy(index int) {
@@ -411,6 +403,9 @@ func (conf *ClientConfig) saveTOML(path string) error {
 	return os.WriteFile(path, b, 0666)
 }
 
+// Complete prunes and completes this config.
+// When "read" is true, the config should be completed for a file loaded from source.
+// Otherwise, it should be completed for file written to disk.
 func (conf *ClientConfig) Complete(read bool) {
 	// Common config
 	conf.ClientAuth = conf.ClientAuth.Complete()
@@ -453,6 +448,7 @@ func (conf *ClientConfig) Complete(read bool) {
 	}
 }
 
+// Copy creates a new copy of this config.
 func (conf *ClientConfig) Copy(all bool) *ClientConfig {
 	newConf := NewDefaultClientConfig()
 	newConf.ClientCommon = conf.ClientCommon
@@ -489,6 +485,7 @@ func (conf *ClientConfig) CountStart() int {
 	return len(lo.Filter(conf.Proxies, func(proxy *Proxy, i int) bool { return !proxy.Disabled }))
 }
 
+// Ext is the file extension of this config.
 func (conf *ClientConfig) Ext() string {
 	if conf.LegacyFormat {
 		return ".ini"
