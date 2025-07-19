@@ -53,7 +53,7 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 	switch err {
 	case nil:
 		if t <= 0 {
-			deleteFrpConfig(args[0], service.configPath, cc)
+			deleteFrpFiles(args[0], service.configPath, cc.LogFile)
 			return
 		}
 		expired = time.After(t)
@@ -102,7 +102,8 @@ func (service *frpService) Execute(args []string, r <-chan svc.ChangeRequest, ch
 			return
 		case <-expired:
 			svr.Stop(false)
-			deleteFrpConfig(args[0], service.configPath, cc)
+			svr.logger.Close()
+			deleteFrpFiles(args[0], service.configPath, cc.LogFile)
 			return
 		}
 	}

@@ -2,25 +2,16 @@ package services
 
 import (
 	"os"
-	"reflect"
-	"unsafe"
 
 	frpconfig "github.com/fatedier/frp/pkg/config"
 	"github.com/fatedier/frp/pkg/config/v1/validation"
-	"github.com/fatedier/frp/pkg/util/log"
-	glog "github.com/fatedier/golib/log"
 
-	"github.com/koho/frpmgr/pkg/config"
 	"github.com/koho/frpmgr/pkg/util"
 )
 
-func deleteFrpConfig(serviceName string, configPath string, c *config.ClientConfig) {
+func deleteFrpFiles(serviceName, configPath, logFile string) {
 	// Delete logs
-	logWriter := reflect.ValueOf(log.Logger).Elem().FieldByName("out")
-	if writer, ok := reflect.NewAt(logWriter.Type(), unsafe.Pointer(logWriter.UnsafeAddr())).Elem().Interface().(*glog.RotateFileWriter); ok {
-		writer.Close()
-	}
-	if logs, _, err := util.FindLogFiles(c.LogFile); err == nil {
+	if logs, _, err := util.FindLogFiles(logFile); err == nil {
 		util.DeleteFiles(logs)
 	}
 	// Delete config file

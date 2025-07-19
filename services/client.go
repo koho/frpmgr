@@ -10,6 +10,7 @@ import (
 	"github.com/fatedier/frp/pkg/config"
 	"github.com/fatedier/frp/pkg/config/v1"
 	"github.com/fatedier/frp/pkg/util/log"
+	glog "github.com/fatedier/golib/log"
 
 	"github.com/koho/frpmgr/pkg/consts"
 )
@@ -20,6 +21,7 @@ type FrpClientService struct {
 	cfg            *v1.ClientCommonConfig
 	done           chan struct{}
 	statusExporter client.StatusExporter
+	logger         *glog.RotateFileWriter
 }
 
 func NewFrpClientService(cfgFile string) (*FrpClientService, error) {
@@ -36,13 +38,14 @@ func NewFrpClientService(cfgFile string) (*FrpClientService, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.InitLogger(cfg.Log.To, cfg.Log.Level, int(cfg.Log.MaxDays), cfg.Log.DisablePrintColor)
+	logger := initLogger(cfg.Log.To, cfg.Log.Level, int(cfg.Log.MaxDays))
 	return &FrpClientService{
 		svr:            svr,
 		file:           cfgFile,
 		cfg:            cfg,
 		done:           make(chan struct{}),
 		statusExporter: svr.StatusExporter(),
+		logger:         logger,
 	}, nil
 }
 
@@ -101,4 +104,22 @@ func (s *FrpClientService) GetProxyStatus(name string) (status *proxy.WorkingSta
 		}
 	}
 	return
+}
+
+func initLogger(logPath string, levelStr string, maxDays int) *glog.RotateFileWriter {
+	var options []glog.Option
+	writer := glog.NewRotateFileWriter(glog.RotateFileConfig{
+		FileName: logPath,
+		Mode:     glog.RotateFileModeDaily,
+		MaxDays:  maxDays,
+	})
+	writer.Init()
+	options = append(options, glog.WithOutput(writer))
+	level, err := glog.ParseLevel(levelStr)
+	if err != nil {
+		level = glog.InfoLevel
+	}
+	options = append(options, glog.WithLevel(level))
+	log.Logger = log.Logger.WithOptions(options...)
+	return writer
 }
