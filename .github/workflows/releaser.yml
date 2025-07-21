@@ -66,7 +66,7 @@ jobs:
         run: |
           $version = $((Get-Item .\bin\${{ matrix.architecture }}\frpmgr.exe).VersionInfo.ProductVersion)
           echo "VERSION=$version" >> $env:GITHUB_ENV
-          $signtool = $(cmd /C "vcvarsall ${{ matrix.architecture }} && where signtool" | Select-Object -Last 1)
+          $signtool = $(cmd /C "vcvarsall x64 && where signtool" | Select-Object -Last 1)
           echo "SIGNTOOL=$signtool" >> $env:GITHUB_ENV
 
       - name: Build custom actions
