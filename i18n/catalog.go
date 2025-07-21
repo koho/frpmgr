@@ -112,7 +112,7 @@ var messageKeyToIndex = map[string]int{
 	"Copy Share Link":                 48,
 	"Copy Value":                      257,
 	"Create a Copy":                   41,
-	"Created":                         251,
+	"Created":                         254,
 	"Custom Domains":                  149,
 	"Custom domains and subdomain should have at least one of these set.": 198,
 	"Days":                          83,
@@ -203,7 +203,7 @@ var messageKeyToIndex = map[string]int{
 	"Max Days":                               82,
 	"Max Streams":                            103,
 	"Metadata":                               123,
-	"Modified":                               252,
+	"Modified":                               255,
 	"Move":                                   34,
 	"Move Down":                              26,
 	"Move Up":                                25,
@@ -220,8 +220,8 @@ var messageKeyToIndex = map[string]int{
 	"No":                                     207,
 	"None":                                   71,
 	"Number of Proxies":                      248,
-	"Number of TCP Connections":              254,
-	"Number of UDP Connections":              255,
+	"Number of TCP Connections":              251,
+	"Number of UDP Connections":              252,
 	"Number out of allowed range":            300,
 	"OK":                                     18,
 	"Off":                                    108,
@@ -422,7 +422,7 @@ var en_USIndex = []uint32{ // 306 elements
 	0x00001014, 0x00001034, 0x0000103d, 0x00001047,
 	0x00001055, 0x0000105c, 0x00001067, 0x00001074,
 	0x00001080, 0x00001092, 0x0000109d, 0x000010b0,
-	0x000010b8, 0x000010c1, 0x000010c9, 0x000010e3,
+	0x000010ca, 0x000010e4, 0x000010ec, 0x000010f4,
 	// Entry 100 - 11F
 	0x000010fd, 0x0000110e, 0x00001119, 0x0000111f,
 	0x00001129, 0x00001138, 0x0000114b, 0x00001153,
@@ -512,27 +512,27 @@ const en_USData string = "" + // Size: 5533 bytes
 	"Password is set.\x02General\x02Automatically check for updates\x02Defaul" +
 	"ts\x02Log Level\x02Log retention\x02Manual\x02Identifier\x02Service Name" +
 	"\x02File Format\x02Number of Proxies\x02Start Type\x02%[1]d Files, %[2]s" +
-	"\x02Created\x02Modified\x02Started\x02Number of TCP Connections\x02Numbe" +
-	"r of UDP Connections\x02%[1]s Properties\x02Copy Value\x02Error\x02Quick" +
-	" Add\x02Remote Desktop\x02Add Remote Desktop\x02Add VNC\x02Add SSH\x02Ad" +
-	"d Web\x02Add FTP\x02HTTP File Server\x02Add HTTP File Server\x02Proxy Se" +
-	"rver\x02Add Proxy Server\x02Disable\x02Domains\x02Remote Address\x02Show" +
-	" Remote Address\x02Copy Access Address\x02Error message\x02Source\x02Thi" +
-	"s feature only supports text in INI or TOML format.\x02Delete proxy \x22" +
-	"%[1]s\x22\x02Are you sure you would like to delete proxy \x22%[1]s\x22?" +
-	"\x02Delete %[1]d proxies\x02Are you sure that you want to delete these %" +
-	"[1]d proxies?\x02Disable proxy \x22%[1]s\x22\x02Are you sure you would l" +
-	"ike to disable proxy \x22%[1]s\x22?\x02Disable %[1]d proxies\x02Are you " +
-	"sure that you want to disable these %[1]d proxies?\x02Enable\x02Passive " +
-	"Port Range\x02FRP Manager\x02* Support batch import, one link per line." +
-	"\x02Ready\x02Please enter the correct URL list.\x02Download\x02Enter Pas" +
-	"sword\x02You must enter an administration password to operate the %[1]s." +
-	"\x02Enter Administration Password\x02The password is incorrect. Re-enter" +
-	" password.\x02Invalid Input\x02Please enter a number from %.[1]f to %.[2" +
-	"]f.\x02Please enter a number from %[1]s to %[2]s.\x02Number out of allow" +
-	"ed range\x02The text does not match the required pattern.\x02Selection R" +
-	"equired\x02Please select one of the provided options.\x02A selection is " +
-	"required."
+	"\x02Number of TCP Connections\x02Number of UDP Connections\x02Started" +
+	"\x02Created\x02Modified\x02%[1]s Properties\x02Copy Value\x02Error\x02Qu" +
+	"ick Add\x02Remote Desktop\x02Add Remote Desktop\x02Add VNC\x02Add SSH" +
+	"\x02Add Web\x02Add FTP\x02HTTP File Server\x02Add HTTP File Server\x02Pr" +
+	"oxy Server\x02Add Proxy Server\x02Disable\x02Domains\x02Remote Address" +
+	"\x02Show Remote Address\x02Copy Access Address\x02Error message\x02Sourc" +
+	"e\x02This feature only supports text in INI or TOML format.\x02Delete pr" +
+	"oxy \x22%[1]s\x22\x02Are you sure you would like to delete proxy \x22%[1" +
+	"]s\x22?\x02Delete %[1]d proxies\x02Are you sure that you want to delete " +
+	"these %[1]d proxies?\x02Disable proxy \x22%[1]s\x22\x02Are you sure you " +
+	"would like to disable proxy \x22%[1]s\x22?\x02Disable %[1]d proxies\x02A" +
+	"re you sure that you want to disable these %[1]d proxies?\x02Enable\x02P" +
+	"assive Port Range\x02FRP Manager\x02* Support batch import, one link per" +
+	" line.\x02Ready\x02Please enter the correct URL list.\x02Download\x02Ent" +
+	"er Password\x02You must enter an administration password to operate the " +
+	"%[1]s.\x02Enter Administration Password\x02The password is incorrect. Re" +
+	"-enter password.\x02Invalid Input\x02Please enter a number from %.[1]f t" +
+	"o %.[2]f.\x02Please enter a number from %[1]s to %[2]s.\x02Number out of" +
+	" allowed range\x02The text does not match the required pattern.\x02Selec" +
+	"tion Required\x02Please select one of the provided options.\x02A selecti" +
+	"on is required."
 
 var es_ESIndex = []uint32{ // 306 elements
 	// Entry 0 - 1F
@@ -606,7 +606,7 @@ var es_ESIndex = []uint32{ // 306 elements
 	0x000014aa, 0x000014d2, 0x000014e2, 0x000014f4,
 	0x0000150c, 0x00001513, 0x00001521, 0x00001535,
 	0x00001548, 0x0000155b, 0x0000156a, 0x00001580,
-	0x00001587, 0x00001592, 0x0000159b, 0x000015b5,
+	0x0000159a, 0x000015b4, 0x000015bd, 0x000015c4,
 	// Entry 100 - 11F
 	0x000015cf, 0x000015e4, 0x000015f1, 0x000015f7,
 	0x00001607, 0x00001619, 0x00001633, 0x0000163f,
@@ -711,9 +711,9 @@ const es_ESData string = "" + // Size: 6964 bytes
 	"a está configurada.\x02General\x02Buscar actualizaciones automáticamente" +
 	"\x02Predeterminados\x02Nivel de registro\x02Retención de registros\x02Ma" +
 	"nual\x02Identificador\x02Nombre del servicio\x02Formato de archivo\x02Nú" +
-	"mero de proxies\x02Tipo de inicio\x02%[1]d archivos, %[2]s\x02Creado\x02" +
-	"Modificado\x02Empezado\x02Número de conexiones TCP\x02Número de conexion" +
-	"es UDP\x02Propiedades de %[1]s\x02Copiar valor\x02Error\x02Añadir rápido" +
+	"mero de proxies\x02Tipo de inicio\x02%[1]d archivos, %[2]s\x02Número de " +
+	"conexiones TCP\x02Número de conexiones UDP\x02Empezado\x02Creado\x02Modi" +
+	"ficado\x02Propiedades de %[1]s\x02Copiar valor\x02Error\x02Añadir rápido" +
 	"\x02Escritorio remoto\x02Agregar escritorio remoto\x02Agregar VNC\x02Agr" +
 	"egar SSH\x02Agregar Web\x02Agregar FTP\x02Servidor de archivos HTTP\x02A" +
 	"gregar servidor de archivos HTTP\x02Servidor proxy\x02Agregar servidor p" +
@@ -874,7 +874,7 @@ const ja_JPData string = "" + // Size: 8471 bytes
 	"期デフォルト値などが含まれます。\x02設定\x02パスワードが解除されました。\x02新しいマスターパスワード\x02再入力\x02パスワ" +
 	"ードが設定されています。\x02一般\x02アップデートを自動的にチェックする\x02デフォルト\x02ログレベル\x02ログ保持\x02マ" +
 	"ニュアル\x02識別子\x02サービス名\x02ファイル形式\x02プロキシの数\x02スタートアップの種類\x02%[1]d ファイル、%" +
-	"[2]s\x02作成時間\x02修正時間\x02起動時間\x02TCP接続数\x02UDP接続数\x02%[1]sのプロパティ\x02コピー値" +
+	"[2]s\x02TCP接続数\x02UDP接続数\x02起動時間\x02作成時間\x02修正時間\x02%[1]sのプロパティ\x02コピー値" +
 	"\x02エラー\x02クイック追加\x02リモートデスクトップ\x02リモートデスクトップを追加する\x02VNCを追加\x02SSHを追加" +
 	"\x02Webを追加\x02FTPを追加\x02HTTP ファイルサーバー\x02HTTP ファイルサーバーの追加\x02プロキシサーバー" +
 	"\x02プロキシサーバーの追加\x02無効\x02ドメイン名\x02リモートアドレス\x02リモートアドレスを表示\x02アクセスアドレスのコピ" +
@@ -961,7 +961,7 @@ var ko_KRIndex = []uint32{ // 306 elements
 	0x000014bf, 0x000014e0, 0x000014ea, 0x000014f8,
 	0x00001506, 0x00001510, 0x0000151a, 0x0000152b,
 	0x00001539, 0x00001547, 0x00001555, 0x0000156c,
-	0x0000157a, 0x00001588, 0x00001596, 0x000015a5,
+	0x0000157b, 0x0000158a, 0x00001598, 0x000015a6,
 	// Entry 100 - 11F
 	0x000015b4, 0x000015c1, 0x000015cc, 0x000015d3,
 	0x000015e1, 0x000015f5, 0x00001610, 0x0000161b,
@@ -1025,9 +1025,9 @@ const ko_KRData string = "" + // Size: 6988 bytes
 	"니다.\x02언어 선택\x02더 많은 설정은 여기에서 확인할 수 있습니다.\x0a애플리케이션 업데이트, 기본값 등이 포함됩니다" +
 	".\x02설정\x02암호가 제거되었습니다.\x02새 마스터 비밀번호\x02비밀번호 재입력\x02비밀번호가 설정되어 있습니다." +
 	"\x02일반적인\x02자동으로 업데이트 확인\x02기본값\x02로그 수준\x02로그 보존\x02매뉴얼\x02식별자\x02서비스 이" +
-	"름\x02파일 형식\x02프록시 수\x02시작 유형\x02%[1]d개 파일, %[2]s\x02창조 시간\x02수정 시간\x02" +
-	"시작 시간\x02TCP 연결 수\x02UDP 연결 수\x02%[1]s 속성\x02복사 값\x02오류\x02빠른 추가\x02원격" +
-	" 데스크탑\x02원격 데스크톱 추가\x02VNC 추가\x02SSH 추가\x02Web 추가\x02FTP 추가\x02HTTP 파일 서" +
+	"름\x02파일 형식\x02프록시 수\x02시작 유형\x02%[1]d개 파일, %[2]s\x02TCP 연결 수\x02UDP 연결" +
+	" 수\x02시작 시간\x02창조 시간\x02수정 시간\x02%[1]s 속성\x02복사 값\x02오류\x02빠른 추가\x02원격 데" +
+	"스크탑\x02원격 데스크톱 추가\x02VNC 추가\x02SSH 추가\x02Web 추가\x02FTP 추가\x02HTTP 파일 서" +
 	"버\x02HTTP 파일 서버 추가\x02프록시 서버\x02프록시 서버 추가\x02폐쇄\x02도메인\x02원격 주소\x02원격 " +
 	"주소 표시\x02액세스 주소 복사\x02오류 메시지\x02데이터 소스\x02이 기능은 INI 또는 TOML 형식의 텍스트만 지" +
 	"원합니다.\x02프록시 \x22%[1]s\x22 삭제\x02\x22%[1]s\x22 프록시를 삭제하시겠습니까?\x02%[1]d" +
@@ -1112,7 +1112,7 @@ var zh_CNIndex = []uint32{ // 306 elements
 	0x00000fb6, 0x00000fc9, 0x00000fd3, 0x00000fe0,
 	0x00000fed, 0x00000ff4, 0x00000ffe, 0x0000100b,
 	0x00001018, 0x00001025, 0x00001032, 0x0000104a,
-	0x00001057, 0x00001064, 0x00001071, 0x0000107f,
+	0x00001058, 0x00001066, 0x00001073, 0x00001080,
 	// Entry 100 - 11F
 	0x0000108d, 0x0000109a, 0x000010a4, 0x000010ab,
 	0x000010b8, 0x000010c5, 0x000010d8, 0x000010e3,
@@ -1166,7 +1166,7 @@ const zh_CNData string = "" + // Size: 5307 bytes
 	"\x02修改密码\x02语言\x02目前的显示语言\x02您必须重新启动程序才能应用修改。\x02选择语言\x02您可以在此处找到更多设置。" +
 	"\x0a包括应用程序更新、初始默认值等。\x02设置\x02密码已删除。\x02新主密码\x02确认密码\x02密码已设定。\x02通用\x02" +
 	"自动检查更新\x02默认值\x02日志级别\x02日志保留\x02手动\x02标识符\x02服务名称\x02文件格式\x02代理数量\x02" +
-	"启动类型\x02%[1]d 个文件，%[2]s\x02创建时间\x02修改时间\x02启动时间\x02TCP 连接数\x02UDP 连接数" +
+	"启动类型\x02%[1]d 个文件，%[2]s\x02TCP 连接数\x02UDP 连接数\x02启动时间\x02创建时间\x02修改时间" +
 	"\x02%[1]s 属性\x02复制值\x02出错\x02快速添加\x02远程桌面\x02添加远程桌面\x02添加 VNC\x02添加 SSH" +
 	"\x02添加 Web\x02添加 FTP\x02HTTP 文件服务\x02添加 HTTP 文件服务\x02代理服务器\x02添加代理服务器" +
 	"\x02禁用\x02域名\x02远程地址\x02显示远程地址\x02复制访问地址\x02错误消息\x02来源\x02此功能仅支持 INI 或 T" +
@@ -1249,7 +1249,7 @@ var zh_TWIndex = []uint32{ // 306 elements
 	0x00000ff2, 0x00001005, 0x0000100f, 0x0000101c,
 	0x00001029, 0x00001030, 0x0000103a, 0x00001047,
 	0x00001054, 0x00001061, 0x0000106e, 0x00001086,
-	0x00001093, 0x000010a0, 0x000010ad, 0x000010bb,
+	0x00001094, 0x000010a2, 0x000010af, 0x000010bc,
 	// Entry 100 - 11F
 	0x000010c9, 0x000010d8, 0x000010e2, 0x000010e9,
 	0x000010f6, 0x00001103, 0x00001116, 0x00001121,
@@ -1303,8 +1303,8 @@ const zh_TWData string = "" + // Size: 5375 bytes
 	"將被要求輸入密碼。\x02使用主密碼\x02修改密碼\x02語言\x02目前的顯示語言\x02您必須重新啟動程式才能套用修改。\x02選擇語" +
 	"言\x02您可以在此處找到更多設定。\x0a包括應用程式更新、初始預設值等。\x02設定\x02密碼已刪除。\x02新主密碼\x02確認密碼" +
 	"\x02密碼已設定。\x02通用\x02自動檢查更新\x02預設值\x02日誌等級\x02日誌保留\x02手動\x02識別符\x02服務名稱" +
-	"\x02檔案格式\x02代理數量\x02啟動類型\x02%[1]d 個文件，%[2]s\x02建立日期\x02修改日期\x02啟動日期\x02T" +
-	"CP 連線數\x02UDP 連線數\x02%[1]s - 內容\x02複製值\x02出錯\x02快速添加\x02遠端桌面\x02添加遠端桌面" +
+	"\x02檔案格式\x02代理數量\x02啟動類型\x02%[1]d 個文件，%[2]s\x02TCP 連線數\x02UDP 連線數\x02啟動日" +
+	"期\x02建立日期\x02修改日期\x02%[1]s - 內容\x02複製值\x02出錯\x02快速添加\x02遠端桌面\x02添加遠端桌面" +
 	"\x02添加 VNC\x02添加 SSH\x02添加 Web\x02添加 FTP\x02HTTP 檔案服務\x02添加 HTTP 檔案服務" +
 	"\x02代理伺服器\x02添加代理伺服器\x02停用\x02域名\x02遠端位址\x02顯示遠端位址\x02複製存取位址\x02錯誤訊息\x02" +
 	"來源\x02此功能僅支援 INI 或 TOML 格式的文字。\x02刪除代理「%[1]s」\x02確定要刪除代理「%[1]s」嗎？\x02刪" +
@@ -1315,4 +1315,4 @@ const zh_TWData string = "" + // Size: 5375 bytes
 	"\x02請輸入一個從 %[1]s 到 %[2]s 的數字。\x02數值超出許可範圍\x02文字與要求的模式不相符。\x02必填項目\x02請選擇" +
 	"其中一個選項。\x02必需選擇。"
 
-	// Total table size 46126 bytes (45KiB); checksum: B4B2385C
+	// Total table size 46126 bytes (45KiB); checksum: 1497F7B9
