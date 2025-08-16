@@ -508,6 +508,21 @@
             "translation": "トークン"
         },
         {
+            "id": "File",
+            "message": "File",
+            "translation": "ファイル"
+        },
+        {
+            "id": "Select Token File",
+            "message": "Select Token File",
+            "translation": "トークンファイルを選択"
+        },
+        {
+            "id": "Source",
+            "message": "Source",
+            "translation": "データソース"
+        },
+        {
             "id": "Secret",
             "message": "Secret",
             "translation": "秘密鍵"
@@ -1486,21 +1501,6 @@
             ]
         },
         {
-            "id": "Created",
-            "message": "Created",
-            "translation": "作成時間"
-        },
-        {
-            "id": "Modified",
-            "message": "Modified",
-            "translation": "修正時間"
-        },
-        {
-            "id": "Started",
-            "message": "Started",
-            "translation": "起動時間"
-        },
-        {
             "id": "Number of TCP Connections",
             "message": "Number of TCP Connections",
             "translation": "TCP接続数"
@@ -1509,6 +1509,21 @@
             "id": "Number of UDP Connections",
             "message": "Number of UDP Connections",
             "translation": "UDP接続数"
+        },
+        {
+            "id": "Started",
+            "message": "Started",
+            "translation": "起動時間"
+        },
+        {
+            "id": "Created",
+            "message": "Created",
+            "translation": "作成時間"
+        },
+        {
+            "id": "Modified",
+            "message": "Modified",
+            "translation": "修正時間"
         },
         {
             "id": "{Name} Properties",
@@ -1619,11 +1634,6 @@
             "id": "Error message",
             "message": "Error message",
             "translation": "エラーメッセージ"
-        },
-        {
-            "id": "Source",
-            "message": "Source",
-            "translation": "データソース"
         },
         {
             "id": "This feature only supports text in INI or TOML format.",

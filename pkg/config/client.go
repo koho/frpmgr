@@ -22,6 +22,8 @@ type ClientAuth struct {
 	AuthenticateHeartBeats       bool              `ini:"authenticate_heartbeats,omitempty" token:"true" oidc:"true"`
 	AuthenticateNewWorkConns     bool              `ini:"authenticate_new_work_conns,omitempty" token:"true" oidc:"true"`
 	Token                        string            `ini:"token,omitempty" token:"true"`
+	TokenSource                  string            `ini:"-" token:"true"`
+	TokenSourceFile              string            `ini:"-" token:"true"`
 	OIDCClientId                 string            `ini:"oidc_client_id,omitempty" oidc:"true"`
 	OIDCClientSecret             string            `ini:"oidc_client_secret,omitempty" oidc:"true"`
 	OIDCAudience                 string            `ini:"oidc_audience,omitempty" oidc:"true"`
@@ -37,9 +39,15 @@ func (ca ClientAuth) Complete() ClientAuth {
 			ca = auth.(ClientAuth)
 			ca.AuthMethod = authMethod
 		}
-		// Check the default auth method
-		if authMethod == consts.AuthToken && ca.Token == "" {
-			ca.AuthMethod = ""
+		if authMethod == consts.AuthToken {
+			if ca.TokenSource != "" {
+				ca.Token = ""
+			} else {
+				ca.TokenSourceFile = ""
+				if ca.Token == "" {
+					ca.AuthMethod = ""
+				}
+			}
 		}
 	} else {
 		ca = ClientAuth{}
@@ -408,6 +416,9 @@ func (conf *ClientConfig) saveTOML(path string) error {
 // Otherwise, it should be completed for file written to disk.
 func (conf *ClientConfig) Complete(read bool) {
 	// Common config
+	if conf.LegacyFormat {
+		conf.TokenSource = ""
+	}
 	conf.ClientAuth = conf.ClientAuth.Complete()
 	if conf.AdminPort == 0 {
 		conf.AdminUser = ""

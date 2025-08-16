@@ -498,6 +498,21 @@
             "translation": "Simbólico"
         },
         {
+            "id": "File",
+            "message": "File",
+            "translation": "Archivo"
+        },
+        {
+            "id": "Select Token File",
+            "message": "Select Token File",
+            "translation": "Seleccionar archivo de token"
+        },
+        {
+            "id": "Source",
+            "message": "Source",
+            "translation": "Fuente"
+        },
+        {
             "id": "Secret",
             "message": "Secret",
             "translation": "Secreto"
@@ -1476,21 +1491,6 @@
             ]
         },
         {
-            "id": "Created",
-            "message": "Created",
-            "translation": "Creado"
-        },
-        {
-            "id": "Modified",
-            "message": "Modified",
-            "translation": "Modificado"
-        },
-        {
-            "id": "Started",
-            "message": "Started",
-            "translation": "Empezado"
-        },
-        {
             "id": "Number of TCP Connections",
             "message": "Number of TCP Connections",
             "translation": "Número de conexiones TCP"
@@ -1499,6 +1499,21 @@
             "id": "Number of UDP Connections",
             "message": "Number of UDP Connections",
             "translation": "Número de conexiones UDP"
+        },
+        {
+            "id": "Started",
+            "message": "Started",
+            "translation": "Empezado"
+        },
+        {
+            "id": "Created",
+            "message": "Created",
+            "translation": "Creado"
+        },
+        {
+            "id": "Modified",
+            "message": "Modified",
+            "translation": "Modificado"
         },
         {
             "id": "{Name} Properties",
@@ -1609,11 +1624,6 @@
             "id": "Error message",
             "message": "Error message",
             "translation": "Mensaje de error"
-        },
-        {
-            "id": "Source",
-            "message": "Source",
-            "translation": "Fuente"
         },
         {
             "id": "This feature only supports text in INI or TOML format.",

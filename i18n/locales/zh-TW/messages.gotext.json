@@ -498,6 +498,21 @@
             "translation": "權杖"
         },
         {
+            "id": "File",
+            "message": "File",
+            "translation": "檔案"
+        },
+        {
+            "id": "Select Token File",
+            "message": "Select Token File",
+            "translation": "選擇權杖檔案"
+        },
+        {
+            "id": "Source",
+            "message": "Source",
+            "translation": "來源"
+        },
+        {
             "id": "Secret",
             "message": "Secret",
             "translation": "金鑰"
@@ -1476,21 +1491,6 @@
             ]
         },
         {
-            "id": "Created",
-            "message": "Created",
-            "translation": "建立日期"
-        },
-        {
-            "id": "Modified",
-            "message": "Modified",
-            "translation": "修改日期"
-        },
-        {
-            "id": "Started",
-            "message": "Started",
-            "translation": "啟動日期"
-        },
-        {
             "id": "Number of TCP Connections",
             "message": "Number of TCP Connections",
             "translation": "TCP 連線數"
@@ -1499,6 +1499,21 @@
             "id": "Number of UDP Connections",
             "message": "Number of UDP Connections",
             "translation": "UDP 連線數"
+        },
+        {
+            "id": "Started",
+            "message": "Started",
+            "translation": "啟動日期"
+        },
+        {
+            "id": "Created",
+            "message": "Created",
+            "translation": "建立日期"
+        },
+        {
+            "id": "Modified",
+            "message": "Modified",
+            "translation": "修改日期"
         },
         {
             "id": "{Name} Properties",
@@ -1609,11 +1624,6 @@
             "id": "Error message",
             "message": "Error message",
             "translation": "錯誤訊息"
-        },
-        {
-            "id": "Source",
-            "message": "Source",
-            "translation": "來源"
         },
         {
             "id": "This feature only supports text in INI or TOML format.",
