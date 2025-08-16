@@ -642,6 +642,27 @@
             "fuzzy": true
         },
         {
+            "id": "File",
+            "message": "File",
+            "translation": "File",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Select Token File",
+            "message": "Select Token File",
+            "translation": "Select Token File",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Source",
+            "message": "Source",
+            "translation": "Source",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Secret",
             "message": "Secret",
             "translation": "Secret",
@@ -1976,16 +1997,16 @@
             "fuzzy": true
         },
         {
-            "id": "Created",
-            "message": "Created",
-            "translation": "Created",
+            "id": "Number of TCP Connections",
+            "message": "Number of TCP Connections",
+            "translation": "Number of TCP Connections",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
         {
-            "id": "Modified",
-            "message": "Modified",
-            "translation": "Modified",
+            "id": "Number of UDP Connections",
+            "message": "Number of UDP Connections",
+            "translation": "Number of UDP Connections",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1997,16 +2018,16 @@
             "fuzzy": true
         },
         {
-            "id": "Number of TCP Connections",
-            "message": "Number of TCP Connections",
-            "translation": "Number of TCP Connections",
+            "id": "Created",
+            "message": "Created",
+            "translation": "Created",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
         {
-            "id": "Number of UDP Connections",
-            "message": "Number of UDP Connections",
-            "translation": "Number of UDP Connections",
+            "id": "Modified",
+            "message": "Modified",
+            "translation": "Modified",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -2157,13 +2178,6 @@
             "id": "Error message",
             "message": "Error message",
             "translation": "Error message",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
-            "id": "Source",
-            "message": "Source",
-            "translation": "Source",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
