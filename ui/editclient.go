@@ -486,6 +486,10 @@ func (cd *EditClientDialog) onSave() {
 			return
 		}
 	}
+	if !newConf.LegacyFormat && newConf.TokenSource == "file" && newConf.TokenSourceFile == "" {
+		showErrorMessage(cd.Form(), "", i18n.Sprintf("Token file is required."))
+		return
+	}
 	cd.data.ClientCommon = newConf.ClientCommon
 	cd.data.ClientCommon.Name = newConf.Name
 	cd.Accept()

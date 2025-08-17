@@ -778,6 +778,11 @@
             "translation": "Tamaño del paquete UDP"
         },
         {
+            "id": "Token file is required.",
+            "message": "Token file is required.",
+            "translation": "Se requiere el archivo de token."
+        },
+        {
             "id": "Config already exists",
             "message": "Config already exists",
             "translation": "La configuración ya existe"

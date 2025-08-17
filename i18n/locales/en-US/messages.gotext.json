@@ -1034,6 +1034,13 @@
             "fuzzy": true
         },
         {
+            "id": "Token file is required.",
+            "message": "Token file is required.",
+            "translation": "Token file is required.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Config already exists",
             "message": "Config already exists",
             "translation": "Config already exists",

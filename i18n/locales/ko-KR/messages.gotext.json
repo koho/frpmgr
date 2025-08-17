@@ -778,6 +778,11 @@
             "translation": "UDP 패킷 크기"
         },
         {
+            "id": "Token file is required.",
+            "message": "Token file is required.",
+            "translation": "토큰 파일이 필요합니다."
+        },
+        {
             "id": "Config already exists",
             "message": "Config already exists",
             "translation": "구성이 이미 있습니다."

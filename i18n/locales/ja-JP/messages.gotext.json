@@ -788,6 +788,11 @@
             "translation": "UDPパケットサイズ"
         },
         {
+            "id": "Token file is required.",
+            "message": "Token file is required.",
+            "translation": "トークンファイルが必要です。"
+        },
+        {
             "id": "Config already exists",
             "message": "Config already exists",
             "translation": "設定はすでに存在します"

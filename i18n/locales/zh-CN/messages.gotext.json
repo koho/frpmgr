@@ -778,6 +778,11 @@
             "translation": "UDP 包大小"
         },
         {
+            "id": "Token file is required.",
+            "message": "Token file is required.",
+            "translation": "必须填写令牌文件。"
+        },
+        {
             "id": "Config already exists",
             "message": "Config already exists",
             "translation": "配置已存在"
