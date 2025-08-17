@@ -498,6 +498,21 @@
             "translation": "토큰"
         },
         {
+            "id": "File",
+            "message": "File",
+            "translation": "파일"
+        },
+        {
+            "id": "Select Token File",
+            "message": "Select Token File",
+            "translation": "토큰 파일 선택"
+        },
+        {
+            "id": "Source",
+            "message": "Source",
+            "translation": "데이터 소스"
+        },
+        {
             "id": "Secret",
             "message": "Secret",
             "translation": "비밀 키"
@@ -761,6 +776,11 @@
             "id": "UDP Packet Size",
             "message": "UDP Packet Size",
             "translation": "UDP 패킷 크기"
+        },
+        {
+            "id": "Token file is required.",
+            "message": "Token file is required.",
+            "translation": "토큰 파일이 필요합니다."
         },
         {
             "id": "Config already exists",
@@ -1476,21 +1496,6 @@
             ]
         },
         {
-            "id": "Created",
-            "message": "Created",
-            "translation": "창조 시간"
-        },
-        {
-            "id": "Modified",
-            "message": "Modified",
-            "translation": "수정 시간"
-        },
-        {
-            "id": "Started",
-            "message": "Started",
-            "translation": "시작 시간"
-        },
-        {
             "id": "Number of TCP Connections",
             "message": "Number of TCP Connections",
             "translation": "TCP 연결 수"
@@ -1499,6 +1504,21 @@
             "id": "Number of UDP Connections",
             "message": "Number of UDP Connections",
             "translation": "UDP 연결 수"
+        },
+        {
+            "id": "Started",
+            "message": "Started",
+            "translation": "시작 시간"
+        },
+        {
+            "id": "Created",
+            "message": "Created",
+            "translation": "창조 시간"
+        },
+        {
+            "id": "Modified",
+            "message": "Modified",
+            "translation": "수정 시간"
         },
         {
             "id": "{Name} Properties",
@@ -1609,11 +1629,6 @@
             "id": "Error message",
             "message": "Error message",
             "translation": "오류 메시지"
-        },
-        {
-            "id": "Source",
-            "message": "Source",
-            "translation": "데이터 소스"
         },
         {
             "id": "This feature only supports text in INI or TOML format.",

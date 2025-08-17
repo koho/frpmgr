@@ -21,6 +21,15 @@ func ClientCommonFromV1(c *v1.ClientCommonConfig) (r ClientCommon) {
 	// Auth client config
 	r.AuthMethod = string(c.Auth.Method)
 	r.Token = c.Auth.Token
+	if ts := c.Auth.TokenSource; ts != nil {
+		r.TokenSource = ts.Type
+		switch ts.Type {
+		case "file":
+			if ts.File != nil {
+				r.TokenSourceFile = ts.File.Path
+			}
+		}
+	}
 	r.OIDCClientId = c.Auth.OIDC.ClientID
 	r.OIDCClientSecret = c.Auth.OIDC.ClientSecret
 	r.OIDCAudience = c.Auth.OIDC.Audience
@@ -259,6 +268,13 @@ func ClientCommonToV1(c *ClientCommon) (r v1.ClientCommonConfig) {
 			TokenEndpointURL:         c.OIDCTokenEndpoint,
 			AdditionalEndpointParams: c.OIDCAdditionalEndpointParams,
 		},
+	}
+	if c.TokenSource != "" {
+		r.Auth.TokenSource = &v1.ValueSource{Type: c.TokenSource}
+		switch c.TokenSource {
+		case "file":
+			r.Auth.TokenSource.File = &v1.FileSource{Path: c.TokenSourceFile}
+		}
 	}
 	if c.AuthenticateHeartBeats {
 		r.Auth.AdditionalScopes = append(r.Auth.AdditionalScopes, v1.AuthScopeHeartBeats)
@@ -647,6 +663,9 @@ func toMap(in any, tag string) (map[string]any, error) {
 	for i := 0; i < v.NumField(); i++ {
 		ft := t.Field(i)
 		fv := v.Field(i)
+		if fv.Kind() == reflect.Ptr && fv.Elem().Kind() == reflect.Struct {
+			fv = fv.Elem()
+		}
 		key := ft.Tag.Get(tag)
 		if key != "" {
 			key = strings.Split(key, ",")[0]
