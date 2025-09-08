@@ -1,6 +1,6 @@
 module github.com/koho/frpmgr
 
-go 1.23.0
+go 1.24.0
 
 require (
 	github.com/Microsoft/go-winio v0.6.2
@@ -11,7 +11,7 @@ require (
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e
 	github.com/pelletier/go-toml/v2 v2.2.0
 	github.com/samber/lo v1.47.0
-	golang.org/x/sys v0.32.0
+	golang.org/x/sys v0.36.0
 	golang.org/x/text v0.24.0
 	gopkg.in/ini.v1 v1.67.0
 )
