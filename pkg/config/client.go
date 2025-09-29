@@ -347,7 +347,7 @@ func (conf *ClientConfig) saveINI(path string) error {
 	if err = common.ReflectFrom(&conf.ClientCommon); err != nil {
 		return err
 	}
-	for k, v := range conf.ClientCommon.Metas {
+	for k, v := range conf.Metas {
 		common.Key("meta_" + k).SetValue(v)
 	}
 	for k, v := range conf.OIDCAdditionalEndpointParams {
@@ -464,7 +464,7 @@ func (conf *ClientConfig) Copy(all bool) *ClientConfig {
 	newConf := NewDefaultClientConfig()
 	newConf.ClientCommon = conf.ClientCommon
 	// We can't share the same log file between different configs
-	newConf.ClientCommon.LogFile = ""
+	newConf.LogFile = ""
 	if all {
 		for _, proxy := range conf.Proxies {
 			var newProxy = *proxy

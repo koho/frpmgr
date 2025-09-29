@@ -238,10 +238,8 @@ func (pv *PanelView) Invalidate(state bool) {
 		pv.addressText.SetText(addr)
 	}
 	pv.protoImage.SetVisible(data.TLSEnable || data.Protocol == consts.ProtoWSS || data.Protocol == consts.ProtoQUIC)
-	proto := data.Protocol
-	if proto == "" {
-		proto = consts.ProtoTCP
-	} else if proto == consts.ProtoWebsocket {
+	proto := util.GetOrElse(data.Protocol, consts.ProtoTCP)
+	if proto == consts.ProtoWebsocket {
 		proto = "ws"
 	}
 	proto = strings.ToUpper(proto)

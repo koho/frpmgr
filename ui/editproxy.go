@@ -499,25 +499,25 @@ func (pd *EditProxyDialog) onSave() {
 		}
 	}
 	// Update metadata
-	pd.binder.Proxy.Metas = pd.metaModel.AsMap()
+	pd.binder.Metas = pd.metaModel.AsMap()
 	// Update role
 	if pd.binder.Visitor {
-		pd.binder.Proxy.Role = "visitor"
+		pd.binder.Role = "visitor"
 	} else {
-		pd.binder.Proxy.Role = ""
+		pd.binder.Role = ""
 	}
 	// Update bandwidth
 	if pd.binder.BandwidthNum > 0 {
-		pd.binder.Proxy.BandwidthLimit = strconv.FormatInt(pd.binder.BandwidthNum, 10) + pd.binder.BandwidthUnit
-		if pd.binder.Proxy.BandwidthLimitMode == consts.BandwidthMode[0] {
-			pd.binder.Proxy.BandwidthLimitMode = ""
+		pd.binder.BandwidthLimit = strconv.FormatInt(pd.binder.BandwidthNum, 10) + pd.binder.BandwidthUnit
+		if pd.binder.BandwidthLimitMode == consts.BandwidthMode[0] {
+			pd.binder.BandwidthLimitMode = ""
 		}
 	} else {
-		pd.binder.Proxy.BandwidthLimit = ""
-		pd.binder.Proxy.BandwidthLimitMode = ""
+		pd.binder.BandwidthLimit = ""
+		pd.binder.BandwidthLimitMode = ""
 	}
-	pd.binder.Proxy.LocalPort = strings.TrimSpace(pd.binder.Proxy.LocalPort)
-	pd.binder.Proxy.RemotePort = strings.TrimSpace(pd.binder.Proxy.RemotePort)
+	pd.binder.LocalPort = strings.TrimSpace(pd.binder.LocalPort)
+	pd.binder.RemotePort = strings.TrimSpace(pd.binder.RemotePort)
 	if ok := pd.validateProxy(pd.binder.Proxy); !ok {
 		return
 	}
