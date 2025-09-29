@@ -19,8 +19,8 @@ github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1mIlRU8Am5FuJP05cCM98=
 github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7+kN2VEUnK/pcBlmesArF7c=
-github.com/fatedier/frp v0.64.0 h1:R9DAZ2J270cPCGBYCwCCYFxn+53hf5tl1J/eBdxCCmQ=
-github.com/fatedier/frp v0.64.0/go.mod h1:46gMhWuoI+QgwiOam/xR0HTkdoWSkOBRbd+JpWJr+k0=
+github.com/fatedier/frp v0.65.0 h1:Wn8qjXXf+G7+czZB0o7Y4U7Ohy9q/LOAqzK5AVKEel4=
+github.com/fatedier/frp v0.65.0/go.mod h1:P5aPIs0cqLWDKIYkOziZQGZpb4DwzQkRyK5h+OtPp0Y=
 github.com/fatedier/golib v0.5.1 h1:hcKAnaw5mdI/1KWRGejxR+i1Hn/NvbY5UsMKDr7o13M=
 github.com/fatedier/golib v0.5.1/go.mod h1:W6kIYkIFxHsTzbgqg5piCxIiDo4LzwgTY6R5W8l9NFQ=
 github.com/fsnotify/fsnotify v1.9.0 h1:2Ml+OJNzbYCTzsxtv8vKSFD9PbJjmhYF14k/jKC7S9k=
