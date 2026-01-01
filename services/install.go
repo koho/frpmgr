@@ -102,6 +102,7 @@ func UninstallService(configPath string, wait bool) error {
 			try++
 			status, err := service.Query()
 			if err != nil {
+				service.Close()
 				return err
 			}
 			if status.ProcessId == 0 || try >= 3 {
