@@ -988,14 +988,14 @@
             "translation": "Compresión"
         },
         {
+            "id": "Disable Assisted Addresses",
+            "message": "Disable Assisted Addresses",
+            "translation": "Deshabilitar direcciones asistidas"
+        },
+        {
             "id": "Fallback",
             "message": "Fallback",
             "translation": "Repuesto"
-        },
-        {
-            "id": "Fallback Timeout",
-            "message": "Fallback Timeout",
-            "translation": "Interruptor de respaldo"
         },
         {
             "id": "ms",

@@ -318,22 +318,34 @@ func (pd *EditProxyDialog) advancedProxyPage() TabPage {
 					CheckBox{Text: "HTTP/2", Visible: Bind("vm.PluginHTTPFwdVisible && vm.PluginCertVisible"), Checked: Bind("PluginEnableHTTP2")},
 				},
 			},
-			Label{Visible: xtcpVisitor, Text: i18n.SprintfColon("Fallback")},
-			ComboBox{
-				Name:     "fallback",
-				Editable: true,
-				Visible:  xtcpVisitor,
-				Model:    pd.visitors,
-				Value:    Bind("FallbackTo"),
+			CheckBox{
+				ColumnSpan: 2,
+				Visible:    Bind("proxyType.Value == 'xtcp'"),
+				Text:       i18n.Sprintf("Disable Assisted Addresses"),
+				Checked:    Bind("DisableAssistedAddrs"),
 			},
-			Label{Visible: xtcpVisitor, Enabled: Bind("fallback.Value != ''"), Text: i18n.SprintfColon("Fallback Timeout")},
-			NewNumberInput(NIOption{
+			Label{Visible: xtcpVisitor, Text: i18n.SprintfColon("Fallback")},
+			Composite{
 				Visible: xtcpVisitor,
-				Enabled: Bind("fallback.Value != ''"),
-				Value:   Bind("FallbackTimeoutMs"),
-				Suffix:  i18n.Sprintf("ms"),
-				Max:     math.MaxFloat64,
-			}),
+				Layout:  HBox{MarginsZero: true},
+				Children: []Widget{
+					ComboBox{
+						Name:     "fallback",
+						Editable: true,
+						Model:    pd.visitors,
+						Value:    Bind("FallbackTo"),
+						MinSize:  Size{Width: 110},
+					},
+					HSpacer{Size: 2},
+					Label{Enabled: Bind("fallback.Value != ''"), Text: ">"},
+					NewNumberInput(NIOption{
+						Enabled: Bind("fallback.Value != ''"),
+						Value:   Bind("FallbackTimeoutMs"),
+						Suffix:  i18n.Sprintf("ms"),
+						Max:     math.MaxFloat64,
+					}),
+				},
+			},
 			Label{Visible: xtcpVisitor, Enabled: Bind("keepTunnel.Checked"), Text: i18n.SprintfColon("Retry Count")},
 			NewNumberInput(NIOption{
 				Visible: xtcpVisitor,

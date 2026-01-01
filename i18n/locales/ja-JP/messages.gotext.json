@@ -998,14 +998,14 @@
             "translation": "圧縮"
         },
         {
+            "id": "Disable Assisted Addresses",
+            "message": "Disable Assisted Addresses",
+            "translation": "アシストアドレスを無効にする"
+        },
+        {
             "id": "Fallback",
             "message": "Fallback",
             "translation": "代替"
-        },
-        {
-            "id": "Fallback Timeout",
-            "message": "Fallback Timeout",
-            "translation": "フォールバックタイムアウト"
         },
         {
             "id": "ms",

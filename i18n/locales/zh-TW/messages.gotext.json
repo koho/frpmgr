@@ -988,14 +988,14 @@
             "translation": "壓縮傳輸"
         },
         {
+            "id": "Disable Assisted Addresses",
+            "message": "Disable Assisted Addresses",
+            "translation": "停用本地位址輔助連接"
+        },
+        {
             "id": "Fallback",
             "message": "Fallback",
             "translation": "備用"
-        },
-        {
-            "id": "Fallback Timeout",
-            "message": "Fallback Timeout",
-            "translation": "備用超時"
         },
         {
             "id": "ms",
