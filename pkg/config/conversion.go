@@ -36,6 +36,9 @@ func ClientCommonFromV1(c *v1.ClientCommonConfig) (r ClientCommon) {
 	r.OIDCScope = c.Auth.OIDC.Scope
 	r.OIDCTokenEndpoint = c.Auth.OIDC.TokenEndpointURL
 	r.OIDCAdditionalEndpointParams = c.Auth.OIDC.AdditionalEndpointParams
+	r.OIDCTrustedCaFile = c.Auth.OIDC.TrustedCaFile
+	r.OIDCInsecureSkipVerify = c.Auth.OIDC.InsecureSkipVerify
+	r.OIDCProxyURL = c.Auth.OIDC.ProxyURL
 	if lo.Contains(c.Auth.AdditionalScopes, v1.AuthScopeHeartBeats) {
 		r.AuthenticateHeartBeats = true
 	}
@@ -273,6 +276,9 @@ func ClientCommonToV1(c *ClientCommon) (r v1.ClientCommonConfig) {
 			Scope:                    c.OIDCScope,
 			TokenEndpointURL:         c.OIDCTokenEndpoint,
 			AdditionalEndpointParams: c.OIDCAdditionalEndpointParams,
+			TrustedCaFile:            c.OIDCTrustedCaFile,
+			InsecureSkipVerify:       c.OIDCInsecureSkipVerify,
+			ProxyURL:                 c.OIDCProxyURL,
 		},
 	}
 	if c.TokenSource != "" {

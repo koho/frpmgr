@@ -691,13 +691,6 @@
             "fuzzy": true
         },
         {
-            "id": "Parameters",
-            "message": "Parameters",
-            "translation": "Parameters",
-            "translatorComment": "Copied from source.",
-            "fuzzy": true
-        },
-        {
             "id": "Heart Beats",
             "message": "Heart Beats",
             "translation": "Heart Beats",
@@ -841,6 +834,13 @@
             "id": "Advanced Options",
             "message": "Advanced Options",
             "translation": "Advanced Options",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Parameters",
+            "message": "Parameters",
+            "translation": "Parameters",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -1030,6 +1030,13 @@
             "id": "UDP Packet Size",
             "message": "UDP Packet Size",
             "translation": "UDP Packet Size",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Skip certificate verification",
+            "message": "Skip certificate verification",
+            "translation": "Skip certificate verification",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

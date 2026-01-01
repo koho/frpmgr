@@ -533,11 +533,6 @@
             "translation": "令牌地址"
         },
         {
-            "id": "Parameters",
-            "message": "Parameters",
-            "translation": "参数"
-        },
-        {
             "id": "Heart Beats",
             "message": "Heart Beats",
             "translation": "心跳消息"
@@ -641,6 +636,11 @@
             "id": "Advanced Options",
             "message": "Advanced Options",
             "translation": "高级选项"
+        },
+        {
+            "id": "Parameters",
+            "message": "Parameters",
+            "translation": "参数"
         },
         {
             "id": "Dial Timeout",
@@ -776,6 +776,11 @@
             "id": "UDP Packet Size",
             "message": "UDP Packet Size",
             "translation": "UDP 包大小"
+        },
+        {
+            "id": "Skip certificate verification",
+            "message": "Skip certificate verification",
+            "translation": "跳过证书验证"
         },
         {
             "id": "Token file is required.",

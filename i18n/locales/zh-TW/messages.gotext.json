@@ -533,11 +533,6 @@
             "translation": "權杖位址"
         },
         {
-            "id": "Parameters",
-            "message": "Parameters",
-            "translation": "參數"
-        },
-        {
             "id": "Heart Beats",
             "message": "Heart Beats",
             "translation": "伺服器心跳"
@@ -641,6 +636,11 @@
             "id": "Advanced Options",
             "message": "Advanced Options",
             "translation": "進階選項"
+        },
+        {
+            "id": "Parameters",
+            "message": "Parameters",
+            "translation": "參數"
         },
         {
             "id": "Dial Timeout",
@@ -776,6 +776,11 @@
             "id": "UDP Packet Size",
             "message": "UDP Packet Size",
             "translation": "UDP 封包大小"
+        },
+        {
+            "id": "Skip certificate verification",
+            "message": "Skip certificate verification",
+            "translation": "跳過證書驗證"
         },
         {
             "id": "Token file is required.",

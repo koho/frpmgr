@@ -533,11 +533,6 @@
             "translation": "토큰 URL"
         },
         {
-            "id": "Parameters",
-            "message": "Parameters",
-            "translation": "매개변수"
-        },
-        {
             "id": "Heart Beats",
             "message": "Heart Beats",
             "translation": "대기 중"
@@ -641,6 +636,11 @@
             "id": "Advanced Options",
             "message": "Advanced Options",
             "translation": "고급 옵션"
+        },
+        {
+            "id": "Parameters",
+            "message": "Parameters",
+            "translation": "매개변수"
         },
         {
             "id": "Dial Timeout",
@@ -776,6 +776,11 @@
             "id": "UDP Packet Size",
             "message": "UDP Packet Size",
             "translation": "UDP 패킷 크기"
+        },
+        {
+            "id": "Skip certificate verification",
+            "message": "Skip certificate verification",
+            "translation": "인증서 확인을 건너뛰세요"
         },
         {
             "id": "Token file is required.",

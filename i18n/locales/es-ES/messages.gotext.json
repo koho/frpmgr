@@ -533,11 +533,6 @@
             "translation": "Dirección de token"
         },
         {
-            "id": "Parameters",
-            "message": "Parameters",
-            "translation": "Parámetros"
-        },
-        {
             "id": "Heart Beats",
             "message": "Heart Beats",
             "translation": "Latidos del corazón"
@@ -641,6 +636,11 @@
             "id": "Advanced Options",
             "message": "Advanced Options",
             "translation": "Opciones Avanzada"
+        },
+        {
+            "id": "Parameters",
+            "message": "Parameters",
+            "translation": "Parámetros"
         },
         {
             "id": "Dial Timeout",
@@ -776,6 +776,11 @@
             "id": "UDP Packet Size",
             "message": "UDP Packet Size",
             "translation": "Tamaño del paquete UDP"
+        },
+        {
+            "id": "Skip certificate verification",
+            "message": "Skip certificate verification",
+            "translation": "Omitir la verificación del certificado"
         },
         {
             "id": "Token file is required.",
