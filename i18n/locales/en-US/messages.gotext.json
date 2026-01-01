@@ -1316,16 +1316,16 @@
             "fuzzy": true
         },
         {
-            "id": "Fallback",
-            "message": "Fallback",
-            "translation": "Fallback",
+            "id": "Disable Assisted Addresses",
+            "message": "Disable Assisted Addresses",
+            "translation": "Disable Assisted Addresses",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
         {
-            "id": "Fallback Timeout",
-            "message": "Fallback Timeout",
-            "translation": "Fallback Timeout",
+            "id": "Fallback",
+            "message": "Fallback",
+            "translation": "Fallback",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

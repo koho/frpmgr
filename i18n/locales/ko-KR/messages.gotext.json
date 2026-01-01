@@ -988,14 +988,14 @@
             "translation": "압축"
         },
         {
+            "id": "Disable Assisted Addresses",
+            "message": "Disable Assisted Addresses",
+            "translation": "보조 주소 비활성화"
+        },
+        {
             "id": "Fallback",
             "message": "Fallback",
             "translation": "폴백"
-        },
-        {
-            "id": "Fallback Timeout",
-            "message": "Fallback Timeout",
-            "translation": "대체 시간 초과"
         },
         {
             "id": "ms",

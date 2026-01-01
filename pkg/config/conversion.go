@@ -146,6 +146,9 @@ func ClientProxyFromV1(pxyCfg TypedProxyConfig) *Proxy {
 	case *v1.XTCPProxyConfig:
 		r.SK = v.Secretkey
 		r.AllowUsers = strings.Join(v.AllowUsers, ",")
+		if v.NatTraversal != nil {
+			r.DisableAssistedAddrs = v.NatTraversal.DisableAssistedAddrs
+		}
 	}
 	return &r
 }
@@ -163,6 +166,9 @@ func ClientVisitorFromV1(visitorCfg TypedVisitorConfig) *Proxy {
 		r.MinRetryInterval = v.MinRetryInterval
 		r.FallbackTo = v.FallbackTo
 		r.FallbackTimeoutMs = v.FallbackTimeoutMs
+		if v.NatTraversal != nil {
+			r.DisableAssistedAddrs = v.NatTraversal.DisableAssistedAddrs
+		}
 	}
 	return &r
 }
@@ -478,6 +484,11 @@ func singleClientProxyToV1(p *Proxy) (TypedProxyConfig, error) {
 		if p.AllowUsers != "" {
 			c.AllowUsers = strings.Split(p.AllowUsers, ",")
 		}
+		if p.DisableAssistedAddrs {
+			c.NatTraversal = &v1.NatTraversalConfig{
+				DisableAssistedAddrs: p.DisableAssistedAddrs,
+			}
+		}
 		r.ProxyConfigurer = c
 	}
 	return r, nil
@@ -616,7 +627,7 @@ func ClientVisitorToV1(p *Proxy) TypedVisitorConfig {
 	case consts.ProxyTypeSUDP:
 		r.VisitorConfigurer = &v1.SUDPVisitorConfig{VisitorBaseConfig: base}
 	case consts.ProxyTypeXTCP:
-		r.VisitorConfigurer = &v1.XTCPVisitorConfig{
+		var c = &v1.XTCPVisitorConfig{
 			VisitorBaseConfig: base,
 			Protocol:          p.Protocol,
 			KeepTunnelOpen:    p.KeepTunnelOpen,
@@ -625,6 +636,12 @@ func ClientVisitorToV1(p *Proxy) TypedVisitorConfig {
 			FallbackTo:        p.FallbackTo,
 			FallbackTimeoutMs: p.FallbackTimeoutMs,
 		}
+		if p.DisableAssistedAddrs {
+			c.NatTraversal = &v1.NatTraversalConfig{
+				DisableAssistedAddrs: p.DisableAssistedAddrs,
+			}
+		}
+		r.VisitorConfigurer = c
 	}
 	return r
 }

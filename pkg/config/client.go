@@ -223,12 +223,13 @@ type Proxy struct {
 	Multiplexer       string            `ini:"multiplexer,omitempty" tcpmux:"true"`
 	RouteByHTTPUser   string            `ini:"route_by_http_user,omitempty" http:"true" tcpmux:"true"`
 	// "kcp" or "quic"
-	Protocol          string `ini:"protocol,omitempty" visitor:"xtcp"`
-	KeepTunnelOpen    bool   `ini:"keep_tunnel_open,omitempty" visitor:"xtcp"`
-	MaxRetriesAnHour  int    `ini:"max_retries_an_hour,omitempty" visitor:"xtcp"`
-	MinRetryInterval  int    `ini:"min_retry_interval,omitempty" visitor:"xtcp"`
-	FallbackTo        string `ini:"fallback_to,omitempty" visitor:"xtcp"`
-	FallbackTimeoutMs int    `ini:"fallback_timeout_ms,omitempty" visitor:"xtcp"`
+	Protocol             string `ini:"protocol,omitempty" visitor:"xtcp"`
+	KeepTunnelOpen       bool   `ini:"keep_tunnel_open,omitempty" visitor:"xtcp"`
+	MaxRetriesAnHour     int    `ini:"max_retries_an_hour,omitempty" visitor:"xtcp"`
+	MinRetryInterval     int    `ini:"min_retry_interval,omitempty" visitor:"xtcp"`
+	FallbackTo           string `ini:"fallback_to,omitempty" visitor:"xtcp"`
+	FallbackTimeoutMs    int    `ini:"fallback_timeout_ms,omitempty" visitor:"xtcp"`
+	DisableAssistedAddrs bool   `ini:"-" xtcp:"true" visitor:"xtcp"`
 }
 
 // GetAlias returns the alias of this proxy.
