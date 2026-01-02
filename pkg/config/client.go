@@ -30,6 +30,9 @@ type ClientAuth struct {
 	OIDCScope                    string            `ini:"oidc_scope,omitempty" oidc:"true"`
 	OIDCTokenEndpoint            string            `ini:"oidc_token_endpoint_url,omitempty" oidc:"true"`
 	OIDCAdditionalEndpointParams map[string]string `ini:"-" oidc:"true"`
+	OIDCTrustedCaFile            string            `ini:"-" oidc:"true"`
+	OIDCInsecureSkipVerify       bool              `ini:"-" oidc:"true"`
+	OIDCProxyURL                 string            `ini:"-" oidc:"true"`
 }
 
 func (ca ClientAuth) Complete() ClientAuth {

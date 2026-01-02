@@ -543,11 +543,6 @@
             "translation": "トークンのURL"
         },
         {
-            "id": "Parameters",
-            "message": "Parameters",
-            "translation": "パラメーター"
-        },
-        {
             "id": "Heart Beats",
             "message": "Heart Beats",
             "translation": "接続を維持"
@@ -651,6 +646,11 @@
             "id": "Advanced Options",
             "message": "Advanced Options",
             "translation": "高度なオプション"
+        },
+        {
+            "id": "Parameters",
+            "message": "Parameters",
+            "translation": "パラメーター"
         },
         {
             "id": "Dial Timeout",
@@ -786,6 +786,11 @@
             "id": "UDP Packet Size",
             "message": "UDP Packet Size",
             "translation": "UDPパケットサイズ"
+        },
+        {
+            "id": "Skip certificate verification",
+            "message": "Skip certificate verification",
+            "translation": "証明書の検証をスキップする"
         },
         {
             "id": "Token file is required.",

@@ -149,8 +149,8 @@ func (cd *EditClientDialog) authConfPage() TabPage {
 				Layout:  HBox{MarginsZero: true},
 				Children: []Widget{
 					LineEdit{Text: Bind("OIDCTokenEndpoint")},
-					ToolButton{Text: "#", ToolTipText: i18n.Sprintf("Parameters"), OnClicked: func() {
-						NewAttributeDialog(i18n.Sprintf("Parameters"), &cd.binder.OIDCAdditionalEndpointParams).Run(cd.Form())
+					ToolButton{Text: "...", OnClicked: func() {
+						cd.advancedOIDCDialog().Run(cd.Form())
 					}},
 				},
 			},
@@ -472,6 +472,45 @@ func (cd *EditClientDialog) advancedConnDialog() Dialog {
 		VSpacer{Size: 4},
 	)
 	dlg.MinSize = Size{Width: 350}
+	dlg.FixedSize = true
+	return dlg
+}
+
+func (cd *EditClientDialog) advancedOIDCDialog() Dialog {
+	var w *walk.Dialog
+	var params = cd.binder.OIDCAdditionalEndpointParams
+	dlg := NewBasicDialog(&w, "OIDC",
+		loadIcon(res.IconEditDialog, 32),
+		DataBinder{DataSource: cd.binder}, func() {
+			if err := w.DataBinder().Submit(); err == nil {
+				cd.binder.OIDCAdditionalEndpointParams = params
+				w.Accept()
+			}
+		},
+		Label{Text: i18n.SprintfColon("Proxy URL")},
+		LineEdit{Text: Bind("OIDCProxyURL")},
+		Label{Text: i18n.SprintfColon("Trusted CA")},
+		NewBrowseLineEdit(nil, true, true, Bind("OIDCTrustedCaFile"),
+			i18n.Sprintf("Select Trusted CA File"), res.FilterCert, true),
+		Composite{
+			Layout: HBox{MarginsZero: true},
+			Children: []Widget{
+				CheckBox{
+					Text:    i18n.Sprintf("Skip certificate verification"),
+					Checked: Bind("OIDCInsecureSkipVerify"),
+				},
+				HSpacer{},
+				PushButton{
+					Text: i18n.Sprintf("Parameters"),
+					OnClicked: func() {
+						NewAttributeDialog(i18n.Sprintf("Parameters"), &params).Run(cd.Form())
+					},
+				},
+			},
+		},
+		VSpacer{Size: 4},
+	)
+	dlg.MinSize = Size{Width: 370}
 	dlg.FixedSize = true
 	return dlg
 }
