@@ -479,7 +479,7 @@ func (cd *EditClientDialog) advancedConnDialog() Dialog {
 func (cd *EditClientDialog) advancedOIDCDialog() Dialog {
 	var w *walk.Dialog
 	var params = cd.binder.OIDCAdditionalEndpointParams
-	dlg := NewBasicDialog(&w, i18n.Sprintf("Advanced Options"),
+	dlg := NewBasicDialog(&w, "OIDC",
 		loadIcon(res.IconEditDialog, 32),
 		DataBinder{DataSource: cd.binder}, func() {
 			if err := w.DataBinder().Submit(); err == nil {
