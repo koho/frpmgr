@@ -36,6 +36,6 @@ func VerifyClientConfig(path string) error {
 	if err != nil {
 		return err
 	}
-	_, err = validation.ValidateAllClientConfig(cfg, proxyCfgs, visitorCfgs)
+	_, err = validation.ValidateAllClientConfig(cfg, proxyCfgs, visitorCfgs, nil)
 	return err
 }
