@@ -47,6 +47,7 @@ func ClientCommonFromV1(c *v1.ClientCommonConfig) (r ClientCommon) {
 	}
 
 	r.User = c.User
+	r.ClientID = c.ClientID
 	r.ServerAddress = c.ServerAddr
 	r.ServerPort = c.ServerPort
 	r.NatHoleSTUNServer = c.NatHoleSTUNServer
@@ -296,6 +297,7 @@ func ClientCommonToV1(c *ClientCommon) (r v1.ClientCommonConfig) {
 	}
 
 	r.User = c.User
+	r.ClientID = c.ClientID
 	r.ServerAddr = c.ServerAddress
 	r.ServerPort = c.ServerPort
 	r.NatHoleSTUNServer = c.NatHoleSTUNServer
