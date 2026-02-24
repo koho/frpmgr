@@ -455,7 +455,7 @@ func (conf *ClientConfig) Complete(read bool) {
 		// Complete proxy
 		proxy.Complete()
 		// Check proxy status
-		if read && len(conf.Start) > 0 {
+		if read && len(conf.Start) > 0 && !proxy.Disabled {
 			proxy.Disabled = !lo.Every(conf.Start, proxy.GetAlias())
 		}
 	}

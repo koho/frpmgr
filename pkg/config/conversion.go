@@ -180,6 +180,11 @@ func ClientVisitorFromV1(visitorCfg TypedVisitorConfig) *Proxy {
 func clientProxyBaseFromV1(c *v1.ProxyBaseConfig, out *Proxy) {
 	out.Name = c.Name
 	out.Type = c.Type
+	if c.Enabled == nil || *c.Enabled {
+		out.Disabled = false
+	} else {
+		out.Disabled = true
+	}
 	out.UseEncryption = c.Transport.UseEncryption
 	out.UseCompression = c.Transport.UseCompression
 	out.BandwidthLimitMode = c.Transport.BandwidthLimitMode
@@ -253,6 +258,11 @@ func clientProxyBaseFromV1(c *v1.ProxyBaseConfig, out *Proxy) {
 func clientVisitorBaseFromV1(c *v1.VisitorBaseConfig, out *Proxy) {
 	out.Name = c.Name
 	out.Type = c.Type
+	if c.Enabled == nil || *c.Enabled {
+		out.Disabled = false
+	} else {
+		out.Disabled = true
+	}
 	out.Role = "visitor"
 	out.UseEncryption = c.Transport.UseEncryption
 	out.UseCompression = c.Transport.UseCompression
