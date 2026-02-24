@@ -19,7 +19,8 @@ if "%FRPMGR_TARGET%" == "" set FRPMGR_TARGET=x64 x86
 
 :resources
 	echo [+] Generating resources
-	for /f %%a in ('go generate') do set %%a
+	go generate || goto :error
+	for /f %%a in ('go run env.go') do set %%a
 	if not defined VERSION exit /b 1
 
 :build
