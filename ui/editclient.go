@@ -98,6 +98,8 @@ func (cd *EditClientDialog) basicConfPage() TabPage {
 			NewNumberInput(NIOption{Value: Bind("ServerPort"), Max: 65535, Width: 90}),
 			Label{Text: i18n.SprintfColon("User")},
 			LineEdit{Text: Bind("User")},
+			Label{Text: "ID:"},
+			LineEdit{Text: Bind("ClientID")},
 			Label{Text: i18n.SprintfColon("STUN Server")},
 			LineEdit{Text: Bind("NatHoleSTUNServer")},
 			VSpacer{ColumnSpan: 2},

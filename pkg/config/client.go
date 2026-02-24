@@ -85,6 +85,7 @@ type ClientCommon struct {
 	QUICMaxIncomingStreams    int          `ini:"quic_max_incoming_streams,omitempty"`
 	LoginFailExit             bool         `ini:"login_fail_exit"`
 	User                      string       `ini:"user,omitempty"`
+	ClientID                  string       `ini:"-"`
 	HeartbeatInterval         int64        `ini:"heartbeat_interval,omitempty"`
 	HeartbeatTimeout          int64        `ini:"heartbeat_timeout,omitempty"`
 	TCPMux                    bool         `ini:"tcp_mux"`
