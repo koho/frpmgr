@@ -36,6 +36,7 @@ Visit the **[Wiki](https://github.com/koho/frpmgr/wiki)** for comprehensive guid
 To build FRP Manager from source, you need to install the following dependencies:
 
 - Go
+- Node v22
 - [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/)
 - [MinGW](https://github.com/mstorsjo/llvm-mingw)
 - [WiX Toolset](https://wixtoolset.org/) v3.14
