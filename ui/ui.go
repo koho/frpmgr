@@ -68,6 +68,9 @@ func RunUI() error {
 	if err = os.MkdirAll(PathOfConf(""), os.ModePerm); err != nil {
 		return err
 	}
+	if err = os.MkdirAll("stores", os.ModePerm); err != nil {
+		return err
+	}
 	cfgList, err := loadAllConfs()
 	if err != nil {
 		return err

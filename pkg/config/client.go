@@ -100,6 +100,8 @@ type ClientCommon struct {
 	PprofEnable               bool         `ini:"pprof_enable,omitempty"`
 	DisableCustomTLSFirstByte bool         `ini:"disable_custom_tls_first_byte"`
 
+	Store v1.StoreConfig `ini:"-"`
+
 	// Name of this config.
 	Name string `ini:"frpmgr_name"`
 	// ManualStart defines whether to start the config on system boot.

@@ -84,6 +84,11 @@ func (conf *Conf) Save() error {
 	}
 	conf.Data.Complete(false)
 	conf.Data.LogFile = filepath.ToSlash(logPath)
+	storePath, err := filepath.Abs(filepath.Join("stores", util.FileNameWithoutExt(conf.Path)+".json"))
+	if err != nil {
+		return err
+	}
+	conf.Data.Store.Path = filepath.ToSlash(storePath)
 	return conf.Data.Save(conf.Path)
 }
 
