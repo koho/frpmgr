@@ -101,6 +101,7 @@ func ClientCommonFromV1(c *v1.ClientCommonConfig) (r ClientCommon) {
 	}
 	r.UDPPacketSize = c.UDPPacketSize
 	r.Metas = c.Metadatas
+	r.Store = c.Store
 	return
 }
 
@@ -365,6 +366,7 @@ func ClientCommonToV1(c *ClientCommon) (r v1.ClientCommonConfig) {
 	}
 	r.UDPPacketSize = c.UDPPacketSize
 	r.Metadatas = c.Metas
+	r.Store = c.Store
 	return
 }
 
