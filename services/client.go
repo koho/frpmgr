@@ -2,12 +2,16 @@ package services
 
 import (
 	"context"
+	"fmt"
+	"path/filepath"
 	"time"
 
 	"github.com/fatedier/frp/client"
 	"github.com/fatedier/frp/client/proxy"
 	"github.com/fatedier/frp/pkg/config"
+	"github.com/fatedier/frp/pkg/config/source"
 	"github.com/fatedier/frp/pkg/config/v1"
+	"github.com/fatedier/frp/pkg/config/v1/validation"
 	"github.com/fatedier/frp/pkg/util/log"
 	_ "github.com/fatedier/frp/web/frpc"
 	glog "github.com/fatedier/golib/log"
@@ -25,24 +29,64 @@ type FrpClientService struct {
 }
 
 func NewFrpClientService(cfgFile string) (*FrpClientService, error) {
-	cfg, pxyCfgs, visitorCfgs, _, err := config.LoadClientConfig(cfgFile, false)
+	result, err := config.LoadClientConfigResult(cfgFile, false)
 	if err != nil {
 		return nil, err
 	}
+	configSource := source.NewConfigSource()
+	if err := configSource.ReplaceAll(result.Proxies, result.Visitors); err != nil {
+		return nil, fmt.Errorf("failed to set config source: %w", err)
+	}
+
+	var storeSource *source.StoreSource
+
+	if result.Common.Store.IsEnabled() {
+		storePath := result.Common.Store.Path
+		if storePath != "" && cfgFile != "" && !filepath.IsAbs(storePath) {
+			storePath = filepath.Join(filepath.Dir(cfgFile), storePath)
+		}
+
+		s, err := source.NewStoreSource(source.StoreSourceConfig{
+			Path: storePath,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("failed to create store source: %w", err)
+		}
+		storeSource = s
+	}
+
+	aggregator := source.NewAggregator(configSource)
+	if storeSource != nil {
+		aggregator.SetStoreSource(storeSource)
+	}
+
+	proxyCfgs, visitorCfgs, err := aggregator.Load()
+	if err != nil {
+		return nil, fmt.Errorf("failed to load config from sources: %w", err)
+	}
+
+	proxyCfgs, visitorCfgs = config.FilterClientConfigurers(result.Common, proxyCfgs, visitorCfgs)
+	proxyCfgs = config.CompleteProxyConfigurers(proxyCfgs)
+	visitorCfgs = config.CompleteVisitorConfigurers(visitorCfgs)
+
+	_, err = validation.ValidateAllClientConfig(result.Common, proxyCfgs, visitorCfgs, nil)
+	if err != nil {
+		return nil, err
+	}
+
 	svr, err := client.NewService(client.ServiceOptions{
-		Common:         cfg,
-		ProxyCfgs:      pxyCfgs,
-		VisitorCfgs:    visitorCfgs,
-		ConfigFilePath: cfgFile,
+		Common:                 result.Common,
+		ConfigSourceAggregator: aggregator,
+		ConfigFilePath:         cfgFile,
 	})
 	if err != nil {
 		return nil, err
 	}
-	logger := initLogger(cfg.Log.To, cfg.Log.Level, int(cfg.Log.MaxDays))
+	logger := initLogger(result.Common.Log.To, result.Common.Log.Level, int(result.Common.Log.MaxDays))
 	return &FrpClientService{
 		svr:            svr,
 		file:           cfgFile,
-		cfg:            cfg,
+		cfg:            result.Common,
 		done:           make(chan struct{}),
 		statusExporter: svr.StatusExporter(),
 		logger:         logger,
@@ -53,7 +97,7 @@ func NewFrpClientService(cfgFile string) (*FrpClientService, error) {
 func (s *FrpClientService) Run() {
 	defer close(s.done)
 	if s.file != "" {
-		log.Infof("start frpc service for config file [%s]", s.file)
+		log.Infof("start frpc service for config file [%s] with aggregated configuration", s.file)
 		defer log.Infof("frpc service for config file [%s] stopped", s.file)
 	}
 
@@ -88,11 +132,7 @@ func (s *FrpClientService) Done() <-chan struct{} {
 }
 
 func (s *FrpClientService) GetProxyStatus(name string) (status *proxy.WorkingStatus, ok bool) {
-	proxyName := name
-	if s.cfg.User != "" {
-		proxyName = s.cfg.User + "." + name
-	}
-	status, ok = s.statusExporter.GetProxyStatus(proxyName)
+	status, ok = s.statusExporter.GetProxyStatus(name)
 	if ok {
 		status.Name = name
 		if status.Err == "" {
