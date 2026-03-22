@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/fatedier/frp/client"
+	"github.com/fatedier/frp/client/configmgmt"
 	"github.com/fatedier/frp/client/proxy"
 	"github.com/fatedier/frp/pkg/config"
 	"github.com/fatedier/frp/pkg/config/source"
@@ -120,11 +121,27 @@ func (s *FrpClientService) Stop(wait bool) {
 
 // Reload creates or updates or removes proxies of frpc.
 func (s *FrpClientService) Reload() error {
-	_, pxyCfgs, visitorCfgs, _, err := config.LoadClientConfig(s.file, false)
+	result, err := config.LoadClientConfigResult(s.file, false)
 	if err != nil {
-		return err
+		return fmt.Errorf("%w: %v", configmgmt.ErrInvalidArgument, err)
 	}
-	return s.svr.UpdateAllConfigurer(pxyCfgs, visitorCfgs)
+
+	proxyCfgsForValidation, visitorCfgsForValidation := config.FilterClientConfigurers(
+		result.Common,
+		result.Proxies,
+		result.Visitors,
+	)
+	proxyCfgsForValidation = config.CompleteProxyConfigurers(proxyCfgsForValidation)
+	visitorCfgsForValidation = config.CompleteVisitorConfigurers(visitorCfgsForValidation)
+
+	if _, err := validation.ValidateAllClientConfig(result.Common, proxyCfgsForValidation, visitorCfgsForValidation, nil); err != nil {
+		return fmt.Errorf("%w: %v", configmgmt.ErrInvalidArgument, err)
+	}
+
+	if err := s.svr.UpdateConfigSource(result.Common, result.Proxies, result.Visitors); err != nil {
+		return fmt.Errorf("%w: %v", configmgmt.ErrApplyConfig, err)
+	}
+	return nil
 }
 
 func (s *FrpClientService) Done() <-chan struct{} {

@@ -475,7 +475,11 @@ func (conf *ClientConfig) Complete(read bool) {
 		}
 	}
 	if !read {
-		conf.Start = conf.gatherStart()
+		if conf.LegacyFormat {
+			conf.Start = conf.gatherStart()
+		} else {
+			conf.Start = nil
+		}
 	}
 }
 

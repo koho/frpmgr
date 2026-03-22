@@ -560,6 +560,9 @@ func clientProxyBaseToV1(c *BaseProxyConf) (v1.ProxyBaseConfig, error) {
 			},
 		},
 	}
+	if c.Disabled {
+		r.Enabled = new(bool)
+	}
 	if c.LocalPort != "" {
 		localPort, err := strconv.Atoi(c.LocalPort)
 		if err != nil {
@@ -680,7 +683,7 @@ func ClientVisitorToV1(p *Proxy) TypedVisitorConfig {
 }
 
 func clientVisitorBaseToV1(p *Proxy) v1.VisitorBaseConfig {
-	return v1.VisitorBaseConfig{
+	r := v1.VisitorBaseConfig{
 		Name: p.Name,
 		Type: p.Type,
 		Transport: v1.VisitorTransport{
@@ -693,6 +696,10 @@ func clientVisitorBaseToV1(p *Proxy) v1.VisitorBaseConfig {
 		BindAddr:   p.BindAddr,
 		BindPort:   p.BindPort,
 	}
+	if p.Disabled {
+		r.Enabled = new(bool)
+	}
+	return r
 }
 
 // toMap converts a struct to a map using the struct tags.
