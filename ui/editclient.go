@@ -81,7 +81,7 @@ func (cd *EditClientDialog) View() Dialog {
 	minWidth := lo.Sum(lo.Map(pages, func(page TabPage, i int) int {
 		return calculateStringWidth(page.Title.(string)) + 19
 	})) + 70
-	dlg.MinSize = Size{Width: minWidth, Height: 380}
+	dlg.MinSize = Size{Width: minWidth, Height: 400}
 	return dlg
 }
 

@@ -42,7 +42,8 @@ func (ca ClientAuth) Complete() ClientAuth {
 			ca = auth.(ClientAuth)
 			ca.AuthMethod = authMethod
 		}
-		if authMethod == consts.AuthToken {
+		switch authMethod {
+		case consts.AuthToken:
 			if ca.TokenSource != "" {
 				ca.Token = ""
 			} else {
@@ -51,7 +52,7 @@ func (ca ClientAuth) Complete() ClientAuth {
 					ca.AuthMethod = ""
 				}
 			}
-		} else if authMethod == consts.AuthOIDC {
+		case consts.AuthOIDC:
 			if ca.TokenSource != "" {
 				ca.OIDCClientId = ""
 				ca.OIDCClientSecret = ""
