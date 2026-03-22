@@ -108,10 +108,9 @@ func (cd *EditClientDialog) basicConfPage() TabPage {
 }
 
 func (cd *EditClientDialog) authConfPage() TabPage {
-	tokenSource := Bind("tokenCheck.Checked && !legacyFormat.Checked")
 	tokenInput := Bind("tokenCheck.Checked && (legacyFormat.Checked || tokenSource.Value == '')")
 	tokenFile := Bind("tokenSource.Visible && tokenSource.Value == 'file'")
-	oidc := Bind("oidcCheck.Checked")
+	oidc := Bind("oidcCheck.Checked && tokenSource.Value == ''")
 	auth := Bind("!noAuthCheck.Checked")
 	return AlignGrid(TabPage{
 		Title:  i18n.Sprintf("Auth"),
@@ -123,20 +122,20 @@ func (cd *EditClientDialog) authConfPage() TabPage {
 				{Name: "oidcCheck", Text: "OIDC", Value: consts.AuthOIDC},
 				{Name: "noAuthCheck", Text: i18n.Sprintf("None"), Value: ""},
 			}),
-			Label{Visible: tokenInput, Text: i18n.SprintfColon("Token")},
-			LineEdit{Visible: tokenInput, Text: Bind("Token"), PasswordMode: true},
-			Label{Visible: tokenFile, Text: i18n.SprintfColon("File")},
-			NewBrowseLineEdit(nil, tokenFile, true, Bind("TokenSourceFile"),
-				i18n.Sprintf("Select Token File"), "", true),
-			Label{Visible: tokenSource, Text: i18n.SprintfColon("Source")},
+			Label{Visible: auth, Text: i18n.SprintfColon("Source")},
 			ComboBox{
 				Name:          "tokenSource",
-				Visible:       tokenSource,
+				Visible:       auth,
 				Value:         Bind("TokenSource"),
 				Model:         NewListModel([]string{"", "file"}, i18n.Sprintf("None"), i18n.Sprintf("File")),
 				BindingMember: "Value",
 				DisplayMember: "Title",
 			},
+			Label{Visible: tokenInput, Text: i18n.SprintfColon("Token")},
+			LineEdit{Visible: tokenInput, Text: Bind("Token"), PasswordMode: true},
+			Label{Visible: tokenFile, Text: i18n.SprintfColon("File")},
+			NewBrowseLineEdit(nil, tokenFile, true, Bind("TokenSourceFile"),
+				i18n.Sprintf("Select Token File"), "", true),
 			Label{Visible: oidc, Text: "ID:"},
 			LineEdit{Visible: oidc, Text: Bind("OIDCClientId")},
 			Label{Visible: oidc, Text: i18n.SprintfColon("Secret")},

@@ -22,8 +22,8 @@ type ClientAuth struct {
 	AuthenticateHeartBeats       bool              `ini:"authenticate_heartbeats,omitempty" token:"true" oidc:"true"`
 	AuthenticateNewWorkConns     bool              `ini:"authenticate_new_work_conns,omitempty" token:"true" oidc:"true"`
 	Token                        string            `ini:"token,omitempty" token:"true"`
-	TokenSource                  string            `ini:"-" token:"true"`
-	TokenSourceFile              string            `ini:"-" token:"true"`
+	TokenSource                  string            `ini:"-" token:"true" oidc:"true"`
+	TokenSourceFile              string            `ini:"-" token:"true" oidc:"true"`
 	OIDCClientId                 string            `ini:"oidc_client_id,omitempty" oidc:"true"`
 	OIDCClientSecret             string            `ini:"oidc_client_secret,omitempty" oidc:"true"`
 	OIDCAudience                 string            `ini:"oidc_audience,omitempty" oidc:"true"`
@@ -50,6 +50,18 @@ func (ca ClientAuth) Complete() ClientAuth {
 				if ca.Token == "" {
 					ca.AuthMethod = ""
 				}
+			}
+		} else if authMethod == consts.AuthOIDC {
+			if ca.TokenSource != "" {
+				ca.OIDCClientId = ""
+				ca.OIDCClientSecret = ""
+				ca.OIDCAudience = ""
+				ca.OIDCScope = ""
+				ca.OIDCTokenEndpoint = ""
+				ca.OIDCAdditionalEndpointParams = nil
+				ca.OIDCTrustedCaFile = ""
+				ca.OIDCInsecureSkipVerify = false
+				ca.OIDCProxyURL = ""
 			}
 		}
 	} else {

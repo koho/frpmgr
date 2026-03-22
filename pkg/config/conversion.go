@@ -21,7 +21,14 @@ func ClientCommonFromV1(c *v1.ClientCommonConfig) (r ClientCommon) {
 	// Auth client config
 	r.AuthMethod = string(c.Auth.Method)
 	r.Token = c.Auth.Token
-	if ts := c.Auth.TokenSource; ts != nil {
+	var ts *v1.ValueSource
+	switch c.Auth.Method {
+	case consts.AuthToken:
+		ts = c.Auth.TokenSource
+	case consts.AuthOIDC:
+		ts = c.Auth.OIDC.TokenSource
+	}
+	if ts != nil {
 		r.TokenSource = ts.Type
 		switch ts.Type {
 		case "file":
@@ -294,10 +301,16 @@ func ClientCommonToV1(c *ClientCommon) (r v1.ClientCommonConfig) {
 		},
 	}
 	if c.TokenSource != "" {
-		r.Auth.TokenSource = &v1.ValueSource{Type: c.TokenSource}
+		ts := &v1.ValueSource{Type: c.TokenSource}
 		switch c.TokenSource {
 		case "file":
-			r.Auth.TokenSource.File = &v1.FileSource{Path: c.TokenSourceFile}
+			ts.File = &v1.FileSource{Path: c.TokenSourceFile}
+		}
+		switch c.AuthMethod {
+		case consts.AuthToken:
+			r.Auth.TokenSource = ts
+		case consts.AuthOIDC:
+			r.Auth.OIDC.TokenSource = ts
 		}
 	}
 	if c.AuthenticateHeartBeats {
