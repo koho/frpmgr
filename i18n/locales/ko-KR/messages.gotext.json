@@ -493,9 +493,9 @@
             "translation": "없음"
         },
         {
-            "id": "Token",
-            "message": "Token",
-            "translation": "토큰"
+            "id": "Source",
+            "message": "Source",
+            "translation": "데이터 소스"
         },
         {
             "id": "File",
@@ -503,14 +503,14 @@
             "translation": "파일"
         },
         {
+            "id": "Token",
+            "message": "Token",
+            "translation": "토큰"
+        },
+        {
             "id": "Select Token File",
             "message": "Select Token File",
             "translation": "토큰 파일 선택"
-        },
-        {
-            "id": "Source",
-            "message": "Source",
-            "translation": "데이터 소스"
         },
         {
             "id": "Secret",
@@ -531,6 +531,11 @@
             "id": "Token Endpoint",
             "message": "Token Endpoint",
             "translation": "토큰 URL"
+        },
+        {
+            "id": "Additional Scopes",
+            "message": "Additional Scopes",
+            "translation": "추가 범위"
         },
         {
             "id": "Heart Beats",

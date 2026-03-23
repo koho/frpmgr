@@ -635,9 +635,9 @@
             "fuzzy": true
         },
         {
-            "id": "Token",
-            "message": "Token",
-            "translation": "Token",
+            "id": "Source",
+            "message": "Source",
+            "translation": "Source",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -649,16 +649,16 @@
             "fuzzy": true
         },
         {
-            "id": "Select Token File",
-            "message": "Select Token File",
-            "translation": "Select Token File",
+            "id": "Token",
+            "message": "Token",
+            "translation": "Token",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
         {
-            "id": "Source",
-            "message": "Source",
-            "translation": "Source",
+            "id": "Select Token File",
+            "message": "Select Token File",
+            "translation": "Select Token File",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
@@ -687,6 +687,13 @@
             "id": "Token Endpoint",
             "message": "Token Endpoint",
             "translation": "Token Endpoint",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Additional Scopes",
+            "message": "Additional Scopes",
+            "translation": "Additional Scopes",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },

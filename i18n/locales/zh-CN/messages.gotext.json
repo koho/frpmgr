@@ -493,9 +493,9 @@
             "translation": "无"
         },
         {
-            "id": "Token",
-            "message": "Token",
-            "translation": "令牌"
+            "id": "Source",
+            "message": "Source",
+            "translation": "来源"
         },
         {
             "id": "File",
@@ -503,14 +503,14 @@
             "translation": "文件"
         },
         {
+            "id": "Token",
+            "message": "Token",
+            "translation": "令牌"
+        },
+        {
             "id": "Select Token File",
             "message": "Select Token File",
             "translation": "选择令牌文件"
-        },
-        {
-            "id": "Source",
-            "message": "Source",
-            "translation": "来源"
         },
         {
             "id": "Secret",
@@ -531,6 +531,11 @@
             "id": "Token Endpoint",
             "message": "Token Endpoint",
             "translation": "令牌地址"
+        },
+        {
+            "id": "Additional Scopes",
+            "message": "Additional Scopes",
+            "translation": "附加范围"
         },
         {
             "id": "Heart Beats",

@@ -503,9 +503,9 @@
             "translation": "なし"
         },
         {
-            "id": "Token",
-            "message": "Token",
-            "translation": "トークン"
+            "id": "Source",
+            "message": "Source",
+            "translation": "データソース"
         },
         {
             "id": "File",
@@ -513,14 +513,14 @@
             "translation": "ファイル"
         },
         {
+            "id": "Token",
+            "message": "Token",
+            "translation": "トークン"
+        },
+        {
             "id": "Select Token File",
             "message": "Select Token File",
             "translation": "トークンファイルを選択"
-        },
-        {
-            "id": "Source",
-            "message": "Source",
-            "translation": "データソース"
         },
         {
             "id": "Secret",
@@ -541,6 +541,11 @@
             "id": "Token Endpoint",
             "message": "Token Endpoint",
             "translation": "トークンのURL"
+        },
+        {
+            "id": "Additional Scopes",
+            "message": "Additional Scopes",
+            "translation": "追加スコープ"
         },
         {
             "id": "Heart Beats",

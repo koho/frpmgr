@@ -493,9 +493,9 @@
             "translation": "Ninguna"
         },
         {
-            "id": "Token",
-            "message": "Token",
-            "translation": "Simbólico"
+            "id": "Source",
+            "message": "Source",
+            "translation": "Fuente"
         },
         {
             "id": "File",
@@ -503,14 +503,14 @@
             "translation": "Archivo"
         },
         {
+            "id": "Token",
+            "message": "Token",
+            "translation": "Simbólico"
+        },
+        {
             "id": "Select Token File",
             "message": "Select Token File",
             "translation": "Seleccionar archivo de token"
-        },
-        {
-            "id": "Source",
-            "message": "Source",
-            "translation": "Fuente"
         },
         {
             "id": "Secret",
@@ -531,6 +531,11 @@
             "id": "Token Endpoint",
             "message": "Token Endpoint",
             "translation": "Dirección de token"
+        },
+        {
+            "id": "Additional Scopes",
+            "message": "Additional Scopes",
+            "translation": "Alcances adicionales"
         },
         {
             "id": "Heart Beats",
