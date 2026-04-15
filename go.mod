@@ -20,7 +20,7 @@ require (
 	github.com/Azure/go-ntlmssp v0.1.0 // indirect
 	github.com/armon/go-socks5 v0.0.0-20160902184237-e75332964ef5 // indirect
 	github.com/coreos/go-oidc/v3 v3.14.1 // indirect
-	github.com/go-jose/go-jose/v4 v4.0.5 // indirect
+	github.com/go-jose/go-jose/v4 v4.1.4 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/hashicorp/yamux v0.1.1 // indirect
