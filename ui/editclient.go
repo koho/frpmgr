@@ -466,10 +466,21 @@ func (cd *EditClientDialog) advancedConnDialog() Dialog {
 	dlg := NewBasicDialog(nil, i18n.Sprintf("Advanced Options"),
 		loadIcon(res.IconEditDialog, 32),
 		DataBinder{DataSource: cd.binder}, nil,
+		Composite{
+			Layout: Grid{Columns: 2, MarginsZero: true},
+			Children: []Widget{
+				Label{Text: i18n.SprintfColon("UDP Packet Size")},
+				Label{Text: i18n.SprintfColon("Wire Protocol")},
+				NewNumberInput(NIOption{Value: Bind("UDPPacketSize"), Max: math.MaxFloat64, Width: 100}),
+				ComboBox{
+					Value:   Bind("WireProtocol"),
+					Model:   []string{"v1", "v2"},
+					MinSize: Size{Width: 150},
+				},
+			},
+		},
 		Label{Text: i18n.SprintfColon("Proxy URL")},
 		LineEdit{Text: Bind("HTTPProxy"), CueBanner: "(http|socks5|ntlm)://..."},
-		Label{Text: i18n.SprintfColon("UDP Packet Size")},
-		NewNumberInput(NIOption{Value: Bind("UDPPacketSize"), Max: math.MaxFloat64, Width: 90}),
 		VSpacer{Size: 4},
 	)
 	dlg.MinSize = Size{Width: 350}

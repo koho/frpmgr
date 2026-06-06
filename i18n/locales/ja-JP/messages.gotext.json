@@ -783,14 +783,19 @@
             "translation": "メタデータ"
         },
         {
-            "id": "Proxy URL",
-            "message": "Proxy URL",
-            "translation": "プロキシURL"
-        },
-        {
             "id": "UDP Packet Size",
             "message": "UDP Packet Size",
             "translation": "UDPパケットサイズ"
+        },
+        {
+            "id": "Wire Protocol",
+            "message": "Wire Protocol",
+            "translation": "ワイヤプロトコル"
+        },
+        {
+            "id": "Proxy URL",
+            "message": "Proxy URL",
+            "translation": "プロキシURL"
         },
         {
             "id": "Skip certificate verification",

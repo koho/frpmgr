@@ -773,14 +773,19 @@
             "translation": "메타데이터"
         },
         {
-            "id": "Proxy URL",
-            "message": "Proxy URL",
-            "translation": "프록시 URL"
-        },
-        {
             "id": "UDP Packet Size",
             "message": "UDP Packet Size",
             "translation": "UDP 패킷 크기"
+        },
+        {
+            "id": "Wire Protocol",
+            "message": "Wire Protocol",
+            "translation": "와이어 프로토콜"
+        },
+        {
+            "id": "Proxy URL",
+            "message": "Proxy URL",
+            "translation": "프록시 URL"
         },
         {
             "id": "Skip certificate verification",

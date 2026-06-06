@@ -1027,16 +1027,23 @@
             "fuzzy": true
         },
         {
-            "id": "Proxy URL",
-            "message": "Proxy URL",
-            "translation": "Proxy URL",
+            "id": "UDP Packet Size",
+            "message": "UDP Packet Size",
+            "translation": "UDP Packet Size",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
         {
-            "id": "UDP Packet Size",
-            "message": "UDP Packet Size",
-            "translation": "UDP Packet Size",
+            "id": "Wire Protocol",
+            "message": "Wire Protocol",
+            "translation": "Wire Protocol",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Proxy URL",
+            "message": "Proxy URL",
+            "translation": "Proxy URL",
             "translatorComment": "Copied from source.",
             "fuzzy": true
         },
