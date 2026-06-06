@@ -773,14 +773,19 @@
             "translation": "Metadatos"
         },
         {
-            "id": "Proxy URL",
-            "message": "Proxy URL",
-            "translation": "URL de proxy"
-        },
-        {
             "id": "UDP Packet Size",
             "message": "UDP Packet Size",
             "translation": "Tamaño del paquete UDP"
+        },
+        {
+            "id": "Wire Protocol",
+            "message": "Wire Protocol",
+            "translation": "Protocolo de cable"
+        },
+        {
+            "id": "Proxy URL",
+            "message": "Proxy URL",
+            "translation": "URL de proxy"
         },
         {
             "id": "Skip certificate verification",

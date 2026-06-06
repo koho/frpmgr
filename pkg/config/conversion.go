@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/fatedier/frp/pkg/config/types"
-	"github.com/fatedier/frp/pkg/config/v1"
+	v1 "github.com/fatedier/frp/pkg/config/v1"
 	frputil "github.com/fatedier/frp/pkg/util/util"
 	"github.com/samber/lo"
 
@@ -82,6 +82,7 @@ func ClientCommonFromV1(c *v1.ClientCommonConfig) (r ClientCommon) {
 
 	// Transport
 	r.Protocol = c.Transport.Protocol
+	r.WireProtocol = c.Transport.WireProtocol
 	r.DialServerTimeout = c.Transport.DialServerTimeout
 	r.DialServerKeepAlive = c.Transport.DialServerKeepAlive
 	r.ConnectServerLocalIP = c.Transport.ConnectServerLocalIP
@@ -352,6 +353,7 @@ func ClientCommonToV1(c *ClientCommon) (r v1.ClientCommonConfig) {
 	// Transport
 	r.Transport = v1.ClientTransportConfig{
 		Protocol:                c.Protocol,
+		WireProtocol:            c.WireProtocol,
 		DialServerTimeout:       c.DialServerTimeout,
 		DialServerKeepAlive:     c.DialServerKeepAlive,
 		ConnectServerLocalIP:    c.ConnectServerLocalIP,

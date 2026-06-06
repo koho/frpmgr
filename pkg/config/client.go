@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/fatedier/frp/pkg/config"
-	"github.com/fatedier/frp/pkg/config/v1"
+	v1 "github.com/fatedier/frp/pkg/config/v1"
 	frputil "github.com/fatedier/frp/pkg/util/util"
 	"github.com/pelletier/go-toml/v2"
 	"github.com/samber/lo"
@@ -93,6 +93,7 @@ type ClientCommon struct {
 	PoolCount                 int          `ini:"pool_count,omitempty"`
 	DNSServer                 string       `ini:"dns_server,omitempty"`
 	Protocol                  string       `ini:"protocol,omitempty"`
+	WireProtocol              string       `ini:"-"`
 	QUICKeepalivePeriod       int          `ini:"quic_keepalive_period,omitempty"`
 	QUICMaxIdleTimeout        int          `ini:"quic_max_idle_timeout,omitempty"`
 	QUICMaxIncomingStreams    int          `ini:"quic_max_incoming_streams,omitempty"`

@@ -773,14 +773,19 @@
             "translation": "元数据"
         },
         {
-            "id": "Proxy URL",
-            "message": "Proxy URL",
-            "translation": "代理 URL"
-        },
-        {
             "id": "UDP Packet Size",
             "message": "UDP Packet Size",
             "translation": "UDP 包大小"
+        },
+        {
+            "id": "Wire Protocol",
+            "message": "Wire Protocol",
+            "translation": "线路协议"
+        },
+        {
+            "id": "Proxy URL",
+            "message": "Proxy URL",
+            "translation": "代理 URL"
         },
         {
             "id": "Skip certificate verification",
