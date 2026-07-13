@@ -342,6 +342,12 @@ func (pv *ProxyView) createProxyTable() TableView {
 				},
 			},
 			Action{
+				Enabled:     Bind("proxy.SelectedCount == 1"),
+				Text:        i18n.Sprintf("Create a Copy"),
+				Image:       loadIcon(res.IconSysCopy, 16),
+				OnTriggered: pv.onEditCopy,
+			},
+			Action{
 				Text:        i18n.Sprintf("Import from Clipboard"),
 				Image:       loadIcon(res.IconClipboard, 16),
 				OnTriggered: pv.onClipboardImport,
@@ -362,7 +368,7 @@ func (pv *ProxyView) createProxyTable() TableView {
 			Action{
 				Enabled:     Bind("proxy.SelectedCount == 1"),
 				Text:        i18n.Sprintf("Copy Access Address"),
-				Image:       loadIcon(res.IconSysCopy, 16),
+				Image:       loadIcon(res.IconNat, 16),
 				OnTriggered: pv.onCopyAccessAddr,
 			},
 			Action{
@@ -521,6 +527,16 @@ func (pv *ProxyView) onClipboardImport() {
 		return
 	}
 	pv.onEdit(proxy, true)
+}
+
+func (pv *ProxyView) onEditCopy() {
+	idx := pv.table.CurrentIndex()
+	if idx < 0 || pv.model == nil {
+		return
+	}
+	var newProxy = *pv.model.items[idx].Proxy
+	newProxy.Name = ""
+	pv.onEdit(&newProxy, true)
 }
 
 func (pv *ProxyView) onDelete() {
