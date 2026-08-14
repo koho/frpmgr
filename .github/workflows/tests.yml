@@ -34,8 +34,8 @@ jobs:
       - name: Setup toolchain
         shell: cmd
         run: |
-          curl "https://github.com/mstorsjo/llvm-mingw/releases/download/20250709/llvm-mingw-20250709-msvcrt-x86_64.zip" -o llvm-mingw-20250709-msvcrt-x86_64.zip -L
-          tar -xf llvm-mingw-20250709-msvcrt-x86_64.zip
+          curl "https://github.com/mstorsjo/llvm-mingw/releases/download/20250709/llvm-mingw-20250709-msvcrt-x86_64.zip" -o llvm-mingw-20250709-msvcrt-x86_64.zip -L || exit /b 1
+          tar -xf llvm-mingw-20250709-msvcrt-x86_64.zip || exit /b 1
           echo %CD%\llvm-mingw-20250709-msvcrt-x86_64\bin>>%GITHUB_PATH%
           vcvarsall x64 && set WindowsSdkVerBinPath >> %GITHUB_ENV%
 
