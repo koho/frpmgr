@@ -20,7 +20,7 @@ func PruneByTag(in interface{}, value string, tag string) (interface{}, error) {
 
 func prune(inValue reflect.Value, ret reflect.Value, value string, tag string) error {
 	switch inValue.Kind() {
-	case reflect.Ptr:
+	case reflect.Pointer:
 		if inValue.IsNil() {
 			return nil
 		}

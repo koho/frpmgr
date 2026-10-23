@@ -709,7 +709,7 @@ func toMap(in any, tag string) (map[string]any, error) {
 	out := make(map[string]any)
 
 	v := reflect.ValueOf(in)
-	if v.Kind() == reflect.Ptr {
+	if v.Kind() == reflect.Pointer {
 		v = v.Elem()
 	}
 
@@ -722,7 +722,7 @@ func toMap(in any, tag string) (map[string]any, error) {
 	for i := 0; i < v.NumField(); i++ {
 		ft := t.Field(i)
 		fv := v.Field(i)
-		if fv.Kind() == reflect.Ptr && fv.Elem().Kind() == reflect.Struct {
+		if fv.Kind() == reflect.Pointer && fv.Elem().Kind() == reflect.Struct {
 			fv = fv.Elem()
 		}
 		key := ft.Tag.Get(tag)
