@@ -738,6 +738,11 @@
             "translation": "禁用自定义首字节"
         },
         {
+            "id": "Use system CA",
+            "message": "Use system CA",
+            "translation": "使用系统 CA"
+        },
+        {
             "id": "Advanced",
             "message": "Advanced",
             "translation": "高级"

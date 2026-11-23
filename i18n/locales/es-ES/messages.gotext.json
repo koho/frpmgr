@@ -738,6 +738,11 @@
             "translation": "Desactivar primer byte personalizado"
         },
         {
+            "id": "Use system CA",
+            "message": "Use system CA",
+            "translation": "Usar la CA del sistema"
+        },
+        {
             "id": "Advanced",
             "message": "Advanced",
             "translation": "Avanzado"

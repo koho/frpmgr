@@ -738,6 +738,11 @@
             "translation": "맞춤 첫 번째 바이트 비활성화"
         },
         {
+            "id": "Use system CA",
+            "message": "Use system CA",
+            "translation": "시스템 CA를 사용하세요"
+        },
+        {
             "id": "Advanced",
             "message": "Advanced",
             "translation": "고급의"

@@ -109,6 +109,7 @@ type ClientCommon struct {
 	TLSKeyFile                string       `ini:"tls_key_file,omitempty"`
 	TLSTrustedCaFile          string       `ini:"tls_trusted_ca_file,omitempty"`
 	TLSServerName             string       `ini:"tls_server_name,omitempty"`
+	TLSUseSystemCa            bool         `ini:"-"`
 	UDPPacketSize             int64        `ini:"udp_packet_size,omitempty"`
 	Start                     []string     `ini:"start,omitempty"`
 	PprofEnable               bool         `ini:"pprof_enable,omitempty"`

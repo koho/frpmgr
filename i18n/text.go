@@ -1,6 +1,6 @@
 package i18n
 
-//go:generate go run golang.org/x/text/cmd/gotext -srclang=en-US update -out=catalog.go -lang=en-US,zh-CN,zh-TW,ja-JP,ko-KR,es-ES ../cmd/frpmgr
+//go:generate go tool gotext -srclang=en-US update -out=catalog.go -lang=en-US,zh-CN,zh-TW,ja-JP,ko-KR,es-ES ../cmd/frpmgr
 
 import (
 	"encoding/json"

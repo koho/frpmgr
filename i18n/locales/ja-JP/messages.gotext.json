@@ -748,6 +748,11 @@
             "translation": "カスタムの先頭バイトを無効にする"
         },
         {
+            "id": "Use system CA",
+            "message": "Use system CA",
+            "translation": "システムCAを使用する"
+        },
+        {
             "id": "Advanced",
             "message": "Advanced",
             "translation": "高度"

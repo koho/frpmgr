@@ -361,8 +361,22 @@ func (cd *EditClientDialog) tlsConfPage() TabPage {
 			Label{Visible: tlsChecked, Text: i18n.SprintfColon("Trusted CA"), AlwaysConsumeSpace: true},
 			NewBrowseLineEdit(nil, tlsChecked, true, Bind("TLSTrustedCaFile"),
 				i18n.Sprintf("Select Trusted CA File"), res.FilterCert, true),
-			Label{Visible: tlsChecked, Text: i18n.SprintfColon("Other Options")},
-			CheckBox{Visible: tlsChecked, Text: i18n.Sprintf("Disable custom first byte"), Checked: Bind("DisableCustomTLSFirstByte")},
+			Composite{
+				Visible: tlsChecked,
+				Layout:  VBox{MarginsZero: true, SpacingZero: true},
+				Children: []Widget{
+					VSpacer{Size: 6},
+					Label{Text: i18n.SprintfColon("Other Options"), Alignment: AlignHNearVNear},
+				},
+			},
+			Composite{
+				Visible: tlsChecked,
+				Layout:  VBox{MarginsZero: true, SpacingZero: true, Alignment: AlignHNearVNear},
+				Children: []Widget{
+					CheckBox{Text: i18n.Sprintf("Disable custom first byte"), Checked: Bind("DisableCustomTLSFirstByte")},
+					CheckBox{Text: i18n.Sprintf("Use system CA"), Checked: Bind("TLSUseSystemCa")},
+				},
+			},
 		},
 	}
 }
