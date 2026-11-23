@@ -13,7 +13,7 @@ require (
 	github.com/samber/lo v1.53.0
 	golang.org/x/sys v0.49.0
 	golang.org/x/text v0.43.0
-	gopkg.in/ini.v1 v1.67.3
+	gopkg.in/ini.v1 v1.68.0
 )
 
 require (
