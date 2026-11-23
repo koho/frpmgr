@@ -104,6 +104,7 @@ func ClientCommonFromV1(c *v1.ClientCommonConfig) (r ClientCommon) {
 	r.TLSKeyFile = c.Transport.TLS.KeyFile
 	r.TLSTrustedCaFile = c.Transport.TLS.TrustedCaFile
 	r.TLSServerName = c.Transport.TLS.ServerName
+	r.TLSUseSystemCa = c.Transport.TLS.UseSystemCa
 	if c.Transport.TLS.DisableCustomTLSFirstByte == nil || *c.Transport.TLS.DisableCustomTLSFirstByte {
 		r.DisableCustomTLSFirstByte = true
 	}
@@ -376,6 +377,7 @@ func ClientCommonToV1(c *ClientCommon) (r v1.ClientCommonConfig) {
 				KeyFile:       c.TLSKeyFile,
 				TrustedCaFile: c.TLSTrustedCaFile,
 				ServerName:    c.TLSServerName,
+				UseSystemCa:   c.TLSUseSystemCa,
 			},
 		},
 	}

@@ -738,6 +738,11 @@
             "translation": "停用自訂第一位元組"
         },
         {
+            "id": "Use system CA",
+            "message": "Use system CA",
+            "translation": "使用系統 CA"
+        },
+        {
             "id": "Advanced",
             "message": "Advanced",
             "translation": "進階"
